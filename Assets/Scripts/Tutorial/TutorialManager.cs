@@ -22,6 +22,7 @@ public class TutorialManager : MonoBehaviour
         public bool FSMCheck2;
         Outlinable[] childGrabbed;
         Outlinable prechildGrabbed;
+        public GameObject heldGrabbable;
         public int trigInt;
         bool check = false;
 
@@ -38,6 +39,9 @@ public class TutorialManager : MonoBehaviour
     void Update()
     {
             childGrabbed = Grabber.GetComponentsInChildren<Outlinable>();
+            heldGrabbable = Grabber.GetComponent<Grabber>().HeldGrabbable.transform.gameObject;
+
+
             
             Controller = XRRig.GetComponent<InputBridge>();
             rTrigger_Down= Controller.RightTriggerDown;
@@ -58,12 +62,12 @@ public class TutorialManager : MonoBehaviour
 
                     if (check)
                     {
-                        trigInt += 1;
-                        if (trigInt >= 5)
-                        {
+                        //trigInt += 1;
+                        //if (trigInt >= 5)
+                       // {
                             Playmaker.FsmVariables.GetFsmBool("triggerDown").Value = true;
 
-                        }
+                      //  }
 
                     }
                     check = false;
