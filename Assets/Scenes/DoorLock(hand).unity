@@ -5703,6 +5703,7 @@ GameObject:
   - component: {fileID: 618800465}
   - component: {fileID: 618800464}
   - component: {fileID: 618800463}
+  - component: {fileID: 618800467}
   m_Layer: 0
   m_Name: DoorLock_Grid
   m_TagString: Untagged
@@ -5736,16 +5737,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fe91dc294731a9428c0941ea7579110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  complexMaskingMode: 0
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - edgeDilateAmount: 5
+  - IsVisible: 0
+    CutoutMask: 8
+    edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
     backEdgeDilateAmount: 5
-    Renderer: {fileID: 618800465}
+    renderer: {fileID: 618800465}
     SubmeshIndex: 0
-    ForceRecalculateBounds: 0
-    CutoutDescriptionType: 0
+    BoundsMode: 0
+    Bounds:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0.5, y: 0.5, z: 0.5}
     CutoutThreshold: 0.5
     CullMode: 2
     cutoutTextureName: 
@@ -5836,6 +5842,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 618800461}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &618800467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618800461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 034bc47afcbf5e141a58d5c20b7808e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &628449165
 GameObject:
   m_ObjectHideFlags: 0
@@ -27904,6 +27922,7 @@ GameObject:
   - component: {fileID: 1681179545}
   - component: {fileID: 1681179544}
   - component: {fileID: 1681179549}
+  - component: {fileID: 1681179550}
   m_Layer: 11
   m_Name: DoorGrid
   m_TagString: Untagged
@@ -27923,16 +27942,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fe91dc294731a9428c0941ea7579110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  complexMaskingMode: 0
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - edgeDilateAmount: 5
+  - IsVisible: 0
+    CutoutMask: 8
+    edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
     backEdgeDilateAmount: 5
-    Renderer: {fileID: 1681179546}
+    renderer: {fileID: 1681179546}
     SubmeshIndex: 0
-    ForceRecalculateBounds: 0
-    CutoutDescriptionType: 0
+    BoundsMode: 0
+    Bounds:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0.5, y: 0.5, z: 0.5}
     CutoutThreshold: 0.5
     CullMode: 2
     cutoutTextureName: _MainTex
@@ -29632,6 +29656,18 @@ MonoBehaviour:
     handleAnimatorIK: 0
   fsmTemplate: {fileID: 0}
   eventHandlerComponentsAdded: 0
+--- !u!114 &1681179550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681179543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 034bc47afcbf5e141a58d5c20b7808e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1711740359
 GameObject:
   m_ObjectHideFlags: 0
@@ -37057,19 +37093,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bb42831ee5422f409e7f24f9e7488ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stage: 1
   renderingStrategy: 1
   renderTargetName: 
   renderingMode: 0
   outlineLayerMask: -1
-  scaleIndepented: 1
+  primaryBufferSizeMode: 0
   primaryRendererScale: 0.15
+  primarySizeReference: 800
   blurShift: 2
   dilateShift: 2
-  dilateIterrations: 10
+  dilateIterations: 10
   dilateQuality: 0
-  blurIterrations: 1
+  blurIterations: 1
   blurType: 4
-  infoRendererScale: 0.75
 --- !u!1 &122421566001946828
 GameObject:
   m_ObjectHideFlags: 0
