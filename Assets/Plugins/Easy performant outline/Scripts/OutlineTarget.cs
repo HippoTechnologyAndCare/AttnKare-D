@@ -1,19 +1,30 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 
 namespace EPOOutline
 {
-    public enum CutoutDescriptionType
+    [Flags]
+    public enum ColorMask
     {
-        None,
-        Hash
+        None = 0,
+        R = 1,
+        G = 2,
+        B = 4,
+        A = 8
     }
 
     [System.Serializable]
     public class OutlineTarget
     {
+        public bool IsVisible = false;
+
+        [SerializeField]
+        public ColorMask CutoutMask = ColorMask.A;
+
         [SerializeField]
         private float edgeDilateAmount = 5.0f;
 
@@ -24,16 +35,17 @@ namespace EPOOutline
         private float backEdgeDilateAmount = 5.0f;
 
         [SerializeField]
-        public Renderer Renderer;
+        [FormerlySerializedAs("Renderer")]
+        public Renderer renderer;
 
         [SerializeField]
         public int SubmeshIndex;
 
         [SerializeField]
-        public bool ForceRecalculateBounds = false;
+        public BoundsMode BoundsMode = BoundsMode.Default;
 
         [SerializeField]
-        public CutoutDescriptionType CutoutDescriptionType;
+        public Bounds Bounds = new Bounds(Vector3.zero, Vector3.one);
 
         [SerializeField]
         [Range(0.0f, 1.0f)]
@@ -52,6 +64,14 @@ namespace EPOOutline
         private int cutoutTextureIndex;
         
         private int? cutoutTextureId;
+
+        public Renderer Renderer
+        {
+            get
+            {
+                return renderer;
+            }
+        }
 
         public bool UsesCutout
         {
@@ -78,15 +98,7 @@ namespace EPOOutline
                 }
             }
         }
-
-        public bool CanUseEdgeDilateShift
-        {
-            get
-            {
-                return !UsesCutout && (Renderer is MeshRenderer || Renderer is SkinnedMeshRenderer) && (Renderer != null && !Renderer.isPartOfStaticBatch && !Renderer.gameObject.isStatic);
-            }
-        }
-
+        
         public int ShiftedSubmeshIndex
         {
             get
@@ -176,8 +188,8 @@ namespace EPOOutline
         public OutlineTarget(Renderer renderer, int submesh = 0)
         {
             SubmeshIndex = submesh;
-            Renderer = renderer;
-            CutoutDescriptionType = CutoutDescriptionType.None;
+            this.renderer = renderer;
+
             CutoutThreshold = 0.5f;
             cutoutTextureId = null;
             cutoutTextureName = string.Empty;
@@ -191,8 +203,8 @@ namespace EPOOutline
         public OutlineTarget(Renderer renderer, string cutoutTextureName, float cutoutThreshold = 0.5f)
         {
             SubmeshIndex = 0;
-            Renderer = renderer;
-            CutoutDescriptionType = CutoutDescriptionType.Hash;
+            this.renderer = renderer;
+
             cutoutTextureId = Shader.PropertyToID(cutoutTextureName);
             CutoutThreshold = cutoutThreshold;
             this.cutoutTextureName = cutoutTextureName;

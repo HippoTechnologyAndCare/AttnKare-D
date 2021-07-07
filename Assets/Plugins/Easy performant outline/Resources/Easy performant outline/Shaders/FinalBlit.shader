@@ -2,7 +2,7 @@
 {
     SubShader
     {
-        Cull Front ZWrite Off ZTest Always
+        Cull Off ZWrite Off ZTest Always
         Blend One OneMinusSrcAlpha
 
         Pass
@@ -23,6 +23,7 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile __ USE_INFO_BUFFER
+			#pragma fragmentoption ARB_precision_hint_fastest
             
             #include "UnityCG.cginc"
             #include "MiskCG.cginc"
@@ -30,9 +31,8 @@
             struct appdata
             {
                 float4 vertex : POSITION;
-                half3 normal : NORMAL;
+                float3 normal : NORMAL;
 				DefineTransform
-
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -54,6 +54,8 @@
             half4 _InitialTex_ST;
             half4 _InitialTex_TexelSize;
 
+			DefineCoords
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -62,14 +64,14 @@
                 UNITY_INITIALIZE_OUTPUT(v2f, o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 				
-                TransformVertex(ANY)
-				TransformNormal(ANY)
-
                 o.vertex = UnityObjectToClipPos(v.vertex);
 				
+				PostprocessCoords
+
                 ComputeScreenShift
 
                 o.uv = ComputeScreenPos(o.vertex);
+				o.uv.xy *= _Scale;
 
 #if UNITY_UV_STARTS_AT_TOP
 				ModifyUV
@@ -82,10 +84,7 @@
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 			
-                half2 uv = i.uv.xy / i.uv.w;
-                half4 texel = FetchTexel(uv);
-
-                return texel;// + float4(0.3, 0, 0.3, 0.8);
+				return FetchTexel(i.uv.xy / i.uv.w);
             }
             ENDCG
         }

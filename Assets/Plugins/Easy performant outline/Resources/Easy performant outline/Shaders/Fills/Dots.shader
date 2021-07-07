@@ -39,6 +39,10 @@
             #pragma multi_compile __ USE_CUTOUT
 			#pragma multi_compile __ TEXARRAY_CUTOUT
 			#pragma multi_compile __ EPO_HDRP
+			#pragma multi_compile __ USE_INFO_BUFFER
+			#pragma multi_compile __ BACK_RENDERING
+			#pragma fragmentoption ARB_precision_hint_fastest
+			#pragma multi_compile __ BACK_OBSTACLE_RENDERING BACK_MASKING_RENDERING
 
             #include "UnityCG.cginc"
             #include "../MiskCG.cginc"
@@ -49,6 +53,11 @@
 #if USE_CUTOUT
                 float2 uv : TEXCOORD0;
 #endif
+
+#if USE_INFO_BUFFER
+				float4 screenUV : TEXCOORD1;
+#endif
+
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -58,6 +67,11 @@
 #if USE_CUTOUT
                 float2 uv : TEXCOORD0;
 #endif
+
+#if USE_INFO_BUFFER
+				float4 screenUV : TEXCOORD4;
+#endif
+
                 half4 screenPos : TEXCOORD1;
                 half2 direction : TEXCOORD2;
                 half2 secondaryDirection : TEXCOORD3;
@@ -84,6 +98,10 @@
 
 				TRANSFORM_CUTOUT
 
+#if USE_INFO_BUFFER
+				o.screenUV = ComputeScreenPos(o.vertex);
+#endif
+
                 o.direction = half2(sin(_PublicAngle / 57.295779513), cos(_PublicAngle / 57.295779513));
                 
                 o.secondaryDirection = half2(sin((_PublicAngle + 90.0f) / 57.295779513), cos((_PublicAngle + 90.0f) / 57.295779513));
@@ -101,6 +119,12 @@
             half _PublicSecondaryAlpha;
             half _PublicHorizontalSpeed;
             half _PublicVerticalSpeed;
+
+#if USE_INFO_BUFFER
+			UNITY_DECLARE_SCREENSPACE_TEXTURE(_InfoBuffer);
+			half4 _InfoBuffer_ST;
+			half4 _InfoBuffer_TexelSize;
+#endif
 
             inline half calculateAlphaMultiplier(half projection, half gapSize, half softness, half speed, half size)
             {
@@ -120,6 +144,10 @@
                 half4 resultingColor = _PublicColor;
                 resultingColor.a *= calculateAlphaMultiplier(projection, _PublicHorizontalGapSize, _PublicHorizontalSoftness, _PublicHorizontalSpeed, _PublicHorizontalSize) *
                     calculateAlphaMultiplier(secondaryProjection, _PublicVerticalGapSize, _PublicVerticalSoftness, _PublicVerticalSpeed, _PublicVerticalSize);
+
+#if USE_INFO_BUFFER
+				resultingColor.a *= GetScaler(i.screenUV, _InfoBuffer, _InfoBuffer_ST);
+#endif
 
                 return resultingColor;
             }

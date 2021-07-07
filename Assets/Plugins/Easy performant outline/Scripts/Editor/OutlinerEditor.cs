@@ -66,12 +66,25 @@ namespace EPOOutline
                 maskMenu.ShowAsContext();
             }
 
-            DrawPropertiesExcluding(serializedObject,
-                "m_Script",
-                "outlineLayerMask",
-                "infoRendererScale");
+#if (URP_OUTLINE || HDRP_OUTLINE) && UNITY_EDITOR && UNITY_2019_1_OR_NEWER
+            var isHDRP = PipelineAssetUtility.IsHDRP(PipelineAssetUtility.CurrentAsset);
+#else
+            var isHDRP = false;
+#endif
 
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("infoRendererScale"));
+            if (isHDRP)
+            {
+                DrawPropertiesExcluding(serializedObject,
+                    "m_Script",
+                    "outlineLayerMask",
+                    "primaryRendererScale");
+            }
+            else
+            {
+                DrawPropertiesExcluding(serializedObject,
+                    "m_Script",
+                    "outlineLayerMask");
+            }
 
             serializedObject.ApplyModifiedProperties();
         }

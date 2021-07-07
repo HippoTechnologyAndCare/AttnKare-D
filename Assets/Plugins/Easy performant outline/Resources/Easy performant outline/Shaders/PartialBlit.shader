@@ -19,6 +19,7 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
+			#pragma fragmentoption ARB_precision_hint_fastest
             
             #include "UnityCG.cginc"
             #include "MiskCG.cginc"
@@ -50,6 +51,8 @@
             half4 _InitialTex_ST;
             half4 _InitialTex_TexelSize;
 
+			DefineCoords
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -58,11 +61,10 @@
                 UNITY_INITIALIZE_OUTPUT(v2f, o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 				
-                TransformVertex(NOT_DILATE)
-				TransformNormal(NOT_DILATE)
-
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                
+
+				PostprocessCoords
+
                 ComputeScreenShift
 					
 				CheckY
@@ -79,7 +81,7 @@
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
-                return FetchTexel(i.uv.xy/i.uv.w);// + float4(0, 0.3, 0.3, 0.8);
+                return FetchTexel(i.uv.xy/i.uv.w);
             }
             ENDCG
         }

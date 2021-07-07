@@ -1,34 +1,57 @@
 #if defined(UNITY_STEREO_INSTANCING_ENABLED) || defined(UNITY_STEREO_MULTIVIEW_ENABLED)
-#define FetchTexel(uv) UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex,uv)
-#define FetchTexelAt(uv) FetchTexelAtFrom(_MainTex,uv,_MainTex_ST)
+#define FetchTexel(uv) UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex,(uv))
+#define FetchTexelAt(uv) FetchTexelAtFrom(_MainTex,(uv),_MainTex_ST)
 #define FetchTexelAtWithShift(uv,shift) FetchTexelAtFrom(_MainTex,(uv)+(shift),_MainTex_ST)
-#define FetchTexelAtFrom(tex,uv,texST) UNITY_SAMPLE_SCREENSPACE_TEXTURE(tex,uv)
+#define FetchTexelAtFrom(tex,uv,texST) UNITY_SAMPLE_SCREENSPACE_TEXTURE(tex,(uv))
 #else
-#define FetchTexel(uv) tex2D(_MainTex, UnityStereoScreenSpaceUVAdjust(uv,_MainTex_ST))
-#define FetchTexelAt(uv) FetchTexelAtFrom(_MainTex,uv,_MainTex_ST)
+#define FetchTexel(uv) tex2D(_MainTex, UnityStereoScreenSpaceUVAdjust((uv),_MainTex_ST))
+#define FetchTexelAt(uv) FetchTexelAtFrom(_MainTex,(uv),_MainTex_ST)
 #define FetchTexelAtWithShift(uv,shift) tex2D(_MainTex,UnityStereoScreenSpaceUVAdjust((uv),(_MainTex_ST))+(shift))
 #define FetchTexelAtFrom(tex,uv,texST) tex2D(tex,UnityStereoScreenSpaceUVAdjust((uv),(texST)))
 #endif
 
-#define ANY 0
-#define DILATE 1
-#define BLUR 2
-#define NOT_DILATE -1
-#define NOT_BLUR -2
+#if USE_INFO_BUFFER
+#define GetMaskingScaler(inUV)
+
+#else
+
+#endif
+
+inline float GetScaler(float4 inUV, sampler2D _InfoBuffer, float4 _InfoBuffer_ST)
+{
+#if USE_INFO_BUFFER
+	float2 uv = inUV.xy / inUV.w;
+
+	half4 info = FetchTexelAtFrom(_InfoBuffer, uv, _InfoBuffer_ST);
+
+	float scaler = 1.0f;
+
+#if BACK_OBSTACLE_RENDERING
+	scaler = abs(info.b - 0.25f) < 0.05f;
+#endif
+
+#if BACK_MASKING_RENDERING
+	scaler = abs(info.b - 0.6f) > 0.05f;
+#endif
+
+#else
+	float scaler = 1.0f;
+#endif
+
+	return scaler;
+}
 
 #define DefineEdgeDilateParameters float3 normal : TEXCOORD6;
 
-#define ComputeScreenShift float2 clipNormal = (mul((float3x3) UNITY_MATRIX_VP, mul((float3x3) UNITY_MATRIX_M, v.normal))).xy; o.vertex.xy += (clipNormal / abs(clipNormal)) * _MainTex_TexelSize.xy * 2.0f * (_EffectSize + v.additionalScale.x) * o.vertex.w;
+#define ComputeScreenShift float2 clipNormal = (mul((float3x3) UNITY_MATRIX_VP, v.normal)).xy; o.vertex.xy += normalize(clipNormal) * 1.41f * _MainTex_TexelSize.xy * 2.0f * (_EffectSize + v.additionalScale.x) * o.vertex.w;
 
 #define ComputeSmoothScreenShift float2 clipNormal = (mul((float3x3) UNITY_MATRIX_VP, mul((float3x3) UNITY_MATRIX_M, v.normal))).xy; o.vertex.xy += (normalize(clipNormal) / _ScreenParams.xy) * 2.0f * _DilateShift * o.vertex.w;
 
-#define DefineTransform float4 first : TEXCOORD0; float4 second : TEXCOORD1; float4 third : TEXCOORD2; float4 fourth : TEXCOORD3; float3 center : TEXCOORD4; float3 size : TEXCOORD5; float3 stageInfo : TEXCOORD6; float2 additionalScale : TEXCOORD7;
+#define DefineTransform float2 additionalScale : TEXCOORD0;
 
-#define GetStageModifier(index) (index >= 0 ? v.stageInfo[abs(index)] > 0.9f : v.stageInfo[abs(index)] < 0.9f)
+#define DefineCoords float2 _Scale;
 
-#define TransformVertex(stage) v.vertex = mul(GetStageModifier(stage) * v.vertex * float4(v.size.xyz, 1) + float4(v.center, 0), float4x4(v.first, v.second, v.third, v.fourth));
-
-#define TransformNormal(stage) v.normal = GetStageModifier(stage) * mul(transpose(float4x4(v.first, v.second, v.third, float4(0, 0, 0, 0))), float4(v.normal.xyz, 0));
+#define PostprocessCoords// o.vertex.xy = _Scale.xy / 20.0f + (o.vertex.xy + 1.0f) * _Scale.zw - 1.0f;
 
 #if UNITY_UV_STARTS_AT_TOP
 #define CheckY o.vertex.y *= -_ProjectionParams.x;
@@ -52,20 +75,24 @@
 
 #if USE_CUTOUT
 	#if TEXARRAY_CUTOUT
-	#define DEFINE_CUTOUT UNITY_DECLARE_TEX2DARRAY(_CutoutTexture); half4 _CutoutTexture_ST; half _CutoutThreshold; float _TextureIndex;
+	#define DEFINE_CUTOUT UNITY_DECLARE_TEX2DARRAY(_CutoutTexture); half4 _CutoutTexture_ST; half _CutoutThreshold; float _TextureIndex; float4 _CutoutMask;
 	#else
-	#define DEFINE_CUTOUT sampler2D _CutoutTexture; half4 _CutoutTexture_ST; half _CutoutThreshold;
+	#define DEFINE_CUTOUT sampler2D _CutoutTexture; half4 _CutoutTexture_ST; half _CutoutThreshold; float4 _CutoutMask;
 	#endif
 #else
 #define DEFINE_CUTOUT
 #endif
 
 #if USE_CUTOUT
-	#if TEXARRAY_CUTOUT
-	#define CHECK_CUTOUT clip(UNITY_SAMPLE_TEX2DARRAY(_CutoutTexture, float3(i.uv, _TextureIndex)).a - _CutoutThreshold);
-	#else
-	#define CHECK_CUTOUT clip(tex2D(_CutoutTexture, i.uv).a - _CutoutThreshold);
-	#endif
+#if TEXARRAY_CUTOUT
+#define READ_CUTOUT UNITY_SAMPLE_TEX2DARRAY(_CutoutTexture, float3(i.uv, _TextureIndex))
+#else
+#define READ_CUTOUT tex2D(_CutoutTexture, i.uv)
+#endif
+#endif
+
+#if USE_CUTOUT
+	#define CHECK_CUTOUT clip(dot(_CutoutMask, READ_CUTOUT) - _CutoutThreshold);
 #else
 #define CHECK_CUTOUT
 #endif

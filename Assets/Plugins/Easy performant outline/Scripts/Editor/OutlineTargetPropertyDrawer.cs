@@ -34,23 +34,19 @@ namespace EPOOutline
             var rendererPosition = position;
             rendererPosition.width = position.width / 2;
             Shift(ref rendererPosition, false);
-            var renderer = property.FindPropertyRelative("Renderer");
+            var renderer = property.FindPropertyRelative("renderer");
             EditorGUI.PropertyField(rendererPosition, renderer, GUIContent.none);
 
             var menu = new GenericMenu();
-
-            var useCutoutProperty = property.FindPropertyRelative("CutoutDescriptionType");
-
-            var cutoutIsInUse = useCutoutProperty.intValue != (int)CutoutDescriptionType.None;
-
-            menu.AddItem(new GUIContent("none"), !cutoutIsInUse, () =>
-                {
-                    useCutoutProperty.intValue = (int)CutoutDescriptionType.None;
-                    useCutoutProperty.serializedObject.ApplyModifiedProperties();
-                });
-
             var textureNameProperty = property.FindPropertyRelative("cutoutTextureName");
 
+            var cutoutIsInUse = !string.IsNullOrEmpty(textureNameProperty.stringValue);
+            menu.AddItem(new GUIContent("none"), string.IsNullOrEmpty(textureNameProperty.stringValue), () =>
+                {
+                    textureNameProperty.stringValue = string.Empty;
+                    textureNameProperty.serializedObject.ApplyModifiedProperties();
+                });
+            
             var rendererReference = renderer.objectReferenceValue as Renderer;
             var referenceName = "none";
             var usingCutout = cutoutIsInUse && rendererReference != null;
@@ -69,12 +65,11 @@ namespace EPOOutline
                         var propertyName = ShaderUtil.GetPropertyName(material.shader, index);
                         var equals = propertyName == textureNameProperty.stringValue;
                         if (equals)
-                            referenceName = ShaderUtil.GetPropertyDescription(material.shader, index);
+                            referenceName = ShaderUtil.GetPropertyDescription(material.shader, index) + " '" + propertyName + "'";
 
-                        menu.AddItem(new GUIContent(ShaderUtil.GetPropertyDescription(material.shader, index)), equals && usingCutout, () =>
+                        menu.AddItem(new GUIContent(ShaderUtil.GetPropertyDescription(material.shader, index) + " '" + propertyName + "'"), equals && usingCutout, () =>
                             {
                                 textureNameProperty.stringValue = propertyName;
-                                useCutoutProperty.intValue = (int)CutoutDescriptionType.Hash;
                                 textureNameProperty.serializedObject.ApplyModifiedProperties();
                             });
                     }
@@ -88,26 +83,34 @@ namespace EPOOutline
 
             var sourceLable = usingCutout ? referenceName : "none";
 
-            if (EditorGUI.DropdownButton(cutoutPosition, new GUIContent("Cutout source: " + sourceLable), FocusType.Passive))
+            var cutoutSourceLabel = "Cutout source: " + sourceLable; 
+
+            if (EditorGUI.DropdownButton(cutoutPosition, new GUIContent(cutoutSourceLabel), FocusType.Passive))
                 menu.ShowAsContext();
 
             var drawingPosition = position;
 
-            EditorGUIUtility.labelWidth = 160;
+            EditorGUIUtility.labelWidth = 80;
             drawingPosition.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            var forceRecalculateBoundsDrawingPosition = initialPosition;
-            forceRecalculateBoundsDrawingPosition.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing * 3.0f;
-            forceRecalculateBoundsDrawingPosition.width = initialPosition.width;
-            forceRecalculateBoundsDrawingPosition.height = EditorGUIUtility.singleLineHeight;
+            var boundsModePosition = initialPosition;
+            boundsModePosition.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing * 3.0f;
+            boundsModePosition.width = initialPosition.width / 2.0f;
+            boundsModePosition.height = EditorGUIUtility.singleLineHeight;
 
-            EditorGUI.PropertyField(forceRecalculateBoundsDrawingPosition, property.FindPropertyRelative("ForceRecalculateBounds"));
+            EditorGUI.PropertyField(boundsModePosition, property.FindPropertyRelative("BoundsMode"));
 
-            forceRecalculateBoundsDrawingPosition.width /= 2;
-            forceRecalculateBoundsDrawingPosition.x += forceRecalculateBoundsDrawingPosition.width;
+            boundsModePosition.x += boundsModePosition.width;
 
             EditorGUIUtility.labelWidth = 80;
-            Shift(ref forceRecalculateBoundsDrawingPosition, true);
-            EditorGUI.PropertyField(forceRecalculateBoundsDrawingPosition, property.FindPropertyRelative("cutoutTextureIndex"), new GUIContent("Texture index"));
+            Shift(ref boundsModePosition, true);
+            EditorGUI.PropertyField(boundsModePosition, property.FindPropertyRelative("cutoutTextureIndex"), new GUIContent("Texture index"));
+
+            if (property.FindPropertyRelative("BoundsMode").intValue == (int)BoundsMode.Manual)
+            {
+                drawingPosition.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawingPosition, property.FindPropertyRelative("Bounds"), GUIContent.none);
+                drawingPosition.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            }
 
             EditorGUIUtility.labelWidth = labelWidth;
 
@@ -116,6 +119,9 @@ namespace EPOOutline
                 drawingPosition.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
                 EditorGUI.PropertyField(drawingPosition, property.FindPropertyRelative("CutoutThreshold"));
+
+                drawingPosition.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawingPosition, property.FindPropertyRelative("CutoutMask"));
             }
             else
             {
@@ -229,12 +235,12 @@ namespace EPOOutline
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            var renderer = property.FindPropertyRelative("Renderer");
-
-            var useCutoutProperty = property.FindPropertyRelative("CutoutDescriptionType");
+            var renderer = property.FindPropertyRelative("renderer");
 
             var rendererReference = renderer.objectReferenceValue as Renderer;
-            var usingCutout = useCutoutProperty.intValue != (int)CutoutDescriptionType.None && rendererReference != null;
+            var textureNameProperty = property.FindPropertyRelative("cutoutTextureName");
+
+            var usingCutout = !string.IsNullOrEmpty(textureNameProperty.stringValue);
 
             var appropriateToUseEdgeDilate = renderer.objectReferenceValue != null && !(renderer.objectReferenceValue as Renderer).gameObject.isStatic;
 
@@ -242,10 +248,13 @@ namespace EPOOutline
                 renderer.objectReferenceValue != null && (renderer.objectReferenceValue as Renderer).gameObject.isStatic
                 ? 3.0f : 4.0f;
 
-            if (usingCutout)
+            if (usingCutout || rendererReference is SpriteRenderer)
                 linesCount += 1.0f;
 
             if (property.FindPropertyRelative("DilateRenderingMode").intValue == (int)DilateRenderMode.EdgeShift && appropriateToUseEdgeDilate)
+                linesCount += 2.0f;
+
+            if (property.FindPropertyRelative("BoundsMode").intValue == (int)BoundsMode.Manual)
                 linesCount += 2.0f;
 
             float shift = 0.0f;

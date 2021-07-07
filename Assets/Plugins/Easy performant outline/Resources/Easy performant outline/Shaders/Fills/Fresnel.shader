@@ -31,7 +31,12 @@
             #pragma multi_compile_instancing
             #pragma multi_compile __ USE_CUTOUT
 			#pragma multi_compile __ TEXARRAY_CUTOUT
-			#pragma multi_compile __ EPO_HDRP
+			#pragma multi_compile __ EPO_HDRP			
+			#pragma multi_compile __ USE_INFO_BUFFER
+			#pragma multi_compile __ BACK_RENDERING
+			#pragma fragmentoption ARB_precision_hint_fastest
+			#pragma multi_compile __ BACK_OBSTACLE_RENDERING BACK_MASKING_RENDERING
+
 
             #include "UnityCG.cginc"
             #include "../MiskCG.cginc"
@@ -46,6 +51,10 @@
                 float2 uv : TEXCOORD0;
 #endif
 
+#if USE_INFO_BUFFER
+				float4 screenUV : TEXCOORD1;
+#endif
+
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -55,6 +64,11 @@
 #if USE_CUTOUT
                 float2 uv : TEXCOORD0;
 #endif
+
+#if USE_INFO_BUFFER
+				float4 screenUV : TEXCOORD3;
+#endif
+
 				half3 normal : TEXCOORD1;
 
                 half3 viewDir : TEXCOORD2;
@@ -63,6 +77,7 @@
             };
 			
 			DEFINE_CUTOUT
+			DefineCoords
 
             half4 _PublicOuterColor;
             half4 _PublicInnerColor;
@@ -78,9 +93,15 @@
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
                 
                 o.vertex = UnityObjectToClipPos(v.vertex);
-				
+
+				PostprocessCoords
+
                 FixDepth
-                
+
+#if USE_INFO_BUFFER
+				o.screenUV = ComputeScreenPos(o.vertex);
+#endif
+
                 o.normal = UnityObjectToWorldNormal(v.normal);
 
                 o.viewDir = normalize(ObjSpaceViewDir(v.vertex));
@@ -91,13 +112,25 @@
 
             half4 _PublicColor;
 
+#if USE_INFO_BUFFER
+			UNITY_DECLARE_SCREENSPACE_TEXTURE(_InfoBuffer);
+			half4 _InfoBuffer_ST;
+			half4 _InfoBuffer_TexelSize;
+#endif
+
             half4 frag (v2f i) : SV_Target
             {
 				CHECK_CUTOUT
 
                 half fresnel = pow(saturate(1.0f - dot(normalize(i.normal), normalize(i.viewDir))), _PublicFresnelPower);
 
-                return lerp(_PublicOuterColor, _PublicInnerColor, fresnel) * _PublicFresnelMultiplier;
+				float4 result = lerp(_PublicOuterColor, _PublicInnerColor, fresnel) * _PublicFresnelMultiplier;
+
+#if USE_INFO_BUFFER
+				result.a *= GetScaler(i.screenUV, _InfoBuffer, _InfoBuffer_ST);
+#endif
+
+				return result;
             }
             ENDCG
         }

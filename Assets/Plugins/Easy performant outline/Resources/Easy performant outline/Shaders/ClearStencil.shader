@@ -17,6 +17,7 @@
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+			#pragma fragmentoption ARB_precision_hint_fastest
 
             #include "UnityCG.cginc"
             #include "MiskCG.cginc"
@@ -26,7 +27,6 @@
                 float4 vertex : POSITION;
                 half3 normal : NORMAL;
 				DefineTransform
-
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -44,6 +44,8 @@
             half4 _MainTex_ST;
             half4 _MainTex_TexelSize;
 
+			DefineCoords
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -52,11 +54,10 @@
                 UNITY_INITIALIZE_OUTPUT(v2f, o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 				
-                TransformVertex(ANY)
-				TransformNormal(ANY)
-
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 
+				PostprocessCoords
+
                 ComputeScreenShift
                 
                 o.uv = ComputeScreenPos(o.vertex);

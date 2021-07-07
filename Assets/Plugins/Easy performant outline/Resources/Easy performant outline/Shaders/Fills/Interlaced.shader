@@ -35,6 +35,10 @@
             #pragma multi_compile __ USE_CUTOUT
 			#pragma multi_compile __ TEXARRAY_CUTOUT
 			#pragma multi_compile __ EPO_HDRP
+			#pragma multi_compile __ USE_INFO_BUFFER
+			#pragma multi_compile __ BACK_RENDERING
+			#pragma fragmentoption ARB_precision_hint_fastest
+			#pragma multi_compile __ BACK_OBSTACLE_RENDERING BACK_MASKING_RENDERING
 
             #include "UnityCG.cginc"
             #include "../MiskCG.cginc"
@@ -54,12 +58,18 @@
 #if USE_CUTOUT
                 float2 uv : TEXCOORD0;
 #endif
+
+#if USE_INFO_BUFFER
+				float4 screenUV : TEXCOORD3;
+#endif
+
                 half4 screenPos : TEXCOORD1;
                 half2 direction : TEXCOORD2;
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 			
 			DEFINE_CUTOUT
+			DefineCoords
 
             half _PublicAngle;
 
@@ -72,8 +82,14 @@
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
-				
+
+				PostprocessCoords
+
                 FixDepth
+
+#if USE_INFO_BUFFER
+				o.screenUV = ComputeScreenPos(o.vertex);
+#endif
 
                 o.screenPos = ComputeScreenPos(o.vertex);
 				TRANSFORM_CUTOUT
@@ -90,6 +106,12 @@
             half _PublicSoftness;
             half _PublicSpeed;
 
+#if USE_INFO_BUFFER
+			UNITY_DECLARE_SCREENSPACE_TEXTURE(_InfoBuffer);
+			half4 _InfoBuffer_ST;
+			half4 _InfoBuffer_TexelSize;
+#endif
+
             half4 frag (v2f i) : SV_Target
             {
 				CHECK_CUTOUT
@@ -100,7 +122,13 @@
                 
 				half factor = saturate(smoothstep(_PublicGapSize, _PublicGapSize + _PublicSoftness, (sin((projection + _Time.w * _PublicSpeed) * 1.57079632679 / _PublicSize) + 1) / 2));
 
-                return lerp(_PublicGapColor, _PublicColor, factor);
+                float4 result = lerp(_PublicGapColor, _PublicColor, factor);
+
+#if USE_INFO_BUFFER
+				result.a *= GetScaler(i.screenUV, _InfoBuffer, _InfoBuffer_ST);
+#endif
+
+				return result;
             }
             ENDCG
         }

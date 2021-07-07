@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using System;
 using UnityEngine.Profiling;
+using Unity.Collections;
 
 namespace EPOOutline
 {
@@ -11,27 +12,19 @@ namespace EPOOutline
     {
         private static readonly int MainTexHash = Shader.PropertyToID("_MainTex");
 
-        private static Vector3[] vertices = new Vector3[8];
-        private static Vector4[] matrix = new Vector4[8];
-
-        private static Vector3[] tempVector3 = new Vector3[8];
-        private static Vector2[] tempVector2 = new Vector2[8];
-
-        private static int[] trianglesToAdd = new int[36];
-
-        private static Vector3[] normals = new Vector3[]
+        private static Vector4[] normals = new Vector4[]
             {
-                new Vector3(-0.5773f, -0.5773f, -0.5773f),
-                new Vector3(0.5773f, -0.5773f, -0.5773f),
-                new Vector3(0.5773f, 0.5773f, -0.5773f),
-                new Vector3(-0.5773f, 0.5773f, -0.5773f),
-                new Vector3(-0.5773f, 0.5773f, 0.5773f),
-                new Vector3(0.5773f, 0.5773f, 0.5773f),
-                new Vector3(0.5773f, -0.5773f, 0.5773f),
-                new Vector3(-0.5773f, -0.5773f, 0.5773f),
+                new Vector4(-1, -1, -1),
+                new Vector4(1, -1, -1),
+                new Vector4(1, 1, -1),
+                new Vector4(-1, 1, -1),
+                new Vector4(-1, 1, 1),
+                new Vector4(1, 1, 1),
+                new Vector4(1, -1, 1),
+                new Vector4(-1, -1, 1)
             };
 
-        private static int[] triangles = 
+        private static ushort[] triangles = 
             {
                 0, 2, 1,
 	            0, 3, 2,
@@ -47,28 +40,65 @@ namespace EPOOutline
 	            0, 1, 6
             };
 
-        private static List<Vector4> firstUV            = new List<Vector4>();
-        private static List<Vector4> secondUV           = new List<Vector4>();
-        private static List<Vector4> thirdUV            = new List<Vector4>();
-        private static List<Vector4> fourthUV           = new List<Vector4>();
-        private static List<Vector3> centers            = new List<Vector3>();
-        private static List<Vector3> size               = new List<Vector3>();
-        private static List<Vector3> stages             = new List<Vector3>();
-        private static List<Vector2> additionalScale    = new List<Vector2>();
+        private static Vector4[] tempVertecies =
+            {
+                new Vector4(-1, -1, -1, 1),
+                new Vector4(1, -1, -1, 1),
+                new Vector4(1, 1, -1, 1),
+                new Vector4(-1, 1, -1, 1),
+                new Vector4(-1, 1, 1, 1),
+                new Vector4(1, 1, 1, 1),
+                new Vector4(1, -1, 1, 1),
+                new Vector4(-1, -1, 1, 1)
+            };
 
-        private static List<Vector3> addedVertices = new List<Vector3>();
-        public static List<int> addedTriangles = new List<int>();
-        public static List<Vector3> addedNormals = new List<Vector3>();
+#if UNITY_2019_OR_HIGHER
+        private static VertexAttributeDescriptor[] vertexParams =
+                new VertexAttributeDescriptor[]
+                    {
+                        new VertexAttributeDescriptor(VertexAttribute.Position, VertexAttributeFormat.Float32, 4),
+                        new VertexAttributeDescriptor(VertexAttribute.Normal, VertexAttributeFormat.Float32),
+                        new VertexAttributeDescriptor(VertexAttribute.TexCoord0, VertexAttributeFormat.Float32, 2)
+                    };
+#endif
 
-        private static void UpdateBounds(Renderer renderer)
+#if UNITY_2019_OR_HIGHER
+        private static TriangleIndex[] indecies = new TriangleIndex[4096 * 5];
+#else
+        private static int[] indecies = new int[4096 * 5];
+        private static List<int> indeciesList = new List<int>();
+        private static List<Vector3> verteciesList = new List<Vector3>();
+        private static List<Vector3> normalsList = new List<Vector3>();
+#endif
+
+        private static Vertex[] vertices = new Vertex[4096];
+
+        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+        public struct Vertex
         {
-            if (renderer is MeshRenderer)
+            public Vector4 Position;
+            public Vector3 Normal;
+        }
+
+        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+        public struct TriangleIndex
+        {
+            public ushort Index;
+            public static implicit operator int(TriangleIndex index)
+            {
+                return index.Index;
+            }
+        }
+
+        private static void UpdateBounds(Renderer renderer, OutlineTarget target)
+        {
+            if (target.renderer is MeshRenderer)
             {
                 var meshFilter = renderer.GetComponent<MeshFilter>();
                 if (meshFilter.sharedMesh != null)
                     meshFilter.sharedMesh.RecalculateBounds();
             }
-            else if (renderer is SkinnedMeshRenderer)
+            else if (target.renderer is SkinnedMeshRenderer)
             {
                 var skinedMeshRenderer = renderer as SkinnedMeshRenderer;
                 if (skinedMeshRenderer.sharedMesh != null)
@@ -81,45 +111,26 @@ namespace EPOOutline
             if (parameters.BlitMesh == null)
                 parameters.BlitMesh = parameters.MeshPool.AllocateMesh();
 
-            parameters.BlitMesh.Clear(true);
-
-            addedNormals.Clear();
-            addedVertices.Clear();
-            addedTriangles.Clear();
-
-            var otherStages = new Vector4(1, 0, 0);
-            var dilateStage = new Vector4(0, 1, 0);
-            var blurStage   = new Vector4(0, 0, 1);
-            var allStages = dilateStage + blurStage + otherStages;
-
-            firstUV.Clear();
-            secondUV.Clear();
-            thirdUV.Clear();
-            fourthUV.Clear();
-            centers.Clear();
-            size.Clear();
-            stages.Clear();
-            additionalScale.Clear();
-
-            var minusBoundsX = -1;
-            var plusBoundsX = 1;
-            var minusBoundsY = -1;
-            var plusBoundsY = 1;
-            var minusBoundsZ = -1;
-            var plusBoundsZ = 1;
-
-            vertices[0] = new Vector3(minusBoundsX, minusBoundsY, minusBoundsZ);
-            vertices[1] = new Vector3(plusBoundsX, minusBoundsY, minusBoundsZ);
-            vertices[2] = new Vector3(plusBoundsX, plusBoundsY, minusBoundsZ);
-            vertices[3] = new Vector3(minusBoundsX, plusBoundsY, minusBoundsZ);
-            vertices[4] = new Vector3(minusBoundsX, plusBoundsY, plusBoundsZ);
-            vertices[5] = new Vector3(plusBoundsX, plusBoundsY, plusBoundsZ);
-            vertices[6] = new Vector3(plusBoundsX, minusBoundsY, plusBoundsZ);
-            vertices[7] = new Vector3(minusBoundsX, minusBoundsY, plusBoundsZ);
+            const int numberOfVertices = 8;
 
             var currentIndex = 0;
-            const int numberOfVertices = 8;
-            var addedCount = 0;
+            var triangleIndex = 0;
+            var expectedCount = 0;
+            foreach (var outlinable in parameters.OutlinablesToRender)
+                expectedCount += numberOfVertices * outlinable.OutlineTargets.Count;
+
+            if (vertices.Length < expectedCount)
+            {
+                Array.Resize(ref vertices, expectedCount * 2);
+                Array.Resize(ref indecies, vertices.Length * 5);
+            }
+
+#if !UNITY_2019_OR_HIGHER
+            verteciesList.Clear();
+            normalsList.Clear();
+            indeciesList.Clear();
+#endif
+
             foreach (var outlinable in parameters.OutlinablesToRender)
             {
                 if (outlinable.DrawingMode != OutlinableDrawingMode.Normal)
@@ -134,191 +145,167 @@ namespace EPOOutline
                 foreach (var target in outlinable.OutlineTargets)
                 {
                     var renderer = target.Renderer;
-                    if (renderer == null || !renderer.enabled || !renderer.gameObject.activeInHierarchy)
+                    if (!target.IsVisible)
                         continue;
 
-                    Profiler.BeginSample("Getting mesh bounds");
-
-                    if (target.ForceRecalculateBounds)
-                        UpdateBounds(target.Renderer);
-
-#if UNITY_2019_3_OR_NEWER
-                    var meshRenderer = renderer as MeshRenderer;
-                    var index = meshRenderer == null ? 0 : meshRenderer.subMeshStartIndex + target.SubmeshIndex;
-                    var filter = meshRenderer == null ? null : meshRenderer.GetComponent<MeshFilter>();
-                    var mesh = filter == null ? null : filter.sharedMesh;
-
+                    var pretransformedBounds = false;
                     var bounds = new Bounds();
-                    if (meshRenderer != null && mesh != null && mesh.subMeshCount > index)
-                        bounds = mesh.GetSubMesh(index).bounds;
-                    else if (renderer != null)
-                        bounds = renderer.bounds;
-#else
-                    var bounds = renderer.bounds;
-#endif
-                    
-                    Profiler.EndSample();
-
-                    var scale = 0.5f;
-                    var boundsSize = bounds.size * scale;
-                    var boundsCenter = bounds.center;
-
-                    var stagesToSet = otherStages;
-                    if ((!target.CanUseEdgeDilateShift || target.DilateRenderingMode == DilateRenderMode.PostProcessing) && useDilateDueToSettings)
-                        stagesToSet += dilateStage;
-
-                    if (useBlurDueToSettings)
-                        stagesToSet += blurStage;
-
-                    var additionalScaleToSet = Vector2.zero;
-                    if (target.CanUseEdgeDilateShift && target.DilateRenderingMode == DilateRenderMode.EdgeShift)
-                        additionalScaleToSet.x = Mathf.Max(target.BackEdgeDilateAmount, target.FrontEdgeDilateAmount);
-
-                    Profiler.BeginSample("Setting vertex values");
-
-#if UNITY_2019_3_OR_NEWER
-                    if (meshRenderer != null && !meshRenderer.isPartOfStaticBatch)
+                    if (target.BoundsMode == BoundsMode.Manual)
                     {
-                        var transformMatrix = meshRenderer.transform.localToWorldMatrix;
-
-                        matrix[0] = matrix[1] = matrix[2] = matrix[3] = matrix[4] = matrix[5] = matrix[6] = matrix[7] = transformMatrix.GetColumn(0);
-                        firstUV.AddRange(matrix);
-                        matrix[0] = matrix[1] = matrix[2] = matrix[3] = matrix[4] = matrix[5] = matrix[6] = matrix[7] = transformMatrix.GetColumn(1);
-                        secondUV.AddRange(matrix);
-                        matrix[0] = matrix[1] = matrix[2] = matrix[3] = matrix[4] = matrix[5] = matrix[6] = matrix[7] = transformMatrix.GetColumn(2);
-                        thirdUV.AddRange(matrix);
-                        matrix[0] = matrix[1] = matrix[2] = matrix[3] = matrix[4] = matrix[5] = matrix[6] = matrix[7] = transformMatrix.GetColumn(3);
-                        fourthUV.AddRange(matrix);
-
-                        tempVector3[0] = tempVector3[1] = tempVector3[2] = tempVector3[3] = tempVector3[4] = tempVector3[5] = tempVector3[6] = tempVector3[7] = boundsCenter;
-                        centers.AddRange(tempVector3);
-
-                        tempVector3[0] = tempVector3[1] = tempVector3[2] = tempVector3[3] = tempVector3[4] = tempVector3[5] = tempVector3[6] = tempVector3[7] = boundsSize;
-                        size.AddRange(tempVector3);
-
-                        tempVector3[0] = tempVector3[1] = tempVector3[2] = tempVector3[3] = tempVector3[4] = tempVector3[5] = tempVector3[6] = tempVector3[7] = stagesToSet;
-                        stages.AddRange(tempVector3);
-
-                        tempVector2[0] = tempVector2[1] = tempVector2[2] = tempVector2[3] = tempVector2[4] = tempVector2[5] = tempVector2[6] = tempVector2[7] = additionalScaleToSet;
-                        additionalScale.AddRange(tempVector2);
+                        bounds = target.Bounds;
+                        var size = bounds.size;
+                        var rendererScale = renderer.transform.localScale;
+                        size.x /= rendererScale.x;
+                        size.y /= rendererScale.y;
+                        size.z /= rendererScale.z;
+                        bounds.size = size;
                     }
                     else
-#endif
                     {
-                        matrix[0] = matrix[1] = matrix[2] = matrix[3] = matrix[4] = matrix[5] = matrix[6] = matrix[7] = new Vector4(1, 0, 0, 0);
-                        firstUV.AddRange(matrix);
-                        matrix[0] = matrix[1] = matrix[2] = matrix[3] = matrix[4] = matrix[5] = matrix[6] = matrix[7] = new Vector4(0, 1, 0, 0);
-                        secondUV.AddRange(matrix);
-                        matrix[0] = matrix[1] = matrix[2] = matrix[3] = matrix[4] = matrix[5] = matrix[6] = matrix[7] = new Vector4(0, 0, 1, 0);
-                        thirdUV.AddRange(matrix);
-                        matrix[0] = matrix[1] = matrix[2] = matrix[3] = matrix[4] = matrix[5] = matrix[6] = matrix[7] = new Vector4(0, 0, 0, 1);
-                        fourthUV.AddRange(matrix);
+                        if (target.BoundsMode == BoundsMode.ForceRecalculate)
+                            UpdateBounds(target.Renderer, target);
+                        
+                        var meshRenderer = renderer as MeshRenderer;
+                        var index = (meshRenderer == null ? 0 : meshRenderer.subMeshStartIndex) + target.SubmeshIndex;
+                        var filter = meshRenderer == null ? null : meshRenderer.GetComponent<MeshFilter>();
+                        var mesh = filter == null ? null : filter.sharedMesh;
 
-                        tempVector3[0] = tempVector3[1] = tempVector3[2] = tempVector3[3] = tempVector3[4] = tempVector3[5] = tempVector3[6] = tempVector3[7] = boundsCenter;
-                        centers.AddRange(tempVector3);
-
-                        tempVector3[0] = tempVector3[1] = tempVector3[2] = tempVector3[3] = tempVector3[4] = tempVector3[5] = tempVector3[6] = tempVector3[7] = boundsSize;
-                        size.AddRange(tempVector3);
-
-                        tempVector3[0] = tempVector3[1] = tempVector3[2] = tempVector3[3] = tempVector3[4] = tempVector3[5] = tempVector3[6] = tempVector3[7] = stagesToSet;
-                        stages.AddRange(tempVector3);
-
-                        tempVector2[0] = tempVector2[1] = tempVector2[2] = tempVector2[3] = tempVector2[4] = tempVector2[5] = tempVector2[6] = tempVector2[7] = additionalScaleToSet;
-                        additionalScale.AddRange(tempVector2);
+#if UNITY_2019_OR_HIGHER
+                        if (mesh != null && mesh.subMeshCount > index)
+                            bounds = mesh.GetSubMesh(index).bounds;
+                        else
+                        {
+#endif
+                            pretransformedBounds = true;
+                            bounds = renderer.bounds;
+#if UNITY_2019_OR_HIGHER
+                        }
+#endif
                     }
 
+                    var scale = 0.5f;
+                    Vector4 boundsSize = bounds.size * scale;
+                    boundsSize.w = 1;
+                    
+                    var boundsCenter = (Vector4)bounds.center;
 
-                    Profiler.EndSample();
+                    Matrix4x4 transformMatrix = Matrix4x4.identity;
+                    Matrix4x4 normalTransformMatrix = Matrix4x4.identity;
+                    if (!pretransformedBounds && (target.BoundsMode == BoundsMode.Manual || !renderer.isPartOfStaticBatch))
+                    {
+                        transformMatrix = target.renderer.transform.localToWorldMatrix;
+                        normalTransformMatrix = Matrix4x4.Rotate(renderer.transform.rotation);
+                    }
 
-                    addedVertices.AddRange(vertices);
-                    addedNormals.AddRange(normals);
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)currentIndex };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 2) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 1) };
 
-                    trianglesToAdd[0] =
-                        trianglesToAdd[3] =
-                        trianglesToAdd[18] =
-                        trianglesToAdd[21] =
-                        trianglesToAdd[30] =
-                        trianglesToAdd[33] = currentIndex;
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)currentIndex };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 3) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 2) };
 
-                    trianglesToAdd[2] =
-                        trianglesToAdd[12] =
-                        trianglesToAdd[15] =
-                        trianglesToAdd[34] = 1 + currentIndex;
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 2) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 3) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 4) };
 
-                    trianglesToAdd[1] =
-                        trianglesToAdd[5] =
-                        trianglesToAdd[6] =
-                        trianglesToAdd[9] =
-                        trianglesToAdd[13] = 2 + currentIndex;
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 2) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 4) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 5) };
 
-                    trianglesToAdd[4] =
-                        trianglesToAdd[7] =
-                        trianglesToAdd[23] = 3 + currentIndex;
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 1) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 2) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 5) };
 
-                    trianglesToAdd[8] =
-                        trianglesToAdd[10] =
-                        trianglesToAdd[20] =
-                        trianglesToAdd[22] =
-                        trianglesToAdd[25] = 4 + currentIndex;
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 1) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 5) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 6) };
 
-                    trianglesToAdd[11] =
-                        trianglesToAdd[14] =
-                        trianglesToAdd[16] =
-                        trianglesToAdd[24] =
-                        trianglesToAdd[27] = 5 + currentIndex;
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)currentIndex };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 7) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 4) };
 
-                    trianglesToAdd[17] =
-                        trianglesToAdd[29] =
-                        trianglesToAdd[31] =
-                        trianglesToAdd[35] = 6 + currentIndex;
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)currentIndex };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 4) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 3) };
 
-                    trianglesToAdd[19] =
-                        trianglesToAdd[26] =
-                        trianglesToAdd[28] =
-                        trianglesToAdd[32] = 7 + currentIndex;
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 5) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 4) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 7) };
 
-                    currentIndex += numberOfVertices;
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 5) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 7) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 6) };
 
-                    addedTriangles.AddRange(trianglesToAdd);
-                    addedCount++;
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)currentIndex };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 6) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 7) };
+
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)currentIndex };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 1) };
+                    indecies[triangleIndex++] = new TriangleIndex() { Index = (ushort)(currentIndex + 6) };
+
+                    for (var index = 0; index < numberOfVertices; index++)
+                    {
+                        var normal = normalTransformMatrix * normals[index];
+                        var normal3 = new Vector3(normal.x, normal.y, normal.z);
+
+                        var vert = tempVertecies[index];
+                        var scaledVert = new Vector4(vert.x * boundsSize.x, vert.y * boundsSize.y, vert.z * boundsSize.z, 1);
+
+                        var vertex = new Vertex()
+                            {
+                                Position = transformMatrix * (boundsCenter + scaledVert),
+                                Normal = normal3
+                            };
+
+                        vertices[currentIndex++] = vertex;
+
+                        verteciesList.Add(vertex.Position);
+                        normalsList.Add(vertex.Normal);
+                    }
                 }
             }
 
-            if (addedCount == 0)
-                return;
+#if UNITY_2019_OR_HIGHER
+            var flags = MeshUpdateFlags.DontNotifyMeshUsers | MeshUpdateFlags.DontRecalculateBounds | MeshUpdateFlags.DontResetBoneBounds | MeshUpdateFlags.DontValidateIndices;
 
-            Profiler.BeginSample("Setting mesh values");
+            parameters.BlitMesh.SetVertexBufferParams(currentIndex, attributes: vertexParams);
+            parameters.BlitMesh.SetVertexBufferData(vertices, 0, 0, currentIndex, 0, flags);
+            parameters.BlitMesh.SetIndexBufferParams(triangleIndex, IndexFormat.UInt16);
+            parameters.BlitMesh.SetIndexBufferData(indecies, 0, 0, triangleIndex, flags);
 
-            parameters.BlitMesh.SetVertices(addedVertices);
+            parameters.BlitMesh.subMeshCount = 1;
+            parameters.BlitMesh.SetSubMesh(0, new SubMeshDescriptor(0, triangleIndex, MeshTopology.Triangles), flags);
+#else
+            for (var index = 0; index < triangleIndex; index++)
+                indeciesList.Add(indecies[index]);
 
-            parameters.BlitMesh.SetUVs(0, firstUV);
-            parameters.BlitMesh.SetUVs(1, secondUV);
-            parameters.BlitMesh.SetUVs(2, thirdUV);
-            parameters.BlitMesh.SetUVs(3, fourthUV);
-            parameters.BlitMesh.SetUVs(4, centers);
-            parameters.BlitMesh.SetUVs(5, size);
-            parameters.BlitMesh.SetUVs(6, stages);
-            parameters.BlitMesh.SetUVs(7, additionalScale);
+            parameters.BlitMesh.Clear(true);
 
-            parameters.BlitMesh.SetTriangles(addedTriangles, 0, false);
-            parameters.BlitMesh.SetNormals(addedNormals);
-
-            Profiler.EndSample();
+            parameters.BlitMesh.SetVertices(verteciesList);
+            parameters.BlitMesh.SetNormals(normalsList);
+            parameters.BlitMesh.SetTriangles(indeciesList, 0);
+#endif
         }
 
-        public static void Blit(OutlineParameters parameters, RenderTargetIdentifier source, RenderTargetIdentifier destination, RenderTargetIdentifier destinationDepth, Material material, CommandBuffer targetBuffer, int pass = -1)
+        public static void Blit(OutlineParameters parameters, RenderTargetIdentifier source, RenderTargetIdentifier destination, RenderTargetIdentifier destinationDepth, Material material, CommandBuffer targetBuffer, int pass = -1, Rect? viewport = null)
         {
             var buffer = targetBuffer == null ? parameters.Buffer : targetBuffer;
             buffer.SetRenderTarget(destination, destinationDepth);
+            if (viewport.HasValue)
+                parameters.Buffer.SetViewport(viewport.Value);
 
             buffer.SetGlobalTexture(MainTexHash, source);
 
             buffer.DrawMesh(parameters.BlitMesh, Matrix4x4.identity, material, 0, pass);
         }
 
-        public static void Draw(OutlineParameters parameters, RenderTargetIdentifier target, RenderTargetIdentifier depth, Material material)
+        public static void Draw(OutlineParameters parameters, RenderTargetIdentifier target, RenderTargetIdentifier depth, Material material, Rect? viewport = null)
         {
             parameters.Buffer.SetRenderTarget(target, depth);
+            if (viewport.HasValue)
+                parameters.Buffer.SetViewport(viewport.Value);
 
             parameters.Buffer.DrawMesh(parameters.BlitMesh, Matrix4x4.identity, material, 0, -1);
         }

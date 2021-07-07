@@ -10,6 +10,7 @@
             {
                 Ref [_Ref]
                 Comp [_Comparison]
+				Pass IncrWrap
             }
 
             CGPROGRAM
@@ -17,9 +18,9 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile __ USE_INFO_BUFFER
-            #pragma multi_compile __ USE_WEIGHTED_AVERAGE
             #pragma multi_compile BASE_QUALITY_DILATE HIGH_QUALITY_DILATE ULTRA_QUALITY_DILATE
 			#pragma multi_compile __ INFO_BUFFER_STAGE
+			#pragma fragmentoption ARB_precision_hint_fastest
 
             #include "UnityCG.cginc"
             #include "MiskCG.cginc"
@@ -29,7 +30,6 @@
                 float4 vertex : POSITION;
                 half3 normal : NORMAL;
 				DefineTransform
-
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -64,6 +64,8 @@
 #endif
 #endif
 
+			DefineCoords
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -72,14 +74,14 @@
                 UNITY_INITIALIZE_OUTPUT(v2f, o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 				
-                TransformVertex(DILATE)
-				TransformNormal(DILATE)
-
                 o.vertex = UnityObjectToClipPos(v.vertex);
+
+				PostprocessCoords
 
                 ComputeScreenShift
 					
                 o.uv = ComputeScreenPos(o.vertex);
+				o.uv.xy *= _Scale;
 				
 #if !BASE_QUALITY_DILATE
 				float sinus = sin(6.28318530718 / IterationsCount);
@@ -97,23 +99,16 @@
                 return o;
             }
             
-#if USE_WEIGHTED_AVERAGE
-            inline half4 average(half4 first, half4 second)
-            {
-                return first.a * second.a < 0.05f ? max(first, second) : (first * first.a + second * second.a) / (first.a + second.a);
-            }
-#else
             inline half4 average(half4 first, half4 second)
             {
                 return max(first, second);
             }
-#endif
-            
+
             half4 frag (v2f i) : SV_Target
 			{
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
-			
-				float2 uv = i.uv.xy / i.uv.w;
+
+				half2 uv = i.uv.xy / i.uv.w;
 
                 half2 baseShift = _Shift;
 				
@@ -122,22 +117,23 @@
 
                 half2 texelShift = baseShift * info.r;
 #else
-				float2 texelShift = baseShift;
+				half2 texelShift = baseShift;
 #endif
 
 #if INFO_BUFFER_STAGE
-				half4 plus = FetchTexelAtWithShift(uv, + _Shift * _MainTex_TexelSize);
-				half4 minus = FetchTexelAtWithShift(uv, - _Shift * _MainTex_TexelSize);
+				half2 shiftByTexelSize = _Shift * _MainTex_TexelSize;
+				half4 plus = FetchTexelAtWithShift(uv, +shiftByTexelSize);
+				half4 minus = FetchTexelAtWithShift(uv, -shiftByTexelSize);
 				half4 center = FetchTexelAt(uv);
 
-				return (center.a > 0.96f ? center : (plus.a > 0 ? plus : minus));
+				return average(average(center, float4(plus.xy, center.zw)), float4(minus.xy, center.zw));
 #endif
 
 #if BASE_QUALITY_DILATE
 				texelShift *= _MainTex_TexelSize;
 
-                half4 shiftedMax = average(FetchTexelAtWithShift(uv, +texelShift), FetchTexelAtWithShift(uv, -texelShift));
-                return average(FetchTexelAt(uv), shiftedMax);
+				half4 shiftedMax = average(FetchTexelAtWithShift(uv, +texelShift), FetchTexelAtWithShift(uv, -texelShift));
+				return average(FetchTexelAt(uv), shiftedMax);
 #else
 
 				half4 currentPixel = FetchTexelAt(uv);

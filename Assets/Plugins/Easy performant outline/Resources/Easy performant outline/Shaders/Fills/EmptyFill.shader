@@ -26,6 +26,7 @@
             #pragma multi_compile __ USE_CUTOUT
 			#pragma multi_compile __ TEXARRAY_CUTOUT
 			#pragma multi_compile __ EPO_HDRP
+			#pragma fragmentoption ARB_precision_hint_fastest
 
             #include "UnityCG.cginc"
             #include "../MiskCG.cginc"
@@ -49,6 +50,7 @@
             };
 			
 			DEFINE_CUTOUT
+			DefineCoords
 
             v2f vert (appdata v)
             {
@@ -59,7 +61,9 @@
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
-				
+
+				PostprocessCoords
+
                 FixDepth
 				TRANSFORM_CUTOUT
 

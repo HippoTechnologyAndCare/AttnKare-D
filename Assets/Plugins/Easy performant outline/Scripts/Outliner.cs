@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 
 namespace EPOOutline
 {
@@ -24,6 +25,20 @@ namespace EPOOutline
     {
         Default,
         PerObject
+    }
+
+    public enum RenderStage
+    {
+        BeforeTransparents,
+        AfterTransparents
+    }
+
+    public enum BufferSizeMode
+    {
+        WidthControllsHeight,
+        HeightControlsWidth,
+        Scaled,
+        Native
     }
 
     [ExecuteAlways]
@@ -47,6 +62,9 @@ namespace EPOOutline
         private Camera targetCamera;
 
         [SerializeField]
+        private RenderStage stage = RenderStage.AfterTransparents;
+
+        [SerializeField]
         private OutlineRenderingStrategy renderingStrategy = OutlineRenderingStrategy.Default;
 
         [SerializeField]
@@ -59,11 +77,14 @@ namespace EPOOutline
         private long outlineLayerMask = -1;
 
         [SerializeField]
-        private bool scaleIndepented = true;
+        private BufferSizeMode primaryBufferSizeMode;
 
         [SerializeField]
         [Range(0.15f, 1.0f)]
         private float primaryRendererScale = 0.75f;
+
+        [SerializeField]
+        private int primarySizeReference = 800;
 
         [SerializeField]
         [Range(0.0f, 2.0f)]
@@ -74,20 +95,52 @@ namespace EPOOutline
         private float dilateShift = 1.0f;
 
         [SerializeField]
-        private int dilateIterrations = 1;
+        [FormerlySerializedAs("dilateIterrations")]
+        private int dilateIterations = 1;
 
         [SerializeField]
         private DilateQuality dilateQuality;
 
         [SerializeField]
-        private int blurIterrations = 1;
+        [FormerlySerializedAs("blurIterrations")]
+        private int blurIterations = 1;
 
         [SerializeField]
         private BlurType blurType = BlurType.Box;
 
-        [SerializeField]
-        [Range(0.05f, 1.0f)]
-        private float infoRendererScale = 0.75f;
+        public int PrimarySizeReference
+        {
+            get
+            {
+                return primarySizeReference;
+            }
+
+            set
+            {
+                primarySizeReference = value;
+            }
+        }
+
+        public BufferSizeMode PrimaryBufferSizeMode
+        {
+            get
+            {
+                return primaryBufferSizeMode;
+            }
+
+            set
+            {
+                primaryBufferSizeMode = value;
+            }
+        }
+
+        private CameraEvent Event
+        {
+            get
+            {
+                return stage == RenderStage.BeforeTransparents ? CameraEvent.AfterForwardOpaque : CameraEvent.BeforeImageEffects;
+            }
+        }
 
         public OutlineRenderingStrategy RenderingStrategy
         {
@@ -99,6 +152,19 @@ namespace EPOOutline
             set
             {
                 renderingStrategy = value;
+            }
+        }
+
+        public RenderStage RenderStage
+        {
+            get
+            {
+                return stage;
+            }
+
+            set
+            {
+                stage = value;
             }
         }
 
@@ -175,32 +241,6 @@ namespace EPOOutline
             }
         }
 
-        public bool ScaleIndependent
-        {
-            get
-            {
-                return scaleIndepented;
-            }
-
-            set
-            {
-                scaleIndepented = value;
-            }
-        }
-
-        public float InfoRendererScale
-        {
-            get
-            {
-                return infoRendererScale;
-            }
-
-            set
-            {
-                infoRendererScale = Mathf.Clamp01(value);
-            }
-        }
-
         public float PrimaryRendererScale
         {
             get
@@ -214,16 +254,30 @@ namespace EPOOutline
             }
         }
 
+        [Obsolete("Fixed incorrect spelling. Use BlurIterations instead")]
         public int BlurIterrations
         {
             get
             {
-                return blurIterrations;
+                return BlurIterations;
             }
 
             set
             {
-                blurIterrations = value > 0 ? value : 0;
+                BlurIterations = value;
+            }
+        }
+
+        public int BlurIterations
+        {
+            get
+            {
+                return blurIterations;
+            }
+
+            set
+            {
+                blurIterations = value > 0 ? value : 0;
             }
         }
 
@@ -240,16 +294,30 @@ namespace EPOOutline
             }
         }
 
+        [Obsolete("Fixed incorrect spelling. Use DilateIterations instead")]
         public int DilateIterration
         {
             get
             {
-                return dilateIterrations;
+                return DilateIterations;
             }
 
             set
             {
-                dilateIterrations = value > 0 ? value : 0;
+                DilateIterations = value;
+            }
+        }
+
+        public int DilateIterations
+        {
+            get
+            {
+                return dilateIterations;
+            }
+
+            set
+            {
+                dilateIterations = value > 0 ? value : 0;
             }
         }
 
@@ -260,11 +328,11 @@ namespace EPOOutline
 
         private void OnValidate()
         {
-            if (blurIterrations < 0)
-                blurIterrations = 0;
+            if (blurIterations < 0)
+                blurIterations = 0;
 
-            if (dilateIterrations < 0)
-                dilateIterrations = 0;
+            if (dilateIterations < 0)
+                dilateIterations = 0;
         }
 
         private void OnEnable()
@@ -319,6 +387,7 @@ namespace EPOOutline
                 var viewToUpdate = (UnityEditor.SceneView)view;
 
                 viewToUpdate.camera.RemoveCommandBuffer(CameraEvent.BeforeImageEffects, editorPreviewParameters.Buffer);
+                viewToUpdate.camera.RemoveCommandBuffer(CameraEvent.AfterForwardOpaque, editorPreviewParameters.Buffer);
             }
 #endif
         }
@@ -326,10 +395,11 @@ namespace EPOOutline
         private void UpdateBuffer(Camera targetCamera, CommandBuffer buffer, bool removeOnly)
         {
             targetCamera.RemoveCommandBuffer(CameraEvent.BeforeImageEffects, buffer);
+            targetCamera.RemoveCommandBuffer(CameraEvent.AfterForwardOpaque, buffer);
             if (removeOnly)
                 return;
 
-            targetCamera.AddCommandBuffer(CameraEvent.BeforeImageEffects, buffer);
+            targetCamera.AddCommandBuffer(Event, buffer);
         }
 
         private void OnPreRender()
@@ -337,6 +407,7 @@ namespace EPOOutline
             if (GraphicsSettings.renderPipelineAsset != null)
                 return;
 
+            parameters.OutlinablesToRender.Clear();
             SetupOutline(targetCamera, parameters, false);
         }
 
@@ -382,6 +453,7 @@ namespace EPOOutline
                     eventTransferer.OnPreRenderEvent -= UpdateEditorCamera;
 
                 viewToUpdate.camera.RemoveCommandBuffer(CameraEvent.BeforeImageEffects, editorPreviewParameters.Buffer);
+                viewToUpdate.camera.RemoveCommandBuffer(CameraEvent.AfterForwardOpaque, editorPreviewParameters.Buffer);
             }
         }
 
@@ -430,13 +502,16 @@ namespace EPOOutline
         public void UpdateSharedParameters(OutlineParameters parameters, Camera camera, bool editorCamera)
         {
             parameters.DilateQuality = DilateQuality;
-            parameters.ScaleIndependent = scaleIndepented;
             parameters.Camera = camera;
             parameters.IsEditorCamera = editorCamera;
             parameters.PrimaryBufferScale = primaryRendererScale;
-            parameters.BlurIterrantions = blurIterrations;
+
+            parameters.PrimaryBufferSizeMode = primaryBufferSizeMode;
+            parameters.PrimaryBufferSizeReference = primarySizeReference;
+
+            parameters.BlurIterations = blurIterations;
             parameters.BlurType = blurType;
-            parameters.DilateIterrations = dilateIterrations;
+            parameters.DilateIterations = dilateIterations;
             parameters.BlurShift = blurShift;
             parameters.DilateShift = dilateShift;
             parameters.UseHDR = camera.allowHDR && (RenderingMode == RenderingMode.HDR);
@@ -449,8 +524,6 @@ namespace EPOOutline
 
         private void UpdateParameters(OutlineParameters parameters, Camera camera, bool editorCamera)
         {
-            UpdateSharedParameters(parameters, camera, editorCamera);
-
             parameters.DepthTarget = RenderTargetUtility.ComposeTarget(parameters, BuiltinRenderTextureType.CameraTarget);
 
             var targetTexture = camera.targetTexture == null ? camera.activeTexture : camera.targetTexture;
@@ -474,8 +547,11 @@ namespace EPOOutline
             parameters.Target = RenderTargetUtility.ComposeTarget(parameters, HasCutomRenderTarget && !editorCamera ? GetRenderTarget(parameters) :
                 BuiltinRenderTextureType.CameraTarget);
 
+            parameters.Camera = camera;
+
             Outlinable.GetAllActiveOutlinables(parameters.Camera, parameters.OutlinablesToRender);
             RendererFilteringUtility.Filter(parameters.Camera, parameters);
+            UpdateSharedParameters(parameters, camera, editorCamera);
         }
     }
 }

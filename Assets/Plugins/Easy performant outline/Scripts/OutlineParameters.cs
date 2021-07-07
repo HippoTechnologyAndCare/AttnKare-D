@@ -44,9 +44,13 @@ namespace EPOOutline
         public RenderTargetIdentifier DepthTarget;
         public CommandBuffer Buffer;
         public DilateQuality DilateQuality = DilateQuality.Base;
-        public int DilateIterrations = 2;
-        public int BlurIterrantions = 5;
-        
+        public int DilateIterations = 2;
+        public int BlurIterations = 5;
+
+        public Vector2 Scale = Vector2.one;
+
+        public Rect? CustomViewport;
+
         public long OutlineLayerMask = -1;
 
         public int TargetWidth;
@@ -62,10 +66,10 @@ namespace EPOOutline
 
         public bool IsEditorCamera;
 
-        public float PrimaryBufferScale = 0.1f;
-        public float InfoBufferScale = 0.2f;
+        public BufferSizeMode PrimaryBufferSizeMode;
+        public int PrimaryBufferSizeReference;
 
-        public bool ScaleIndependent = true;
+        public float PrimaryBufferScale = 0.1f;
 
         public StereoTargetEyeMask EyeMask;
 
@@ -80,6 +84,14 @@ namespace EPOOutline
         public List<Outlinable> OutlinablesToRender = new List<Outlinable>();
 
         private bool isInitialized = false;
+        
+        public Vector2Int MakeScaledVector(int x, int y)
+        {
+            var fx = (float)x;
+            var fy = (float)y;
+
+            return new Vector2Int(Mathf.FloorToInt(fx * Scale.x), Mathf.FloorToInt(fy * Scale.y));
+        }
 
         public void CheckInitialization()
         {
@@ -95,53 +107,35 @@ namespace EPOOutline
         {
             if (OutlinablesToRender.Count == 0)
                 return;
+            
+            UseInfoBuffer = OutlinablesToRender.Find(x => x != null && ((x.DrawingMode & (OutlinableDrawingMode.Obstacle | OutlinableDrawingMode.Mask)) != 0 || x.ComplexMaskingEnabled)) != null;
+            if (UseInfoBuffer)
+                return;
 
-            var previous = OutlinablesToRender[0];
-
-            UseInfoBuffer = false;
             foreach (var target in OutlinablesToRender)
             {
                 if ((target.DrawingMode & OutlinableDrawingMode.Normal) == 0)
                     continue;
 
-                if (!AreEqual(previous, target))
-                {
-                    UseInfoBuffer = true;
-                    break;
-                }
+                if (!CheckDiffers(target))
+                    continue;
 
-                previous = target;
+                UseInfoBuffer = true;
+                break;
             }
         }
 
-        private bool AreEqual(Outlinable first, Outlinable second)
+        private static bool CheckDiffers(Outlinable outlinable)
         {
-            if (!AreEqualToSelf(first))
-                return false;
-
-            if (!AreEqualToSelf(second))
-                return false;
-
-            var firstDilate = first.RenderStyle == RenderStyle.Single ? first.OutlineParameters.DilateShift : first.BackParameters.DilateShift;
-            var secondDilate = second.RenderStyle == RenderStyle.Single ? second.OutlineParameters.DilateShift : second.BackParameters.DilateShift;
-            if (firstDilate != secondDilate)
-                return false;
-
-            var firstBlur = first.RenderStyle == RenderStyle.Single ? first.OutlineParameters.BlurShift : first.BackParameters.BlurShift;
-            var secondBlur = second.RenderStyle == RenderStyle.Single ? second.OutlineParameters.BlurShift : second.BackParameters.BlurShift;
-            if (firstBlur != secondBlur)
-                return false;
-
-            return true;
+            if (outlinable.RenderStyle == RenderStyle.Single)
+                return CheckIfNonOne(outlinable.OutlineParameters);
+            else
+                return CheckIfNonOne(outlinable.FrontParameters) || CheckIfNonOne(outlinable.BackParameters);
         }
 
-        private bool AreEqualToSelf(Outlinable first)
+        private static bool CheckIfNonOne(Outlinable.OutlineProperties parameters)
         {
-            if (first.RenderStyle == RenderStyle.Single)
-                return true;
-            else
-                return first.FrontParameters.DilateShift == first.BackParameters.DilateShift &&
-                    first.FrontParameters.BlurShift == first.BackParameters.BlurShift;
+            return parameters.BlurShift != 1.0f || parameters.DilateShift != 1.0f;
         }
     }
 }

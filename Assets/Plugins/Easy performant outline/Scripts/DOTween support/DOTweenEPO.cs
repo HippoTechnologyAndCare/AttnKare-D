@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-#if false || EPO_DOTWEEN // MODULE_MARKER
+#if EPO_DOTWEEN // MODULE_MARKER
 
 using EPOOutline;
 using DG.Tweening.Plugins.Options;
@@ -120,13 +120,6 @@ namespace DG.Tweening
         public static TweenerCore<float, float, FloatOptions> DODilateShift(this Outliner target, float endValue, float duration, bool snapping = false)
         {
             var tweener = DOTween.To(() => target.DilateShift, x => target.DilateShift = x, endValue, duration);
-            tweener.SetOptions(snapping).SetTarget(target);
-            return tweener;
-        }
-
-        public static TweenerCore<float, float, FloatOptions> DOInfoRendererScale(this Outliner target, float endValue, float duration, bool snapping = false)
-        {
-            var tweener = DOTween.To(() => target.InfoRendererScale, x => target.InfoRendererScale = x, endValue, duration);
             tweener.SetOptions(snapping).SetTarget(target);
             return tweener;
         }

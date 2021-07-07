@@ -24,6 +24,10 @@
             #pragma multi_compile __ USE_CUTOUT
 			#pragma multi_compile __ TEXARRAY_CUTOUT
 			#pragma multi_compile __ EPO_HDRP
+			#pragma multi_compile __ USE_INFO_BUFFER
+			#pragma multi_compile __ BACK_RENDERING
+			#pragma fragmentoption ARB_precision_hint_fastest
+			#pragma multi_compile __ BACK_OBSTACLE_RENDERING BACK_MASKING_RENDERING
 
             #include "UnityCG.cginc"
             #include "MiskCG.cginc"
@@ -43,10 +47,22 @@
 #if USE_CUTOUT
                 float2 uv : TEXCOORD0;
 #endif
+
+#if USE_INFO_BUFFER
+				float4 screenUV : TEXCOORD1;
+#endif
+
                 UNITY_VERTEX_OUTPUT_STEREO
             };
-            
+
+#if USE_INFO_BUFFER
+			UNITY_DECLARE_SCREENSPACE_TEXTURE(_InfoBuffer);
+			half4 _InfoBuffer_ST;
+			half4 _InfoBuffer_TexelSize;
+#endif
+
 			DEFINE_CUTOUT
+			DefineCoords
 
             v2f vert (appdata v)
             {
@@ -58,19 +74,44 @@
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
 
+				PostprocessCoords
+
+#if USE_INFO_BUFFER
+				o.screenUV = ComputeScreenPos(o.vertex);
+#endif
+
                 FixDepth
 				TRANSFORM_CUTOUT
 
                 return o;
             }
 
-            half4 _Color;
+            half4 _EPOColor;
 
-            half4 frag (v2f i) : SV_Target
-            {
+			half4 frag(v2f i) : SV_Target
+			{
 				CHECK_CUTOUT
 
-                half4 resultingColor = _Color;
+#if USE_INFO_BUFFER
+				float2 uv = i.screenUV.xy / i.screenUV.w;
+
+				half4 info = FetchTexelAtFrom(_InfoBuffer, uv, _InfoBuffer_ST);
+
+				float scaler = 1.0f;
+
+#if BACK_OBSTACLE_RENDERING
+				scaler = abs(info.b - 0.25f) < 0.05f;
+#endif
+
+#if BACK_MASKING_RENDERING
+				scaler = abs(info.b - 0.6f) > 0.05f;
+#endif
+
+#else
+				float scaler = 1.0f;
+#endif
+
+                half4 resultingColor = _EPOColor * scaler;
                 resultingColor.rgb *= resultingColor.a;
 
                 return resultingColor;

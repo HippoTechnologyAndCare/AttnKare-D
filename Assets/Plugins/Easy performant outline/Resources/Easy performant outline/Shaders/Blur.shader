@@ -19,6 +19,7 @@
             #pragma multi_compile_instancing
             #pragma multi_compile ANISOTROPIC_BLUR BOX_BLUR GAUSSIAN5X5 GAUSSIAN9X9 GAUSSIAN13X13
             #pragma multi_compile __ USE_INFO_BUFFER
+			#pragma fragmentoption ARB_precision_hint_fastest
 
             #include "UnityCG.cginc"
             #include "MiskCG.cginc"
@@ -28,7 +29,6 @@
                 float4 vertex : POSITION;
                 half3 normal : NORMAL;
 				DefineTransform
-
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -53,6 +53,8 @@
             half4 _InfoBuffer_TexelSize;
 #endif
 
+			DefineCoords
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -61,14 +63,14 @@
                 UNITY_INITIALIZE_OUTPUT(v2f, o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
                 
-                TransformVertex(BLUR)
-				TransformNormal(BLUR)
+                o.vertex = UnityObjectToClipPos(v.vertex);
 
-                o.vertex = UnityObjectToClipPos(v.vertex); 
+				PostprocessCoords
 
                 ComputeScreenShift
-					
+
                 o.uv = ComputeScreenPos(o.vertex);
+				o.uv.xy *= _Scale;
 
 				CheckY
 
@@ -78,6 +80,8 @@
 
                 return o;
             }
+
+			float _Ref;
 
             half4 frag (v2f i) : SV_Target
             {
@@ -89,14 +93,14 @@
 
 #if USE_INFO_BUFFER
                 half4 info = FetchTexelAtFrom(_InfoBuffer, uv, _InfoBuffer_ST);
-                targetShift *= info.g * 2.0f;
+                targetShift *= info.g;
 #endif
 
 #if BOX_BLUR || ANISOTROPIC_BLUR
                 half4 first = FetchTexelAtWithShift(uv, targetShift);
                 half4 second = FetchTexelAtWithShift(uv, -targetShift);
                 half4 center = FetchTexelAt(uv);    
-                half4 result = (first + second + center) / 3.0f;
+                half4 result = (first + second + center) * 0.333333333333f;
 
                 return result;
 #endif
@@ -108,7 +112,7 @@
                 result += FetchTexelAtWithShift(uv,  off) * 0.35294117647058826;
                 result += FetchTexelAtWithShift(uv, -off) * 0.35294117647058826;
 
-                return result;
+				return result;
 #endif
 
 #if GAUSSIAN9X9

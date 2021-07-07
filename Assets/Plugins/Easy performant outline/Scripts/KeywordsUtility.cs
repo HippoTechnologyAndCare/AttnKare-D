@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace EPOOutline
 {
@@ -19,6 +20,21 @@ namespace EPOOutline
                     { DilateQuality.High,       "HIGH_QUALITY_DILATE" },
                     { DilateQuality.Ultra,      "ULTRA_QUALITY_DILATE" }
                 };
+        
+        public static string GetBackKeyword(ComplexMaskingMode mode)
+        {
+            switch (mode)
+            {
+                case ComplexMaskingMode.None:
+                    return string.Empty;
+                case ComplexMaskingMode.ObstaclesMode:
+                    return "BACK_OBSTACLE_RENDERING";
+                case ComplexMaskingMode.MaskingMode:
+                    return "BACK_MASKING_RENDERING";
+                default:
+                    throw new ArgumentException("Unknown rendering mode");
+            }
+        }
 
         public static string GetTextureArrayCutoutKeyword()
         {
@@ -40,14 +56,14 @@ namespace EPOOutline
             }
         }
 
-        public static string GetWeightedAverateKeyword()
-        {
-            return "USE_WEIGHTED_AVERAGE";
-        }
-
         public static string GetEnabledInfoBufferKeyword()
         {
             return "USE_INFO_BUFFER";
+        }
+
+        public static string GetEdgeMaskKeyword()
+        {
+            return "EDGE_MASK";
         }
 
         public static string GetInfoBufferStageKeyword()

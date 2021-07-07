@@ -16,7 +16,8 @@ namespace EPOOutline
 
             foreach (var outlinable in parameters.OutlinablesToRender)
             {
-                if ((parameters.OutlineLayerMask & (1L << outlinable.OutlineLayer)) == 0)
+                var layer = 1L << outlinable.OutlineLayer;
+                if ((parameters.OutlineLayerMask & layer) == 0)
                     continue;
 
                 var go = outlinable.gameObject;

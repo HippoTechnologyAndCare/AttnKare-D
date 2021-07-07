@@ -1,9 +1,8 @@
-﻿Shader "sHidden/ZPrepass"
+﻿Shader "Hidden/ZPrepass"
 {
 	Properties
 	{
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
-		_Color ("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
 	}
 
@@ -24,6 +23,7 @@
             #pragma multi_compile __ USE_TEXTURE
 			#pragma multi_compile __ TEXARRAY_CUTOUT
 			#pragma multi_compile __ EPO_HDRP
+			#pragma fragmentoption ARB_precision_hint_fastest
 
             #include "UnityCG.cginc"
             #include "MiskCG.cginc"
@@ -47,6 +47,7 @@
             };
             
 			DEFINE_CUTOUT
+			DefineCoords
 
             v2f vert (appdata v)
             {
@@ -57,6 +58,8 @@
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
+
+				PostprocessCoords
 
 #ifdef PIXELSNAP_ON
 				OUT.vertex = UnityPixelSnap (OUT.vertex);

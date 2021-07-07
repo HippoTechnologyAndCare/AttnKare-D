@@ -263,7 +263,7 @@ namespace EPOOutline
                 propertiesById.Add(Shader.PropertyToID(name), result);
             }
 
-            if (result.PropertyType != PropertyType.Float)
+            if (result.PropertyType != PropertyType.Float && result.PropertyType != PropertyType.Range)
             {
                 Debug.LogError("The property " + name + " is not a float property");
                 return;

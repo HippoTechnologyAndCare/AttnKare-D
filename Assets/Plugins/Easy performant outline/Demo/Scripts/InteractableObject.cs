@@ -33,6 +33,8 @@ namespace EPOOutline.Demo
             outlinable.FrontParameters.DODilateShift(1.0f, 0.0f);
             outlinable.FrontParameters.DOBlurShift(0.0f, 0.0f);
 #endif
+
+            outlinable.FrontParameters.FillPass.SetFloat("_PublicAngle", 35.0f);
         }
 
         public void OnPointerEnter(PointerEventData eventData)

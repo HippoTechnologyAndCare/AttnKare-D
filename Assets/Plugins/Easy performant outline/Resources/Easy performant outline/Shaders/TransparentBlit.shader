@@ -16,6 +16,7 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
+			#pragma fragmentoption ARB_precision_hint_fastest
             
             #include "UnityCG.cginc"
             #include "MiskCG.cginc"
@@ -42,6 +43,8 @@
             half4 _MainTex_ST;
             half4 _MainTex_TexelSize;
 
+			DefineCoords
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -51,7 +54,9 @@
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                
+
+				PostprocessCoords
+
 				o.uv = v.uv;
 
 #if UNITY_UV_STARTS_AT_TOP
