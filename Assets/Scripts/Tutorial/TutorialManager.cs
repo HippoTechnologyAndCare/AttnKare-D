@@ -39,7 +39,9 @@ public class TutorialManager : MonoBehaviour
     void Update()
     {
             childGrabbed = Grabber.GetComponentsInChildren<Outlinable>();
-            heldGrabbable = Grabber.GetComponent<Grabber>().HeldGrabbable.transform.gameObject;
+
+            if (Grabber.GetComponent<Grabber>().HeldGrabbable != null)
+            { heldGrabbable = Grabber.GetComponent<Grabber>().HeldGrabbable.transform.gameObject; }
 
 
             
@@ -56,12 +58,14 @@ public class TutorialManager : MonoBehaviour
         {
             if(FSMCheck)
             {
+                
                 //TriggerDown Check
                 if (lTrigger_Down == true && rTrigger_Down == true)
                 {
 
-                    if (check)
-                    {
+                    Debug.Log("true");
+                    //if (check)
+                   // {
                         //trigInt += 1;
                         //if (trigInt >= 5)
                        // {
@@ -69,13 +73,13 @@ public class TutorialManager : MonoBehaviour
 
                       //  }
 
-                    }
-                    check = false;
+                 //   }
+                 //   check = false;
 
                 }
                 else if (lTrigger_Down == false || rTrigger_Down == false)
                 {
-                    check = true;
+                  //  check = true;
                 }
 
             }
