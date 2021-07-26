@@ -11,11 +11,13 @@ public class SetPlayerData : MonoBehaviour
     private void Awake()
     {
         if (JsonManager.isFirst != true)
-        {
+        {            
+            string temp = "null"; //temp 변수는 작업중 오류방지용 초기 입력 기능 완료되면 삭제 예정
+
             JsonManager.isFirst = true;
 
             InitialDataSetting();
-            JsonManager.GetInstance().SavePlayerDataToJson();
+            JsonManager.GetInstance().SavePlayerDataToJson(temp);
             Debug.Log("Data Creat!");
         }
     }
