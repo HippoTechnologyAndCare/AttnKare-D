@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: fc523aed4ff6cdb4dbc29466bec09eb2,
     type: 2}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -3917,8 +3917,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.66978145, y: 1.9207656, z: 0.6960781}
-  m_Center: {x: 0.018565357, y: 0.91822875, z: -0.046304494}
+  m_Size: {x: 0.66978145, y: 1.9207656, z: 0.61924106}
+  m_Center: {x: 0.018565357, y: 0.91822875, z: -0.007885963}
 --- !u!114 &1284807141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9162,11 +9162,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uACF0 \uCE5C\uAD6C\uAC00 \uBC30\uB97C \uD0C0\uACE0 \uC12C\uC5D0 \uAC00\uACE0
-    \uC2F6\uC740\uAC00\uBD10!\n\n\uCE5C\uAD6C\uAC00 \uC5BC\uB9C8\uB098 \uBE68\uB9AC
-    \uB3CC\uB9AC\uB294\uC9C0 \uC798 \uD655\uC778\uD574\uBCF4\uC790\n\n\uCE5C\uAD6C\uC640
-    \uC18D\uB3C4\uB97C \uB9DE\uCD94\uBA70 \uD398\uB2EC\uC744 \uB3CC\uB824\n\n\uBC30\uB97C
-    \uC12C\uC73C\uB85C \uC774\uB3D9\uC2DC\uCF1C\uC918!"
+  m_text: "\uACF0 \uCE5C\uAD6C\uC640 \uC18D\uB3C4\uB97C \uB9DE\uCDB0 \uC190\uC7A1\uC774\uB97C
+    \uB3CC\uB9AC\uBA74\uC11C \n\n\uC791\uC740 \uBC30\uB97C \uBCF4\uBB3C\uC12C\uAE4C\uC9C0
+    \uC774\uB3D9\uC2DC\uCF1C\uBCF4\uC138\uC694.\n\n<color=orange> \uCE21\uC815(\uAD00\uCC30)\uC694\uC18C
+    :\n\n\uD611\uB3D9\uC131, \uC2E0\uCCB4\uC870\uC808 \uB2A5\uB825, \uC778\uB0B4\uC2EC,
+    \uC9D1\uC911\uB825"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d4145b80d4101fb43b29e9e55556c584, type: 2}
   m_sharedMaterial: {fileID: -4828846974470475445, guid: d4145b80d4101fb43b29e9e55556c584,
@@ -26092,7 +26092,7 @@ Camera:
   m_HDR: 0
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 1
+  m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
@@ -32404,7 +32404,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4030764734662378640}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c7abe05ae0fe07459d7ae7afed8b792, type: 3}
   m_Name: 
@@ -32424,7 +32424,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4030764734662378640}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97dc4c75aa9c7ac4496efd08a068c08c, type: 3}
   m_Name: 
@@ -83044,7 +83044,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4688ae0e7d3f7c7498dd85852dfd2622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedLocomotion: 2
+  selectedLocomotion: 1
   MoveCharacterWithCamera: 1
   RotateCharacterWithCamera: 1
   TrackingSpace: {fileID: 1134933068004022757}
@@ -105192,7 +105192,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4030764734662378640}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bd2fd7429a30714ca570a60a988ab32, type: 3}
   m_Name: 
