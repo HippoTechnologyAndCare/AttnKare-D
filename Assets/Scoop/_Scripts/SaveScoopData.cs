@@ -10,7 +10,7 @@ public class SaveScoopData : MonoBehaviour
 {
     FileStream DataInfo;
     StreamWriter DataWriter;
-    string FilePath = Application.streamingAssetsPath + "/data/";
+    string FilePath = Application.streamingAssetsPath + "/Hippo/";
     string SaveTime = DateTime.Now.ToString("yyyyMMddHHmmss");
 
     string SavePath;
