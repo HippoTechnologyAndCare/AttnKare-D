@@ -33,9 +33,9 @@ public class InputText : MonoBehaviour
         inputTxt_Name.onValueChanged.AddListener(
             (word) => inputTxt_Name.text = Regex.Replace(word, @"[^가-힣]", "")
             );        
-        inputTxt_Age.OnUpdateSelected.AddListener(
-            (numStr) => inputTxt_Age.text = Regex.Replace(numStr, @"[^0-9]", "")
-            );
+        //inputTxt_Age.OnUpdateSelected.AddListener(
+        //    (numStr) => inputTxt_Age.text = Regex.Replace(numStr, @"[^0-9]", "")
+        //    );
     }
     public void InputAgeOnEnd()
     {
