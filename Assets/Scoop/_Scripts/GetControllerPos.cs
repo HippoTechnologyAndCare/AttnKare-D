@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using System;
 
@@ -54,7 +54,7 @@ public class GetControllerPos : MonoBehaviour
     FileStream RightInfo;
     StreamWriter RightWriter;*/
 
-    string FilePath = Application.streamingAssetsPath + "/data/";
+    string FilePath = Application.streamingAssetsPath + "/Hippo/";
     /*string SaveLeft;
     string SaveRight;*/
 
