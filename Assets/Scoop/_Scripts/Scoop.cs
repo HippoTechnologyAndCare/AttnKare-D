@@ -40,7 +40,7 @@ public class Scoop : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // If ball hits boundary outside room, return it to its original position (Only when object escapes room due to extreme force applied)
-        if(collision.gameObject.tag == "Boundary")
+        if(collision.gameObject.tag == "Boundary" || collision.gameObject.tag == "Terrain")
         {
             Debug.Log("Scoop Hit Boundary");
             resetScoop();
