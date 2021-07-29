@@ -465,7 +465,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 0
   m_CharacterValidation: 1
-  m_CharacterLimit: 2
+  m_CharacterLimit: 11
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
@@ -484,7 +484,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2010618343}
-        m_MethodName: InputAgeOnValueChanged
+        m_MethodName: InputFonOnValueChanged
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -865,10 +865,10 @@ RectTransform:
   m_Children:
   - {fileID: 1954326138}
   - {fileID: 1372155153}
+  - {fileID: 1478552767}
   - {fileID: 921649089}
   - {fileID: 1910335111}
   - {fileID: 1417782395}
-  - {fileID: 1478552767}
   m_Father: {fileID: 35329749}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1315,7 +1315,7 @@ RectTransform:
   - {fileID: 2042253438}
   - {fileID: 1811504478}
   m_Father: {fileID: 468800170}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1517,7 +1517,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 7
     m_MaxSize: 70
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 1
@@ -2038,7 +2038,7 @@ RectTransform:
   m_Children:
   - {fileID: 1872574754}
   m_Father: {fileID: 468800170}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2089,7 +2089,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2010618343}
-        m_MethodName: Confirm
+        m_MethodName: Confirm_n_Save
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2148,7 +2148,7 @@ GameObject:
   - component: {fileID: 1419238067}
   - component: {fileID: 1419238066}
   m_Layer: 5
-  m_Name: InputAge
+  m_Name: InputFonNum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2194,12 +2194,12 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 70
+    m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 7
+    m_MinSize: 5
     m_MaxSize: 70
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 1
@@ -2454,7 +2454,7 @@ RectTransform:
   - {fileID: 1899102929}
   - {fileID: 406451174}
   m_Father: {fileID: 468800170}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2943,7 +2943,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 7
     m_MaxSize: 70
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 1
@@ -3546,7 +3546,7 @@ RectTransform:
   - {fileID: 1039318241}
   - {fileID: 1524377264}
   m_Father: {fileID: 468800170}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3718,12 +3718,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   txt_Name: {fileID: 1767525242}
   txt_Age: {fileID: 1023029694}
+  txt_Fon: {fileID: 1419238066}
   inputTxt_Name: {fileID: 883310231}
   inputTxt_Age: {fileID: 1874931405}
-  genderTg_M: {fileID: 0}
-  genderTg_W: {fileID: 0}
-  gradeTg_L: {fileID: 0}
-  gradeTg_H: {fileID: 0}
+  inputTxt_Fon: {fileID: 347251743}
+  genderTg_M: {fileID: 2042253439}
+  genderTg_W: {fileID: 1811504479}
+  gradeTg_L: {fileID: 1039318242}
+  gradeTg_H: {fileID: 1524377265}
 --- !u!4 &2010618344
 Transform:
   m_ObjectHideFlags: 0

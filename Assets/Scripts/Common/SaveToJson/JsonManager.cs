@@ -9,7 +9,11 @@ using System.Reflection;
 public class JsonManager : MonoBehaviour
 {    
     //public static bool isFin;
-    public static bool isFirst;    
+    public static bool isFirst;
+    public string userInfomation;
+
+    private string es3APIKey;
+
     private static JsonManager instance; // 싱글턴 인스턴스 생성 (static + 클래스명 문법으로 생성한 변수)
         
     // MonoBehaviour의 상속을 받지 않는 PlayerData 클래스(클래스안에 생성자 선언)의 List<T>를 생성한다.
@@ -43,7 +47,7 @@ public class JsonManager : MonoBehaviour
         // 날짜와 시간 형식의 수식을 string 포맷으로 만드는 문법 
         //fileName = string.Format("PlayerData({0:yyyy-MM-dd_hh-mm-ss-tt}).json",    
         //System.DateTime.Now);  // System.DateTime.Now는 현재 날짜, 시간을 가져오는 함수
-        string fileName = string.Format("data_test.json");
+        string fileName = userInfo + ".json";
         string jsonData = JsonConvert.SerializeObject(dataList, Formatting.Indented);
         //string path = Path.Combine(Application.dataPath, fileName);
         string path = Path.Combine("D:/python_test/", fileName);   
@@ -54,12 +58,24 @@ public class JsonManager : MonoBehaviour
     [ContextMenu("From Json Data")]
     public void LoadPlayerDataFromJson(string userInfo) // Json 파일을 로드하는 함수
     {
-        string fileName = string.Format("data_test.json");
+        string fileName = userInfo + ".json";
         //string path = Path.Combine(Application.dataPath + "/d:/python_test/", fileName);
         string path = Path.Combine("D:/python_test/", fileName);
         string jsonData = File.ReadAllText(path);
         dataList = JsonConvert.DeserializeObject<List<PlayerData>>(jsonData);
         Debug.Log("load complete");
+    }
+
+    public IEnumerator UploadToCloud()
+    {
+        // Create a new ES3Cloud object with the URL to our ES3.php file.
+        var cloud = new ES3Cloud("https://hippotnc.synology.me/ES3Cloud.php", es3APIKey);
+
+        // Upload another local file, but make it global for all users.
+        yield return StartCoroutine(cloud.UploadFile(userInfomation + ".json"));
+
+        if (cloud.isError)
+            Debug.LogError(cloud.error);
     }
 
     private void Awake()
@@ -77,8 +93,9 @@ public class JsonManager : MonoBehaviour
     }
 
     private void Start()
-    {        
-          
+    {
+        es3APIKey = "13de814c5d55";
+        ES3Settings.pathToEasySaveFolder = "D:/python_test/";
     }    
 }
 
