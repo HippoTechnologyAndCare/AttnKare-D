@@ -39,7 +39,7 @@ public class roomScoreboard : MonoBehaviour
     void Start()
     {
         waitMessage.SetActive(false);
-        // Instantiate 3 balls
+        // Instantiate 4 balls
         for(int i = 0; i < 4; i++)
         {
             createBall();
@@ -96,7 +96,7 @@ public class roomScoreboard : MonoBehaviour
     {
         foreach (GameObject ball in clonedBalls)
         {
-            GetComponentInChildren<Ball>().resetBall(ball);
+            GetComponentInChildren<roomBall>().resetBall(ball);
             ball.GetComponent<roomBall>().ScoreCheck = false;
             /*ball.GetComponentInChildren<Ball>().dropCount = 0;*/
         }

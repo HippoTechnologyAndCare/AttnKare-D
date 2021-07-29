@@ -78,6 +78,7 @@ public class roomBall : MonoBehaviour
     public void resetBall(GameObject ball)
     {
         // Reset Velocity, Position and Angle
+        ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
         ball.transform.position = initP;
         ball.transform.eulerAngles = initR;
