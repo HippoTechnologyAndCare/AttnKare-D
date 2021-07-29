@@ -10,7 +10,7 @@ public class JsonManager : MonoBehaviour
 {    
     //public static bool isFin;
     public static bool isFirst;
-    public string userInfomation;
+    public string userInformation;
 
     private string es3APIKey;
 
@@ -42,23 +42,29 @@ public class JsonManager : MonoBehaviour
     // ContextMenu필드는 인스펙터상에 표시된 해당 컴포넌트의 설정메뉴에 아래의 해당 함수가 작동하도록 들어간다
     [ContextMenu("To Json Data")]
     
-    public void SavePlayerDataToJson(string userInfo) // Json 파일로 저장하는 함수
+    public void SavePlayerDataToJson() // Json 파일로 저장하는 함수
     {    
         // 날짜와 시간 형식의 수식을 string 포맷으로 만드는 문법 
         //fileName = string.Format("PlayerData({0:yyyy-MM-dd_hh-mm-ss-tt}).json",    
         //System.DateTime.Now);  // System.DateTime.Now는 현재 날짜, 시간을 가져오는 함수
-        string fileName = userInfo + ".json";
+
+        if(userInformation == "")
+        {
+            userInformation = "data_test";
+        }
+        string fileName = userInformation + ".json";
         string jsonData = JsonConvert.SerializeObject(dataList, Formatting.Indented);
-        //string path = Path.Combine(Application.dataPath, fileName);
-        string path = Path.Combine("D:/python_test/", fileName);   
+        string path = Path.Combine(Application.persistentDataPath, fileName);
+        //string path = Path.Combine(, fileName);   
         File.WriteAllText(path, jsonData);
+        //File.WriteAllText(Application.persistentDataPath + path, jsonData);
         Debug.Log("save complete");
     }
 
     [ContextMenu("From Json Data")]
-    public void LoadPlayerDataFromJson(string userInfo) // Json 파일을 로드하는 함수
+    public void LoadPlayerDataFromJson() // Json 파일을 로드하는 함수
     {
-        string fileName = userInfo + ".json";
+        string fileName = userInformation + ".json";
         //string path = Path.Combine(Application.dataPath + "/d:/python_test/", fileName);
         string path = Path.Combine("D:/python_test/", fileName);
         string jsonData = File.ReadAllText(path);
@@ -72,15 +78,19 @@ public class JsonManager : MonoBehaviour
         var cloud = new ES3Cloud("https://hippotnc.synology.me/ES3Cloud.php", es3APIKey);
 
         // Upload another local file, but make it global for all users.
-        yield return StartCoroutine(cloud.UploadFile(userInfomation + ".json"));
+        yield return StartCoroutine(cloud.UploadFile(userInformation + ".json"));
+        Debug.Log("userInfo : " + userInformation);     
 
         if (cloud.isError)
             Debug.LogError(cloud.error);
+        
+        else
+            Debug.Log("Uploaded");
     }
 
     private void Awake()
     {
-        // Scene 시작시 Safty 처리하는 If문 // 인스턴스는 널이 아님 -> 인스턴스가 자신(this)가 아닐때 셀프 파괴
+        // Scene 시작시 Safty 처리하는 If문 // 인스턴스는 널이 아닌 경우에 한해 -> 인스턴스가 자신(this)이 아닐때 셀프 파괴
         if (instance != null)
         {
             if (instance != this)
@@ -94,8 +104,7 @@ public class JsonManager : MonoBehaviour
 
     private void Start()
     {
-        es3APIKey = "13de814c5d55";
-        ES3Settings.pathToEasySaveFolder = "D:/python_test/";
+        es3APIKey = "13de814c5d55";        
     }    
 }
 

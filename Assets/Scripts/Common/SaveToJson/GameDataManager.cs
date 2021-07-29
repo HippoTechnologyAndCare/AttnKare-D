@@ -23,9 +23,8 @@ public class GameDataManager : MonoBehaviour
     void Start()
     {
         if (JsonManager.isFirst == true)
-        {            
-            string temp = "temp"; //temp 변수는 작업중 오류방지용 초기 입력 기능 완료되면 삭제 예정
-            JsonManager.GetInstance().LoadPlayerDataFromJson(temp);
+        {                        
+            JsonManager.GetInstance().LoadPlayerDataFromJson();
             Debug.Log("Load Data!");
         }
         else
@@ -62,7 +61,7 @@ public class GameDataManager : MonoBehaviour
 
     public void SaveCurrentData()
     {
-        int sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;
+        int sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;        
         saveCurrentSceneData(sceneIndex);
         
         JsonManager.GetInstance().Invoke("SavePlayerDataToJson", 0.1f);        

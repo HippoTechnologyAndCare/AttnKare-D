@@ -186,8 +186,10 @@ public class InputText : MonoBehaviour
 
         Collect_UserInfo();
 
-        JsonManager.GetInstance().userInfomation = userInfo;
+        JsonManager.GetInstance().userInformation = userInfo;
 
-        JsonManager.GetInstance().SavePlayerDataToJson(userInfo);
+        JsonManager.GetInstance().SavePlayerDataToJson();
+
+        JsonManager.GetInstance().StartCoroutine("UploadToCloud");
     }        
 }
