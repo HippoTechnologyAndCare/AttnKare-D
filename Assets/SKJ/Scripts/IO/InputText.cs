@@ -38,9 +38,7 @@ public class InputText : MonoBehaviour
         inputTxt_Name.onValueChanged.AddListener(
             (word) => inputTxt_Name.text = Regex.Replace(word, @"[^가-힣]", "")
             );        
-        //inputTxt_Age.OnUpdateSelected.AddListener(
-        //    (numStr) => inputTxt_Age.text = Regex.Replace(numStr, @"[^0-9]", "")
-        //    );
+        
     }
     public void InputAgeOnEnd()
     {
@@ -176,7 +174,7 @@ public class InputText : MonoBehaviour
         }
     }
 
-    public void Confirm_n_Save()
+    public void Confirm_n_DataExistenceCheck()
     {
         ExceptionHandling_Check();
 
@@ -188,8 +186,13 @@ public class InputText : MonoBehaviour
 
         JsonManager.GetInstance().userInformation = userInfo;
 
+        JsonManager.GetInstance().StartCoroutine("DownloadRoutine");        
+    }
+    
+    public void Save_n_UploadData()
+    {
         JsonManager.GetInstance().SavePlayerDataToJson();
 
-        JsonManager.GetInstance().StartCoroutine("UploadToCloud");
-    }        
+        JsonManager.GetInstance().StartCoroutine("UploadRoutine");
+    }
 }

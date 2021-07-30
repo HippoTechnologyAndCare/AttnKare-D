@@ -13,6 +13,7 @@ public class JsonManager : MonoBehaviour
     public string userInformation;
 
     private string es3APIKey;
+    private string folderPath;
 
     private static JsonManager instance; // 싱글턴 인스턴스 생성 (static + 클래스명 문법으로 생성한 변수)
         
@@ -54,8 +55,7 @@ public class JsonManager : MonoBehaviour
         }
         string fileName = userInformation + ".json";
         string jsonData = JsonConvert.SerializeObject(dataList, Formatting.Indented);
-        string path = Path.Combine(Application.persistentDataPath, fileName);
-        //string path = Path.Combine(, fileName);   
+        string path = Path.Combine(Application.persistentDataPath, fileName);           
         File.WriteAllText(path, jsonData);
         //File.WriteAllText(Application.persistentDataPath + path, jsonData);
         Debug.Log("save complete");
@@ -72,12 +72,12 @@ public class JsonManager : MonoBehaviour
         Debug.Log("load complete");
     }
 
-    public IEnumerator UploadToCloud()
+    public IEnumerator UploadRoutine()
     {
         // Create a new ES3Cloud object with the URL to our ES3.php file.
         var cloud = new ES3Cloud("https://hippotnc.synology.me/ES3Cloud.php", es3APIKey);
 
-        // Upload another local file, but make it global for all users.
+        // Upload another local file, but make it global for all users.                
         yield return StartCoroutine(cloud.UploadFile(userInformation + ".json"));
         Debug.Log("userInfo : " + userInformation);     
 
@@ -86,6 +86,27 @@ public class JsonManager : MonoBehaviour
         
         else
             Debug.Log("Uploaded");
+    }
+
+    public IEnumerator DownloadRoutine()
+    {
+        // Create a new ES3Cloud object with the URL to our ES3.php file.
+        var cloud = new ES3Cloud("https://hippotnc.synology.me/ES3Cloud.php", es3APIKey);
+
+        // Upload another local file, but make it global for all users.                
+        yield return StartCoroutine(cloud.DownloadFile(userInformation + ".json"));
+        Debug.Log("userInfo : " + userInformation);
+
+        if (cloud.isError)
+        {
+            Debug.LogError(cloud.error);
+            Debug.Log("Download Failed");
+            SavePlayerDataToJson();
+            StartCoroutine("UploadRoutine");
+        }
+
+        else
+            Debug.Log("Downloaded");
     }
 
     private void Awake()
@@ -104,7 +125,8 @@ public class JsonManager : MonoBehaviour
 
     private void Start()
     {
-        es3APIKey = "13de814c5d55";        
+        es3APIKey = "13de814c5d55";
+        //folderPath = "/json";
     }    
 }
 
