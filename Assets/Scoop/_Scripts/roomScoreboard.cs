@@ -38,7 +38,6 @@ public class roomScoreboard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        waitMessage.SetActive(false);
         // Instantiate 4 balls
         for(int i = 0; i < 4; i++)
         {
