@@ -34,6 +34,7 @@ public class roomScoreboard : MonoBehaviour
     float delayTimer;
     float startTime = 0;
     public bool endOfGame = false;
+    public bool endGame = false;
 
     // Start is called before the first frame update
     void Start()
@@ -79,7 +80,6 @@ public class roomScoreboard : MonoBehaviour
             Debug.Log("Timer Finished: " + delayTimer);
             StartCoroutine(stageClear());
         }
-
     }
 
     public void setBallsVisible(bool isVisible)
@@ -266,6 +266,37 @@ public class roomScoreboard : MonoBehaviour
             totalDrops = stageDrops;
             return;
         }
+    }
+
+    public void FreezeBalls()
+    {
+        foreach (GameObject ball in clonedBalls)
+        {
+            ball.GetComponent<Rigidbody>().useGravity = false;
+            ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        }
+    }
+
+    public void MeltBalls()
+    {
+        foreach (GameObject ball in clonedBalls)
+        {
+            ball.GetComponent<Rigidbody>().useGravity = true;
+        }
+    }
+
+    public void FinishGameManually()
+    {
+        clearTime = timer.GetComponent<Text>().text;
+        foreach (GameObject ball in clonedBalls)
+        {
+            Destroy(ball);
+        }
+        scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 횟수: " + totalDrops.ToString();
+        /*scoreBoard.text = "Finish!\n\nDrops: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime;*/
+        timer.SetActive(false);
+        endOfGame = true;
     }
 
     // When game is terminated, record data
