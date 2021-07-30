@@ -19,7 +19,7 @@ public class roomScoreboard : MonoBehaviour
     /*public TextMesh scoreBoard; // Score Text*/
     public GameObject scoreText;
     public int totalDrops = 0; // Total number of drops throughout game
-    private string clearTime = ""; // Clear Time, shown after game finishes
+    public string clearTime = ""; // Clear Time, shown after game finishes
     private int score = 0; // Game Score
     private float stageCounter = 1; // Stage number
     private int stageDrops = 0; // Number of Drops after stage is cleared, updated after each stage finishes
@@ -33,12 +33,12 @@ public class roomScoreboard : MonoBehaviour
 
     float delayTimer;
     float startTime = 0;
-    bool endOfGame = false;
+    public bool endOfGame = false;
+    public bool endGame = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        waitMessage.SetActive(false);
         // Instantiate 4 balls
         for(int i = 0; i < 4; i++)
         {
@@ -80,7 +80,6 @@ public class roomScoreboard : MonoBehaviour
             Debug.Log("Timer Finished: " + delayTimer);
             StartCoroutine(stageClear());
         }
-
     }
 
     public void setBallsVisible(bool isVisible)
@@ -267,6 +266,37 @@ public class roomScoreboard : MonoBehaviour
             totalDrops = stageDrops;
             return;
         }
+    }
+
+    public void FreezeBalls()
+    {
+        foreach (GameObject ball in clonedBalls)
+        {
+            ball.GetComponent<Rigidbody>().useGravity = false;
+            ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        }
+    }
+
+    public void MeltBalls()
+    {
+        foreach (GameObject ball in clonedBalls)
+        {
+            ball.GetComponent<Rigidbody>().useGravity = true;
+        }
+    }
+
+    public void FinishGameManually()
+    {
+        clearTime = timer.GetComponent<Text>().text;
+        foreach (GameObject ball in clonedBalls)
+        {
+            Destroy(ball);
+        }
+        scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 횟수: " + totalDrops.ToString();
+        /*scoreBoard.text = "Finish!\n\nDrops: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime;*/
+        timer.SetActive(false);
+        endOfGame = true;
     }
 
     // When game is terminated, record data
