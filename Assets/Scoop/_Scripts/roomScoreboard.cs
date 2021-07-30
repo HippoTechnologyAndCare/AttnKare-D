@@ -19,7 +19,7 @@ public class roomScoreboard : MonoBehaviour
     /*public TextMesh scoreBoard; // Score Text*/
     public GameObject scoreText;
     public int totalDrops = 0; // Total number of drops throughout game
-    private string clearTime = ""; // Clear Time, shown after game finishes
+    public string clearTime = ""; // Clear Time, shown after game finishes
     private int score = 0; // Game Score
     private float stageCounter = 1; // Stage number
     private int stageDrops = 0; // Number of Drops after stage is cleared, updated after each stage finishes
@@ -33,12 +33,11 @@ public class roomScoreboard : MonoBehaviour
 
     float delayTimer;
     float startTime = 0;
-    bool endOfGame = false;
+    public bool endOfGame = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        waitMessage.SetActive(false);
         // Instantiate 4 balls
         for(int i = 0; i < 4; i++)
         {
