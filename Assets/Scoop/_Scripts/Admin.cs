@@ -31,7 +31,7 @@ public class Admin : MonoBehaviour
             if (!paused)
             {
                 pauseMessage.SetActive(true);
-                Camera.GetComponent<Rigidbody>().Sleep();
+                /*Camera.GetComponent<Rigidbody>().Sleep();*/
                 LHand.gameObject.SetActive(false);
                 RHand.gameObject.SetActive(false);
                 Scoreboard.GetComponent<roomScoreboard>().FreezeBalls();
@@ -43,7 +43,7 @@ public class Admin : MonoBehaviour
             else
             {
                 pauseMessage.SetActive(false);
-                Camera.GetComponent<Rigidbody>().WakeUp();
+                /*Camera.GetComponent<Rigidbody>().WakeUp();*/
                 LHand.gameObject.SetActive(true);
                 RHand.gameObject.SetActive(true);
                 Scoreboard.GetComponent<roomScoreboard>().MeltBalls();
@@ -56,6 +56,8 @@ public class Admin : MonoBehaviour
         }
 
         // Move on to another scene
+
+        // End the scene manually
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Scoreboard.GetComponent<roomScoreboard>().FinishGameManually();
@@ -64,8 +66,5 @@ public class Admin : MonoBehaviour
             // Add Exit Scene Code Here
             //////////////////////////////////////////////
         }
-
-        // End the scene manually
-
     }
 }

@@ -50,30 +50,6 @@ public class roomScoreboard : MonoBehaviour
     void Update()
     {
         delayTimer += Time.deltaTime;
-        
-        //These Buttons are for manually changing number of drops in case there is an error
-        if (Input.GetKeyDown("-"))
-        {
-            Debug.Log("- Pressed");
-
-            if(totalDrops > 0)
-            {
-                totalDrops--;
-                scoreText.GetComponent<Text>().text = "Stage " + stageCounter + "\n\n남은 공: " + (clonedBalls.Count - score).ToString() + " 개\n\n떨어뜨린 횟수: " + totalDrops.ToString() + "\n\n";
-                /*scoreBoard.text = "Stage " + stageCounter + "\n\n남은 공: " + (clonedBalls.Count - score).ToString() + " 개\n\nDrops: " + totalDrops.ToString();*/
-                Debug.Log("Number of drops cannot be a negative number");
-            }
-            
-        }
-
-        if (Input.GetKeyDown("="))
-        {
-            Debug.Log("+ Pressed");
-
-            totalDrops++;
-            scoreText.GetComponent<Text>().text = "Stage " + stageCounter + "\n\n남은 공: " + (clonedBalls.Count - score).ToString() + " 개\n\n떨어뜨린 횟수: " + totalDrops.ToString() + "\n\n";
-            /*scoreBoard.text = "Stage " + stageCounter + "\n\n남은 공: " + (clonedBalls.Count - score).ToString() + " 개\n\nDrops: " + totalDrops.ToString();*/
-        }
 
         if (clonedBalls.Count == score && delayTimer - startTime > 4.8f && delayTimer - startTime < 5.2f && !endOfGame)
         {
