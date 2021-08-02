@@ -105,6 +105,11 @@ namespace BNG {
             if(!ignorePhysics && col.collider.GetComponent<Joint>()) {
                 ignorePhysics = true;
             }
+
+            // Ignore the player's capsule collider
+            if(!ignorePhysics && col.gameObject.GetComponent<CharacterController>() != null) {
+                ignorePhysics = true;
+            }
             
             if (ignorePhysics) {
                 Physics.IgnoreCollision(col.collider, GetComponent<Collider>(), true);

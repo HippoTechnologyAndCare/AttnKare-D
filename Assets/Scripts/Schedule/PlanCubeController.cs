@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using BNG;
 
 public class PlanCubeController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
+    
     public Transform GManager;
 
     public Transform HandCursor;
@@ -32,7 +34,7 @@ public class PlanCubeController : MonoBehaviour, IPointerDownHandler, IPointerUp
         {
             if (HandCursor.GetComponent<LineRenderer>().enabled == true)
             {
-                transform.position = HandCursor.GetComponent<BNG.UIPointer>()._cursor.transform.position;
+                transform.position = HandCursor.GetComponent<BNG.UIPointer>()._cursor.transform.position;                
             }
             else
             {

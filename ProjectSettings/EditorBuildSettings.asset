@@ -5,43 +5,29 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Loading.unity
-    guid: 87f79aa6ca09f482d99ccc8b5b2aaa43
-  - enabled: 0
-    path: Assets/Scenes/DoorLock(hand).unity
-    guid: 11ee5629c6853b1449ad8fc9460e571c
-  - enabled: 0
-    path: Assets/Scenes/Schedule.unity
-    guid: 0e8103557e5c0aa4e82c4d118e146df3
-  - enabled: 0
-    path: Assets/Scenes/CleanUpMyRoom_2x2.unity
-    guid: dfb8b91e94b47e84c9111188ee70b1ce
-  - enabled: 0
-    path: Assets/Scenes/PlayPaddle.unity
-    guid: ee3316f3237509549a76a05d89ba1a27
-  - enabled: 0
-    path: Assets/Scenes/BagPacking2X2.unity
-    guid: 8cb954d91fcf05846bec63cf6f9d4345
-  - enabled: 0
-    path: Assets/Scenes/VoiceRecording.unity
-    guid: 13cb11990cdc18c43948c867408d5139
-  - enabled: 0
-    path: Assets/Scenes/Tutorial.unity
-    guid: 5f0e87aa27ee06248914d464267123b3
-  - enabled: 0
-    path: Assets/Scenes/Lobby.unity
-    guid: 11184e4f1fbf94840a71dc20a5633382
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/Scoop_blender.unity
-    guid: 718f2269416ef25439ce7a4a4d4c0535
+    path: Assets/BNG Framework/Scenes/XR Demo.unity
+    guid: a1360534006d3f845bc79b46b93cfec5
+  - enabled: 1
+    path: Assets/BNG Framework/Scenes/Scene Transitioning.unity
+    guid: 9d7c9629abf9c99449e358b0938b47d0
+  - enabled: 1
+    path: Assets/BNG Framework/Scenes/Physics Hands.unity
+    guid: 34a4579517c578e4080d0a6ef2c96294
+  - enabled: 1
+    path: Assets/BNG Framework/Scenes/Rigidbody Player.unity
+    guid: 57fc97c5771a777449aa8bd02514df22
+  - enabled: 1
+    path: Assets/BNG Framework/Scenes/Vehicle Example.unity
+    guid: d96233ee44d985d4fb8dc23a907c06eb
   m_configObjects:
-    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: b3ac24369c63cb246976bcaf96adab11,
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: b38f2304a0e8f4644834aca6605240cd,
       type: 2}
-    Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: 2ec24d39f7b5ac84aad7e5df7b4fd3ea,
+    Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: 9de5ec050ac63cd48a5931b53e3496a2,
+      type: 2}
+    Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: dce37277473a2b545824e9c023497efa,
+      type: 2}
+    com.unity.input.settings: {fileID: 11400000, guid: 7c0d65f8139523c47a3ac0b1587ccdf6,
       type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 0c342c4d7c9e78d48a56e3d43aada860,
       type: 2}

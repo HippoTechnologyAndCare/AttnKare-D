@@ -34,7 +34,7 @@ public class getLTrigger : MonoBehaviour
         // Update is called once per frame
         void Update()
     {
-            LtriggerDown = XRRig.GetComponent<InputBridge>().LeftTriggerDown;
+            LtriggerDown = XRRig.GetComponent<InputBridge>().LeftTriggerNear;
             lTrigger = XRRig.GetComponent<InputBridge>().LeftTrigger;
         if(ex == true)
         {GameFlow.FsmVariables.GetFsmBool("bCount").Value = true;}

@@ -11,7 +11,6 @@ namespace BNG {
         [Tooltip("The currently held item. Set this in the editor to equip on start.")]
         public Grabbable HeldItem;
 
-
         [Header("Options")]
         /// <summary>
         /// If false, Item will Move back to inventory space if player drops it.
@@ -20,10 +19,16 @@ namespace BNG {
         public bool CanDropItem = true;
 
         /// <summary>
-        /// If false the swap zone cannot have it's content replaced.
+        /// If false the snap zone cannot have it's content replaced.
         /// </summary>
         [Tooltip("If false the snap zone cannot have it's content replaced.")]
         public bool CanSwapItem = true;
+
+        /// <summary>
+        /// If false the item inside the snap zone may not be removed
+        /// </summary>
+        [Tooltip("If false the snap zone cannot have it's content replaced.")]
+        public bool CanRemoveItem = true;
 
         /// <summary>
         /// Multiply Item Scale times this when in snap zone.
@@ -43,6 +48,12 @@ namespace BNG {
         /// </summary>
         [Tooltip("Only snap if Grabbable was dropped maximum of X seconds ago")]
         public float MaxDropTime = 0.1f;
+
+        /// <summary>
+        /// Last Time.time this item was snapped into
+        /// </summary>
+        [HideInInspector]
+        public float LastSnapTime;
 
         [Header("Filtering")]
         /// <summary>
@@ -118,8 +129,7 @@ namespace BNG {
                 }
                 else {
                     // Scale Item while inside zone.                                            
-                    float localScale = HeldItem.OriginalScale * _scaleTo;
-                    HeldItem.transform.localScale = Vector3.Lerp(HeldItem.transform.localScale, new Vector3(localScale, localScale, localScale), Time.deltaTime * 30f);
+                    HeldItem.transform.localScale = Vector3.Lerp(HeldItem.transform.localScale, HeldItem.OriginalScale * _scaleTo, Time.deltaTime * 30f);
                     
                     // Make sure this can't be grabbed from the snap zone
                     if(HeldItem.enabled || (disabledColliders != null && disabledColliders.Count > 0 && disabledColliders[0] != null && disabledColliders[0].enabled)) {
@@ -202,6 +212,8 @@ namespace BNG {
                             continue;
                         }
                     }
+
+                    
 
                     // Only valid to snap if being held or recently dropped
                     if (g.Value.BeingHeld || (Time.time - g.Value.LastDropTime < MaxDropTime)) {
@@ -287,8 +299,15 @@ namespace BNG {
             }
 
             if (SoundOnSnap) {
-                VRUtils.Instance.PlaySpatialClipAt(SoundOnSnap, transform.position, 0.75f);
+                // Only play the sound if not just starting the scene
+                if(Time.timeSinceLevelLoad > 0.1f) {
+                    VRUtils.Instance.PlaySpatialClipAt(SoundOnSnap, transform.position, 0.75f);
+                }
+
+                Debug.Log(Time.timeSinceLevelLoad);
             }
+
+            LastSnapTime = Time.time;
         }
 
         void disableGrabbable(Grabbable grab) {
@@ -304,13 +323,21 @@ namespace BNG {
             grab.enabled = false;
         }
 
+        /// <summary>
+        /// This is typically called by the GrabAction on the SnapZone
+        /// </summary>
+        /// <param name="grabber"></param>
         public void GrabEquipped(Grabber grabber) {
 
             if (grabber != null) {
                 if(HeldItem) {
 
-                    var g = HeldItem;
+                    // Not allowed to be removed
+                    if(!CanBeRemoved()) {
+                        return;
+                    }
 
+                    var g = HeldItem;
                     if(DuplicateItemOnGrab) {
 
                         ReleaseAll();
@@ -343,6 +370,20 @@ namespace BNG {
                     }
                 }
             }
+        }
+
+        public virtual bool CanBeRemoved() {
+            // Not allowed to be removed
+            if (!CanRemoveItem) {
+                return false;
+            }
+
+            // Not a valid grab if we just snapped this item in an it's a toggle type
+            if (HeldItem.Grabtype == HoldType.Toggle && (Time.time - LastSnapTime < 0.1f)) {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>

@@ -1385,8 +1385,8 @@ namespace Valve.VR
                     {
                         numActions = SteamVR_Input.actions.Length;
 
-/*                        if (showLogs)
-                            Debug.Log(string.Format("<b>[SteamVR]</b> Successfully loaded {0} actions from action manifest into SteamVR ({1})", numActions, fullPath));*////
+                        if (showLogs)
+                            Debug.Log(string.Format("<b>[SteamVR]</b> Successfully loaded {0} actions from action manifest into SteamVR ({1})", numActions, fullPath));
                     }
                     else
                     {
