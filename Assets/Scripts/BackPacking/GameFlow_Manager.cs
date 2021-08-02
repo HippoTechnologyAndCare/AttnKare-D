@@ -12,11 +12,9 @@ namespace BNG
         public GameObject XRRig;
         private PlayMakerFSM fsm;
         bool alrdyStart;
-        public bool set;
+       
         public bool strtCount;
-        public GameObject Timetable;
-        Material mat;
-        Color mat_color;
+
 
 
 
@@ -38,11 +36,9 @@ namespace BNG
         {
             LTrigger = XRRig.GetComponent<InputBridge>().LeftTrigger;
             fsm = this.gameObject.GetComponent<PlayMakerFSM>();
-            mat = Timetable.GetComponent<Renderer>().material;
-            mat_color = mat.color;
 
             TriggerCheck();
-            TimeTCheck();
+
         }
 
         void TriggerCheck() //처음 시작 321 카운트다운 트리거 누르기
@@ -82,19 +78,6 @@ namespace BNG
 
         }
 
-        public void TimeTCheck()
-        {
-
-            Color p1 = new Color(0.35f, 0.74f, 0.34f);
-            Color p2 = new Color(0.35f, 0.53f, 0.34f);
-
-            if (set)
-            {
-
-                mat_color = Color.Lerp(p1, p2, .5f);
-            }
-
-        }
        
     }
 

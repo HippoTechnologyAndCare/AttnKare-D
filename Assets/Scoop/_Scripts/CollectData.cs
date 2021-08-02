@@ -36,6 +36,7 @@ namespace BNG
             public Vector3 HeadAngle;   // Euler Angles (Contains x, y, z)
             public Vector3 LHandPosition;
             public Vector3 RHandPosition;
+
             public int LTriggerClicks = 0;
             public int RTriggerClicks = 0;
             public int LGripClicks = 0;
