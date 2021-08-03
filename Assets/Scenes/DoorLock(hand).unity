@@ -239,7 +239,12 @@ MonoBehaviour:
   LeftPointerTransform: {fileID: 0}
   RightPointerTransform: {fileID: 0}
   ControllerInput: 0f000000
-  AllowMouseInput: 1
+  UIInputAction: {fileID: 0}
+  AddPhysicsRaycaster: 0
+  PhysicsRaycasterEventMask:
+    serializedVersion: 2
+    m_Bits: 0
+  RightThumbstickScroll: 1
   PressingObject: {fileID: 0}
   DraggingObject: {fileID: 0}
   ReleasingObject: {fileID: 0}
@@ -39077,7 +39082,6 @@ MonoBehaviour:
   AttachTo: {fileID: 7679070846044756749}
   HandVelocity: 1500
   DisableHandCollidersOnGrab: 0
-  ParentToAttachPoint: 1
   SnapBackDistance: 1
   ThisGrabber: {fileID: 2992330019395815534}
   DisableGrabber: {fileID: 4915997363076756528}
@@ -39086,7 +39090,6 @@ MonoBehaviour:
   ColliderMaterial: {fileID: 13400000, guid: fe2fa158a8edeb34ab169c4d3b82b4db, type: 2}
   HandModel: {fileID: 2052015604570179510}
   HandModelOffset: {fileID: 7936891215846631887}
-  MovePosition: 1
 --- !u!1 &205809135779454432
 GameObject:
   m_ObjectHideFlags: 0
@@ -41582,14 +41585,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandAnchor: {fileID: 0}
   ResetHandAnchorPosition: 1
-  SmoothMovement: 1
   HandAnimator: {fileID: 1950417448808808247}
+  handPoser: {fileID: 0}
+  autoPoser: {fileID: 0}
+  AutoPoseWhenNoGrabbable: 0
+  HandAnimationSpeed: 20
   grabber: {fileID: 587492332597126767}
   GripAmount: 0
   PointAmount: 0
   ThumbAmount: 0
   PoseId: 0
-  HandAnimationSpeed: 20
+  PreviousHeldObject: {fileID: 0}
+  DoUpdateAnimationStates: 1
+  DoUpdateHandPoser: 1
 --- !u!136 &383808781115822288
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -42562,6 +42570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 943d174babc32b249a27918baa15e648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FollowTransform: {fileID: 0}
   Character: {fileID: 4144118093900792361}
   Offset: {x: 0, y: 0.625, z: 0.16}
   RotateSpeed: 5
@@ -42582,10 +42591,12 @@ MonoBehaviour:
   HeldItem: {fileID: 0}
   CanDropItem: 1
   CanSwapItem: 1
+  CanRemoveItem: 1
   ScaleItem: 1
   DisableColliders: 1
   DuplicateItemOnGrab: 0
   MaxDropTime: 0.1
+  LastSnapTime: 0
   OnlyAllowNames: []
   ExcludeTransformNames: []
   SoundOnSnap: {fileID: 8300000, guid: 3ceadf14726b0864fb39bb646c0f9ba0, type: 3}
@@ -43433,13 +43444,16 @@ MonoBehaviour:
   EquipGrabbableOnStart: {fileID: 0}
   HandsGraphics: {fileID: 3499017272776407011}
   HeldGrabbable: {fileID: 0}
-  LastDropTime: 0
   ForceGrab: 0
   ForceRelease: 0
+  LastDropTime: 0
   PreviousPosition: {x: 0, y: 0, z: 0}
   DummyTransform: {fileID: 0}
   FreshGrip: 1
   onGrabEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onAfterGrabEvent:
     m_PersistentCalls:
       m_Calls: []
   onReleaseEvent:
@@ -46416,10 +46430,12 @@ MonoBehaviour:
   HeldItem: {fileID: 0}
   CanDropItem: 1
   CanSwapItem: 1
+  CanRemoveItem: 1
   ScaleItem: 1
   DisableColliders: 1
   DuplicateItemOnGrab: 0
   MaxDropTime: 0.1
+  LastSnapTime: 0
   OnlyAllowNames: []
   ExcludeTransformNames:
   - Hat
@@ -48159,6 +48175,7 @@ MonoBehaviour:
   GrabMechanic: 1
   GrabSpeed: 7.5
   RemoteGrabbable: 0
+  RemoteGrabMechanic: 0
   RemoteGrabDistance: 2
   ThrowForceMultiplier: 2
   ThrowForceMultiplierAngular: 1.5
@@ -48170,11 +48187,21 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
+  MakeChildCollidersGrabbable: 0
+  handPoseType: 1
+  SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -48196,6 +48223,8 @@ MonoBehaviour:
   LocalOffsetTransform: {fileID: 0}
   GrabPoints: []
   UseCustomInspector: 1
+  lastFlickTime: 0
+  FlickForce: 1
 --- !u!1 &1160109259765730172
 GameObject:
   m_ObjectHideFlags: 0
@@ -49053,6 +49082,7 @@ MonoBehaviour:
   GrabMechanic: 1
   GrabSpeed: 7.5
   RemoteGrabbable: 0
+  RemoteGrabMechanic: 0
   RemoteGrabDistance: 2
   ThrowForceMultiplier: 2
   ThrowForceMultiplierAngular: 1.5
@@ -49064,11 +49094,21 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
+  MakeChildCollidersGrabbable: 0
+  handPoseType: 1
+  SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -49090,6 +49130,8 @@ MonoBehaviour:
   LocalOffsetTransform: {fileID: 0}
   GrabPoints: []
   UseCustomInspector: 1
+  lastFlickTime: 0
+  FlickForce: 1
 --- !u!1 &1276690180895293921
 GameObject:
   m_ObjectHideFlags: 0
@@ -51577,14 +51619,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandAnchor: {fileID: 6339257226112305341}
   ResetHandAnchorPosition: 0
-  SmoothMovement: 1
   HandAnimator: {fileID: 5985443003952140167}
+  handPoser: {fileID: 0}
+  autoPoser: {fileID: 0}
+  AutoPoseWhenNoGrabbable: 0
+  HandAnimationSpeed: 20
   grabber: {fileID: 2992330019395815534}
   GripAmount: 0
   PointAmount: 0
   ThumbAmount: 0
   PoseId: 0
-  HandAnimationSpeed: 20
+  PreviousHeldObject: {fileID: 0}
+  DoUpdateAnimationStates: 1
+  DoUpdateHandPoser: 1
 --- !u!1 &1590599575987010270
 GameObject:
   m_ObjectHideFlags: 0
@@ -52322,17 +52369,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97dc4c75aa9c7ac4496efd08a068c08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ControllerType: 0
   MovementSpeed: 1.25
+  MovementForce: 500
+  MaxHorizontalVelocity: 5
+  MaxVerticalVelocity: 10
+  StepHeight: 0.1
+  MaxSlopeAngle: 45
+  MovementMaterial: {fileID: 0}
+  FrictionMaterial: {fileID: 0}
+  MovementDrag: 1
+  StaticDrag: 5
+  AirDrag: 1
+  ForwardDirection: {fileID: 0}
+  AllowInput: 1
+  UpdateMovement: 1
   inputAxis: 01000000
+  MoveAction: {fileID: 0}
+  RequireAppFocus: 1
   SprintSpeed: 1.5
   SprintInput: 00000000
+  SprintAction: {fileID: 0}
   StrafeSpeed: 1
   StrafeSprintSpeed: 1.25
   JumpForce: 3
   JumpInput: 00000000
+  JumpAction: {fileID: 0}
   AirControl: 1
   AirControlSpeed: 1
-  AllowKeyboardInputs: 1
+  Magnitude: 0
+  GroundContacts: 0
+  SurfaceAngle: 0
+  SurfaceHeight: 0
 --- !u!114 &1662338445027636681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52347,12 +52415,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AllowInput: 0
   inputAxis: 03000000
+  RotateAction: {fileID: 0}
   RotationType: 0
   SnapRotationAmount: 45
   SnapInputAmount: 0.75
   SmoothTurnSpeed: 40
   SmoothTurnMinInput: 0.1
-  AllowKeyboardInputs: 1
 --- !u!114 &1662338445110702120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55898,18 +55966,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855d72b36bb9d904e80e3c9e587f3d8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TeleportLine: {fileID: 6339257226176605229}
   ValidTeleport: {r: 0.007843138, g: 0.83137256, b: 0.7294118, a: 1}
   InvalidTeleport: {r: 0.83137256, g: 0.007843156, b: 0.030413372, a: 1}
   HandSide: 0
   TeleportBeginTransform: {fileID: 1986989649899064761}
   TeleportBeginTransformAlt: {fileID: 2567900851936582294}
   TeleportDestination: {fileID: 6339257226078608677}
+  DestinationObject: {fileID: 0}
   TeleportMarker: {fileID: 122421566963093442}
   DirectionIndicator: {fileID: 166092330217915353}
   MaxRange: 50
   SegmentCount: 200
-  simulationVelocity: 500
-  segmentScale: 0.1
+  SimulationVelocity: 500
+  SegmentScale: 0.01
   CollisionLayers:
     serializedVersion: 2
     m_Bits: 259
@@ -55917,12 +55987,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   ControlType: 0
+  InitiateTeleportAction: {fileID: 0}
   AllowTeleportRotation: 1
   MaxSlope: 70
+  TeleportYOffset: 0
   FadeScreenOnTeleport: 1
   TeleportFadeSpeed: 10
   TeleportDelay: 0.2
-  TeleportLine: {fileID: 6339257226176605229}
+  ForceStraightArrow: 0
 --- !u!4 &2050186417837581607
 Transform:
   m_ObjectHideFlags: 0
@@ -57569,7 +57641,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d0df6a3b401c64583949696b1dba43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PhysicsCheckType: 0
+  RaycastLength: 20
+  SphereCastLength: 20
+  SphereCastRadius: 0.05
+  RemoteGrabLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   ParentGrabber: {fileID: 4775981270269125737}
+  ShowGizmos: 1
 --- !u!136 &2256999478735608883
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -60465,6 +60545,11 @@ MonoBehaviour:
   AutoUpdateUITransforms: 1
   cursor: {fileID: 2255670627275077591, guid: cda3e347c37ecf24e89b8cd380c7f9f2, type: 3}
   _cursor: {fileID: 0}
+  HidePointerIfNoObjectsFound: 1
+  FixedPointerLength: 0.5
+  CursorScaling: 1
+  CursorMinScale: 0.6
+  CursorMaxScale: 6
   LineDistanceModifier: 0.8
   lineRenderer: {fileID: 7651853297159034935}
 --- !u!114 &2634128103478671595
@@ -60480,19 +60565,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmulatorEnabled: 1
-  PlayerUp: 308
-  PlayerDown: 306
-  RightTrigger: 122
-  RightGrip: 120
-  RightThumbNear: 99
-  LeftTrigger: 118
-  LeftGrip: 98
-  LeftThumbNear: 110
-  MouseSensitivityX: 1.25
-  MouseSensitivityY: 1.25
+  EmulatorActionSet: {fileID: 0}
+  ForceStraightTeleportRotation: 1
+  AllowUpDownControls: 1
+  PlayerUpAction: {fileID: 0}
+  PlayerDownAction: {fileID: 0}
+  LockCameraAction: {fileID: 0}
+  CameraLookAction: {fileID: 0}
+  CameraLookSensitivityX: 0.1
+  CameraLookSensitivityY: 0.1
   MinimumCameraY: -90
   MaximumCameraY: 90
+  LeftGripAction: {fileID: 0}
+  LeftTriggerAction: {fileID: 0}
+  LeftThumbNearAction: {fileID: 0}
+  RightGripAction: {fileID: 0}
+  RightTriggerAction: {fileID: 0}
+  RightThumbNearAction: {fileID: 0}
   HMDIsActive: 0
+  LeftControllerPosition: {x: -0.2, y: -0.2, z: 0.5}
+  RightControllerPosition: {x: 0.2, y: -0.2, z: 0.5}
+  RequireGameFocus: 1
 --- !u!1 &2637348602977300483
 GameObject:
   m_ObjectHideFlags: 0
@@ -62711,13 +62804,16 @@ MonoBehaviour:
   EquipGrabbableOnStart: {fileID: 0}
   HandsGraphics: {fileID: 7881195500050125675}
   HeldGrabbable: {fileID: 0}
-  LastDropTime: 0
   ForceGrab: 0
   ForceRelease: 0
+  LastDropTime: 0
   PreviousPosition: {x: 0, y: 0, z: 0}
   DummyTransform: {fileID: 0}
   FreshGrip: 1
   onGrabEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onAfterGrabEvent:
     m_PersistentCalls:
       m_Calls: []
   onReleaseEvent:
@@ -65001,7 +65097,6 @@ MonoBehaviour:
   AttachTo: {fileID: 5954245278105635874}
   HandVelocity: 1500
   DisableHandCollidersOnGrab: 0
-  ParentToAttachPoint: 1
   SnapBackDistance: 1
   ThisGrabber: {fileID: 587492332597126767}
   DisableGrabber: {fileID: 5954245279761213892}
@@ -65010,7 +65105,6 @@ MonoBehaviour:
   ColliderMaterial: {fileID: 13400000, guid: fe2fa158a8edeb34ab169c4d3b82b4db, type: 2}
   HandModel: {fileID: 4435101914303312260}
   HandModelOffset: {fileID: 3699518043122938808}
-  MovePosition: 1
 --- !u!4 &3298162392229546263
 Transform:
   m_ObjectHideFlags: 0
@@ -79148,13 +79242,16 @@ MonoBehaviour:
   EquipGrabbableOnStart: {fileID: 0}
   HandsGraphics: {fileID: 7679070846044756749}
   HeldGrabbable: {fileID: 0}
-  LastDropTime: 0
   ForceGrab: 0
   ForceRelease: 0
+  LastDropTime: 0
   PreviousPosition: {x: 0, y: 0, z: 0}
   DummyTransform: {fileID: 0}
   FreshGrip: 1
   onGrabEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onAfterGrabEvent:
     m_PersistentCalls:
       m_Calls: []
   onReleaseEvent:
@@ -80027,14 +80124,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandAnchor: {fileID: 0}
   ResetHandAnchorPosition: 1
-  SmoothMovement: 1
   HandAnimator: {fileID: 7520082479198129639}
+  handPoser: {fileID: 0}
+  autoPoser: {fileID: 0}
+  AutoPoseWhenNoGrabbable: 0
+  HandAnimationSpeed: 20
   grabber: {fileID: 2992330019395815534}
   GripAmount: 0
   PointAmount: 0
   ThumbAmount: 0
   PoseId: 0
-  HandAnimationSpeed: 20
+  PreviousHeldObject: {fileID: 0}
+  DoUpdateAnimationStates: 1
+  DoUpdateHandPoser: 1
 --- !u!136 &5031658173790245998
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -83723,7 +83825,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d0df6a3b401c64583949696b1dba43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PhysicsCheckType: 0
+  RaycastLength: 20
+  SphereCastLength: 20
+  SphereCastRadius: 0.05
+  RemoteGrabLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   ParentGrabber: {fileID: 1488907317891225282}
+  ShowGizmos: 1
 --- !u!4 &5501707752385347665
 Transform:
   m_ObjectHideFlags: 0
@@ -84094,6 +84204,7 @@ MonoBehaviour:
   GrabMechanic: 1
   GrabSpeed: 7.5
   RemoteGrabbable: 0
+  RemoteGrabMechanic: 0
   RemoteGrabDistance: 2
   ThrowForceMultiplier: 2
   ThrowForceMultiplierAngular: 1.5
@@ -84105,11 +84216,21 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
+  MakeChildCollidersGrabbable: 0
+  handPoseType: 1
+  SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -84131,6 +84252,8 @@ MonoBehaviour:
   LocalOffsetTransform: {fileID: 0}
   GrabPoints: []
   UseCustomInspector: 1
+  lastFlickTime: 0
+  FlickForce: 1
 --- !u!4 &5546077931195814484
 Transform:
   m_ObjectHideFlags: 0
@@ -86218,21 +86341,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4688ae0e7d3f7c7498dd85852dfd2622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedLocomotion: 2
   MoveCharacterWithCamera: 1
   RotateCharacterWithCamera: 1
   TrackingSpace: {fileID: 122421566001785492}
   CameraRig: {fileID: 122421566001855726}
   CenterEyeAnchor: {fileID: 122421566001855722}
-  CheckForMovingPlatforms: 1
   GroundedLayers:
     serializedVersion: 2
     m_Bits: 1281
   DistanceFromGround: 0
+  DistanceFromGroundOffset: 0
+  CapsuleCenter: -0.25
   MinimumCapsuleHeight: 0.4
   MaximumCapsuleHeight: 3
-  ClimbingCapsuleHeight: 0.5
-  ClimbingCapsuleCenter: -0.25
   LastTeleportTime: 0
   CharacterControllerYOffset: -0.025
   CameraHeight: 0
@@ -86240,8 +86361,8 @@ MonoBehaviour:
   ElevateCameraHeight: 1.65
   MinElevation: -100
   MaxElevation: 5000
-  GrippingClimbable: 0
   LastPlayerMoveTime: 0
+  SphereColliderRadius: 0.08
 --- !u!136 &5785600346402974029
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -87887,7 +88008,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d0df6a3b401c64583949696b1dba43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PhysicsCheckType: 0
+  RaycastLength: 20
+  SphereCastLength: 20
+  SphereCastRadius: 0.05
+  RemoteGrabLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   ParentGrabber: {fileID: 5954245279761213894}
+  ShowGizmos: 1
 --- !u!136 &5954245278376786741
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -88038,13 +88167,16 @@ MonoBehaviour:
   EquipGrabbableOnStart: {fileID: 0}
   HandsGraphics: {fileID: 5954245278105635874}
   HeldGrabbable: {fileID: 0}
-  LastDropTime: 0
   ForceGrab: 0
   ForceRelease: 0
+  LastDropTime: 0
   PreviousPosition: {x: 0, y: 0, z: 0}
   DummyTransform: {fileID: 0}
   FreshGrip: 1
   onGrabEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onAfterGrabEvent:
     m_PersistentCalls:
       m_Calls: []
   onReleaseEvent:
@@ -89142,6 +89274,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlowTimeScale: 0.25
   YKeySlowsTime: 1
+  SlowTimeAction: {fileID: 0}
   SlowTimeClip: {fileID: 8300000, guid: 3264b135b94635f42a09d672b19cae85, type: 3}
   SpeedupTimeClip: {fileID: 8300000, guid: 8a4a5bd0b5270024ca91ab9d88bce279, type: 3}
   SetFixedDelta: 0
@@ -91311,14 +91444,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandAnchor: {fileID: 124988714727628130}
   ResetHandAnchorPosition: 1
-  SmoothMovement: 1
   HandAnimator: {fileID: 0}
+  handPoser: {fileID: 0}
+  autoPoser: {fileID: 0}
+  AutoPoseWhenNoGrabbable: 0
+  HandAnimationSpeed: 20
   grabber: {fileID: 0}
   GripAmount: 0
   PointAmount: 0
   ThumbAmount: 0
   PoseId: 0
-  HandAnimationSpeed: 20
+  PreviousHeldObject: {fileID: 0}
+  DoUpdateAnimationStates: 1
+  DoUpdateHandPoser: 1
 --- !u!1 &6339257226176605227
 GameObject:
   m_ObjectHideFlags: 0
@@ -91509,14 +91647,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandAnchor: {fileID: 125273048915768108}
   ResetHandAnchorPosition: 1
-  SmoothMovement: 1
   HandAnimator: {fileID: 0}
+  handPoser: {fileID: 0}
+  autoPoser: {fileID: 0}
+  AutoPoseWhenNoGrabbable: 0
+  HandAnimationSpeed: 20
   grabber: {fileID: 0}
   GripAmount: 0
   PointAmount: 0
   ThumbAmount: 0
   PoseId: 0
-  HandAnimationSpeed: 20
+  PreviousHeldObject: {fileID: 0}
+  DoUpdateAnimationStates: 1
+  DoUpdateHandPoser: 1
 --- !u!114 &6339257227193634340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91530,7 +91673,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InputSource: 0
+  actionSet: {fileID: -944628639613478452, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
   TrackingOrigin: 2
+  ThumbstickDeadzoneX: 0.001
+  ThumbstickDeadzoneY: 0.001
   LeftGrip: 0
   LeftGripDown: 0
   RightGrip: 0
@@ -91571,13 +91718,12 @@ MonoBehaviour:
   RightThumbstickAxis: {x: 0, y: 0}
   LeftTouchPadAxis: {x: 0, y: 0}
   RightTouchPadAxis: {x: 0, y: 0}
-  ThumbstickDeadzoneX: 0.001
-  ThumbstickDeadzoneY: 0.001
   ConnectedControllerType: 0
   HMDActive: 0
   SupportsBothTouchPadAndJoystick: 0
   SupportsIndexTouch: 0
   SupportsThumbTouch: 0
+  ShowInputDebugger: 0
 --- !u!114 &6339257227193634345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91853,6 +91999,7 @@ MonoBehaviour:
   GrabMechanic: 1
   GrabSpeed: 7.5
   RemoteGrabbable: 0
+  RemoteGrabMechanic: 0
   RemoteGrabDistance: 2
   ThrowForceMultiplier: 2
   ThrowForceMultiplierAngular: 1.5
@@ -91864,11 +92011,21 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
+  MakeChildCollidersGrabbable: 0
+  handPoseType: 1
+  SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -91890,6 +92047,8 @@ MonoBehaviour:
   LocalOffsetTransform: {fileID: 0}
   GrabPoints: []
   UseCustomInspector: 1
+  lastFlickTime: 0
+  FlickForce: 1
 --- !u!4 &6372151718841510300
 Transform:
   m_ObjectHideFlags: 0
@@ -92223,10 +92382,12 @@ MonoBehaviour:
   HeldItem: {fileID: 0}
   CanDropItem: 1
   CanSwapItem: 1
+  CanRemoveItem: 1
   ScaleItem: 1
   DisableColliders: 1
   DuplicateItemOnGrab: 0
   MaxDropTime: 0.1
+  LastSnapTime: 0
   OnlyAllowNames: []
   ExcludeTransformNames: []
   SoundOnSnap: {fileID: 8300000, guid: 3ceadf14726b0864fb39bb646c0f9ba0, type: 3}
@@ -99955,6 +100116,9 @@ MonoBehaviour:
     type: 3}
   RifleClip: {fileID: 3393538753761876036, guid: 0116c3965a703db4cb19d8b573a7531b,
     type: 3}
+  CurrentPistolClips: 5
+  CurrentRifleClips: 5
+  CurrentShotgunShells: 30
 --- !u!4 &7378436106226712145
 Transform:
   m_ObjectHideFlags: 0
@@ -102205,6 +102369,7 @@ MonoBehaviour:
   GrabMechanic: 1
   GrabSpeed: 7.5
   RemoteGrabbable: 0
+  RemoteGrabMechanic: 0
   RemoteGrabDistance: 2
   ThrowForceMultiplier: 2
   ThrowForceMultiplierAngular: 1.5
@@ -102216,11 +102381,21 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
+  MakeChildCollidersGrabbable: 0
+  handPoseType: 1
+  SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -102242,6 +102417,8 @@ MonoBehaviour:
   LocalOffsetTransform: {fileID: 0}
   GrabPoints: []
   UseCustomInspector: 1
+  lastFlickTime: 0
+  FlickForce: 1
 --- !u!114 &7679070845048907013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102272,10 +102449,12 @@ MonoBehaviour:
   HeldItem: {fileID: 0}
   CanDropItem: 1
   CanSwapItem: 1
+  CanRemoveItem: 1
   ScaleItem: 1
   DisableColliders: 1
   DuplicateItemOnGrab: 0
   MaxDropTime: 0.1
+  LastSnapTime: 0
   OnlyAllowNames:
   - Hat
   ExcludeTransformNames: []
@@ -102376,7 +102555,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d0df6a3b401c64583949696b1dba43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PhysicsCheckType: 0
+  RaycastLength: 20
+  SphereCastLength: 20
+  SphereCastRadius: 0.05
+  RemoteGrabLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   ParentGrabber: {fileID: 4915997363076756489}
+  ShowGizmos: 1
 --- !u!136 &7679070845242125340
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -106679,6 +106866,7 @@ MonoBehaviour:
   GrabMechanic: 1
   GrabSpeed: 7.5
   RemoteGrabbable: 0
+  RemoteGrabMechanic: 0
   RemoteGrabDistance: 2
   ThrowForceMultiplier: 2
   ThrowForceMultiplierAngular: 1.5
@@ -106690,11 +106878,21 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
+  MakeChildCollidersGrabbable: 0
+  handPoseType: 1
+  SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -106716,6 +106914,8 @@ MonoBehaviour:
   LocalOffsetTransform: {fileID: 0}
   GrabPoints: []
   UseCustomInspector: 1
+  lastFlickTime: 0
+  FlickForce: 1
 --- !u!4 &8060412968720339956
 Transform:
   m_ObjectHideFlags: 0
@@ -106988,6 +107188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 943d174babc32b249a27918baa15e648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FollowTransform: {fileID: 0}
   Character: {fileID: 4144118093900792361}
   Offset: {x: 0, y: 0.44, z: 0.16}
   RotateSpeed: 5
@@ -107223,7 +107424,7 @@ MonoBehaviour:
   DefaultLocomotion: 1
   LoadLocomotionFromPrefs: 0
   locomotionToggleInput: 00000000
-  LeftThumbstickToggleLocomotionOculus: 1
+  LocomotionToggleAction: {fileID: 0}
 --- !u!1 &8116959640625242104
 GameObject:
   m_ObjectHideFlags: 0
@@ -111622,7 +111823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DefaultHandsModel: 5
   LoadHandSelectionFromPrefs: 1
-  RightThumbstickToggleHands: 1
+  ToggleHandsInput: 20
   LeftHandGFXHolder: {fileID: 7679070846044756749}
   RightHandGFXHolder: {fileID: 5954245278105635874}
   IKBody: {fileID: 9055390960783241463}
@@ -113691,14 +113892,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandAnchor: {fileID: 6339257226215212254}
   ResetHandAnchorPosition: 0
-  SmoothMovement: 1
   HandAnimator: {fileID: 5926124577257392163}
+  handPoser: {fileID: 0}
+  autoPoser: {fileID: 0}
+  AutoPoseWhenNoGrabbable: 0
+  HandAnimationSpeed: 20
   grabber: {fileID: 587492332597126767}
   GripAmount: 0
   PointAmount: 0
   ThumbAmount: 0
   PoseId: 0
-  HandAnimationSpeed: 20
+  PreviousHeldObject: {fileID: 0}
+  DoUpdateAnimationStates: 1
+  DoUpdateHandPoser: 1
 --- !u!4 &8793440182567592535
 Transform:
   m_ObjectHideFlags: 0
@@ -114026,10 +114232,12 @@ MonoBehaviour:
   HeldItem: {fileID: 0}
   CanDropItem: 1
   CanSwapItem: 1
+  CanRemoveItem: 1
   ScaleItem: 1
   DisableColliders: 1
   DuplicateItemOnGrab: 0
   MaxDropTime: 0.1
+  LastSnapTime: 0
   OnlyAllowNames: []
   ExcludeTransformNames:
   - Hat
