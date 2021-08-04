@@ -131,7 +131,7 @@ public class Scoreboard : MonoBehaviour
     public void createBall()
     {
         Transform dummy = Instantiate(clone, gameObject.transform);
-        dummy.localPosition = new Vector3(UnityEngine.Random.Range(-22.65f, -13.5f), -18.5f, UnityEngine.Random.Range(-55.4f, -45.7f));
+        dummy.localPosition = new Vector3(UnityEngine.Random.Range(-25f, -13.1f), -23.1f, UnityEngine.Random.Range(-56.5f, -44.5f));
         dummy.gameObject.name = (clonedBalls.Count + 1).ToString();
         clonedBalls.Add(dummy.gameObject);
     }
@@ -199,7 +199,7 @@ public class Scoreboard : MonoBehaviour
 
                 foreach (GameObject ball in clonedBalls)
                 {
-                    ball.transform.localPosition = new Vector3(UnityEngine.Random.Range(-22.65f, -13.5f), -18.5f, UnityEngine.Random.Range(-55.4f, -45.7f));
+                    ball.transform.localPosition = new Vector3(UnityEngine.Random.Range(-25f, -13.1f), -23.1f, UnityEngine.Random.Range(-56.5f, -44.5f));
                 }
             }
 
@@ -228,7 +228,7 @@ public class Scoreboard : MonoBehaviour
 
         foreach (GameObject ball in clonedBalls)
         {
-            ball.transform.localPosition = new Vector3(UnityEngine.Random.Range(-22.65f, -13.5f), -18.5f, UnityEngine.Random.Range(-55.4f, -45.7f));
+            ball.transform.localPosition = new Vector3(UnityEngine.Random.Range(-25f, -13.1f), -23.1f, UnityEngine.Random.Range(-56.5f, -44.5f));
         }
 
         if (totalDrops == stageDrops)

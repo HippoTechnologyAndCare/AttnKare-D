@@ -14,7 +14,7 @@ namespace BNG
         [SerializeField] [Tooltip("RightControllerAnchor goes here")] Transform RHand;
         // Other fields needed for each scene should be added here
         [SerializeField] GameObject Scoreboard;
-
+        
         private Stats database; // All data is stored in this object
         private InputBridge _inputBridge; // XR Rig Input Bridge (C# Script)
 

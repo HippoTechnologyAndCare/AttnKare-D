@@ -25,7 +25,6 @@ public class Admin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         // Pause the game manually
         if (Input.GetKeyDown("space"))
         {
