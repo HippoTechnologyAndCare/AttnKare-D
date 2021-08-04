@@ -78,7 +78,7 @@ public class JsonManager : MonoBehaviour
     public IEnumerator UploadRoutine()
     {
         // Create a new ES3Cloud object with the URL to our ES3.php file.
-        var cloud = new ES3Cloud("https://hippotnc.synology.me/ES3Cloud.php", es3APIKey);
+        var cloud = new ES3Cloud("https://hippotnc.synology.me:6001/ES3Cloud.php", es3APIKey);
 
         // Upload another local file, but make it global for all users.                
         yield return StartCoroutine(cloud.UploadFile(userInformation + ".json"));
@@ -98,7 +98,7 @@ public class JsonManager : MonoBehaviour
     public IEnumerator DownloadRoutine()
     {
         // Create a new ES3Cloud object with the URL to our ES3.php file.
-        var cloud = new ES3Cloud("https://hippotnc.synology.me/ES3Cloud.php", es3APIKey);
+        var cloud = new ES3Cloud("https://hippotnc.synology.me:6001/ES3Cloud.php", es3APIKey);
 
         // Upload another local file, but make it global for all users.                
         yield return StartCoroutine(cloud.DownloadFile(userInformation + ".json"));
