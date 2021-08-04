@@ -14,73 +14,44 @@ public class Scoreboard : MonoBehaviour
     [Tooltip("Successfully moved balls")]
     // List of balls that are successfully moved
     public List<string> successBalls = new List<string>();
-    
+
     [Header("Score Board")]
     /*public TextMesh scoreBoard; // Score Text*/
     public GameObject scoreText;
     public int totalDrops = 0; // Total number of drops throughout game
-    private string clearTime = ""; // Clear Time, shown after game finishes
+    public string clearTime = ""; // Clear Time, shown after game finishes
     private int score = 0; // Game Score
     private float stageCounter = 1; // Stage number
     private int stageDrops = 0; // Number of Drops after stage is cleared, updated after each stage finishes
-    
+
     [Header("Prefabs and Objects")]
     public Transform clone; // Ball prefab
     public GameObject timer; // Timer Text
     public GameObject waitMessage;
 
-    private Coroutine waitRoutine;
-
     float delayTimer;
     float startTime = 0;
-    bool endOfGame = false;
+    public bool endOfGame = false;
+    public bool endGame = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        waitMessage.SetActive(false);
-        // Instantiate 3 balls
-        for(int i = 0; i < 4; i++)
-        {
-            createBall();
-        }
+        // Instantiate 1 ball
+        createBall();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         delayTimer += Time.deltaTime;
-        
-        //These Buttons are for manually changing number of drops in case there is an error
-        if (Input.GetKeyDown("-"))
-        {
-            Debug.Log("- Pressed");
-
-            if(totalDrops > 0)
-            {
-                totalDrops--;
-                scoreText.GetComponent<Text>().text = "Stage " + stageCounter + "\n\n남은 공: " + (clonedBalls.Count - score).ToString() + " 개\n\n떨어뜨린 횟수: " + totalDrops.ToString() + "\n\n";
-                /*scoreBoard.text = "Stage " + stageCounter + "\n\n남은 공: " + (clonedBalls.Count - score).ToString() + " 개\n\nDrops: " + totalDrops.ToString();*/
-                Debug.Log("Number of drops cannot be a negative number");
-            }
-            
-        }
-
-        if (Input.GetKeyDown("="))
-        {
-            Debug.Log("+ Pressed");
-
-            totalDrops++;
-            scoreText.GetComponent<Text>().text = "Stage " + stageCounter + "\n\n남은 공: " + (clonedBalls.Count - score).ToString() + " 개\n\n떨어뜨린 횟수: " + totalDrops.ToString() + "\n\n";
-            /*scoreBoard.text = "Stage " + stageCounter + "\n\n남은 공: " + (clonedBalls.Count - score).ToString() + " 개\n\nDrops: " + totalDrops.ToString();*/
-        }
 
         if (clonedBalls.Count == score && delayTimer - startTime > 4.8f && delayTimer - startTime < 5.2f && !endOfGame)
         {
             Debug.Log("Timer Finished: " + delayTimer);
             StartCoroutine(stageClear());
         }
-
     }
 
     public void setBallsVisible(bool isVisible)
@@ -100,8 +71,6 @@ public class Scoreboard : MonoBehaviour
             ball.GetComponent<Ball>().ScoreCheck = false;
             /*ball.GetComponentInChildren<Ball>().dropCount = 0;*/
         }
-        createBall();
-        createBall();
         createBall();
         successBalls.Clear();
         score = 0;
@@ -132,7 +101,7 @@ public class Scoreboard : MonoBehaviour
             {
                 StartCoroutine(stageClear());
             }*/
-            
+
         }
         else
         {
@@ -162,7 +131,7 @@ public class Scoreboard : MonoBehaviour
     public void createBall()
     {
         Transform dummy = Instantiate(clone, gameObject.transform);
-        dummy.localPosition = new Vector3(UnityEngine.Random.Range(-23.5f, -14.6f), -20f, UnityEngine.Random.Range(-40f, -30.5f));
+        dummy.localPosition = new Vector3(UnityEngine.Random.Range(-22.65f, -13.5f), -18.5f, UnityEngine.Random.Range(-55.4f, -45.7f));
         dummy.gameObject.name = (clonedBalls.Count + 1).ToString();
         clonedBalls.Add(dummy.gameObject);
     }
@@ -184,7 +153,7 @@ public class Scoreboard : MonoBehaviour
     IEnumerator stageClear()
     {
         stageDrops = totalDrops;
-        
+
         // Wait 5 seconds after successfully moving all balls
         /*yield return StartCoroutine(Wait5());*/
 
@@ -193,9 +162,9 @@ public class Scoreboard : MonoBehaviour
         {
             yield break;
         }*/
-        
+
         // If score is 10, end game
-        if (score == 10)
+        if (score == 5)
         {
             clearTime = timer.GetComponent<Text>().text;
             foreach (GameObject ball in clonedBalls)
@@ -230,7 +199,7 @@ public class Scoreboard : MonoBehaviour
 
                 foreach (GameObject ball in clonedBalls)
                 {
-                    ball.transform.localPosition = new Vector3(UnityEngine.Random.Range(-23.5f, -14.6f), -20f, UnityEngine.Random.Range(-40f, -30.5f));
+                    ball.transform.localPosition = new Vector3(UnityEngine.Random.Range(-22.65f, -13.5f), -18.5f, UnityEngine.Random.Range(-55.4f, -45.7f));
                 }
             }
 
@@ -257,22 +226,53 @@ public class Scoreboard : MonoBehaviour
 
         totalDrops = stageDrops;
 
-        foreach(GameObject ball in clonedBalls)
+        foreach (GameObject ball in clonedBalls)
         {
-            ball.transform.localPosition = new Vector3(UnityEngine.Random.Range(-23.5f, -14.6f), -20f, UnityEngine.Random.Range(-40f, -30.5f));
+            ball.transform.localPosition = new Vector3(UnityEngine.Random.Range(-22.65f, -13.5f), -18.5f, UnityEngine.Random.Range(-55.4f, -45.7f));
         }
 
-        if(totalDrops == stageDrops)
+        if (totalDrops == stageDrops)
         {
             totalDrops = stageDrops;
             return;
         }
     }
 
+    public void FreezeBalls()
+    {
+        foreach (GameObject ball in clonedBalls)
+        {
+            ball.GetComponent<Rigidbody>().useGravity = false;
+            ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        }
+    }
+
+    public void MeltBalls()
+    {
+        foreach (GameObject ball in clonedBalls)
+        {
+            ball.GetComponent<Rigidbody>().useGravity = true;
+        }
+    }
+
+    public void FinishGameManually()
+    {
+        clearTime = timer.GetComponent<Text>().text;
+        foreach (GameObject ball in clonedBalls)
+        {
+            Destroy(ball);
+        }
+        scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 횟수: " + totalDrops.ToString();
+        /*scoreBoard.text = "Finish!\n\nDrops: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime;*/
+        timer.SetActive(false);
+        endOfGame = true;
+    }
+
     // When game is terminated, record data
     private void OnDestroy()
     {
-        if(clearTime != "")
+        if (clearTime != "")
         {
             GetComponent<SaveScoopData>().SaveTempSceneData("Drops: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime);
         }
@@ -280,6 +280,6 @@ public class Scoreboard : MonoBehaviour
         {
             GetComponent<SaveScoopData>().SaveTempSceneData("Drops: " + totalDrops.ToString() + "\n\nTerminated(Stage " + stageCounter + ")");
         }
-        
+
     }
 }
