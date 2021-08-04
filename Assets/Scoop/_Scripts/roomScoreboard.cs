@@ -29,8 +29,6 @@ public class roomScoreboard : MonoBehaviour
     public GameObject timer; // Timer Text
     public GameObject waitMessage;
 
-    private Coroutine waitRoutine;
-
     float delayTimer;
     float startTime = 0;
     public bool endOfGame = false;
@@ -39,8 +37,8 @@ public class roomScoreboard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Instantiate 4 balls
-        for(int i = 0; i < 4; i++)
+        // Instantiate 3 balls
+        for(int i = 0; i < 3; i++)
         {
             createBall();
         }
@@ -75,8 +73,6 @@ public class roomScoreboard : MonoBehaviour
             ball.GetComponent<roomBall>().ScoreCheck = false;
             /*ball.GetComponentInChildren<Ball>().dropCount = 0;*/
         }
-        createBall();
-        createBall();
         createBall();
         successBalls.Clear();
         score = 0;
@@ -137,7 +133,7 @@ public class roomScoreboard : MonoBehaviour
     public void createBall()
     {
         Transform dummy = Instantiate(clone, gameObject.transform);
-        dummy.localPosition = new Vector3(UnityEngine.Random.Range(-22.65f, -13.5f), -18.5f, UnityEngine.Random.Range(-55.4f, -45.7f));
+        dummy.localPosition = new Vector3(UnityEngine.Random.Range(-25f, -13.3f), -23.1f, UnityEngine.Random.Range(-56.7f, -44.5f));
         dummy.gameObject.name = (clonedBalls.Count + 1).ToString();
         clonedBalls.Add(dummy.gameObject);
     }
@@ -170,7 +166,7 @@ public class roomScoreboard : MonoBehaviour
         }*/
         
         // If score is 10, end game
-        if (score == 10)
+        if (score == 5)
         {
             clearTime = timer.GetComponent<Text>().text;
             foreach (GameObject ball in clonedBalls)
@@ -205,7 +201,7 @@ public class roomScoreboard : MonoBehaviour
 
                 foreach (GameObject ball in clonedBalls)
                 {
-                    ball.transform.localPosition = new Vector3(UnityEngine.Random.Range(-22.65f, -13.5f), -18.5f, UnityEngine.Random.Range(-55.4f, -45.7f));
+                    ball.transform.localPosition = new Vector3(UnityEngine.Random.Range(-25f, -13.3f), -23.1f, UnityEngine.Random.Range(-56.7f, -44.5f));
                 }
             }
 
@@ -234,7 +230,7 @@ public class roomScoreboard : MonoBehaviour
 
         foreach(GameObject ball in clonedBalls)
         {
-            ball.transform.localPosition = new Vector3(UnityEngine.Random.Range(-22.65f, -13.5f), -18.5f, UnityEngine.Random.Range(-55.4f, -45.7f));
+            ball.transform.localPosition = new Vector3(UnityEngine.Random.Range(-25f, -13.3f), -23.1f, UnityEngine.Random.Range(-56.7f, -44.5f));
         }
 
         if(totalDrops == stageDrops)

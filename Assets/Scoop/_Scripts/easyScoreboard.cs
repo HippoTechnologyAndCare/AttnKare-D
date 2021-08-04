@@ -161,7 +161,7 @@ public class easyScoreboard : MonoBehaviour
     public void createBall()
     {
         Transform dummy = Instantiate(clone, gameObject.transform);
-        dummy.localPosition = new Vector3(UnityEngine.Random.Range(-23.5f, -14.6f), -20f, UnityEngine.Random.Range(-40f, -30.5f));
+        dummy.localPosition = new Vector3(UnityEngine.Random.Range(-23.5f, -14.6f), -23.1f, UnityEngine.Random.Range(-40f, -30.5f));
         dummy.gameObject.name = (clonedBalls.Count + 1).ToString();
         clonedBalls.Add(dummy.gameObject);
     }
@@ -229,7 +229,7 @@ public class easyScoreboard : MonoBehaviour
 
                 foreach (GameObject ball in clonedBalls)
                 {
-                    ball.transform.localPosition = new Vector3(UnityEngine.Random.Range(-23.5f, -14.6f), -20f, UnityEngine.Random.Range(-40f, -30.5f));
+                    ball.transform.localPosition = new Vector3(UnityEngine.Random.Range(-23.5f, -14.6f), -23.1f, UnityEngine.Random.Range(-40f, -30.5f));
                 }
             }
 
@@ -258,7 +258,7 @@ public class easyScoreboard : MonoBehaviour
 
         foreach(GameObject ball in clonedBalls)
         {
-            ball.transform.localPosition = new Vector3(UnityEngine.Random.Range(-23.5f, -14.6f), -20f, UnityEngine.Random.Range(-40f, -30.5f));
+            ball.transform.localPosition = new Vector3(UnityEngine.Random.Range(-23.5f, -14.6f), -23.1f, UnityEngine.Random.Range(-40f, -30.5f));
         }
 
         if(totalDrops == stageDrops)
