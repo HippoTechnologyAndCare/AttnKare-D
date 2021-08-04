@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
+using HutongGames.PlayMaker;
 
 public class InputText : MonoBehaviour
 {
@@ -20,12 +21,15 @@ public class InputText : MonoBehaviour
     [SerializeField] private Toggle gradeTg_L;
     [SerializeField] private Toggle gradeTg_H;
 
+    [SerializeField] private PlayMakerFSM warningFSM;    
+
     private int currentAge;
     private int minAge;
     private int maxAge;
     private string userInfo;
     private string u_Gender;
     private string u_Grade;
+    private bool isProb;
 
     private void Start()
     {
@@ -40,6 +44,20 @@ public class InputText : MonoBehaviour
             );        
         
     }
+
+    private void Update()
+    {
+        //다운로드 시도 실패를 감지하면 업로드 함수 실행
+        if (JsonManager.GetInstance().isError_DN)
+        {
+            Debug.Log("isErrorDN는 참");
+            JsonManager.GetInstance().isError_DN = false;
+            JsonManager.GetInstance().StartCoroutine("UploadRoutine");
+            
+
+        }
+    }
+
     public void InputAgeOnEnd()
     {
         string str = inputTxt_Age.GetComponent<InputField>().text;
@@ -68,28 +86,7 @@ public class InputText : MonoBehaviour
             }
         }
     }
-
-    //public void InputFonOnValueChanged()
-    //{
-    //    if (inputTxt_Fon.GetComponent<InputField>().text == "")
-    //        return;
-
-    //    string str = inputTxt_Fon.GetComponent<InputField>().text;
-
-    //    int result = 0;
-    //    for (int i = 0; i < str.Length; i++)
-    //    {
-    //        if (!(int.TryParse(str, out result)))
-    //        {
-    //            inputTxt_Fon.GetComponent<InputField>().text = "";
-    //            return;
-    //        }
-    //    }
-    //}
-    private void Update()
-    {        
-
-    }
+    
 
     private string Collect_UserInfo()
     {
@@ -137,62 +134,89 @@ public class InputText : MonoBehaviour
         }
     }
 
-    private void ExceptionHandling_Check()
+    private bool ExceptionHandling_Check()
     {
         string u_N = txt_Name.text;
         string u_A = txt_Age.text;
-        string u_P = txt_Fon.text;
+        string u_P = txt_Fon.text;        
 
         // 각 InputField에 미입력이 있는지 검사
-        if (u_N == "" | u_A == "")
+        if (u_N == "" || u_A == "" || u_P == "")
         {
             if (u_N == "")
             {
+                SendEvent("PL Input Name");
                 Debug.Log("이름을 입력하세요!");
             }
 
             if (u_A == "")
             {
+                SendEvent("PL Input Age");
                 Debug.Log("나이를 입력하세요!");
             }
 
             if (u_P == "")
             {
-                Debug.Log("전화번호를 입력하세요!");
+                SendEvent("PL Input Pon");
+                Debug.Log("전화번호를 입력하세요!");                
             }
+            isProb = true;
         }
 
         // 나이 입력을 올바르게 했는지 검사
-        if (u_A != "")
-        {
-            AgeToInt(u_A);
+        //if (u_A != "")
+        //{
+        //    AgeToInt(u_A);
 
-            if (currentAge < minAge || currentAge > maxAge)
-            {
-                Debug.Log("나이를 다시 입력하세요!(1~99)");
-            }
-        }
+        //    if (currentAge < minAge || currentAge > maxAge)
+        //    {
+        //        //SendEvent();
+        //        Debug.Log("나이를 다시 입력하세요!(1~99)");
+        //        isProb = true;
+        //    }            
+        //}
+        return isProb;
     }
 
     public void Confirm_n_DataExistenceCheck()
     {
+        SendEvent("TurnOff Messages");
+
         ExceptionHandling_Check();
 
-        Check_Gender();
+        if (!isProb)
+        {
+            Check_Gender();
 
-        Check_Grade();
+            Check_Grade();
 
-        Collect_UserInfo();
+            Collect_UserInfo();
 
-        JsonManager.GetInstance().userInformation = userInfo;
+            JsonManager.GetInstance().userInformation = userInfo;
+            JsonManager.GetInstance().userGrade = u_Grade;
+           
+            JsonManager.GetInstance().SavePlayerDataToJson();
+            JsonManager.GetInstance().StartCoroutine("DownloadRoutine");                                   
+        }        
 
-        JsonManager.GetInstance().StartCoroutine("DownloadRoutine");        
+        Reset_BoolData();
+    }    
+
+    private void UploadData()
+    {
+        JsonManager.GetInstance().StartCoroutine("UploadRoutine");
+    }
+
+    private void Reset_BoolData()
+    {
+        isProb = false;
+        JsonManager.GetInstance().isError_DN = false;
+        JsonManager.GetInstance().isError_UP = false;
     }
     
-    public void Save_n_UploadData()
-    {
-        JsonManager.GetInstance().SavePlayerDataToJson();
 
-        JsonManager.GetInstance().StartCoroutine("UploadRoutine");
+    private void SendEvent(string eventName)
+    {        
+        warningFSM.SendEvent(eventName);
     }
 }

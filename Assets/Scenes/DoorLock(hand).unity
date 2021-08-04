@@ -60565,8 +60565,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmulatorEnabled: 1
-  EmulatorActionSet: {fileID: 0}
-  ForceStraightTeleportRotation: 1
+  EmulatorActionSet: {fileID: -944628639613478452, guid: 27bafa1c7d8a77b47985ab70c0511986,
+    type: 3}
+  ForceStraightTeleportRotation: 0
   AllowUpDownControls: 1
   PlayerUpAction: {fileID: 0}
   PlayerDownAction: {fileID: 0}
@@ -60582,7 +60583,7 @@ MonoBehaviour:
   RightGripAction: {fileID: 0}
   RightTriggerAction: {fileID: 0}
   RightThumbNearAction: {fileID: 0}
-  HMDIsActive: 0
+  HMDIsActive: 1
   LeftControllerPosition: {x: -0.2, y: -0.2, z: 0.5}
   RightControllerPosition: {x: 0.2, y: -0.2, z: 0.5}
   RequireGameFocus: 1

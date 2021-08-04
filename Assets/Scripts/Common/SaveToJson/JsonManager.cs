@@ -11,9 +11,12 @@ public class JsonManager : MonoBehaviour
     //public static bool isFin;
     public static bool isFirst;
     public string userInformation;
+    public string userGrade;
+    public bool isError_DN;
+    public bool isError_UP;
 
     private string es3APIKey;
-    private string folderPath;
+    private string folderPath;    
 
     private static JsonManager instance; // 싱글턴 인스턴스 생성 (static + 클래스명 문법으로 생성한 변수)
         
@@ -82,7 +85,11 @@ public class JsonManager : MonoBehaviour
         Debug.Log("userInfo : " + userInformation);     
 
         if (cloud.isError)
+        {
+            isError_UP = true;
             Debug.LogError(cloud.error);
+            Debug.Log("Upload Failed");
+        }
         
         else
             Debug.Log("Uploaded");
@@ -99,14 +106,24 @@ public class JsonManager : MonoBehaviour
 
         if (cloud.isError)
         {
+            isError_DN = true;
+            DN_ErrorCheck(isError_DN);
+            Debug.Log(isError_DN);
             Debug.LogError(cloud.error);
-            Debug.Log("Download Failed");
-            SavePlayerDataToJson();
-            StartCoroutine("UploadRoutine");
+            Debug.Log("Download Failed");                        
         }
 
         else
             Debug.Log("Downloaded");
+    }
+
+    public bool DN_ErrorCheck(bool isError_DN)
+    {
+        if (isError_DN)
+        {            
+            Debug.Log("다운로드에 실패했습니다...업로드 시도중...");            
+        }
+        return isError_DN;
     }
 
     private void Awake()
