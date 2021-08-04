@@ -6,21 +6,24 @@ namespace BNG
 {
     public class CollectData : MonoBehaviour
     {
+        // Add Objects in Inspector
         [Header("Objects in Game")]
-        [SerializeField] Transform XRRig;
-        [SerializeField] Transform Camera;
-        [SerializeField] Transform LHand;
-        [SerializeField] Transform RHand;
+        [SerializeField] [Tooltip("XR Rig or XR Rig Advanced goes here")] Transform XRRig;
+        [SerializeField] [Tooltip("CenterEyeAnchor goes here")] Transform Camera;
+        [SerializeField] [Tooltip("LeftControllerAnchor goes here")] Transform LHand;
+        [SerializeField] [Tooltip("RightControllerAnchor goes here")] Transform RHand;
+        // Other fields needed for each scene should be added here
         [SerializeField] GameObject Scoreboard;
 
-        private Stats database;
-        private InputBridge _inputBridge;
+        private Stats database; // All data is stored in this object
+        private InputBridge _inputBridge; // XR Rig Input Bridge (C# Script)
+
+        // Fields needed for Trigger Input (Do Not Remove)
         float RTriggerState = 0;
         float LTriggerState = 0;
-        bool RTriggerPressed = false;
-        bool LTriggerPressed = false;
 
-        [Header("Debug Panel")]
+        // For Checking in Inspector 
+        [Header("Controller Button Debug Panel")]
         public int _LTriggerClicks;
         public int _RTriggerClicks;
         public int _LGripClicks;
@@ -30,13 +33,17 @@ namespace BNG
         public int _XClicks;
         public int _YClicks;
 
+        // Object Class for storing data
         class Stats
         {
+            // Head Transform
             public Vector3 HeadPosition;    // 3D Coordinates (Contains x, y, z)
             public Vector3 HeadAngle;   // Euler Angles (Contains x, y, z)
+            // Controller Transform
             public Vector3 LHandPosition;
             public Vector3 RHandPosition;
 
+            // Controller Input
             public int LTriggerClicks = 0;
             public int RTriggerClicks = 0;
             public int LGripClicks = 0;
@@ -45,6 +52,8 @@ namespace BNG
             public int BClicks = 0;
             public int XClicks = 0;
             public int YClicks = 0;
+
+            // Other fields needed in each scene
             public int TotalDrops;
             public string ClearTime;
         }
@@ -111,7 +120,7 @@ namespace BNG
                 database.YClicks++;
             }
 
-            // Update Debug Panel
+            // Update Debug Panel per frame
             _LTriggerClicks = database.LTriggerClicks;
             _RTriggerClicks = database.RTriggerClicks;
             _LGripClicks = database.LGripClicks;
@@ -128,6 +137,7 @@ namespace BNG
             //////////////////////////////////////////
             //////////////////////////////////////////
 
+            // Any other data extraction from scene
             if (Scoreboard.GetComponent<roomScoreboard>().endOfGame)
             {
                 database.TotalDrops = Scoreboard.GetComponent<roomScoreboard>().totalDrops;
