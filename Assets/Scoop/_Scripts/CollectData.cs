@@ -85,7 +85,7 @@ namespace BNG
             }
             RTriggerState = _inputBridge.RightTrigger; // Save Right Trigger State in current frame
             LTriggerState = _inputBridge.LeftTrigger; // Save Left Trigger State in current frame
-
+            
             // Grip Button
             if (_inputBridge.RightGripDown)
             {
