@@ -164,7 +164,7 @@ public class Scoreboard : MonoBehaviour
         }*/
 
         // If score is 10, end game
-        if (score == 5)
+        if (score == 3)
         {
             clearTime = timer.GetComponent<Text>().text;
             foreach (GameObject ball in clonedBalls)
@@ -270,15 +270,15 @@ public class Scoreboard : MonoBehaviour
     }
 
     // When game is terminated, record data
-    private void OnDestroy()
+    private void OnApplicationQuit()
     {
         if (clearTime != "")
         {
-            GetComponent<SaveScoopData>().SaveTempSceneData("Drops: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime);
+            GetComponent<SaveScoopData>().SaveTempSceneData("Drops: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime + "\n");
         }
         else
         {
-            GetComponent<SaveScoopData>().SaveTempSceneData("Drops: " + totalDrops.ToString() + "\n\nTerminated(Stage " + stageCounter + ")");
+            GetComponent<SaveScoopData>().SaveTempSceneData("Drops: " + totalDrops.ToString() + "\n\nTerminated(Stage " + stageCounter + ")\n");
         }
 
     }
