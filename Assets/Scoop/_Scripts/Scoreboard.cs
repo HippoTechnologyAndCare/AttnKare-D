@@ -164,7 +164,7 @@ public class Scoreboard : MonoBehaviour
         }*/
 
         // If score is 10, end game
-        if (score == 5)
+        if (score == 3)
         {
             clearTime = timer.GetComponent<Text>().text;
             foreach (GameObject ball in clonedBalls)
