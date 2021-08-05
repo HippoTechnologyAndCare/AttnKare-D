@@ -4854,6 +4854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c88b4190c364b3f47918505a3137652f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DataObject: {fileID: 0}
 --- !u!1 &598815255
 GameObject:
   m_ObjectHideFlags: 0
@@ -22610,7 +22611,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 5
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!1 &849600405660768733
 GameObject:
   m_ObjectHideFlags: 0
@@ -38080,6 +38081,7 @@ MonoBehaviour:
   ControllerSide: 0
   AutoUpdateUITransforms: 1
   cursor: {fileID: 2255670627275077591, guid: cda3e347c37ecf24e89b8cd380c7f9f2, type: 3}
+  _cursor: {fileID: 0}
   HidePointerIfNoObjectsFound: 1
   FixedPointerLength: 0.5
   CursorScaling: 1
@@ -38102,6 +38104,7 @@ MonoBehaviour:
   ControllerSide: 1
   AutoUpdateUITransforms: 1
   cursor: {fileID: 2255670627275077591, guid: cda3e347c37ecf24e89b8cd380c7f9f2, type: 3}
+  _cursor: {fileID: 0}
   HidePointerIfNoObjectsFound: 1
   FixedPointerLength: 0.5
   CursorScaling: 1
