@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.SceneManagement;
+#if UNITY_EDITOR
 using UnityEditor.SceneManagement;
+#endif
 
 public class GameDataManager : MonoBehaviour
 {
@@ -37,7 +40,11 @@ public class GameDataManager : MonoBehaviour
 
     void CheckSaveDataType()
     {
-        int sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;
+        int sceneIndex;
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;
+#if UNITY_EDITOR
+        sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;
+#endif
 
         switch (sceneIndex)
         {
@@ -61,7 +68,11 @@ public class GameDataManager : MonoBehaviour
 
     public void SaveCurrentData()
     {
-        int sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;        
+        int sceneIndex;
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;
+#if UNITY_EDITOR
+        sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;
+#endif  
         saveCurrentSceneData(sceneIndex);
         
         JsonManager.GetInstance().Invoke("SavePlayerDataToJson", 0.1f);        

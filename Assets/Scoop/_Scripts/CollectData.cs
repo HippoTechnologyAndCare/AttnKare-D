@@ -12,8 +12,6 @@ namespace BNG
         [SerializeField] [Tooltip("CenterEyeAnchor goes here")] Transform Camera;
         [SerializeField] [Tooltip("LeftControllerAnchor goes here")] Transform LHand;
         [SerializeField] [Tooltip("RightControllerAnchor goes here")] Transform RHand;
-        // Other fields needed for each scene should be added here
-        [SerializeField] GameObject Scoreboard;
         
         private Stats database; // All data is stored in this object
         private InputBridge _inputBridge; // XR Rig Input Bridge (C# Script)
@@ -52,10 +50,6 @@ namespace BNG
             public int BClicks = 0;
             public int XClicks = 0;
             public int YClicks = 0;
-
-            // Other fields needed in each scene
-            public int TotalDrops;
-            public string ClearTime;
         }
 
         // Start is called before the first frame update
@@ -136,26 +130,8 @@ namespace BNG
             // CODE GOES HERE
             //////////////////////////////////////////
             //////////////////////////////////////////
-
-            // Any other data extraction from scene
-            if (Scoreboard.GetComponent<roomScoreboard>().endOfGame)
-            {
-                database.TotalDrops = Scoreboard.GetComponent<roomScoreboard>().totalDrops;
-                database.ClearTime = Scoreboard.GetComponent<roomScoreboard>().clearTime;
-
-                //////////////////////////////////////
-                //////////////////////////////////////
-                // Save Data as JSON File
-                // CODE GOES HERE
-                //////////////////////////////////////
-                //////////////////////////////////////
-                
-                Scoreboard.GetComponent<roomScoreboard>().endOfGame = false;
-            }
         }
-    }
-
-    
+    }   
 }
 
 
