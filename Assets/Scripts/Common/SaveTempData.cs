@@ -15,6 +15,7 @@ public class SaveTempData : MonoBehaviour
 
     string SavePath;
 
+    [SerializeField] Transform DataObject;
     void Start()
     {
         SavePath = FilePath + SceneManager.GetActiveScene().name + "_" + SaveTime + "_DATA" + ".txt";

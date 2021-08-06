@@ -41,20 +41,18 @@ public class InputText : MonoBehaviour
 
         inputTxt_Name.onValueChanged.AddListener(
             (word) => inputTxt_Name.text = Regex.Replace(word, @"[^가-힣]", "")
-            );        
-        
+            );                
     }
 
     private void Update()
     {
-        //다운로드 시도 실패를 감지하면 업로드 함수 실행
+        //다운로드 시도 실패를 감지하면 로컬에 파일을 저장하고 서버에 업로드 실행
         if (JsonManager.GetInstance().isError_DN)
         {
             Debug.Log("isErrorDN는 참");
             JsonManager.GetInstance().isError_DN = false;
-            JsonManager.GetInstance().StartCoroutine("UploadRoutine");
-            
-
+            JsonManager.GetInstance().SavePlayerDataToJson();
+            UploadData();
         }
     }
 
@@ -85,8 +83,7 @@ public class InputText : MonoBehaviour
                 return;
             }
         }
-    }
-    
+    }    
 
     private string Collect_UserInfo()
     {
@@ -195,8 +192,8 @@ public class InputText : MonoBehaviour
             JsonManager.GetInstance().userInformation = userInfo;
             JsonManager.GetInstance().userGrade = u_Grade;
            
-            JsonManager.GetInstance().SavePlayerDataToJson();
             JsonManager.GetInstance().StartCoroutine("DownloadRoutine");                                   
+            //JsonManager.GetInstance().SavePlayerDataToJson();
         }        
 
         Reset_BoolData();

@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+using UnityEngine.SceneManagement;
 
 namespace BNG
 {
@@ -12,8 +15,6 @@ namespace BNG
         [SerializeField] [Tooltip("CenterEyeAnchor goes here")] Transform Camera;
         [SerializeField] [Tooltip("LeftControllerAnchor goes here")] Transform LHand;
         [SerializeField] [Tooltip("RightControllerAnchor goes here")] Transform RHand;
-        // Other fields needed for each scene should be added here
-        [SerializeField] GameObject Scoreboard;
         
         private Stats database; // All data is stored in this object
         private InputBridge _inputBridge; // XR Rig Input Bridge (C# Script)
@@ -33,6 +34,18 @@ namespace BNG
         public int _XClicks;
         public int _YClicks;
 
+        // File Writing
+        FileStream InputDataInfo;
+        StreamWriter InputDataWriter;
+        string FilePath = Application.streamingAssetsPath + "/Hippo/";
+        string SaveTime = DateTime.Now.ToString("yyyyMMddHHmmss");
+        string InputSavePath;
+        string DeviceSavePath;
+
+        float Timer = 0;
+        FileStream DeviceDataInfo;
+        StreamWriter DeviceDataWriter;
+
         // Object Class for storing data
         class Stats
         {
@@ -42,6 +55,7 @@ namespace BNG
             // Controller Transform
             public Vector3 LHandPosition;
             public Vector3 RHandPosition;
+            public string controllerTransform;
 
             // Controller Input
             public int LTriggerClicks = 0;
@@ -52,33 +66,48 @@ namespace BNG
             public int BClicks = 0;
             public int XClicks = 0;
             public int YClicks = 0;
-
-            // Other fields needed in each scene
-            public int TotalDrops;
-            public string ClearTime;
+            public string controllerInput;
         }
 
         // Start is called before the first frame update
         void Start()
         {
-            database = new Stats();  
+            database = new Stats();
+            InputSavePath = FilePath + SceneManager.GetActiveScene().name + "_" + "INPUT" + "_" + SaveTime + "_DATA" + ".txt";
+            DeviceSavePath = FilePath + SceneManager.GetActiveScene().name + "_" + "DEVICE" + "_" + SaveTime + "_DATA" + ".txt";
         }
 
         // Update is called once per frame
         void Update()
         {
-            saveData();
+            Timer += Time.deltaTime;
+            if (Timer > .2f)
+            {
+                SaveDeviceData();
+
+                Timer = 0;
+            }
+            ShowDataOnInspector();
         }
 
-        void saveData()
+        private void OnApplicationQuit()
+        {
+            database.controllerInput = "Left Trigger Clicks: " + database.LTriggerClicks.ToString() + "\nRight Trigger Clicks: " + database.RTriggerClicks.ToString()
+                + "\nLeft Grip Clicks: " + database.LGripClicks.ToString() + "\nRight Grip Clicks: " + database.RGripClicks.ToString()
+                + "\nA Button Pressed: " + database.AClicks.ToString() + "\nB Button Pressed: " + database.BClicks.ToString()
+                + "\nX Button Pressed: " + database.XClicks.ToString() + "\nY Button Pressed: " + database.YClicks.ToString();
+            SaveInputData(database.controllerInput);
+        }
+
+        void ShowDataOnInspector()
         {
             _inputBridge = XRRig.GetComponent<InputBridge>();
 
             // Saves Camera Rig Position & EulerAngles, Left Controller Position and Right Controller Position
-            database.HeadPosition = Camera.position;
+            database.HeadPosition = Camera.localPosition;
             database.HeadAngle = Camera.eulerAngles;
-            database.LHandPosition = LHand.position;
-            database.RHandPosition = RHand.position;
+            database.LHandPosition = LHand.localPosition;
+            database.RHandPosition = RHand.localPosition;
 
             // Trigger Button
             if (RTriggerState < _inputBridge.RightTrigger && _inputBridge.RightTrigger == 1)
@@ -91,7 +120,7 @@ namespace BNG
             }
             RTriggerState = _inputBridge.RightTrigger; // Save Right Trigger State in current frame
             LTriggerState = _inputBridge.LeftTrigger; // Save Left Trigger State in current frame
-
+            
             // Grip Button
             if (_inputBridge.RightGripDown)
             {
@@ -136,26 +165,33 @@ namespace BNG
             // CODE GOES HERE
             //////////////////////////////////////////
             //////////////////////////////////////////
-
-            // Any other data extraction from scene
-            if (Scoreboard.GetComponent<roomScoreboard>().endOfGame)
-            {
-                database.TotalDrops = Scoreboard.GetComponent<roomScoreboard>().totalDrops;
-                database.ClearTime = Scoreboard.GetComponent<roomScoreboard>().clearTime;
-
-                //////////////////////////////////////
-                //////////////////////////////////////
-                // Save Data as JSON File
-                // CODE GOES HERE
-                //////////////////////////////////////
-                //////////////////////////////////////
-                
-                Scoreboard.GetComponent<roomScoreboard>().endOfGame = false;
-            }
         }
-    }
 
-    
+        public void SaveDeviceData()
+        {
+            DeviceDataInfo = new FileStream(DeviceSavePath, FileMode.Append, FileAccess.Write);
+            DeviceDataWriter = new StreamWriter(DeviceDataInfo, System.Text.Encoding.Unicode);
+            DeviceDataWriter.WriteLine(Positions());
+            DeviceDataWriter.Close();
+        }
+
+        public string Positions()
+        {
+            return "HEAD POSITION (" + database.HeadPosition.x.ToString() + ", " + database.HeadPosition.y.ToString() + ", " + database.HeadPosition.z.ToString() + 
+                " )        HEAD ANGLE (" + database.HeadAngle.x.ToString() + ", " + database.HeadAngle.y.ToString() + ", " + database.HeadAngle.z.ToString() + 
+                " )\nLEFT CONTROLLER POSITION (" + database.LHandPosition.x.ToString() + ", " + database.LHandPosition.y.ToString() + ", " + database.LHandPosition.z.ToString() + 
+                " )        RIGHT CONTROLLER POSITION (" + database.RHandPosition.x.ToString() + ", " + database.RHandPosition.y.ToString() + ", " + database.RHandPosition.z.ToString() + " )"
+                + "\n------------------------------------------------------------------------------------------------------------------------------------------------------------";
+        }
+
+        public void SaveInputData(string myData)
+        {
+            InputDataInfo = new FileStream(InputSavePath, FileMode.Append, FileAccess.Write);
+            InputDataWriter = new StreamWriter(InputDataInfo, System.Text.Encoding.Unicode);
+            InputDataWriter.WriteLine(myData);
+            InputDataWriter.Close();
+        }
+    }   
 }
 
 
