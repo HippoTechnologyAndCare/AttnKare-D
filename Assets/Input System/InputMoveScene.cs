@@ -15,7 +15,7 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
     ""name"": ""InputMoveScene"",
     ""maps"": [
         {
-            ""name"": ""SceneCotrolMap"",
+            ""name"": ""SceneControlMap"",
             ""id"": ""1bf1c08a-9cb0-4dc3-ae17-9e5e0db58ad8"",
             ""actions"": [
                 {
@@ -348,18 +348,18 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
         }
     ]
 }");
-        // SceneCotrolMap
-        m_SceneCotrolMap = asset.FindActionMap("SceneCotrolMap", throwIfNotFound: true);
-        m_SceneCotrolMap_MoveToScene_1 = m_SceneCotrolMap.FindAction("MoveToScene_1", throwIfNotFound: true);
-        m_SceneCotrolMap_MoveToScene_2 = m_SceneCotrolMap.FindAction("MoveToScene_2", throwIfNotFound: true);
-        m_SceneCotrolMap_MoveToScene_3 = m_SceneCotrolMap.FindAction("MoveToScene_3", throwIfNotFound: true);
-        m_SceneCotrolMap_MoveToScene_4 = m_SceneCotrolMap.FindAction("MoveToScene_4", throwIfNotFound: true);
-        m_SceneCotrolMap_MoveToScene_5 = m_SceneCotrolMap.FindAction("MoveToScene_5", throwIfNotFound: true);
-        m_SceneCotrolMap_MoveToScene_6 = m_SceneCotrolMap.FindAction("MoveToScene_6", throwIfNotFound: true);
-        m_SceneCotrolMap_MoveToScene_7 = m_SceneCotrolMap.FindAction("MoveToScene_7", throwIfNotFound: true);
-        m_SceneCotrolMap_MoveToScene_8 = m_SceneCotrolMap.FindAction("MoveToScene_8", throwIfNotFound: true);
-        m_SceneCotrolMap_MoveToScene_9 = m_SceneCotrolMap.FindAction("MoveToScene_9", throwIfNotFound: true);
-        m_SceneCotrolMap_MoveToScene_10 = m_SceneCotrolMap.FindAction("MoveToScene_10", throwIfNotFound: true);
+        // SceneControlMap
+        m_SceneControlMap = asset.FindActionMap("SceneControlMap", throwIfNotFound: true);
+        m_SceneControlMap_MoveToScene_1 = m_SceneControlMap.FindAction("MoveToScene_1", throwIfNotFound: true);
+        m_SceneControlMap_MoveToScene_2 = m_SceneControlMap.FindAction("MoveToScene_2", throwIfNotFound: true);
+        m_SceneControlMap_MoveToScene_3 = m_SceneControlMap.FindAction("MoveToScene_3", throwIfNotFound: true);
+        m_SceneControlMap_MoveToScene_4 = m_SceneControlMap.FindAction("MoveToScene_4", throwIfNotFound: true);
+        m_SceneControlMap_MoveToScene_5 = m_SceneControlMap.FindAction("MoveToScene_5", throwIfNotFound: true);
+        m_SceneControlMap_MoveToScene_6 = m_SceneControlMap.FindAction("MoveToScene_6", throwIfNotFound: true);
+        m_SceneControlMap_MoveToScene_7 = m_SceneControlMap.FindAction("MoveToScene_7", throwIfNotFound: true);
+        m_SceneControlMap_MoveToScene_8 = m_SceneControlMap.FindAction("MoveToScene_8", throwIfNotFound: true);
+        m_SceneControlMap_MoveToScene_9 = m_SceneControlMap.FindAction("MoveToScene_9", throwIfNotFound: true);
+        m_SceneControlMap_MoveToScene_10 = m_SceneControlMap.FindAction("MoveToScene_10", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -406,74 +406,74 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
         asset.Disable();
     }
 
-    // SceneCotrolMap
-    private readonly InputActionMap m_SceneCotrolMap;
-    private ISceneCotrolMapActions m_SceneCotrolMapActionsCallbackInterface;
-    private readonly InputAction m_SceneCotrolMap_MoveToScene_1;
-    private readonly InputAction m_SceneCotrolMap_MoveToScene_2;
-    private readonly InputAction m_SceneCotrolMap_MoveToScene_3;
-    private readonly InputAction m_SceneCotrolMap_MoveToScene_4;
-    private readonly InputAction m_SceneCotrolMap_MoveToScene_5;
-    private readonly InputAction m_SceneCotrolMap_MoveToScene_6;
-    private readonly InputAction m_SceneCotrolMap_MoveToScene_7;
-    private readonly InputAction m_SceneCotrolMap_MoveToScene_8;
-    private readonly InputAction m_SceneCotrolMap_MoveToScene_9;
-    private readonly InputAction m_SceneCotrolMap_MoveToScene_10;
-    public struct SceneCotrolMapActions
+    // SceneControlMap
+    private readonly InputActionMap m_SceneControlMap;
+    private ISceneControlMapActions m_SceneControlMapActionsCallbackInterface;
+    private readonly InputAction m_SceneControlMap_MoveToScene_1;
+    private readonly InputAction m_SceneControlMap_MoveToScene_2;
+    private readonly InputAction m_SceneControlMap_MoveToScene_3;
+    private readonly InputAction m_SceneControlMap_MoveToScene_4;
+    private readonly InputAction m_SceneControlMap_MoveToScene_5;
+    private readonly InputAction m_SceneControlMap_MoveToScene_6;
+    private readonly InputAction m_SceneControlMap_MoveToScene_7;
+    private readonly InputAction m_SceneControlMap_MoveToScene_8;
+    private readonly InputAction m_SceneControlMap_MoveToScene_9;
+    private readonly InputAction m_SceneControlMap_MoveToScene_10;
+    public struct SceneControlMapActions
     {
         private @InputMoveScene m_Wrapper;
-        public SceneCotrolMapActions(@InputMoveScene wrapper) { m_Wrapper = wrapper; }
-        public InputAction @MoveToScene_1 => m_Wrapper.m_SceneCotrolMap_MoveToScene_1;
-        public InputAction @MoveToScene_2 => m_Wrapper.m_SceneCotrolMap_MoveToScene_2;
-        public InputAction @MoveToScene_3 => m_Wrapper.m_SceneCotrolMap_MoveToScene_3;
-        public InputAction @MoveToScene_4 => m_Wrapper.m_SceneCotrolMap_MoveToScene_4;
-        public InputAction @MoveToScene_5 => m_Wrapper.m_SceneCotrolMap_MoveToScene_5;
-        public InputAction @MoveToScene_6 => m_Wrapper.m_SceneCotrolMap_MoveToScene_6;
-        public InputAction @MoveToScene_7 => m_Wrapper.m_SceneCotrolMap_MoveToScene_7;
-        public InputAction @MoveToScene_8 => m_Wrapper.m_SceneCotrolMap_MoveToScene_8;
-        public InputAction @MoveToScene_9 => m_Wrapper.m_SceneCotrolMap_MoveToScene_9;
-        public InputAction @MoveToScene_10 => m_Wrapper.m_SceneCotrolMap_MoveToScene_10;
-        public InputActionMap Get() { return m_Wrapper.m_SceneCotrolMap; }
+        public SceneControlMapActions(@InputMoveScene wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MoveToScene_1 => m_Wrapper.m_SceneControlMap_MoveToScene_1;
+        public InputAction @MoveToScene_2 => m_Wrapper.m_SceneControlMap_MoveToScene_2;
+        public InputAction @MoveToScene_3 => m_Wrapper.m_SceneControlMap_MoveToScene_3;
+        public InputAction @MoveToScene_4 => m_Wrapper.m_SceneControlMap_MoveToScene_4;
+        public InputAction @MoveToScene_5 => m_Wrapper.m_SceneControlMap_MoveToScene_5;
+        public InputAction @MoveToScene_6 => m_Wrapper.m_SceneControlMap_MoveToScene_6;
+        public InputAction @MoveToScene_7 => m_Wrapper.m_SceneControlMap_MoveToScene_7;
+        public InputAction @MoveToScene_8 => m_Wrapper.m_SceneControlMap_MoveToScene_8;
+        public InputAction @MoveToScene_9 => m_Wrapper.m_SceneControlMap_MoveToScene_9;
+        public InputAction @MoveToScene_10 => m_Wrapper.m_SceneControlMap_MoveToScene_10;
+        public InputActionMap Get() { return m_Wrapper.m_SceneControlMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(SceneCotrolMapActions set) { return set.Get(); }
-        public void SetCallbacks(ISceneCotrolMapActions instance)
+        public static implicit operator InputActionMap(SceneControlMapActions set) { return set.Get(); }
+        public void SetCallbacks(ISceneControlMapActions instance)
         {
-            if (m_Wrapper.m_SceneCotrolMapActionsCallbackInterface != null)
+            if (m_Wrapper.m_SceneControlMapActionsCallbackInterface != null)
             {
-                @MoveToScene_1.started -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_1;
-                @MoveToScene_1.performed -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_1;
-                @MoveToScene_1.canceled -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_1;
-                @MoveToScene_2.started -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_2;
-                @MoveToScene_2.performed -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_2;
-                @MoveToScene_2.canceled -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_2;
-                @MoveToScene_3.started -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_3;
-                @MoveToScene_3.performed -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_3;
-                @MoveToScene_3.canceled -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_3;
-                @MoveToScene_4.started -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_4;
-                @MoveToScene_4.performed -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_4;
-                @MoveToScene_4.canceled -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_4;
-                @MoveToScene_5.started -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_5;
-                @MoveToScene_5.performed -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_5;
-                @MoveToScene_5.canceled -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_5;
-                @MoveToScene_6.started -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_6;
-                @MoveToScene_6.performed -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_6;
-                @MoveToScene_6.canceled -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_6;
-                @MoveToScene_7.started -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_7;
-                @MoveToScene_7.performed -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_7;
-                @MoveToScene_7.canceled -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_7;
-                @MoveToScene_8.started -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_8;
-                @MoveToScene_8.performed -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_8;
-                @MoveToScene_8.canceled -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_8;
-                @MoveToScene_9.started -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_9;
-                @MoveToScene_9.performed -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_9;
-                @MoveToScene_9.canceled -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_9;
-                @MoveToScene_10.started -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_10;
-                @MoveToScene_10.performed -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_10;
-                @MoveToScene_10.canceled -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_10;
+                @MoveToScene_1.started -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_1;
+                @MoveToScene_1.performed -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_1;
+                @MoveToScene_1.canceled -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_1;
+                @MoveToScene_2.started -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_2;
+                @MoveToScene_2.performed -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_2;
+                @MoveToScene_2.canceled -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_2;
+                @MoveToScene_3.started -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_3;
+                @MoveToScene_3.performed -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_3;
+                @MoveToScene_3.canceled -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_3;
+                @MoveToScene_4.started -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_4;
+                @MoveToScene_4.performed -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_4;
+                @MoveToScene_4.canceled -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_4;
+                @MoveToScene_5.started -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_5;
+                @MoveToScene_5.performed -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_5;
+                @MoveToScene_5.canceled -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_5;
+                @MoveToScene_6.started -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_6;
+                @MoveToScene_6.performed -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_6;
+                @MoveToScene_6.canceled -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_6;
+                @MoveToScene_7.started -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_7;
+                @MoveToScene_7.performed -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_7;
+                @MoveToScene_7.canceled -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_7;
+                @MoveToScene_8.started -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_8;
+                @MoveToScene_8.performed -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_8;
+                @MoveToScene_8.canceled -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_8;
+                @MoveToScene_9.started -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_9;
+                @MoveToScene_9.performed -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_9;
+                @MoveToScene_9.canceled -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_9;
+                @MoveToScene_10.started -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_10;
+                @MoveToScene_10.performed -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_10;
+                @MoveToScene_10.canceled -= m_Wrapper.m_SceneControlMapActionsCallbackInterface.OnMoveToScene_10;
             }
-            m_Wrapper.m_SceneCotrolMapActionsCallbackInterface = instance;
+            m_Wrapper.m_SceneControlMapActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @MoveToScene_1.started += instance.OnMoveToScene_1;
@@ -509,7 +509,7 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
             }
         }
     }
-    public SceneCotrolMapActions @SceneCotrolMap => new SceneCotrolMapActions(this);
+    public SceneControlMapActions @SceneControlMap => new SceneControlMapActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -528,7 +528,7 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
             return asset.controlSchemes[m_XRCotrollerSchemeIndex];
         }
     }
-    public interface ISceneCotrolMapActions
+    public interface ISceneControlMapActions
     {
         void OnMoveToScene_1(InputAction.CallbackContext context);
         void OnMoveToScene_2(InputAction.CallbackContext context);
