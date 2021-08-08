@@ -6,6 +6,7 @@ public class TubeBall : MonoBehaviour
 {
     Vector3 initP; // Initial Position of Ball
     Vector3 initR; // Initial Rotation of Ball
+    public int ballMatID;
 
     float timer;
 
@@ -25,6 +26,28 @@ public class TubeBall : MonoBehaviour
     {
         initP = transform.position; // Save initial position of ball
         initR = transform.eulerAngles; // Save initial angle of ball
+
+        if(GetComponent<Renderer>().sharedMaterial == tubeBall1)
+        {
+            ballMatID = 1;
+        }
+        else if (GetComponent<Renderer>().sharedMaterial == tubeBall2)
+        {
+            ballMatID = 2;
+        }
+        else if (GetComponent<Renderer>().sharedMaterial == tubeBall3)
+        {
+            ballMatID = 3;
+        }
+        else
+        {
+            ballMatID = -1;
+        }
+
+        if(ballMatID == -1)
+        {
+            Destroy(gameObject);
+        }
     }
 
     // Update is called once per frame
@@ -46,7 +69,7 @@ public class TubeBall : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // When ball hits the floor (drop from shovel or bounce out)
-        if(collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Boundary")
+        if(collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Terrain" || collision.gameObject.tag == "Boundary")
         {
             // When Ball Hits anything other than the start container return ball to start container and increment drop count
 
@@ -61,22 +84,21 @@ public class TubeBall : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(GetComponent<Renderer>().material.name);
-        if (other.gameObject.tag == "Checker1" && GetComponent<Renderer>().material.name == "tubeball1 (Instance)")
+        if (other.gameObject.tag == "Checker1" && GetComponent<Renderer>().sharedMaterial == tubeBall1)
         {
             ScoreCheck = true;
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
             Debug.Log("tubeball1 success");
         }
 
-        if (other.gameObject.tag == "Checker2" && GetComponent<Renderer>().material.name == "tubeball2 (Instance)")
+        if (other.gameObject.tag == "Checker2" && GetComponent<Renderer>().sharedMaterial == tubeBall2)
         {
             ScoreCheck = true;
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
             Debug.Log("tubeball2 success");
         }
 
-        if (other.gameObject.tag == "Checker3" && GetComponent<Renderer>().material.name == "tubeball3 (Instance)")
+        if (other.gameObject.tag == "Checker3" && GetComponent<Renderer>().sharedMaterial == tubeBall3)
         {
             ScoreCheck = true;
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
