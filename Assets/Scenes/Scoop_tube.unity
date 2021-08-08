@@ -22154,7 +22154,7 @@ PrefabInstance:
     - target: {fileID: 4088779762850046649, guid: 1f75a4a1ec4271442a6c51de842cadf0,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -7.0900035
+      value: -10.5
       objectReference: {fileID: 0}
     - target: {fileID: 4088779762850046649, guid: 1f75a4a1ec4271442a6c51de842cadf0,
         type: 3}
@@ -38884,7 +38884,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clonedBalls: []
   Balls: []
-  successBalls: []
+  successBalls1: []
+  successBalls2: []
+  successBalls3: []
   scoreText: {fileID: 1320918394}
   totalDrops: 0
   clearTime: 
@@ -49976,7 +49978,7 @@ PrefabInstance:
     - target: {fileID: 4088779762850046649, guid: 1f75a4a1ec4271442a6c51de842cadf0,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -7.09
+      value: -6.51
       objectReference: {fileID: 0}
     - target: {fileID: 4088779762850046649, guid: 1f75a4a1ec4271442a6c51de842cadf0,
         type: 3}
@@ -49996,7 +49998,7 @@ PrefabInstance:
     - target: {fileID: 8858460719086918109, guid: 1f75a4a1ec4271442a6c51de842cadf0,
         type: 3}
       propertyPath: m_Text
-      value: "Stage 1\n\n\uB0A8\uC740 \uACF5: 8\uAC1C\n\nDrops\n\n"
+      value: "Stage 1\n\n\uB0A8\uC740 \uACF5: 8\uAC1C\n\nDrops\n\nColor\n\n"
       objectReference: {fileID: 0}
     - target: {fileID: 8858460719086918109, guid: 1f75a4a1ec4271442a6c51de842cadf0,
         type: 3}

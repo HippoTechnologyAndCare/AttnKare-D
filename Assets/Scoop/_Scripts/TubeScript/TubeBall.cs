@@ -60,7 +60,7 @@ public class TubeBall : MonoBehaviour
             if (Vector3.Distance(gameObject.transform.position, initP) > 150f)
             {
                 Debug.Log("Ball Lost");
-                resetBall(gameObject);
+                resetBall();
             }
             timer = 0;
         }
@@ -74,7 +74,7 @@ public class TubeBall : MonoBehaviour
             // When Ball Hits anything other than the start container return ball to start container and increment drop count
 
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().totalDrops++;
-            resetBall(gameObject);
+            resetBall();
             /*Debug.Log("Ball out");*/
             ScoreCheck = false;
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
@@ -107,12 +107,12 @@ public class TubeBall : MonoBehaviour
     }
 
     // Function to reset ball back to where it was instantiated
-    public void resetBall(GameObject ball)
+    public void resetBall()
     {
         // Reset Velocity, Position and Angle
-        ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-        ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        ball.transform.position = initP;
-        ball.transform.eulerAngles = initR;
+        GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        gameObject.transform.position = initP;
+        gameObject.transform.eulerAngles = initR;
     }
 }

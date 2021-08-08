@@ -14,9 +14,9 @@ public class TubeScoreboard : MonoBehaviour
     public List<GameObject> Balls = new List<GameObject>();
     [Tooltip("Successfully moved balls")]
     // List of balls that are successfully moved
-    public List<string> successBalls1 = new List<string>();
-    public List<string> successBalls2 = new List<string>();
-    public List<string> successBalls3 = new List<string>();
+    public List<GameObject> successBalls1 = new List<GameObject>();
+    public List<GameObject> successBalls2 = new List<GameObject>();
+    public List<GameObject> successBalls3 = new List<GameObject>();
 
     [Header("Score Board")]
     /*public TextMesh scoreBoard; // Score Text*/
@@ -28,7 +28,7 @@ public class TubeScoreboard : MonoBehaviour
     private int score3 = 0; // Turqoise Ball
     private float stageCounter = 1; // Stage number
     private int stageDrops = 0; // Number of Drops after stage is cleared, updated after each stage finishes
-    private int stageBalls = 1;
+    [SerializeField] private int stageBalls = 1;
 
     [Header("Prefabs and Objects")]
     public Transform clone; // Ball prefab // delete this
@@ -58,6 +58,7 @@ public class TubeScoreboard : MonoBehaviour
         {
             Balls.Add(pileOfBalls.transform.GetChild(i).gameObject);
         }
+        scoreText.GetComponent<Text>().text = "Stage " + stageCounter + "\n\nYellow: " + score1.ToString() + "    Light Purple: " + score2.ToString() + "    Turqoise: " + score3.ToString() + "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\n";
     }
 
     // Update is called once per frame
@@ -69,12 +70,13 @@ public class TubeScoreboard : MonoBehaviour
         {
             Debug.Log("Timer Finished: " + delayTimer);
             StartCoroutine(stageClear());
+            startTime = 0;
         }
     }
 
     public void setBallsVisible(bool isVisible)
     {
-        foreach (GameObject ball in clonedBalls)
+        foreach (GameObject ball in Balls)
         {
             ball.GetComponent<Renderer>().enabled = isVisible;
         }
@@ -90,7 +92,7 @@ public class TubeScoreboard : MonoBehaviour
         }
 
         // Updates Scoreboard Text
-        scoreText.GetComponent<Text>().text = "Stage " + stageCounter + "\n\nYellow: " + score1.ToString() + "\n\nLight Purple: " + score2.ToString() + "\n\nTurqoise: " + score3.ToString() + "\n\n떨어뜨린 횟수: " + totalDrops.ToString() + "\n\n";
+        scoreText.GetComponent<Text>().text = "Stage " + stageCounter + "\n\nYellow: " + score1.ToString() + "    Light Purple: " + score2.ToString() + "    Turqoise: " + score3.ToString() + "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\n";
         /*scoreBoard.text = "Stage " + stageCounter + "\n\n남은 공: " + (clonedBalls.Count - score).ToString() + " 개\n\nDrops: " + totalDrops.ToString();*/
 
         if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls)
@@ -108,7 +110,6 @@ public class TubeScoreboard : MonoBehaviour
             startTime = 0;
             /*StopAllCoroutines();*/
         }
-
         Debug.Log("ScoreUpdate Function has been called");
     }
 
@@ -118,38 +119,63 @@ public class TubeScoreboard : MonoBehaviour
         switch (ball.GetComponent<TubeBall>().ballMatID)
         {
             case 1:
-                if (ball.GetComponent<TubeBall>().ScoreCheck && !successBalls1.Contains(ball.name))
+                if (ball.GetComponent<TubeBall>().ScoreCheck && !successBalls1.Contains(ball))
                 {
-                    successBalls1.Add(ball.name);
-                    score1++;
+                    if(score1 == stageBalls)
+                    {
+                        ball.GetComponent<TubeBall>().resetBall();
+                        ball.SetActive(false);
+                    }
+                    else
+                    {
+                        successBalls1.Add(ball);
+                        score1++;
+                    }
+                    
                 }
-                else if (!ball.GetComponent<TubeBall>().ScoreCheck && successBalls1.Contains(ball.name))
+                else if (!ball.GetComponent<TubeBall>().ScoreCheck && successBalls1.Contains(ball) && score1 > 0)
                 {
-                    successBalls1.Remove(ball.name);
+                    successBalls1.Remove(ball);
                     score1--;
                 }
                 break;
             case 2:
-                if (ball.GetComponent<TubeBall>().ScoreCheck && !successBalls2.Contains(ball.name))
+                if (ball.GetComponent<TubeBall>().ScoreCheck && !successBalls2.Contains(ball))
                 {
-                    successBalls2.Add(ball.name);
-                    score2++;
+                    if (score2 == stageBalls)
+                    {
+                        ball.GetComponent<TubeBall>().resetBall();
+                        ball.SetActive(false);
+                    }
+                    else
+                    {
+                        successBalls2.Add(ball);
+                        score2++;
+                    }
                 }
-                else if (!ball.GetComponent<TubeBall>().ScoreCheck && successBalls2.Contains(ball.name))
+                else if (!ball.GetComponent<TubeBall>().ScoreCheck && successBalls2.Contains(ball) && score2 > 0)
                 {
-                    successBalls2.Remove(ball.name);
+                    successBalls2.Remove(ball);
                     score2--;
                 }
                 break;
             case 3:
-                if (ball.GetComponent<TubeBall>().ScoreCheck && !successBalls3.Contains(ball.name))
+                if (ball.GetComponent<TubeBall>().ScoreCheck && !successBalls3.Contains(ball))
                 {
-                    successBalls3.Add(ball.name);
-                    score3++;
+                    if (score3 == stageBalls)
+                    {
+                        ball.GetComponent<TubeBall>().resetBall();
+                        ball.SetActive(false);
+                    }
+                    else
+                    {
+                        successBalls3.Add(ball);
+                        score3++;
+                    }
                 }
-                else if (!ball.GetComponent<TubeBall>().ScoreCheck && successBalls3.Contains(ball.name))
+                else if (!ball.GetComponent<TubeBall>().ScoreCheck && successBalls3.Contains(ball) && score3 > 0)
                 {
-                    successBalls3.Remove(ball.name);
+                    successBalls3.Remove(ball);
                     score3--;
                 }
                 break;
@@ -161,7 +187,7 @@ public class TubeScoreboard : MonoBehaviour
     IEnumerator Wait()
     {
         Debug.Log("Start Wait Coroutine");
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(5f);
         Debug.Log("Wait Coroutine Finished");
     }
 
@@ -183,11 +209,11 @@ public class TubeScoreboard : MonoBehaviour
         if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls && stageBalls == 3)
         {
             clearTime = timer.GetComponent<Text>().text;
-            foreach (GameObject ball in Balls)
+            /*foreach (GameObject ball in Balls)
             {
                 Destroy(ball);
-            }
-            scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 횟수: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime;
+            }*/
+            scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime;
             /*scoreBoard.text = "Finish!\n\nDrops: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime;*/
             timer.SetActive(false);
             endOfGame = true;
@@ -198,14 +224,37 @@ public class TubeScoreboard : MonoBehaviour
             scoreText.SetActive(false);
             waitMessage.SetActive(true);
 
-            ResetBalls();
+            foreach (GameObject ball in successBalls1)
+            {
+                ball.GetComponent<TubeBall>().resetBall();
+                ball.GetComponent<TubeBall>().ScoreCheck = false;
+            }
+            foreach (GameObject ball in successBalls2)
+            {
+                ball.GetComponent<TubeBall>().resetBall();
+                ball.GetComponent<TubeBall>().ScoreCheck = false;
+            }
+            foreach (GameObject ball in successBalls3)
+            {
+                ball.GetComponent<TubeBall>().resetBall();
+                ball.GetComponent<TubeBall>().ScoreCheck = false;
+            }
+
+            successBalls1.Clear();
+            successBalls2.Clear();
+            successBalls3.Clear();
+
+            score1 = 0;
+            score2 = 0;
+            score3 = 0;
 
             yield return StartCoroutine(Wait());
 
             stageBalls++;
+            stageCounter++;
             waitMessage.SetActive(false);
+            scoreText.GetComponent<Text>().text = "Stage " + stageCounter + "\n\nYellow: " + score1.ToString() + "    Light Purple: " + score2.ToString() + "    Turqoise: " + score3.ToString() + "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\n";
             scoreText.SetActive(true);
-            setBallsVisible(true);
         }
     }
 
@@ -221,14 +270,10 @@ public class TubeScoreboard : MonoBehaviour
     {
         Debug.Log("Reset Balls Function Called");
 
-        setBallsVisible(false);
-
-        foreach(GameObject ball in Balls)
+        foreach (GameObject ball in Balls)
         {
-            ball.GetComponent<TubeBall>().resetBall(ball);
+            ball.GetComponent<TubeBall>().resetBall();
         }
-
-        setBallsVisible(true);
     }
 
     // FUNCTIONS FOR Admin.cs SCRIPT
