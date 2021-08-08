@@ -9,6 +9,11 @@ public class TubeBall : MonoBehaviour
 
     float timer;
 
+    [Header("Materials")]
+    [SerializeField] Material tubeBall1;
+    [SerializeField] Material tubeBall2;
+    [SerializeField] Material tubeBall3;
+
     // Property of Ball to check if Ball is in the Container
     public bool ScoreCheck
     {
@@ -40,38 +45,43 @@ public class TubeBall : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // When ball hits quad inside the brown container
-        if(collision.gameObject.tag == "Surface")
-        {
-            /*Debug.Log("Ball in");*/
-            ScoreCheck = true;
-            Debug.Log("Surface is Hit");
-        }
-
         // When ball hits the floor (drop from shovel or bounce out)
-        if(collision.gameObject.tag == "Floor" || collision.gameObject.tag == "StartContainer" || collision.gameObject.tag == "Desk")
+        if(collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Boundary")
         {
             // When Ball Hits anything other than the start container return ball to start container and increment drop count
-            if(collision.gameObject.tag != "StartContainer")
-            {
-                resetBall(gameObject);
-                GetComponentInParent<roomScoreboard>().totalDrops++;
-            }
 
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().totalDrops++;
+            resetBall(gameObject);
             /*Debug.Log("Ball out");*/
             ScoreCheck = false;
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
+            gameObject.SetActive(false);
         }
+    }
 
-        if (collision.gameObject.tag == "Boundary")
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(GetComponent<Renderer>().material.name);
+        if (other.gameObject.tag == "Checker1" && GetComponent<Renderer>().material.name == "tubeball1 (Instance)")
         {
-            Debug.Log("Ball Hit Boundary");
-            resetBall(gameObject);
-            ScoreCheck = false;
-            if(GetComponentInParent<roomScoreboard>().totalDrops > 0) GetComponentInParent<roomScoreboard>().totalDrops--;
+            ScoreCheck = true;
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
+            Debug.Log("tubeball1 success");
         }
 
-        // Calls scoreUpdate function in Scoreboard script every time ball collides with the environment
-        GetComponentInParent<roomScoreboard>().scoreUpdate();
+        if (other.gameObject.tag == "Checker2" && GetComponent<Renderer>().material.name == "tubeball2 (Instance)")
+        {
+            ScoreCheck = true;
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
+            Debug.Log("tubeball2 success");
+        }
+
+        if (other.gameObject.tag == "Checker3" && GetComponent<Renderer>().material.name == "tubeball3 (Instance)")
+        {
+            ScoreCheck = true;
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
+            Debug.Log("tubeball3 success");
+        }
     }
 
     // Function to reset ball back to where it was instantiated

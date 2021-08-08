@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6841645359653649214}
   - component: {fileID: 6841645359653649215}
   - component: {fileID: 6569171648536444766}
-  m_Layer: 10
+  m_Layer: 6
   m_Name: tubeBall3
   m_TagString: Ball
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &6569171648536444766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,3 +125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57804ac6b04860647b09c0bcf28a9744, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tubeBall1: {fileID: 2100000, guid: cc186c3c21540a143a2fc8931167fe70, type: 2}
+  tubeBall2: {fileID: 2100000, guid: 345fbdb6276a7b04bb2ca60389e485da, type: 2}
+  tubeBall3: {fileID: 2100000, guid: 70d3ecd4eae1f0a42ab7d592ca366ea8, type: 2}

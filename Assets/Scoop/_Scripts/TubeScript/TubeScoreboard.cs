@@ -10,7 +10,7 @@ public class TubeScoreboard : MonoBehaviour
 
     [Tooltip("Instantiated Balls")]
     // List of balls instantiated
-    public List<GameObject> clonedBalls = new List<GameObject>();
+    public List<GameObject> clonedBalls = new List<GameObject>(); // delete this
     [Tooltip("Successfully moved balls")]
     // List of balls that are successfully moved
     public List<string> successBalls = new List<string>();
@@ -20,14 +20,22 @@ public class TubeScoreboard : MonoBehaviour
     public GameObject scoreText;
     public int totalDrops = 0; // Total number of drops throughout game
     public string clearTime = ""; // Clear Time, shown after game finishes
-    private int score = 0; // Game Score
+    private int score = 1; // Game Score
     private float stageCounter = 1; // Stage number
     private int stageDrops = 0; // Number of Drops after stage is cleared, updated after each stage finishes
     
     [Header("Prefabs and Objects")]
-    public Transform clone; // Ball prefab
+    public Transform clone; // Ball prefab // delete this
     public GameObject timer; // Timer Text
     public GameObject waitMessage;
+    public GameObject pileOfBalls;
+
+    [Header("Tubes")]
+    [SerializeField] GameObject glassTube1;
+    [SerializeField] GameObject glassTube2;
+    [SerializeField] GameObject glassTube3;
+
+    [Header("Materials")]
     [SerializeField] Material tubeBall1;
     [SerializeField] Material tubeBall2;
     [SerializeField] Material tubeBall3;
@@ -35,7 +43,6 @@ public class TubeScoreboard : MonoBehaviour
     float delayTimer;
     float startTime = 0;
     public bool endOfGame = false;
-    public bool endGame = false;
 
     // Start is called before the first frame update
     void Start()
@@ -61,24 +68,6 @@ public class TubeScoreboard : MonoBehaviour
         {
             ball.GetComponent<Renderer>().enabled = isVisible;
         }
-    }
-
-    // Function called when stage is cleared (Reset Stage)
-    public void reset()
-    {
-        foreach (GameObject ball in clonedBalls)
-        {
-            GetComponentInChildren<roomBall>().resetBall(ball);
-            ball.GetComponent<roomBall>().ScoreCheck = false;
-            /*ball.GetComponentInChildren<Ball>().dropCount = 0;*/
-        }
-        createBall();
-        successBalls.Clear();
-        score = 0;
-        stageCounter++;
-        setBallsVisible(false);
-        scoreText.GetComponent<Text>().text = "Stage " + stageCounter + "\n\n남은 공: " + (clonedBalls.Count - score).ToString() + " 개\n\n떨어뜨린 횟수: " + totalDrops.ToString() + "\n\n";
-        /*scoreBoard.text = "Stage " + stageCounter + "\n\n남은 공: " + (clonedBalls.Count - score).ToString() + " 개\n\nDrops: " + totalDrops.ToString();*/
     }
 
     // Updates score on each ball collision
@@ -109,6 +98,8 @@ public class TubeScoreboard : MonoBehaviour
             startTime = 0;
             /*StopAllCoroutines();*/
         }
+
+        Debug.Log("ScoreUpdate Function has been called");
     }
 
     // Update ball status
@@ -180,7 +171,6 @@ public class TubeScoreboard : MonoBehaviour
         // If score is not 10, move onto next stage
         else if (clonedBalls.Count == score)
         {
-            reset();
             scoreText.SetActive(false);
             waitMessage.SetActive(true);
 
