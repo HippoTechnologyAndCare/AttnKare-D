@@ -53,10 +53,8 @@ public class FinishButton : MonoBehaviour
 
             if (bActive) // if hand is what touching button
             {
-               
-
+              
                 coroutine = StartCoroutine(NextScene());
-
 
 
             }
