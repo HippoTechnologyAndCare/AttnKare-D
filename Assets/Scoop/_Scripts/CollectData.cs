@@ -45,10 +45,15 @@ namespace BNG
         string SaveTime = DateTime.Now.ToString("yyyyMMddHHmmss");
         string InputSavePath;
         string DeviceSavePath;
+        string TestSavePath;
 
         float Timer = 0;
+        float plotTimer = 0;
         FileStream DeviceDataInfo;
         StreamWriter DeviceDataWriter;
+
+        FileStream TestStream;
+        StreamWriter TestWriter;
 
         // Object Class for storing data
         class Stats
@@ -79,15 +84,24 @@ namespace BNG
             database = new Stats();
             InputSavePath = FilePath + SceneManager.GetActiveScene().name + "_" + "INPUT" + "_" + SaveTime + "_DATA" + ".txt";
             DeviceSavePath = FilePath + SceneManager.GetActiveScene().name + "_" + "DEVICE" + "_" + SaveTime + "_DATA" + ".txt";
+            TestSavePath = FilePath + SceneManager.GetActiveScene().name + "_" + "TEST" + "_" + SaveTime + "_DATA" + ".txt";
+
+            TestStream = new FileStream(TestSavePath, FileMode.Append, FileAccess.Write);
+            TestWriter = new StreamWriter(TestStream, System.Text.Encoding.Unicode);
+            TestWriter.WriteLine("Time, LTrigger Value, Time, RTrigger Value, Time, LGrip Value, Time, RGrip Value");
+            TestWriter.Close();
         }
 
         // Update is called once per frame
         void Update()
         {
             Timer += Time.deltaTime;
+            plotTimer += Time.deltaTime;
+
             if (Timer > .05f)
             {
                 SaveDeviceData();
+                TestPlot(plotTimer);
                 Timer = 0;
             }
             ShowDataOnInspector();
@@ -199,6 +213,20 @@ namespace BNG
                 "  X Button: " + (_inputBridge.XButtonDown || _inputBridge.XButton || _inputBridge.XButtonUp ? 1 : 0).ToString() +
                 "  Y Button: " + (_inputBridge.YButtonDown || _inputBridge.YButton || _inputBridge.YButtonUp ? 1 : 0).ToString() +
                 "\nLeft Trigger: " + _LTrigger.ToString() + "  Right Trigger: " + _RTrigger.ToString() + "  Left Grip: " + _LGrip.ToString() + "  Right Grip: " + _RGrip.ToString() + "\n";
+        }
+
+        public void TestPlot(float time)
+        {
+            TestStream = new FileStream(TestSavePath, FileMode.Append, FileAccess.Write);
+            TestWriter = new StreamWriter(TestStream, System.Text.Encoding.Unicode);
+            TestWriter.WriteLine(Plot(time));
+            TestWriter.Close();
+        }
+
+        public string Plot(float time)
+        {
+            string plot = time.ToString() + ", " + _LTrigger.ToString() + ", " + time.ToString() + ", " + _RTrigger.ToString() + ", " + time.ToString() + ", " + _LGrip.ToString() + ", " + time.ToString() + ", " + _RGrip.ToString();
+            return plot;
         }
 
         public void SaveInputData(string myData)
