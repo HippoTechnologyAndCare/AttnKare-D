@@ -29,13 +29,26 @@ public class TubeScoreboard : MonoBehaviour
     private float stageCounter = 1; // Stage number
     [HideInInspector] public int excessBalls = 0;
     [HideInInspector] public int wrongColor = 0; 
-    [HideInInspector] public int stageBalls = 1;
+    public int stageBalls = 1;
 
     [Header("Prefabs and Objects")]
-    public Transform clone; // Ball prefab // delete this
     public GameObject timer; // Timer Text
     public GameObject waitMessage;
     public GameObject pileOfBalls;
+    public List<GameObject> activeBalls1 = new List<GameObject>();
+    public List<GameObject> activeBalls2 = new List<GameObject>();
+    public List<GameObject> activeBalls3 = new List<GameObject>();
+    public List<GameObject> lostBalls1 = new List<GameObject>();
+    public List<GameObject> lostBalls2 = new List<GameObject>();
+    public List<GameObject> lostBalls3 = new List<GameObject>();
+    public int numTubeBall1 = 0;
+    public int numTubeBall2 = 0;
+    public int numTubeBall3 = 0;
+
+    [Header("Debug Panel")]
+    public int left1;
+    public int left2;
+    public int left3;
 
     [Header("Tubes")]
     [SerializeField] GameObject glassTube1;
@@ -50,6 +63,7 @@ public class TubeScoreboard : MonoBehaviour
     float delayTimer;
     float startTime = 0;
     public bool endOfGame = false;
+    bool gameFailed = false;
 
     // Start is called before the first frame update
     void Start()
@@ -58,7 +72,27 @@ public class TubeScoreboard : MonoBehaviour
         for(int i = 0; i < pileOfBalls.transform.childCount; i++)
         {
             Balls.Add(pileOfBalls.transform.GetChild(i).gameObject);
+            if(pileOfBalls.transform.GetChild(i).gameObject.GetComponent<Renderer>().sharedMaterial == tubeBall1)
+            {
+                numTubeBall1++;
+            }
+            else if (pileOfBalls.transform.GetChild(i).gameObject.GetComponent<Renderer>().sharedMaterial == tubeBall2)
+            {
+                numTubeBall2++;
+            }
+            else if (pileOfBalls.transform.GetChild(i).gameObject.GetComponent<Renderer>().sharedMaterial == tubeBall3)
+            {
+                numTubeBall3++;
+            }
         }
+
+        scoreUpdate();
+
+        left1 = activeBalls1.Count;
+        left2 = activeBalls2.Count;
+        left3 = activeBalls3.Count;
+
+
         scoreText.GetComponent<Text>().text = "Stage " + stageCounter + "\n\nYellow: " + score1.ToString() + "    Light Purple: " + score2.ToString() + "    Turqoise: " + score3.ToString() +
                 "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\nWrong Color: " + wrongColor.ToString() + "  Excess Balls: " + excessBalls.ToString() + "\n";
     }
@@ -74,6 +108,14 @@ public class TubeScoreboard : MonoBehaviour
             StartCoroutine(stageClear());
             startTime = 0;
         }
+        else if (endOfGame && !gameFailed)
+        {
+            scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString();
+        } 
+        else if (endOfGame && gameFailed)
+        {
+            scoreText.GetComponent<Text>().text = "Failed\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime + "\n\nWrong Color: " + wrongColor.ToString() + "    Excess Balls: " + excessBalls.ToString();
+        }
     }
 
     public void setBallsVisible(bool isVisible)
@@ -87,17 +129,108 @@ public class TubeScoreboard : MonoBehaviour
     // Updates score on each ball collision
     public void scoreUpdate()
     {
-        // Calls Update function every time any ball collides with environment
+        // Checks for number of active balls
         foreach (GameObject ball in Balls)
         {
             ballUpdate(ball);
+
+            if (ball.activeSelf)
+            {
+                switch (ball.GetComponent<TubeBall>().ballMatID)
+                {
+                    case 1:
+                        if(ball.GetComponent<Renderer>().sharedMaterial == tubeBall1 && !activeBalls1.Contains(ball))
+                        {
+                            activeBalls1.Add(ball);
+                        }
+                        break;
+                    case 2:
+                        if (ball.GetComponent<Renderer>().sharedMaterial == tubeBall2 && !activeBalls2.Contains(ball))
+                        {
+                            activeBalls2.Add(ball);
+                        }
+                        break;
+                    case 3:
+                        if (ball.GetComponent<Renderer>().sharedMaterial == tubeBall3 && !activeBalls3.Contains(ball))
+                        {
+                            activeBalls3.Add(ball);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                switch (ball.GetComponent<TubeBall>().ballMatID)
+                {
+                    case 1:
+                        if (ball.GetComponent<Renderer>().sharedMaterial == tubeBall1 && !lostBalls1.Contains(ball))
+                        {
+                            lostBalls1.Add(ball);
+                            activeBalls1.Remove(ball);
+                            Debug.Log("Remove ball called");
+                        }
+                        break;
+                    case 2:
+                        if (ball.GetComponent<Renderer>().sharedMaterial == tubeBall2 && !lostBalls2.Contains(ball))
+                        {
+                            lostBalls2.Add(ball);
+                            activeBalls2.Remove(ball);
+                        }
+                        break;
+                    case 3:
+                        if (ball.GetComponent<Renderer>().sharedMaterial == tubeBall3 && !lostBalls3.Contains(ball))
+                        {
+                            lostBalls3.Add(ball);
+                            activeBalls3.Remove(ball);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
-        // Updates Scoreboard Text
-        scoreText.GetComponent<Text>().text = "Stage " + stageCounter + "\n\nYellow: " + score1.ToString() + "    Light Purple: " + score2.ToString() + "    Turqoise: " + score3.ToString() +
-                "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\nWrong Color: " + wrongColor.ToString() + "  Excess Balls: " + excessBalls.ToString() + "\n";
-        /*scoreBoard.text = "Stage " + stageCounter + "\n\n남은 공: " + (clonedBalls.Count - score).ToString() + " 개\n\nDrops: " + totalDrops.ToString();*/
+        left1 = activeBalls1.Count;
+        left2 = activeBalls2.Count;
+        left3 = activeBalls3.Count;
 
+        // Updates Scoreboard Text
+        if (!endOfGame)
+        {
+            scoreText.GetComponent<Text>().text = "Stage " + stageCounter + "\n\nYellow: " + score1.ToString() + "    Light Purple: " + score2.ToString() + "    Turqoise: " + score3.ToString()
+                + "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\nWrong Color: " + wrongColor.ToString() + "  Excess Balls: " + excessBalls.ToString() + "\n";
+        }
+
+        // Fails if too many balls are lost
+        if (!endOfGame && stageBalls == 1 && (left1 < 6 || left2 < 6 || left3 < 6))
+        {
+            scoreText.GetComponent<Text>().text = "Failed\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime + "\n\nWrong Color: " + wrongColor.ToString() + "    Excess Balls: " + excessBalls.ToString() + "\n\n";
+            endOfGame = true;
+            gameFailed = true;
+            clearTime = timer.GetComponent<Text>().text;
+            RecordData();
+            Debug.Log("Called here");
+        }
+        else if (!endOfGame && stageBalls == 2 && (left1 < 5 || left2 < 5 || left3 < 5))
+        {
+            scoreText.GetComponent<Text>().text = "Failed\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime + "\n\nWrong Color: " + wrongColor.ToString() + "    Excess Balls: " + excessBalls.ToString() + "\n\n";
+            endOfGame = true;
+            gameFailed = true;
+            clearTime = timer.GetComponent<Text>().text;
+            RecordData();
+        }
+        else if (!endOfGame && stageBalls == 3 && (left1 < 3 || left2 < 3 || left3 < 3))
+        {
+            scoreText.GetComponent<Text>().text = "Failed\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime + "\n\nWrong Color: " + wrongColor.ToString() + "    Excess Balls: " + excessBalls.ToString() + "\n\n";
+            endOfGame = true;
+            gameFailed = true;
+            clearTime = timer.GetComponent<Text>().text;
+            RecordData();
+        }
+
+        // Move onto next stage
         if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls)
         {
             startTime = delayTimer;
@@ -216,7 +349,7 @@ public class TubeScoreboard : MonoBehaviour
             {
                 Destroy(ball);
             }*/
-            scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString();
+            scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\n";
             /*scoreBoard.text = "Finish!\n\nDrops: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime;*/
             timer.SetActive(false);
             endOfGame = true;
@@ -318,7 +451,20 @@ public class TubeScoreboard : MonoBehaviour
 
     public void RecordData()
     {
-        string results = "Drops: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime.ToString() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
+        string results;
+        if(clearTime != "" && gameFailed)
+        {
+            results = "Failed!\n\nDrops: " + totalDrops.ToString() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
+        }
+        else if (clearTime != "")
+        {
+            results = "Drops: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime.ToString() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
+        }
+        else
+        {
+            results = "Drops: " + totalDrops.ToString() + "\n\nTerminated(Stage " + stageCounter + ")\n";
+        }
+        
         GetComponent<SaveScoopData>().SaveTempSceneData(results);
     }
 

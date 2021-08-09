@@ -77,8 +77,8 @@ public class TubeBall : MonoBehaviour
             resetBall();
             /*Debug.Log("Ball out");*/
             ScoreCheck = false;
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
             gameObject.SetActive(false);
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
         }
     }
 
