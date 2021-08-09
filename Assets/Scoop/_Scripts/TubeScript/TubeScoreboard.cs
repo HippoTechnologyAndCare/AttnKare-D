@@ -425,16 +425,16 @@ public class TubeScoreboard : MonoBehaviour
     // Record Game Score
     public void RecordData()
     {
-        string results;
+        string results = "An Error has occured :(";
         if(clearTime != "" && gameFailed)
         {
             results = "Failed!\n\n" + WriteStageDrops() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
         }
-        else if (clearTime != "")
+        if (clearTime != "")
         {
             results = WriteStageDrops() + "\n\n" + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
         }
-        else
+        if(clearTime == "")
         {
             results = WriteStageDrops() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nTerminated(Stage " + stageCounter + ")\n";
         }
