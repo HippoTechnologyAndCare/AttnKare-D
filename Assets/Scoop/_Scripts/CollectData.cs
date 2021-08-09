@@ -225,7 +225,7 @@ namespace BNG
 
         public string Plot(float time)
         {
-            string plot = time.ToString() + ", " + _LTrigger.ToString() + time.ToString() + ", " + _RTrigger.ToString() + time.ToString() + ", " + _LGrip.ToString() + time.ToString() + ", " + _RGrip.ToString();
+            string plot = time.ToString() + ", " + _LTrigger.ToString() + ", " + time.ToString() + ", " + _RTrigger.ToString() + ", " + time.ToString() + ", " + _LGrip.ToString() + ", " + time.ToString() + ", " + _RGrip.ToString();
             return plot;
         }
 

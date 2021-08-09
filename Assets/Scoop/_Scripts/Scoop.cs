@@ -26,6 +26,7 @@ public class Scoop : MonoBehaviour
     {
         // If Scoop escapes room, return it to its original position (based on distance between camera and scoop)
         timer += Time.deltaTime;
+
         if (timer > 2)
         {
             if (Vector3.Distance(gameObject.transform.position, headCamera.position) > 150f)
