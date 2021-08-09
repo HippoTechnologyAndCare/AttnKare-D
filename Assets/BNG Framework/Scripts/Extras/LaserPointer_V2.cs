@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using HutongGames.PlayMaker;
 
 namespace BNG
 {
@@ -20,13 +21,15 @@ namespace BNG
         public bool Active = true;
 
         private int lineEndPosition;
+        private bool isIn;
 
         /// <summary>
         /// 0.5 = Line Goes Half Way. 1 = Line reaches end.
         /// </summary>
-        [Tooltip("Example : 0.5 = Line Goes Half Way. 1 = Line reaches end.")]
+        [UnityEngine.Tooltip("Example : 0.5 = Line Goes Half Way. 1 = Line reaches end.")]
         public float LineDistanceModifier = 0.8f;
 
+        public PlayMakerFSM MyFsm;
         void Awake()
         {
             if (cursor)
@@ -46,7 +49,10 @@ namespace BNG
                 line.useWorldSpace = true;
             }
         }
-
+        private void Start()
+        {
+            isIn = false;
+        }
         void LateUpdate()
         {
             if (Active)
@@ -58,7 +64,11 @@ namespace BNG
                 {
                     // Add dot at line's end                          
                     LaserEnd.transform.position = hit.point;
-                    LaserEnd.transform.rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);
+                    LaserEnd.transform.rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);                    
+                    if (!isIn)
+                    {
+                        OnEvent("On Pointer");
+                    }                    
                 }
 
                 // Set position of the cursor
@@ -77,6 +87,7 @@ namespace BNG
                         if (!line.enabled)
                         {
                             LaserEnd.transform.position = new Vector3(0, 1000, 0);
+                            ExitEvent("Exit Pointer");
                         }
                     }
 
@@ -100,6 +111,18 @@ namespace BNG
                     line.enabled = false;
                 }
             }
+        }
+
+        private void OnEvent(string currentEvent)
+        {
+            isIn = true;
+            MyFsm.SendEvent(currentEvent);
+        }
+
+        private void ExitEvent(string currentEvent)
+        {
+            isIn = false;
+            MyFsm.SendEvent(currentEvent);
         }
     }
 }
