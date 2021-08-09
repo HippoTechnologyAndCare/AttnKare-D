@@ -61,6 +61,7 @@ public class TubeScoreboard : MonoBehaviour
     float startTime = 0;
     public bool endOfGame = false;
     bool gameFailed = false;
+    bool dataRecorded = false;
 
     // Start is called before the first frame update
     void Start()
@@ -86,6 +87,11 @@ public class TubeScoreboard : MonoBehaviour
     {
         // For Stage Wait Time
         delayTimer += Time.deltaTime;
+
+        if (dataRecorded)
+        {
+            GetComponent<TubeScoreboard>().enabled = false;
+        }
 
         // Moves onto next stage
         if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls && delayTimer - startTime > 4.8f && delayTimer - startTime < 5.2f && !endOfGame)
@@ -190,7 +196,7 @@ public class TubeScoreboard : MonoBehaviour
             gameFailed = true;
             clearTime = timer.GetComponent<Text>().text;
             RecordData();
-            Debug.Log("Called here");
+            dataRecorded = true;
         }
         else if (!endOfGame && stageBalls == 2 && (left1 < 5 || left2 < 5 || left3 < 5))
         {
@@ -199,6 +205,7 @@ public class TubeScoreboard : MonoBehaviour
             gameFailed = true;
             clearTime = timer.GetComponent<Text>().text;
             RecordData();
+            dataRecorded = true;
         }
         else if (!endOfGame && stageBalls == 3 && (left1 < 3 || left2 < 3 || left3 < 3))
         {
@@ -207,6 +214,7 @@ public class TubeScoreboard : MonoBehaviour
             gameFailed = true;
             clearTime = timer.GetComponent<Text>().text;
             RecordData();
+            dataRecorded = true;
         }
 
         // Move onto next stage
@@ -321,6 +329,7 @@ public class TubeScoreboard : MonoBehaviour
             timer.SetActive(false);
             endOfGame = true;
             RecordData();
+            dataRecorded = true;
         }
         // If score is not 3, move onto next stage
         else if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls)
