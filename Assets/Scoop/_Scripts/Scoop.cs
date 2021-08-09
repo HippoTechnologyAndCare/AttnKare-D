@@ -8,7 +8,7 @@ public class Scoop : MonoBehaviour
     Vector3 scoopRot;
     float timer;
     public GameObject errorMessage;
-
+    public int scoopLostCount = 0;
     
     [Tooltip("Center Camera of XR Rig")]
     public Transform headCamera;
@@ -78,5 +78,6 @@ public class Scoop : MonoBehaviour
         gameObject.transform.localPosition = scoopPos;
         gameObject.transform.eulerAngles = scoopRot;
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        scoopLostCount++;
     }
 }

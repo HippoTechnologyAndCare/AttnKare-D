@@ -77,32 +77,56 @@ public class TubeBall : MonoBehaviour
             resetBall();
             /*Debug.Log("Ball out");*/
             ScoreCheck = false;
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
             gameObject.SetActive(false);
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        // Yellow Tube
         if (other.gameObject.tag == "Checker1" && GetComponent<Renderer>().sharedMaterial == tubeBall1)
         {
             ScoreCheck = true;
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
             Debug.Log("tubeball1 success");
+        } 
+        else if (other.gameObject.tag == "Checker1" && GetComponent<Renderer>().sharedMaterial != tubeBall1)
+        {
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().wrongColor++;
+            resetBall();
+            gameObject.SetActive(false);
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
         }
 
+        // Light Purple Tube
         if (other.gameObject.tag == "Checker2" && GetComponent<Renderer>().sharedMaterial == tubeBall2)
         {
             ScoreCheck = true;
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
             Debug.Log("tubeball2 success");
         }
+        else if (other.gameObject.tag == "Checker2" && GetComponent<Renderer>().sharedMaterial != tubeBall2)
+        {
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().wrongColor++;
+            resetBall();
+            gameObject.SetActive(false);
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
+        }
 
+        // Turqoise Tube
         if (other.gameObject.tag == "Checker3" && GetComponent<Renderer>().sharedMaterial == tubeBall3)
         {
             ScoreCheck = true;
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
             Debug.Log("tubeball3 success");
+        }
+        else if (other.gameObject.tag == "Checker3" && GetComponent<Renderer>().sharedMaterial != tubeBall3)
+        {
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().wrongColor++;
+            resetBall();
+            gameObject.SetActive(false);
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
         }
     }
 
