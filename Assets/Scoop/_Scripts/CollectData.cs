@@ -26,9 +26,13 @@ namespace BNG
         // For Checking in Inspector 
         [Header("Controller Button Debug Panel")]
         public int _LTriggerClicks;
+        public float _LTrigger;
         public int _RTriggerClicks;
+        public float _RTrigger;
         public int _LGripClicks;
+        public float _LGrip;
         public int _RGripClicks;
+        public float _RGrip;
         public int _AClicks;
         public int _BClicks;
         public int _XClicks;
@@ -81,10 +85,9 @@ namespace BNG
         void Update()
         {
             Timer += Time.deltaTime;
-            if (Timer > .2f)
+            if (Timer > .05f)
             {
                 SaveDeviceData();
-
                 Timer = 0;
             }
             ShowDataOnInspector();
@@ -151,9 +154,13 @@ namespace BNG
 
             // Update Debug Panel per frame
             _LTriggerClicks = database.LTriggerClicks;
+            _LTrigger = _inputBridge.LeftTrigger;
             _RTriggerClicks = database.RTriggerClicks;
+            _RTrigger = _inputBridge.RightTrigger;
             _LGripClicks = database.LGripClicks;
+            _LGrip = _inputBridge.LeftGrip;
             _RGripClicks = database.RGripClicks;
+            _RGrip = _inputBridge.RightGrip;
             _AClicks = database.AClicks;
             _BClicks = database.BClicks;
             _XClicks = database.XClicks;
@@ -171,6 +178,7 @@ namespace BNG
         {
             DeviceDataInfo = new FileStream(DeviceSavePath, FileMode.Append, FileAccess.Write);
             DeviceDataWriter = new StreamWriter(DeviceDataInfo, System.Text.Encoding.Unicode);
+            DeviceDataWriter.WriteLine(Buttons());
             DeviceDataWriter.WriteLine(Positions());
             DeviceDataWriter.Close();
         }
@@ -182,6 +190,15 @@ namespace BNG
                 " )\nLEFT CONTROLLER POSITION (" + database.LHandPosition.x.ToString() + ", " + database.LHandPosition.y.ToString() + ", " + database.LHandPosition.z.ToString() + 
                 " )        RIGHT CONTROLLER POSITION (" + database.RHandPosition.x.ToString() + ", " + database.RHandPosition.y.ToString() + ", " + database.RHandPosition.z.ToString() + " )"
                 + "\n------------------------------------------------------------------------------------------------------------------------------------------------------------";
+        }
+
+        public string Buttons()
+        {
+            return "A Button: " + (_inputBridge.AButtonDown || _inputBridge.AButton || _inputBridge.AButtonUp ? 1 : 0).ToString() +
+                "  B Button: " + (_inputBridge.BButtonDown || _inputBridge.BButton || _inputBridge.BButtonUp ? 1 : 0).ToString() +
+                "  X Button: " + (_inputBridge.XButtonDown || _inputBridge.XButton || _inputBridge.XButtonUp ? 1 : 0).ToString() +
+                "  Y Button: " + (_inputBridge.YButtonDown || _inputBridge.YButton || _inputBridge.YButtonUp ? 1 : 0).ToString() +
+                "\nLeft Trigger: " + _LTrigger.ToString() + "  Right Trigger: " + _RTrigger.ToString() + "  Left Grip: " + _LGrip.ToString() + "  Right Grip: " + _RGrip.ToString() + "\n";
         }
 
         public void SaveInputData(string myData)
