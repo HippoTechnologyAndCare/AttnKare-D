@@ -47,6 +47,7 @@ public class Scoop : MonoBehaviour
             scoreboard.GetComponent<TubeScoreboard>().scoopLost++;
         }
     }
+
     private void resetScoop()
     {
         gameObject.transform.localPosition = scoopPos;

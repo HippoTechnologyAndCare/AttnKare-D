@@ -84,7 +84,7 @@ namespace BNG
             database = new Stats();
             InputSavePath = FilePath + SceneManager.GetActiveScene().name + "_" + "INPUT" + "_" + SaveTime + "_DATA" + ".txt";
             DeviceSavePath = FilePath + SceneManager.GetActiveScene().name + "_" + "DEVICE" + "_" + SaveTime + "_DATA" + ".txt";
-            TestSavePath = FilePath + SceneManager.GetActiveScene().name + "_" + "TEST" + "_" + SaveTime + "_DATA" + ".txt";
+            TestSavePath = FilePath + SceneManager.GetActiveScene().name + "_" + "PLOT" + "_" + SaveTime + "_DATA" + ".txt";
 
             TestStream = new FileStream(TestSavePath, FileMode.Append, FileAccess.Write);
             TestWriter = new StreamWriter(TestStream, System.Text.Encoding.Unicode);
