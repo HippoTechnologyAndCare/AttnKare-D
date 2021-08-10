@@ -4,6 +4,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
+using UserData;
 #if UNITY_EDITOR
 using UnityEditor.SceneManagement;
 #endif
@@ -17,25 +18,22 @@ public class GameDataManager : MonoBehaviour
 
     SaveCurrentSceneData saveCurrentSceneData;
 
-    private void Awake()
-    {
-        
-    }
-
     // Start is called before the first frame update
     void Start()
     {
-        if (JsonManager.isFirst == true)
-        {                        
-            JsonManager.GetInstance().LoadPlayerDataFromJson();
+        if (DataManager.GetInstance().isPlayed == true)
+        {
+            DataManager.GetInstance().LoadPlayerDataFromJson();
             Debug.Log("Load Data!");
         }
+
         else
         {
             setPlayerData.InitialDataSetting();
-            JsonManager.isFirst = true;
+            DataManager.GetInstance().isPlayed = true;
         }
-        CheckSaveDataType();        
+
+        CheckSaveDataType();
     }
 
     void CheckSaveDataType()
@@ -63,7 +61,7 @@ public class GameDataManager : MonoBehaviour
             case 5:
                 saveCurrentSceneData = SetData_pm;
                 break;
-        }        
+        }
     }
 
     public void SaveCurrentData()
@@ -74,8 +72,8 @@ public class GameDataManager : MonoBehaviour
         sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;
 #endif  
         saveCurrentSceneData(sceneIndex);
-        
-        JsonManager.GetInstance().Invoke("SavePlayerDataToJson", 0.1f);        
+
+        DataManager.GetInstance().Invoke("SavePlayerDataToJson", 0.1f);
     }
 
     public void SetData(int sceneIndex)
@@ -90,7 +88,7 @@ public class GameDataManager : MonoBehaviour
     {
         string convertIndex = sceneIndex.ToString();
         string functionName = "GetSceneIndex" + convertIndex;
-        
-        GameObject.Find("SetPlayerData").SendMessage(functionName);        
+
+        GameObject.Find("SetPlayerData").SendMessage(functionName);
     }
 }
