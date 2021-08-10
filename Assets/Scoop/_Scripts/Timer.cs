@@ -7,7 +7,7 @@ public class Timer : MonoBehaviour
 {
     public GameObject timer;
     private Text timerText;
-    private float secondsCount = 0;
+    [HideInInspector] public float secondsCount = 0;
     private int minuteCount;
     private int hourCount;
 
@@ -21,6 +21,7 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        secondsCount += Time.deltaTime;
         UpdateTimerUI();
     }
 
@@ -28,8 +29,19 @@ public class Timer : MonoBehaviour
     public void UpdateTimerUI()
     {
         //set timer UI
-        secondsCount += Time.deltaTime;
-        timerText.text = hourCount + "시간 " + minuteCount + "분 " + (int)secondsCount + "초";
+        if(hourCount == 0 && minuteCount == 0)
+        {
+            timerText.text = (int)secondsCount + "초";
+        }
+        else if (hourCount == 0 && minuteCount != 0)
+        {
+            timerText.text = minuteCount + "분 " + (int)secondsCount + "초";
+        }
+        else
+        {
+            timerText.text = hourCount + "시간 " + minuteCount + "분 " + (int)secondsCount + "초";
+        }
+        
         if (secondsCount >= 60)
         {
             minuteCount++;

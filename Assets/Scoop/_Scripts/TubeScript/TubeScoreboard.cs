@@ -34,7 +34,8 @@ public class TubeScoreboard : MonoBehaviour
     [HideInInspector] public int score3 = 0; // Turqoise Ball
     private int stageCounter = 1; // Stage number
     [HideInInspector] public int excessBalls = 0;
-    [HideInInspector] public int wrongColor = 0; 
+    [HideInInspector] public int wrongColor = 0;
+    [HideInInspector] public int scoopLost = 0;
     public int stageBalls = 1;
 
     [Header("Prefabs and Objects")]
@@ -47,6 +48,8 @@ public class TubeScoreboard : MonoBehaviour
     public List<GameObject> lostBalls1 = new List<GameObject>();
     public List<GameObject> lostBalls2 = new List<GameObject>();
     public List<GameObject> lostBalls3 = new List<GameObject>();
+    public GameObject Tools;
+    public List<GameObject> toolList = new List<GameObject>();
 
     [Header("Debug Panel")]
     public int left1;
@@ -60,6 +63,7 @@ public class TubeScoreboard : MonoBehaviour
 
     float delayTimer;
     float startTime = 0;
+    float temp; // save stage clear time data temporarily
     public bool endOfGame = false;
     bool gameFailed = false;
     bool dataRecorded = false;
@@ -75,6 +79,15 @@ public class TubeScoreboard : MonoBehaviour
             Balls.Add(pileOfBalls.transform.GetChild(i).gameObject);
         }
 
+        for(int i=0; i < Tools.transform.childCount; i++)
+        {
+            if (Tools.transform.GetChild(i).gameObject.activeSelf)
+            {
+                toolList.Add(Tools.transform.GetChild(i).gameObject);
+            }
+            
+        }
+
         // Initialize Scoreboard
         scoreUpdate();
 
@@ -86,14 +99,39 @@ public class TubeScoreboard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // For Stage Wait Time
-        delayTimer += Time.deltaTime;
-
         if (dataRecorded)
         {
             GetComponent<TubeScoreboard>().enabled = false;
         }
 
+        // For Stage Wait Time
+        delayTimer += Time.deltaTime;
+
+        /*// Moves onto next stage
+        if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls && delayTimer - startTime > 4.8f && delayTimer - startTime < 5.2f && !endOfGame)
+        {
+            Debug.Log("Timer Finished: " + delayTimer);
+            StartCoroutine(stageClear());
+            startTime = 0;
+        }
+        // End of Game
+        else if (endOfGame && !gameFailed)
+        {
+            scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime() + "\nWrong Color: " + wrongColor.ToString() + "    Excess Balls: " + excessBalls.ToString();
+            RecordData(endOfGame, gameFailed);
+            dataRecorded = true;
+        }
+        // Too many balls lost
+        else if (endOfGame && gameFailed)
+        {
+            scoreText.GetComponent<Text>().text = "Failed\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime() + "\nWrong Color: " + wrongColor.ToString() + "    Excess Balls: " + excessBalls.ToString();
+            RecordData(endOfGame, gameFailed);
+            dataRecorded = true;
+        }*/
+    }
+
+    private void FixedUpdate()
+    {
         // Moves onto next stage
         if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls && delayTimer - startTime > 4.8f && delayTimer - startTime < 5.2f && !endOfGame)
         {
@@ -105,11 +143,15 @@ public class TubeScoreboard : MonoBehaviour
         else if (endOfGame && !gameFailed)
         {
             scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime() + "\nWrong Color: " + wrongColor.ToString() + "    Excess Balls: " + excessBalls.ToString();
+            RecordData(endOfGame, gameFailed);
+            dataRecorded = true;
         }
         // Too many balls lost
         else if (endOfGame && gameFailed)
         {
             scoreText.GetComponent<Text>().text = "Failed\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime() + "\nWrong Color: " + wrongColor.ToString() + "    Excess Balls: " + excessBalls.ToString();
+            RecordData(endOfGame, gameFailed);
+            dataRecorded = true;
         }
     }
 
@@ -196,7 +238,7 @@ public class TubeScoreboard : MonoBehaviour
             endOfGame = true;
             gameFailed = true;
             clearTime = timer.GetComponent<Text>().text;
-            RecordData();
+            RecordData(endOfGame, gameFailed);
             dataRecorded = true;
         }
         else if (!endOfGame && stageBalls == 2 && (left1 < 5 || left2 < 5 || left3 < 5))
@@ -205,7 +247,7 @@ public class TubeScoreboard : MonoBehaviour
             endOfGame = true;
             gameFailed = true;
             clearTime = timer.GetComponent<Text>().text;
-            RecordData();
+            RecordData(endOfGame, gameFailed);
             dataRecorded = true;
         }
         else if (!endOfGame && stageBalls == 3 && (left1 < 3 || left2 < 3 || left3 < 3))
@@ -214,7 +256,7 @@ public class TubeScoreboard : MonoBehaviour
             endOfGame = true;
             gameFailed = true;
             clearTime = timer.GetComponent<Text>().text;
-            RecordData();
+            RecordData(endOfGame, gameFailed);
             dataRecorded = true;
         }
 
@@ -258,11 +300,6 @@ public class TubeScoreboard : MonoBehaviour
                         score1++;
                     }
                 }
-                else if (!ball.GetComponent<TubeBall>().ScoreCheck && successBalls1.Contains(ball) && score1 > 0)
-                {
-                    successBalls1.Remove(ball);
-                    score1--;
-                }
                 break;
             case 2:
                 if (ball.GetComponent<TubeBall>().ScoreCheck && !successBalls2.Contains(ball) && ball.activeSelf)
@@ -279,11 +316,6 @@ public class TubeScoreboard : MonoBehaviour
                         score2++;
                     }
                 }
-                else if (!ball.GetComponent<TubeBall>().ScoreCheck && successBalls2.Contains(ball) && score2 > 0)
-                {
-                    successBalls2.Remove(ball);
-                    score2--;
-                }
                 break;
             case 3:
                 if (ball.GetComponent<TubeBall>().ScoreCheck && !successBalls3.Contains(ball) && ball.activeSelf)
@@ -299,11 +331,6 @@ public class TubeScoreboard : MonoBehaviour
                         successBalls3.Add(ball);
                         score3++;
                     }
-                }
-                else if (!ball.GetComponent<TubeBall>().ScoreCheck && successBalls3.Contains(ball) && score3 > 0)
-                {
-                    successBalls3.Remove(ball);
-                    score3--;
                 }
                 break;
             default:
@@ -329,7 +356,9 @@ public class TubeScoreboard : MonoBehaviour
             scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime() + "\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\n";
             timer.SetActive(false);
             endOfGame = true;
-            RecordData();
+            RecordStageClearTime(stageCounter);
+            RecordStageDrops(stageCounter);
+            RecordData(endOfGame, gameFailed);
             dataRecorded = true;
         }
         // If score is not 3, move onto next stage
@@ -343,16 +372,19 @@ public class TubeScoreboard : MonoBehaviour
             {
                 ball.GetComponent<TubeBall>().resetBall();
                 ball.GetComponent<TubeBall>().ScoreCheck = false;
+                ball.SetActive(false);
             }
             foreach (GameObject ball in successBalls2)
             {
                 ball.GetComponent<TubeBall>().resetBall();
                 ball.GetComponent<TubeBall>().ScoreCheck = false;
+                ball.SetActive(false);
             }
             foreach (GameObject ball in successBalls3)
             {
                 ball.GetComponent<TubeBall>().resetBall();
                 ball.GetComponent<TubeBall>().ScoreCheck = false;
+                ball.SetActive(false);
             }
 
             successBalls1.Clear();
@@ -391,54 +423,56 @@ public class TubeScoreboard : MonoBehaviour
     }
 
     // FUNCTIONS FOR Admin.cs SCRIPT
-/*    public void FreezeBalls()
-    {
-        foreach (GameObject ball in Balls)
+    /*    public void FreezeBalls()
         {
-            ball.GetComponent<Rigidbody>().useGravity = false;
-            ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            foreach (GameObject ball in Balls)
+            {
+                ball.GetComponent<Rigidbody>().useGravity = false;
+                ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            }
         }
-    }
 
-    public void MeltBalls()
-    {
-        foreach (GameObject ball in Balls)
+        public void MeltBalls()
         {
-            ball.GetComponent<Rigidbody>().useGravity = true;
+            foreach (GameObject ball in Balls)
+            {
+                ball.GetComponent<Rigidbody>().useGravity = true;
+            }
         }
-    }
 
-    public void FinishGameManually()
-    {
-        clearTime = timer.GetComponent<Text>().text;
-        foreach (GameObject ball in Balls)
+        public void FinishGameManually()
         {
-            Destroy(ball);
-        }
-        scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 횟수: " + totalDrops.ToString();
-        *//*scoreBoard.text = "Finish!\n\nDrops: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime;*//*
-        timer.SetActive(false);
-        endOfGame = true;
-    }*/
+            clearTime = timer.GetComponent<Text>().text;
+            foreach (GameObject ball in Balls)
+            {
+                Destroy(ball);
+            }
+            scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 횟수: " + totalDrops.ToString();
+            *//*scoreBoard.text = "Finish!\n\nDrops: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime;*//*
+            timer.SetActive(false);
+            endOfGame = true;
+        }*/
 
-    // Record Game Score
-    public void RecordData()
+    // Record Game Score (Change to json variables here)
+    public void RecordData(bool end, bool failed)
     {
-        string results = "An Error has occured :(";
-        if(clearTime != "" && gameFailed)
+        string results = "";
+
+        if(end && failed)
         {
-            results = "Failed!\n\n" + WriteStageDrops() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
+            results += "Failed: Y\n\n" + WriteStageDrops() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
         }
-        if (clearTime != "")
+        else if (end && !failed)
         {
-            results = WriteStageDrops() + "\n\n" + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
+            results += "Failed: N\n\n" + WriteStageDrops() + "\n\n" + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
         }
-        if(clearTime == "")
+        else
         {
-            results = WriteStageDrops() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nTerminated(Stage " + stageCounter + ")\n";
+            results += "Failed: N\n\n" + WriteStageDrops() + "\n\n" + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nTerminated(Stage " + stageCounter + ")\n";
         }
-        
+
+        results += "Scoop Lost Count: " + scoopLost.ToString() + "\n";
         GetComponent<SaveScoopData>().SaveTempSceneData(results); // Change location of this if necessary
     }
 
@@ -462,7 +496,7 @@ public class TubeScoreboard : MonoBehaviour
 
     public string WriteStageClearTime()
     {
-        return "Stage 1 Clear Time: " + clearTime1.ToString() + "    Stage 2 Clear Time: " + clearTime2.ToString() + "    Stage 3 Clear time: " + clearTime3.ToString() + "\n";
+        return "Stage 1 Clear Time: " + clearTime1.ToString() + "\nStage 2 Clear Time: " + clearTime2.ToString() + "\nStage 3 Clear time: " + clearTime3.ToString() + "\n";
     }
 
     public void RecordStageDrops(int stage)
@@ -488,17 +522,13 @@ public class TubeScoreboard : MonoBehaviour
         return "Stage 1 Drops: " + stage1Drops.ToString() + "    Stage 2 Drops: " + stage2Drops.ToString() + "    Stage 3 Drops: " + stage3Drops.ToString() + "\n";
     }
 
-    // When game is terminated, record data
-    /*private void OnApplicationQuit()
+    private void OnApplicationQuit()
     {
-        if(clearTime != "")
+        if (!endOfGame)
         {
-            GetComponent<SaveScoopData>().SaveTempSceneData("Drops: " + totalDrops.ToString() + "\n\nClear Time: " + clearTime + "\n");
+            RecordStageClearTime(stageCounter);
+            RecordStageDrops(stageCounter);
+            RecordData(endOfGame, gameFailed);
         }
-        else
-        {
-            GetComponent<SaveScoopData>().SaveTempSceneData("Drops: " + totalDrops.ToString() + "\n\nTerminated(Stage " + stageCounter + ")\n");
-        }
-        
-    }*/
+    }
 }
