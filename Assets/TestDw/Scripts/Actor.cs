@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System.Linq;
+using Pool;
+using System;
 
 //SimpleMove(lTrans.position);
 //speechBubble.SetText("Messagesadnasdkandkandkadnkadnkasndakn");
@@ -16,17 +18,18 @@ public partial class Actor : MonoBehaviour
     Animator animator;
     Quaternion originalRotation;
 
-    private float moveTime = 3f;
+    public float moveTime = 3f;
     void Start()
     {
         originalRotation = transform.rotation;
         spriteRenderers = gameObject.GetComponentsInChildren<SpriteRenderer>();
-        animator = gameObject.GetComponent<Animator>();
-        animator.SetBool(PARAM_ANIM_IS_WALK, false);
-        //TestMove(Vector3.left * 3f);
+
+        InitAnimation();
+    //  TestMove(Vector3.left * 3f);
+        //SimpleMove(Vector3.left );
     }
 
-    void TestMove(Vector3 dir) 
+    void TestMove(Vector3 dir)
     {
         SimpleMove(dir, () =>
         {
@@ -47,34 +50,53 @@ public partial class Actor : MonoBehaviour
             onComplete?.Invoke();
         });
 
-        tween.OnUpdate(() => 
+        tween.OnUpdate(() =>
         {
             var dir = dest - transform.position;
 
-            if(dir.magnitude <= 0.25f)
+            if (dir.magnitude <= 0.25f)
             {
                 animator.SetFloat(PARAM_ANIM_SPEED, 1f);
                 animator.SetBool(PARAM_ANIM_IS_WALK, false);
             }
-            else 
+            else
             {
                 animator.SetFloat(PARAM_ANIM_SPEED, 1f + dir.magnitude * 0.5f);
             }
 
             spriteRenderers.ToList().ForEach(_ =>
             {
-                if(dir.x != 0)
+                if (dir.x != 0)
                 {
                     _.flipX = dir.x > 0;
                 }
             });
         });
     }
+}
 
-    //void Update()
-    //{
-    //    transform.forward = Camera.main.transform.forward;
-    //}
+public partial class Actor//+Ani,Fx
+{
+    Pool<FxObject> pool_footStep;
+
+    void InitAnimation()
+    {
+        animator = gameObject.GetComponent<Animator>();
+        animator.SetBool(PARAM_ANIM_IS_WALK, false);
+        pool_footStep = new Pool<FxObject>(new PrefabFactory<FxObject>(Resources.Load<GameObject>("eff_footStep")), 5);
+    }
+
+    public void OnFootStep()
+    {
+        var fx = pool_footStep.Allocate();
+        fx.transform.position = transform.position + Vector3.up * -0.1f;
+        fx.actEnded = () => 
+        { 
+            pool_footStep.Release(fx); 
+        };
+
+        fx.Init();
+    }
 }
 
 public partial class Actor//CameraFacing
@@ -117,3 +139,4 @@ public partial class Actor//CameraFacing
         return Vector3.up;
     }
 }
+

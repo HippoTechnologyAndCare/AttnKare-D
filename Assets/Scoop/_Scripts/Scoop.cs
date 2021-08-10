@@ -7,7 +7,7 @@ public class Scoop : MonoBehaviour
     Vector3 scoopPos;
     Vector3 scoopRot;
     float timer;
-    public GameObject errorMessage;
+    public GameObject scoreboard;
     public int scoopLostCount = 0;
     
     [Tooltip("Center Camera of XR Rig")]
@@ -18,7 +18,6 @@ public class Scoop : MonoBehaviour
     {
         scoopPos = gameObject.transform.localPosition;
         scoopRot = gameObject.transform.eulerAngles;
-        errorMessage.SetActive(false);
     }
 
     // Update is called once per frame
@@ -45,35 +44,10 @@ public class Scoop : MonoBehaviour
         {
             Debug.Log("Scoop Hit Boundary");
             resetScoop();
+            scoreboard.GetComponent<TubeScoreboard>().scoopLost++;
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Error")
-        {
-            errorMessage.SetActive(true);
-            Debug.Log("Error");
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.tag == "Error")
-        {
-            errorMessage.SetActive(true);
-            Debug.Log("Error");
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Error")
-        {
-            errorMessage.SetActive(false);
-            Debug.Log("Out");
-        }
-    }
     private void resetScoop()
     {
         gameObject.transform.localPosition = scoopPos;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using KetosGames.SceneTransition;
 using TMPro;
 
 public class FinishButton : MonoBehaviour
@@ -14,6 +15,7 @@ public class FinishButton : MonoBehaviour
     string debugstring;
     Transform Fin1;
     Transform Fin2;
+    public int buildindex;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +34,7 @@ public class FinishButton : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 0.25f);
         foreach(Collider hit in hitColliders)
         {
-            if(hit.name == "RaycastCollider")
+            if(hit.name == "RaycastCollider") //have to hit with hand
             {
                 bActive = true;
             }
@@ -53,9 +55,7 @@ public class FinishButton : MonoBehaviour
 
             if (bActive) // if hand is what touching button
             {
-              
                 coroutine = StartCoroutine(NextScene());
-
 
             }
 
@@ -65,15 +65,12 @@ public class FinishButton : MonoBehaviour
 
             coroutine = StartCoroutine(PressedFirst());
 
-
         }
     }
 
     IEnumerator PressedFirst()
     {
 
-
-        
         float lerpTime = 0f;
         while (FinishCanvas.alpha < 1.0f) //fade in
         {
@@ -82,6 +79,7 @@ public class FinishButton : MonoBehaviour
 
         }
         yield return new WaitForSeconds(0.8f);
+
         bFin = true;
         yield return new WaitForSeconds(2.5f);
 
@@ -105,7 +103,6 @@ public class FinishButton : MonoBehaviour
     {
 
 
-        debugstring = "you";
         FinishCanvas.alpha = 1f;
         Fin1.gameObject.SetActive(false);
         Fin2.gameObject.SetActive(true);
@@ -120,7 +117,7 @@ public class FinishButton : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
 
 
-        SceneManager.LoadScene("Loading");
+        SceneLoader.LoadScene(buildindex);
 
 
 
