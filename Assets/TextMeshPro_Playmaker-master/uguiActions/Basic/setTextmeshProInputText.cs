@@ -61,12 +61,6 @@ namespace HutongGames.PlayMaker.Actions
                 return;
             }
 
-            if (_inputField == null)
-            {
-                Debug.LogError("No input field component was found on " + go);
-                return;
-            }
-
             _inputField.text = textString.Value;
         }
     }
