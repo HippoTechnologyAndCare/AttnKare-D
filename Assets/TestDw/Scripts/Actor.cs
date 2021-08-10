@@ -25,7 +25,7 @@ public partial class Actor : MonoBehaviour
         spriteRenderers = gameObject.GetComponentsInChildren<SpriteRenderer>();
 
         InitAnimation();
-        TestMove(Vector3.left * 3f);
+    //  TestMove(Vector3.left * 3f);
         //SimpleMove(Vector3.left );
     }
 
