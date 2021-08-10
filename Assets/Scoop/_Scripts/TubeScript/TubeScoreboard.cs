@@ -234,29 +234,29 @@ public class TubeScoreboard : MonoBehaviour
         // Fails if too many balls are lost
         if (!endOfGame && stageBalls == 1 && (left1 < 6 || left2 < 6 || left3 < 6))
         {
-            scoreText.GetComponent<Text>().text = "Failed\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime() + "\nWrong Color: " + wrongColor.ToString() + "    Excess Balls: " + excessBalls.ToString() + "\n\n";
             endOfGame = true;
             gameFailed = true;
             clearTime = timer.GetComponent<Text>().text;
             RecordData(endOfGame, gameFailed);
+            scoreText.GetComponent<Text>().text = "Failed\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime() + "\nWrong Color: " + wrongColor.ToString() + "    Excess Balls: " + excessBalls.ToString() + "\n\n";
             dataRecorded = true;
         }
         else if (!endOfGame && stageBalls == 2 && (left1 < 5 || left2 < 5 || left3 < 5))
         {
-            scoreText.GetComponent<Text>().text = "Failed\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime() + "\nWrong Color: " + wrongColor.ToString() + "    Excess Balls: " + excessBalls.ToString() + "\n\n";
             endOfGame = true;
             gameFailed = true;
             clearTime = timer.GetComponent<Text>().text;
             RecordData(endOfGame, gameFailed);
+            scoreText.GetComponent<Text>().text = "Failed\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime() + "\nWrong Color: " + wrongColor.ToString() + "    Excess Balls: " + excessBalls.ToString() + "\n\n";
             dataRecorded = true;
         }
         else if (!endOfGame && stageBalls == 3 && (left1 < 3 || left2 < 3 || left3 < 3))
         {
-            scoreText.GetComponent<Text>().text = "Failed\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime() + "\nWrong Color: " + wrongColor.ToString() + "    Excess Balls: " + excessBalls.ToString() + "\n\n";
             endOfGame = true;
             gameFailed = true;
             clearTime = timer.GetComponent<Text>().text;
             RecordData(endOfGame, gameFailed);
+            scoreText.GetComponent<Text>().text = "Failed\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime() + "\nWrong Color: " + wrongColor.ToString() + "    Excess Balls: " + excessBalls.ToString() + "\n\n";
             dataRecorded = true;
         }
 
@@ -353,12 +353,12 @@ public class TubeScoreboard : MonoBehaviour
         if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls && stageBalls == 3)
         {
             clearTime = timer.GetComponent<Text>().text;
-            scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime() + "\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\n";
             timer.SetActive(false);
             endOfGame = true;
             RecordStageClearTime(stageCounter);
             RecordStageDrops(stageCounter);
             RecordData(endOfGame, gameFailed);
+            scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime() + "\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\n";
             dataRecorded = true;
         }
         // If score is not 3, move onto next stage
@@ -461,18 +461,18 @@ public class TubeScoreboard : MonoBehaviour
 
         if(end && failed)
         {
-            results += "Failed: Y\n\n" + WriteStageDrops() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
+            results += "Failed: Y\n\n" + WriteStageDrops() + "Wrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nScoop Lost Count: " + scoopLost.ToString() + "\n";
         }
         else if (end && !failed)
         {
-            results += "Failed: N\n\n" + WriteStageDrops() + "\n\n" + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
+            results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nScoop Lost Count: " + scoopLost.ToString() + "\n";
         }
         else
         {
-            results += "Failed: N\n\n" + WriteStageDrops() + "\n\n" + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nTerminated(Stage " + stageCounter + ")\n";
+            results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nScoop Lost Count: " + scoopLost.ToString() + 
+                "\n\nTerminated(Stage " + stageCounter + ")\n";
         }
 
-        results += "Scoop Lost Count: " + scoopLost.ToString() + "\n";
         GetComponent<SaveScoopData>().SaveTempSceneData(results); // Change location of this if necessary
     }
 
@@ -496,7 +496,7 @@ public class TubeScoreboard : MonoBehaviour
 
     public string WriteStageClearTime()
     {
-        return "Stage 1 Clear Time: " + clearTime1.ToString() + "\nStage 2 Clear Time: " + clearTime2.ToString() + "\nStage 3 Clear time: " + clearTime3.ToString() + "\n";
+        return "Stage 1 Clear Time: " + clearTime1.ToString() + "\nStage 2 Clear Time: " + clearTime2.ToString() + "\nStage 3 Clear time: " + clearTime3.ToString();
     }
 
     public void RecordStageDrops(int stage)
@@ -519,7 +519,7 @@ public class TubeScoreboard : MonoBehaviour
 
     public string WriteStageDrops()
     {
-        return "Stage 1 Drops: " + stage1Drops.ToString() + "    Stage 2 Drops: " + stage2Drops.ToString() + "    Stage 3 Drops: " + stage3Drops.ToString() + "\n";
+        return "Stage 1 Drops: " + stage1Drops.ToString() + "    Stage 2 Drops: " + stage2Drops.ToString() + "    Stage 3 Drops: " + stage3Drops.ToString() + "\n\n";
     }
 
     private void OnApplicationQuit()
