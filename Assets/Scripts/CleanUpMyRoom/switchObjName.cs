@@ -21,11 +21,11 @@ public class switchObjName : MonoBehaviour
             case "Box01":                
                 fsm_s.Value = "박스";
                 break;
-            case "Book01":
-                fsm_s.Value = "책1";
+            case "Lamp01":
+                fsm_s.Value = "스탠드";
                 break;
             case "Book02":
-                fsm_s.Value = "책2";
+                fsm_s.Value = "책";
                 break;
             case "Globe01":
                 fsm_s.Value = "지구본";

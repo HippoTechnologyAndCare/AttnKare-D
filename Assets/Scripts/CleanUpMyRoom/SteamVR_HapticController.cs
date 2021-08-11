@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR;
 
-public class HapticController : MonoBehaviour
+public class SteamVR_HapticController : MonoBehaviour
 {
-
     public bool HapticsOnCollision = true;
 
     public float VibrateFrequency = 0.3f;
