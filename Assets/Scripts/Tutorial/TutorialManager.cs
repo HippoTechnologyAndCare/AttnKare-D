@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using EPOOutline;
 using HutongGames.PlayMaker;
+using UserData;
 
 
-namespace BNG { 
-public class TutorialManager : MonoBehaviour
-{
-
+namespace BNG.UserData {
+    public class TutorialManager : MonoBehaviour
+    {
+        UserInfo dataManager;
         private bool lTrigger_Down;
         private bool rTrigger_Down;
         private float ltriggerValue;
@@ -26,74 +27,74 @@ public class TutorialManager : MonoBehaviour
         public int trigInt;
         bool check = false;
 
-       
 
-    // Start is called before the first frame update
-    void Start()
-    {
+
+        // Start is called before the first frame update
+        void Start()
+        {
             trigInt = 0;
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
             childGrabbed = Grabber.GetComponentsInChildren<Outlinable>();
 
             if (Grabber.GetComponent<Grabber>().HeldGrabbable != null)
             { heldGrabbable = Grabber.GetComponent<Grabber>().HeldGrabbable.transform.gameObject; }
 
 
-            
+
             Controller = XRRig.GetComponent<InputBridge>();
-            rTrigger_Down= Controller.RightTriggerDown;
+            rTrigger_Down = Controller.RightTriggerDown;
             lTrigger_Down = Controller.LeftTriggerDown;
             ltriggerValue = Controller.LeftTrigger;
 
 
 
-    }
+        }
 
         private void LateUpdate()
         {
-            if(FSMCheck)
+            if (FSMCheck)
             {
-                
+
                 //TriggerDown Check
                 if (lTrigger_Down == true && rTrigger_Down == true)
                 {
 
                     Debug.Log("true");
                     //if (check)
-                   // {
-                        //trigInt += 1;
-                        //if (trigInt >= 5)
-                       // {
-                            Playmaker.FsmVariables.GetFsmBool("triggerDown").Value = true;
+                    // {
+                    //trigInt += 1;
+                    //if (trigInt >= 5)
+                    // {
+                    Playmaker.FsmVariables.GetFsmBool("triggerDown").Value = true;
 
-                      //  }
+                    //  }
 
-                 //   }
-                 //   check = false;
+                    //   }
+                    //   check = false;
 
                 }
                 else if (lTrigger_Down == false || rTrigger_Down == false)
                 {
-                  //  check = true;
+                    //  check = true;
                 }
 
             }
 
 
             //Right Trigger Check (BOX 다섯개 넣어야하는 걸로 수정)
-           /* if(childGrabbed.Length > 0)
-            {
-                Grabbed = childGrabbed[0].gameObject;
-                Playmaker.FsmVariables.GetFsmBool("rTriggerPressed").Value = true;
-                childGrabbed[0].enabled = false;
+            /* if(childGrabbed.Length > 0)
+             {
+                 Grabbed = childGrabbed[0].gameObject;
+                 Playmaker.FsmVariables.GetFsmBool("rTriggerPressed").Value = true;
+                 childGrabbed[0].enabled = false;
 
-            }
-           */
+             }
+            */
 
 
 
@@ -119,7 +120,26 @@ public class TutorialManager : MonoBehaviour
 
 
         }
+
+
+        public void GetGrade()
+        {
+            GameObject JasonManager = GameObject.Find("JsonManager");
+            dataManager = JasonManager.GetComponent<UserInfo>();
+            string gradeLH = dataManager.Grade;
+
+
+
+
+        }
     }
+
+     
+    
+
+
+
+
 
 
 }

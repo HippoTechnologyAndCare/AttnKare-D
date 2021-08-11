@@ -11,14 +11,15 @@ namespace Tobii.XR.Examples
 
         public void GazeFocusChanged(bool hasFocus)
         {
-            if (hasFocus)
+/*            if (hasFocus)
             {
                 MainManager.GetComponent<PaddleManager>().DoNotConcentrate = false;
             }
             else
             {
                 MainManager.GetComponent<PaddleManager>().DoNotConcentrate = true;
-            }
+            }*/
         }
+
     }
 }
