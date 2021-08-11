@@ -274,18 +274,20 @@ public class ScheduleManager : MonoBehaviour
 
         float PlanData = float.Parse(MyScheduleforJson, System.Globalization.CultureInfo.InvariantCulture);
 
+        Debug.Log(PlanData.ToString());
+
         //JsonManager.GetInstance().LoadPlayerDataFromJson();
-        setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex2(TotalElapsedTimeForShow, TotalMovingCnt, NotOnBoardForShow, ResetCnt, ClickNoCnt, PlanData);
-        saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
+        //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex2(TotalElapsedTimeForShow, TotalMovingCnt, NotOnBoardForShow, ResetCnt, ClickNoCnt, PlanData);
+        //saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
 
-
+/*
         string SendStr = "총시간 " + TotalElapsedTimeForShow.ToString() + " / 총이동 " + TotalMovingCnt.ToString()
             + " / 다시하기 " + ResetCnt.ToString() + " / 시선벗어난시간 " + NotOnBoardForShow.ToString()
             + " / 아니오횟수 " + ClickNoCnt.ToString() + "\n최종계획 ::: " + MySchedule;
-
+*/
        //this.transform.GetComponent<SaveTempData>().SaveTempSceneData(SendStr);        //텍스트파일 저장
 
-        Result.text = SendStr;
+        //Result.text = SendStr;
 
         StartCoroutine(GoToLobby());
     }
@@ -303,8 +305,7 @@ public class ScheduleManager : MonoBehaviour
         FinishCntDwn.text = "1";
         yield return new WaitForSeconds(1);
 
-        SceneManager.LoadSceneAsync("Lobby");
-
+        //SceneManager.LoadSceneAsync("Lobby");
     }
 
 
