@@ -78,7 +78,7 @@ public class TubeBall : MonoBehaviour
             /*Debug.Log("Ball out");*/
             ScoreCheck = false;
             gameObject.SetActive(false);
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
         }
     }
 
@@ -88,7 +88,7 @@ public class TubeBall : MonoBehaviour
         if (other.gameObject.tag == "Checker1" && GetComponent<Renderer>().sharedMaterial == tubeBall1)
         {
             ScoreCheck = true;
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
             Debug.Log("tubeball1 success");
         } 
         else if (other.gameObject.tag == "Checker1" && GetComponent<Renderer>().sharedMaterial != tubeBall1)
@@ -96,14 +96,14 @@ public class TubeBall : MonoBehaviour
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().wrongColor++;
             resetBall();
             gameObject.SetActive(false);
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
         }
 
         // Light Purple Tube
         if (other.gameObject.tag == "Checker2" && GetComponent<Renderer>().sharedMaterial == tubeBall2)
         {
             ScoreCheck = true;
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
             Debug.Log("tubeball2 success");
         }
         else if (other.gameObject.tag == "Checker2" && GetComponent<Renderer>().sharedMaterial != tubeBall2)
@@ -111,14 +111,14 @@ public class TubeBall : MonoBehaviour
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().wrongColor++;
             resetBall();
             gameObject.SetActive(false);
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
         }
 
         // Turqoise Tube
         if (other.gameObject.tag == "Checker3" && GetComponent<Renderer>().sharedMaterial == tubeBall3)
         {
             ScoreCheck = true;
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
             Debug.Log("tubeball3 success");
         }
         else if (other.gameObject.tag == "Checker3" && GetComponent<Renderer>().sharedMaterial != tubeBall3)
@@ -126,7 +126,7 @@ public class TubeBall : MonoBehaviour
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().wrongColor++;
             resetBall();
             gameObject.SetActive(false);
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().scoreUpdate();
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
         }
     }
 
