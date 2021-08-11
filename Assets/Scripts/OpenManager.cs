@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Rendering.Universal;
-
+using TMPro;
 using UnityEngine.Rendering;
 
 
@@ -26,8 +26,10 @@ public class OpenManager : MonoBehaviour
     GameObject Title_vfx;
     ColorAdjustments _coloradjustment = null;
     public float speed;
-
+    Transform SpeechBubble;
     private float Timer = 0;
+
+    float GhostRot;
 
 
 
@@ -36,8 +38,9 @@ public class OpenManager : MonoBehaviour
     void Start()
     {
 
-        des = new Vector3(0.52f, -0.64f, 2.04f);
+        des = new Vector3(0.03f, -0.821f, 1.53f);
         startdes = Ghost.transform.position;
+        SpeechBubble = Ghost.transform.GetChild(1);
 
 
         globalVolume = global.sharedProfile;
@@ -59,6 +62,9 @@ public class OpenManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
+
         globalVolume = global.sharedProfile;
         globalVolume.TryGet<ColorAdjustments>(out _coloradjustment);
 
@@ -75,11 +81,19 @@ public class OpenManager : MonoBehaviour
         }
 
 
+       //synchronize rotation of ghost and speech bubbles
+        SpeechBubble = Ghost.transform.GetChild(1);
+        float GhostRot = Ghost.transform.eulerAngles.y;
+        SpeechBubble.localEulerAngles = new Vector3(SpeechBubble.localEulerAngles.x, GhostRot, SpeechBubble.localEulerAngles.z);
+
+
+
+
     }
 
     private void LateUpdate()
     {
-        MoveGhost();
+        
         globalVolume = global.sharedProfile;
         globalVolume.TryGet<ColorAdjustments>(out _coloradjustment);
 
@@ -99,10 +113,8 @@ public class OpenManager : MonoBehaviour
             
             Ghost.GetComponent<Actor>().SimpleMove(des);
 
-            
             StartCoroutine("LerpImage");
             Title_vfx.SetActive(true);
-
 
 
         }
@@ -136,6 +148,15 @@ public class OpenManager : MonoBehaviour
         Title_img.GetComponent<RectTransform>().localScale = new Vector3(2.5f, 2.5f, 0);
     }
 
+
+    private void GhostSpeech(string input)
+    {
+        
+        SpeechBubble.gameObject.SetActive(true);
+        SpeechBubble.GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = input;
+        
+
+    }
   
 
     IEnumerator startOpening()
@@ -143,6 +164,14 @@ public class OpenManager : MonoBehaviour
 
         yield return new WaitForSeconds(3.0f);
         start = true;
+        MoveGhost();
+        yield return new WaitForSeconds(3.0f);
+        GhostSpeech("¾È³ç");
+
+        yield return new WaitForSeconds(1.0f);
+        Debug.Log(GhostRot);
+
+        
 
 
     }
