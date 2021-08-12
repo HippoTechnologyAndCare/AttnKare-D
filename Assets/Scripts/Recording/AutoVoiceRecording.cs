@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using NAudio.Lame;
 using NAudio.Wave.WZT;
@@ -17,6 +18,7 @@ public class AutoVoiceRecording : MonoBehaviour
     bool NowRecording = false;
 
     string FileName;
+    string FolderName;
     string FilePath;
 
     AudioClip recording;
@@ -27,11 +29,18 @@ public class AutoVoiceRecording : MonoBehaviour
 
     void Start()
     {
+        FolderName = DateTime.Now.ToString("yyyyMMddHHmmss"); ; // UserData.DataManager.GetInstance().userInfo.Name + "_" + UserData.DataManager.GetInstance().userInfo.PhoneNumer;
+        FileName = "TEST"; // SceneManager.GetActiveScene().buildIndex.ToString();
+        FilePath = Application.streamingAssetsPath + "/" + FolderName + "/";       //아이마다 저장
+
+        if (!Directory.Exists(FilePath))
+        {
+            Directory.CreateDirectory(FilePath);
+        }
+
         audioSource = GetComponent<AudioSource>();
-        FilePath = Application.streamingAssetsPath + "/Hippo/";
 
         StartRecording();
-
         NowRecording = true;
     }
 
@@ -39,11 +48,12 @@ public class AutoVoiceRecording : MonoBehaviour
     {
         if (NowRecording)
         {
-            //녹음 중 시간 보여주기용 + MAX 시간이 되면 자동 종료
             timer += Time.deltaTime;
 
-            if (timer > MaxRecordingTime - 1)
+            if (timer > 3)   //timer > MaxRecordingTime - 1
             {
+                Debug.Log("3 stop");
+                //10분이 되면 자동 종료
                 StopRecording();
             }
         }
@@ -61,14 +71,14 @@ public class AutoVoiceRecording : MonoBehaviour
         recording = Microphone.Start("", false, MaxRecordingTime, 44100);
     }
 
-    public void StopRecording()
+    public void StopRecording()     // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 이거 호출하면 종료 및 저장
     {
+        NowRecording = false;
         StartCoroutine(FinishAndMakeClip());
     }
 
     IEnumerator FinishAndMakeClip()
     {
-        //녹음 종료 후 프로세스
         //바로 종료하면 마지막 소리가 짤릴 수 있으므로 딜레이 주고 종료
         yield return new WaitForSeconds(1f);
 
@@ -82,20 +92,11 @@ public class AutoVoiceRecording : MonoBehaviour
         recording = recordingNew;
         audioSource.clip = recording;
 
-        FileName = DateTime.Now.ToString("yyyyMMddHHmmss").ToString();  // ------------------ 파일명 아이정보 + SceneNum으로 설정할까 생각중
-
-        //wav파일로 저장
-        SavWav.Save(FilePath + FileName + fWAV, recording);
-        //저장된 wav파일 mp3로 변환
-        WaveToMP3(FilePath + FileName + fWAV, FilePath + FileName + fMP3);
-        //파일 저장 완료까지 대기
-        yield return new WaitUntil(() => File.Exists(FilePath + FileName + fMP3));
-
+        SavWav.Save(FilePath + FileName + fWAV, recording);     //wav파일로 저장
+        WaveToMP3(FilePath + FileName + fWAV, FilePath + FileName + fMP3);      //저장된 wav파일 mp3로 변환
+        yield return new WaitUntil(() => File.Exists(FilePath + FileName + fMP3));  //파일 저장 완료까지 대기
 
         File.Delete(FilePath + FileName + fWAV);
-
-        //전송 완료 후 필요시, 저장된 mp3 원본 삭제
-        //File.Delete(FilePath + FileName + fMP3);
     }
 
 
