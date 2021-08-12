@@ -113,11 +113,12 @@ public partial class Actor//CameraFacing
     }
     //Orient the camera after all movement is completed this frame to avoid jittering
     void LateUpdate()
-    {
-        // rotates the object relative to the camera
-        Vector3 targetPos = transform.position + referenceCamera.transform.rotation * (reverseFace ? Vector3.forward : Vector3.back);
-        Vector3 targetOrientation = referenceCamera.transform.rotation * GetAxis(axis);
-        transform.LookAt(targetPos, targetOrientation);
+    {/*
+        var a = Camera.main.transform.forward;
+        a.y = 0f;
+
+        transform.forward = a;
+        */
     }
     public Vector3 GetAxis(Axis refAxis)
     {

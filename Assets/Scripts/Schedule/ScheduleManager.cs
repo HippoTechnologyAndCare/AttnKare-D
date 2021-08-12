@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
+
+using KetosGames.SceneTransition;
 
 public class ScheduleManager : MonoBehaviour
 {
@@ -40,6 +41,8 @@ public class ScheduleManager : MonoBehaviour
     public int TotalMovingCnt = 0;      //이동 횟수
     public int ResetCnt = 0;            //초기화 누른 횟수
     int ClickNoCnt = 0;                 //아니오 누른 횟수
+
+    int SkipYn = 0;
 
 
 
@@ -240,15 +243,22 @@ public class ScheduleManager : MonoBehaviour
         ShowUpdate();
     }
 
-    public void FinishPanel_Yes()
+    public void FinishPanel_Yes(bool Skipped)
     {
         PlaySoundByTypes("CLICK");
 
         LeGogo = false;
 
+        if (Skipped)
+        {
+            SkipYn = 1;
+        }
+
         Schedule.gameObject.SetActive(false);
         Finish.gameObject.SetActive(false);
         WellDoneAndBye.gameObject.SetActive(true);
+
+        this.transform.GetComponent<AutoVoiceRecording>().StopRecording();
 
         //전송용 데이터 정리
 
@@ -305,7 +315,7 @@ public class ScheduleManager : MonoBehaviour
         FinishCntDwn.text = "1";
         yield return new WaitForSeconds(1);
 
-        //SceneManager.LoadSceneAsync("Lobby");
+        SceneLoader.LoadScene(3);       /// -------------------------- 다음컨텐츠 번호 넣어야 함
     }
 
 

@@ -124,7 +124,7 @@ namespace BNG.UserData {
 
         public void GetGrade()
         {
-            GameObject JasonManager = GameObject.Find("JsonManager");
+            GameObject JasonManager = GameObject.Find("DataManager");
             dataManager = JasonManager.GetComponent<UserInfo>();
             string gradeLH = dataManager.Grade;
 
