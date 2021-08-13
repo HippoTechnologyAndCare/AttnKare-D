@@ -4,15 +4,17 @@ using UnityEngine;
 using EPOOutline;
 using HutongGames.PlayMaker;
 using UserData;
+using TMPro;
 
 
 namespace BNG.UserData {
     public class TutorialManager : MonoBehaviour
     {
         UserInfo dataManager;
-        private bool lTrigger_Down;
-        private bool rTrigger_Down;
+        private float rTriggerValue;
         private float ltriggerValue;
+        private float rGripValue;
+        private float lGripValue;
         private InputBridge Controller;
         public GameObject XRRig;
         public PlayMakerFSM Playmaker;
@@ -21,11 +23,14 @@ namespace BNG.UserData {
         public GameObject Note;
         public bool FSMCheck;
         public bool FSMCheck2;
+        public GameObject Ghost;
         Outlinable[] childGrabbed;
         Outlinable prechildGrabbed;
         public GameObject heldGrabbable;
         public int trigInt;
         bool check = false;
+        private string gradeLH;
+        public string NextScene;
 
 
 
@@ -33,6 +38,8 @@ namespace BNG.UserData {
         void Start()
         {
             trigInt = 0;
+            GetGrade();
+      
 
         }
 
@@ -47,9 +54,10 @@ namespace BNG.UserData {
 
 
             Controller = XRRig.GetComponent<InputBridge>();
-            rTrigger_Down = Controller.RightTriggerDown;
-            lTrigger_Down = Controller.LeftTriggerDown;
+            rTriggerValue = Controller.RightTrigger;
             ltriggerValue = Controller.LeftTrigger;
+            lGripValue = Controller.LeftGrip;
+            rGripValue = Controller.RightGrip;
 
 
 
@@ -59,9 +67,10 @@ namespace BNG.UserData {
         {
             if (FSMCheck)
             {
+                
 
                 //TriggerDown Check
-                if (lTrigger_Down == true && rTrigger_Down == true)
+                if (rTriggerValue > 0.7f && ltriggerValue > 0.7f)
                 {
 
                     Debug.Log("true");
@@ -78,25 +87,19 @@ namespace BNG.UserData {
                     //   check = false;
 
                 }
-                else if (lTrigger_Down == false || rTrigger_Down == false)
+                if (lGripValue > 0.7f && rGripValue > 0.7f)
                 {
-                    //  check = true;
+                    Debug.Log("done");
+                    string text = "그 버튼이 아니야\n<color=#2e86de>(O _ O)!";
+                    ghostSpeak(text);
+                   
+                    
+
+
                 }
+              
 
             }
-
-
-            //Right Trigger Check (BOX 다섯개 넣어야하는 걸로 수정)
-            /* if(childGrabbed.Length > 0)
-             {
-                 Grabbed = childGrabbed[0].gameObject;
-                 Playmaker.FsmVariables.GetFsmBool("rTriggerPressed").Value = true;
-                 childGrabbed[0].enabled = false;
-
-             }
-            */
-
-
 
 
 
@@ -121,17 +124,37 @@ namespace BNG.UserData {
 
         }
 
+        public void ghostSpeak(string text)
+        {
+
+            StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak(text));
+
+        }
+
 
         public void GetGrade()
         {
             GameObject JasonManager = GameObject.Find("DataManager");
             dataManager = JasonManager.GetComponent<UserInfo>();
-            string gradeLH = dataManager.Grade;
+            gradeLH = dataManager.Grade;
+            if(gradeLH == "L")
+            {
+                //씬 순서
+
+
+            }
+            if(gradeLH == "H")
+            {
+                //씬 순서
+
+            }
 
 
 
 
         }
+
+       
     }
 
      

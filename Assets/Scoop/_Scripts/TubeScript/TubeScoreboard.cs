@@ -63,8 +63,9 @@ public class TubeScoreboard : MonoBehaviour
     [SerializeField] public AudioClip stage1Audio;
     [SerializeField] public AudioClip stage2Audio;
     [SerializeField] public AudioClip stage3Audio;
-    [SerializeField] AudioClip correctBall;
     [SerializeField] public AudioClip wrongBall;
+    [SerializeField] public AudioClip correctBall;
+    [SerializeField] public GameObject soundEffects;
     [SerializeField] AudioClip nextStage;
     
     [Header("Materials")]
@@ -80,6 +81,7 @@ public class TubeScoreboard : MonoBehaviour
     public bool endOfGame = false;
     bool gameFailed = false;
     public bool dataRecorded = false;
+    public int isSkipped = 0;
 
     // Boolean to Load Data (Only Used Once after Start Function)
     bool isChecked = false;
@@ -648,5 +650,17 @@ public class TubeScoreboard : MonoBehaviour
             RecordStageDrops(stageCounter);
             RecordData(endOfGame, gameFailed);
         }
+    }
+
+    public void SaveAndFinish(bool skipped)
+    {
+        if (skipped)
+        {
+            isSkipped = 1;
+            
+        }
+        
+        // Data variables go here
+        GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();
     }
 }
