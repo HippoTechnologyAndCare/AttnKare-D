@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AudioTrigger : MonoBehaviour
 {
+    [SerializeField] Transform CenterEyeAnchor;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,7 @@ public class AudioTrigger : MonoBehaviour
         {
             GetComponent<AudioSource>().Play();
             GetComponent<BoxCollider>().enabled = false;
+            CenterEyeAnchor.GetComponent<SphereCollider>().enabled = false;
         }
     }
 }

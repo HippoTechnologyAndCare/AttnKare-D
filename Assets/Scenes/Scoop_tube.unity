@@ -12300,7 +12300,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: a3463df4df96cdd41b9928188d61bb1b,
+      objectReference: {fileID: 11400000, guid: 2ef89048c9c1e284581f578ec5f067db,
         type: 2}
     - target: {fileID: 2362556208822861459, guid: 3b28524220c24114aadbd22184ffdc32,
         type: 3}
@@ -12311,13 +12311,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: a3463df4df96cdd41b9928188d61bb1b,
+      objectReference: {fileID: 11400000, guid: 2ef89048c9c1e284581f578ec5f067db,
         type: 2}
     - target: {fileID: 2362556209534445870, guid: 3b28524220c24114aadbd22184ffdc32,
         type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 2110336524713907302, guid: a3463df4df96cdd41b9928188d61bb1b,
+      objectReference: {fileID: -903555221512383368, guid: 2ef89048c9c1e284581f578ec5f067db,
         type: 2}
     - target: {fileID: 2362556209590919275, guid: 3b28524220c24114aadbd22184ffdc32,
         type: 3}
@@ -52903,6 +52903,7 @@ MonoBehaviour:
   returnPoint3: {fileID: 679368465}
   Tools: {fileID: 462074617}
   toolList: []
+  audioTrigger: {fileID: 1943069604}
   left1: 0
   left2: 0
   left3: 0
@@ -95112,7 +95113,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1943069604}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.0291717, y: 1.3018515, z: 5.886}
+  m_LocalPosition: {x: 1.0291717, y: 1.3018515, z: 6.242}
   m_LocalScale: {x: 2.069945, y: 2.3727832, z: 0.10920063}
   m_Children: []
   m_Father: {fileID: 0}
@@ -95226,6 +95227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f00a9f90a0765c4a89e236fec203da5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CenterEyeAnchor: {fileID: 0}
 --- !u!1001 &1945739644
 PrefabInstance:
   m_ObjectHideFlags: 0

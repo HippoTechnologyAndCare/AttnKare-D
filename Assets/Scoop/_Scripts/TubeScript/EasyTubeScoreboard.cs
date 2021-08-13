@@ -51,6 +51,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     public Transform returnPoint3; // **DEPRECATED** Turqoise Ball Return Point
     public GameObject Tools; // **DEPRECATED** Empty Object Containing All Tools Available
     public List<GameObject> toolList = new List<GameObject>(); // **DEPRECATED** List of Tools
+    public GameObject audioTrigger; // Audio Trigger
 
     [Header("Debug Panel")]
     public int left1; // Number of Yellow Balls Left Active in Scene
@@ -122,6 +123,22 @@ public class EasyTubeScoreboard : MonoBehaviour
             isChecked = true;
         }
 
+        // Don't allow grab before audio is finished
+        if (audioTrigger.GetComponent<AudioSource>().isPlaying == true)
+        {
+            foreach (GameObject tool in toolList)
+            {
+                tool.GetComponent<BNG.Grabbable>().enabled = false;
+            }
+        }
+        else
+        {
+            foreach (GameObject tool in toolList)
+            {
+                tool.GetComponent<BNG.Grabbable>().enabled = true;
+            }
+        }
+
         // Constantly Update In Game Debug Panel if used
         InGameDebugger();
 
@@ -163,7 +180,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     }
 
     // Debugging Tool 1
-    public void InGameDebugger()
+    void InGameDebugger()
     {
         debugText.GetComponent<Text>().text = "Number of Balls: " + Balls.Count
             + "\n\nSuccess Balls 1: " + successBalls1.Count
@@ -188,13 +205,13 @@ public class EasyTubeScoreboard : MonoBehaviour
     }
 
     // Debugging Tool 2
-    public void AddBreakPoint(string message)
+    void AddBreakPoint(string message)
     {
         debugText.GetComponent<Text>().text += "\n\n" + message; // Shows which condition was executed
     }
 
     // Check if Ball is Active
-    public void CheckBallActive()
+    void CheckBallActive()
     {
         // Checks for number of active balls
         foreach (GameObject ball in Balls)
@@ -268,7 +285,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     }
 
     // Updates score on each ball collision
-    public void scoreUpdate()
+    void scoreUpdate()
     {
         // First Check if Ball is Active and Update Lists
         CheckBallActive();
@@ -421,7 +438,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         // If score is 3, end game
         if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls && stageCounter == 3)
         {
-            PlaySound(stage3Audio);
+            PlaySound(nextStage);
             clearTime = timer.GetComponent<Text>().text;
             timer.SetActive(false);
             endOfGame = true;
@@ -431,7 +448,9 @@ public class EasyTubeScoreboard : MonoBehaviour
             scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n" + WriteStageClearTime() + "\nWrong Color: " + wrongColor.ToString() + "\nExcess Balls: " + excessBalls.ToString() + "\n";
             AddBreakPoint("Successfully finished game");
             dataRecorded = true;
-            
+
+            yield return StartCoroutine(Wait());
+            PlaySound(stage3Audio);
         }
         // If score is not 3, move onto next stage
         else if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls)
@@ -495,7 +514,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         }
     }
 
-    public void PlaySound(AudioClip sound)
+    void PlaySound(AudioClip sound)
     {
         GetComponent<AudioSource>().clip = sound;
         GetComponent<AudioSource>().Play();
@@ -545,7 +564,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         }*/
 
     // Record Game Score (Change to json variables here)
-    public void RecordData(bool end, bool failed)
+    void RecordData(bool end, bool failed)
     {
         string results = "";
 
@@ -570,7 +589,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     }
 
     // Record Stage Clear Time for Each Stage
-    public void RecordStageClearTime(int stage)
+    void RecordStageClearTime(int stage)
     {
         switch (stage)
         {
@@ -589,13 +608,13 @@ public class EasyTubeScoreboard : MonoBehaviour
     }
 
     // Write Stage Clear Time to File
-    public string WriteStageClearTime()
+    string WriteStageClearTime()
     {
         return "Stage 1 Clear Time: " + clearTime1.ToString() + "\nStage 2 Clear Time: " + clearTime2.ToString() + "\nStage 3 Clear time: " + clearTime3.ToString();
     }
 
     // Record Number of Drops for Each Stage
-    public void RecordStageDrops(int stage)
+    void RecordStageDrops(int stage)
     {
         switch (stage)
         {
@@ -614,12 +633,12 @@ public class EasyTubeScoreboard : MonoBehaviour
     }
 
     // Write Number of Drops for Each Stage to File
-    public string WriteStageDrops()
+    string WriteStageDrops()
     {
         return "Stage 1 Drops: " + stage1Drops.ToString() + "    Stage 2 Drops: " + stage2Drops.ToString() + "    Stage 3 Drops: " + stage3Drops.ToString() + "\n\n";
     }
 
-    // Record Data (When Terminated)
+    // Record Data (When Terminated) Change this when connecting scenes
     private void OnApplicationQuit()
     {
         if (!endOfGame)
