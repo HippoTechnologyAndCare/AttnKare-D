@@ -51,6 +51,7 @@ public class TubeScoreboard : MonoBehaviour
     public Transform returnPoint3; // **DEPRECATED** Turqoise Ball Return Point
     public GameObject Tools; // **DEPRECATED** Empty Object Containing All Tools Available
     public List<GameObject> toolList = new List<GameObject>(); // **DEPRECATED** List of Tools
+    public GameObject audioTrigger; // Audio Trigger
 
     [Header("Debug Panel")]
     public int left1; // Number of Yellow Balls Left Active in Scene
@@ -58,6 +59,14 @@ public class TubeScoreboard : MonoBehaviour
     public int left3; // Number of Turqoise Balls Left Active in Scene
     public GameObject debugText; // In Game Debug Panel
 
+    [Header("Audio Clips")]
+    [SerializeField] public AudioClip stage1Audio;
+    [SerializeField] public AudioClip stage2Audio;
+    [SerializeField] public AudioClip stage3Audio;
+    [SerializeField] AudioClip correctBall;
+    [SerializeField] public AudioClip wrongBall;
+    [SerializeField] AudioClip nextStage;
+    
     [Header("Materials")]
     [SerializeField] Material tubeBall1; // Yellow Material
     [SerializeField] Material tubeBall2; // Light Purple Material
@@ -112,6 +121,22 @@ public class TubeScoreboard : MonoBehaviour
         {
             scoreUpdate();
             isChecked = true;
+        }
+
+        // Don't allow grab before audio is finished
+        if(audioTrigger.GetComponent<AudioSource>().isPlaying == true)
+        {
+            foreach (GameObject tool in toolList)
+            {
+                tool.GetComponent<BNG.Grabbable>().enabled = false;
+            }
+        }
+        else
+        {
+            foreach (GameObject tool in toolList)
+            {
+                tool.GetComponent<BNG.Grabbable>().enabled = true;
+            }
         }
 
         // Constantly Update In Game Debug Panel if used
@@ -345,11 +370,13 @@ public class TubeScoreboard : MonoBehaviour
                         ball.GetComponent<TubeBall>().resetBall();
                         ball.SetActive(false);
                         excessBalls++;
+                        PlaySound(wrongBall);
                     }
                     else
                     {
                         successBalls1.Add(ball);
                         score1++;
+                        PlaySound(correctBall);
                     }
                 }
                 break;
@@ -361,11 +388,13 @@ public class TubeScoreboard : MonoBehaviour
                         ball.GetComponent<TubeBall>().resetBall();
                         ball.SetActive(false);
                         excessBalls++;
+                        PlaySound(wrongBall);
                     }
                     else
                     {
                         successBalls2.Add(ball);
                         score2++;
+                        PlaySound(correctBall);
                     }
                 }
                 break;
@@ -377,11 +406,13 @@ public class TubeScoreboard : MonoBehaviour
                         ball.GetComponent<TubeBall>().resetBall();
                         ball.SetActive(false);
                         excessBalls++;
+                        PlaySound(wrongBall);
                     }
                     else
                     {
                         successBalls3.Add(ball);
                         score3++;
+                        PlaySound(correctBall);
                     }
                 }
                 break;
@@ -407,6 +438,7 @@ public class TubeScoreboard : MonoBehaviour
         // If score is 3, end game
         if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls && stageBalls == 3)
         {
+            PlaySound(nextStage);
             clearTime = timer.GetComponent<Text>().text;
             timer.SetActive(false);
             endOfGame = true;
@@ -416,11 +448,16 @@ public class TubeScoreboard : MonoBehaviour
             scoreText.GetComponent<Text>().text = "Finish!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n" + WriteStageClearTime() + "\nWrong Color: " + wrongColor.ToString() + "\nExcess Balls: " + excessBalls.ToString() + "\n";
             AddBreakPoint("Successfully finished game");
             dataRecorded = true;
-            
+
+            yield return StartCoroutine(Wait());
+            PlaySound(stage3Audio);
         }
         // If score is not 3, move onto next stage
         else if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls)
         {
+            // Play Stage Clear Sound
+            PlaySound(nextStage);
+
             scoreText.SetActive(false);
             waitMessage.SetActive(true);
 
@@ -466,7 +503,22 @@ public class TubeScoreboard : MonoBehaviour
             scoreText.GetComponent<Text>().text = "Stage " + stageCounter + "\n\nYellow: " + score1.ToString() + "    Light Purple: " + score2.ToString() + "    Turqoise: " + score3.ToString() + 
                 "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\nWrong Color: " + wrongColor.ToString() + "  Excess Balls: " + excessBalls.ToString() + "\n";
             scoreText.SetActive(true);
+
+            if (stageCounter == 2)
+            {
+                PlaySound(stage1Audio);
+            }
+            else if (stageCounter == 3)
+            {
+                PlaySound(stage2Audio);
+            }
         }
+    }
+
+    public void PlaySound(AudioClip sound)
+    {
+        GetComponent<AudioSource>().clip = sound;
+        GetComponent<AudioSource>().Play();
     }
 
     // Reset all ball transforms

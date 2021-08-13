@@ -44,9 +44,6 @@ public class ScheduleManager : MonoBehaviour
 
     int SkipYn = 0;
 
-
-
-
     //------------- SOUND
     AudioSource audioSource;
     public AudioClip Sound_Count;
@@ -54,7 +51,7 @@ public class ScheduleManager : MonoBehaviour
     public AudioClip Sound_Click;
     public AudioClip Sound_Put;
 
-
+    public AudioClip Sound_Intro;
 
     //------------- Manager
     public Transform setData_PlayerData;
@@ -78,6 +75,8 @@ public class ScheduleManager : MonoBehaviour
         {
             GrpList.Add(g);
         }
+
+        PlaySoundByTypes("INTRO");
     }
 
     void Update()
@@ -209,6 +208,11 @@ public class ScheduleManager : MonoBehaviour
 
     IEnumerator StartCntDown()
     {
+        if (audioSource.clip == Sound_Intro)
+        {
+            audioSource.Stop();
+        }
+
         TextTitle.text = "준비 ~";
 
         yield return new WaitForSeconds(1f);
@@ -248,11 +252,7 @@ public class ScheduleManager : MonoBehaviour
         PlaySoundByTypes("CLICK");
 
         LeGogo = false;
-
-        if (Skipped)
-        {
-            SkipYn = 1;
-        }
+        float PlanData = 0;
 
         Schedule.gameObject.SetActive(false);
         Finish.gameObject.SetActive(false);
@@ -260,46 +260,40 @@ public class ScheduleManager : MonoBehaviour
 
         this.transform.GetComponent<AutoVoiceRecording>().StopRecording();
 
-        //전송용 데이터 정리
-
-        string MySchedule = "";
-        string MyScheduleforJson = "";
-
-        foreach (Transform plan_Slot in SlotList)
+        if (Skipped)
         {
-            Transform plan_Box = plan_Slot.GetComponent<PlanSlotController>().passenger.transform;
-
-            if (plan_Box != null)
-            {
-                MySchedule += plan_Box.GetChild(0).GetComponent<Text>().text + " ";
-                MyScheduleforJson += plan_Box.GetChild(1).name;
-            }
+            SkipYn = 1;
+            Intro.gameObject.SetActive(false);
+            Schedule.gameObject.SetActive(true);
         }
+        else
+        {
+            SkipYn = 0;
+            string MySchedule = "";
+            string MyScheduleforJson = "";
 
-        /*
-                Result.text = "총시간 " + TotalElapsedTimeForShow.ToString() + " / 총이동 " + TotalMovingCnt.ToString() 
-                    + " / 총초기화 " + ResetCnt.ToString() + " / 시선벗어난시간 " + NotOnBoardForShow.ToString() 
-                    + " / 아니오횟수 " + ClickNoCnt.ToString() + "\n최종계획 - " + MySchedule;
-        */
+            foreach (Transform plan_Slot in SlotList)
+            {
+                Transform plan_Box = plan_Slot.GetComponent<PlanSlotController>().passenger.transform;
 
-        float PlanData = float.Parse(MyScheduleforJson, System.Globalization.CultureInfo.InvariantCulture);
+                if (plan_Box != null)
+                {
+                    MySchedule += plan_Box.GetChild(0).GetComponent<Text>().text + " ";
+                    MyScheduleforJson += plan_Box.GetChild(1).name;
+                }
+            }
 
-        Debug.Log(PlanData.ToString());
+            PlanData = float.Parse(MyScheduleforJson, System.Globalization.CultureInfo.InvariantCulture);
 
-        //JsonManager.GetInstance().LoadPlayerDataFromJson();
-        //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex2(TotalElapsedTimeForShow, TotalMovingCnt, NotOnBoardForShow, ResetCnt, ClickNoCnt, PlanData);
-        //saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
+            //JsonManager.GetInstance().LoadPlayerDataFromJson();
+            //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex2(TotalElapsedTimeForShow, TotalMovingCnt, NotOnBoardForShow, ResetCnt, ClickNoCnt, PlanData);
+            //saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
 
-/*
-        string SendStr = "총시간 " + TotalElapsedTimeForShow.ToString() + " / 총이동 " + TotalMovingCnt.ToString()
-            + " / 다시하기 " + ResetCnt.ToString() + " / 시선벗어난시간 " + NotOnBoardForShow.ToString()
-            + " / 아니오횟수 " + ClickNoCnt.ToString() + "\n최종계획 ::: " + MySchedule;
-*/
-       //this.transform.GetComponent<SaveTempData>().SaveTempSceneData(SendStr);        //텍스트파일 저장
+            Debug.Log(PlanData.ToString());
 
-        //Result.text = SendStr;
-
-        StartCoroutine(GoToLobby());
+            StartCoroutine(GoToLobby());
+        }
+        
     }
 
     IEnumerator GoToLobby()
@@ -339,6 +333,10 @@ public class ScheduleManager : MonoBehaviour
         else if (Type == "PUT")
         {
             audioSource.clip = Sound_Put;
+        }
+        else if (Type == "INTRO")
+        {
+            audioSource.clip = Sound_Intro;
         }
 
         audioSource.Play();
