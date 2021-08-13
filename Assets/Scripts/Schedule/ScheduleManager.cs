@@ -258,7 +258,7 @@ public class ScheduleManager : MonoBehaviour
         Finish.gameObject.SetActive(false);
         WellDoneAndBye.gameObject.SetActive(true);
 
-        this.transform.GetComponent<AutoVoiceRecording>().StopRecording();
+        this.transform.GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();
 
         if (Skipped)
         {
