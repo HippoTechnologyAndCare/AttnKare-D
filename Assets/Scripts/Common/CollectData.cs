@@ -100,6 +100,13 @@ namespace BNG
                 + "\nLeft Grip Clicks: " + database.LGripClicks.ToString() + "\nRight Grip Clicks: " + database.RGripClicks.ToString()
                 + "\nA Button Pressed: " + database.AClicks.ToString() + "\nB Button Pressed: " + database.BClicks.ToString()
                 + "\nX Button Pressed: " + database.XClicks.ToString() + "\nY Button Pressed: " + database.YClicks.ToString();
+
+            DeviceDataInfo = new FileStream(DeviceSavePath, FileMode.Append, FileAccess.Write);
+            DeviceDataWriter = new StreamWriter(DeviceDataInfo, System.Text.Encoding.Unicode);
+            DeviceDataWriter.WriteLine(database.controllerInput);
+            DeviceDataWriter.Close();
+
+            // Delete if unnecessary
             SaveInputData(database.controllerInput);
         }
 

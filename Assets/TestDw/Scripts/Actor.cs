@@ -30,7 +30,7 @@ public partial class Actor : MonoBehaviour
         spriteRenderers = gameObject.GetComponentsInChildren<SpriteRenderer>();
 
         InitAnimation();
-    //  TestMove(Vector3.left * 3f);
+        TestMove(Vector3.left * 3f);
         //SimpleMove(Vector3.left );
     }
 
@@ -109,7 +109,7 @@ public partial class Actor : MonoBehaviour
         {
             onComplete?.Invoke();
         });
-
+         
         tween.OnUpdate(() =>
         {
             var dir = dest - transform.position;
