@@ -57,7 +57,7 @@ public class AutoVoiceRecording : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            if (timer > 3)   //timer > MaxRecordingTime - 1
+            if (timer > MaxRecordingTime - 1)   //
             {
                 //10분이 되면 자동 종료
                 StopRecordingNBehavior();

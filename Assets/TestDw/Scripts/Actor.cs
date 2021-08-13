@@ -83,6 +83,8 @@ public partial class Actor : MonoBehaviour
 
         yield return new WaitForSeconds(ghostAudio.clip.length);
 
+        speechBubble.SetActive(false);
+
     }
 
 
