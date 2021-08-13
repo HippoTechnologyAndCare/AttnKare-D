@@ -4,10 +4,12 @@ using UnityEngine;
 using DG.Tweening;
 using System.Linq;
 using Pool;
-using System;
+
+using TMPro;
 
 //SimpleMove(lTrans.position);
 //speechBubble.SetText("Messagesadnasdkandkandkadnkadnkasndakn");
+
 
 public partial class Actor : MonoBehaviour
 {
@@ -19,6 +21,9 @@ public partial class Actor : MonoBehaviour
     Quaternion originalRotation;
 
     public float moveTime = 3f;
+    public GameObject speechBubble;
+    public AudioClip[] audioSource;
+
     void Start()
     {
         originalRotation = transform.rotation;
@@ -29,6 +34,61 @@ public partial class Actor : MonoBehaviour
         //SimpleMove(Vector3.left );
     }
 
+    public IEnumerator MoveGhost(Vector3 des, float speed)
+    {
+
+
+        this.GetComponent<Animator>().SetBool("isWalk", true);
+        if (this.transform.position.x > des.x)
+        {
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 180f,transform.localEulerAngles.z);
+
+        }
+        if (transform.position.x < des.x)
+        {
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 0, transform.localEulerAngles.z);
+
+        }
+        Vector3 prevPos = transform.position;
+        float t = 0;
+        while (true)
+        {
+            t += Time.deltaTime * speed;
+            transform.position = Vector3.Lerp(prevPos, des, t);
+
+
+            if (t >= 1)
+            {
+                transform.position = des;
+                GetComponent<Animator>().SetBool("isWalk", false);
+                break;
+
+            }
+            yield return null;
+        }
+
+
+
+    }
+
+
+    public IEnumerator ghostSpeak(string input)
+    {
+
+        AudioSource ghostAudio = transform.GetComponent<AudioSource>();
+        ghostAudio.clip = audioSource[Random.Range(0, audioSource.Length)];
+        ghostAudio.Play();
+        speechBubble.gameObject.SetActive(true);
+        speechBubble.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = input;
+
+        yield return new WaitForSeconds(ghostAudio.clip.length);
+
+    }
+
+
+
+
+    /*
     void TestMove(Vector3 dir)
     {
         SimpleMove(dir, () =>
@@ -73,6 +133,7 @@ public partial class Actor : MonoBehaviour
             });
         });
     }
+    */
 }
 
 public partial class Actor//+Ani,Fx
@@ -99,6 +160,8 @@ public partial class Actor//+Ani,Fx
     }
 }
 
+/*
+
 public partial class Actor//CameraFacing
 {
     Camera referenceCamera;
@@ -113,12 +176,12 @@ public partial class Actor//CameraFacing
     }
     //Orient the camera after all movement is completed this frame to avoid jittering
     void LateUpdate()
-    {/*
+    {
         var a = Camera.main.transform.forward;
         a.y = 0f;
 
         transform.forward = a;
-        */
+        
     }
     public Vector3 GetAxis(Axis refAxis)
     {
@@ -140,4 +203,5 @@ public partial class Actor//CameraFacing
         return Vector3.up;
     }
 }
+*/
 
