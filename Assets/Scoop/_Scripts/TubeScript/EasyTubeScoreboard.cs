@@ -63,8 +63,9 @@ public class EasyTubeScoreboard : MonoBehaviour
     [SerializeField] public AudioClip stage1Audio;
     [SerializeField] public AudioClip stage2Audio;
     [SerializeField] public AudioClip stage3Audio;
-    [SerializeField] AudioClip correctBall;
     [SerializeField] public AudioClip wrongBall;
+    [SerializeField] public AudioClip correctBall;
+    [SerializeField] public GameObject soundEffects;
     [SerializeField] AudioClip nextStage;
 
     [Header("Materials")]
@@ -658,7 +659,7 @@ public class EasyTubeScoreboard : MonoBehaviour
 
         }
 
-        // Data variables goes here
+        // Data variables go here
         GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();
     }
 }
