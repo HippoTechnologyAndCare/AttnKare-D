@@ -277,8 +277,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC2E4\uD589\uBC29\uBC95"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2ef89048c9c1e284581f578ec5f067db, type: 2}
-  m_sharedMaterial: {fileID: -903555221512383368, guid: 2ef89048c9c1e284581f578ec5f067db,
+  m_fontAsset: {fileID: 11400000, guid: a3463df4df96cdd41b9928188d61bb1b, type: 2}
+  m_sharedMaterial: {fileID: 2110336524713907302, guid: a3463df4df96cdd41b9928188d61bb1b,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1325,8 +1325,8 @@ MonoBehaviour:
   m_text: "\uB0B4\uC77C \uD574\uC57C \uD560 \uC77C\uB4E4\uC744 \uACC4\uD68D\uD45C\uB85C
     \uC9DC\uBCF4\uC138\uC694 ~"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2ef89048c9c1e284581f578ec5f067db, type: 2}
-  m_sharedMaterial: {fileID: -903555221512383368, guid: 2ef89048c9c1e284581f578ec5f067db,
+  m_fontAsset: {fileID: 11400000, guid: a3463df4df96cdd41b9928188d61bb1b, type: 2}
+  m_sharedMaterial: {fileID: 2110336524713907302, guid: a3463df4df96cdd41b9928188d61bb1b,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1819,6 +1819,39 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 122421566001855722}
     m_Modifications:
+    - target: {fileID: 2362556208822861459, guid: 3b28524220c24114aadbd22184ffdc32,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: a3463df4df96cdd41b9928188d61bb1b,
+        type: 2}
+    - target: {fileID: 2362556208822861459, guid: 3b28524220c24114aadbd22184ffdc32,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2362556209534445870, guid: 3b28524220c24114aadbd22184ffdc32,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: a3463df4df96cdd41b9928188d61bb1b,
+        type: 2}
+    - target: {fileID: 2362556209534445870, guid: 3b28524220c24114aadbd22184ffdc32,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2110336524713907302, guid: a3463df4df96cdd41b9928188d61bb1b,
+        type: 2}
+    - target: {fileID: 2362556209590919275, guid: 3b28524220c24114aadbd22184ffdc32,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2362556209590919276, guid: 3b28524220c24114aadbd22184ffdc32,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2362556209590919278, guid: 3b28524220c24114aadbd22184ffdc32,
         type: 3}
       propertyPath: m_Pivot.x
@@ -4725,6 +4758,7 @@ GameObject:
   - component: {fileID: 597562633}
   - component: {fileID: 597562635}
   - component: {fileID: 597562636}
+  - component: {fileID: 597562634}
   m_Layer: 0
   m_Name: ScheduleBoard
   m_TagString: UI
@@ -4777,8 +4811,37 @@ MonoBehaviour:
   Sound_In: {fileID: 8300000, guid: 96a66c8233acdff40a72e102fc819781, type: 3}
   Sound_Click: {fileID: 8300000, guid: 3ceadf14726b0864fb39bb646c0f9ba0, type: 3}
   Sound_Put: {fileID: 8300000, guid: 81a6bb18b866a9142a20ce5d3297bc32, type: 3}
+  Sound_Intro: {fileID: 8300000, guid: e25774688cfb6794895b72e16dfc4fde, type: 3}
   setData_PlayerData: {fileID: 2090270716}
   saveData_GameDataMG: {fileID: 495000293}
+--- !u!114 &597562634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597562631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebf6f29738330a649bf458010377cdd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  XRRig: {fileID: 122421565962481312}
+  Camera: {fileID: 122421566001855722}
+  LHand: {fileID: 124988714727628130}
+  RHand: {fileID: 125273048915768108}
+  _LTriggerClicks: 0
+  _LTrigger: 0
+  _RTriggerClicks: 0
+  _RTrigger: 0
+  _LGripClicks: 0
+  _LGrip: 0
+  _RGripClicks: 0
+  _RGrip: 0
+  _AClicks: 0
+  _BClicks: 0
+  _XClicks: 0
+  _YClicks: 0
 --- !u!82 &597562635
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5563,9 +5626,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 597562633}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: ScheduleManager, Assembly-CSharp
         m_MethodName: FinishPanel_Yes
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6343,7 +6406,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d4145b80d4101fb43b29e9e55556c584, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a3463df4df96cdd41b9928188d61bb1b, type: 2}
   m_sharedMaterial: {fileID: -4828846974470475445, guid: d4145b80d4101fb43b29e9e55556c584,
     type: 2}
   m_fontSharedMaterials: []
@@ -6408,7 +6471,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &743621969
@@ -8651,7 +8714,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC798\uD588\uC2B5\uB2C8\uB2E4 ~\n\uC9DD\uC9DD\uC9DD ~"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d4145b80d4101fb43b29e9e55556c584, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a3463df4df96cdd41b9928188d61bb1b, type: 2}
   m_sharedMaterial: {fileID: -4828846974470475445, guid: d4145b80d4101fb43b29e9e55556c584,
     type: 2}
   m_fontSharedMaterials: []
@@ -8716,7 +8779,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1201210319
@@ -10054,7 +10117,7 @@ MonoBehaviour:
   m_text: "\uACC4\uD68D\uD45C\uAC00 \uB9C8\uC74C\uC5D0 \uB4DC\uB098\uC694 ?\n\uADF8\uB7FC
     \uC774\uC81C \uC800\uC7A5\uD558\uACE0 \uC885\uB8CC\uD560\uAE4C\uC694 ?"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d4145b80d4101fb43b29e9e55556c584, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a3463df4df96cdd41b9928188d61bb1b, type: 2}
   m_sharedMaterial: {fileID: -4828846974470475445, guid: d4145b80d4101fb43b29e9e55556c584,
     type: 2}
   m_fontSharedMaterials: []
@@ -10119,7 +10182,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1463497706
@@ -10830,7 +10893,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1588410244}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.768, y: 0.295, z: -0.154}
+  m_LocalPosition: {x: 0.768, y: 0.85600007, z: -0.154}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 1093014596}
@@ -13959,7 +14022,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -14079,7 +14142,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1747359500}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 96a66c8233acdff40a72e102fc819781, type: 3}
@@ -14706,7 +14769,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FinishCanvas: {fileID: 301691092}
   buildindex: 3
-  ScheduleManager: {fileID: 0}
+  ScheduleManager: {fileID: 597562632}
 --- !u!1 &1892341733
 GameObject:
   m_ObjectHideFlags: 0
@@ -15465,7 +15528,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1956476295}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.352, y: 0.29499996, z: 0.259}
+  m_LocalPosition: {x: 0.352, y: 0.856, z: 0.259}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 1093014596}
@@ -15738,7 +15801,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC774\uC81C \uB85C\uBE44\uB85C \uC774\uB3D9\uD569\uB2C8\uB2E4."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d4145b80d4101fb43b29e9e55556c584, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a3463df4df96cdd41b9928188d61bb1b, type: 2}
   m_sharedMaterial: {fileID: -4828846974470475445, guid: d4145b80d4101fb43b29e9e55556c584,
     type: 2}
   m_fontSharedMaterials: []
@@ -15803,7 +15866,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1985987856
@@ -16224,8 +16287,8 @@ MonoBehaviour:
     '\uC2DC\uC791\uD558\uAE30' \uBC84\uD2BC\uC744 \uC624\uB978\uC190\uC73C\uB85C
     \uC870\uC900\uD558\uC5EC \uD074\uB9AD\uD558\uC138\uC694 !"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2ef89048c9c1e284581f578ec5f067db, type: 2}
-  m_sharedMaterial: {fileID: -903555221512383368, guid: 2ef89048c9c1e284581f578ec5f067db,
+  m_fontAsset: {fileID: 11400000, guid: a3463df4df96cdd41b9928188d61bb1b, type: 2}
+  m_sharedMaterial: {fileID: 2110336524713907302, guid: a3463df4df96cdd41b9928188d61bb1b,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
