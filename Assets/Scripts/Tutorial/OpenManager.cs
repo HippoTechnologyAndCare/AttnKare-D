@@ -17,7 +17,7 @@ using UnityEngine.SceneManagement;
         public GameObject Door;
         public Volume global;
         public Canvas Title;
-        public AudioClip[] audioSource;
+
         Vector3 desPos;
 
         VolumeProfile globalVolume;
@@ -228,18 +228,18 @@ using UnityEngine.SceneManagement;
         
         yield return new WaitForSeconds(2.0f);
         Logo.gameObject.SetActive(false);
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<color=red>안녕</color>"));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.1>안녕 \n<color=#2e86de>(^ v ^)~"));
         yield return new WaitForSeconds(3.0f);
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("여긴 ATTNKARE 세계야"));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.08>여긴</size><size=0.1> <color=#EA2027>A</color><color=#EE5A24>T</color><color=#F79F1F>T</color><color=#009432>N</color><color=#0652DD>K</color><color=#1B1464>A</color><color=#B53471>R</color><color=#0984e3>E</color></size> <size=0.08>세계야"));
         yield return new WaitForSeconds(3.0f);
 
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("한번 출발해볼까"));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>한번 출발해볼까?!\n<color=#2e86de><size=0.074>(o v o)/"));
 
 
         desPos = new Vector3(0.031f, -0.664f, 2.823f);
         StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos,0.4f));
         yield return new WaitUntil(() => Ghost.transform.position == desPos);
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("가보자!!"));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("들어간다~!\n<size=0.07><color=#2e86de>(^ - ^)"));
         Ghost.GetComponent<Animator>().SetBool("isJump", true);
         yield return new WaitForSeconds(1.8f);
         Ghost.GetComponent<Animator>().SetBool("isJump", false);
@@ -274,12 +274,12 @@ using UnityEngine.SceneManagement;
         yield return new WaitForSeconds(3.0f);
 
 
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>이제 헤어질 시간이야</size>"));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.07>이제 헤어질 \n시간이야\n<color=#2e86de><size=0.06>(T ^ T)"));
         yield return new WaitForSeconds(2.0f);
 
         desPos = new Vector3(-0.02f, -0.693f, 2.795f);
         StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos, 0.2f));
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("다음에 또 놀러와"));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.07>다음에 또 놀러와\n<color=#2e86de>(^ 0 ^)/"));
         yield return new WaitForSeconds(3.0f);
 
 

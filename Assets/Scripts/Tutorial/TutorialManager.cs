@@ -23,7 +23,7 @@ namespace BNG.UserData {
         public GameObject Note;
         public bool FSMCheck;
         public bool FSMCheck2;
-        public GameObject Ghost_Speech;
+        public GameObject Ghost;
         Outlinable[] childGrabbed;
         Outlinable prechildGrabbed;
         public GameObject heldGrabbable;
@@ -90,7 +90,7 @@ namespace BNG.UserData {
                 if (lGripValue > 0.7f && rGripValue > 0.7f)
                 {
                     Debug.Log("done");
-                    string text = "그 버튼이 아니야!";
+                    string text = "그 버튼이 아니야\n<color=#2e86de>(O _ O)!";
                     ghostSpeak(text);
                    
                     
@@ -127,9 +127,11 @@ namespace BNG.UserData {
         public void ghostSpeak(string text)
         {
 
-            StartCoroutine(speechBubble(text));
+            StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak(text));
 
         }
+
+
         public void GetGrade()
         {
             GameObject JasonManager = GameObject.Find("DataManager");
@@ -152,14 +154,7 @@ namespace BNG.UserData {
 
         }
 
-        IEnumerator speechBubble(string text)
-        {
-            Ghost_Speech.SetActive(true);
-            Ghost_Speech.GetComponentInChildren<TextMeshProUGUI>().text = text;
-
-            yield return new WaitForSeconds(1.5f);
-            Ghost_Speech.SetActive(false);
-        }
+       
     }
 
      
