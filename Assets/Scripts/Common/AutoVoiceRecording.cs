@@ -19,7 +19,8 @@ public class AutoVoiceRecording : MonoBehaviour
 
     string FileName;
     string FolderName;
-    string FilePath;
+    string FilePath_Root;
+    string FilePath_Folder;
 
     AudioClip recording;
     AudioSource audioSource;
@@ -29,13 +30,19 @@ public class AutoVoiceRecording : MonoBehaviour
 
     void Start()
     {
-        FolderName = DateTime.Now.ToString("yyyyMMddHHmmss"); ; // UserData.DataManager.GetInstance().userInfo.Name + "_" + UserData.DataManager.GetInstance().userInfo.PhoneNumer;
-        FileName = "TEST"; // SceneManager.GetActiveScene().buildIndex.ToString();
-        FilePath = Application.streamingAssetsPath + "/" + FolderName + "/";       //아이마다 저장
+        FolderName = "NAME" + DateTime.Now.ToString("yyyyMMddHHddss");        // UserData.DataManager.GetInstance().userInfo.Name + "_" + UserData.DataManager.GetInstance().userInfo.Gender;
+        FileName = SceneManager.GetActiveScene().buildIndex.ToString(); // SceneManager.GetActiveScene().buildIndex.ToString();
+        FilePath_Root = Application.streamingAssetsPath + "/" + DateTime.Now.ToString("yyyyMMdd") + "/";       //아이마다 저장
+        FilePath_Folder = FilePath_Root + FolderName + "/";
 
-        if (!Directory.Exists(FilePath))
+        if (!Directory.Exists(FilePath_Root))
         {
-            Directory.CreateDirectory(FilePath);
+            Directory.CreateDirectory(FilePath_Root);
+        }
+
+        if (!Directory.Exists(FilePath_Folder))
+        {
+            Directory.CreateDirectory(FilePath_Folder);
         }
 
         audioSource = GetComponent<AudioSource>();
@@ -50,11 +57,10 @@ public class AutoVoiceRecording : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            if (timer > 3)   //timer > MaxRecordingTime - 1
+            if (timer > MaxRecordingTime - 1)   //timer > MaxRecordingTime - 1
             {
-                Debug.Log("3 stop");
                 //10분이 되면 자동 종료
-                StopRecording();
+                StopRecordingNBehavior();
             }
         }
     }
@@ -71,10 +77,11 @@ public class AutoVoiceRecording : MonoBehaviour
         recording = Microphone.Start("", false, MaxRecordingTime, 44100);
     }
 
-    public void StopRecording()     // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 이거 호출하면 종료 및 저장
+    public void StopRecordingNBehavior()     // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 이거 호출하면 종료 및 저장
     {
         NowRecording = false;
         StartCoroutine(FinishAndMakeClip());
+        transform.GetComponent<BNG.CollectData>().SaveBehaviorData();
     }
 
     IEnumerator FinishAndMakeClip()
@@ -92,11 +99,11 @@ public class AutoVoiceRecording : MonoBehaviour
         recording = recordingNew;
         audioSource.clip = recording;
 
-        SavWav.Save(FilePath + FileName + fWAV, recording);     //wav파일로 저장
-        WaveToMP3(FilePath + FileName + fWAV, FilePath + FileName + fMP3);      //저장된 wav파일 mp3로 변환
-        yield return new WaitUntil(() => File.Exists(FilePath + FileName + fMP3));  //파일 저장 완료까지 대기
+        SavWav.Save(FilePath_Folder + FileName + fWAV, recording);     //wav파일로 저장
+        WaveToMP3(FilePath_Folder + FileName + fWAV, FilePath_Folder + FileName + fMP3);      //저장된 wav파일 mp3로 변환
+        yield return new WaitUntil(() => File.Exists(FilePath_Folder + FileName + fMP3));  //파일 저장 완료까지 대기
 
-        File.Delete(FilePath + FileName + fWAV);
+        File.Delete(FilePath_Folder + FileName + fWAV);
     }
 
 
