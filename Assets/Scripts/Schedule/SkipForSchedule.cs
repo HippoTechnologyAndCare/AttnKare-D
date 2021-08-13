@@ -19,14 +19,13 @@ public class SkipForSchedule : MonoBehaviour
 
     public Transform ScheduleManager;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         Fin1 = FinishCanvas.transform.GetChild(0);
         Fin2 = FinishCanvas.transform.GetChild(1);
     }
 
-    // Update is called once per frame
     void Update()
     {
         bActive = false;
@@ -46,32 +45,25 @@ public class SkipForSchedule : MonoBehaviour
         if (coroutine != null)
         {
             StopCoroutine(coroutine);
-
         }
 
         if (bFin) //if it is second press
         {
-            
-
             if (bActive) // if hand is what touching button
             {
                 ScheduleManager.GetComponent<ScheduleManager>().FinishPanel_Yes(true);
                 coroutine = StartCoroutine(NextScene());
-
             }
-
         }
+
         if(!bFin)
         {
-
             coroutine = StartCoroutine(PressedFirst());
-
         }
     }
 
     IEnumerator PressedFirst()
     {
-
         float lerpTime = 0f;
         while (FinishCanvas.alpha < 1.0f) //fade in
         {
@@ -84,7 +76,6 @@ public class SkipForSchedule : MonoBehaviour
         bFin = true;
         yield return new WaitForSeconds(2.5f);
 
-
         lerpTime = 0f;
         while (FinishCanvas.alpha > 0f) //fade out
         {
@@ -96,18 +87,14 @@ public class SkipForSchedule : MonoBehaviour
         yield return new WaitForSeconds(7.0f);
 
         bFin = false; //if not pressed for 7 seconds turn off 
-
     }
 
 
     IEnumerator NextScene()
     {
-
-
         FinishCanvas.alpha = 1f;
         Fin1.gameObject.SetActive(false);
         Fin2.gameObject.SetActive(true);
-
        
         yield return new WaitForSeconds(1.0f);
         Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "3";
@@ -117,16 +104,6 @@ public class SkipForSchedule : MonoBehaviour
         Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "1";
         yield return new WaitForSeconds(1.0f);
 
-
         SceneLoader.LoadScene(buildindex);
-
-
-
-
-
     }
-  
-
-
-
 }
