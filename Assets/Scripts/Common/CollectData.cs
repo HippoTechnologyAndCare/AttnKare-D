@@ -41,10 +41,17 @@ namespace BNG
         // File Writing
         FileStream InputDataInfo;
         StreamWriter InputDataWriter;
-        string FilePath = Application.streamingAssetsPath + "/Hippo/";
-        string SaveTime = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+        string FileName;
+        string FolderName;
+        string FilePath_Root;
+        string FilePath_Folder;
+
+
+
         string InputSavePath;
         string DeviceSavePath;
+
 
         float Timer = 0;
         FileStream DeviceDataInfo;
@@ -77,11 +84,27 @@ namespace BNG
         void Start()
         {
             database = new Stats();
-            InputSavePath = FilePath + SceneManager.GetActiveScene().name + "_" + "INPUT" + "_" + SaveTime + "_DATA" + ".txt";
-            DeviceSavePath = FilePath + SceneManager.GetActiveScene().name + "_" + "DEVICE" + "_" + SaveTime + "_DATA" + ".txt";
+
+            FolderName = "NAME" + DateTime.Now.ToString("yyyyMMddHHdd");                                          // UserData.DataManager.GetInstance().userInfo.Name + "_" + UserData.DataManager.GetInstance().userInfo.Gender;
+            FileName = SceneManager.GetActiveScene().buildIndex.ToString();                                                                                      // SceneManager.GetActiveScene().buildIndex.ToString();
+            FilePath_Root = Application.streamingAssetsPath + "/" + DateTime.Now.ToString("yyyyMMdd") + "/";       //아이마다 저장
+            FilePath_Folder = FilePath_Root + FolderName + "/";
+
+
+            if (!Directory.Exists(FilePath_Root))
+            {
+                Directory.CreateDirectory(FilePath_Root);
+            }
+
+            if (!Directory.Exists(FilePath_Folder))
+            {
+                Directory.CreateDirectory(FilePath_Folder);
+            }
+
+            InputSavePath = FilePath_Folder + "_INPUT.txt";
+            DeviceSavePath = FilePath_Folder + FileName + "_Behavior.txt";
         }
 
-        // Update is called once per frame
         void Update()
         {
             Timer += Time.deltaTime;
@@ -94,7 +117,7 @@ namespace BNG
             ShowDataOnInspector();
         }
 
-        private void OnApplicationQuit()
+        public void SaveBehaviorData()     //<<< ------------------------------- 각자 종료할때 호출해서 저장
         {
             database.controllerInput = "Left Trigger Clicks: " + database.LTriggerClicks.ToString() + "\nRight Trigger Clicks: " + database.RTriggerClicks.ToString()
                 + "\nLeft Grip Clicks: " + database.LGripClicks.ToString() + "\nRight Grip Clicks: " + database.RGripClicks.ToString()
@@ -107,7 +130,7 @@ namespace BNG
             DeviceDataWriter.Close();
 
             // Delete if unnecessary
-            SaveInputData(database.controllerInput);
+            //SaveInputData(database.controllerInput);
         }
 
         void ShowDataOnInspector()

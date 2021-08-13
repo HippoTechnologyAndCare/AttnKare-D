@@ -80,6 +80,7 @@ public class TubeScoreboard : MonoBehaviour
     public bool endOfGame = false;
     bool gameFailed = false;
     public bool dataRecorded = false;
+    public int isSkipped = 0;
 
     // Boolean to Load Data (Only Used Once after Start Function)
     bool isChecked = false;
@@ -648,5 +649,17 @@ public class TubeScoreboard : MonoBehaviour
             RecordStageDrops(stageCounter);
             RecordData(endOfGame, gameFailed);
         }
+    }
+
+    public void SaveAndFinish(bool skipped)
+    {
+        if (skipped)
+        {
+            isSkipped = 1;
+            
+        }
+        
+        // Data variables goes here
+        GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();
     }
 }
