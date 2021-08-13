@@ -30,7 +30,7 @@ public class AutoVoiceRecording : MonoBehaviour
 
     void Start()
     {
-        FolderName = "NAME" + DateTime.Now.ToString("yyyyMMddHHddss");        // UserData.DataManager.GetInstance().userInfo.Name + "_" + UserData.DataManager.GetInstance().userInfo.Gender;
+        FolderName = "NAME" + DateTime.Now.ToString("yyyyMMddHHdd");        // UserData.DataManager.GetInstance().userInfo.Name + "_" + UserData.DataManager.GetInstance().userInfo.Gender;
         FileName = SceneManager.GetActiveScene().buildIndex.ToString(); // SceneManager.GetActiveScene().buildIndex.ToString();
         FilePath_Root = Application.streamingAssetsPath + "/" + DateTime.Now.ToString("yyyyMMdd") + "/";       //아이마다 저장
         FilePath_Folder = FilePath_Root + FolderName + "/";
@@ -57,7 +57,7 @@ public class AutoVoiceRecording : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            if (timer > MaxRecordingTime - 1)   //timer > MaxRecordingTime - 1
+            if (timer > 3)   //timer > MaxRecordingTime - 1
             {
                 //10분이 되면 자동 종료
                 StopRecordingNBehavior();

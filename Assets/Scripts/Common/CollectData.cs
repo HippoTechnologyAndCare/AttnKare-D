@@ -85,7 +85,7 @@ namespace BNG
         {
             database = new Stats();
 
-            FolderName = "NAME" + DateTime.Now.ToString("yyyyMMddHHddss");                                          // UserData.DataManager.GetInstance().userInfo.Name + "_" + UserData.DataManager.GetInstance().userInfo.Gender;
+            FolderName = "NAME" + DateTime.Now.ToString("yyyyMMddHHdd");                                          // UserData.DataManager.GetInstance().userInfo.Name + "_" + UserData.DataManager.GetInstance().userInfo.Gender;
             FileName = SceneManager.GetActiveScene().buildIndex.ToString();                                                                                      // SceneManager.GetActiveScene().buildIndex.ToString();
             FilePath_Root = Application.streamingAssetsPath + "/" + DateTime.Now.ToString("yyyyMMdd") + "/";       //아이마다 저장
             FilePath_Folder = FilePath_Root + FolderName + "/";
