@@ -67,7 +67,7 @@ namespace BNG
                     LaserEnd.transform.rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);                    
                     if (!isIn)
                     {
-                        OnEvent("On Pointer");
+                        OnEnterEvent("On Pointer");
                     }                    
                 }
 
@@ -113,7 +113,7 @@ namespace BNG
             }
         }
 
-        private void OnEvent(string currentEvent)
+        private void OnEnterEvent(string currentEvent)
         {
             isIn = true;
             MyFsm.SendEvent(currentEvent);
