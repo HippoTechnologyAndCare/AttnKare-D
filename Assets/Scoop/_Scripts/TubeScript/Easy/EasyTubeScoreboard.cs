@@ -176,6 +176,7 @@ public class EasyTubeScoreboard : MonoBehaviour
                 scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
                 RecordData(endOfGame, gameFailed);
                 AddBreakPoint("Too many balls lost");
+                PlaySound(wrongBall);
                 dataRecorded = true;
             }
         }
@@ -314,6 +315,7 @@ public class EasyTubeScoreboard : MonoBehaviour
                 RecordData(endOfGame, gameFailed);
                 scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
                 AddBreakPoint("Fail in stage 1");
+                PlaySound(wrongBall);
                 dataRecorded = true;
             }
             else if (stageCounter == 2 && (left1 < 5 || left2 < 5 || left3 < 5))
@@ -326,6 +328,7 @@ public class EasyTubeScoreboard : MonoBehaviour
                 RecordData(endOfGame, gameFailed);
                 scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
                 AddBreakPoint("Fail in stage 2");
+                PlaySound(wrongBall);
                 dataRecorded = true;
             }
             else if (stageCounter == 3 && (left1 < 3 || left2 < 3 || left3 < 3))
@@ -338,6 +341,7 @@ public class EasyTubeScoreboard : MonoBehaviour
                 RecordData(endOfGame, gameFailed);
                 scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
                 AddBreakPoint("Fail in stage 3");
+                PlaySound(wrongBall);
                 dataRecorded = true;
             }
         }

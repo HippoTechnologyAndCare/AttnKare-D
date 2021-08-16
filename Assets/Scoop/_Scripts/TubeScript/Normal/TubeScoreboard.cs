@@ -175,6 +175,7 @@ public class TubeScoreboard : MonoBehaviour
             {
                 scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime();
                 RecordData(endOfGame, gameFailed);
+                PlaySound(wrongBall);
                 AddBreakPoint("Too many balls lost");
                 dataRecorded = true;
             }
@@ -313,6 +314,7 @@ public class TubeScoreboard : MonoBehaviour
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
                 scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime();
+                PlaySound(wrongBall);
                 AddBreakPoint("Fail in stage 1");
                 dataRecorded = true;
             }
@@ -325,6 +327,7 @@ public class TubeScoreboard : MonoBehaviour
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
                 scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime();
+                PlaySound(wrongBall);
                 AddBreakPoint("Fail in stage 2");
                 dataRecorded = true;
             }
@@ -337,6 +340,7 @@ public class TubeScoreboard : MonoBehaviour
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
                 scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime();
+                PlaySound(wrongBall);
                 AddBreakPoint("Fail in stage 3");
                 dataRecorded = true;
             }
