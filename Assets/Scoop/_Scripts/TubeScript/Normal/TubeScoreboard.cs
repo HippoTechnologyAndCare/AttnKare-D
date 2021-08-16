@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using KetosGames.SceneTransition;
 
 public class TubeScoreboard : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class TubeScoreboard : MonoBehaviour
 
     [Header("Score Board")]
     public GameObject scoreText; // Score Text
+    public GameObject sceneText;
     public int totalDrops = 0; // Total number of drops throughout game
     public string clearTime = ""; // Clear Time
     [HideInInspector] public int stage1Drops = 0; // Stage 1 Drops
@@ -145,11 +147,13 @@ public class TubeScoreboard : MonoBehaviour
         InGameDebugger();
 
         // ***TEST FEATURE*** Disable this Script after data is recorded (Used to write data only once)
-        /*if (dataRecorded)
+        if (dataRecorded)
         {
-            GetComponent<TubeScoreboard>().enabled = false;
+            SaveAndFinish(false);
+            StartCoroutine(GoToLobby());
             dataRecorded = false;
-        }*/
+            endOfGame = false;
+        }
 
         // Used for Stage Wait Time
         delayTimer += Time.deltaTime;
@@ -180,6 +184,27 @@ public class TubeScoreboard : MonoBehaviour
                 dataRecorded = true;
             }
         }
+    }
+
+    IEnumerator GoToLobby()
+    {
+        yield return new WaitForSeconds(7);
+
+        scoreText.GetComponent<Text>().enabled = false;
+
+        sceneText.GetComponent<Text>().text = "로비로 이동합니다";
+        yield return new WaitForSeconds(2);
+
+        sceneText.GetComponent<Text>().text = "3";
+        yield return new WaitForSeconds(1);
+
+        sceneText.GetComponent<Text>().text = "2";
+        yield return new WaitForSeconds(1);
+
+        sceneText.GetComponent<Text>().text = "1";
+        yield return new WaitForSeconds(1);
+
+        SceneLoader.LoadScene(9);
     }
 
     // Debugging Tool 1
@@ -653,6 +678,7 @@ public class TubeScoreboard : MonoBehaviour
             RecordStageClearTime(stageCounter);
             RecordStageDrops(stageCounter);
             RecordData(endOfGame, gameFailed);
+            SaveAndFinish(false);
         }
     }
 
@@ -661,7 +687,6 @@ public class TubeScoreboard : MonoBehaviour
         if (skipped)
         {
             isSkipped = 1;
-            
         }
         
         // Data variables go here

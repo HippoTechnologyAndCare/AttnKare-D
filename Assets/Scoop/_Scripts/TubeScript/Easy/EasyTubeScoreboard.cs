@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using KetosGames.SceneTransition;
 
 public class EasyTubeScoreboard : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class EasyTubeScoreboard : MonoBehaviour
 
     [Header("Score Board")]
     public GameObject scoreText; // Score Text
+    public GameObject sceneText;
     public int totalDrops = 0; // Total number of drops throughout game
     public string clearTime = ""; // Clear Time
     [HideInInspector] public int stage1Drops = 0; // Stage 1 Drops
@@ -145,11 +147,13 @@ public class EasyTubeScoreboard : MonoBehaviour
         InGameDebugger();
 
         // ***TEST FEATURE*** Disable this Script after data is recorded (Used to write data only once)
-        /*if (dataRecorded)
+        if (dataRecorded)
         {
-            GetComponent<TubeScoreboard>().enabled = false;
+            SaveAndFinish(false);
+            StartCoroutine(GoToLobby());
             dataRecorded = false;
-        }*/
+            endOfGame = false;
+        }
 
         // Used for Stage Wait Time
         delayTimer += Time.deltaTime;
@@ -174,12 +178,33 @@ public class EasyTubeScoreboard : MonoBehaviour
             else // Too many balls lost
             {
                 scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
-                RecordData(endOfGame, gameFailed);
-                AddBreakPoint("Too many balls lost");
                 PlaySound(wrongBall);
+                RecordData(endOfGame, gameFailed);
+                AddBreakPoint("Too many balls lost");                
                 dataRecorded = true;
             }
         }
+    }
+
+    IEnumerator GoToLobby()
+    {
+        yield return new WaitForSeconds(7);
+
+        scoreText.GetComponent<Text>().enabled = false;
+
+        sceneText.GetComponent<Text>().text = "로비로 이동합니다";
+        yield return new WaitForSeconds(2);
+
+        sceneText.GetComponent<Text>().text = "3";
+        yield return new WaitForSeconds(1);
+
+        sceneText.GetComponent<Text>().text = "2";
+        yield return new WaitForSeconds(1);
+
+        sceneText.GetComponent<Text>().text = "1";
+        yield return new WaitForSeconds(1);
+
+        SceneLoader.LoadScene(9);
     }
 
     // Debugging Tool 1
@@ -310,12 +335,12 @@ public class EasyTubeScoreboard : MonoBehaviour
                 endOfGame = true;
                 gameFailed = true;
                 clearTime = timer.GetComponent<Text>().text;
+                PlaySound(wrongBall);
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
                 scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
-                AddBreakPoint("Fail in stage 1");
-                PlaySound(wrongBall);
+                AddBreakPoint("Fail in stage 1");                
                 dataRecorded = true;
             }
             else if (stageCounter == 2 && (left1 < 5 || left2 < 5 || left3 < 5))
@@ -323,12 +348,12 @@ public class EasyTubeScoreboard : MonoBehaviour
                 endOfGame = true;
                 gameFailed = true;
                 clearTime = timer.GetComponent<Text>().text;
+                PlaySound(wrongBall);
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
                 scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
                 AddBreakPoint("Fail in stage 2");
-                PlaySound(wrongBall);
                 dataRecorded = true;
             }
             else if (stageCounter == 3 && (left1 < 3 || left2 < 3 || left3 < 3))
@@ -336,12 +361,12 @@ public class EasyTubeScoreboard : MonoBehaviour
                 endOfGame = true;
                 gameFailed = true;
                 clearTime = timer.GetComponent<Text>().text;
+                PlaySound(wrongBall);
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
                 scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
                 AddBreakPoint("Fail in stage 3");
-                PlaySound(wrongBall);
                 dataRecorded = true;
             }
         }
@@ -652,6 +677,7 @@ public class EasyTubeScoreboard : MonoBehaviour
             RecordStageClearTime(stageCounter);
             RecordStageDrops(stageCounter);
             RecordData(endOfGame, gameFailed);
+            SaveAndFinish(false);
         }
     }
 

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
+#if UNITY_EDITOR
+using UnityEditor.SceneManagement;
+#endif
 
 namespace BNG
 {
@@ -47,11 +50,8 @@ namespace BNG
         string FilePath_Root;
         string FilePath_Folder;
 
-
-
         string InputSavePath;
         string DeviceSavePath;
-
 
         float Timer = 0;
         FileStream DeviceDataInfo;
@@ -78,6 +78,9 @@ namespace BNG
             public int XClicks = 0;
             public int YClicks = 0;
             public string controllerInput;
+
+            // Output
+            public string output = "";
         }
 
         // Start is called before the first frame update
@@ -87,6 +90,9 @@ namespace BNG
 
             FolderName = "NAME" + DateTime.Now.ToString("yyyyMMddHHdd");                                          // UserData.DataManager.GetInstance().userInfo.Name + "_" + UserData.DataManager.GetInstance().userInfo.Gender;
             FileName = SceneManager.GetActiveScene().buildIndex.ToString();                                                                                      // SceneManager.GetActiveScene().buildIndex.ToString();
+#if UNITY_EDITOR
+            FileName = EditorSceneManager.GetActiveScene().buildIndex.ToString();
+#endif
             FilePath_Root = Application.streamingAssetsPath + "/" + DateTime.Now.ToString("yyyyMMdd") + "/";       //아이마다 저장
             FilePath_Folder = FilePath_Root + FolderName + "/";
 
@@ -124,13 +130,15 @@ namespace BNG
                 + "\nA Button Pressed: " + database.AClicks.ToString() + "\nB Button Pressed: " + database.BClicks.ToString()
                 + "\nX Button Pressed: " + database.XClicks.ToString() + "\nY Button Pressed: " + database.YClicks.ToString();
 
+            database.output += "\n" + database.controllerInput;
+
             DeviceDataInfo = new FileStream(DeviceSavePath, FileMode.Append, FileAccess.Write);
             DeviceDataWriter = new StreamWriter(DeviceDataInfo, System.Text.Encoding.Unicode);
-            DeviceDataWriter.WriteLine(database.controllerInput);
+            DeviceDataWriter.WriteLine(database.output);
             DeviceDataWriter.Close();
 
             // Delete if unnecessary
-            //SaveInputData(database.controllerInput);
+            /*SaveInputData(database.controllerInput);*/
         }
 
         void ShowDataOnInspector()
@@ -207,11 +215,13 @@ namespace BNG
 
         public void SaveDeviceData()
         {
-            DeviceDataInfo = new FileStream(DeviceSavePath, FileMode.Append, FileAccess.Write);
+            database.output += Buttons() + "\n" + Positions() + "\n";
+
+            /*DeviceDataInfo = new FileStream(DeviceSavePath, FileMode.Append, FileAccess.Write);
             DeviceDataWriter = new StreamWriter(DeviceDataInfo, System.Text.Encoding.Unicode);
             DeviceDataWriter.WriteLine(Buttons());
             DeviceDataWriter.WriteLine(Positions());
-            DeviceDataWriter.Close();
+            DeviceDataWriter.Close();*/
         }
 
         public string Positions()
