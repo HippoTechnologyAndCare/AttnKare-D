@@ -6,7 +6,7 @@ using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Rendering.Universal;
 using TMPro;
 using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
+using KetosGames.SceneTransition;
 
 
     public class OpenManager : MonoBehaviour
@@ -16,25 +16,29 @@ using UnityEngine.SceneManagement;
         public GameObject Ghost;
         public GameObject Door;
         public Volume global;
-        public Canvas Title;
+        public Transform LogoParent;
 
+
+
+
+
+
+
+        
+        public float speed;
+        Transform SpeechBubble;
+        Transform Logo;
+        private float Timer = 0;
+        private string state;
+        bool fadeColor = false;
+        float GhostRot;
+        int audioIndex;
         Vector3 desPos;
 
         VolumeProfile globalVolume;
 
-
-
-
         ColorAdjustments _coloradjustment = null;
-        public float speed;
-        Transform SpeechBubble;
-    Transform Logo;
-        private float Timer = 0;
-        private string state;
-    bool fadeColor = false;
-        float GhostRot;
 
-    Vector3 testDes;
 
 
 
@@ -77,7 +81,7 @@ using UnityEngine.SceneManagement;
         }
         if(state =="END")
         {
-            Ghost.transform.position = new Vector3(-0.02f, -0.56f, 6.695f);
+            Ghost.transform.position = new Vector3(0.031f, -0.56f, 6.695f);
             _coloradjustment.saturation.value = -10f;
             StartCoroutine(startEnding());
 
@@ -93,10 +97,10 @@ using UnityEngine.SceneManagement;
     void Update()
     {
         SpeechBubble = Ghost.transform.GetChild(1);
-        Logo = Ghost.transform.GetChild(2);
+        Logo =  LogoParent.GetChild(0);
         float GhostRot = Ghost.transform.eulerAngles.y;
         SpeechBubble.localEulerAngles = new Vector3(SpeechBubble.localEulerAngles.x, GhostRot, SpeechBubble.localEulerAngles.z);
-        Logo.localEulerAngles = new Vector3(Logo.localEulerAngles.x, GhostRot, Logo.localEulerAngles.z);
+        LogoParent.localEulerAngles = new Vector3(LogoParent.localEulerAngles.x, GhostRot, LogoParent.localEulerAngles.z);
 
         globalVolume = global.sharedProfile;
         globalVolume.TryGet<ColorAdjustments>(out _coloradjustment);
@@ -182,17 +186,21 @@ using UnityEngine.SceneManagement;
 
     IEnumerator lerpLOGO()
     {
-        Logo.gameObject.SetActive(true);
+
+
+        LogoParent.gameObject.SetActive(true);
         float t = 0f;
         while (true)
         {
             t += Time.deltaTime;
 
-            Logo.transform.localScale = Vector3.Lerp(new Vector3(0,0,0), new Vector3(1.5f,1.5f,1.5f), t);
+            Logo.transform.localScale = Vector3.Lerp(new Vector3(0,0,0), new Vector3(12f,12f,12f), t);
 
-            if (Logo.transform.localScale == new Vector3(1.5f, 1.5f, 1.5f))
+            if (Logo.transform.localScale == new Vector3(12f, 12f, 12f))
             {
-                
+                yield return new WaitForSeconds(3f);
+                Logo.transform.localScale = Vector3.Lerp(new Vector3(12,12,12), new Vector3(0,0,0), t);
+
                 yield break;
             }
 
@@ -223,23 +231,24 @@ using UnityEngine.SceneManagement;
 
         yield return new WaitUntil(() => Ghost.transform.position ==desPos); //wait until it sets position
         fadeColor = true;
-        Logo.gameObject.SetActive(true);
 
-        
-        yield return new WaitForSeconds(2.0f);
-        Logo.gameObject.SetActive(false);
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.1>안녕 \n<color=#2e86de>(^ v ^)~"));
-        yield return new WaitForSeconds(3.0f);
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.08>여긴</size><size=0.1> <color=#EA2027>A</color><color=#EE5A24>T</color><color=#F79F1F>T</color><color=#009432>N</color><color=#0652DD>K</color><color=#1B1464>A</color><color=#B53471>R</color><color=#0984e3>E</color></size> <size=0.08>세계야"));
-        yield return new WaitForSeconds(3.0f);
+        StartCoroutine(lerpLOGO());
 
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>한번 출발해볼까?!\n<color=#2e86de><size=0.074>(o v o)/"));
+
+        yield return new WaitUntil(() => Logo.localScale == new Vector3(0, 0, 0));
+
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.1>안녕 \n<color=#2e86de>(^ v ^)~", audioIndex = 0));
+        yield return new WaitForSeconds(1.8f);
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.08>여긴</size><size=0.1> <color=#EA2027>A</color><color=#EE5A24>T</color><color=#F79F1F>T</color><color=#009432>N</color><color=#0652DD>K</color><color=#1B1464>A</color><color=#B53471>R</color><color=#0984e3>E</color></size> <size=0.08>세계야", audioIndex = 1));
+        yield return new WaitForSeconds(1.8f);
+
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>한번 출발해볼까?!\n<color=#2e86de><size=0.074>(o v o)/", audioIndex = 2));
 
 
         desPos = new Vector3(0.031f, -0.664f, 2.823f);
         StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos,0.4f));
         yield return new WaitUntil(() => Ghost.transform.position == desPos);
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("들어간다~!\n<size=0.07><color=#2e86de>(^ - ^)"));
+       // StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("들어간다~!\n<size=0.07><color=#2e86de>(^ - ^)");
         Ghost.GetComponent<Animator>().SetBool("isJump", true);
         yield return new WaitForSeconds(1.8f);
         Ghost.GetComponent<Animator>().SetBool("isJump", false);
@@ -249,9 +258,9 @@ using UnityEngine.SceneManagement;
         StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos, 0.5f));
 
 
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(1.8f);
         PlayerPrefs.SetString("State", "END");
-        SceneManager.LoadScene("Tutorial");
+        SceneLoader.LoadScene("Tutorial");
 
 
 
@@ -269,29 +278,29 @@ using UnityEngine.SceneManagement;
         //밖으로 달려나감
         //bool go = true;
         StartCoroutine(lerpDoor());
-        desPos = new Vector3(-0.02f,-0.56f,3.734f);
+        desPos = new Vector3(0.031f, -0.56f,3.734f);
         StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos, 0.5f));
         yield return new WaitForSeconds(3.0f);
 
 
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.07>이제 헤어질 \n시간이야\n<color=#2e86de><size=0.06>(T ^ T)"));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.07>이제 헤어질 \n시간이야\n<color=#2e86de><size=0.06>(T ^ T)", audioIndex = 3));
         yield return new WaitForSeconds(2.0f);
 
         desPos = new Vector3(-0.02f, -0.693f, 2.795f);
         StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos, 0.2f));
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.07>다음에 또 놀러와\n<color=#2e86de>(^ 0 ^)/"));
-        yield return new WaitForSeconds(3.0f);
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.07>다음에 또 놀러와\n<color=#2e86de>(^ 0 ^)/", audioIndex = 4));
+        yield return new WaitForSeconds(2.0f);
 
 
         fadeColor = true;
         SpeechBubble.gameObject.SetActive(false);
         Ghost.GetComponent<Animator>().SetBool("isJump", true);
 
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(5.0f);
         PlayerPrefs.SetString("State", "OPEN");
 
         yield return new WaitForSeconds(2.0f);
-        SceneManager.LoadScene("OPENEND");
+        SceneLoader.LoadScene("OPENEND");
 
 
 

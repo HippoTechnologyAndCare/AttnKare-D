@@ -26,13 +26,13 @@ public class AutoVoiceRecording : MonoBehaviour
     AudioSource audioSource;
     float startRecordingTime;
 
-    int MaxRecordingTime = 600;
+    int MaxRecordingTime = 300;
 
     void Start()
     {
         FolderName = "NAME" + DateTime.Now.ToString("yyyyMMddHHdd");        // UserData.DataManager.GetInstance().userInfo.Name + "_" + UserData.DataManager.GetInstance().userInfo.Gender;
         FileName = SceneManager.GetActiveScene().buildIndex.ToString(); // SceneManager.GetActiveScene().buildIndex.ToString();
-        FilePath_Root = Application.streamingAssetsPath + "/" + DateTime.Now.ToString("yyyyMMdd") + "/";       //아이마다 저장
+        FilePath_Root = Application.persistentDataPath + "/" + DateTime.Now.ToString("yyyyMMdd") + "/";       //기본 날짜 묶음 C:\Users\uk308\AppData\LocalLow\HippoTnC\Strengthen_Concentration_VR
         FilePath_Folder = FilePath_Root + FolderName + "/";
 
         if (!Directory.Exists(FilePath_Root))
@@ -57,9 +57,9 @@ public class AutoVoiceRecording : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            if (timer > MaxRecordingTime - 1)   //
+            if (timer > MaxRecordingTime - 1)   //timer > 5
             {
-                //10분이 되면 자동 종료
+                //5분이 되면 자동 종료
                 StopRecordingNBehavior();
             }
         }
