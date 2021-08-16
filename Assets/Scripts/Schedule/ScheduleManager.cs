@@ -284,16 +284,16 @@ public class ScheduleManager : MonoBehaviour
             }
 
             PlanData = float.Parse(MyScheduleforJson, System.Globalization.CultureInfo.InvariantCulture);
-
-            //JsonManager.GetInstance().LoadPlayerDataFromJson();
-            //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex2(TotalElapsedTimeForShow, TotalMovingCnt, NotOnBoardForShow, ResetCnt, ClickNoCnt, PlanData);
-            //saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
-
-            Debug.Log(PlanData.ToString());
-
-            StartCoroutine(GoToLobby());
         }
-        
+
+        //JsonManager.GetInstance().LoadPlayerDataFromJson();
+        //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex2(TotalElapsedTimeForShow, TotalMovingCnt, NotOnBoardForShow, ResetCnt, ClickNoCnt, PlanData);
+        //saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
+
+        Debug.Log(PlanData.ToString());
+
+        StartCoroutine(GoToLobby());
+
     }
 
     IEnumerator GoToLobby()
