@@ -3,49 +3,55 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.Events;
+using BNG;
 
 namespace dw.game.doorlock
 {
     public class BtnDoorLock : MonoBehaviour
     {
-        [System.Serializable]
-        public class ButtonEvent : UnityEvent { }
+        //[System.Serializable]
+        //public class ButtonEvent : UnityEvent { }
 
-        public float pressLength;
-        public bool pressed;
-        public ButtonEvent downEvent;
-        Vector3 startPos;
+        //public float pressLength;
+        //public bool pressed;
+        //public ButtonEvent downEvent;
+        //Vector3 startPos;
+        GameObject pad;
+        GameObject pad_emission;
 
         void Start()
         {
-            startPos = transform.position;
+            pad = transform.Find("pad").gameObject;
+            pad_emission = transform.Find("pad_emission").gameObject;
+            pad.SetActive(true);
+            pad_emission.SetActive(false);
+            //gameObject.GetComponent<Button>().onButtonUp.AddListener(() =>
+            //{
+ 
+            //});
+
+            gameObject.GetComponent<Button>().onButtonDown.AddListener(() =>
+            {
+
+                StartCoroutine(DelayButtonDown(true));
+            });
         }
 
-        void Update()
+        IEnumerator DelayButtonDown(bool isDown)
         {
-            float distance = Mathf.Abs(transform.position.y - startPos.y);
-            if (distance >= pressLength)
-            {
-                transform.position = new Vector3(transform.position.x, startPos.y - pressLength, transform.position.z);
-                if (!pressed)
-                {
-                    pressed = true;
-                    downEvent?.Invoke();
-                }
-            }
-            else
-            {
-                pressed = false;
-            }
-            if (transform.position.y > startPos.y)
-            {
-                transform.position = new Vector3(transform.position.x, startPos.y, transform.position.z);
-            }
+            var pad = transform.Find("pad").gameObject;
+            var pad_emission = transform.Find("pad_emission").gameObject;
+
+            pad.SetActive(!isDown);
+            pad_emission.SetActive(isDown);
+
+            yield return new WaitForSeconds(0.25f);
+
+            pad.SetActive(isDown);
+            pad_emission.SetActive(!isDown);
+
         }
 
-        public void OnClick() 
-        {
-            Debug.Log("OnClick :" + name);
-        }
+      
     }
 }

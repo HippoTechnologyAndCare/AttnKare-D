@@ -72,16 +72,15 @@ public partial class Actor : MonoBehaviour
     }
 
 
-    public IEnumerator ghostSpeak(string input)
+    public IEnumerator ghostSpeak(string input, int index)
     {
-
         AudioSource ghostAudio = transform.GetComponent<AudioSource>();
-        ghostAudio.clip = audioSource[Random.Range(0, audioSource.Length)];
+        ghostAudio.clip = audioSource[index];
         ghostAudio.Play();
         speechBubble.gameObject.SetActive(true);
         speechBubble.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = input;
 
-        yield return new WaitForSeconds(ghostAudio.clip.length);
+        yield return new WaitForSeconds(1.5f);
 
         speechBubble.SetActive(false);
 

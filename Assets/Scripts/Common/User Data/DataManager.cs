@@ -176,7 +176,7 @@ namespace UserData
         public string Name;
         public string _Gender;
         public string Grade;
-        public string PhoneNumer;
+        public string PhoneNumer;       // <<<< ---------------------- 오타났어요 Number
 
         private string _CollectAllInfo;
 

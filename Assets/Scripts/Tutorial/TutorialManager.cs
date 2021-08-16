@@ -30,7 +30,7 @@ namespace BNG.UserData {
         public int trigInt;
         bool check = false;
         private string gradeLH;
-        public string NextScene;
+        public int SceneIndex;
 
 
 
@@ -38,7 +38,7 @@ namespace BNG.UserData {
         void Start()
         {
             trigInt = 0;
-            GetGrade();
+            //GetGrade();
       
 
         }
@@ -93,15 +93,10 @@ namespace BNG.UserData {
                     string text = "그 버튼이 아니야\n<color=#2e86de>(O _ O)!";
                     ghostSpeak(text);
                    
-                    
-
-
                 }
               
 
             }
-
-
 
             if (FSMCheck2)
             {
@@ -126,8 +121,8 @@ namespace BNG.UserData {
 
         public void ghostSpeak(string text)
         {
-
-            StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak(text));
+            int index = 0;
+            StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak(text,index ));
 
         }
 
@@ -139,14 +134,13 @@ namespace BNG.UserData {
             gradeLH = dataManager.Grade;
             if(gradeLH == "L")
             {
-                //씬 순서
+                SceneIndex = 1;
 
 
             }
             if(gradeLH == "H")
             {
-                //씬 순서
-
+                SceneIndex = 5;
             }
 
 
