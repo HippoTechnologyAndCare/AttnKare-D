@@ -84,9 +84,14 @@ namespace UserData
             }
         }
 
+        private void MakeAFileName()
+        {
+            DataManager.GetInstance().userInfo.MakeFileName = txt_Name.text + "_" + txt_Fon.text;
+        }
+
         private void Collect_UserInfo()
         {
-            DataManager.GetInstance().userInfo.CollectAllInfo = txt_Name.text + "_" + txt_Age.text + "_" +
+            DataManager.GetInstance().userInfo.MakeFileName = txt_Name.text + "_" + txt_Age.text + "_" +
             DataManager.GetInstance().userInfo.Gender + "_" + DataManager.GetInstance().userInfo.Grade + "_" + txt_Fon.text;
         }
 
@@ -177,7 +182,7 @@ namespace UserData
 
                 Check_Grade();
 
-                Collect_UserInfo();
+                MakeAFileName();
 
                 DataManager.GetInstance().SavePlayerDataToJson();
             }

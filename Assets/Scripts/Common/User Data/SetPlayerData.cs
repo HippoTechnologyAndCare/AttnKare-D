@@ -23,76 +23,94 @@ public class SetPlayerData : MonoBehaviour
 
     public void InitialDataSetting()
     {
-        DataManager.GetInstance().dataList.Add(new PlayerData(1, "cmMoveN", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(2, "cmVoiceN", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(3, "cmGenderN", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(4, "psFocusT", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(5, "psUnfocusT", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(6, "psWrNumC", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(7, "psFailC", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(8, "psRpL", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(9, "psCmplT", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(10, "ptCmplT", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(11, "ptChangeC", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(12, "ptUnfocusT", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(13, "ptReplayC", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(14, "prChangeC", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(15, "ptPlanN", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(16, "crSucessL", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(17, "crUnfocusT", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(18, "crCmplT", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(19, "crGrbC", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(20, "crMovM", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(21, "crFocusT", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(22, "ppCmplT", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(23, "ppFailC", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(24, "ppNthC", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(25, "ppDsrptC", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(26, "ppCmplS", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(27, "ppCoopC", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(28, "ppFocusT", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(29, "ppUnfocusT", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(30, "NoName", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(31, "bpCmplT", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(32, "bpNtcC", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(33, "bpTmtT", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(34, "bpUnpkT", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(35, "bpUnpC", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(36, "bpPcmpT", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(1, "data_01", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(2, "data_02", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(3, "data_03", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(4, "data_04", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(5, "data_05", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(6, "data_06", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(7, "data_07", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(8, "data_08", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(9, "data_09", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(10, "data_10", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(11, "data_11", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(12, "data_12", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(13, "data_13", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(14, "data_14", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(15, "data_15", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(16, "data_16", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(17, "data_17", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(18, "data_18", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(19, "data_19", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(20, "data_20", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(21, "data_21", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(22, "data_22", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(23, "data_23", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(24, "data_24", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(25, "data_25", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(26, "data_26", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(27, "data_27", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(28, "data_28", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(29, "data_29", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(30, "data_30", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(31, "data_31", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(32, "data_32", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(33, "data_33", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(34, "data_34", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(35, "data_35", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(36, "data_36", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(37, "data_37", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(38, "data_38", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(39, "data_39", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(40, "data_40", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(41, "data_41", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(42, "data_42", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(43, "data_43", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(44, "data_44", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(45, "data_45", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(46, "data_46", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(47, "data_47", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(48, "data_48", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(49, "data_49", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(50, "data_50", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(51, "data_51", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(52, "data_52", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(53, "data_53", 0));
     }
 
     public void GetSceneIndex1()
     {
-        FsmFloat data04 = fsm.FsmVariables.GetFsmFloat("psFocusT");
-        FsmFloat data05 = fsm.FsmVariables.GetFsmFloat("psUnfocusT");
-        FsmFloat data06 = fsm.FsmVariables.GetFsmFloat("psWrNumC");
-        FsmFloat data07 = fsm.FsmVariables.GetFsmFloat("psFailC");
-        FsmFloat data08 = fsm.FsmVariables.GetFsmFloat("psRpL");
-        FsmFloat data09 = fsm.FsmVariables.GetFsmFloat("psCmplT");
+        FsmFloat data01 = fsm.FsmVariables.GetFsmFloat("psFocusT");
+        FsmFloat data02 = fsm.FsmVariables.GetFsmFloat("psUnfocusT");
+        FsmFloat data03 = fsm.FsmVariables.GetFsmFloat("psWrNumC");
+        FsmFloat data04 = fsm.FsmVariables.GetFsmFloat("psFailC");
+        FsmFloat data05 = fsm.FsmVariables.GetFsmFloat("psRpL");
+        FsmFloat data06 = fsm.FsmVariables.GetFsmFloat("psCmplT");
+        FsmFloat data07 = fsm.FsmVariables.GetFsmFloat("giveUp");
 
-        DataManager.GetInstance().dataList[3].Result = data04.Value;
-        DataManager.GetInstance().dataList[4].Result = data05.Value;
-        DataManager.GetInstance().dataList[5].Result = data06.Value;
-        DataManager.GetInstance().dataList[6].Result = data07.Value;
-        DataManager.GetInstance().dataList[7].Result = data08.Value;
-        DataManager.GetInstance().dataList[8].Result = data09.Value;
+        DataManager.GetInstance().dataList[1].Result = data01.Value;
+        DataManager.GetInstance().dataList[2].Result = data02.Value;
+        DataManager.GetInstance().dataList[3].Result = data03.Value;
+        DataManager.GetInstance().dataList[4].Result = data04.Value;
+        DataManager.GetInstance().dataList[5].Result = data05.Value;
+        DataManager.GetInstance().dataList[6].Result = data06.Value;
     }
 
     public void GetSceneIndex2(float ptCmplT, float ptChangeC, float ptUnfocusT, float ptReplayC, float prChangeC, float ptPlanN)
     {//setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex2(TotalElapsedTimeForShow, TotalMovingCnt, NotOnBoardForShow, ResetCnt, ClickNoCnt, PlanData);
-        float data10 = ptCmplT;
-        float data11 = ptChangeC;
-        float data12 = ptUnfocusT;
-        float data13 = ptReplayC;
-        float data14 = prChangeC;
-        float data15 = ptPlanN;
+        float data08 = ptCmplT;
+        float data09 = ptChangeC;
+        float data10 = ptUnfocusT;
+        float data11 = ptReplayC;
+        float data12 = prChangeC;
+        float data13 = ptPlanN;
 
-        DataManager.GetInstance().dataList[9].Result = data10;
-        DataManager.GetInstance().dataList[10].Result = data11;
-        DataManager.GetInstance().dataList[11].Result = data12;
-        DataManager.GetInstance().dataList[12].Result = data13;
-        DataManager.GetInstance().dataList[13].Result = data14;
-        DataManager.GetInstance().dataList[14].Result = data15;
+        DataManager.GetInstance().dataList[8].Result = data08;
+        DataManager.GetInstance().dataList[9].Result = data09;
+        DataManager.GetInstance().dataList[10].Result = data10;
+        DataManager.GetInstance().dataList[11].Result = data11;
+        DataManager.GetInstance().dataList[12].Result = data12;
+        DataManager.GetInstance().dataList[13].Result = data13;
     }
 
     public void GetSceneIndex3()

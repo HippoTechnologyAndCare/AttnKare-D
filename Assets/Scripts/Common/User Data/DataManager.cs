@@ -56,13 +56,13 @@ namespace UserData
             //fileName = string.Format("PlayerData({0:yyyy-MM-dd_hh-mm-ss-tt}).json",    
             //System.DateTime.Now);  // System.DateTime.Now는 현재 날짜, 시간을 가져오는 함수
 
-            if (userInfo.CollectAllInfo == "")
+            if (userInfo.MakeFileName == "")
             {
-                userInfo.CollectAllInfo = "data_test";
+                userInfo.MakeFileName = "data_test";
             }
-            string fileName = userInfo.CollectAllInfo + ".json";
+            string fileName = userInfo.MakeFileName + ".json";
             string jsonData = JsonConvert.SerializeObject(dataList, Formatting.Indented);
-            string path = Path.Combine(Application.persistentDataPath, fileName);
+            string path = Path.Combine(Application.persistentDataPath + "/Json/", fileName);
             File.WriteAllText(path, jsonData);
             //File.WriteAllText(Application.persistentDataPath + path, jsonData);
             Debug.Log("save complete");
@@ -71,9 +71,9 @@ namespace UserData
         [ContextMenu("From Json Data")]
         public void LoadPlayerDataFromJson() // Json 파일을 로드하는 함수
         {
-            string fileName = userInfo.CollectAllInfo + ".json";
+            string fileName = userInfo.MakeFileName + ".json";
             //string path = Path.Combine(Application.dataPath + "/d:/python_test/", fileName);
-            string path = Path.Combine("D:/python_test/", fileName);
+            string path = Path.Combine(Application.persistentDataPath + "/Json/", fileName);
             string jsonData = File.ReadAllText(path);
             dataList = JsonConvert.DeserializeObject<List<PlayerData>>(jsonData);
             Debug.Log("load complete");
@@ -85,8 +85,8 @@ namespace UserData
             var cloud = new ES3Cloud("https://hippotnc.synology.me:6001/ES3Cloud.php", es3APIKey);
 
             // Upload another local file, but make it global for all users.                
-            yield return StartCoroutine(cloud.UploadFile(userInfo.CollectAllInfo + ".json"));
-            Debug.Log("userInfo : " + userInfo.CollectAllInfo);
+            yield return StartCoroutine(cloud.UploadFile(userInfo.MakeFileName + ".json"));
+            Debug.Log("userInfo : " + userInfo.MakeFileName);
 
             if (cloud.isError)
             {
@@ -105,8 +105,8 @@ namespace UserData
             var cloud = new ES3Cloud("https://hippotnc.synology.me:6001/ES3Cloud.php", es3APIKey);
 
             // Upload another local file, but make it global for all users.                
-            yield return StartCoroutine(cloud.DownloadFile(userInfo.CollectAllInfo + ".json"));
-            Debug.Log("userInfo : " + userInfo.CollectAllInfo);
+            yield return StartCoroutine(cloud.DownloadFile(userInfo.MakeFileName + ".json"));
+            Debug.Log("userInfo : " + userInfo.MakeFileName);
 
             if (cloud.isError)
             {
@@ -178,7 +178,7 @@ namespace UserData
         public string Grade;
         public string PhoneNumer;       // <<<< ---------------------- 오타났어요 Number
 
-        private string _CollectAllInfo;
+        private string _MakeFileName;
 
         private bool _IsHigh;
         private bool _IsLow;
@@ -253,12 +253,12 @@ namespace UserData
             }
         }
 
-        public string CollectAllInfo
+        public string MakeFileName
         {
-            get { return _CollectAllInfo; }
+            get { return _MakeFileName; }
             set
             {
-                _CollectAllInfo = value;
+                _MakeFileName = value;
             }
         }
     }
