@@ -10,14 +10,14 @@ namespace Tobii.XR.Examples
 
         public void GazeFocusChanged(bool hasFocus)
         {
-            if (hasFocus)
+/*            if (hasFocus)
             {
                 MainManager.GetComponent<ScheduleManager>().OnBoard = false;
             }
             else
             {
                 MainManager.GetComponent<ScheduleManager>().OnBoard = true;
-            }
+            }*/
         }
     }
 }

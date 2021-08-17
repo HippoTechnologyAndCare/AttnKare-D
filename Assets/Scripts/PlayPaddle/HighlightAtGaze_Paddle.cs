@@ -6,8 +6,7 @@ namespace Tobii.XR.Examples
 {
     public class HighlightAtGaze_Paddle : MonoBehaviour, IGazeFocusable
     {
-        public Transform MainManager; //PaddleManager
-        //추후 Object 추가 예정
+        public Transform MainManager;
 
         public void GazeFocusChanged(bool hasFocus)
         {

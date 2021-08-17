@@ -5,12 +5,12 @@ using TMPro;
 
 public class PopUpController : MonoBehaviour
 {
-    public GameObject PopUp;
+    public GameObject Info_PopUp;
     TextMeshProUGUI PopUpText;
 
     private void Start()
     {
-        PopUpText = PopUp.transform.GetComponent<TextMeshProUGUI>();
+        PopUpText = Info_PopUp.transform.GetComponent<TextMeshProUGUI>();
     }
 
     public void DoAvtivatePopUp(string msg)
@@ -21,10 +21,10 @@ public class PopUpController : MonoBehaviour
 
     IEnumerator ShowUp()
     {
-        PopUp.SetActive(true);
+        Info_PopUp.SetActive(true);
         yield return new WaitForSeconds(1.5f);
 
-        PopUp.SetActive(false);
+        Info_PopUp.SetActive(false);
         PopUpText.text = "";
     }
 }
