@@ -9,11 +9,25 @@ public class KeyInput : MonoBehaviour
 {  
     private InputMoveScene inputMoveScene;
 
+    static public KeyInput instance;
+
     private int buildIndex;
+    private int Length;
+    private bool isOverlapped;
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        var objs = FindObjectOfType<KeyInput>();
+
+        if (objs.Length == 1)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+
+        else
+        {
+            Destroy(gameObject);
+        }
 
         inputMoveScene = new InputMoveScene();      
     }
@@ -29,7 +43,8 @@ public class KeyInput : MonoBehaviour
         inputMoveScene.SceneControlMap.MoveToScene_7.performed += GoToScene_7;
         inputMoveScene.SceneControlMap.MoveToScene_8.performed += GoToScene_8;
         inputMoveScene.SceneControlMap.MoveToScene_9.performed += GoToScene_9;
-        inputMoveScene.SceneControlMap.MoveToScene_10.performed += GoToScene_10;
+        // 사용 안함
+        //inputMoveScene.SceneControlMap.MoveToScene_10.performed += GoToScene_10;
 
         inputMoveScene.SceneControlMap.MoveToScene_1.Enable();
         inputMoveScene.SceneControlMap.MoveToScene_2.Enable();
@@ -40,7 +55,8 @@ public class KeyInput : MonoBehaviour
         inputMoveScene.SceneControlMap.MoveToScene_7.Enable();
         inputMoveScene.SceneControlMap.MoveToScene_8.Enable();
         inputMoveScene.SceneControlMap.MoveToScene_9.Enable();
-        inputMoveScene.SceneControlMap.MoveToScene_10.Enable();
+        // 사용 안함
+        //inputMoveScene.SceneControlMap.MoveToScene_10.Enable();
     }
 
     private void OnDisable()
@@ -54,7 +70,8 @@ public class KeyInput : MonoBehaviour
         inputMoveScene.SceneControlMap.MoveToScene_7.Disable();
         inputMoveScene.SceneControlMap.MoveToScene_8.Disable();
         inputMoveScene.SceneControlMap.MoveToScene_9.Disable();
-        inputMoveScene.SceneControlMap.MoveToScene_10.Disable();
+        // 사용 안함
+        //inputMoveScene.SceneControlMap.MoveToScene_10.Disable();
     }
 
     private void GoToScene_1(InputAction.CallbackContext obj)
@@ -104,9 +121,11 @@ public class KeyInput : MonoBehaviour
         buildIndex = 9;
         SceneLoader.LoadScene(buildIndex);
     }
-    private void GoToScene_10(InputAction.CallbackContext obj)
-    {
-        buildIndex = 10;
-        SceneLoader.LoadScene(buildIndex);
-    }
+
+    // 사용 안함
+    //private void GoToScene_10(InputAction.CallbackContext obj)
+    //{
+    //    buildIndex = 10;
+    //    SceneLoader.LoadScene(buildIndex);
+    //}
 }

@@ -17,9 +17,8 @@ namespace UserData
         public bool isError_UP;
 
         private string es3APIKey;
-        private string folderPath;
-
-        private string fileName;
+        //private string folderPath;
+                
         public string FilePath_Root;
         public string FilePath_Folder;
 
@@ -58,12 +57,13 @@ namespace UserData
         {
             // 날짜와 시간 형식의 수식을 string 포맷으로 만드는 문법 
             //fileName = string.Format("PlayerData({0:yyyy-MM-dd_hh-mm-ss-tt}).json",    
-            //System.DateTime.Now);  // System.DateTime.Now는 현재 날짜, 시간을 가져오는 함수
-            if(FilePath_Root == null)
+            //System.DateTime.Now);  // System.DateTime.Now는 현재 날짜, 시간을 가져오는 함수                                                          
+
+            if (FilePath_Root == null)
             {
                 FilePath_Root = Application.persistentDataPath + "/" + System.DateTime.Now.ToString("yyyyMMdd") + "/";
                 userInfo.FolderName = "NotInput_Info";
-                FilePath_Folder = FilePath_Root + userInfo.FolderName + "/";
+                FilePath_Folder = FilePath_Root + userInfo.FolderName + "/";                
 
                 if (!Directory.Exists(FilePath_Root))
                 {
@@ -86,11 +86,10 @@ namespace UserData
                     Directory.CreateDirectory(FilePath_Folder);
                 }
             }
-                                  
-            fileName = "UserData.json";
-            string jsonData = JsonConvert.SerializeObject(dataList, Formatting.Indented);
             
-            string path = Path.Combine(FilePath_Folder, fileName);            
+            string fileName = "UserData.json";
+            string jsonData = JsonConvert.SerializeObject(dataList, Formatting.Indented);
+            string path = Path.Combine(this.GetComponent<DataManager>().FilePath_Folder, fileName);            
             File.WriteAllText(path, jsonData);
             //File.WriteAllText(Application.persistentDataPath + path, jsonData);
             Debug.Log("save complete");
@@ -99,8 +98,7 @@ namespace UserData
         [ContextMenu("From Json Data")]
         public void LoadPlayerDataFromJson() // Json 파일을 로드하는 함수
         {
-            fileName = "UserData.json";
-
+            string fileName = "UserData.json";
             string path = Path.Combine(FilePath_Folder, fileName);
             string jsonData = File.ReadAllText(path);
             dataList = JsonConvert.DeserializeObject<List<PlayerData>>(jsonData);
@@ -174,17 +172,7 @@ namespace UserData
 
         private void Start()
         {
-            es3APIKey = "13de814c5d55";            
-
-            if (!Directory.Exists(FilePath_Root))
-            {
-                Directory.CreateDirectory(FilePath_Root);
-            }
-
-            if (!Directory.Exists(FilePath_Folder))
-            {
-                Directory.CreateDirectory(FilePath_Folder);
-            }
+            es3APIKey = "13de814c5d55";                                   
         }
     }
 

@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using HutongGames.PlayMaker;
+using KetosGames.SceneTransition;
 
 namespace UserData
 {
@@ -26,6 +27,7 @@ namespace UserData
         [SerializeField] private Toggle gradeTg_H;
 
         [SerializeField] private PlayMakerFSM warningFSM;
+        [SerializeField] private ManualXRControl manualXRControl;
 
         //private int minLength;
         //private int maxLength;
@@ -198,12 +200,15 @@ namespace UserData
                 DataManager.GetInstance().userInfo.PhoneNumer = txt_Fon.text;
 
                 Check_Gender();
-
                 Check_Grade();
 
                 CreatFolder();
 
                 DataManager.GetInstance().SavePlayerDataToJson();
+
+                //manualXRControl.StartCoroutine("StartXR");
+
+                SceneLoader.LoadScene("OPENEND");
             }
 
             Reset_BoolData();

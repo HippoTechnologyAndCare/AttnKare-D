@@ -95,7 +95,7 @@ public class NetworkManager : MonoBehaviour
         else
         {
             Debug.Log(webRequest.downloadHandler.text + " /////////// Form upload complete");
-            UnityEngine.Windows.File.WriteAllBytes(outputpath, webRequest.downloadHandler.data);
+            //UnityEngine.Windows.File.WriteAllBytes(outputpath, webRequest.downloadHandler.data);
         }
     }
 }

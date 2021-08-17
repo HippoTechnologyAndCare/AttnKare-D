@@ -23,6 +23,7 @@ public class SetPlayerData : MonoBehaviour
 
     public void InitialDataSetting()
     {
+        DataManager.GetInstance().dataList.Add(new PlayerData(0, "empty_data", 0));
         DataManager.GetInstance().dataList.Add(new PlayerData(1, "data_01", 0));
         DataManager.GetInstance().dataList.Add(new PlayerData(2, "data_02", 0));
         DataManager.GetInstance().dataList.Add(new PlayerData(3, "data_03", 0));
