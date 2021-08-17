@@ -6,8 +6,8 @@ using TMPro;
 
 public class VehicleController : MonoBehaviour
 {
-    Animation Anim;
-    float prevSpeed;
+    bool moving = false;
+    public Vector3 EndPos;
 
     public TextMeshProUGUI DistanceShow;
 
@@ -17,11 +17,9 @@ public class VehicleController : MonoBehaviour
 
     public float Distance = 0;
 
-
     void Start()
     {
-        Anim = GetComponent<Animation>();
-        Anim.enabled = false;
+        MovingTimer = 0;
     }
 
     void Update()
@@ -35,19 +33,24 @@ public class VehicleController : MonoBehaviour
                 MovingTimer = 0;
                 MovingTimerForLimit -= 1;
 
-                if (MovingTimerForLimit > 0)
-                {
-                    Distance += 1;
-                    DistanceShow.text = Distance.ToString();
-                }
-
                 if (MovingTimerForLimit == 0)
                 {
                     GottaGo = false;
-                    Anim.enabled = false;
+                    moving = false;
                     MovingTimerForLimit = 0;
                 }
+                else
+                {
+                    Distance += 2;
+                    DistanceShow.text = Distance.ToString();
+                }
             }
+
+            if (moving)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, EndPos, .0042f);
+            }
+
         }
     }
 
@@ -56,7 +59,7 @@ public class VehicleController : MonoBehaviour
         if (!GottaGo)
         {
             GottaGo = true;
-            Anim.enabled = true;
+            moving = true;
         }
 
         MovingTimerForLimit = 2;
