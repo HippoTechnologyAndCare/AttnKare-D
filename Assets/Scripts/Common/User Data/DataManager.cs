@@ -19,6 +19,10 @@ namespace UserData
         private string es3APIKey;
         private string folderPath;
 
+        private string fileName;
+        public string FilePath_Root;
+        public string FilePath_Folder;
+
         private static DataManager instance; // 싱글턴 인스턴스 생성 (static + 클래스명 문법으로 생성한 변수)
 
         //PlayerData 클래스(클래스안에 생성자 선언)의 List<T>를 생성한다.
@@ -55,14 +59,38 @@ namespace UserData
             // 날짜와 시간 형식의 수식을 string 포맷으로 만드는 문법 
             //fileName = string.Format("PlayerData({0:yyyy-MM-dd_hh-mm-ss-tt}).json",    
             //System.DateTime.Now);  // System.DateTime.Now는 현재 날짜, 시간을 가져오는 함수
-
-            if (userInfo.MakeFileName == "")
+            if(FilePath_Root == null)
             {
-                userInfo.MakeFileName = "data_test";
+                FilePath_Root = Application.persistentDataPath + "/" + System.DateTime.Now.ToString("yyyyMMdd") + "/";
+                userInfo.FolderName = "NotInput_Info";
+                FilePath_Folder = FilePath_Root + userInfo.FolderName + "/";
+
+                if (!Directory.Exists(FilePath_Root))
+                {
+                    Directory.CreateDirectory(FilePath_Root);
+                }
+
+                if (!Directory.Exists(FilePath_Folder))
+                {
+                    Directory.CreateDirectory(FilePath_Folder);
+                }
             }
-            string fileName = userInfo.MakeFileName + ".json";
+
+            if (FilePath_Folder == null)
+            {
+                userInfo.FolderName = "NotInput_Info";
+                FilePath_Folder = FilePath_Root + userInfo.FolderName + "/";
+
+                if (!Directory.Exists(FilePath_Folder))
+                {
+                    Directory.CreateDirectory(FilePath_Folder);
+                }
+            }
+                                  
+            fileName = "UserData.json";
             string jsonData = JsonConvert.SerializeObject(dataList, Formatting.Indented);
-            string path = Path.Combine(Application.persistentDataPath + "/Json/", fileName);
+            
+            string path = Path.Combine(FilePath_Folder, fileName);            
             File.WriteAllText(path, jsonData);
             //File.WriteAllText(Application.persistentDataPath + path, jsonData);
             Debug.Log("save complete");
@@ -71,9 +99,9 @@ namespace UserData
         [ContextMenu("From Json Data")]
         public void LoadPlayerDataFromJson() // Json 파일을 로드하는 함수
         {
-            string fileName = userInfo.MakeFileName + ".json";
-            //string path = Path.Combine(Application.dataPath + "/d:/python_test/", fileName);
-            string path = Path.Combine(Application.persistentDataPath + "/Json/", fileName);
+            fileName = "UserData.json";
+
+            string path = Path.Combine(FilePath_Folder, fileName);
             string jsonData = File.ReadAllText(path);
             dataList = JsonConvert.DeserializeObject<List<PlayerData>>(jsonData);
             Debug.Log("load complete");
@@ -85,8 +113,8 @@ namespace UserData
             var cloud = new ES3Cloud("https://hippotnc.synology.me:6001/ES3Cloud.php", es3APIKey);
 
             // Upload another local file, but make it global for all users.                
-            yield return StartCoroutine(cloud.UploadFile(userInfo.MakeFileName + ".json"));
-            Debug.Log("userInfo : " + userInfo.MakeFileName);
+            yield return StartCoroutine(cloud.UploadFile(userInfo.FolderName + ".json"));
+            Debug.Log("userInfo : " + userInfo.FolderName);
 
             if (cloud.isError)
             {
@@ -105,8 +133,8 @@ namespace UserData
             var cloud = new ES3Cloud("https://hippotnc.synology.me:6001/ES3Cloud.php", es3APIKey);
 
             // Upload another local file, but make it global for all users.                
-            yield return StartCoroutine(cloud.DownloadFile(userInfo.MakeFileName + ".json"));
-            Debug.Log("userInfo : " + userInfo.MakeFileName);
+            yield return StartCoroutine(cloud.DownloadFile(userInfo.FolderName + ".json"));
+            Debug.Log("userInfo : " + userInfo.FolderName);
 
             if (cloud.isError)
             {
@@ -146,8 +174,17 @@ namespace UserData
 
         private void Start()
         {
-            es3APIKey = "13de814c5d55";
-            //folderPath = "/json";        
+            es3APIKey = "13de814c5d55";            
+
+            if (!Directory.Exists(FilePath_Root))
+            {
+                Directory.CreateDirectory(FilePath_Root);
+            }
+
+            if (!Directory.Exists(FilePath_Folder))
+            {
+                Directory.CreateDirectory(FilePath_Folder);
+            }
         }
     }
 
@@ -178,7 +215,7 @@ namespace UserData
         public string Grade;
         public string PhoneNumer;       // <<<< ---------------------- 오타났어요 Number
 
-        private string _MakeFileName;
+        private string _FolderName;
 
         private bool _IsHigh;
         private bool _IsLow;
@@ -253,12 +290,12 @@ namespace UserData
             }
         }
 
-        public string MakeFileName
+        public string FolderName
         {
-            get { return _MakeFileName; }
+            get { return _FolderName; }
             set
             {
-                _MakeFileName = value;
+                _FolderName = value;
             }
         }
     }

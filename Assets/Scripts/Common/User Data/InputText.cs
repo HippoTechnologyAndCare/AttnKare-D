@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -84,14 +85,32 @@ namespace UserData
             }
         }
 
-        private void MakeAFileName()
+        private void CreatFolder()
         {
-            DataManager.GetInstance().userInfo.MakeFileName = txt_Name.text + "_" + txt_Fon.text;
+            // Persistant Folder Path C:\Users\<계정이름>\AppData\LocalLow\HippoTnC\Strengthen_Concentration_VR\
+            DataManager.GetInstance().FilePath_Root = Application.persistentDataPath + "/" + DateTime.Now.ToString("yyyyMMdd") + "/";
+            
+            DataManager.GetInstance().userInfo.FolderName = txt_Name.text + "_" + txt_Fon.text + "_" + 
+            DataManager.GetInstance().userInfo.Grade;
+
+            DataManager.GetInstance().FilePath_Root = Application.persistentDataPath + "/" + DateTime.Now.ToString("yyyyMMdd") + "/";
+            DataManager.GetInstance().FilePath_Folder = DataManager.GetInstance().FilePath_Root +
+            DataManager.GetInstance().userInfo.FolderName + "/";
+
+            if (!Directory.Exists(DataManager.GetInstance().FilePath_Root))
+            {
+                Directory.CreateDirectory(DataManager.GetInstance().FilePath_Root);
+            }
+            if (!Directory.Exists(DataManager.GetInstance().FilePath_Folder))
+            {
+                Directory.CreateDirectory(DataManager.GetInstance().FilePath_Folder);
+            }
+
         }
 
         private void Collect_UserInfo()
         {
-            DataManager.GetInstance().userInfo.MakeFileName = txt_Name.text + "_" + txt_Age.text + "_" +
+            DataManager.GetInstance().userInfo.FolderName = txt_Name.text + "_" + txt_Age.text + "_" +
             DataManager.GetInstance().userInfo.Gender + "_" + DataManager.GetInstance().userInfo.Grade + "_" + txt_Fon.text;
         }
 
@@ -182,7 +201,7 @@ namespace UserData
 
                 Check_Grade();
 
-                MakeAFileName();
+                CreatFolder();
 
                 DataManager.GetInstance().SavePlayerDataToJson();
             }

@@ -10,17 +10,13 @@ using NAudio.Wave.WZT;
 
 public class AutoVoiceRecording : MonoBehaviour
 {
+    string FileName;
     string fWAV = ".wav"; // wav 확장자
     string fMP3 = ".mp3"; // mp3 확장자
 
     float timer = 0f;
 
-    bool NowRecording = false;
-
-    string FileName;
-    string FolderName;
-    string FilePath_Root;
-    string FilePath_Folder;
+    bool NowRecording = false;    
 
     AudioClip recording;
     AudioSource audioSource;
@@ -30,21 +26,7 @@ public class AutoVoiceRecording : MonoBehaviour
 
     void Start()
     {
-        FolderName = "NAME" + DateTime.Now.ToString("yyyyMMddHHdd");        // UserData.DataManager.GetInstance().userInfo.Name + "_" + UserData.DataManager.GetInstance().userInfo.Gender;
         FileName = SceneManager.GetActiveScene().buildIndex.ToString(); // SceneManager.GetActiveScene().buildIndex.ToString();
-        FilePath_Root = Application.persistentDataPath + "/" + DateTime.Now.ToString("yyyyMMdd") + "/";       //기본 날짜 묶음 C:\Users\uk308\AppData\LocalLow\HippoTnC\Strengthen_Concentration_VR
-        FilePath_Folder = FilePath_Root + FolderName + "/";
-
-        if (!Directory.Exists(FilePath_Root))
-        {
-            Directory.CreateDirectory(FilePath_Root);
-        }
-
-        if (!Directory.Exists(FilePath_Folder))
-        {
-            Directory.CreateDirectory(FilePath_Folder);
-        }
-
         audioSource = GetComponent<AudioSource>();
 
         StartRecording();
@@ -99,11 +81,17 @@ public class AutoVoiceRecording : MonoBehaviour
         recording = recordingNew;
         audioSource.clip = recording;
 
-        SavWav.Save(FilePath_Folder + FileName + fWAV, recording);     //wav파일로 저장
-        WaveToMP3(FilePath_Folder + FileName + fWAV, FilePath_Folder + FileName + fMP3);      //저장된 wav파일 mp3로 변환
-        yield return new WaitUntil(() => File.Exists(FilePath_Folder + FileName + fMP3));  //파일 저장 완료까지 대기
+        //wav파일로 저장
+        SavWav.Save(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV, recording);
+        
+        //저장된 wav파일 mp3로 변환
+        WaveToMP3(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV,
+        UserData.DataManager.GetInstance().FilePath_Folder + FileName + fMP3);
 
-        File.Delete(FilePath_Folder + FileName + fWAV);
+        //파일 저장 완료까지 대기
+        yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fMP3));  
+
+        File.Delete(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV);
     }
 
 

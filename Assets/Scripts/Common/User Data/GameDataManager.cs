@@ -16,7 +16,7 @@ public class GameDataManager : MonoBehaviour
 
     delegate void SaveCurrentSceneData(int SceneIndex);
 
-    SaveCurrentSceneData saveCurrentSceneData;
+    SaveCurrentSceneData saveCurrentSceneData;    
 
     // Start is called before the first frame update
     void Start()
