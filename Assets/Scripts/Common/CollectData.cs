@@ -81,6 +81,9 @@ namespace BNG
             public int XClicks = 0;
             public int YClicks = 0;
             public string controllerInput;
+
+            // Final Output
+            public string output;
         }
 
         // Start is called before the first frame update
@@ -129,9 +132,11 @@ namespace BNG
                 + "\nA Button Pressed: " + database.AClicks.ToString() + "\nB Button Pressed: " + database.BClicks.ToString()
                 + "\nX Button Pressed: " + database.XClicks.ToString() + "\nY Button Pressed: " + database.YClicks.ToString();
 
+            database.output += database.controllerInput;
+
             DeviceDataInfo = new FileStream(DeviceSavePath, FileMode.Append, FileAccess.Write);
             DeviceDataWriter = new StreamWriter(DeviceDataInfo, System.Text.Encoding.Unicode);
-            DeviceDataWriter.WriteLine(database.controllerInput);
+            DeviceDataWriter.WriteLine(database.output);
             DeviceDataWriter.Close();
 
             // Delete if unnecessary
@@ -212,11 +217,13 @@ namespace BNG
 
         public void SaveDeviceData()
         {
-            DeviceDataInfo = new FileStream(DeviceSavePath, FileMode.Append, FileAccess.Write);
+            database.output += Buttons() + "\n" + Positions() + "\n";
+
+            /*DeviceDataInfo = new FileStream(DeviceSavePath, FileMode.Append, FileAccess.Write);
             DeviceDataWriter = new StreamWriter(DeviceDataInfo, System.Text.Encoding.Unicode);
             DeviceDataWriter.WriteLine(Buttons());
             DeviceDataWriter.WriteLine(Positions());
-            DeviceDataWriter.Close();
+            DeviceDataWriter.Close();*/
         }
 
         public string Positions()

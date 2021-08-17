@@ -149,7 +149,7 @@ public class TubeScoreboard : MonoBehaviour
         // ***TEST FEATURE*** Disable this Script after data is recorded (Used to write data only once)
         if (dataRecorded)
         {
-            SaveAndFinish(false);
+            StartCoroutine(SaveAndFinish(false));
             StartCoroutine(GoToLobby());
             dataRecorded = false;
             endOfGame = false;
@@ -678,11 +678,11 @@ public class TubeScoreboard : MonoBehaviour
             RecordStageClearTime(stageCounter);
             RecordStageDrops(stageCounter);
             RecordData(endOfGame, gameFailed);
-            SaveAndFinish(false);
+            StartCoroutine(SaveAndFinish(false));
         }
     }
 
-    public void SaveAndFinish(bool skipped)
+    public IEnumerator SaveAndFinish(bool skipped)
     {
         if (skipped)
         {
@@ -691,5 +691,7 @@ public class TubeScoreboard : MonoBehaviour
         
         // Data variables go here
         GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();
+
+        yield break;
     }
 }
