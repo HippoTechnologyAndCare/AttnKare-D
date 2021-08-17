@@ -149,8 +149,7 @@ public class TubeScoreboard : MonoBehaviour
         // ***TEST FEATURE*** Disable this Script after data is recorded (Used to write data only once)
         if (dataRecorded)
         {
-            SaveAndFinish(false);
-            StartCoroutine(GoToLobby());
+            StartCoroutine(GoToLobby(false));
             dataRecorded = false;
             endOfGame = false;
         }
@@ -186,7 +185,7 @@ public class TubeScoreboard : MonoBehaviour
         }
     }
 
-    IEnumerator GoToLobby()
+    IEnumerator GoToLobby(bool isSkipped)
     {
         yield return new WaitForSeconds(7);
 
@@ -203,6 +202,8 @@ public class TubeScoreboard : MonoBehaviour
 
         sceneText.GetComponent<Text>().text = "1";
         yield return new WaitForSeconds(1);
+
+        SaveAndFinish(isSkipped);
 
         SceneLoader.LoadScene(9);
     }
