@@ -80,8 +80,8 @@ public class AutoVoiceRecording : MonoBehaviour
     public void StopRecordingNBehavior()     // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 이거 호출하면 종료 및 저장
     {
         NowRecording = false;
+        transform.GetComponent<BNG.CollectData>().SaveBehaviorData();
         StartCoroutine(FinishAndMakeClip());
-        StartCoroutine(transform.GetComponent<BNG.CollectData>().SaveBehaviorData());
     }
 
     IEnumerator FinishAndMakeClip()

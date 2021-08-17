@@ -125,7 +125,7 @@ namespace BNG
             ShowDataOnInspector();
         }
 
-        public IEnumerator SaveBehaviorData()     //<<< ------------------------------- 각자 종료할때 호출해서 저장
+        public void SaveBehaviorData()     //<<< ------------------------------- 각자 종료할때 호출해서 저장
         {
             database.controllerInput = "Left Trigger Clicks: " + database.LTriggerClicks.ToString() + "\nRight Trigger Clicks: " + database.RTriggerClicks.ToString()
                 + "\nLeft Grip Clicks: " + database.LGripClicks.ToString() + "\nRight Grip Clicks: " + database.RGripClicks.ToString()
@@ -144,7 +144,7 @@ namespace BNG
             /*DeviceDataWriter.WriteLine(database.output);*/
             DeviceDataWriter.Close();
 
-            yield break;
+           
             // Delete if unnecessary
             //SaveInputData(database.controllerInput);
         }
