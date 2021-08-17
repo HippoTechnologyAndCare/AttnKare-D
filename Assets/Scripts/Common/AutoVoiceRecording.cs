@@ -81,7 +81,7 @@ public class AutoVoiceRecording : MonoBehaviour
     {
         NowRecording = false;
         StartCoroutine(FinishAndMakeClip());
-        transform.GetComponent<BNG.CollectData>().SaveBehaviorData();
+        StartCoroutine(transform.GetComponent<BNG.CollectData>().SaveBehaviorData());
     }
 
     IEnumerator FinishAndMakeClip()

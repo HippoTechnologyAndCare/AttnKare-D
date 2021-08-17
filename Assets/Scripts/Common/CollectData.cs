@@ -50,11 +50,11 @@ namespace BNG
         string FilePath_Root;
         string FilePath_Folder;
 
-
+        // Data per Frame
+        List<string> dataPerFrame = new List<string>();
 
         string InputSavePath;
         string DeviceSavePath;
-
 
         float Timer = 0;
         FileStream DeviceDataInfo;
@@ -125,7 +125,7 @@ namespace BNG
             ShowDataOnInspector();
         }
 
-        public void SaveBehaviorData()     //<<< ------------------------------- 각자 종료할때 호출해서 저장
+        public IEnumerator SaveBehaviorData()     //<<< ------------------------------- 각자 종료할때 호출해서 저장
         {
             database.controllerInput = "Left Trigger Clicks: " + database.LTriggerClicks.ToString() + "\nRight Trigger Clicks: " + database.RTriggerClicks.ToString()
                 + "\nLeft Grip Clicks: " + database.LGripClicks.ToString() + "\nRight Grip Clicks: " + database.RGripClicks.ToString()
@@ -133,12 +133,18 @@ namespace BNG
                 + "\nX Button Pressed: " + database.XClicks.ToString() + "\nY Button Pressed: " + database.YClicks.ToString();
 
             database.output += database.controllerInput;
+            dataPerFrame.Add(database.controllerInput);
 
             DeviceDataInfo = new FileStream(DeviceSavePath, FileMode.Append, FileAccess.Write);
             DeviceDataWriter = new StreamWriter(DeviceDataInfo, System.Text.Encoding.Unicode);
-            DeviceDataWriter.WriteLine(database.output);
+            foreach (string data in dataPerFrame)
+            {
+                DeviceDataWriter.WriteLine(data);
+            }
+            /*DeviceDataWriter.WriteLine(database.output);*/
             DeviceDataWriter.Close();
 
+            yield break;
             // Delete if unnecessary
             //SaveInputData(database.controllerInput);
         }
@@ -217,8 +223,8 @@ namespace BNG
 
         public void SaveDeviceData()
         {
-            database.output += Buttons() + "\n" + Positions() + "\n";
-
+            dataPerFrame.Add(Buttons() + "\n" + Positions() + "\n");
+            
             /*DeviceDataInfo = new FileStream(DeviceSavePath, FileMode.Append, FileAccess.Write);
             DeviceDataWriter = new StreamWriter(DeviceDataInfo, System.Text.Encoding.Unicode);
             DeviceDataWriter.WriteLine(Buttons());

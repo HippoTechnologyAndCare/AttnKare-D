@@ -692,6 +692,8 @@ public class TubeScoreboard : MonoBehaviour
         // Data variables go here
         GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();
 
+        yield return new WaitForSeconds(2);
+
         yield break;
     }
 }
