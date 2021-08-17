@@ -6,12 +6,7 @@ using TMPro;
 public class PopUpController : MonoBehaviour
 {
     public GameObject Info_PopUp;
-    TextMeshProUGUI PopUpText;
-
-    private void Start()
-    {
-        PopUpText = Info_PopUp.transform.GetComponent<TextMeshProUGUI>();
-    }
+    public TextMeshProUGUI PopUpText;
 
     public void DoAvtivatePopUp(string msg)
     {
