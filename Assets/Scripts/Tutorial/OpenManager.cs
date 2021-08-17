@@ -17,6 +17,7 @@ using KetosGames.SceneTransition;
         public GameObject Door;
         public Volume global;
         public Transform LogoParent;
+    public Transform Transition;
 
 
 
@@ -214,8 +215,11 @@ using KetosGames.SceneTransition;
 
         IEnumerator startOpening()
         {
+        Transition.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2f);
 
-        yield return new WaitForSeconds(1.5f);
+
+        Transition.gameObject.SetActive(false);
         Ghost.transform.parent.gameObject.SetActive(true);
         Ghost.transform.localEulerAngles = new Vector3(Ghost.transform.localEulerAngles.x, Ghost.transform.localEulerAngles.y, 45 );
         yield return new WaitForSeconds(2.0f);
@@ -296,7 +300,8 @@ using KetosGames.SceneTransition;
         SpeechBubble.gameObject.SetActive(false);
         Ghost.GetComponent<Animator>().SetBool("isJump", true);
 
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(3.0f);
+        Transition.gameObject.SetActive(true);
         PlayerPrefs.SetString("State", "OPEN");
 
         yield return new WaitForSeconds(2.0f);
