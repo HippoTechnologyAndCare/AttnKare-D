@@ -14,6 +14,8 @@ public class ScheduleManager : MonoBehaviour
     public Transform WellDoneAndBye;
     public TextMeshProUGUI FinishCntDwn;
 
+    public Transform BGM_Controller;
+
     public Text Result;
 
     public Transform Btn_Finish;
@@ -34,9 +36,9 @@ public class ScheduleManager : MonoBehaviour
     float TotalElapsedTime = 0;         //수행한 시간 계산용
     float TotalElapsedTimeForShow = 0;  //수행한 시간 보여주기용
 
-    public bool OnBoard = false;        //보드안에서 집중하고 있는지
-    float NotOnBoard = 0;               //집중 못한 시간 계산용
-    float NotOnBoardForShow = 0;        //집중 못한 시간 보여주기용
+    //public bool OnBoard = false;        //보드안에서 집중하고 있는지
+    //float NotOnBoard = 0;               //집중 못한 시간 계산용
+    //float NotOnBoardForShow = 0;        //집중 못한 시간 보여주기용
 
     public int TotalMovingCnt = 0;      //이동 횟수
     public int ResetCnt = 0;            //초기화 누른 횟수
@@ -50,8 +52,6 @@ public class ScheduleManager : MonoBehaviour
     public AudioClip Sound_In;
     public AudioClip Sound_Click;
     public AudioClip Sound_Put;
-
-    public AudioClip Sound_Intro;
 
     //------------- Manager
     public Transform setData_PlayerData;
@@ -90,7 +90,7 @@ public class ScheduleManager : MonoBehaviour
                 TotalElapsedTime = 0;
                 TotalElapsedTimeForShow += 1;
 
-                ShowUpdate();
+                //ShowUpdate();
 
                 if (TotalElapsedTimeForShow >= TimeLimit)
                 {
@@ -99,7 +99,7 @@ public class ScheduleManager : MonoBehaviour
                 }
             }
 
-            if (OnBoard)
+/*            if (OnBoard)
             {
                 NotOnBoard += Time.deltaTime;
 
@@ -110,7 +110,7 @@ public class ScheduleManager : MonoBehaviour
 
                     ShowUpdate();
                 }
-            }
+            }*/
         }
     }
 
@@ -136,7 +136,7 @@ public class ScheduleManager : MonoBehaviour
     public void CheckMovingCnt()
     {
         TotalMovingCnt += 1;
-        ShowUpdate();
+        //ShowUpdate();
     }
 
     bool CheckEmptySlot()
@@ -172,14 +172,14 @@ public class ScheduleManager : MonoBehaviour
 
             Btn_Finish.gameObject.SetActive(false);
             ResetCnt += 1;
-            ShowUpdate();
+            //ShowUpdate();
         }
     }
 
-    void ShowUpdate()
+/*    void ShowUpdate()
     {
-        ToShow.text = "시간:" + TotalElapsedTimeForShow.ToString() + " / 이동:" + TotalMovingCnt.ToString() + " / 다시하기:" + ResetCnt.ToString() + " / 집중못한 시간:" + NotOnBoardForShow.ToString() + " / 아니오:" + ClickNoCnt.ToString();
-    }
+        ToShow.text = "시간:" + TotalElapsedTimeForShow.ToString() + " / 이동:" + TotalMovingCnt.ToString() + " / 다시하기:" + ResetCnt.ToString() + " / 아니오:" + ClickNoCnt.ToString(); //" / 집중못한 시간:" + NotOnBoardForShow.ToString() + 
+    }*/
 
     public void CheckAllScheduleOnSlot()
     {
@@ -208,10 +208,7 @@ public class ScheduleManager : MonoBehaviour
 
     IEnumerator StartCntDown()
     {
-        if (audioSource.clip == Sound_Intro)
-        {
-            audioSource.Stop();
-        }
+        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
 
         TextTitle.text = "준비 ~";
 
@@ -244,7 +241,7 @@ public class ScheduleManager : MonoBehaviour
         Finish.gameObject.SetActive(false);
 
         ClickNoCnt += 1;
-        ShowUpdate();
+        //ShowUpdate();
     }
 
     public void FinishPanel_Yes(bool Skipped)
@@ -286,17 +283,16 @@ public class ScheduleManager : MonoBehaviour
             PlanData = float.Parse(MyScheduleforJson, System.Globalization.CultureInfo.InvariantCulture);
         }
 
-        //JsonManager.GetInstance().LoadPlayerDataFromJson();
-        //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex2(TotalElapsedTimeForShow, TotalMovingCnt, NotOnBoardForShow, ResetCnt, ClickNoCnt, PlanData);
+        //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex2(TotalElapsedTimeForShow, TotalMovingCnt, ResetCnt, ClickNoCnt, PlanData, SkipYn);
         //saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
 
         Debug.Log(PlanData.ToString());
 
-        StartCoroutine(GoToLobby());
+        StartCoroutine(GoToNextScene());
 
     }
 
-    IEnumerator GoToLobby()
+    IEnumerator GoToNextScene()
     {
         yield return new WaitForSeconds(2);
 
@@ -309,7 +305,7 @@ public class ScheduleManager : MonoBehaviour
         FinishCntDwn.text = "1";
         yield return new WaitForSeconds(1);
 
-        SceneLoader.LoadScene(3);       /// -------------------------- 다음컨텐츠 번호 넣어야 함
+        SceneLoader.LoadScene(3);
     }
 
 
@@ -333,10 +329,6 @@ public class ScheduleManager : MonoBehaviour
         else if (Type == "PUT")
         {
             audioSource.clip = Sound_Put;
-        }
-        else if (Type == "INTRO")
-        {
-            audioSource.clip = Sound_Intro;
         }
 
         audioSource.Play();

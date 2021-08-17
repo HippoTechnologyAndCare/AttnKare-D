@@ -90,8 +90,8 @@ namespace BNG.UserData {
                 if (lGripValue > 0.7f && rGripValue > 0.7f)
                 {
                     Debug.Log("done");
-                    string text = "그 버튼이 아니야\n<color=#2e86de>(O _ O)!";
-                    ghostSpeak(text);
+
+                    ghostSpeak(0);
                    
                 }
               
@@ -119,10 +119,11 @@ namespace BNG.UserData {
 
         }
 
-        public void ghostSpeak(string text)
+        public void ghostSpeak(int strIndex)
         {
-            int index = 0;
-            StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak(text,index ));
+            int index = Random.Range(0, 3);
+            string[] Speechstr = {"그 버튼이 아니야\n<color=#2e86de>(O _ O)!","바닥을 한번 살펴봐!", "직접 걸어서\n다가가야해!" };
+            StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak(Speechstr[strIndex],index ));
 
         }
 

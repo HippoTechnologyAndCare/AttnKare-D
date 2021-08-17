@@ -7,6 +7,8 @@ using KetosGames.SceneTransition;
 
 public class PaddleManager : MonoBehaviour
 {
+    public Transform BGM_Controller;
+
     public GameObject Canvas_Intro;
     public TextMeshProUGUI ShowIntroText;
     public GameObject Canvas_Display;
@@ -16,9 +18,7 @@ public class PaddleManager : MonoBehaviour
     public TextMeshProUGUI ShowDisplayText;
     public Transform ShowPopUpText;
 
-    public Transform Boat;
-
-    public GameObject FinishLand;
+    public Transform Vehicle;
 
     public Transform Wheel_Parent_My;   //어떤 핸들을 잡았는지 식별용 - 내거
     public Transform Wheel_Parent_Bot;  //어떤 핸들을 잡았는지 식별용 - 친구거 실패
@@ -43,7 +43,6 @@ public class PaddleManager : MonoBehaviour
     float DoNothingTimeElapsed = 0;             //안돌리는 시간
 
 
-
     //------------- SOUND
     AudioSource audioSource;
     public AudioClip Sound_Count;
@@ -51,6 +50,7 @@ public class PaddleManager : MonoBehaviour
     public AudioClip Sound_Success;
     public AudioClip Sound_Fail;
     public AudioClip Sound_StageUp;
+    public AudioClip Sound_Finish;
 
     //------------- Manager
     public Transform setData_PlayerData;
@@ -87,7 +87,7 @@ public class PaddleManager : MonoBehaviour
             if (TimeElapsedShow > 300)
             {
                 //5분 초과시 강제 종료 ?
-                GameFinish();
+                GameFinish(false);
             }
 
             if (PaddleStart)
@@ -95,14 +95,12 @@ public class PaddleManager : MonoBehaviour
                 if (Wheel_Parent_My.childCount != 0)
                 {
                     MyPaddleOn = true;
-                    Debug.Log("잡 " + MyPaddleOn);
                 }
                 else
                 {
                     MyPaddleOn = false;
                     PaddleTimerSwitch = false;
                     PaddleSpeedTimer = 0;
-                    Debug.Log("놓 " + MyPaddleOn);
                 }
 
                 if (Wheel_Parent_Bot.childCount != 0)
@@ -122,9 +120,9 @@ public class PaddleManager : MonoBehaviour
                     DoNothingTimeElapsed += Time.deltaTime;
                 }
 
-                if (Boat.GetComponent<BoatController>().Distance > 100)
+                if (Vehicle.GetComponent<VehicleController>().Distance > 100)
                 {
-                    GameFinish();
+                    GameFinish(false);
                 }
             }
         }
@@ -140,6 +138,8 @@ public class PaddleManager : MonoBehaviour
 
     IEnumerator StartPaddle()
     {
+        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
+
         ShowIntroText.text = "준비 ~";
         yield return new WaitForSeconds(1);
 
@@ -174,8 +174,6 @@ public class PaddleManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision col)
     {
-        Debug.Log("ENTER " + col.collider.tag);
-
         if (PaddleStart && col.collider.tag == "HANDLE_MY")
         {
             PaddleTimerSwitch = false;
@@ -185,8 +183,6 @@ public class PaddleManager : MonoBehaviour
 
     private void OnCollisionExit(Collision col)
     {
-        Debug.Log("OUT " + col.collider.tag);
-
         if (PaddleStart && col.collider.tag == "HANDLE_MY")
         {
             PaddleTimerSwitch = true;
@@ -197,11 +193,11 @@ public class PaddleManager : MonoBehaviour
     {
         if (StageLvl == 1)
         {
-            if (PaddleSpeedTimer > 3.5f && PaddleSpeedTimer < 4.5f)
+            if (PaddleSpeedTimer > 4f && PaddleSpeedTimer < 4.6f)
             {
                 SuccessToGo();
 
-                if (Boat.GetComponent<BoatController>().Distance > 40)
+                if (Vehicle.GetComponent<VehicleController>().Distance > 40)
                 {
                     Data_23 = TimeElapsed - Data_21;
                     Data_26 = PaddleFailCnt;
@@ -220,11 +216,11 @@ public class PaddleManager : MonoBehaviour
         }
         else if (StageLvl == 2)
         {
-            if (PaddleSpeedTimer > 2.5f && PaddleSpeedTimer < 3.5f)
+            if (PaddleSpeedTimer > 3f && PaddleSpeedTimer < 3.6f)
             {
                 SuccessToGo();
 
-                if (Boat.GetComponent<BoatController>().Distance > 70)
+                if (Vehicle.GetComponent<VehicleController>().Distance > 70)
                 {
                     Data_24 = TimeElapsed - Data_21 - Data_23;
                     Data_27 = PaddleFailCnt;
@@ -243,9 +239,9 @@ public class PaddleManager : MonoBehaviour
         }
         else if (StageLvl == 3)
         {
-            if (Boat.GetComponent<BoatController>().Distance < 100)
+            if (Vehicle.GetComponent<VehicleController>().Distance < 100)
             {
-                if (PaddleSpeedTimer > 1.5f && PaddleSpeedTimer < 2.5f)
+                if (PaddleSpeedTimer > 2f && PaddleSpeedTimer < 2.6f)
                 {
                     SuccessToGo();
                 }
@@ -266,7 +262,7 @@ public class PaddleManager : MonoBehaviour
             PlaySoundByType("SUCCESS");
 
             ShowPopUpInfo("성공 ~ !!");
-            Boat.GetComponent<BoatController>().PlusBoatDistance();
+            Vehicle.GetComponent<VehicleController>().PlusDistance();
         }
     }
 
@@ -281,24 +277,33 @@ public class PaddleManager : MonoBehaviour
         }
     }
 
-    public void GameFinish()
+    public void GameFinish(bool isSkipped)
     {
+        PlaySoundByType("FIN");
+
+        SceneStart = false;
+        PaddleStart = false;
+
+        transform.GetComponent<BoxCollider>().enabled = false;
+        AutoController.GetComponent<AutoController>().GameFinish();
+        Vehicle.GetComponent<VehicleController>().GameFinish();
+
+        if (isSkipped)
+        {
+            Data_31 = 1;
+            ShowPopUpInfo("수고했어요! 짝짝짝 ~");
+        }
+        else
+        {
+            Data_31 = 0;
+            ShowPopUpInfo("정상에 도착했어요!\n잘했어요! 짝짝짝 ~");
+        }
+
         Data_22 = TimeElapsed;
         Data_25 = TimeElapsed - Data_21 - Data_23 - Data_24;
         Data_28 = PaddleFailCnt;
         Data_29 = Failure_DistbT;
         Data_30 = DoNothingTimeElapsed;
-
-        SceneStart = false;
-        PaddleStart = false;
-        transform.GetComponent<BoxCollider>().enabled = false;
-
-        AutoController.GetComponent<AutoController>().GameFinish();
-        Boat.GetComponent<BoatController>().GameFinish();
-
-        FinishLand.SetActive(true);
-        ShowPopUpInfo("보물섬에 도착했어요!\n잘했어요! 짝짝짝 ~");
-
 
         Debug.Log("21 : " + Data_21.ToString()
                 + "\n22 : " + Data_22.ToString()
@@ -309,15 +314,16 @@ public class PaddleManager : MonoBehaviour
                 + "\n27 : " + Data_27.ToString()
                 + "\n28 : " + Data_28.ToString()
                 + "\n29 : " + Data_29.ToString()
-                + "\n30 : " + Data_30.ToString());
+                + "\n30 : " + Data_30.ToString()
+                + "\n31 : " + Data_31.ToString());
 
         //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex4(0, 0, 0, 0, 0, 0, 0, 0, 0);
         //saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
 
-        //StartCoroutine(GoToLobby());
+        StartCoroutine(GoToNextScene());
     }
 
-    IEnumerator GoToLobby()
+    IEnumerator GoToNextScene()
     {
         yield return new WaitForSeconds(3);
         Canvas_Finish.SetActive(true);
@@ -333,7 +339,7 @@ public class PaddleManager : MonoBehaviour
 
         yield return new WaitForSeconds(1);
 
-        SceneLoader.LoadScene(0);       /// -------------------------- 다음컨텐츠 번호 넣어야 함
+        SceneLoader.LoadScene(7);       /// -------------------------- 다음컨텐츠 번호 넣어야 함
     }
 
     void PlaySoundByType(string sType)
@@ -359,6 +365,10 @@ public class PaddleManager : MonoBehaviour
         else if (sType == "STAGE")
         {
             audioSource.clip = Sound_StageUp;
+        }
+        else if (sType == "FIN")
+        {
+            audioSource.clip = Sound_Finish;
         }
 
         audioSource.Play();
