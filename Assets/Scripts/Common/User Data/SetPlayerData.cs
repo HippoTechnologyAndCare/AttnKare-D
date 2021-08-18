@@ -182,8 +182,9 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList[20].Result = data20.Value;
     }
     // Play Paddle //
-    public void GetSceneIndex6(float data_21, float data_22, float data_23, float data_24, float data_25, float data_26, float data_27, float data_28, float data_29, float data_30, float data_31)
+    public void GetSceneIndex6()
     {
+        /*
         float data21 = data_21;
         float data22 = data_22;
         float data23 = data_23;
@@ -194,17 +195,31 @@ public class SetPlayerData : MonoBehaviour
         float data28 = data_28;
         float data29 = data_29;
         float data30 = data_30;
+        */
+        FsmFloat data21 = fsm.FsmVariables.GetFsmFloat("Data_21");
+        FsmFloat data22 = fsm.FsmVariables.GetFsmFloat("Data_22");
+        FsmFloat data23 = fsm.FsmVariables.GetFsmFloat("Data_23");
+        FsmFloat data24 = fsm.FsmVariables.GetFsmFloat("Data_24");
+        FsmFloat data25 = fsm.FsmVariables.GetFsmFloat("Data_25");
+        FsmFloat data26 = fsm.FsmVariables.GetFsmFloat("Data_26");
+        FsmFloat data27 = fsm.FsmVariables.GetFsmFloat("Data_27");
+        FsmFloat data28 = fsm.FsmVariables.GetFsmFloat("Data_28");
+        FsmFloat data29 = fsm.FsmVariables.GetFsmFloat("Data_29");
+        FsmFloat data30 = fsm.FsmVariables.GetFsmFloat("Data_30");
+        FsmFloat data31 = fsm.FsmVariables.GetFsmFloat("Data_31");
 
-        DataManager.GetInstance().dataList[21].Result = data21;
-        DataManager.GetInstance().dataList[22].Result = data22;
-        DataManager.GetInstance().dataList[23].Result = data23;
-        DataManager.GetInstance().dataList[24].Result = data24;
-        DataManager.GetInstance().dataList[25].Result = data25;
-        DataManager.GetInstance().dataList[26].Result = data26;
-        DataManager.GetInstance().dataList[27].Result = data27;
-        DataManager.GetInstance().dataList[28].Result = data28;
-        DataManager.GetInstance().dataList[29].Result = data29;
-        DataManager.GetInstance().dataList[30].Result = data30;
+
+        DataManager.GetInstance().dataList[21].Result = data21.Value;
+        DataManager.GetInstance().dataList[22].Result = data22.Value;
+        DataManager.GetInstance().dataList[23].Result = data23.Value;
+        DataManager.GetInstance().dataList[24].Result = data24.Value;
+        DataManager.GetInstance().dataList[25].Result = data25.Value;
+        DataManager.GetInstance().dataList[26].Result = data26.Value;
+        DataManager.GetInstance().dataList[27].Result = data27.Value;
+        DataManager.GetInstance().dataList[28].Result = data28.Value;
+        DataManager.GetInstance().dataList[29].Result = data29.Value;
+        DataManager.GetInstance().dataList[30].Result = data30.Value;
+        DataManager.GetInstance().dataList[31].Result = data31.Value;
     }
     // Back Packing H //
     public void GetSceneIndex7()

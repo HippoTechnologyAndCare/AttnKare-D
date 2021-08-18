@@ -62,7 +62,7 @@ public class GameDataManager : MonoBehaviour
                 saveCurrentSceneData = SetData_pm;
                 break;
             case 6: //PlayPaddle
-                saveCurrentSceneData = SetData;
+                saveCurrentSceneData = SetData_pm;
                 break;
             case 7: //bagpacking H
                 saveCurrentSceneData = SetData_pm;
