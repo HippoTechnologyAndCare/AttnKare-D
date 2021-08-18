@@ -1,12 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Collections;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
-using HutongGames.PlayMaker;
 using KetosGames.SceneTransition;
+//using HutongGames.PlayMaker.Actions;
 
 namespace UserData
 {
@@ -26,8 +24,7 @@ namespace UserData
         [SerializeField] private Toggle gradeTg_L;
         [SerializeField] private Toggle gradeTg_H;
 
-        [SerializeField] private PlayMakerFSM warningFSM;
-        [SerializeField] private ManualXRControl manualXRControl;
+        [SerializeField] private PlayMakerFSM warningFSM;        
 
         //private int minLength;
         //private int maxLength;
