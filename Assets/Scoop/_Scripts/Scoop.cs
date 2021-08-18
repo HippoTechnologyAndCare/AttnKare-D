@@ -30,7 +30,6 @@ public class Scoop : MonoBehaviour
         {
             if (Vector3.Distance(gameObject.transform.position, headCamera.position) > 150f)
             {
-                Debug.Log("Scoop Lost");
                 resetScoop();
             }
             timer = 0;
@@ -42,7 +41,6 @@ public class Scoop : MonoBehaviour
         // If ball hits boundary outside room, return it to its original position (Only when object escapes room due to extreme force applied)
         if(collision.gameObject.tag == "Boundary" || collision.gameObject.tag == "Terrain")
         {
-            Debug.Log("Scoop Hit Boundary");
             resetScoop();
             scoreboard.GetComponent<TubeScoreboard>().scoopLost++;
         }

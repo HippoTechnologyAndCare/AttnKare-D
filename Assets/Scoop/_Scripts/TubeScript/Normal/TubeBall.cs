@@ -59,7 +59,6 @@ public class TubeBall : MonoBehaviour
         {
             if (Vector3.Distance(gameObject.transform.position, initP) > 150f)
             {
-                Debug.Log("Ball Lost");
                 resetBall();
             }
             timer = 0;
@@ -89,7 +88,6 @@ public class TubeBall : MonoBehaviour
         {
             ScoreCheck = true;
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
-            Debug.Log("tubeball1 success");
         } 
         else if (other.gameObject.tag == "Checker1" && GetComponent<Renderer>().sharedMaterial != tubeBall1)
         {
@@ -105,7 +103,6 @@ public class TubeBall : MonoBehaviour
         {
             ScoreCheck = true;
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
-            Debug.Log("tubeball2 success");
         }
         else if (other.gameObject.tag == "Checker2" && GetComponent<Renderer>().sharedMaterial != tubeBall2)
         {
@@ -121,7 +118,6 @@ public class TubeBall : MonoBehaviour
         {
             ScoreCheck = true;
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
-            Debug.Log("tubeball3 success");
         }
         else if (other.gameObject.tag == "Checker3" && GetComponent<Renderer>().sharedMaterial != tubeBall3)
         {
