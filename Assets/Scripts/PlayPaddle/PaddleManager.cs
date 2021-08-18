@@ -284,7 +284,7 @@ public class PaddleManager : MonoBehaviour
     {
         PlaySoundByType("FIN");
 
-        Behavior.GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();
+        StartCoroutine(FinishNSave());
 
         SceneStart = false;
         PaddleStart = false;
@@ -327,6 +327,12 @@ public class PaddleManager : MonoBehaviour
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
 
         StartCoroutine(GoToNextScene());
+    }
+
+    IEnumerator FinishNSave()
+    {
+        Behavior.GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();
+        yield return new WaitForSeconds(1);
     }
 
     IEnumerator GoToNextScene()
