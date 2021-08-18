@@ -73,9 +73,9 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList.Add(new PlayerData(47, "data_47", 0));
         DataManager.GetInstance().dataList.Add(new PlayerData(48, "data_48", 0));
         DataManager.GetInstance().dataList.Add(new PlayerData(49, "data_49", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(50, "data_50", 0));
-        
+        DataManager.GetInstance().dataList.Add(new PlayerData(50, "data_50", 0));        
     }
+
     // Doorlock //
     public void GetSceneIndex1()
     {
@@ -95,15 +95,16 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList[6].Result = data06.Value;
         DataManager.GetInstance().dataList[7].Result = data07.Value;
     }
+
     // Schecule //
-    public void GetSceneIndex2(float ptCmplT, float ptChangeC, float ptReplayC, float prChangeC, float ptPlanN, float ptSkip)
-    {//setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex2(TotalElapsedTimeForShow, TotalMovingCnt, NotOnBoardForShow, ResetCnt, ClickNoCnt, PlanData);
-        float data08 = ptCmplT;
-        float data09 = ptChangeC;
-        float data10 = ptReplayC;
-        float data11 = prChangeC;
-        float data12 = ptPlanN;
-        float data13 = ptSkip;
+    public void GetSceneIndex2(params float[] myVal)
+    {
+        float data08 = myVal[0];
+        float data09 = myVal[1];
+        float data10 = myVal[2];
+        float data11 = myVal[3];
+        float data12 = myVal[4];
+        float data13 = myVal[5];
 
         DataManager.GetInstance().dataList[8].Result = data08;
         DataManager.GetInstance().dataList[9].Result = data09;
@@ -112,6 +113,7 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList[12].Result = data12;
         DataManager.GetInstance().dataList[13].Result = data13;
     }
+
     // Back Packing L //
     public void GetSceneIndex3()
     {
@@ -136,21 +138,10 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList[39].Result = data39.Value;
         DataManager.GetInstance().dataList[40].Result = data40.Value;
     }
+
     // Scoop L //
     public void GetSceneIndex4()
-    {
-        //float sgCmplT_1, float sgCmplT_2, float sgCmplT_3, float sgDrL_1, float sgDrL_2, float sgDrL_3, float sgWrColL, float sgUnptL, float sgFailY, float sgQuitY
-        /*float data41 = sgCmplT_1;
-        float data42 = sgCmplT_2;
-        float data43 = sgCmplT_3;
-        float data44 = sgDrL_1;
-        float data45 = sgDrL_2;
-        float data46 = sgDrL_3;
-        float data47 = sgWrColL;
-        float data48 = sgUnptL;
-        float data49 = sgFailY;
-        float data50 = sgQuitY;
-        */
+    {        
         FsmFloat data41 = fsm.FsmVariables.GetFsmFloat("data41");
         FsmFloat data42 = fsm.FsmVariables.GetFsmFloat("data42");
         FsmFloat data43 = fsm.FsmVariables.GetFsmFloat("data43");
@@ -170,20 +161,9 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList[47].Result = data47.Value;
         DataManager.GetInstance().dataList[48].Result = data48.Value;
         DataManager.GetInstance().dataList[49].Result = data49.Value;
-        DataManager.GetInstance().dataList[50].Result = data50.Value;
-        /*
-        DataManager.GetInstance().dataList[41].Result = data41;
-        DataManager.GetInstance().dataList[42].Result = data42;
-        DataManager.GetInstance().dataList[43].Result = data43;
-        DataManager.GetInstance().dataList[44].Result = data44;
-        DataManager.GetInstance().dataList[45].Result = data45;
-        DataManager.GetInstance().dataList[46].Result = data46;
-        DataManager.GetInstance().dataList[47].Result = data47;
-        DataManager.GetInstance().dataList[48].Result = data48;
-        DataManager.GetInstance().dataList[49].Result = data49;
-        DataManager.GetInstance().dataList[50].Result = data50;
-        */
+        DataManager.GetInstance().dataList[50].Result = data50.Value;        
     }
+
     // Clean Up My Room //
     public void GetSceneIndex5()
     {
@@ -204,21 +184,10 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList[19].Result = data19.Value;
         DataManager.GetInstance().dataList[20].Result = data20.Value;
     }
+
     // Play Paddle //
     public void GetSceneIndex6()
-    {
-        /*
-        float data21 = data_21;
-        float data22 = data_22;
-        float data23 = data_23;
-        float data24 = data_24;
-        float data25 = data_25;
-        float data26 = data_26;
-        float data27 = data_27;
-        float data28 = data_28;
-        float data29 = data_29;
-        float data30 = data_30;
-        */
+    {        
         FsmFloat data21 = fsm.FsmVariables.GetFsmFloat("Data_21");
         FsmFloat data22 = fsm.FsmVariables.GetFsmFloat("Data_22");
         FsmFloat data23 = fsm.FsmVariables.GetFsmFloat("Data_23");
@@ -230,7 +199,6 @@ public class SetPlayerData : MonoBehaviour
         FsmFloat data29 = fsm.FsmVariables.GetFsmFloat("Data_29");
         FsmFloat data30 = fsm.FsmVariables.GetFsmFloat("Data_30");
         FsmFloat data31 = fsm.FsmVariables.GetFsmFloat("Data_31");
-
 
         DataManager.GetInstance().dataList[21].Result = data21.Value;
         DataManager.GetInstance().dataList[22].Result = data22.Value;
@@ -244,6 +212,7 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList[30].Result = data30.Value;
         DataManager.GetInstance().dataList[31].Result = data31.Value;
     }
+
     // Back Packing H //
     public void GetSceneIndex7()
     {        
@@ -268,22 +237,10 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList[39].Result = data39.Value;
         DataManager.GetInstance().dataList[40].Result = data40.Value;
     }
+
     // Scoop H //
     public void GetSceneIndex8()
-    {
-        //float sgCmplT_1, float sgCmplT_2, float sgCmplT_3, float sgDrL_1, float sgDrL_2, float sgDrL_3, float sgWrColL, float sgUnptL, float sgFailY, float sgQuitY
-        /*
-        float data41 = sgCmplT_1;
-        float data42 = sgCmplT_2;
-        float data43 = sgCmplT_3;
-        float data44 = sgDrL_1;
-        float data45 = sgDrL_2;
-        float data46 = sgDrL_3;
-        float data47 = sgWrColL;
-        float data48 = sgUnptL;
-        float data49 = sgFailY;
-        float data50 = sgQuitY;
-        */
+    {     
         FsmFloat data41 = fsm.FsmVariables.GetFsmFloat("data41");
         FsmFloat data42 = fsm.FsmVariables.GetFsmFloat("data42");
         FsmFloat data43 = fsm.FsmVariables.GetFsmFloat("data43");
@@ -294,6 +251,7 @@ public class SetPlayerData : MonoBehaviour
         FsmFloat data48 = fsm.FsmVariables.GetFsmFloat("data48");
         FsmFloat data49 = fsm.FsmVariables.GetFsmFloat("data49");
         FsmFloat data50 = fsm.FsmVariables.GetFsmFloat("data50");
+
         DataManager.GetInstance().dataList[41].Result = data41.Value;
         DataManager.GetInstance().dataList[42].Result = data42.Value;
         DataManager.GetInstance().dataList[43].Result = data43.Value;
