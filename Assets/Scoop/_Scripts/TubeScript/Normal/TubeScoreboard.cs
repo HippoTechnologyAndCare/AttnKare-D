@@ -65,13 +65,9 @@ public class TubeScoreboard : MonoBehaviour
     public GameObject debugText; // In Game Debug Panel
 
     [Header("Audio Clips")]
-    [SerializeField] public AudioClip stage1Audio;
-    [SerializeField] public AudioClip stage2Audio;
-    [SerializeField] public AudioClip stage3Audio;
-    [SerializeField] public AudioClip wrongBall;
-    [SerializeField] public AudioClip correctBall;
+    [SerializeField] public GameObject voices;
     [SerializeField] public GameObject soundEffects;
-    [SerializeField] AudioClip nextStage;
+    [SerializeField] public GameObject stageAudio; 
     
     [Header("Materials")]
     [SerializeField] Material tubeBall1; // Yellow Material
@@ -192,7 +188,7 @@ public class TubeScoreboard : MonoBehaviour
             {
                 scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime();
                 RecordData(endOfGame, gameFailed);
-                PlaySound(wrongBall);
+                soundEffects.GetComponent<SoundEffects>().WrongBall();
                 AddBreakPoint("Too many balls lost");
                 dataRecorded = true;
             }
@@ -350,7 +346,7 @@ public class TubeScoreboard : MonoBehaviour
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
                 scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime();
-                PlaySound(wrongBall);
+                soundEffects.GetComponent<SoundEffects>().WrongBall();
                 AddBreakPoint("Fail in stage 1");
                 dataRecorded = true;
             }
@@ -363,7 +359,7 @@ public class TubeScoreboard : MonoBehaviour
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
                 scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime();
-                PlaySound(wrongBall);
+                soundEffects.GetComponent<SoundEffects>().WrongBall();
                 AddBreakPoint("Fail in stage 2");
                 dataRecorded = true;
             }
@@ -376,7 +372,7 @@ public class TubeScoreboard : MonoBehaviour
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
                 scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime();
-                PlaySound(wrongBall);
+                soundEffects.GetComponent<SoundEffects>().WrongBall();
                 AddBreakPoint("Fail in stage 3");
                 dataRecorded = true;
             }
@@ -410,13 +406,13 @@ public class TubeScoreboard : MonoBehaviour
                         ball.GetComponent<TubeBall>().resetBall();
                         ball.SetActive(false);
                         excessBalls++;
-                        PlaySound(wrongBall);
+                        soundEffects.GetComponent<SoundEffects>().WrongBall();
                     }
                     else
                     {
                         successBalls1.Add(ball);
                         score1++;
-                        PlaySound(correctBall);
+                        soundEffects.GetComponent<SoundEffects>().CorrectBall();
                     }
                 }
                 break;
@@ -428,13 +424,13 @@ public class TubeScoreboard : MonoBehaviour
                         ball.GetComponent<TubeBall>().resetBall();
                         ball.SetActive(false);
                         excessBalls++;
-                        PlaySound(wrongBall);
+                        soundEffects.GetComponent<SoundEffects>().WrongBall();
                     }
                     else
                     {
                         successBalls2.Add(ball);
                         score2++;
-                        PlaySound(correctBall);
+                        soundEffects.GetComponent<SoundEffects>().CorrectBall();
                     }
                 }
                 break;
@@ -446,13 +442,13 @@ public class TubeScoreboard : MonoBehaviour
                         ball.GetComponent<TubeBall>().resetBall();
                         ball.SetActive(false);
                         excessBalls++;
-                        PlaySound(wrongBall);
+                        soundEffects.GetComponent<SoundEffects>().WrongBall();
                     }
                     else
                     {
                         successBalls3.Add(ball);
                         score3++;
-                        PlaySound(correctBall);
+                        soundEffects.GetComponent<SoundEffects>().CorrectBall();
                     }
                 }
                 break;
@@ -478,7 +474,7 @@ public class TubeScoreboard : MonoBehaviour
         // If score is 3, end game
         if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls && stageBalls == 3)
         {
-            PlaySound(nextStage);
+            stageAudio.GetComponent<StageAudio>().NextStage();
             clearTime = timer.GetComponent<Text>().text;
             timer.SetActive(false);
             endOfGame = true;
@@ -490,13 +486,13 @@ public class TubeScoreboard : MonoBehaviour
             dataRecorded = true;
 
             yield return StartCoroutine(Wait());
-            soundEffects.GetComponent<SoundEffects>().Stage3Finish();
+            voices.GetComponent<Voice>().Stage3Finish();
         }
         // If score is not 3, move onto next stage
         else if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls)
         {
             // Play Stage Clear Sound
-            PlaySound(nextStage);
+            stageAudio.GetComponent<StageAudio>().NextStage();
 
             scoreText.SetActive(false);
             waitMessage.SetActive(true);
@@ -549,19 +545,13 @@ public class TubeScoreboard : MonoBehaviour
 
             if (stageCounter == 2)
             {
-                soundEffects.GetComponent<SoundEffects>().Stage1Finish();
+                voices.GetComponent<Voice>().Stage1Finish();
             }
             else if (stageCounter == 3)
             {
-                soundEffects.GetComponent<SoundEffects>().Stage2Finish();
+                voices.GetComponent<Voice>().Stage2Finish();
             }
         }
-    }
-
-    public void PlaySound(AudioClip sound)
-    {
-        GetComponent<AudioSource>().clip = sound;
-        GetComponent<AudioSource>().Play();
     }
 
     // Reset all ball transforms

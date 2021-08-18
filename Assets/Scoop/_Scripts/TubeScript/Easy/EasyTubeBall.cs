@@ -92,7 +92,7 @@ public class EasyTubeBall : MonoBehaviour
         else if (other.gameObject.tag == "Checker1" && GetComponent<Renderer>().sharedMaterial != tubeBall1)
         {
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongColor++;
-            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().PlaySound(gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongBall);
+            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall();
             resetBall();
             gameObject.SetActive(false);
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().ballUpdate(gameObject);
@@ -107,7 +107,7 @@ public class EasyTubeBall : MonoBehaviour
         else if (other.gameObject.tag == "Checker2" && GetComponent<Renderer>().sharedMaterial != tubeBall2)
         {
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongColor++;
-            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().PlaySound(gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongBall);
+            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall();
             resetBall();
             gameObject.SetActive(false);
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().ballUpdate(gameObject);
@@ -122,7 +122,7 @@ public class EasyTubeBall : MonoBehaviour
         else if (other.gameObject.tag == "Checker3" && GetComponent<Renderer>().sharedMaterial != tubeBall3)
         {
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongColor++;
-            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().PlaySound(gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongBall);
+            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall();
             resetBall();
             gameObject.SetActive(false);
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().ballUpdate(gameObject);

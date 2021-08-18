@@ -4,25 +4,18 @@ using UnityEngine;
 
 public class SoundEffects : MonoBehaviour
 {
-    [SerializeField] AudioClip stage1FinishAudio;
-    [SerializeField] AudioClip stage2FinishAudio;
-    [SerializeField] AudioClip stage3FinishAudio;
-
-    public void Stage1Finish()
+    [Header("Sound Effect Audio Clips")]
+    [SerializeField] AudioClip wrongBall;
+    [SerializeField] AudioClip correctBall;
+    // Start is called before the first frame update
+    public void WrongBall()
     {
-        GetComponent<AudioSource>().clip = stage1FinishAudio;
+        GetComponent<AudioSource>().clip = wrongBall;
         GetComponent<AudioSource>().Play();
     }
-
-    public void Stage2Finish()
+    public void CorrectBall()
     {
-        GetComponent<AudioSource>().clip = stage2FinishAudio;
-        GetComponent<AudioSource>().Play();
-    }
-
-    public void Stage3Finish()
-    {
-        GetComponent<AudioSource>().clip = stage3FinishAudio;
+        GetComponent<AudioSource>().clip = correctBall;
         GetComponent<AudioSource>().Play();
     }
 }
