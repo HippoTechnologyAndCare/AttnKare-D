@@ -98,7 +98,7 @@ public class TubeScoreboard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Child Count: " + pileOfBalls.transform.childCount);
+        /*Debug.Log("Child Count: " + pileOfBalls.transform.childCount);*/
 
         // Add active balls to list
         for (int i = 0; i < pileOfBalls.transform.childCount; i++)
@@ -175,7 +175,6 @@ public class TubeScoreboard : MonoBehaviour
         // Moves onto next stage
         if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls && delayTimer - startTime > 4.8f && delayTimer - startTime < 5.2f && !endOfGame)
         {
-            Debug.Log("Timer Finished: " + delayTimer);
             StartCoroutine(stageClear());
             startTime = 0;
         }
@@ -468,9 +467,9 @@ public class TubeScoreboard : MonoBehaviour
     // Wait 5 seconds (Coroutine)
     IEnumerator Wait()
     {
-        Debug.Log("Start Wait Coroutine");
+        /*Debug.Log("Start Wait Coroutine");*/
         yield return new WaitForSeconds(5f);
-        Debug.Log("Wait Coroutine Finished");
+        /*Debug.Log("Wait Coroutine Finished");*/
     }
 
     // This function is called when stage is cleared
