@@ -206,6 +206,8 @@ namespace UserData
 
                 DataManager.GetInstance().SavePlayerDataToJson();
 
+                GetComponent<NetworkManager>().DoSendToTextMsg();       // <<<< ---------------- 문자전송 추가
+
                 //manualXRControl.StartCoroutine("StartXR");
 
                 SceneLoader.LoadScene("OPENEND");
