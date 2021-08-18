@@ -317,8 +317,8 @@ public class PaddleManager : MonoBehaviour
                 + "\n30 : " + Data_30.ToString()
                 + "\n31 : " + Data_31.ToString());
 
-        //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex4(0, 0, 0, 0, 0, 0, 0, 0, 0);
-        //saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
+        setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex6(Data_21, Data_22, Data_23, Data_24, Data_25, Data_26, Data_27, Data_28, Data_29, Data_30, Data_31);
+        saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
 
         StartCoroutine(GoToNextScene());
     }

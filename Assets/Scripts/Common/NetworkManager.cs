@@ -3,14 +3,15 @@ using System.IO;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
+using UserData;
 
 public class NetworkManager : MonoBehaviour
 {
-    string ServerURL_feedback = "http://115.145.179.57:5000/feedback";   //feedback
+    string ServerURL_feedback = "http://jdi.bitzflex.com:4005/feedback";   //feedback
 
-    string ServerURL_upload = "http://115.145.179.57:5000/upload_all_files";   //upload
+    string ServerURL_upload = "http://jdi.bitzflex.com:4005/upload_all_files";   //upload
 
-    public string outputpath = @"D:\hipo2.pdf";
+    public string outputpath = @"C:\Report.pdf";
 
 
     public void DoSendToTextMsg()
@@ -27,8 +28,8 @@ public class NetworkManager : MonoBehaviour
     {
         WWWForm formData = new WWWForm();
 
-        formData.AddField("name", "아이이름"); //UserData.DataManager.GetInstance().userInfo.Name
-        formData.AddField("phone", "01076877191"); //UserData.DataManager.GetInstance().userInfo.PhoneNumer
+        formData.AddField("name", DataManager.GetInstance().userInfo.Name);
+        formData.AddField("phone", DataManager.GetInstance().userInfo.PhoneNumer);
 
         UnityWebRequest webRequest = UnityWebRequest.Post(ServerURL_feedback, formData);
 
@@ -48,39 +49,47 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-
     IEnumerator Request_ResultPDF()
     {
         WWWForm formData = new WWWForm();
 
-        var resPath = Application.streamingAssetsPath;
+        var resPath = DataManager.GetInstance().FilePath_Folder;
 
-        formData.AddField("name", "");  ////UserData.DataManager.GetInstance().userInfo.Name
-        formData.AddField("phone", ""); ////UserData.DataManager.GetInstance().userInfo.PhoneNumer
-        formData.AddField("gender", "");    ////UserData.DataManager.GetInstance().userInfo.Gender
-        formData.AddField("age", "");   ////UserData.DataManager.GetInstance().userInfo.Age
-        formData.AddBinaryData("json", System.IO.File.ReadAllBytes(resPath + "/data.json"), "data.json", "application/octet-stream");
+        formData.AddField("name", DataManager.GetInstance().userInfo.Name);
+        formData.AddField("phone", DataManager.GetInstance().userInfo.PhoneNumer);
+        formData.AddField("gender", DataManager.GetInstance().userInfo.Gender);
+        formData.AddField("age", DataManager.GetInstance().userInfo.Age);
 
-        formData.AddBinaryData("tutorial_txt", System.IO.File.ReadAllBytes(resPath + "/tutorial_text.txt"), "tutorial_text.txt", "application/octet-stream");
-        formData.AddBinaryData("tutorial_mp3", System.IO.File.ReadAllBytes(resPath + "/tutorial_mp3.mp3"), "tutorial_mp3.mp3", "application/octet-stream");
+        formData.AddBinaryData("json", System.IO.File.ReadAllBytes(resPath + "/UserData.json"), "data.json", "application/octet-stream");
 
-        formData.AddBinaryData("bagpacking_txt", System.IO.File.ReadAllBytes(resPath + "/bagpacking_txt.txt"), "bagpacking_txt.txt", "application/octet-stream");
-        formData.AddBinaryData("bagpacking_mp3", System.IO.File.ReadAllBytes(resPath + "/bagpacking_mp3.mp3"), "bagpacking_mp3.mp3", "application/octet-stream");
+        formData.AddBinaryData("tutorial_txt", System.IO.File.ReadAllBytes(resPath + "/0.txt"), "tutorial.txt", "application/octet-stream");
+        formData.AddBinaryData("tutorial_mp3", System.IO.File.ReadAllBytes(resPath + "/0.mp3"), "tutorial.mp3", "application/octet-stream");
 
-        formData.AddBinaryData("scoop_txt", System.IO.File.ReadAllBytes(resPath + "/scoop_txt.txt"), "scoop_txt.txt", "application/octet-stream");
-        formData.AddBinaryData("scoop_mp3", System.IO.File.ReadAllBytes(resPath + "/scoop_mp3.mp3"), "scoop_mp3.mp3", "application/octet-stream");
+        if (DataManager.GetInstance().userInfo.Grade == "L")
+        {
+            formData.AddBinaryData("doorlock_txt", System.IO.File.ReadAllBytes(resPath + "/1.txt"), "doorlock.txt", "application/octet-stream");
+            formData.AddBinaryData("doorlock_mp3", System.IO.File.ReadAllBytes(resPath + "/1.mp3"), "doorlock.mp3", "application/octet-stream");
+            formData.AddBinaryData("schedule_txt", System.IO.File.ReadAllBytes(resPath + "/2.txt"), "schedule.txt", "application/octet-stream");
+            formData.AddBinaryData("schedule_mp3", System.IO.File.ReadAllBytes(resPath + "/2.mp3"), "schedule.mp3", "application/octet-stream");
 
-        formData.AddBinaryData("doorlock_txt", System.IO.File.ReadAllBytes(resPath + "/doorlock_txt.txt"), "doorlock_txt.txt", "application/octet-stream");
-        formData.AddBinaryData("doorlock_mp3", System.IO.File.ReadAllBytes(resPath + "/doorlock_mp3.mp3"), "doorlock_mp3.mp3", "application/octet-stream");
+            formData.AddBinaryData("bagpacking_txt", System.IO.File.ReadAllBytes(resPath + "/3.txt"), "bagpacking.txt", "application/octet-stream");
+            formData.AddBinaryData("bagpacking_mp3", System.IO.File.ReadAllBytes(resPath + "/3.mp3"), "bagpacking.mp3", "application/octet-stream");
+            formData.AddBinaryData("scoop_txt", System.IO.File.ReadAllBytes(resPath + "/4.txt"), "scoop.txt", "application/octet-stream");
+            formData.AddBinaryData("scoop_mp3", System.IO.File.ReadAllBytes(resPath + "/4.mp3"), "scoop.mp3", "application/octet-stream");
+        }
+        else
+        {
+            formData.AddBinaryData("clueanupmyroom_txt", System.IO.File.ReadAllBytes(resPath + "/5.txt"), "clueanup.txt", "application/octet-stream");
+            formData.AddBinaryData("clueanupmyroom_mp3", System.IO.File.ReadAllBytes(resPath + "/5.mp3"), "clueanup.mp3", "application/octet-stream");
+            formData.AddBinaryData("playpaddle_txt", System.IO.File.ReadAllBytes(resPath + "/6.txt"), "playpaddle.txt", "application/octet-stream");
+            formData.AddBinaryData("playpaddle_mp3", System.IO.File.ReadAllBytes(resPath + "/6.mp3"), "playpaddle.mp3", "application/octet-stream");
 
-        formData.AddBinaryData("schedule_txt", System.IO.File.ReadAllBytes(resPath + "/schedule_txt.txt"), "schedule_txt.txt", "application/octet-stream");
-        formData.AddBinaryData("schedule_mp3", System.IO.File.ReadAllBytes(resPath + "/schedule_mp3.mp3"), "schedule_mp3.mp3", "application/octet-stream");
+            formData.AddBinaryData("bagpacking_txt", System.IO.File.ReadAllBytes(resPath + "/7.txt"), "bagpacking.txt", "application/octet-stream");
+            formData.AddBinaryData("bagpacking_mp3", System.IO.File.ReadAllBytes(resPath + "/7.mp3"), "bagpacking.mp3", "application/octet-stream");
 
-        //formData.AddBinaryData("clueanupmyroom_txt", System.IO.File.ReadAllBytes(resPath + "/clueanupmyroom_txt.txt"), "bagpacking_txt.txt", "application/octet-stream");
-        //formData.AddBinaryData("clueanupmyroom_mp3", System.IO.File.ReadAllBytes(resPath + "/clueanupmyroom_mp3.mp3"), "bagpacking_mp3.mp3", "application/octet-stream");
-
-        //formData.AddBinaryData("playpaddle_txt", System.IO.File.ReadAllBytes(resPath + "/playpaddle_txt.txt"), "playpaddle_txt.txt", "application/octet-stream");
-        //formData.AddBinaryData("playpaddle_mp3", System.IO.File.ReadAllBytes(resPath + "/playpaddle_mp3.mp3"), "playpaddle_mp3.mp3", "application/octet-stream");
+            formData.AddBinaryData("scoop_txt", System.IO.File.ReadAllBytes(resPath + "/8.txt"), "scoop.txt", "application/octet-stream");
+            formData.AddBinaryData("scoop_mp3", System.IO.File.ReadAllBytes(resPath + "/8.mp3"), "scoop.mp3", "application/octet-stream");
+        }
 
         UnityWebRequest webRequest = UnityWebRequest.Post(ServerURL_upload, formData);
 
@@ -95,7 +104,7 @@ public class NetworkManager : MonoBehaviour
         else
         {
             Debug.Log(webRequest.downloadHandler.text + " /////////// Form upload complete");
-            //UnityEngine.Windows.File.WriteAllBytes(outputpath, webRequest.downloadHandler.data);
+            File.WriteAllBytes(outputpath, webRequest.downloadHandler.data);
         }
     }
 }
