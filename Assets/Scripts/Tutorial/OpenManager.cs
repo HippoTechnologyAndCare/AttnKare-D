@@ -318,11 +318,11 @@ using UserData;
 
         desPos = new Vector3(-0.02f, -0.693f, 2.795f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>오늘 함께해서 \n너무 즐거웠어\n<color=#2e86de><size=0.09><b>(^ - ^)", audioIndex = 6));
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(2.0f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>너도 즐거웠다면 \n좋겠다!\n<color=#2e86de><size=0.09><b>(//^ ^//)", audioIndex = 7));
-        yield return new WaitForSeconds(1.8f);
-        StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos, 0.2f));
         yield return new WaitForSeconds(2.5f);
+        StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos, 0.2f));
+        yield return new WaitForSeconds(1.8f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.055>난 항상 \n이 곳에 있을게!\n다음에 \n또 놀러와\n<color=#2e86de><b>(^ 0 ^)/", audioIndex = 8));
         yield return new WaitForSeconds(2.0f);
 
