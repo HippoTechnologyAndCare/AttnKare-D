@@ -6,6 +6,10 @@ using TMPro;
 
 public class VehicleController : MonoBehaviour
 {
+
+    //Animator Anim;
+
+
     bool moving = false;
     public Vector3 EndPos;
 
@@ -20,10 +24,22 @@ public class VehicleController : MonoBehaviour
     void Start()
     {
         MovingTimer = 0;
+        //Anim = GetComponent<Animator>();
     }
 
     void Update()
     {
+/*
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Anim.SetFloat("AnimSpeed", 0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Anim.SetFloat("AnimSpeed", 1);
+        }
+*/
         if (GottaGo)
         {
             MovingTimer += Time.deltaTime;
@@ -50,7 +66,6 @@ public class VehicleController : MonoBehaviour
             {
                 transform.position = Vector3.MoveTowards(transform.position, EndPos, .0042f);
             }
-
         }
     }
 
