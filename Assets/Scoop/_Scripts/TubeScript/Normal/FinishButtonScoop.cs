@@ -24,7 +24,7 @@ public class FinishButtonScoop : MonoBehaviour
         Fin1 = FinishCanvas.transform.GetChild(0);
         Fin2 = FinishCanvas.transform.GetChild(1);
 
- 
+        buildindex = 9;
     }
 
     // Update is called once per frame
@@ -56,8 +56,7 @@ public class FinishButtonScoop : MonoBehaviour
 
             if (bActive) // if hand is what touching button
             {
-                scoreboard.GetComponent<TubeScoreboard>().SaveAndFinish(true);
-                coroutine = StartCoroutine(NextScene());
+                coroutine = StartCoroutine(NextScene());                
             }
 
         }
@@ -117,6 +116,7 @@ public class FinishButtonScoop : MonoBehaviour
         Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "1";
         yield return new WaitForSeconds(1.0f);
 
+        scoreboard.GetComponent<TubeScoreboard>().SaveAndFinish(true);
 
         SceneLoader.LoadScene(buildindex);
 
