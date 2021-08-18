@@ -42,8 +42,7 @@ public class EasyPlayBGM : MonoBehaviour
         while (GetComponent<AudioSource>().volume < 0.4f)
         {
             GetComponent<AudioSource>().volume += 0.0003f;
-            yield return new WaitForSeconds(0.001f);
-            Debug.Log("Increasing");
+            yield return new WaitForSeconds(0.001f);            
         }
 
         yield break;
@@ -54,8 +53,7 @@ public class EasyPlayBGM : MonoBehaviour
         while (GetComponent<AudioSource>().volume > 0.1f)
         {
             GetComponent<AudioSource>().volume -= 0.0003f;
-            yield return new WaitForSeconds(0.001f);
-            Debug.Log("Decreasing");
+            yield return new WaitForSeconds(0.001f);            
         }
 
         yield break;

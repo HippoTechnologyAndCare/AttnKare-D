@@ -388,8 +388,6 @@ public class EasyTubeScoreboard : MonoBehaviour
         {
             startTime = 0;
         }
-
-        Debug.Log("ScoreUpdate Function has been called");
     }
 
     // Update ball status on every collision

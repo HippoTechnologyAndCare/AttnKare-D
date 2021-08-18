@@ -130,7 +130,15 @@ public class TubeScoreboard : MonoBehaviour
         // Load Data on First Frame
         if (!isChecked)
         {
-            scoreUpdate();
+            foreach (GameObject ball in Balls)
+            {
+                CheckBallActive(ball);
+            }
+
+            left1 = activeBalls1.Count;
+            left2 = activeBalls2.Count;
+            left3 = activeBalls3.Count;
+
             isChecked = true;
         }
 
@@ -247,11 +255,8 @@ public class TubeScoreboard : MonoBehaviour
     }
 
     // Check if Ball is Active
-    public void CheckBallActive()
+    public void CheckBallActive(GameObject ball)
     {
-        // Checks for number of active balls
-        foreach (GameObject ball in Balls)
-        {
             // Check for active balls
             if (ball.activeSelf)
             {
@@ -317,14 +322,13 @@ public class TubeScoreboard : MonoBehaviour
                         break;
                 }
             }
-        }
     }
 
     // Updates score on each ball collision
-    public void scoreUpdate()
+    public void scoreUpdate(GameObject ball)
     {
         // First Check if Ball is Active and Update Lists
-        CheckBallActive();
+        CheckBallActive(ball);
 
         // Keep Track of Number of Active Balls
         left1 = activeBalls1.Count;
@@ -388,8 +392,6 @@ public class TubeScoreboard : MonoBehaviour
         {
             startTime = 0;
         }
-
-        Debug.Log("ScoreUpdate Function has been called");
     }
 
     // Update ball status on every collision
@@ -460,7 +462,7 @@ public class TubeScoreboard : MonoBehaviour
         }
 
         // Updates Score After Ball State has changed
-        scoreUpdate();
+        scoreUpdate(ball);
     }
 
     // Wait 5 seconds (Coroutine)
