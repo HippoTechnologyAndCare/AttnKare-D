@@ -201,7 +201,7 @@ public class TubeScoreboard : MonoBehaviour
 
         scoreText.GetComponent<Text>().enabled = false;
 
-        sceneText.GetComponent<Text>().text = "로비로 이동합니다";
+        sceneText.GetComponent<Text>().text = "이동합니다";
         yield return new WaitForSeconds(2);
 
         sceneText.GetComponent<Text>().text = "3";
@@ -215,7 +215,7 @@ public class TubeScoreboard : MonoBehaviour
 
         SaveAndFinish(isSkipped);
 
-        SceneLoader.LoadScene(9);
+        SceneLoader.LoadScene(10);
     }
 
     // Debugging Tool 1
