@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
 using KetosGames.SceneTransition;
+
 
 public class ScheduleManager : MonoBehaviour
 {
@@ -31,6 +31,8 @@ public class ScheduleManager : MonoBehaviour
 
     List<Transform> SlotList;
     List<Transform> GrpList;
+
+    public float[] scene2arr;
 
     bool LeGogo = false;
 
@@ -101,18 +103,18 @@ public class ScheduleManager : MonoBehaviour
                 }
             }
 
-/*            if (OnBoard)
-            {
-                NotOnBoard += Time.deltaTime;
+            /*            if (OnBoard)
+                        {
+                            NotOnBoard += Time.deltaTime;
 
-                if (NotOnBoard > 1)
-                {
-                    NotOnBoard = 0;
-                    NotOnBoardForShow += 1;
+                            if (NotOnBoard > 1)
+                            {
+                                NotOnBoard = 0;
+                                NotOnBoardForShow += 1;
 
-                    ShowUpdate();
-                }
-            }*/
+                                ShowUpdate();
+                            }
+                        }*/
         }
     }
 
@@ -178,10 +180,10 @@ public class ScheduleManager : MonoBehaviour
         }
     }
 
-/*    void ShowUpdate()
-    {
-        ToShow.text = "시간:" + TotalElapsedTimeForShow.ToString() + " / 이동:" + TotalMovingCnt.ToString() + " / 다시하기:" + ResetCnt.ToString() + " / 아니오:" + ClickNoCnt.ToString(); //" / 집중못한 시간:" + NotOnBoardForShow.ToString() + 
-    }*/
+    /*    void ShowUpdate()
+        {
+            ToShow.text = "시간:" + TotalElapsedTimeForShow.ToString() + " / 이동:" + TotalMovingCnt.ToString() + " / 다시하기:" + ResetCnt.ToString() + " / 아니오:" + ClickNoCnt.ToString(); //" / 집중못한 시간:" + NotOnBoardForShow.ToString() + 
+        }*/
 
     public void CheckAllScheduleOnSlot()
     {
@@ -284,8 +286,8 @@ public class ScheduleManager : MonoBehaviour
 
             PlanData = float.Parse(MyScheduleforJson, System.Globalization.CultureInfo.InvariantCulture);
         }
-
-        setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex2(TotalElapsedTimeForShow, TotalMovingCnt, ResetCnt, ClickNoCnt, PlanData, SkipYn);
+        // 흩어져 있는 데이터들을 배열로 저장해 전달할 준비
+        scene2arr = new float[] { TotalElapsedTimeForShow, TotalMovingCnt, ResetCnt, ClickNoCnt, PlanData, SkipYn };        
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
 
         Debug.Log(PlanData.ToString());

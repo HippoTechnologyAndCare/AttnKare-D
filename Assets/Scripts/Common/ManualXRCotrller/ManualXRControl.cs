@@ -38,6 +38,7 @@ public class ManualXRControl : MonoBehaviour
     private void OnApplicationQuit()
     {
         Debug.Log("OnApplicationQuit");
+        StopXR();
     }
 
     private void OnApplicationFocus(bool isApplicationHasFocus)
@@ -48,8 +49,7 @@ public class ManualXRControl : MonoBehaviour
     private void Awake()
     {
         AutoStartXR();
-
-        {
+        
             // Scene 시작시 Safty 처리하는 If문 // 인스턴스는 널이 아닌 경우에 한해 -> 인스턴스가 자신(this)이 아닐때 셀프 파괴
             //if (instance != null)
             //{
@@ -59,10 +59,7 @@ public class ManualXRControl : MonoBehaviour
             //        return;
             //    }
             //}
-            //DontDestroyOnLoad(gameObject);
-        }
-
-
+            //DontDestroyOnLoad(gameObject);     
     }
 
     private void AutoStartXR()
