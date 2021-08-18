@@ -7,8 +7,8 @@ using KetosGames.SceneTransition;
 
 public class TubeScoreboard : MonoBehaviour
 {
+    public PlayMakerFSM FsmDatacheck;
     [Header("Ball Debugger")]
-
     [Tooltip("All Ball Objects in Scene")]
     public List<GameObject> Balls = new List<GameObject>();
 
@@ -29,9 +29,9 @@ public class TubeScoreboard : MonoBehaviour
     [HideInInspector] public string clearTime1 = ""; // Stage 1 Clear Time
     [HideInInspector] public string clearTime2 = ""; // Stage 2 Clear Time
     [HideInInspector] public string clearTime3 = ""; // Stage 3 Clear Time
-    [HideInInspector] public float time1 = -1f; // Stage 1 Clear Time (float)
-    [HideInInspector] public float time2 = -1f; // Stage 2 Clear Time (float)
-    [HideInInspector] public float time3 = -1f; // Stage 3 Clear Time (float)
+    public float time1 = -1f; // Stage 1 Clear Time (float)
+    public float time2 = -1f; // Stage 2 Clear Time (float)
+     public float time3 = -1f; // Stage 3 Clear Time (float)
     [HideInInspector] public int score1 = 0; // Yellow Ball
     [HideInInspector] public int score2 = 0; // Light Purple Ball
     [HideInInspector] public int score3 = 0; // Turqoise Ball
@@ -85,6 +85,7 @@ public class TubeScoreboard : MonoBehaviour
     // Boolean for Gameplay
     public bool endOfGame = false;
     bool gameFailed = false;
+    public float gameFailedResult;
     public bool dataRecorded = false;
     public int isSkipped = 0;
 
@@ -618,7 +619,7 @@ public class TubeScoreboard : MonoBehaviour
             results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nTerminated(Stage " + stageCounter + ")\n";
         }
 
-        GetComponent<SaveScoopData>().SaveTempSceneData(results); // Change location of this if necessary
+        //GetComponent<SaveScoopData>().SaveTempSceneData(results); // Change location of this if necessary
     }
 
     // Record Stage Clear Time for Each Stage
@@ -692,9 +693,20 @@ public class TubeScoreboard : MonoBehaviour
         {
             isSkipped = 1;
         }
+        if(gameFailed)
+        {
+            gameFailedResult =1;
 
+        }
+        else
+        {
+            gameFailedResult = 0;
+        }
+
+        FsmDatacheck.SendEvent("GameClear");
         // Save Data to local 
-        setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex8(time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, gameFailed ? 1 : 0, isSkipped);
+        //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex8();
+        //time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, gameFailed ? 1 : 0, isSkipped
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
 
         // Data variables go here
