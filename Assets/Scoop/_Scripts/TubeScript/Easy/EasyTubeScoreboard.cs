@@ -5,8 +5,10 @@ using System;
 using UnityEngine.UI;
 using KetosGames.SceneTransition;
 
+
 public class EasyTubeScoreboard : MonoBehaviour
 {
+    public PlayMakerFSM fsm;
     [Header("Ball Debugger")]
 
     [Tooltip("All Ball Objects in Scene")]
@@ -85,8 +87,9 @@ public class EasyTubeScoreboard : MonoBehaviour
     // Boolean for Gameplay
     public bool endOfGame = false;
     bool gameFailed = false;
+    public float gameresultFailed;
     public bool dataRecorded = false;
-    int isSkipped = 0;
+    public int isSkipped = 0;
 
     // Boolean to Load Data (Only Used Once after Start Function)
     bool isChecked = false;
@@ -619,7 +622,7 @@ public class EasyTubeScoreboard : MonoBehaviour
             results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nTerminated(Stage " + stageCounter + ")\n";
         }
 
-        GetComponent<SaveScoopData>().SaveTempSceneData(results); // Change location of this if necessary
+       // GetComponent<SaveScoopData>().SaveTempSceneData(results); // Change location of this if necessary
     }
 
     // Record Stage Clear Time for Each Stage
@@ -690,14 +693,24 @@ public class EasyTubeScoreboard : MonoBehaviour
     // Change to json
     public void SaveAndFinish(bool skipped)
     {
+        if(gameFailed)
+        {
+            gameresultFailed = 1;
+
+        }
+        else
+        {
+            gameresultFailed = 0;
+        }
         if (skipped)
         {
             isSkipped = 1;
 
         }
 
+        fsm.SendEvent("GameClear");
         // Save Data to local 
-        setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex4(time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, gameFailed ? 1f : 0f, isSkipped);
+        //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex4(time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, gameFailed ? 1f : 0f, isSkipped);
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
 
         // Data variables go here

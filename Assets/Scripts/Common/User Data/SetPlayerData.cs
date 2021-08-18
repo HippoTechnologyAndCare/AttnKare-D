@@ -137,9 +137,10 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList[40].Result = data40.Value;
     }
     // Scoop L //
-    public void GetSceneIndex4(float sgCmplT_1, float sgCmplT_2, float sgCmplT_3, float sgDrL_1, float sgDrL_2, float sgDrL_3, float sgWrColL, float sgUnptL, float sgFailY, float sgQuitY)
+    public void GetSceneIndex4()
     {
-        float data41 = sgCmplT_1;
+        //float sgCmplT_1, float sgCmplT_2, float sgCmplT_3, float sgDrL_1, float sgDrL_2, float sgDrL_3, float sgWrColL, float sgUnptL, float sgFailY, float sgQuitY
+        /*float data41 = sgCmplT_1;
         float data42 = sgCmplT_2;
         float data43 = sgCmplT_3;
         float data44 = sgDrL_1;
@@ -149,7 +150,28 @@ public class SetPlayerData : MonoBehaviour
         float data48 = sgUnptL;
         float data49 = sgFailY;
         float data50 = sgQuitY;
-
+        */
+        FsmFloat data41 = fsm.FsmVariables.GetFsmFloat("data41");
+        FsmFloat data42 = fsm.FsmVariables.GetFsmFloat("data42");
+        FsmFloat data43 = fsm.FsmVariables.GetFsmFloat("data43");
+        FsmFloat data44 = fsm.FsmVariables.GetFsmFloat("data44");
+        FsmFloat data45 = fsm.FsmVariables.GetFsmFloat("data45");
+        FsmFloat data46 = fsm.FsmVariables.GetFsmFloat("data46");
+        FsmFloat data47 = fsm.FsmVariables.GetFsmFloat("data47");
+        FsmFloat data48 = fsm.FsmVariables.GetFsmFloat("data48");
+        FsmFloat data49 = fsm.FsmVariables.GetFsmFloat("data49");
+        FsmFloat data50 = fsm.FsmVariables.GetFsmFloat("data50");
+        DataManager.GetInstance().dataList[41].Result = data41.Value;
+        DataManager.GetInstance().dataList[42].Result = data42.Value;
+        DataManager.GetInstance().dataList[43].Result = data43.Value;
+        DataManager.GetInstance().dataList[44].Result = data44.Value;
+        DataManager.GetInstance().dataList[45].Result = data45.Value;
+        DataManager.GetInstance().dataList[46].Result = data46.Value;
+        DataManager.GetInstance().dataList[47].Result = data47.Value;
+        DataManager.GetInstance().dataList[48].Result = data48.Value;
+        DataManager.GetInstance().dataList[49].Result = data49.Value;
+        DataManager.GetInstance().dataList[50].Result = data50.Value;
+        /*
         DataManager.GetInstance().dataList[41].Result = data41;
         DataManager.GetInstance().dataList[42].Result = data42;
         DataManager.GetInstance().dataList[43].Result = data43;
@@ -160,6 +182,7 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList[48].Result = data48;
         DataManager.GetInstance().dataList[49].Result = data49;
         DataManager.GetInstance().dataList[50].Result = data50;
+        */
     }
     // Clean Up My Room //
     public void GetSceneIndex5()
