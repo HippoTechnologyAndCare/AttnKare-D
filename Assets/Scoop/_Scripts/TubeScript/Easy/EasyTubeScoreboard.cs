@@ -697,7 +697,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         }
 
         // Save Data to local 
-        setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex4(time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, gameFailed ? 1 : 0, isSkipped);
+        setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex4(time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, gameFailed ? 1f : 0f, isSkipped);
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
 
         // Data variables go here
