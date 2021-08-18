@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayBGM : MonoBehaviour
 {
-    [SerializeField] GameObject scoreboard;
+    [SerializeField] GameObject soundEffects;
     [SerializeField] GameObject audioTrigger;
     AudioClip intro;
     AudioClip stage1Audio;
@@ -15,18 +15,18 @@ public class PlayBGM : MonoBehaviour
     void Start()
     {
         intro = audioTrigger.GetComponent<AudioSource>().clip;
-        stage1Audio = scoreboard.GetComponent<TubeScoreboard>().stage1Audio;
-        stage2Audio = scoreboard.GetComponent<TubeScoreboard>().stage2Audio;
-        stage3Audio = scoreboard.GetComponent<TubeScoreboard>().stage3Audio;
+        stage1Audio = soundEffects.GetComponent<TubeScoreboard>().stage1Audio;
+        stage2Audio = soundEffects.GetComponent<TubeScoreboard>().stage2Audio;
+        stage3Audio = soundEffects.GetComponent<TubeScoreboard>().stage3Audio;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (scoreboard.GetComponent<AudioSource>().isPlaying || audioTrigger.GetComponent<AudioSource>().isPlaying)
+        if (soundEffects.GetComponent<AudioSource>().isPlaying || audioTrigger.GetComponent<AudioSource>().isPlaying)
         {
-            if (audioTrigger.GetComponent<AudioSource>().clip == intro || scoreboard.GetComponent<AudioSource>().clip == stage1Audio ||
-                scoreboard.GetComponent<AudioSource>().clip == stage2Audio || scoreboard.GetComponent<AudioSource>().clip == stage3Audio)
+            if (audioTrigger.GetComponent<AudioSource>().clip == intro || soundEffects.GetComponent<AudioSource>().clip == stage1Audio ||
+                soundEffects.GetComponent<AudioSource>().clip == stage2Audio || soundEffects.GetComponent<AudioSource>().clip == stage3Audio)
             {
                 StartCoroutine(DecVolume());
             }
@@ -42,8 +42,7 @@ public class PlayBGM : MonoBehaviour
         while (GetComponent<AudioSource>().volume < 0.4f)
         {
             GetComponent<AudioSource>().volume += 0.0003f;
-            yield return new WaitForSeconds(0.001f);
-            Debug.Log("Increasing");
+            yield return new WaitForSeconds(0.001f);            
         }
 
         yield break;
@@ -54,8 +53,7 @@ public class PlayBGM : MonoBehaviour
         while (GetComponent<AudioSource>().volume > 0.1f)
         {
             GetComponent<AudioSource>().volume -= 0.0003f;
-            yield return new WaitForSeconds(0.001f);
-            Debug.Log("Decreasing");
+            yield return new WaitForSeconds(0.001f);            
         }
 
         yield break;

@@ -7,6 +7,7 @@ using KetosGames.SceneTransition;
 
 public class PaddleManager : MonoBehaviour
 {
+    public Transform Behavior;
     public Transform BGM_Controller;
 
     public GameObject Canvas_Intro;
@@ -280,6 +281,8 @@ public class PaddleManager : MonoBehaviour
     public void GameFinish(bool isSkipped)
     {
         PlaySoundByType("FIN");
+
+        Behavior.GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();
 
         SceneStart = false;
         PaddleStart = false;

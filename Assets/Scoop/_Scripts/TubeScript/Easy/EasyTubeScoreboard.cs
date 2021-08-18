@@ -98,7 +98,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Child Count: " + pileOfBalls.transform.childCount);
+        /*Debug.Log("Child Count: " + pileOfBalls.transform.childCount);*/
 
         // Add active balls to list
         for (int i = 0; i < pileOfBalls.transform.childCount; i++)
@@ -130,7 +130,15 @@ public class EasyTubeScoreboard : MonoBehaviour
         // Load Data on First Frame
         if (!isChecked)
         {
-            scoreUpdate();
+            foreach (GameObject ball in Balls)
+            {
+                CheckBallActive(ball);
+            }
+
+            left1 = activeBalls1.Count;
+            left2 = activeBalls2.Count;
+            left3 = activeBalls3.Count;
+
             isChecked = true;
         }
 
@@ -167,7 +175,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         // Moves onto next stage
         if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls && delayTimer - startTime > 4.8f && delayTimer - startTime < 5.2f && !endOfGame)
         {
-            Debug.Log("Timer Finished: " + delayTimer);
+            /*Debug.Log("Timer Finished: " + delayTimer);*/
             StartCoroutine(stageClear());
             startTime = 0;
         }
@@ -247,11 +255,9 @@ public class EasyTubeScoreboard : MonoBehaviour
     }
 
     // Check if Ball is Active
-    void CheckBallActive()
+    void CheckBallActive(GameObject ball)
     {
-        // Checks for number of active balls
-        foreach (GameObject ball in Balls)
-        {
+
             // Check for active balls
             if (ball.activeSelf)
             {
@@ -317,14 +323,13 @@ public class EasyTubeScoreboard : MonoBehaviour
                         break;
                 }
             }
-        }
     }
 
     // Updates score on each ball collision
-    void scoreUpdate()
+    void scoreUpdate(GameObject ball)
     {
         // First Check if Ball is Active and Update Lists
-        CheckBallActive();
+        CheckBallActive(ball);
 
         // Keep Track of Number of Active Balls
         left1 = activeBalls1.Count;
@@ -388,8 +393,6 @@ public class EasyTubeScoreboard : MonoBehaviour
         {
             startTime = 0;
         }
-
-        Debug.Log("ScoreUpdate Function has been called");
     }
 
     // Update ball status on every collision
@@ -460,15 +463,15 @@ public class EasyTubeScoreboard : MonoBehaviour
         }
 
         // Updates Score After Ball State has changed
-        scoreUpdate();
+        scoreUpdate(ball);
     }
 
     // Wait 5 seconds (Coroutine)
     IEnumerator Wait()
     {
-        Debug.Log("Start Wait Coroutine");
+        /*Debug.Log("Start Wait Coroutine");*/
         yield return new WaitForSeconds(5f);
-        Debug.Log("Wait Coroutine Finished");
+        /*Debug.Log("Wait Coroutine Finished");*/
     }
 
     // This function is called when stage is cleared
@@ -506,18 +509,21 @@ public class EasyTubeScoreboard : MonoBehaviour
                 ball.GetComponent<EasyTubeBall>().resetBall();
                 ball.GetComponent<EasyTubeBall>().ScoreCheck = false;
                 ball.SetActive(false);
+                ballUpdate(ball);
             }
             foreach (GameObject ball in successBalls2)
             {
                 ball.GetComponent<EasyTubeBall>().resetBall();
                 ball.GetComponent<EasyTubeBall>().ScoreCheck = false;
                 ball.SetActive(false);
+                ballUpdate(ball);
             }
             foreach (GameObject ball in successBalls3)
             {
                 ball.GetComponent<EasyTubeBall>().resetBall();
                 ball.GetComponent<EasyTubeBall>().ScoreCheck = false;
                 ball.SetActive(false);
+                ballUpdate(ball);
             }
 
             successBalls1.Clear();
@@ -602,7 +608,7 @@ public class EasyTubeScoreboard : MonoBehaviour
             endOfGame = true;
         }*/
 
-    // Record Game Score (Change to json variables here)
+    // Record Game Score
     void RecordData(bool end, bool failed)
     {
         string results = "";
@@ -611,17 +617,16 @@ public class EasyTubeScoreboard : MonoBehaviour
         {
             if (failed)
             {
-                results += "Failed: Y\n\n" + WriteStageDrops() + "Wrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nScoop Lost Count: " + scoopLost.ToString() + "\n";
+                results += "Failed: Y\n\n" + WriteStageDrops() + "Wrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
             }
             else if (!failed)
             {
-                results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nScoop Lost Count: " + scoopLost.ToString() + "\n";
+                results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
             }
         }
         else
         {
-            results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nScoop Lost Count: " + scoopLost.ToString() + 
-                "\n\nTerminated(Stage " + stageCounter + ")\n";
+            results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nTerminated(Stage " + stageCounter + ")\n";
         }
 
         GetComponent<SaveScoopData>().SaveTempSceneData(results); // Change location of this if necessary
@@ -692,6 +697,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         }
     }
 
+    // Change to json
     public void SaveAndFinish(bool skipped)
     {
         if (skipped)

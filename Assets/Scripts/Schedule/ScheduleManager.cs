@@ -8,6 +8,8 @@ using KetosGames.SceneTransition;
 
 public class ScheduleManager : MonoBehaviour
 {
+    public Transform Behavior;
+
     public Transform Intro;
     public Transform Schedule;
     public Transform Finish;
@@ -255,7 +257,7 @@ public class ScheduleManager : MonoBehaviour
         Finish.gameObject.SetActive(false);
         WellDoneAndBye.gameObject.SetActive(true);
 
-        this.transform.GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();
+        Behavior.GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();
 
         if (Skipped)
         {
