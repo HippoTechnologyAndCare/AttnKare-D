@@ -28,7 +28,7 @@ namespace BNG.UserData {
         Outlinable prechildGrabbed;
         public GameObject heldGrabbable;
         public int trigInt;
-        bool check = false;
+
         private string gradeLH;
         public string SceneName;
 
@@ -74,18 +74,10 @@ namespace BNG.UserData {
                 {
 
                     Debug.Log("true");
-                    //if (check)
-                    // {
-                    //trigInt += 1;
-                    //if (trigInt >= 5)
-                    // {
+                 
                     Playmaker.FsmVariables.GetFsmBool("triggerDown").Value = true;
 
-                    //  }
-
-                    //   }
-                    //   check = false;
-
+                   
                 }
                 if (lGripValue > 0.7f && rGripValue > 0.7f)
                 {
@@ -122,7 +114,7 @@ namespace BNG.UserData {
         public void ghostSpeak(int strIndex)
         {
             int index = Random.Range(0, 3);
-            string[] Speechstr = {"그 버튼이 아니야\n<color=#2e86de>(O _ O)!","바닥을 한번 살펴봐!", "직접 걸어서\n다가가야해!" };
+            string[] Speechstr = {"그 버튼이 아니야\n<color=#2e86de>(O _ O)!","바닥을 한번 살펴봐!","뒤를 돌아볼래?", "직접 걸어서\n다가가야해!" };
             StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak(Speechstr[strIndex],index ));
 
         }

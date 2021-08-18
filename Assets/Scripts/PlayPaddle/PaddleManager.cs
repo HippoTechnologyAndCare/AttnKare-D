@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using KetosGames.SceneTransition;
+using HutongGames.PlayMaker;
 
 
 public class PaddleManager : MonoBehaviour
 {
+    public PlayMakerFSM DataFsm;
     public Transform Behavior;
     public Transform BGM_Controller;
 
@@ -59,17 +61,17 @@ public class PaddleManager : MonoBehaviour
 
 
 
-    float Data_21 = 0;      //시작버튼 누르기 까지 걸린 시간
-    float Data_22 = 0;      //완료까지 걸린 총 시간
-    float Data_23 = 0;      //스테이지1 걸린 시간
-    float Data_24 = 0;      //스테이지2 걸린 시간
-    float Data_25 = 0;      //스테이지3 걸린 시간
-    float Data_26 = 0;      //스테이지1에서 협동을 지키지 않은 횟수
-    float Data_27 = 0;      //스테이지2에서 협동을 지키지 않은 횟수
-    float Data_28 = 0;      //스테이지3에서 협동을 지키지 않은 횟수
-    float Data_29 = 0;      //친구의 페달을 건드린 횟수
-    float Data_30 = 0;      //아무 행동도 하지 않은 총 시간
-    float Data_31 = 0;      //중도 포기(스킵)
+    public float Data_21 = 0;      //시작버튼 누르기 까지 걸린 시간
+    public float Data_22 = 0;      //완료까지 걸린 총 시간
+    public float Data_23 = 0;      //스테이지1 걸린 시간
+    public float Data_24 = 0;      //스테이지2 걸린 시간
+    public float Data_25 = 0;      //스테이지3 걸린 시간
+    public float Data_26 = 0;      //스테이지1에서 협동을 지키지 않은 횟수
+    public float Data_27 = 0;      //스테이지2에서 협동을 지키지 않은 횟수
+    public float Data_28 = 0;      //스테이지3에서 협동을 지키지 않은 횟수
+    public float Data_29 = 0;      //친구의 페달을 건드린 횟수
+    public float Data_30 = 0;      //아무 행동도 하지 않은 총 시간
+    public float Data_31 = 0;      //중도 포기(스킵)
 
 
 
@@ -282,7 +284,7 @@ public class PaddleManager : MonoBehaviour
     {
         PlaySoundByType("FIN");
 
-        Behavior.GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();
+        StartCoroutine(FinishNSave());
 
         SceneStart = false;
         PaddleStart = false;
@@ -320,10 +322,17 @@ public class PaddleManager : MonoBehaviour
                 + "\n30 : " + Data_30.ToString()
                 + "\n31 : " + Data_31.ToString());
 
-        setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex6(Data_21, Data_22, Data_23, Data_24, Data_25, Data_26, Data_27, Data_28, Data_29, Data_30, Data_31);
+        DataFsm.SendEvent("GameClear");
+        //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex6();
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
 
         StartCoroutine(GoToNextScene());
+    }
+
+    IEnumerator FinishNSave()
+    {
+        Behavior.GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();
+        yield return new WaitForSeconds(1);
     }
 
     IEnumerator GoToNextScene()

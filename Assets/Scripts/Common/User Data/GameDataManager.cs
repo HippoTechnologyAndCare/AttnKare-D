@@ -56,19 +56,19 @@ public class GameDataManager : MonoBehaviour
                 saveCurrentSceneData = SetData_pm;
                 break;
             case 4: //Scoop L
-                saveCurrentSceneData = SetData;
+                saveCurrentSceneData = SetData_pm;
                 break;
             case 5: //CR
                 saveCurrentSceneData = SetData_pm;
                 break;
             case 6: //PlayPaddle
-                saveCurrentSceneData = SetData;
+                saveCurrentSceneData = SetData_pm;
                 break;
             case 7: //bagpacking H
                 saveCurrentSceneData = SetData_pm;
                 break;
             case 8: //Scoop H
-                saveCurrentSceneData = SetData;
+                saveCurrentSceneData = SetData_pm;
                 break;
 
         }
