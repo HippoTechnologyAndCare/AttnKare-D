@@ -9751,7 +9751,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &912630810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55897,13 +55897,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9166498488316249296}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 494e659c238ebc5428bdb4e8d43de9ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SlowTimeScale: 0.25
-  YKeySlowsTime: 1
+  YKeySlowsTime: 0
   SlowTimeAction: {fileID: 4152163271159088786, guid: e39f4b35a6db18348b41eb0262520e69,
     type: 3}
   SlowTimeClip: {fileID: 8300000, guid: 3264b135b94635f42a09d672b19cae85, type: 3}
@@ -75770,7 +75770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd2fd7429a30714ca570a60a988ab32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultLocomotion: 1
+  DefaultLocomotion: 2
   LoadLocomotionFromPrefs: 0
   locomotionToggleInput: 0e000000
   LocomotionToggleAction: {fileID: 3512515067727415170, guid: e39f4b35a6db18348b41eb0262520e69,
@@ -95306,7 +95306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7abe05ae0fe07459d7ae7afed8b792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllowInput: 1
+  AllowInput: 0
   inputAxis: 03000000
   RotateAction: {fileID: -6493913391331992944, guid: e39f4b35a6db18348b41eb0262520e69,
     type: 3}
@@ -95340,7 +95340,7 @@ MonoBehaviour:
   StaticDrag: 5
   AirDrag: 1
   ForwardDirection: {fileID: 0}
-  AllowInput: 1
+  AllowInput: 0
   UpdateMovement: 1
   inputAxis: 01000000
   MoveAction: {fileID: 6972639530819350904, guid: e39f4b35a6db18348b41eb0262520e69,
