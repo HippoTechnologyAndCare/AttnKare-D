@@ -612,17 +612,16 @@ public class TubeScoreboard : MonoBehaviour
         {
             if (failed)
             {
-                results += "Failed: Y\n\n" + WriteStageDrops() + "Wrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nScoop Lost Count: " + scoopLost.ToString() + "\n";
+                results += "Failed: Y\n\n" + WriteStageDrops() + "Wrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
             }
             else if (!failed)
             {
-                results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nScoop Lost Count: " + scoopLost.ToString() + "\n";
+                results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
             }
         }
         else
         {
-            results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nScoop Lost Count: " + scoopLost.ToString() + 
-                "\n\nTerminated(Stage " + stageCounter + ")\n";
+            results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nTerminated(Stage " + stageCounter + ")\n";
         }
 
         GetComponent<SaveScoopData>().SaveTempSceneData(results); // Change location of this if necessary

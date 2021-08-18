@@ -602,7 +602,7 @@ public class EasyTubeScoreboard : MonoBehaviour
             endOfGame = true;
         }*/
 
-    // Record Game Score (Change to json variables here)
+    // Record Game Score
     void RecordData(bool end, bool failed)
     {
         string results = "";
@@ -611,17 +611,16 @@ public class EasyTubeScoreboard : MonoBehaviour
         {
             if (failed)
             {
-                results += "Failed: Y\n\n" + WriteStageDrops() + "Wrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nScoop Lost Count: " + scoopLost.ToString() + "\n";
+                results += "Failed: Y\n\n" + WriteStageDrops() + "Wrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
             }
             else if (!failed)
             {
-                results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nScoop Lost Count: " + scoopLost.ToString() + "\n";
+                results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
             }
         }
         else
         {
-            results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nScoop Lost Count: " + scoopLost.ToString() + 
-                "\n\nTerminated(Stage " + stageCounter + ")\n";
+            results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nTerminated(Stage " + stageCounter + ")\n";
         }
 
         GetComponent<SaveScoopData>().SaveTempSceneData(results); // Change location of this if necessary
@@ -692,6 +691,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         }
     }
 
+    // Change to json
     public void SaveAndFinish(bool skipped)
     {
         if (skipped)
