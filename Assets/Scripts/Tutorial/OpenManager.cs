@@ -7,8 +7,7 @@ using UnityEngine.Rendering.Universal;
 using TMPro;
 using UnityEngine.Rendering;
 using KetosGames.SceneTransition;
-
-
+using UserData;
     public class OpenManager : MonoBehaviour
     {
        
@@ -32,10 +31,12 @@ using KetosGames.SceneTransition;
         bool fadeColor = false;
         float GhostRot;
         int audioIndex;
+    string childName;
+    string prevChildName;
         Vector3 desPos;
-
+        DataManager dataManager;
         VolumeProfile globalVolume;
-
+       
         ColorAdjustments _coloradjustment = null;
 
 
@@ -44,8 +45,30 @@ using KetosGames.SceneTransition;
 
     private void Awake()
     {
-        
-        if(PlayerPrefs.HasKey("State"))
+        GameObject JasonManager = GameObject.Find("DataManager");
+        dataManager = JasonManager.GetComponent<DataManager>();
+        childName = dataManager.userInfo.Name;
+
+
+        if(PlayerPrefs.HasKey("Name") || childName != null)
+        {
+            prevChildName = PlayerPrefs.GetString("Name");
+            if(prevChildName == childName)
+            {
+                state = "END";
+            }
+            else
+            {
+                state = "OPEN";
+            }
+
+        }
+        else
+        {
+            state = "OPEN";
+        }
+        /*
+        if (PlayerPrefs.HasKey("State"))
         {
             state = PlayerPrefs.GetString("State");
 
@@ -54,6 +77,7 @@ using KetosGames.SceneTransition;
         {
             state = "OPEN";
         }
+        */
     }
     // Start is called before the first frame update
     void Start()
@@ -71,9 +95,6 @@ using KetosGames.SceneTransition;
             Ghost.transform.position = new Vector3(3.1f, -1.337f, 3.09f);
           
             _coloradjustment.saturation.value = -100f;
-            
-            
-
             StartCoroutine(startOpening());
 
 
@@ -266,7 +287,8 @@ using KetosGames.SceneTransition;
 
 
         yield return new WaitForSeconds(3.0f);
-        PlayerPrefs.SetString("State", "END");
+       // PlayerPrefs.SetString("State", "END");
+        PlayerPrefs.SetString("Name", childName);
         SceneLoader.LoadScene("Tutorial");
 
 
@@ -325,12 +347,7 @@ using KetosGames.SceneTransition;
 
     }
 
-    public void OnApplicationQuit()
-    {
-        PlayerPrefs.SetString("State", "OPEN");
-
-    }
-
+    
   
 
 
