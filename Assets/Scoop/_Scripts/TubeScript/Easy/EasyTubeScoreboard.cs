@@ -201,6 +201,8 @@ public class EasyTubeScoreboard : MonoBehaviour
 
     IEnumerator GoToLobby(bool isSkipped)
     {
+        SaveAndFinish(isSkipped);
+
         yield return new WaitForSeconds(7);
 
         scoreText.GetComponent<Text>().enabled = false;
@@ -216,9 +218,7 @@ public class EasyTubeScoreboard : MonoBehaviour
 
         sceneText.GetComponent<Text>().text = "1";
         yield return new WaitForSeconds(1);
-
-        SaveAndFinish(isSkipped);
-
+        
         SceneLoader.LoadScene(10);
     }
 
