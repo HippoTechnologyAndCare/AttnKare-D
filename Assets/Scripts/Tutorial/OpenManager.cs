@@ -318,7 +318,7 @@ using UserData;
 
         desPos = new Vector3(-0.02f, -0.693f, 2.795f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>¿À´Ã ÇÔ²²ÇØ¼­ \n³Ê¹« Áñ°Å¿ü¾î\n<color=#2e86de><size=0.09><b>(^ - ^)", audioIndex = 6));
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(3.0f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>³Êµµ Áñ°Å¿ü´Ù¸é \nÁÁ°Ú´Ù!\n<color=#2e86de><size=0.09><b>(//^ ^//)", audioIndex = 7));
         yield return new WaitForSeconds(2.5f);
         StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos, 0.2f));
