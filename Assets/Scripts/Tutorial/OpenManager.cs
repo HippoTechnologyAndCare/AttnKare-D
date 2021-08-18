@@ -22,13 +22,8 @@ using KetosGames.SceneTransition;
 
 
 
-
-
-
-
-        
         public float speed;
-        Transform SpeechBubble;
+        public Transform SpeechBubble;
 
         private float Timer = 0;
         private string state;
@@ -62,7 +57,7 @@ using KetosGames.SceneTransition;
     void Start()
         {
 
-        SpeechBubble = Ghost.transform.GetChild(1);
+        
         globalVolume = global.sharedProfile;
         globalVolume.TryGet<ColorAdjustments>(out _coloradjustment);
 
@@ -98,12 +93,13 @@ using KetosGames.SceneTransition;
     // Update is called once per frame
     void Update()
     {
-        SpeechBubble = Ghost.transform.GetChild(1);
+        
 
         float GhostRot = Ghost.transform.eulerAngles.y;
-        SpeechBubble.localEulerAngles = new Vector3(SpeechBubble.localEulerAngles.x, GhostRot, SpeechBubble.localEulerAngles.z);
+        SpeechBubble.localPosition = new Vector3(Ghost.transform.localPosition.x + 0.482f, Ghost.transform.localPosition.y + 0.865f, Ghost.transform.localPosition.z) ;
+        ///SpeechBubble.localEulerAngles = new Vector3(SpeechBubble.localEulerAngles.x, GhostRot, SpeechBubble.localEulerAngles.z);
         Logo.localEulerAngles = new Vector3(Logo.localEulerAngles.x, GhostRot, Logo.localEulerAngles.z);
-
+        
         globalVolume = global.sharedProfile;
         globalVolume.TryGet<ColorAdjustments>(out _coloradjustment);
         if (fadeColor)
@@ -247,10 +243,10 @@ using KetosGames.SceneTransition;
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.07>이곳은</size><size=0.09> <color=#EA2027>A</color><color=#EE5A24>T</color><color=#F79F1F>T</color><color=#009432>N</color><color=#0652DD>K</color><color=#1B1464>A</color><color=#B53471>R</color><color=#0984e3>E</color></size> <size=0.08>세계야", audioIndex = 1));
         yield return new WaitForSeconds(1.8f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>나는 오늘 \n너의 가이드야. \n 잘 부탁해 \n<color=#2e86de>(^ 0 ^)~", audioIndex = 2));
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(2.5f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.053>시작하기 전에\n간단하게 설명해줄게! \n<color=#2e86de>(^ 0 ^)~", audioIndex = 3));
 
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(2.0f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>한번 출발해볼까?!\n<color=#2e86de><size=0.074>(o v o)/", audioIndex = 4));
 
 
@@ -293,7 +289,7 @@ using KetosGames.SceneTransition;
 
 
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>아쉽지만\n이제 헤어질 \n시간이야\n<color=#2e86de><size=0.09><b>(T ^ T)", audioIndex = 5));
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(2.5f);
 
         desPos = new Vector3(-0.02f, -0.693f, 2.795f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>오늘 함께해서 \n너무 즐거웠어\n<color=#2e86de><size=0.09><b>(^ - ^)", audioIndex = 6));
@@ -301,7 +297,7 @@ using KetosGames.SceneTransition;
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>너도 즐거웠다면 \n좋겠다!\n<color=#2e86de><size=0.09><b>(//^ ^//)", audioIndex = 7));
         yield return new WaitForSeconds(1.8f);
         StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos, 0.2f));
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(2.5f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.055>난 항상 \n이 곳에 있을게!\n다음에 \n또 놀러와\n<color=#2e86de><b>(^ 0 ^)/", audioIndex = 8));
         yield return new WaitForSeconds(2.0f);
 
@@ -325,9 +321,14 @@ using KetosGames.SceneTransition;
 
     }
 
-
-       
-
-
-
+    public void ResetScene()
+    {
+        PlayerPrefs.SetString("State", "OPEN");
     }
+
+
+
+
+
+
+}

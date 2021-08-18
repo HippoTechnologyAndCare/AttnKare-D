@@ -10,7 +10,7 @@ using TMPro;
 namespace BNG.UserData {
     public class TutorialManager : MonoBehaviour
     {
-        UserInfo dataManager;
+        DataManager dataManager;
         private float rTriggerValue;
         private float ltriggerValue;
         private float rGripValue;
@@ -30,7 +30,7 @@ namespace BNG.UserData {
         public int trigInt;
         bool check = false;
         private string gradeLH;
-        public int SceneIndex;
+        public string SceneName;
 
 
 
@@ -38,7 +38,7 @@ namespace BNG.UserData {
         void Start()
         {
             trigInt = 0;
-            //GetGrade();
+            GetGrade();
       
 
         }
@@ -105,7 +105,7 @@ namespace BNG.UserData {
                     Note.SetActive(true);
                     Playmaker.FsmVariables.GetFsmBool("lTriggerPressed").Value = true;
 
-
+                    
                 }
                 if (ltriggerValue <= 0.9)
                 {
@@ -131,17 +131,17 @@ namespace BNG.UserData {
         public void GetGrade()
         {
             GameObject JasonManager = GameObject.Find("DataManager");
-            dataManager = JasonManager.GetComponent<UserInfo>();
-            gradeLH = dataManager.Grade;
+            dataManager = JasonManager.GetComponent<DataManager>();
+            gradeLH = dataManager.userInfo.Grade;
             if(gradeLH == "L")
             {
-                SceneIndex = 1;
+                SceneName= "DoorLock";
 
 
             }
             if(gradeLH == "H")
             {
-                SceneIndex = 5;
+                SceneName = "CleanUpMyRoom_2x2";
             }
 
 

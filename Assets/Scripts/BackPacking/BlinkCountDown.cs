@@ -19,7 +19,6 @@ public class BlinkCountDown : MonoBehaviour
         text = GetComponent<TextMeshProUGUI>();
 
         
-        
     }
 
     // Update is called once per frame

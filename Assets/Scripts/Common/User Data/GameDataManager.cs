@@ -46,21 +46,31 @@ public class GameDataManager : MonoBehaviour
 
         switch (sceneIndex)
         {
-            case 1:
+            case 1: //Doorlock
                 saveCurrentSceneData = SetData_pm;
                 break;
-            case 2:
+            case 2: //Schedule
                 saveCurrentSceneData = SetData;
                 break;
-            case 3:
+            case 3: //BP L
                 saveCurrentSceneData = SetData_pm;
                 break;
-            case 4:
+            case 4: //Scoop L
                 saveCurrentSceneData = SetData;
                 break;
-            case 5:
+            case 5: //CR
                 saveCurrentSceneData = SetData_pm;
                 break;
+            case 6: //PlayPaddle
+                saveCurrentSceneData = SetData;
+                break;
+            case 7: //bagpacking H
+                saveCurrentSceneData = SetData_pm;
+                break;
+            case 8: //Scoop H
+                saveCurrentSceneData = SetData;
+                break;
+
         }
     }
 
