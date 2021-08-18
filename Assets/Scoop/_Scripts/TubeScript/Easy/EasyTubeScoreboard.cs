@@ -130,7 +130,15 @@ public class EasyTubeScoreboard : MonoBehaviour
         // Load Data on First Frame
         if (!isChecked)
         {
-            scoreUpdate();
+            foreach (GameObject ball in Balls)
+            {
+                CheckBallActive(ball);
+            }
+
+            left1 = activeBalls1.Count;
+            left2 = activeBalls2.Count;
+            left3 = activeBalls3.Count;
+
             isChecked = true;
         }
 
@@ -247,11 +255,9 @@ public class EasyTubeScoreboard : MonoBehaviour
     }
 
     // Check if Ball is Active
-    void CheckBallActive()
+    void CheckBallActive(GameObject ball)
     {
-        // Checks for number of active balls
-        foreach (GameObject ball in Balls)
-        {
+
             // Check for active balls
             if (ball.activeSelf)
             {
@@ -317,14 +323,13 @@ public class EasyTubeScoreboard : MonoBehaviour
                         break;
                 }
             }
-        }
     }
 
     // Updates score on each ball collision
-    void scoreUpdate()
+    void scoreUpdate(GameObject ball)
     {
         // First Check if Ball is Active and Update Lists
-        CheckBallActive();
+        CheckBallActive(ball);
 
         // Keep Track of Number of Active Balls
         left1 = activeBalls1.Count;
@@ -458,7 +463,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         }
 
         // Updates Score After Ball State has changed
-        scoreUpdate();
+        scoreUpdate(ball);
     }
 
     // Wait 5 seconds (Coroutine)
@@ -504,18 +509,21 @@ public class EasyTubeScoreboard : MonoBehaviour
                 ball.GetComponent<EasyTubeBall>().resetBall();
                 ball.GetComponent<EasyTubeBall>().ScoreCheck = false;
                 ball.SetActive(false);
+                ballUpdate(ball);
             }
             foreach (GameObject ball in successBalls2)
             {
                 ball.GetComponent<EasyTubeBall>().resetBall();
                 ball.GetComponent<EasyTubeBall>().ScoreCheck = false;
                 ball.SetActive(false);
+                ballUpdate(ball);
             }
             foreach (GameObject ball in successBalls3)
             {
                 ball.GetComponent<EasyTubeBall>().resetBall();
                 ball.GetComponent<EasyTubeBall>().ScoreCheck = false;
                 ball.SetActive(false);
+                ballUpdate(ball);
             }
 
             successBalls1.Clear();

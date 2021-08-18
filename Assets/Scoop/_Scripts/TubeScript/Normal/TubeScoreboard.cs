@@ -508,18 +508,21 @@ public class TubeScoreboard : MonoBehaviour
                 ball.GetComponent<TubeBall>().resetBall();
                 ball.GetComponent<TubeBall>().ScoreCheck = false;
                 ball.SetActive(false);
+                ballUpdate(ball);
             }
             foreach (GameObject ball in successBalls2)
             {
                 ball.GetComponent<TubeBall>().resetBall();
                 ball.GetComponent<TubeBall>().ScoreCheck = false;
                 ball.SetActive(false);
+                ballUpdate(ball);
             }
             foreach (GameObject ball in successBalls3)
             {
                 ball.GetComponent<TubeBall>().resetBall();
                 ball.GetComponent<TubeBall>().ScoreCheck = false;
                 ball.SetActive(false);
+                ballUpdate(ball);
             }
 
             successBalls1.Clear();
