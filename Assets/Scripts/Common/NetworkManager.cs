@@ -62,8 +62,8 @@ public class NetworkManager : MonoBehaviour
 
         formData.AddBinaryData("json", File.ReadAllBytes(resPath + "/UserData.json"), "data.json", "application/octet-stream");
 
-        formData.AddBinaryData("tutorial_txt", File.ReadAllBytes(resPath + "/0.txt"), "tutorial.txt", "application/octet-stream");
-        formData.AddBinaryData("tutorial_mp3", File.ReadAllBytes(resPath + "/0.mp3"), "tutorial.mp3", "application/octet-stream");
+        formData.AddBinaryData("tutorial_txt", File.ReadAllBytes(resPath + "/9.txt"), "tutorial.txt", "application/octet-stream");
+        formData.AddBinaryData("tutorial_mp3", File.ReadAllBytes(resPath + "/9.mp3"), "tutorial.mp3", "application/octet-stream");
 
         if (DataManager.GetInstance().userInfo.Grade == "L")
         {
