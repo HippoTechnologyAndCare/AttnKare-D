@@ -80,7 +80,7 @@ public partial class Actor : MonoBehaviour
         speechBubble.gameObject.SetActive(true);
         speechBubble.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = input;
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2.5f);
 
         speechBubble.SetActive(false);
 

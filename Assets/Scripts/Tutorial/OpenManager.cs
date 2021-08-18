@@ -20,6 +20,8 @@ using KetosGames.SceneTransition;
     public Transform TransitionIN;
     public Transform TransitionOut;
 
+    public NetworkManager NetworkManager;
+
 
 
         public float speed;
@@ -239,14 +241,14 @@ using KetosGames.SceneTransition;
         yield return new WaitUntil(() => Logo.localScale == new Vector3(0, 0, 0));
 
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.08>안녕 \n<color=#2e86de>(^ v ^)~", audioIndex = 0));
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(3.0f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.07>이곳은</size><size=0.09> <color=#EA2027>A</color><color=#EE5A24>T</color><color=#F79F1F>T</color><color=#009432>N</color><color=#0652DD>K</color><color=#1B1464>A</color><color=#B53471>R</color><color=#0984e3>E</color></size> <size=0.08>세계야", audioIndex = 1));
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(3.0f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>나는 오늘 \n너의 가이드야. \n 잘 부탁해 \n<color=#2e86de>(^ 0 ^)~", audioIndex = 2));
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(3.0f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.053>시작하기 전에\n간단하게 설명해줄게! \n<color=#2e86de>(^ 0 ^)~", audioIndex = 3));
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(3.0f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>한번 출발해볼까?!\n<color=#2e86de><size=0.074>(o v o)/", audioIndex = 4));
 
 
@@ -255,7 +257,7 @@ using KetosGames.SceneTransition;
         yield return new WaitUntil(() => Ghost.transform.position == desPos);
        // StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("들어간다~!\n<size=0.07><color=#2e86de>(^ - ^)");
         Ghost.GetComponent<Animator>().SetBool("isJump", true);
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(3.0f);
         Ghost.GetComponent<Animator>().SetBool("isJump", false);
 
         StartCoroutine(lerpDoor());
@@ -263,7 +265,7 @@ using KetosGames.SceneTransition;
         StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos, 0.5f));
 
 
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(3.0f);
         PlayerPrefs.SetString("State", "END");
         SceneLoader.LoadScene("Tutorial");
 
@@ -279,6 +281,7 @@ using KetosGames.SceneTransition;
 
     IEnumerator startEnding()
     {
+        NetworkManager.DoSendToFinishData();
         yield return new WaitForSeconds(1.5f);
         //밖으로 달려나감
         //bool go = true;
@@ -307,8 +310,9 @@ using KetosGames.SceneTransition;
         Ghost.GetComponent<Animator>().SetBool("isJump", true);
 
         yield return new WaitForSeconds(3.0f);
-        Ghost.transform.parent.gameObject.SetActive(false);
+        
         TransitionOut.gameObject.SetActive(true);
+        Ghost.transform.parent.gameObject.SetActive(false);
         PlayerPrefs.SetString("State", "OPEN");
         yield return new WaitForSeconds(1.2f);
 
@@ -321,11 +325,13 @@ using KetosGames.SceneTransition;
 
     }
 
-    public void ResetScene()
+    public void OnApplicationQuit()
     {
         PlayerPrefs.SetString("State", "OPEN");
+
     }
 
+  
 
 
 

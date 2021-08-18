@@ -265,6 +265,50 @@ MonoBehaviour:
   PressingObject: {fileID: 0}
   DraggingObject: {fileID: 0}
   ReleasingObject: {fileID: 0}
+--- !u!1 &78541381
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 78541383}
+  - component: {fileID: 78541382}
+  m_Layer: 0
+  m_Name: Networkmanager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &78541382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78541381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86b98c97d4e8a72429bc691b41be0053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outputpath: C:\Report.pdf
+--- !u!4 &78541383
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78541381}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 378385902}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &118975680
 GameObject:
   m_ObjectHideFlags: 0
@@ -12515,6 +12559,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1689042175}
+  - {fileID: 78541383}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -18590,7 +18635,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &829815605
 Light:
   m_ObjectHideFlags: 0
@@ -25525,6 +25570,7 @@ MonoBehaviour:
   Logo: {fileID: 4718806008399853180}
   TransitionIN: {fileID: 7538987883226259582}
   TransitionOut: {fileID: 2006479722}
+  NetworkManager: {fileID: 78541382}
   speed: 0.01
   SpeechBubble: {fileID: 6134581334235497615}
 --- !u!1 &1693466442
@@ -41399,7 +41445,7 @@ MonoBehaviour:
   targetIsSelf: 1
   targetGO: {fileID: 0}
   tweenTargetIsTargetGO: 1
-  delay: 1
+  delay: 0
   duration: 0.7
   easeType: 6
   easeCurve:
@@ -91365,7 +91411,7 @@ Transform:
   m_GameObject: {fileID: 5347815361122577606}
   m_LocalRotation: {x: 1, y: -0.00000004371138, z: -0.00000004371138, w: 0.00000013315805}
   m_LocalPosition: {x: 0, y: 36.2, z: -0.9}
-  m_LocalScale: {x: 0, y: 0, z: 10}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 2091492883}
   m_RootOrder: 2
@@ -101062,7 +101108,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5348220439641914942
 Transform:
@@ -104955,8 +105001,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3656171918209650506, guid: 4492c4c722be89e4cbaf1df8a22caa99, type: 3}
-  - {fileID: 5097454140698925771, guid: 4492c4c722be89e4cbaf1df8a22caa99, type: 3}
+  - {fileID: 2100000, guid: 59835dc1dd14d32489b249edcd404678, type: 2}
+  - {fileID: 2100000, guid: b12e50e534394b84b871be1081c85f1c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -104964,7 +105010,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
+  m_ReceiveGI: 2
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
