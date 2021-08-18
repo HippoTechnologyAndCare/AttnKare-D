@@ -29,6 +29,9 @@ public class EasyTubeScoreboard : MonoBehaviour
     [HideInInspector] public string clearTime1 = ""; // Stage 1 Clear Time
     [HideInInspector] public string clearTime2 = ""; // Stage 2 Clear Time
     [HideInInspector] public string clearTime3 = ""; // Stage 3 Clear Time
+    [HideInInspector] public float time1 = -1f; // Stage 1 Clear Time (float)
+    [HideInInspector] public float time2 = -1f; // Stage 2 Clear Time (float)
+    [HideInInspector] public float time3 = -1f; // Stage 3 Clear Time (float)
     [HideInInspector] public int score1 = 0; // Yellow Ball
     [HideInInspector] public int score2 = 0; // Light Purple Ball
     [HideInInspector] public int score3 = 0; // Turqoise Ball
@@ -74,6 +77,10 @@ public class EasyTubeScoreboard : MonoBehaviour
     [SerializeField] Material tubeBall1; // Yellow Material
     [SerializeField] Material tubeBall2; // Light Purple Material
     [SerializeField] Material tubeBall3; // Turqoise Material
+
+    [Header("Data")]
+    [SerializeField] Transform setData_PlayerData;
+    [SerializeField] Transform saveData_GameDataMG;
 
     // Temporary Timer Variables
     float delayTimer;
@@ -627,12 +634,15 @@ public class EasyTubeScoreboard : MonoBehaviour
         {
             case 1:
                 clearTime1 = timer.GetComponent<Text>().text;
+                time1 = timer.GetComponent<Timer>().secondsCount;
                 break;
             case 2:
                 clearTime2 = timer.GetComponent<Text>().text;
+                time2 = timer.GetComponent<Timer>().secondsCount;
                 break;
             case 3:
                 clearTime3 = timer.GetComponent<Text>().text;
+                time3 = timer.GetComponent<Timer>().secondsCount;
                 break;
             default:
                 break;
@@ -689,6 +699,10 @@ public class EasyTubeScoreboard : MonoBehaviour
             isSkipped = 1;
 
         }
+
+        // Save Data to local 
+        setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex4(time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, gameFailed ? 1 : 0, isSkipped);
+        saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
 
         // Data variables go here
         GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();

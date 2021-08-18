@@ -6274,6 +6274,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddc80f7ff6855fc4a887ec564fb2ec56, type: 3}
+--- !u!4 &604075474 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3959265887069286461, guid: ddc80f7ff6855fc4a887ec564fb2ec56,
+    type: 3}
+  m_PrefabInstance: {fileID: 604075473}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &610553167 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1599826595754709761, guid: a6e68b9fe240a5845928cc22a4c06a1c,
@@ -26393,6 +26399,9 @@ MonoBehaviour:
   clearTime1: 
   clearTime2: 
   clearTime3: 
+  time1: -1
+  time2: -1
+  time3: -1
   score1: 0
   score2: 0
   score3: 0
@@ -26429,6 +26438,8 @@ MonoBehaviour:
   tubeBall1: {fileID: 2100000, guid: cc186c3c21540a143a2fc8931167fe70, type: 2}
   tubeBall2: {fileID: 2100000, guid: 345fbdb6276a7b04bb2ca60389e485da, type: 2}
   tubeBall3: {fileID: 2100000, guid: 70d3ecd4eae1f0a42ab7d592ca366ea8, type: 2}
+  setData_PlayerData: {fileID: 1711913115}
+  saveData_GameDataMG: {fileID: 604075474}
   endOfGame: 0
   dataRecorded: 0
 --- !u!4 &914906268 stripped
@@ -35882,6 +35893,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95394429d2d157d4f8e8992ff21e0667, type: 3}
+--- !u!4 &1711913115 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1969916601316219180, guid: 95394429d2d157d4f8e8992ff21e0667,
+    type: 3}
+  m_PrefabInstance: {fileID: 1711913114}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1719480902 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8741480208897292403, guid: 3aeb4149a8f119340a8f1e6b7db00e98,
