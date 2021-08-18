@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+#if UNITY_EDITOR
+using UnityEditor.SceneManagement;
+#endif
 using KetosGames.SceneTransition;
 
 
@@ -90,6 +95,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     public float gameresultFailed;
     public bool dataRecorded = false;
     public int isSkipped = 0;
+    bool movingToLobby = false;
 
     // Boolean to Load Data (Only Used Once after Start Function)
     bool isChecked = false;
@@ -161,11 +167,12 @@ public class EasyTubeScoreboard : MonoBehaviour
         InGameDebugger();
 
         // ***TEST FEATURE*** Disable this Script after data is recorded (Used to write data only once)
-        if (dataRecorded)
+        if (dataRecorded && !movingToLobby)
         {
             StartCoroutine(GoToLobby(false));
             dataRecorded = false;
             endOfGame = false;
+            movingToLobby = true;
         }
 
         // Used for Stage Wait Time
@@ -201,8 +208,6 @@ public class EasyTubeScoreboard : MonoBehaviour
 
     IEnumerator GoToLobby(bool isSkipped)
     {
-        SaveAndFinish(isSkipped);
-
         yield return new WaitForSeconds(7);
 
         scoreText.GetComponent<Text>().enabled = false;
@@ -218,7 +223,14 @@ public class EasyTubeScoreboard : MonoBehaviour
 
         sceneText.GetComponent<Text>().text = "1";
         yield return new WaitForSeconds(1);
-        
+
+        SaveAndFinish(isSkipped);
+
+        yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + SceneManager.GetActiveScene().buildIndex.ToString() + ".mp3"));
+#if UNITY_EDITOR
+        yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + EditorSceneManager.GetActiveScene().buildIndex.ToString() + ".mp3"));
+#endif
+
         SceneLoader.LoadScene(10);
     }
 
