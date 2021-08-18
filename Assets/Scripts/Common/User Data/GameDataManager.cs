@@ -11,12 +11,12 @@ using UnityEditor.SceneManagement;
 
 public class GameDataManager : MonoBehaviour
 {
-    public SetPlayerData setPlayerData;
-    //public bool isPM;    
+    public SetPlayerData setPlayerData;      
 
     delegate void SaveCurrentSceneData(int SceneIndex);
+    SaveCurrentSceneData saveCurrentSceneData;
 
-    SaveCurrentSceneData saveCurrentSceneData;    
+    public GameObject objToFind;
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +50,7 @@ public class GameDataManager : MonoBehaviour
                 saveCurrentSceneData = SetData_pm;
                 break;
             case 2: //Schedule
+                objToFind = FindObjectOfType<ScheduleManager>().gameObject;
                 saveCurrentSceneData = SetData;
                 break;
             case 3: //BP L
@@ -91,7 +92,15 @@ public class GameDataManager : MonoBehaviour
         string convertIndex = sceneIndex.ToString();
         string functionName = "GetSceneIndex" + convertIndex;
 
-        GameObject.Find("SetPlayerData").SendMessage(functionName);
+        switch (sceneIndex)
+        {            
+            case 2: //Schedule
+                GameObject.Find("SetPlayerData").SendMessage(functionName,
+                objToFind.GetComponent<ScheduleManager>().scene2arr);
+                break;
+        }
+
+        //GameObject.Find("SetPlayerData").SendMessage(functionName);
     }
 
     public void SetData_pm(int sceneIndex)
