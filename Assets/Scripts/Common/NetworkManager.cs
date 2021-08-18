@@ -62,33 +62,33 @@ public class NetworkManager : MonoBehaviour
 
         formData.AddBinaryData("json", File.ReadAllBytes(resPath + "/UserData.json"), "data.json", "application/octet-stream");
 
-        formData.AddBinaryData("tutorial_txt", File.ReadAllBytes(resPath + "/9.txt"), "tutorial.txt", "application/octet-stream");
-        formData.AddBinaryData("tutorial_mp3", File.ReadAllBytes(resPath + "/9.mp3"), "tutorial.mp3", "application/octet-stream");
+        formData.AddBinaryData("tutorial_txt", File.ReadAllBytes(resPath + "/9_Behavior.txt"), "tutorial_txt.txt", "application/octet-stream");
+        formData.AddBinaryData("tutorial_mp3", File.ReadAllBytes(resPath + "/9.mp3"), "tutorial_mp3.mp3", "application/octet-stream");
 
         if (DataManager.GetInstance().userInfo.Grade == "L")
         {
-            formData.AddBinaryData("doorlock_txt", File.ReadAllBytes(resPath + "/1.txt"), "doorlock.txt", "application/octet-stream");
-            formData.AddBinaryData("doorlock_mp3", File.ReadAllBytes(resPath + "/1.mp3"), "doorlock.mp3", "application/octet-stream");
-            formData.AddBinaryData("schedule_txt", File.ReadAllBytes(resPath + "/2.txt"), "schedule.txt", "application/octet-stream");
-            formData.AddBinaryData("schedule_mp3", File.ReadAllBytes(resPath + "/2.mp3"), "schedule.mp3", "application/octet-stream");
+            formData.AddBinaryData("doorlock_txt", File.ReadAllBytes(resPath + "/1_Behavior.txt"), "doorlock_txt.txt", "application/octet-stream");
+            formData.AddBinaryData("doorlock_mp3", File.ReadAllBytes(resPath + "/1.mp3"), "doorlock_mp3.mp3", "application/octet-stream");
+            formData.AddBinaryData("schedule_txt", File.ReadAllBytes(resPath + "/2_Behavior.txt"), "schedule_txt.txt", "application/octet-stream");
+            formData.AddBinaryData("schedule_mp3", File.ReadAllBytes(resPath + "/2.mp3"), "schedule_mp3.mp3", "application/octet-stream");
 
-            formData.AddBinaryData("bagpacking_txt", File.ReadAllBytes(resPath + "/3.txt"), "bagpacking.txt", "application/octet-stream");
-            formData.AddBinaryData("bagpacking_mp3", File.ReadAllBytes(resPath + "/3.mp3"), "bagpacking.mp3", "application/octet-stream");
-            formData.AddBinaryData("scoop_txt", File.ReadAllBytes(resPath + "/4.txt"), "scoop.txt", "application/octet-stream");
-            formData.AddBinaryData("scoop_mp3", File.ReadAllBytes(resPath + "/4.mp3"), "scoop.mp3", "application/octet-stream");
+            formData.AddBinaryData("bagpacking_txt", File.ReadAllBytes(resPath + "/3_Behavior.txt"), "bagpacking_txt.txt", "application/octet-stream");
+            formData.AddBinaryData("bagpacking_mp3", File.ReadAllBytes(resPath + "/3.mp3"), "bagpacking_mp3.mp3", "application/octet-stream");
+            formData.AddBinaryData("scoop_txt", File.ReadAllBytes(resPath + "/4_Behavior.txt"), "scoop_txt.txt", "application/octet-stream");
+            formData.AddBinaryData("scoop_mp3", File.ReadAllBytes(resPath + "/4.mp3"), "scoop_mp3.mp3", "application/octet-stream");
         }
         else
         {
-            formData.AddBinaryData("clueanupmyroom_txt", File.ReadAllBytes(resPath + "/5.txt"), "clueanup.txt", "application/octet-stream");
-            formData.AddBinaryData("clueanupmyroom_mp3", File.ReadAllBytes(resPath + "/5.mp3"), "clueanup.mp3", "application/octet-stream");
-            formData.AddBinaryData("playpaddle_txt", File.ReadAllBytes(resPath + "/6.txt"), "playpaddle.txt", "application/octet-stream");
-            formData.AddBinaryData("playpaddle_mp3", File.ReadAllBytes(resPath + "/6.mp3"), "playpaddle.mp3", "application/octet-stream");
+            formData.AddBinaryData("clueanupmyroom_txt", File.ReadAllBytes(resPath + "/5_Behavior.txt"), "clueanupmyroom_txt.txt", "application/octet-stream");
+            formData.AddBinaryData("clueanupmyroom_mp3", File.ReadAllBytes(resPath + "/5.mp3"), "clueanupmyroom_mp3.mp3", "application/octet-stream");
+            formData.AddBinaryData("playpaddle_txt", File.ReadAllBytes(resPath + "/6_Behavior.txt"), "playpaddle_txt.txt", "application/octet-stream");
+            formData.AddBinaryData("playpaddle_mp3", File.ReadAllBytes(resPath + "/6.mp3"), "playpaddle_mp3.mp3", "application/octet-stream");
 
-            formData.AddBinaryData("bagpacking_txt", File.ReadAllBytes(resPath + "/7.txt"), "bagpacking.txt", "application/octet-stream");
-            formData.AddBinaryData("bagpacking_mp3", File.ReadAllBytes(resPath + "/7.mp3"), "bagpacking.mp3", "application/octet-stream");
+            formData.AddBinaryData("bagpacking_txt", File.ReadAllBytes(resPath + "/7_Behavior.txt"), "bagpacking_txt.txt", "application/octet-stream");
+            formData.AddBinaryData("bagpacking_mp3", File.ReadAllBytes(resPath + "/7.mp3"), "bagpacking_mp3.mp3", "application/octet-stream");
 
-            formData.AddBinaryData("scoop_txt", File.ReadAllBytes(resPath + "/8.txt"), "scoop.txt", "application/octet-stream");
-            formData.AddBinaryData("scoop_mp3", File.ReadAllBytes(resPath + "/8.mp3"), "scoop.mp3", "application/octet-stream");
+            formData.AddBinaryData("scoop_txt", File.ReadAllBytes(resPath + "/8_Behavior.txt"), "scoop_txt.txt", "application/octet-stream");
+            formData.AddBinaryData("scoop_mp3", File.ReadAllBytes(resPath + "/8.mp3"), "scoop_mp3.mp3", "application/octet-stream");
         }
 
         UnityWebRequest webRequest = UnityWebRequest.Post(ServerURL_upload, formData);

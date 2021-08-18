@@ -11,7 +11,7 @@ public class BGMcontroller : MonoBehaviour
     void Start()
     {
         audioSource = this.GetComponent<AudioSource>();
-        PlayBGMByTypes("INTRO");
+        StartCoroutine(PlayIntro());
     }
 
     public void PlayBGMByTypes(string Type)
@@ -32,5 +32,11 @@ public class BGMcontroller : MonoBehaviour
         }
 
         audioSource.Play();
+    }
+
+    IEnumerator PlayIntro()
+    {
+        yield return new WaitForSeconds(3f);
+        PlayBGMByTypes("INTRO");
     }
 }

@@ -49551,7 +49551,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 162}
+  m_AnchoredPosition: {x: 0, y: 218}
   m_SizeDelta: {x: 1000, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1231544691
@@ -49574,9 +49574,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uCE5C\uAD6C\uC640 \uD568\uAED8 \uD611\uB3D9\uB180\uC774\uB97C \uD574\uBD05\uC2DC\uB2E4.\n\n\uC544\uB798\uC758
-    \uC124\uBA85\uC744 \uC798 \uC77D\uACE0,\n\uC900\uBE44\uAC00 \uB418\uBA74 \uC544\uB798
-    '\uC2DC\uC791\uD558\uAE30' \uBC84\uD2BC\uC744 \uB204\uB974\uC138\uC694."
+  m_text: "\uCE5C\uAD6C\uC640 \uD568\uAED8 \uD611\uB3D9\uB180\uC774\uB97C \uD574\uBCF4\uC790
+    !"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d4145b80d4101fb43b29e9e55556c584, type: 2}
   m_sharedMaterial: {fileID: -8169137728636540412, guid: d4145b80d4101fb43b29e9e55556c584,
@@ -67638,7 +67637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3765873ac6bc1e245b6da5fa726f540e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Intro: {fileID: 8300000, guid: 748034698e432bc49970fd9974d9bc4a, type: 3}
+  Intro: {fileID: 8300000, guid: 170ffed0680062645b44224ca038e537, type: 3}
   BGM: {fileID: 8300000, guid: 5b863a15df11f0f4fbd5395250174d6c, type: 3}
 --- !u!1 &1679602097
 GameObject:
@@ -71547,8 +71546,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC218\uACE0\uD558\uC168\uC2B5\uB2C8\uB2E4.\n\uC774\uC81C \uB85C\uBE44\uB85C
-    \uB3CC\uC544\uAC11\uB2C8\uB2E4."
+  m_text: "\uC218\uACE0\uD588\uC5B4\uC694 !\n\uC774\uC81C \uB2E4\uC74C \uCEE8\uD150\uCE20\uB85C
+    \uC774\uB3D9\uD569\uB2C8\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d4145b80d4101fb43b29e9e55556c584, type: 2}
   m_sharedMaterial: {fileID: -8169137728636540412, guid: d4145b80d4101fb43b29e9e55556c584,
@@ -77212,8 +77211,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 67, y: -58}
-  m_SizeDelta: {x: 900, y: 300}
+  m_AnchoredPosition: {x: 38, y: 3}
+  m_SizeDelta: {x: 850, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1880512534
 MonoBehaviour:
@@ -77235,12 +77234,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "1. \uC55E\uC5D0 \uC788\uB294 \uB0B4 \uD398\uB2EC\uC744 \uD655\uC778\uD558\uC138\uC694.\n2.
-    \uCE5C\uAD6C\uAC00 \uB3CC\uB9AC\uB294 \uD398\uB2EC\uC758 \uC18D\uB3C4\uC5D0 \uB9DE\uAC8C
-    \uAC19\uC774 \uB3CC\uB9BD\uB2C8\uB2E4.\n3. \uC9C4\uD589 \uD560 \uC218\uB85D \uC18D\uB3C4\uAC00
-    \uC870\uAE08\uC529 \uBE68\uB77C\uC9D1\uB2C8\uB2E4.\n4. \uC2DC\uC791\uD558\uBA74
-    \uB098\uC624\uB294 \uC0C1\uD669\uD310\uC744 \uBCF4\uBA70 \uB05D\uAE4C\uC9C0 \uAC00\uBD05\uC2DC\uB2E4.\n5.
-    \uADF8\uB7FC \uCE5C\uAD6C\uC640 \uC0AC\uC774\uC88B\uAC8C \uACE0\uACE0 ~"
+  m_text: "1. \uC55E\uC5D0 \uBCF4\uC774\uB294 \uCE5C\uAD6C\uC640 \uD568\uAED8 \uD398\uB2EC\uC744
+    \uB3CC\uB824\uBCF4\uC790\n\n2. \uADF8\uB7EC\uBA74 \uCF00\uC774\uBE14\uCE74\uAC00
+    \uAC74\uB108\uD3B8 \uC12C\uC5D0 \uB3C4\uCC29\uD560 \uC218 \uC788\uC5B4\n\n3.
+    \uB2E8 \uCE5C\uAD6C\uC758 \uC18D\uB3C4\uC5D0 \uB9DE\uCDB0 \uD398\uB2EC\uC744
+    \uB3CC\uB824\uC57C \uCF00\uC774\uBE14\uCE74\uAC00 \uC55E\uC73C\uB85C \uB098\uAC08
+    \uC218 \uC788\uC5B4\n\n4. \uC900\uBE44\uAC00 \uB418\uBA74 \uC2DC\uC791\uBC84\uD2BC\uC744
+    \uB20C\uB7EC\uC918"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d4145b80d4101fb43b29e9e55556c584, type: 2}
   m_sharedMaterial: {fileID: -8169137728636540412, guid: d4145b80d4101fb43b29e9e55556c584,
@@ -77304,7 +77304,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 64.49866, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
