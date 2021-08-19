@@ -310,7 +310,7 @@ public class PaddleManager : MonoBehaviour
         Data_29 = Failure_DistbT;
         Data_30 = DoNothingTimeElapsed;
 
-        Debug.Log("21 : " + Data_21.ToString()
+/*        Debug.Log("21 : " + Data_21.ToString()
                 + "\n22 : " + Data_22.ToString()
                 + "\n23 : " + Data_23.ToString()
                 + "\n24 : " + Data_24.ToString()
@@ -320,7 +320,7 @@ public class PaddleManager : MonoBehaviour
                 + "\n28 : " + Data_28.ToString()
                 + "\n29 : " + Data_29.ToString()
                 + "\n30 : " + Data_30.ToString()
-                + "\n31 : " + Data_31.ToString());
+                + "\n31 : " + Data_31.ToString());*/
 
         DataFsm.SendEvent("GameClear");
         //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex6();
