@@ -498,7 +498,7 @@ public class EasyTubeScoreboard : MonoBehaviour
             RecordStageClearTime(stageCounter);
             RecordStageDrops(stageCounter);
             RecordData(endOfGame, gameFailed);
-            scoreText.GetComponent<Text>().text = "성공!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n" + WriteStageClearTime() + "\n";
+            scoreText.GetComponent<Text>().text = "성공!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime() + "\n";
             AddBreakPoint("Successfully finished game");
             dataRecorded = true;
 

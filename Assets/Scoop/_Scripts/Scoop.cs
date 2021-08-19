@@ -8,7 +8,11 @@ public class Scoop : MonoBehaviour
     Vector3 scoopRot;
     float timer;
     public GameObject scoreboard;
-    
+    [SerializeField] Transform LShovelCollider;
+    [SerializeField] Transform RShovelCollider;
+
+    string collisionString;
+
     [Tooltip("Center Camera of XR Rig")]
     public Transform headCamera;
 
@@ -33,6 +37,55 @@ public class Scoop : MonoBehaviour
             }
             timer = 0;
         }
+
+        /*if (GetComponent<BNG.Grabbable>().BeingHeld)
+        {
+            Debug.Log("You are grabbing " + gameObject.name);
+            Debug.Log("Hand: " + gameObject.transform.parent.parent);
+
+            GetComponent<BoxCollider>().enabled = false;
+
+            for (int i = 0; i < gameObject.transform.childCount; i++){
+                if (gameObject.transform.GetChild(i).GetComponent<BoxCollider>() != null)
+                {
+                    gameObject.transform.GetChild(i).GetComponent<BoxCollider>().enabled = false;
+                }
+                else if (gameObject.transform.GetChild(i).GetComponent<CapsuleCollider>() != null)
+                {
+                    gameObject.transform.GetChild(i).GetComponent<CapsuleCollider>().enabled = false;
+                }
+            }
+
+            if(gameObject.transform.parent.parent.name == "RightController")
+            {
+                Debug.Log(gameObject.name + " has found right controller");
+                RShovelCollider.gameObject.SetActive(true);
+            }
+            else if(gameObject.transform.parent.parent.name == "LeftController")
+            {
+                Debug.Log(gameObject.name + " has found left controller");
+                LShovelCollider.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            GetComponent<BoxCollider>().enabled = true;
+
+            for (int i = 0; i < gameObject.transform.childCount; i++)
+            {
+                if (gameObject.transform.GetChild(i).GetComponent<BoxCollider>() != null)
+                {
+                    gameObject.transform.GetChild(i).GetComponent<BoxCollider>().enabled = true;
+                }
+                else if (gameObject.transform.GetChild(i).GetComponent<CapsuleCollider>() != null)
+                {
+                    gameObject.transform.GetChild(i).GetComponent<CapsuleCollider>().enabled = true;
+                }
+            }
+
+            RShovelCollider.gameObject.SetActive(false);
+            LShovelCollider.gameObject.SetActive(false);
+        }*/
     }
 
     private void OnCollisionEnter(Collision collision)
