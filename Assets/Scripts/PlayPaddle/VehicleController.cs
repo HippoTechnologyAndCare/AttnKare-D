@@ -17,7 +17,7 @@ public class VehicleController : MonoBehaviour
 
     bool GottaGo = false;
     float MovingTimer = 0;
-    float MovingTimerForLimit = 2;
+    float MovingTimerForLimit = 3;
 
     public float Distance = 0;
 
@@ -57,14 +57,14 @@ public class VehicleController : MonoBehaviour
                 }
                 else
                 {
-                    Distance += 2;
+                    Distance += 4;
                     DistanceShow.text = Distance.ToString();
                 }
             }
 
             if (moving)
             {
-                transform.position = Vector3.MoveTowards(transform.position, EndPos, .0042f);
+                transform.position = Vector3.MoveTowards(transform.position, EndPos, .005f);
             }
         }
     }
@@ -77,7 +77,7 @@ public class VehicleController : MonoBehaviour
             moving = true;
         }
 
-        MovingTimerForLimit = 2;
+        MovingTimerForLimit = 3;
     }
 
     public void GameFinish()
