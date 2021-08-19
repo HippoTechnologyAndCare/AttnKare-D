@@ -569,13 +569,6 @@ GameObject:
   - component: {fileID: 116925696}
   - component: {fileID: 116925695}
   - component: {fileID: 116925694}
-  - component: {fileID: 116925708}
-  - component: {fileID: 116925707}
-  - component: {fileID: 116925706}
-  - component: {fileID: 116925705}
-  - component: {fileID: 116925704}
-  - component: {fileID: 116925703}
-  - component: {fileID: 116925702}
   m_Layer: 0
   m_Name: BOXBUTTON 9
   m_TagString: Untagged
@@ -592,7 +585,7 @@ Transform:
   m_GameObject: {fileID: 116925692}
   m_LocalRotation: {x: -0.7070954, y: -0.0040232027, z: -0.0040232027, w: 0.7070954}
   m_LocalPosition: {x: 4.049785, y: -1.2737235, z: 0.99999833}
-  m_LocalScale: {x: 7.624967, y: 13.036006, z: 6.170913}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1931814691}
   - {fileID: 905420450}
@@ -843,92 +836,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.017346233, y: 0.044035017, z: 0.1462413}
-  m_Center: {x: -0.06562103, y: -0.00045469403, z: 0.000044882298}
---- !u!114 &116925702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 116925692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fee8279a47ff75f46b7c852ece1888d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &116925703
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 116925692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fee8279a47ff75f46b7c852ece1888d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &116925704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 116925692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fee8279a47ff75f46b7c852ece1888d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &116925705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 116925692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fee8279a47ff75f46b7c852ece1888d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &116925706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 116925692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fee8279a47ff75f46b7c852ece1888d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &116925707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 116925692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fee8279a47ff75f46b7c852ece1888d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &116925708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 116925692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fee8279a47ff75f46b7c852ece1888d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Size: {x: 7.624967, y: 13.036006, z: 6.170913}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &163090144
 GameObject:
   m_ObjectHideFlags: 0
@@ -1687,7 +1596,7 @@ GameObject:
   - component: {fileID: 313778102}
   m_Layer: 0
   m_Name: watch checker
-  m_TagString: Necessary
+  m_TagString: Unnecessary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1727,7 +1636,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 313778100}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.0011227446, y: 0.013999998, z: 0.009799997}
@@ -60811,7 +60720,7 @@ GameObject:
   - component: {fileID: 1815065514343964894}
   m_Layer: 0
   m_Name: potplant_03
-  m_TagString: Necessary
+  m_TagString: Unnecessary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -100627,7 +100536,7 @@ GameObject:
   - component: {fileID: 6444758471679170245}
   m_Layer: 0
   m_Name: potplant_02
-  m_TagString: Necessary
+  m_TagString: Unnecessary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -111816,7 +111725,7 @@ GameObject:
   - component: {fileID: 7841492547816022550}
   m_Layer: 0
   m_Name: potplant_01
-  m_TagString: Necessary
+  m_TagString: Unnecessary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
