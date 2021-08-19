@@ -16,7 +16,7 @@ public class BGMcontroller : MonoBehaviour
 
     public void PlayBGMByTypes(string Type)
     {
-        if (audioSource.clip != null || audioSource.isPlaying)
+        if (audioSource.clip != null)
         {
             audioSource.Stop();
             audioSource.clip = null;
@@ -25,10 +25,12 @@ public class BGMcontroller : MonoBehaviour
         if (Type == "INTRO")
         {
             audioSource.clip = Intro;
+            audioSource.loop = false;
         }
         else if (Type == "BGM")
         {
             audioSource.clip = BGM;
+            audioSource.loop = true;
         }
 
         audioSource.Play();
@@ -36,7 +38,7 @@ public class BGMcontroller : MonoBehaviour
 
     IEnumerator PlayIntro()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         PlayBGMByTypes("INTRO");
     }
 }
