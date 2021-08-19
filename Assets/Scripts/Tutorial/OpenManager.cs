@@ -50,17 +50,25 @@ using UserData;
         childName = dataManager.userInfo.Name;
 
 
-        if(PlayerPrefs.HasKey("Name") || childName != null)
+        if(PlayerPrefs.HasKey("Name"))
         {
-            prevChildName = PlayerPrefs.GetString("Name");
-            if(prevChildName == childName)
+            if(childName != null)
+            {
+                prevChildName = PlayerPrefs.GetString("Name");
+                if (prevChildName == childName)
+                {
+                    state = "END";
+                }
+                else
+                {
+                    state = "OPEN";
+                }
+
+            }else
             {
                 state = "END";
             }
-            else
-            {
-                state = "OPEN";
-            }
+            
 
         }
         else

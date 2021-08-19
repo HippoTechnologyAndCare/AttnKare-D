@@ -494,7 +494,7 @@ public class TubeScoreboard : MonoBehaviour
             RecordStageClearTime(stageCounter);
             RecordStageDrops(stageCounter);
             RecordData(endOfGame, gameFailed);
-            scoreText.GetComponent<Text>().text = "성공!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n" + WriteStageClearTime();
+            scoreText.GetComponent<Text>().text = "성공!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime();
             AddBreakPoint("Successfully finished game");
             dataRecorded = true;
 
