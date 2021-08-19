@@ -77,7 +77,7 @@ public class EasyTubeBall : MonoBehaviour
             /*Debug.Log("Ball out");*/
             ScoreCheck = false;
             gameObject.SetActive(false);
-            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().ballUpdate(gameObject);
+            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().BallUpdate(gameObject);
         }
     }
 
@@ -87,7 +87,7 @@ public class EasyTubeBall : MonoBehaviour
         if (other.gameObject.tag == "Checker1" && GetComponent<Renderer>().sharedMaterial == tubeBall1)
         {
             ScoreCheck = true;
-            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().ballUpdate(gameObject);
+            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().BallUpdate(gameObject);
         } 
         else if (other.gameObject.tag == "Checker1" && GetComponent<Renderer>().sharedMaterial != tubeBall1)
         {
@@ -95,14 +95,14 @@ public class EasyTubeBall : MonoBehaviour
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall();
             resetBall();
             gameObject.SetActive(false);
-            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().ballUpdate(gameObject);
+            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().BallUpdate(gameObject);
         }
 
         // Light Purple Tube
         if (other.gameObject.tag == "Checker2" && GetComponent<Renderer>().sharedMaterial == tubeBall2)
         {
             ScoreCheck = true;
-            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().ballUpdate(gameObject);
+            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().BallUpdate(gameObject);
         }
         else if (other.gameObject.tag == "Checker2" && GetComponent<Renderer>().sharedMaterial != tubeBall2)
         {
@@ -110,14 +110,14 @@ public class EasyTubeBall : MonoBehaviour
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall();
             resetBall();
             gameObject.SetActive(false);
-            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().ballUpdate(gameObject);
+            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().BallUpdate(gameObject);
         }
 
         // Turqoise Tube
         if (other.gameObject.tag == "Checker3" && GetComponent<Renderer>().sharedMaterial == tubeBall3)
         {
             ScoreCheck = true;
-            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().ballUpdate(gameObject);
+            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().BallUpdate(gameObject);
         }
         else if (other.gameObject.tag == "Checker3" && GetComponent<Renderer>().sharedMaterial != tubeBall3)
         {
@@ -125,7 +125,7 @@ public class EasyTubeBall : MonoBehaviour
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall();
             resetBall();
             gameObject.SetActive(false);
-            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().ballUpdate(gameObject);
+            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().BallUpdate(gameObject);
         }
     }
 

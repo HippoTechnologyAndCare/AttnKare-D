@@ -338,8 +338,8 @@ using UserData;
         PlayerPrefs.SetString("State", "OPEN");
         yield return new WaitForSeconds(1.2f);
 
-        
-        SceneLoader.LoadScene("OPENEND");
+
+        Application.Quit();
 
 
 

@@ -333,7 +333,7 @@ public class TubeScoreboard : MonoBehaviour
     }
 
     // Updates score on each ball collision
-    public void scoreUpdate(GameObject ball)
+    public void ScoreUpdate(GameObject ball)
     {
         // First Check if Ball is Active and Update Lists
         CheckBallActive(ball);
@@ -403,7 +403,7 @@ public class TubeScoreboard : MonoBehaviour
     }
 
     // Update ball status on every collision
-    public void ballUpdate(GameObject ball)
+    public void BallUpdate(GameObject ball)
     {
         // Checks for
         // 1. Correct Ball Input
@@ -470,7 +470,7 @@ public class TubeScoreboard : MonoBehaviour
         }
 
         // Updates Score After Ball State has changed
-        scoreUpdate(ball);
+        ScoreUpdate(ball);
     }
 
     // Wait 5 seconds (Coroutine)
@@ -516,21 +516,21 @@ public class TubeScoreboard : MonoBehaviour
                 ball.GetComponent<TubeBall>().resetBall();
                 ball.GetComponent<TubeBall>().ScoreCheck = false;
                 ball.SetActive(false);
-                ballUpdate(ball);
+                BallUpdate(ball);
             }
             foreach (GameObject ball in successBalls2)
             {
                 ball.GetComponent<TubeBall>().resetBall();
                 ball.GetComponent<TubeBall>().ScoreCheck = false;
                 ball.SetActive(false);
-                ballUpdate(ball);
+                BallUpdate(ball);
             }
             foreach (GameObject ball in successBalls3)
             {
                 ball.GetComponent<TubeBall>().resetBall();
                 ball.GetComponent<TubeBall>().ScoreCheck = false;
                 ball.SetActive(false);
-                ballUpdate(ball);
+                BallUpdate(ball);
             }
 
             successBalls1.Clear();
