@@ -77,7 +77,7 @@ public class TubeBall : MonoBehaviour
             /*Debug.Log("Ball out");*/
             ScoreCheck = false;
             gameObject.SetActive(false);
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().BallUpdate(gameObject);
         }
     }
 
@@ -87,7 +87,7 @@ public class TubeBall : MonoBehaviour
         if (other.gameObject.tag == "Checker1" && GetComponent<Renderer>().sharedMaterial == tubeBall1)
         {
             ScoreCheck = true;
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().BallUpdate(gameObject);
         } 
         else if (other.gameObject.tag == "Checker1" && GetComponent<Renderer>().sharedMaterial != tubeBall1)
         {
@@ -95,14 +95,14 @@ public class TubeBall : MonoBehaviour
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall(); // Play sound when wrong ball is put in
             resetBall();
             gameObject.SetActive(false);
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().BallUpdate(gameObject);
         }
 
         // Light Purple Tube
         if (other.gameObject.tag == "Checker2" && GetComponent<Renderer>().sharedMaterial == tubeBall2)
         {
             ScoreCheck = true;
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().BallUpdate(gameObject);
         }
         else if (other.gameObject.tag == "Checker2" && GetComponent<Renderer>().sharedMaterial != tubeBall2)
         {
@@ -110,14 +110,14 @@ public class TubeBall : MonoBehaviour
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall(); // Play sound when wrong ball is put in
             resetBall();
             gameObject.SetActive(false);
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().BallUpdate(gameObject);
         }
 
         // Turqoise Tube
         if (other.gameObject.tag == "Checker3" && GetComponent<Renderer>().sharedMaterial == tubeBall3)
         {
             ScoreCheck = true;
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().BallUpdate(gameObject);
         }
         else if (other.gameObject.tag == "Checker3" && GetComponent<Renderer>().sharedMaterial != tubeBall3)
         {
@@ -125,7 +125,7 @@ public class TubeBall : MonoBehaviour
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall(); // Play sound when wrong ball is put in
             resetBall();
             gameObject.SetActive(false);
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().ballUpdate(gameObject);
+            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().BallUpdate(gameObject);
         }
     }
 

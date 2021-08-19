@@ -337,7 +337,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     }
 
     // Updates score on each ball collision
-    void scoreUpdate(GameObject ball)
+    void ScoreUpdate(GameObject ball)
     {
         // First Check if Ball is Active and Update Lists
         CheckBallActive(ball);
@@ -407,7 +407,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     }
 
     // Update ball status on every collision
-    public void ballUpdate(GameObject ball)
+    public void BallUpdate(GameObject ball)
     {
         // Checks for
         // 1. Correct Ball Input
@@ -474,7 +474,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         }
 
         // Updates Score After Ball State has changed
-        scoreUpdate(ball);
+        ScoreUpdate(ball);
     }
 
     // Wait 5 seconds (Coroutine)
@@ -520,21 +520,21 @@ public class EasyTubeScoreboard : MonoBehaviour
                 ball.GetComponent<EasyTubeBall>().resetBall();
                 ball.GetComponent<EasyTubeBall>().ScoreCheck = false;
                 ball.SetActive(false);
-                ballUpdate(ball);
+                BallUpdate(ball);
             }
             foreach (GameObject ball in successBalls2)
             {
                 ball.GetComponent<EasyTubeBall>().resetBall();
                 ball.GetComponent<EasyTubeBall>().ScoreCheck = false;
                 ball.SetActive(false);
-                ballUpdate(ball);
+                BallUpdate(ball);
             }
             foreach (GameObject ball in successBalls3)
             {
                 ball.GetComponent<EasyTubeBall>().resetBall();
                 ball.GetComponent<EasyTubeBall>().ScoreCheck = false;
                 ball.SetActive(false);
-                ballUpdate(ball);
+                BallUpdate(ball);
             }
 
             successBalls1.Clear();
