@@ -94,7 +94,7 @@ public class Scoop : MonoBehaviour
         if(collision.gameObject.tag == "Boundary" || collision.gameObject.tag == "Terrain")
         {
             resetScoop();
-        }
+        }        
     }
 
     private void resetScoop()
