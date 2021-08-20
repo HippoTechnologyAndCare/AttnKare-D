@@ -64,7 +64,7 @@ public class VehicleController : MonoBehaviour
 
             if (moving)
             {
-                transform.position = Vector3.MoveTowards(transform.position, EndPos, .005f);
+                transform.position = Vector3.MoveTowards(transform.position, EndPos, .008f);
             }
         }
     }
