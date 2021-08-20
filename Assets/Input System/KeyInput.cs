@@ -47,8 +47,6 @@ public class KeyInput : MonoBehaviour
         inputMoveScene = new InputMoveScene();      
     }
     
-
-
     private void OnEnable()
     {        
         inputMoveScene.SceneCotrolMap.MoveToScene_1.performed += GoToScene_1;
@@ -138,7 +136,7 @@ public class KeyInput : MonoBehaviour
     private void GoToScene_10(InputAction.CallbackContext obj)
     {
         // input scene으로 가게 할 예정임 (몇 가지 문제가 있어서 해결이 되면 가능)
-        buildIndex = 100;
+        buildIndex = 0;
         SceneLoader.LoadScene(buildIndex);
     }
 }
