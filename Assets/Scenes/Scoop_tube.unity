@@ -27757,6 +27757,7 @@ MonoBehaviour:
   Tools: {fileID: 462074617}
   toolList: []
   audioTrigger: {fileID: 1943069604}
+  skipButton: {fileID: 2026753408}
   left1: 0
   left2: 0
   left3: 0
@@ -43492,6 +43493,11 @@ PrefabInstance:
       propertyPath: onButtonDown.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: FinishButtonScoop, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 2956525074295166127, guid: e4ba92361369c7a4db66ed05d1cad342,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.001
+      objectReference: {fileID: 0}
     - target: {fileID: 3554809518044736527, guid: e4ba92361369c7a4db66ed05d1cad342,
         type: 3}
       propertyPath: m_Enabled
@@ -43505,7 +43511,7 @@ PrefabInstance:
     - target: {fileID: 5455278616831387861, guid: e4ba92361369c7a4db66ed05d1cad342,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0233
+      value: -0.0196
       objectReference: {fileID: 0}
     - target: {fileID: 5455278617200238628, guid: e4ba92361369c7a4db66ed05d1cad342,
         type: 3}
@@ -43606,6 +43612,12 @@ MonoBehaviour:
   FinishCanvas: {fileID: 342708045}
   buildindex: 9
   scoreboard: {fileID: 1461856027}
+--- !u!1 &2026753408 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5455278617200238629, guid: e4ba92361369c7a4db66ed05d1cad342,
+    type: 3}
+  m_PrefabInstance: {fileID: 2026753405}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2034933525
 GameObject:
   m_ObjectHideFlags: 0

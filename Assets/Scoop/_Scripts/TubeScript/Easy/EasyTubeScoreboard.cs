@@ -235,7 +235,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     }
 
     // Debugging Tool 1
-    void InGameDebugger()
+    public void InGameDebugger()
     {
         debugText.GetComponent<Text>().text = "Number of Balls: " + Balls.Count
             + "\n\nSuccess Balls 1: " + successBalls1.Count

@@ -81,8 +81,8 @@ public class NetworkManager : MonoBehaviour
         }
         else
         {
-            formData.AddBinaryData("clueanupmyroom_txt", File.ReadAllBytes(resPath + "/5_Behavior.txt"), "clueanupmyroom_txt.txt", "application/octet-stream");
-            formData.AddBinaryData("clueanupmyroom_mp3", File.ReadAllBytes(resPath + "/5.mp3"), "clueanupmyroom_mp3.mp3", "application/octet-stream");
+            formData.AddBinaryData("cleanupmyroom_txt", File.ReadAllBytes(resPath + "/5_Behavior.txt"), "cleanupmyroom_txt.txt", "application/octet-stream");
+            formData.AddBinaryData("cleanupmyroom_mp3", File.ReadAllBytes(resPath + "/5.mp3"), "cleanupmyroom_mp3.mp3", "application/octet-stream");
             formData.AddBinaryData("playpaddle_txt", File.ReadAllBytes(resPath + "/6_Behavior.txt"), "playpaddle_txt.txt", "application/octet-stream");
             formData.AddBinaryData("playpaddle_mp3", File.ReadAllBytes(resPath + "/6.mp3"), "playpaddle_mp3.mp3", "application/octet-stream");
 
