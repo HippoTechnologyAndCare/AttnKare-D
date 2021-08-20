@@ -43477,6 +43477,21 @@ PrefabInstance:
       propertyPath: FinishCanvas
       value: 
       objectReference: {fileID: 342708045}
+    - target: {fileID: 2241436189192890596, guid: e4ba92361369c7a4db66ed05d1cad342,
+        type: 3}
+      propertyPath: onButtonDown.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2026753407}
+    - target: {fileID: 2241436189192890596, guid: e4ba92361369c7a4db66ed05d1cad342,
+        type: 3}
+      propertyPath: onButtonDown.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonDown
+      objectReference: {fileID: 0}
+    - target: {fileID: 2241436189192890596, guid: e4ba92361369c7a4db66ed05d1cad342,
+        type: 3}
+      propertyPath: onButtonDown.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: FinishButtonScoop, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 3554809518044736527, guid: e4ba92361369c7a4db66ed05d1cad342,
         type: 3}
       propertyPath: m_Enabled
@@ -43565,7 +43580,7 @@ PrefabInstance:
     - target: {fileID: 5455278617200238629, guid: e4ba92361369c7a4db66ed05d1cad342,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2241436189192890594, guid: e4ba92361369c7a4db66ed05d1cad342, type: 3}
