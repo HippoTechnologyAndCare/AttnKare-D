@@ -32,6 +32,7 @@ public class Scoop : MonoBehaviour
             if (Vector3.Distance(gameObject.transform.position, headCamera.position) > 150f)
             {
                 ResetScoop();
+                Debug.Log("Too Far Away");
             }
             timer = 0;
         }
@@ -92,6 +93,7 @@ public class Scoop : MonoBehaviour
         if(collision.gameObject.tag == "Boundary" || collision.gameObject.tag == "Terrain")
         {
             ResetScoop();
+            Debug.Log("Hit Boundary");
         }        
     }
 
