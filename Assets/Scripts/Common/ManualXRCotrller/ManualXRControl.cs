@@ -9,8 +9,29 @@ using UnityEditor.SceneManagement;
 public class ManualXRControl : MonoBehaviour
 {
 
-    static public ManualXRControl instance;
+    static public ManualXRControl MXC_Instance;
     
+    public static ManualXRControl Instance
+    {
+        get
+        {
+            if (MXC_Instance == null)
+            {
+                ManualXRControl manualXRControl = (ManualXRControl)GameObject.FindObjectOfType(typeof(ManualXRControl));
+                if (manualXRControl != null)
+                {
+                    MXC_Instance = manualXRControl;
+                }
+                else
+                {
+                    GameObject MXCPrefab = Resources.Load<GameObject>("Prefabs/CommonPrefabs/ManualXRController");
+                    MXC_Instance = (GameObject.Instantiate(MXCPrefab)).GetComponent<ManualXRControl>();
+                }
+            }
+            return MXC_Instance;
+        }
+    }
+
     public IEnumerator StartXR()
     {
         Debug.Log("Initializing XR...");
@@ -48,18 +69,19 @@ public class ManualXRControl : MonoBehaviour
 
     private void Awake()
     {
+        DontDestroyOnLoad(this.gameObject);
+
+
+        if (MXC_Instance != null && MXC_Instance != this)
+        {
+            Destroy(MXC_Instance.gameObject);
+            MXC_Instance = this;
+        }
+    }
+
+    private void Start()
+    {
         AutoStartXR();
-        
-            // Scene 시작시 Safty 처리하는 If문 // 인스턴스는 널이 아닌 경우에 한해 -> 인스턴스가 자신(this)이 아닐때 셀프 파괴
-            //if (instance != null)
-            //{
-            //    if (instance != this)
-            //    {
-            //        Destroy(gameObject);
-            //        return;
-            //    }
-            //}
-            //DontDestroyOnLoad(gameObject);     
     }
 
     private void AutoStartXR()
@@ -70,55 +92,14 @@ public class ManualXRControl : MonoBehaviour
         sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;
 #endif
 
-        switch (sceneIndex)
+        if (sceneIndex == 0)
         {
-            case 0:
-                StopXR();
-                break;
-            case 1:
-                StartCoroutine("StartXR");
-                break;
-            case 2:
-                StartCoroutine("StartXR");
-                break;
-            case 3:
-                StartCoroutine("StartXR");
-                break;
-            case 4:
-                StartCoroutine("StartXR");
-                break;
-            case 5:
-                StartCoroutine("StartXR");
-                break;
-            case 6:
-                StartCoroutine("StartXR");
-                break;
-            case 7:
-                StartCoroutine("StartXR");
-                break;
-            case 8:
-                StartCoroutine("StartXR");
-                break;
-            case 9:
-                StartCoroutine("StartXR");
-                break;
-            case 10:
-                StartCoroutine("StartXR");
-                break;
-            case 11:
-                StartCoroutine("StartXR");
-                break;
+            StopXR();
         }
-    }
-
-    private void Start()
-    {
-        
-    }
-
-    private void Update()
-    {
-        
-    }
+        else
+        {
+            StartCoroutine("StartXR");
+        }                        
+    }    
 }
 

@@ -2,7 +2,7 @@
     "name": "InputMoveScene",
     "maps": [
         {
-            "name": "SceneControlMap",
+            "name": "SceneCotrolMap",
             "id": "1bf1c08a-9cb0-4dc3-ae17-9e5e0db58ad8",
             "actions": [
                 {
@@ -73,6 +73,14 @@
                     "name": "MoveToScene_9",
                     "type": "Button",
                     "id": "3aa0ac06-f190-414d-81b3-5ea781df9819",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "MoveToScene_10",
+                    "type": "Button",
+                    "id": "e35c729d-7e45-4ff6-8bc2-07e785e2013f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -274,6 +282,28 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "MoveToScene_9",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "98a30160-f1eb-4fb2-8941-067b152f4a72",
+                    "path": "<Keyboard>/0",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MoveToScene_10",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d25d0e4b-b1ba-47a7-ad15-7f2253272d66",
+                    "path": "<Keyboard>/numpad0",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MoveToScene_10",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
