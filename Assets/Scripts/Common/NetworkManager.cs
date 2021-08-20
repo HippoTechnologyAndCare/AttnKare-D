@@ -11,7 +11,8 @@ public class NetworkManager : MonoBehaviour
 
     string ServerURL_upload = "http://jdi.bitzflex.com:4005/upload_all_files";   //upload
 
-    public string outputpath = @"C:\Report.pdf";
+    public string outputpath = @"";
+    string pdfFormat = ".pdf";
 
 
     public void DoSendToTextMsg()
@@ -60,7 +61,8 @@ public class NetworkManager : MonoBehaviour
         formData.AddField("gender", DataManager.GetInstance().userInfo.Gender);
         formData.AddField("age", DataManager.GetInstance().userInfo.Age);
 
-        formData.AddBinaryData("json", File.ReadAllBytes(resPath + "/UserData.json"), "data.json", "application/octet-stream");
+        formData.AddBinaryData("json", File.ReadAllBytes(resPath + "/UserData.json"), "UserData.json", "application/octet-stream");
+
 
         formData.AddBinaryData("tutorial_txt", File.ReadAllBytes(resPath + "/9_Behavior.txt"), "tutorial_txt.txt", "application/octet-stream");
         formData.AddBinaryData("tutorial_mp3", File.ReadAllBytes(resPath + "/9.mp3"), "tutorial_mp3.mp3", "application/octet-stream");
@@ -104,7 +106,7 @@ public class NetworkManager : MonoBehaviour
         else
         {
             Debug.Log(webRequest.downloadHandler.text + " /////////// Form upload complete");
-            File.WriteAllBytes(outputpath, webRequest.downloadHandler.data);
+            File.WriteAllBytes(outputpath + DataManager.GetInstance().userInfo.Name + pdfFormat, webRequest.downloadHandler.data);
         }
     }
 }
