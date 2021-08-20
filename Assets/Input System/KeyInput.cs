@@ -6,72 +6,86 @@ using UnityEngine.InputSystem;
 using KetosGames.SceneTransition;
 
 public class KeyInput : MonoBehaviour
-{  
+{
+    private static KeyInput KeyInputInstance;
+
     private InputMoveScene inputMoveScene;
 
-    static public KeyInput instance;
-
     private int buildIndex;
-    private int Length;
-    private bool isOverlapped;
+
+    public static KeyInput Instance
+    {
+        get
+        {
+            if (KeyInputInstance == null)
+            {
+                KeyInput keyInput = (KeyInput)GameObject.FindObjectOfType(typeof(KeyInput));
+                if (keyInput != null)
+                {
+                    KeyInputInstance = keyInput;
+                }
+                else
+                {
+                    GameObject KeyInputPrefab = Resources.Load<GameObject>("Prefabs/CommonPrefabs/KeyInput");
+                    KeyInputInstance = (GameObject.Instantiate(KeyInputPrefab)).GetComponent<KeyInput>();
+                }
+            }
+            return KeyInputInstance;
+        }
+    }
 
     private void Awake()
     {
-        var objs = FindObjectOfType<KeyInput>();
+        DontDestroyOnLoad(this.gameObject);
 
-        if (objs.Length == 1)
+
+        if (KeyInputInstance != null && KeyInputInstance != this)
         {
-            DontDestroyOnLoad(gameObject);
+            Destroy(KeyInputInstance.gameObject);
+            KeyInputInstance = this;
         }
-
-        else
-        {
-            Destroy(gameObject);
-        }
-
         inputMoveScene = new InputMoveScene();      
     }
     
+
+
     private void OnEnable()
     {        
-        inputMoveScene.SceneControlMap.MoveToScene_1.performed += GoToScene_1;
-        inputMoveScene.SceneControlMap.MoveToScene_2.performed += GoToScene_2;
-        inputMoveScene.SceneControlMap.MoveToScene_3.performed += GoToScene_3;
-        inputMoveScene.SceneControlMap.MoveToScene_4.performed += GoToScene_4;
-        inputMoveScene.SceneControlMap.MoveToScene_5.performed += GoToScene_5;
-        inputMoveScene.SceneControlMap.MoveToScene_6.performed += GoToScene_6;
-        inputMoveScene.SceneControlMap.MoveToScene_7.performed += GoToScene_7;
-        inputMoveScene.SceneControlMap.MoveToScene_8.performed += GoToScene_8;
-        inputMoveScene.SceneControlMap.MoveToScene_9.performed += GoToScene_9;
-        // 사용 안함
-        //inputMoveScene.SceneControlMap.MoveToScene_10.performed += GoToScene_10;
+        inputMoveScene.SceneCotrolMap.MoveToScene_1.performed += GoToScene_1;
+        inputMoveScene.SceneCotrolMap.MoveToScene_2.performed += GoToScene_2;
+        inputMoveScene.SceneCotrolMap.MoveToScene_3.performed += GoToScene_3;
+        inputMoveScene.SceneCotrolMap.MoveToScene_4.performed += GoToScene_4;
+        inputMoveScene.SceneCotrolMap.MoveToScene_5.performed += GoToScene_5;
+        inputMoveScene.SceneCotrolMap.MoveToScene_6.performed += GoToScene_6;
+        inputMoveScene.SceneCotrolMap.MoveToScene_7.performed += GoToScene_7;
+        inputMoveScene.SceneCotrolMap.MoveToScene_8.performed += GoToScene_8;
+        inputMoveScene.SceneCotrolMap.MoveToScene_9.performed += GoToScene_9;
+        inputMoveScene.SceneCotrolMap.MoveToScene_10.performed += GoToScene_10;
 
-        inputMoveScene.SceneControlMap.MoveToScene_1.Enable();
-        inputMoveScene.SceneControlMap.MoveToScene_2.Enable();
-        inputMoveScene.SceneControlMap.MoveToScene_3.Enable();
-        inputMoveScene.SceneControlMap.MoveToScene_4.Enable();
-        inputMoveScene.SceneControlMap.MoveToScene_5.Enable();
-        inputMoveScene.SceneControlMap.MoveToScene_6.Enable();
-        inputMoveScene.SceneControlMap.MoveToScene_7.Enable();
-        inputMoveScene.SceneControlMap.MoveToScene_8.Enable();
-        inputMoveScene.SceneControlMap.MoveToScene_9.Enable();
-        // 사용 안함
-        //inputMoveScene.SceneControlMap.MoveToScene_10.Enable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_1.Enable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_2.Enable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_3.Enable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_4.Enable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_5.Enable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_6.Enable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_7.Enable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_8.Enable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_9.Enable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_10.Enable();
     }
 
     private void OnDisable()
     {
-        inputMoveScene.SceneControlMap.MoveToScene_1.Disable();
-        inputMoveScene.SceneControlMap.MoveToScene_2.Disable();
-        inputMoveScene.SceneControlMap.MoveToScene_3.Disable();
-        inputMoveScene.SceneControlMap.MoveToScene_4.Disable();
-        inputMoveScene.SceneControlMap.MoveToScene_5.Disable();
-        inputMoveScene.SceneControlMap.MoveToScene_6.Disable();
-        inputMoveScene.SceneControlMap.MoveToScene_7.Disable();
-        inputMoveScene.SceneControlMap.MoveToScene_8.Disable();
-        inputMoveScene.SceneControlMap.MoveToScene_9.Disable();
-        // 사용 안함
-        //inputMoveScene.SceneControlMap.MoveToScene_10.Disable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_1.Disable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_2.Disable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_3.Disable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_4.Disable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_5.Disable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_6.Disable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_7.Disable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_8.Disable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_9.Disable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_10.Disable();
     }
 
     private void GoToScene_1(InputAction.CallbackContext obj)
@@ -121,11 +135,10 @@ public class KeyInput : MonoBehaviour
         buildIndex = 9;
         SceneLoader.LoadScene(buildIndex);
     }
-
-    // 사용 안함
-    //private void GoToScene_10(InputAction.CallbackContext obj)
-    //{
-    //    buildIndex = 10;
-    //    SceneLoader.LoadScene(buildIndex);
-    //}
+    private void GoToScene_10(InputAction.CallbackContext obj)
+    {
+        // input scene으로 가게 할 예정임 (몇 가지 문제가 있어서 해결이 되면 가능)
+        buildIndex = 100;
+        SceneLoader.LoadScene(buildIndex);
+    }
 }
