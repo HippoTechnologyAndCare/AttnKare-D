@@ -34,9 +34,9 @@ public class TubeScoreboard : MonoBehaviour
     [HideInInspector] public string clearTime1 = ""; // Stage 1 Clear Time
     [HideInInspector] public string clearTime2 = ""; // Stage 2 Clear Time
     [HideInInspector] public string clearTime3 = ""; // Stage 3 Clear Time
-    public float time1 = -1f; // Stage 1 Clear Time (float)
-    public float time2 = -1f; // Stage 2 Clear Time (float)
-     public float time3 = -1f; // Stage 3 Clear Time (float)
+    public float time1 = -1f; // Stage 1 Clear Time (float) -1 is default value
+    public float time2 = -1f; // Stage 2 Clear Time (float) -1 is default value
+    public float time3 = -1f; // Stage 3 Clear Time (float) -1 is default value
     [HideInInspector] public int score1 = 0; // Yellow Ball
     [HideInInspector] public int score2 = 0; // Light Purple Ball
     [HideInInspector] public int score3 = 0; // Turqoise Ball
@@ -228,7 +228,7 @@ public class TubeScoreboard : MonoBehaviour
         yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + EditorSceneManager.GetActiveScene().buildIndex.ToString() + ".mp3"));
 #endif
 
-        SceneLoader.LoadScene(10);
+        SceneLoader.LoadScene(12);
     }
 
     // Debugging Tool 1
@@ -631,7 +631,7 @@ public class TubeScoreboard : MonoBehaviour
             results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nTerminated(Stage " + stageCounter + ")\n";
         }
 
-        //GetComponent<SaveScoopData>().SaveTempSceneData(results); // Change location of this if necessary
+        if(GetComponent<SaveScoopData>() != null) GetComponent<SaveScoopData>().SaveTempSceneData(results); // Change location of this if necessary
     }
 
     // Record Stage Clear Time for Each Stage

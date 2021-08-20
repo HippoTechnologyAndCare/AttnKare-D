@@ -8,14 +8,14 @@ using TMPro;
 using UnityEngine.Rendering;
 using KetosGames.SceneTransition;
 using UserData;
-    public class OpenManager : MonoBehaviour
-    {
-       
-        public GameObject PlayerController;
-        public GameObject Ghost;
-        public GameObject Door;
-        public Volume global;
-        public Transform Logo;
+public class OpenManager : MonoBehaviour
+{
+
+    public GameObject PlayerController;
+    public GameObject Ghost;
+    public GameObject Door;
+    public Volume global;
+    public Transform Logo;
     public Transform TransitionIN;
     public Transform TransitionOut;
 
@@ -23,21 +23,21 @@ using UserData;
 
 
 
-        public float speed;
-        public Transform SpeechBubble;
+    public float speed;
+    public Transform SpeechBubble;
 
-        private float Timer = 0;
-        private string state;
-        bool fadeColor = false;
-        float GhostRot;
-        int audioIndex;
-    string childName;
-    string prevChildName;
-        Vector3 desPos;
-        DataManager dataManager;
-        VolumeProfile globalVolume;
-       
-        ColorAdjustments _coloradjustment = null;
+    private float Timer = 0;
+    private string state;
+    bool fadeColor = false;
+    float GhostRot;
+    int audioIndex;
+    string childCode;
+    string prevChildCode;
+    Vector3 desPos;
+    DataManager dataManager;
+    VolumeProfile globalVolume;
+
+    ColorAdjustments _coloradjustment = null;
 
 
 
@@ -46,52 +46,52 @@ using UserData;
     private void Awake()
     {
         GameObject JasonManager = GameObject.Find("DataManager");
-        dataManager = JasonManager.GetComponent<DataManager>();
-        childName = dataManager.userInfo.Name;
 
 
-        if(PlayerPrefs.HasKey("Name"))
+        if (PlayerPrefs.HasKey("Code"))
         {
-            if(childName != null)
+            
+            if (JasonManager)
             {
-                prevChildName = PlayerPrefs.GetString("Name");
-                if (prevChildName == childName)
+                dataManager = JasonManager.GetComponent<DataManager>();
+                childCode = dataManager.userInfo.FolderName;
+
+                Debug.Log(childCode);
+                prevChildCode = PlayerPrefs.GetString("Code");
+
+
+                if (prevChildCode == childCode)
                 {
-                    state = "END";
+                    state = "END"; //아동이 처음부터 재시작
                 }
                 else
                 {
-                    state = "OPEN";
+                    state = "OPEN"; //새로운 아동이 들어옴
                 }
 
-            }else
+
+
+
+            } else
             {
-                state = "END";
+
+                state = "END"; //중간에 다시 시작해 이름이 들어있지 않음
+                //state = "OPEN";
             }
-            
+
 
         }
         else
         {
             state = "OPEN";
         }
-        /*
-        if (PlayerPrefs.HasKey("State"))
-        {
-            state = PlayerPrefs.GetString("State");
 
-        }
-        else
-        {
-            state = "OPEN";
-        }
-        */
     }
     // Start is called before the first frame update
     void Start()
-        {
+    {
 
-        
+        Debug.Log(PlayerPrefs.HasKey("Code"));
         globalVolume = global.sharedProfile;
         globalVolume.TryGet<ColorAdjustments>(out _coloradjustment);
 
@@ -101,9 +101,8 @@ using UserData;
         {
 
             Ghost.transform.position = new Vector3(3.1f, -1.337f, 3.09f);
-          
             _coloradjustment.saturation.value = -100f;
-            StartCoroutine(startOpening());
+            StartCoroutine(StartOpening());
 
 
         }
@@ -111,12 +110,9 @@ using UserData;
         {
             Ghost.transform.position = new Vector3(0.031f, -0.56f, 6.695f);
             _coloradjustment.saturation.value = -10f;
-            StartCoroutine(startEnding());
+            StartCoroutine(StartEnding());
 
         }
-
-
-
 
 
         }
@@ -124,11 +120,8 @@ using UserData;
     // Update is called once per frame
     void Update()
     {
-        
-
         float GhostRot = Ghost.transform.eulerAngles.y;
         SpeechBubble.localPosition = new Vector3(Ghost.transform.localPosition.x + 0.482f, Ghost.transform.localPosition.y + 0.865f, Ghost.transform.localPosition.z) ;
-        ///SpeechBubble.localEulerAngles = new Vector3(SpeechBubble.localEulerAngles.x, GhostRot, SpeechBubble.localEulerAngles.z);
         Logo.localEulerAngles = new Vector3(Logo.localEulerAngles.x, GhostRot, Logo.localEulerAngles.z);
         
         globalVolume = global.sharedProfile;
@@ -158,29 +151,22 @@ using UserData;
                 }
 
 
-                //synchronize rotation of ghost and speech bubbles
-               
-
-
-
-
             }
         }
     }
 
-        private void LateUpdate()
+    private void LateUpdate()
+    {
+        globalVolume = global.sharedProfile;
+        globalVolume.TryGet<ColorAdjustments>(out _coloradjustment);
+        
+        if (_coloradjustment.saturation.value == -10f && state != "END")
         {
-
-            globalVolume = global.sharedProfile;
-            globalVolume.TryGet<ColorAdjustments>(out _coloradjustment);
-
-            if (_coloradjustment.saturation.value == -10f && state != "END")
-            {
-            state = "MID";
-            }
+           state="MID"; ; //fading 끝
+        }
         if (_coloradjustment.saturation.value == -100f && state != "OPEN")
         {
-            state = "MID";
+            state = "MID"; //fading 끝
         }
 
 
@@ -191,7 +177,7 @@ using UserData;
     
  
 
-    IEnumerator lerpDoor()
+    IEnumerator LerpDoor()
     {
         float t = 0;
         while (true)
@@ -213,7 +199,7 @@ using UserData;
 
 
 
-    IEnumerator lerpLOGO()
+    IEnumerator LerpLOGO()
     {
 
 
@@ -241,7 +227,7 @@ using UserData;
 
 
 
-        IEnumerator startOpening()
+        IEnumerator StartOpening()
         {
         TransitionIN.gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);
@@ -264,7 +250,7 @@ using UserData;
         yield return new WaitUntil(() => Ghost.transform.position ==desPos); //wait until it sets position
         fadeColor = true;
 
-        StartCoroutine(lerpLOGO());
+        StartCoroutine(LerpLOGO());
 
 
         yield return new WaitUntil(() => Logo.localScale == new Vector3(0, 0, 0));
@@ -278,7 +264,7 @@ using UserData;
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.053>시작하기 전에\n간단하게 설명해줄게! \n<color=#2e86de>(^ 0 ^)~", audioIndex = 3));
 
         yield return new WaitForSeconds(3.0f);
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>한번 출발해볼까?!\n<color=#2e86de><size=0.074>(o v o)/", audioIndex = 4));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>잠깐만 기다려줘!!\n<color=#2e86de><size=0.074>(o v o)/", audioIndex = 4));
 
 
         desPos = new Vector3(0.031f, -0.664f, 2.823f);
@@ -289,33 +275,36 @@ using UserData;
         yield return new WaitForSeconds(3.0f);
         Ghost.GetComponent<Animator>().SetBool("isJump", false);
 
-        StartCoroutine(lerpDoor());
+        StartCoroutine(LerpDoor());
         desPos = new Vector3(0.031f, -0.519f, 6.885f);
         StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos, 0.5f));
 
 
-        yield return new WaitForSeconds(3.0f);
-       // PlayerPrefs.SetString("State", "END");
-        PlayerPrefs.SetString("Name", childName);
+        yield return new WaitUntil(()=>Ghost.transform.localPosition.z >2.36f);
+        TransitionOut.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(1.8f);
+
+        //PlayerPrefs.SetString("State", "END");
+        PlayerPrefs.SetString("Code", childCode);
         SceneLoader.LoadScene("Tutorial");
-
-
 
 
         yield return new WaitForSeconds(1.0f);
 
 
-
-
         }
 
-    IEnumerator startEnding()
+    IEnumerator StartEnding()
     {
         NetworkManager.DoSendToFinishData();
+        TransitionIN.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.5f);
+        TransitionIN.gameObject.SetActive(false);
         //밖으로 달려나감
         //bool go = true;
-        StartCoroutine(lerpDoor());
+
+        StartCoroutine(LerpDoor());
         desPos = new Vector3(0.031f, -0.56f,3.734f);
         StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos, 0.5f));
         yield return new WaitForSeconds(3.0f);
