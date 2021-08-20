@@ -11,8 +11,6 @@ public class Scoop : MonoBehaviour
     [SerializeField] Transform LShovelCollider;
     [SerializeField] Transform RShovelCollider;
 
-    string collisionString;
-
     [Tooltip("Center Camera of XR Rig")]
     public Transform headCamera;
 
@@ -33,7 +31,8 @@ public class Scoop : MonoBehaviour
         {
             if (Vector3.Distance(gameObject.transform.position, headCamera.position) > 150f)
             {
-                resetScoop();
+                ResetScoop();
+                Debug.Log("Too Far Away");
             }
             timer = 0;
         }
@@ -93,14 +92,16 @@ public class Scoop : MonoBehaviour
         // If ball hits boundary outside room, return it to its original position (Only when object escapes room due to extreme force applied)
         if(collision.gameObject.tag == "Boundary" || collision.gameObject.tag == "Terrain")
         {
-            resetScoop();
-        }
+            ResetScoop();
+            Debug.Log("Hit Boundary");
+        }        
     }
 
-    private void resetScoop()
+    private void ResetScoop()
     {
         gameObject.transform.localPosition = scoopPos;
         gameObject.transform.eulerAngles = scoopRot;
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        Debug.Log("Reset Scoop Function called");
     }
 }
