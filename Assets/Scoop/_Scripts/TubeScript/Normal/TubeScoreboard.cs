@@ -228,7 +228,7 @@ public class TubeScoreboard : MonoBehaviour
         yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + EditorSceneManager.GetActiveScene().buildIndex.ToString() + ".mp3"));
 #endif
 
-        SceneLoader.LoadScene(10);
+        SceneLoader.LoadScene(12);
     }
 
     // Debugging Tool 1
