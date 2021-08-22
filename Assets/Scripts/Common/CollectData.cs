@@ -97,7 +97,7 @@ namespace BNG
             FileName = EditorSceneManager.GetActiveScene().buildIndex.ToString();
 #endif
 
-            // 아래 코드를 막은 이유는 DataManager의 Start 함수와 중복되는 내용
+            // 아래 코드를 막은 이유는 DataManager의 함수와 중복되는 내용
             //FolderName = "NAME" + DateTime.Now.ToString("yyyyMMddHHdd");                                          // UserData.DataManager.GetInstance().userInfo.Name + "_" + UserData.DataManager.GetInstance().userInfo.Gender;
             //FilePath_Root = Application.persistentDataPath + "/" + DateTime.Now.ToString("yyyyMMdd") + "/";       //기본 날짜 묶음 C:\Users\uk308\AppData\LocalLow\HippoTnC\Strengthen_Concentration_VR
             //FilePath_Folder = FilePath_Root + FolderName + "/";

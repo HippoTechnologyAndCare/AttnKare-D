@@ -18465,11 +18465,21 @@ PrefabInstance:
     - target: {fileID: 2631810782926597050, guid: b9ffca821d7fb2640ae22a124dadf085,
         type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2631810782926597050, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: AllowInput
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2631810782926597051, guid: b9ffca821d7fb2640ae22a124dadf085,
         type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2631810782926597051, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: AllowInput
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2631810783057794216, guid: b9ffca821d7fb2640ae22a124dadf085,
@@ -21545,7 +21555,12 @@ PrefabInstance:
     - target: {fileID: 4842569342294394221, guid: b9ffca821d7fb2640ae22a124dadf085,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842569342294394221, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: DefaultLocomotion
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4844378820297734629, guid: b9ffca821d7fb2640ae22a124dadf085,
         type: 3}
@@ -27494,6 +27509,7 @@ PrefabInstance:
     - {fileID: 1664515990380178340, guid: b9ffca821d7fb2640ae22a124dadf085, type: 3}
     - {fileID: 1664515990286523370, guid: b9ffca821d7fb2640ae22a124dadf085, type: 3}
     - {fileID: 1664515990642871183, guid: b9ffca821d7fb2640ae22a124dadf085, type: 3}
+    - {fileID: 7468134577644287289, guid: b9ffca821d7fb2640ae22a124dadf085, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b9ffca821d7fb2640ae22a124dadf085, type: 3}
 --- !u!4 &914906260 stripped
 Transform:
@@ -27757,7 +27773,6 @@ MonoBehaviour:
   Tools: {fileID: 462074617}
   toolList: []
   audioTrigger: {fileID: 1943069604}
-  skipButton: {fileID: 2026753408}
   left1: 0
   left2: 0
   left3: 0
@@ -43612,12 +43627,6 @@ MonoBehaviour:
   FinishCanvas: {fileID: 342708045}
   buildindex: 9
   scoreboard: {fileID: 1461856027}
---- !u!1 &2026753408 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5455278617200238629, guid: e4ba92361369c7a4db66ed05d1cad342,
-    type: 3}
-  m_PrefabInstance: {fileID: 2026753405}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2034933525
 GameObject:
   m_ObjectHideFlags: 0

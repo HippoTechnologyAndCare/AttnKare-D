@@ -25,18 +25,31 @@ namespace UserData
         [SerializeField] private Toggle gradeTg_H;
 
         [SerializeField] private PlayMakerFSM warningFSM;        
+        [SerializeField] private SetPlayerData setPlayerData;
 
         //private int minLength;
         //private int maxLength;
 
         private bool isProb;
 
+        private void Awake()
+        {
+            // KeyInput 컴포넌트가 현재 Scene에 존재한다면 유저정보 입력시 Scene 이동이 될 수 있으므로 파괴한다
+            if(GameObject.Find("KeyInput"))
+            {
+                GameObject findObj = GameObject.Find("KeyInput");
+                Destroy(findObj);
+            }                        
+        }
+
         private void Start()
         {
-            //minLength = 1;
-            //maxLength = 99;
             //inputTxt_Name.characterLimit = 5;
             //inputTxt_Age.characterLimit = 2;
+
+            ManualXRControl.GetInstance().XR_AutoStarter();
+            
+            setPlayerData.ClearDataSetting();            
 
             inputTxt_Name.onValueChanged.AddListener(
                 (word) => inputTxt_Name.text = Regex.Replace(word, @"[^가-힣]", "")
@@ -104,7 +117,6 @@ namespace UserData
             {
                 Directory.CreateDirectory(DataManager.GetInstance().FilePath_Folder);
             }
-
         }
 
         private void Collect_UserInfo()
@@ -194,7 +206,7 @@ namespace UserData
             {
                 DataManager.GetInstance().userInfo.Name = txt_Name.text;
                 DataManager.GetInstance().userInfo.Age = int.Parse(txt_Age.text);
-                DataManager.GetInstance().userInfo.PhoneNumer = txt_Fon.text;
+                DataManager.GetInstance().userInfo.PhoneNumber = txt_Fon.text;
 
                 Check_Gender();
                 Check_Grade();
@@ -203,9 +215,7 @@ namespace UserData
 
                 DataManager.GetInstance().SavePlayerDataToJson();
 
-                GetComponent<NetworkManager>().DoSendToTextMsg();       // <<<< ---------------- 문자전송 추가
-
-                //manualXRControl.StartCoroutine("StartXR");
+                GetComponent<NetworkManager>().DoSendToTextMsg();       // <<<< ---------------- 문자전송 추가                
 
                 SceneLoader.LoadScene("OPENEND");
             }

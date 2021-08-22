@@ -1,35 +1,30 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.XR;
 using UnityEngine.XR.Management;
 using UnityEngine.SceneManagement;
-#if UNITY_EDITOR
-using UnityEditor.SceneManagement;
-#endif
+
 
 public class ManualXRControl : MonoBehaviour
 {
 
-    static public ManualXRControl MXC_Instance;
+    private static ManualXRControl instance;
     
-    public static ManualXRControl Instance
+    public static ManualXRControl GetInstance()
     {
-        get
+        if (instance == null)
         {
-            if (MXC_Instance == null)
+            instance = FindObjectOfType<ManualXRControl>();
+
+            if(instance == null)
             {
-                ManualXRControl manualXRControl = (ManualXRControl)GameObject.FindObjectOfType(typeof(ManualXRControl));
-                if (manualXRControl != null)
-                {
-                    MXC_Instance = manualXRControl;
-                }
-                else
-                {
-                    GameObject MXCPrefab = Resources.Load<GameObject>("Prefabs/CommonPrefabs/ManualXRController");
-                    MXC_Instance = (GameObject.Instantiate(MXCPrefab)).GetComponent<ManualXRControl>();
-                }
+                GameObject container = new GameObject("ManualXRControl");
+
+                instance = container.AddComponent<ManualXRControl>();
             }
-            return MXC_Instance;
         }
+
+        return instance;
     }
 
     public IEnumerator StartXR()
@@ -55,7 +50,31 @@ public class ManualXRControl : MonoBehaviour
         XRGeneralSettings.Instance.Manager.StopSubsystems();
         XRGeneralSettings.Instance.Manager.DeinitializeLoader();
         Debug.Log("XR stopped completely.");
-    }    
+    }
+
+    public void XR_AutoStarter()
+    {
+        int sceneIndex;
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        if (sceneIndex == 0)
+        {
+            if (XRSettings.enabled)
+            {
+                StopXR();
+                Debug.Log("Stop XR");
+            }            
+        }
+        else
+        {
+            if(!XRSettings.enabled)
+            {
+                Debug.Log("Start XR");
+                StartCoroutine("StartXR");
+            }            
+        }
+    }
+
     private void OnApplicationQuit()
     {
         Debug.Log("OnApplicationQuit");
@@ -71,35 +90,31 @@ public class ManualXRControl : MonoBehaviour
     {
         DontDestroyOnLoad(this.gameObject);
 
-
-        if (MXC_Instance != null && MXC_Instance != this)
+        if (instance != null)
         {
-            Destroy(MXC_Instance.gameObject);
-            MXC_Instance = this;
+            if(instance != this)
+            {
+                Destroy(instance.gameObject);
+                return;
+            }
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        AutoStartXR();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void AutoStartXR()
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        int sceneIndex;
-        sceneIndex = SceneManager.GetActiveScene().buildIndex;
-#if UNITY_EDITOR
-        sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;
-#endif
+        Debug.Log("OnSceneLoaded: " + scene.name);
+        Debug.Log(mode);
+        XR_AutoStarter();
+    }
 
-        if (sceneIndex == 0)
-        {
-            StopXR();
-        }
-        else
-        {
-            StartCoroutine("StartXR");
-        }                        
-    }    
+    private void OnDisable()
+    {
+        StopXR();
+    }   
 }
 
