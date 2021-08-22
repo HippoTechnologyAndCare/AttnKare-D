@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System.Reflection;
 
 namespace UserData
 {
@@ -201,7 +199,7 @@ namespace UserData
         public string Name;
         public string _Gender;
         public string Grade;
-        public string PhoneNumer;       // <<<< ---------------------- 오타났어요 Number
+        public string PhoneNumber;
 
         private string _FolderName;
 
@@ -214,7 +212,7 @@ namespace UserData
         //{
         //    this.Name = name;
         //    this._Age = age;
-        //    this.PhoneNumer = phoneNumber;
+        //    this.PhoneNubmer = phoneNumber;
         //    this._Gender = gender;
         //    this._Grade = grade;
         //}

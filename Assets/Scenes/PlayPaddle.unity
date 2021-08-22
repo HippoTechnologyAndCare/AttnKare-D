@@ -73682,7 +73682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7abe05ae0fe07459d7ae7afed8b792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllowInput: 1
+  AllowInput: 0
   inputAxis: 03000000
   RotateAction: {fileID: 0}
   RotationType: 0
@@ -73756,7 +73756,7 @@ MonoBehaviour:
   StaticDrag: 5
   AirDrag: 1
   ForwardDirection: {fileID: 0}
-  AllowInput: 1
+  AllowInput: 0
   UpdateMovement: 1
   inputAxis: 01000000
   MoveAction: {fileID: 0}
@@ -73787,7 +73787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd2fd7429a30714ca570a60a988ab32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultLocomotion: 1
+  DefaultLocomotion: 2
   LoadLocomotionFromPrefs: 0
   locomotionToggleInput: 00000000
   LocomotionToggleAction: {fileID: 0}

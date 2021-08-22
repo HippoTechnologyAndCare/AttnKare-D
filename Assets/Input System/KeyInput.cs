@@ -11,7 +11,7 @@ public class KeyInput : MonoBehaviour
 
     private InputMoveScene inputMoveScene;
 
-    private int buildIndex;
+    private int buildIndex;    
 
     public static KeyInput Instance
     {
@@ -135,7 +135,9 @@ public class KeyInput : MonoBehaviour
     }
     private void GoToScene_10(InputAction.CallbackContext obj)
     {
-        // input scene으로 가게 할 예정임 (몇 가지 문제가 있어서 해결이 되면 가능)
+        UserData.DataManager.GetInstance().isPlayed = false;
+        UserData.DataManager.GetInstance().FilePath_Root = null;
+        UserData.DataManager.GetInstance().FilePath_Folder = null;
         buildIndex = 0;
         SceneLoader.LoadScene(buildIndex);
     }

@@ -25,6 +25,7 @@ namespace UserData
         [SerializeField] private Toggle gradeTg_H;
 
         [SerializeField] private PlayMakerFSM warningFSM;        
+        [SerializeField] private SetPlayerData setPlayerData;
 
         //private int minLength;
         //private int maxLength;
@@ -42,11 +43,13 @@ namespace UserData
         }
 
         private void Start()
-        {            
+        {
             //inputTxt_Name.characterLimit = 5;
             //inputTxt_Age.characterLimit = 2;
 
             ManualXRControl.GetInstance().XR_AutoStarter();
+            
+            setPlayerData.ClearDataSetting();            
 
             inputTxt_Name.onValueChanged.AddListener(
                 (word) => inputTxt_Name.text = Regex.Replace(word, @"[^가-힣]", "")
@@ -203,7 +206,7 @@ namespace UserData
             {
                 DataManager.GetInstance().userInfo.Name = txt_Name.text;
                 DataManager.GetInstance().userInfo.Age = int.Parse(txt_Age.text);
-                DataManager.GetInstance().userInfo.PhoneNumer = txt_Fon.text;
+                DataManager.GetInstance().userInfo.PhoneNumber = txt_Fon.text;
 
                 Check_Gender();
                 Check_Grade();

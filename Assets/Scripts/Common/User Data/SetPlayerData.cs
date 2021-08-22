@@ -9,20 +9,25 @@ public class SetPlayerData : MonoBehaviour
     public GameDataManager gameDataManager;
     public PlayMakerFSM fsm;
 
-    private void Awake()
-    {
-        if (!DataManager.GetInstance().isPlayed)
-        {
-            DataManager.GetInstance().isPlayed = true;
+    //private void Awake()
+    //{
+    //    if (!DataManager.GetInstance().isPlayed)
+    //    {
+    //        DataManager.GetInstance().isPlayed = true;
 
-            InitialDataSetting();
-            DataManager.GetInstance().SavePlayerDataToJson();
-            Debug.Log("Data Creat!");
-        }
+    //        InitialDataSetting();
+    //        DataManager.GetInstance().SavePlayerDataToJson();
+    //        Debug.Log("Data Creat!");
+    //    }
+    //}
+    public void ClearDataSetting()
+    {
+        DataManager.GetInstance().dataList.Clear();
     }
 
+
     public void InitialDataSetting()
-    {
+    {        
         DataManager.GetInstance().dataList.Add(new PlayerData(0, "empty_data", 0));
         DataManager.GetInstance().dataList.Add(new PlayerData(1, "data_01", 0));
         DataManager.GetInstance().dataList.Add(new PlayerData(2, "data_02", 0));

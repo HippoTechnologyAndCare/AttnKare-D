@@ -30,7 +30,7 @@ public class NetworkManager : MonoBehaviour
         WWWForm formData = new WWWForm();
 
         formData.AddField("name", DataManager.GetInstance().userInfo.Name);
-        formData.AddField("phone", DataManager.GetInstance().userInfo.PhoneNumer);
+        formData.AddField("phone", DataManager.GetInstance().userInfo.PhoneNumber);
 
         UnityWebRequest webRequest = UnityWebRequest.Post(ServerURL_feedback, formData);
 
@@ -57,7 +57,7 @@ public class NetworkManager : MonoBehaviour
         var resPath = DataManager.GetInstance().FilePath_Folder;
 
         formData.AddField("name", DataManager.GetInstance().userInfo.Name);
-        formData.AddField("phone", DataManager.GetInstance().userInfo.PhoneNumer);
+        formData.AddField("phone", DataManager.GetInstance().userInfo.PhoneNumber);
         formData.AddField("gender", DataManager.GetInstance().userInfo.Gender);
         formData.AddField("age", DataManager.GetInstance().userInfo.Age);
 

@@ -18,7 +18,17 @@ public class GameDataManager : MonoBehaviour
 
     public GameObject objToFind;
 
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        if (!DataManager.GetInstance().isPlayed)
+        {
+            DataManager.GetInstance().isPlayed = true;
+
+            setPlayerData.InitialDataSetting();
+            DataManager.GetInstance().SavePlayerDataToJson();
+            Debug.Log("Data Creat!");
+        }
+    }
     void Start()
     {
         if (DataManager.GetInstance().isPlayed == true)
