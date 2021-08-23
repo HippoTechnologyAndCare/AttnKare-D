@@ -148,7 +148,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         }
 
         // Don't allow grab before audio is finished
-        if (audioTrigger.GetComponent<AudioSource>().isPlaying == true)
+        /*if (audioTrigger.GetComponent<AudioSource>().isPlaying == true)
         {
             foreach (GameObject tool in toolList)
             {
@@ -161,7 +161,7 @@ public class EasyTubeScoreboard : MonoBehaviour
             {
                 tool.GetComponent<BNG.Grabbable>().enabled = true;
             }
-        }
+        }*/
 
         // Constantly Update In Game Debug Panel if used
         InGameDebugger();

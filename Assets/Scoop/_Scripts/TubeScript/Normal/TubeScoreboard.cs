@@ -9,7 +9,6 @@ using UnityEditor.SceneManagement;
 #endif
 using UnityEngine.UI;
 using KetosGames.SceneTransition;
-
 public class TubeScoreboard : MonoBehaviour
 {
     public PlayMakerFSM FsmDatacheck;
