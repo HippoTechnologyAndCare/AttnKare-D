@@ -59,7 +59,7 @@ public class TubeScoreboard : MonoBehaviour
     public Transform returnPoint1; // **DEPRECATED** Yellow Ball Return Point
     public Transform returnPoint2; // **DEPRECATED** Light Purple Ball Return Point
     public Transform returnPoint3; // **DEPRECATED** Turqoise Ball Return Point
-    public GameObject Tools; // **DEPRECATED** Empty Object Containing All Tools Available
+    public GameObject Tools; // Empty Object Containing All Tools Available
     public List<GameObject> toolList = new List<GameObject>(); // **DEPRECATED** List of Tools
     public GameObject audioTrigger; // Audio Trigger
 
@@ -109,7 +109,7 @@ public class TubeScoreboard : MonoBehaviour
             Balls.Add(pileOfBalls.transform.GetChild(i).gameObject);
         }
 
-        // **DEPRECATED** Add Available Tools to List
+        // Add Available Tools to List
         for (int i=0; i < Tools.transform.childCount; i++)
         {
             if (Tools.transform.GetChild(i).gameObject.activeSelf)
@@ -164,7 +164,7 @@ public class TubeScoreboard : MonoBehaviour
         // Constantly Update In Game Debug Panel if used
         InGameDebugger();
 
-        // ***TEST FEATURE*** Disable this Script after data is recorded (Used to write data only once)
+        // Disable this Script after data is recorded (Used to write data only once)
         if (dataRecorded && !movingToLobby)
         {
             StartCoroutine(GoToLobby(false));
@@ -177,7 +177,7 @@ public class TubeScoreboard : MonoBehaviour
         delayTimer += Time.deltaTime;
 
         // Moves onto next stage
-        if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls && delayTimer - startTime > 4.8f && delayTimer - startTime < 5.2f && !endOfGame)
+        if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls && delayTimer - startTime > 2.8f && delayTimer - startTime < 3.2f && !endOfGame)
         {
             StartCoroutine(stageClear());
             startTime = 0;
@@ -187,14 +187,14 @@ public class TubeScoreboard : MonoBehaviour
         {
             if (!gameFailed) // Game Finish
             {
-                scoreText.GetComponent<Text>().text = "성공!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime();
+                scoreText.GetComponent<Text>().text = "성공!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
                 RecordData(endOfGame, gameFailed);
                 AddBreakPoint("Game Finish");
                 dataRecorded = true;                
             }
             else // Too many balls lost
             {
-                scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime();
+                scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
                 soundEffects.GetComponent<SoundEffects>().WrongBall();
                 RecordData(endOfGame, gameFailed);                
                 AddBreakPoint("Too many balls lost");
@@ -358,7 +358,7 @@ public class TubeScoreboard : MonoBehaviour
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
-                scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime();
+                scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + "\n\n";
                 soundEffects.GetComponent<SoundEffects>().WrongBall();
                 AddBreakPoint("Fail in stage 1");
                 dataRecorded = true;
@@ -371,7 +371,7 @@ public class TubeScoreboard : MonoBehaviour
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
-                scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime();
+                scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + "\n\n";
                 soundEffects.GetComponent<SoundEffects>().WrongBall();
                 AddBreakPoint("Fail in stage 2");
                 dataRecorded = true;
@@ -384,14 +384,14 @@ public class TubeScoreboard : MonoBehaviour
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
-                scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime();
+                scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + "\n\n";
                 soundEffects.GetComponent<SoundEffects>().WrongBall();
                 AddBreakPoint("Fail in stage 3");
                 dataRecorded = true;
             }
         }
 
-        // Used for 5 second delay before moving onto next stage
+        // Used for 3 second delay before moving onto next stage
         if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls)
         {
             startTime = delayTimer; 
@@ -494,7 +494,7 @@ public class TubeScoreboard : MonoBehaviour
             RecordStageClearTime(stageCounter);
             RecordStageDrops(stageCounter);
             RecordData(endOfGame, gameFailed);
-            scoreText.GetComponent<Text>().text = "성공!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime();
+            scoreText.GetComponent<Text>().text = "성공!\n\n";
             AddBreakPoint("Successfully finished game");
             dataRecorded = true;
 

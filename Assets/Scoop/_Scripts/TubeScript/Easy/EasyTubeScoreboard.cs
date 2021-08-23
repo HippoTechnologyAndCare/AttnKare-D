@@ -61,7 +61,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     public Transform returnPoint1; // **DEPRECATED** Yellow Ball Return Point
     public Transform returnPoint2; // **DEPRECATED** Light Purple Ball Return Point
     public Transform returnPoint3; // **DEPRECATED** Turqoise Ball Return Point
-    public GameObject Tools; // **DEPRECATED** Empty Object Containing All Tools Available
+    public GameObject Tools; // Empty Object Containing All Tools Available
     public List<GameObject> toolList = new List<GameObject>(); // **DEPRECATED** List of Tools
     public GameObject audioTrigger; // Audio Trigger
 
@@ -111,7 +111,7 @@ public class EasyTubeScoreboard : MonoBehaviour
             Balls.Add(pileOfBalls.transform.GetChild(i).gameObject);
         }
 
-        // **DEPRECATED** Add Available Tools to List
+        // Add Available Tools to List
         for (int i=0; i < Tools.transform.childCount; i++)
         {
             if (Tools.transform.GetChild(i).gameObject.activeSelf)
@@ -166,7 +166,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         // Constantly Update In Game Debug Panel if used
         InGameDebugger();
 
-        // ***TEST FEATURE*** Disable this Script after data is recorded (Used to write data only once)
+        // Move to next scene after data is recorded (Used to write data only once)
         if (dataRecorded && !movingToLobby)
         {
             StartCoroutine(GoToLobby(false));
@@ -179,7 +179,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         delayTimer += Time.deltaTime;
 
         // Moves onto next stage
-        if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls && delayTimer - startTime > 4.8f && delayTimer - startTime < 5.2f && !endOfGame)
+        if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls && delayTimer - startTime > 2.8f && delayTimer - startTime < 3.2f && !endOfGame)
         {
             /*Debug.Log("Timer Finished: " + delayTimer);*/
             StartCoroutine(stageClear());
@@ -190,14 +190,14 @@ public class EasyTubeScoreboard : MonoBehaviour
         {
             if (!gameFailed) // Game Finish
             {
-                scoreText.GetComponent<Text>().text = "성공!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
+                scoreText.GetComponent<Text>().text = "성공!\n\n";
                 RecordData(endOfGame, gameFailed);
                 AddBreakPoint("Game Finish");
                 dataRecorded = true;                
             }
             else // Too many balls lost
             {
-                scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
+                scoreText.GetComponent<Text>().text = "실패!\n\n";
                 soundEffects.GetComponent<SoundEffects>().WrongBall();
                 RecordData(endOfGame, gameFailed);
                 AddBreakPoint("Too many balls lost");                
@@ -354,7 +354,7 @@ public class EasyTubeScoreboard : MonoBehaviour
                 + "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\n";
 
             // Fails if too many balls are lost (Each Condition is for each stage)
-            if (stageCounter == 1 && (left1 < 6 || left2 < 6 || left3 < 6))
+            if (stageCounter == 1 && (left1 < 3 || left2 < 3 || left3 < 3))
             {
                 endOfGame = true;
                 gameFailed = true;
@@ -363,11 +363,11 @@ public class EasyTubeScoreboard : MonoBehaviour
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
-                scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
+                scoreText.GetComponent<Text>().text = "실패!\n\n";
                 AddBreakPoint("Fail in stage 1");                
                 dataRecorded = true;
             }
-            else if (stageCounter == 2 && (left1 < 5 || left2 < 5 || left3 < 5))
+            else if (stageCounter == 2 && (left1 < 2 || left2 < 2 || left3 < 2))
             {
                 endOfGame = true;
                 gameFailed = true;
@@ -376,11 +376,11 @@ public class EasyTubeScoreboard : MonoBehaviour
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
-                scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
+                scoreText.GetComponent<Text>().text = "실패!\n\n";
                 AddBreakPoint("Fail in stage 2");
                 dataRecorded = true;
             }
-            else if (stageCounter == 3 && (left1 < 3 || left2 < 3 || left3 < 3))
+            else if (stageCounter == 3 && (left1 < 1 || left2 < 1 || left3 < 1))
             {
                 endOfGame = true;
                 gameFailed = true;
@@ -389,13 +389,13 @@ public class EasyTubeScoreboard : MonoBehaviour
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
-                scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
+                scoreText.GetComponent<Text>().text = "실패!\n\n";
                 AddBreakPoint("Fail in stage 3");
                 dataRecorded = true;
             }
         }
 
-        // Used for 5 second delay before moving onto next stage
+        // Used for 3 second delay before moving onto next stage
         if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls)
         {
             startTime = delayTimer; 
@@ -498,7 +498,7 @@ public class EasyTubeScoreboard : MonoBehaviour
             RecordStageClearTime(stageCounter);
             RecordStageDrops(stageCounter);
             RecordData(endOfGame, gameFailed);
-            scoreText.GetComponent<Text>().text = "성공!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n" + WriteStageClearTime() + "\n";
+            scoreText.GetComponent<Text>().text = "성공!\n\n";
             AddBreakPoint("Successfully finished game");
             dataRecorded = true;
 
