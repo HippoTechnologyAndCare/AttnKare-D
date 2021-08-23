@@ -15,6 +15,8 @@ public class EasyTubeBall : MonoBehaviour
     [SerializeField] Material tubeBall2;
     [SerializeField] Material tubeBall3;
 
+    [SerializeField] GameObject popups;
+
     // Property of Ball to check if Ball is in the Container
     public bool ScoreCheck
     {
@@ -91,6 +93,7 @@ public class EasyTubeBall : MonoBehaviour
         } 
         else if (other.gameObject.tag == "Checker1" && GetComponent<Renderer>().sharedMaterial != tubeBall1)
         {
+            StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().colorGuide)); // Show Guide Message
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongColor++;
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall();
             resetBall();
@@ -106,6 +109,7 @@ public class EasyTubeBall : MonoBehaviour
         }
         else if (other.gameObject.tag == "Checker2" && GetComponent<Renderer>().sharedMaterial != tubeBall2)
         {
+            StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().colorGuide));
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongColor++;
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall();
             resetBall();
@@ -121,6 +125,7 @@ public class EasyTubeBall : MonoBehaviour
         }
         else if (other.gameObject.tag == "Checker3" && GetComponent<Renderer>().sharedMaterial != tubeBall3)
         {
+            StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().colorGuide));
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongColor++;
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall();
             resetBall();

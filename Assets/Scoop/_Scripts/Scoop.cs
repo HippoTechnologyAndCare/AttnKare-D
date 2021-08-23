@@ -8,11 +8,12 @@ public class Scoop : MonoBehaviour
     Vector3 scoopRot;
     float timer;
     public GameObject scoreboard;
-    [SerializeField] Transform LShovelCollider;
-    [SerializeField] Transform RShovelCollider;
+    [SerializeField] GameObject popups;
 
     [Tooltip("Center Camera of XR Rig")]
     public Transform headCamera;
+
+    bool ballPoolShown = false;
 
     // Start is called before the first frame update
     void Start()
@@ -90,11 +91,21 @@ public class Scoop : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // If ball hits boundary outside room, return it to its original position (Only when object escapes room due to extreme force applied)
-        if(collision.gameObject.tag == "Boundary" || collision.gameObject.tag == "Terrain")
+        if (collision.gameObject.tag == "Boundary" || collision.gameObject.tag == "Terrain")
         {
             ResetScoop();
             Debug.Log("Hit Boundary");
-        }        
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "BallPool" && !ballPoolShown)
+        {
+            StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().ballPool)); // Show Guide Message
+            popups.GetComponent<PopupManager>().ballPoolCount++;
+            ballPoolShown = true;
+        }
     }
 
     private void ResetScoop()

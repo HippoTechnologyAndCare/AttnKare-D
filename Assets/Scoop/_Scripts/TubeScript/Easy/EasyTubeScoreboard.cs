@@ -62,8 +62,9 @@ public class EasyTubeScoreboard : MonoBehaviour
     public Transform returnPoint2; // **DEPRECATED** Light Purple Ball Return Point
     public Transform returnPoint3; // **DEPRECATED** Turqoise Ball Return Point
     public GameObject Tools; // Empty Object Containing All Tools Available
-    public List<GameObject> toolList = new List<GameObject>(); // **DEPRECATED** List of Tools
+    public List<GameObject> toolList = new List<GameObject>(); // List of Tools
     public GameObject audioTrigger; // Audio Trigger
+    public GameObject popups; // popup manager object
 
     [Header("Debug Panel")]
     public int left1; // Number of Yellow Balls Left Active in Scene
@@ -148,7 +149,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         }
 
         // Don't allow grab before audio is finished
-        /*if (audioTrigger.GetComponent<AudioSource>().isPlaying == true)
+        if (audioTrigger.GetComponent<AudioSource>().isPlaying == true)
         {
             foreach (GameObject tool in toolList)
             {
@@ -161,7 +162,8 @@ public class EasyTubeScoreboard : MonoBehaviour
             {
                 tool.GetComponent<BNG.Grabbable>().enabled = true;
             }
-        }*/
+
+        }
 
         // Constantly Update In Game Debug Panel if used
         InGameDebugger();
@@ -424,6 +426,7 @@ public class EasyTubeScoreboard : MonoBehaviour
                         ball.SetActive(false);
                         excessBalls++;
                         soundEffects.GetComponent<SoundEffects>().WrongBall();
+                        StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().numberGuide)); // Show Guide Message
                     }
                     else
                     {
@@ -442,6 +445,7 @@ public class EasyTubeScoreboard : MonoBehaviour
                         ball.SetActive(false);
                         excessBalls++;
                         soundEffects.GetComponent<SoundEffects>().WrongBall();
+                        StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().numberGuide)); // Show Guide Message
                     }
                     else
                     {
@@ -460,6 +464,7 @@ public class EasyTubeScoreboard : MonoBehaviour
                         ball.SetActive(false);
                         excessBalls++;
                         soundEffects.GetComponent<SoundEffects>().WrongBall();
+                        StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().numberGuide)); // Show Guide Message
                     }
                     else
                     {
