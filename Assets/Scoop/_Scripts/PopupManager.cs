@@ -63,12 +63,10 @@ public class PopupManager : MonoBehaviour
         }
 
         message.SetActive(true);
-        Debug.Log("Show Message");
 
         yield return new WaitForSeconds(seconds);
 
         message.SetActive(false);
-        Debug.Log("Hide Message");
     }
 
     
