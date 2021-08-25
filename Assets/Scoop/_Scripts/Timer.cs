@@ -15,7 +15,7 @@ public class Timer : MonoBehaviour
     void Start()
     {
         timerText = timer.GetComponent<Text>();
-        timerText.text = 0 + "시간 " + 0 + "분 " + 0 + "초";
+        timerText.text = 0 + "초";
     }
 
     // Update is called once per frame

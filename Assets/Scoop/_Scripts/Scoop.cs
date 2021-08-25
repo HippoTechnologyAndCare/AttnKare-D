@@ -8,12 +8,9 @@ public class Scoop : MonoBehaviour
     Vector3 scoopRot;
     float timer;
     public GameObject scoreboard;
-    [SerializeField] GameObject popups;
 
     [Tooltip("Center Camera of XR Rig")]
     public Transform headCamera;
-
-    bool ballPoolShown = false;
 
     // Start is called before the first frame update
     void Start()
@@ -95,16 +92,6 @@ public class Scoop : MonoBehaviour
         {
             ResetScoop();
             Debug.Log("Hit Boundary");
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("BallPool") && !ballPoolShown)
-        {
-            Debug.Log("Ball Pool Message");
-            StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().ballPool)); // Show Guide Message
-            ballPoolShown = true;
         }
     }
 

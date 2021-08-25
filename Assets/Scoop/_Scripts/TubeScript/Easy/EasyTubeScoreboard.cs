@@ -131,6 +131,8 @@ public class EasyTubeScoreboard : MonoBehaviour
                 "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\n";
 
         tempColor = wrongColor;
+        timer.SetActive(false);
+        scoreText.SetActive(false);
     }
 
     // Update is called once per frame
@@ -171,7 +173,12 @@ public class EasyTubeScoreboard : MonoBehaviour
             {
                 tool.GetComponent<BNG.Grabbable>().enabled = true;
             }
-
+            if (!waitMessage.activeSelf)
+            {
+                timer.SetActive(true);
+                scoreText.SetActive(true);
+            }
+            
         }
 
         // Constantly Update In Game Debug Panel if used
