@@ -44,6 +44,7 @@ public class TubeScoreboard : MonoBehaviour
     [HideInInspector] public int wrongColor = 0; // Number of Balls that do not match tube color
     [HideInInspector] public int scoopLost = 0; // **DEPRECATED** Number of Times Scoop was lost
     public int stageBalls = 1; // Number of Balls needed in each tube to move onto next stage
+    int tempColor;
 
     [Header("Prefabs and Objects")]
     public GameObject timer; // Timer Text
@@ -61,6 +62,8 @@ public class TubeScoreboard : MonoBehaviour
     public GameObject Tools; // Empty Object Containing All Tools Available
     public List<GameObject> toolList = new List<GameObject>(); // **DEPRECATED** List of Tools
     public GameObject audioTrigger; // Audio Trigger
+    public GameObject popups; // popup manager object
+    public GameObject numberGuide; // number guide popup message
 
     [Header("Debug Panel")]
     public int left1; // Number of Yellow Balls Left Active in Scene
@@ -124,6 +127,10 @@ public class TubeScoreboard : MonoBehaviour
         // Initialize Scoreboard Text
         scoreText.GetComponent<Text>().text = stageCounter + " 단계\n\n노란색: " + score1.ToString() + "    연보라색: " + score2.ToString() + "    청록색: " + score3.ToString() +
                 "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\n";
+
+        tempColor = wrongColor;
+        timer.SetActive(false);
+        scoreText.SetActive(false);
     }
 
     // Update is called once per frame
@@ -144,8 +151,14 @@ public class TubeScoreboard : MonoBehaviour
             isChecked = true;
         }
 
+        if (wrongColor != tempColor)
+        {
+            StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().colorGuide));
+        }
+        tempColor = wrongColor;
+
         // Don't allow grab before audio is finished
-        if(audioTrigger.GetComponent<AudioSource>().isPlaying == true)
+        if (audioTrigger.GetComponent<AudioSource>().isPlaying == true)
         {
             foreach (GameObject tool in toolList)
             {
@@ -157,6 +170,11 @@ public class TubeScoreboard : MonoBehaviour
             foreach (GameObject tool in toolList)
             {
                 tool.GetComponent<BNG.Grabbable>().enabled = true;
+            }
+            if (!waitMessage.activeSelf)
+            {
+                timer.SetActive(true);
+                scoreText.SetActive(true);
             }
         }
 
@@ -419,6 +437,7 @@ public class TubeScoreboard : MonoBehaviour
                         ball.SetActive(false);
                         excessBalls++;
                         soundEffects.GetComponent<SoundEffects>().WrongBall();
+                        StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().numberGuide)); // Show Guide Message
                     }
                     else
                     {
@@ -437,6 +456,7 @@ public class TubeScoreboard : MonoBehaviour
                         ball.SetActive(false);
                         excessBalls++;
                         soundEffects.GetComponent<SoundEffects>().WrongBall();
+                        StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().numberGuide)); // Show Guide Message
                     }
                     else
                     {
@@ -455,6 +475,7 @@ public class TubeScoreboard : MonoBehaviour
                         ball.SetActive(false);
                         excessBalls++;
                         soundEffects.GetComponent<SoundEffects>().WrongBall();
+                        StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().numberGuide)); // Show Guide Message
                     }
                     else
                     {
@@ -554,6 +575,7 @@ public class TubeScoreboard : MonoBehaviour
             scoreText.GetComponent<Text>().text = stageCounter + " 단계\n\n노란색: " + score1.ToString() + "    연보라색: " + score2.ToString() + "    청록색: " + score3.ToString() + 
                 "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\n";
             scoreText.SetActive(true);
+            numberGuide.GetComponent<Text>().text = "공은 " + stageBalls.ToString() + "개씩만 넣으면 돼요!";
 
             if (stageCounter == 2)
             {

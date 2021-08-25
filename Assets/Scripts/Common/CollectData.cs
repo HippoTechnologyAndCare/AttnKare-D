@@ -53,11 +53,13 @@ namespace BNG
 
         // Data per Frame
         List<string> dataPerFrame = new List<string>();
+        List<string> plotPerFrame = new List<string>();
 
         string InputSavePath;
         string DeviceSavePath;
 
         float Timer = 0;
+        float plotTimer = 0;
         FileStream DeviceDataInfo;
         StreamWriter DeviceDataWriter;
 
@@ -112,17 +114,19 @@ namespace BNG
             //    Directory.CreateDirectory(FilePath_Folder);
             //}
             
-            InputSavePath = DataManager.GetInstance().FilePath_Folder + "_INPUT.txt";
+            InputSavePath = DataManager.GetInstance().FilePath_Folder + FileName + "_Plot.txt";
             DeviceSavePath = DataManager.GetInstance().FilePath_Folder + FileName + "_Behavior.txt";
         }
 
         void Update()
         {
             Timer += Time.deltaTime;
+            plotTimer += Time.deltaTime;
 
             if (Timer > .05f)
             {
                 SaveDeviceData();
+                Plot(plotTimer);
                 Timer = 0;
             }
             ShowDataOnInspector();
@@ -147,7 +151,14 @@ namespace BNG
             /*DeviceDataWriter.WriteLine(database.output);*/
             DeviceDataWriter.Close();
 
-           
+            InputDataInfo = new FileStream(InputSavePath, FileMode.Append, FileAccess.Write);
+            InputDataWriter = new StreamWriter(InputDataInfo, System.Text.Encoding.Unicode);
+            InputDataWriter.WriteLine("Time, LTrigger Value, Time, RTrigger Value, Time, LGrip Value, Time, RGrip Value");
+            foreach (string plot in plotPerFrame)
+            {
+                InputDataWriter.WriteLine(plot);
+            }
+            InputDataWriter.Close();
             // Delete if unnecessary
             //SaveInputData(database.controllerInput);
         }
@@ -233,6 +244,12 @@ namespace BNG
             DeviceDataWriter.WriteLine(Buttons());
             DeviceDataWriter.WriteLine(Positions());
             DeviceDataWriter.Close();*/
+        }
+
+        public void Plot(float time)
+        {
+            string plot = time.ToString() + ", " + _LTrigger.ToString() + ", " + time.ToString() + ", " + _RTrigger.ToString() + ", " + time.ToString() + ", " + _LGrip.ToString() + ", " + time.ToString() + ", " + _RGrip.ToString();
+            plotPerFrame.Add(plot);
         }
 
         public string Positions()

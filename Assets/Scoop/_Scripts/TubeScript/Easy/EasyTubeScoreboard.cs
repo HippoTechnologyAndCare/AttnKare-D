@@ -66,7 +66,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     public List<GameObject> toolList = new List<GameObject>(); // List of Tools
     public GameObject audioTrigger; // Audio Trigger
     public GameObject popups; // popup manager object
-
+    
     [Header("Debug Panel")]
     public int left1; // Number of Yellow Balls Left Active in Scene
     public int left2; // Number of Light Purple Balls Left Active in Scene

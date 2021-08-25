@@ -11,7 +11,6 @@ public class PopupManager : MonoBehaviour
     [SerializeField] public GameObject numberGuide;
 
     [Header("For Some Necessary Variables")]
-    [SerializeField] GameObject scoreboard;
     [SerializeField] GameObject audioTrigger;
 
     bool introShown = false;
@@ -54,6 +53,15 @@ public class PopupManager : MonoBehaviour
 
     public IEnumerator ShowMessage(GameObject message, float seconds = 7f)
     {
+        if(message == colorGuide && numberGuide.activeSelf)
+        {
+            numberGuide.SetActive(false);
+        }
+        else if (message == numberGuide && colorGuide.activeSelf)
+        {
+            colorGuide.SetActive(false);
+        }
+
         message.SetActive(true);
         Debug.Log("Show Message");
 
