@@ -47,6 +47,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     [HideInInspector] public int wrongColor = 0; // Number of Balls that do not match tube color
     [HideInInspector] public int scoopLost = 0; // **DEPRECATED** Number of Times Scoop was lost
     public int stageBalls = 1; // Number of Balls needed in each tube to move onto next stage
+    int tempColor;
 
     [Header("Prefabs and Objects")]
     public GameObject timer; // Timer Text
@@ -128,6 +129,8 @@ public class EasyTubeScoreboard : MonoBehaviour
         // Initialize Scoreboard Text
         scoreText.GetComponent<Text>().text = stageCounter + " 단계\n\n노란색: " + score1.ToString() + "    연보라색: " + score2.ToString() + "    청록색: " + score3.ToString() +
                 "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\n";
+
+        tempColor = wrongColor;
     }
 
     // Update is called once per frame
@@ -147,6 +150,12 @@ public class EasyTubeScoreboard : MonoBehaviour
 
             isChecked = true;
         }
+
+        if(wrongColor != tempColor)
+        {
+            StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().colorGuide));
+        }
+        tempColor = wrongColor;
 
         // Don't allow grab before audio is finished
         if (audioTrigger.GetComponent<AudioSource>().isPlaying == true)
@@ -270,7 +279,6 @@ public class EasyTubeScoreboard : MonoBehaviour
     // Check if Ball is Active
     void CheckBallActive(GameObject ball)
     {
-
             // Check for active balls
             if (ball.activeSelf)
             {

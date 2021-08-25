@@ -91,7 +91,7 @@ public class Scoop : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // If ball hits boundary outside room, return it to its original position (Only when object escapes room due to extreme force applied)
-        if (collision.gameObject.tag == "Boundary" || collision.gameObject.tag == "Terrain")
+        if (collision.gameObject.CompareTag("Boundary") || collision.gameObject.CompareTag("Terrain"))
         {
             ResetScoop();
             Debug.Log("Hit Boundary");
@@ -100,10 +100,10 @@ public class Scoop : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "BallPool" && !ballPoolShown)
+        if (other.gameObject.CompareTag("BallPool") && !ballPoolShown)
         {
+            Debug.Log("Ball Pool Message");
             StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().ballPool)); // Show Guide Message
-            popups.GetComponent<PopupManager>().ballPoolCount++;
             ballPoolShown = true;
         }
     }

@@ -9,11 +9,12 @@ public class PopupManager : MonoBehaviour
     [SerializeField] public GameObject ballPool;
     [SerializeField] public GameObject colorGuide;
     [SerializeField] public GameObject numberGuide;
-    public int ballPoolCount = 0;
-
 
     [Header("For Some Necessary Variables")]
     [SerializeField] GameObject scoreboard;
+    [SerializeField] GameObject audioTrigger;
+
+    bool shovelGrabShown = false;
 
     // Start is called before the first frame update
     void Start()
@@ -27,18 +28,26 @@ public class PopupManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!scoreboard.GetComponent<AudioSource>().isPlaying)
+        if (!audioTrigger.GetComponent<AudioSource>().isPlaying && !shovelGrabShown)
         {
             StartCoroutine(ShowMessage(shovelGrab));
+            shovelGrabShown = true;
+        }
+
+        if (ballPool.activeSelf)
+        {
+            Destroy(shovelGrab);
         }
     }
 
     public IEnumerator ShowMessage(GameObject message)
     {
         message.SetActive(true);
+        Debug.Log("Show Message");
 
         yield return new WaitForSeconds(5f);
 
         message.SetActive(false);
+        Debug.Log("Hide Message");
     }
 }
