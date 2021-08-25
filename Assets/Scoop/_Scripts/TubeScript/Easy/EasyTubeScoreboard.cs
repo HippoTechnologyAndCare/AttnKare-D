@@ -364,7 +364,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         left2 = activeBalls2.Count;
         left3 = activeBalls3.Count;
 
-        if (!endOfGame)
+        if (!endOfGame && !movingToLobby)
         {
             // Updates Scoreboard Text
             scoreText.GetComponent<Text>().text = stageCounter + " 단계\n\n노란색: " + score1.ToString() + "    연보라색: " + score2.ToString() + "    청록색: " + score3.ToString()
@@ -515,6 +515,13 @@ public class EasyTubeScoreboard : MonoBehaviour
             clearTime = timer.GetComponent<Text>().text;
             timer.SetActive(false);
             endOfGame = true;
+            successBalls1.Clear();
+            successBalls2.Clear();
+            successBalls3.Clear();
+            score1 = 0;
+            score2 = 0;
+            score3 = 0;
+
             RecordStageClearTime(stageCounter);
             RecordStageDrops(stageCounter);
             RecordData(endOfGame, gameFailed);
