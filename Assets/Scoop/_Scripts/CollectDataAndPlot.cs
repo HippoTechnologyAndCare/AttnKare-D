@@ -76,6 +76,9 @@ namespace BNG
             public int XClicks = 0;
             public int YClicks = 0;
             public string controllerInput;
+
+            // final output
+            public string output;
         }
 
         // Start is called before the first frame update

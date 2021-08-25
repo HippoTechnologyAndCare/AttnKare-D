@@ -15,6 +15,8 @@ public class EasyTubeBall : MonoBehaviour
     [SerializeField] Material tubeBall2;
     [SerializeField] Material tubeBall3;
 
+    [SerializeField] GameObject popups;
+
     // Property of Ball to check if Ball is in the Container
     public bool ScoreCheck
     {

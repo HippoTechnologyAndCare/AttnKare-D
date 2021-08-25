@@ -47,6 +47,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     [HideInInspector] public int wrongColor = 0; // Number of Balls that do not match tube color
     [HideInInspector] public int scoopLost = 0; // **DEPRECATED** Number of Times Scoop was lost
     public int stageBalls = 1; // Number of Balls needed in each tube to move onto next stage
+    int tempColor;
 
     [Header("Prefabs and Objects")]
     public GameObject timer; // Timer Text
@@ -62,9 +63,10 @@ public class EasyTubeScoreboard : MonoBehaviour
     public Transform returnPoint2; // **DEPRECATED** Light Purple Ball Return Point
     public Transform returnPoint3; // **DEPRECATED** Turqoise Ball Return Point
     public GameObject Tools; // Empty Object Containing All Tools Available
-    public List<GameObject> toolList = new List<GameObject>(); // **DEPRECATED** List of Tools
+    public List<GameObject> toolList = new List<GameObject>(); // List of Tools
     public GameObject audioTrigger; // Audio Trigger
-
+    public GameObject popups; // popup manager object
+    
     [Header("Debug Panel")]
     public int left1; // Number of Yellow Balls Left Active in Scene
     public int left2; // Number of Light Purple Balls Left Active in Scene
@@ -127,6 +129,10 @@ public class EasyTubeScoreboard : MonoBehaviour
         // Initialize Scoreboard Text
         scoreText.GetComponent<Text>().text = stageCounter + " 단계\n\n노란색: " + score1.ToString() + "    연보라색: " + score2.ToString() + "    청록색: " + score3.ToString() +
                 "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\n";
+
+        tempColor = wrongColor;
+        timer.SetActive(false);
+        scoreText.SetActive(false);
     }
 
     // Update is called once per frame
@@ -147,8 +153,14 @@ public class EasyTubeScoreboard : MonoBehaviour
             isChecked = true;
         }
 
+        if(wrongColor != tempColor)
+        {
+            StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().colorGuide));
+        }
+        tempColor = wrongColor;
+
         // Don't allow grab before audio is finished
-        /*if (audioTrigger.GetComponent<AudioSource>().isPlaying == true)
+        if (audioTrigger.GetComponent<AudioSource>().isPlaying == true)
         {
             foreach (GameObject tool in toolList)
             {
@@ -161,7 +173,13 @@ public class EasyTubeScoreboard : MonoBehaviour
             {
                 tool.GetComponent<BNG.Grabbable>().enabled = true;
             }
-        }*/
+            if (!waitMessage.activeSelf)
+            {
+                timer.SetActive(true);
+                scoreText.SetActive(true);
+            }
+            
+        }
 
         // Constantly Update In Game Debug Panel if used
         InGameDebugger();
@@ -268,7 +286,6 @@ public class EasyTubeScoreboard : MonoBehaviour
     // Check if Ball is Active
     void CheckBallActive(GameObject ball)
     {
-
             // Check for active balls
             if (ball.activeSelf)
             {
@@ -347,7 +364,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         left2 = activeBalls2.Count;
         left3 = activeBalls3.Count;
 
-        if (!endOfGame)
+        if (!endOfGame && !movingToLobby)
         {
             // Updates Scoreboard Text
             scoreText.GetComponent<Text>().text = stageCounter + " 단계\n\n노란색: " + score1.ToString() + "    연보라색: " + score2.ToString() + "    청록색: " + score3.ToString()
@@ -424,6 +441,7 @@ public class EasyTubeScoreboard : MonoBehaviour
                         ball.SetActive(false);
                         excessBalls++;
                         soundEffects.GetComponent<SoundEffects>().WrongBall();
+                        StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().numberGuide)); // Show Guide Message
                     }
                     else
                     {
@@ -442,6 +460,7 @@ public class EasyTubeScoreboard : MonoBehaviour
                         ball.SetActive(false);
                         excessBalls++;
                         soundEffects.GetComponent<SoundEffects>().WrongBall();
+                        StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().numberGuide)); // Show Guide Message
                     }
                     else
                     {
@@ -460,6 +479,7 @@ public class EasyTubeScoreboard : MonoBehaviour
                         ball.SetActive(false);
                         excessBalls++;
                         soundEffects.GetComponent<SoundEffects>().WrongBall();
+                        StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().numberGuide)); // Show Guide Message
                     }
                     else
                     {
@@ -495,6 +515,13 @@ public class EasyTubeScoreboard : MonoBehaviour
             clearTime = timer.GetComponent<Text>().text;
             timer.SetActive(false);
             endOfGame = true;
+            successBalls1.Clear();
+            successBalls2.Clear();
+            successBalls3.Clear();
+            score1 = 0;
+            score2 = 0;
+            score3 = 0;
+
             RecordStageClearTime(stageCounter);
             RecordStageDrops(stageCounter);
             RecordData(endOfGame, gameFailed);

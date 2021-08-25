@@ -8,8 +8,6 @@ public class Scoop : MonoBehaviour
     Vector3 scoopRot;
     float timer;
     public GameObject scoreboard;
-    [SerializeField] Transform LShovelCollider;
-    [SerializeField] Transform RShovelCollider;
 
     [Tooltip("Center Camera of XR Rig")]
     public Transform headCamera;
@@ -90,11 +88,11 @@ public class Scoop : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // If ball hits boundary outside room, return it to its original position (Only when object escapes room due to extreme force applied)
-        if(collision.gameObject.tag == "Boundary" || collision.gameObject.tag == "Terrain")
+        if (collision.gameObject.CompareTag("Boundary") || collision.gameObject.CompareTag("Terrain"))
         {
             ResetScoop();
             Debug.Log("Hit Boundary");
-        }        
+        }
     }
 
     private void ResetScoop()
