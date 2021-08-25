@@ -7,44 +7,42 @@ using KetosGames.SceneTransition;
 
 public class KeyInput : MonoBehaviour
 {
-    private static KeyInput KeyInputInstance;
+    private static KeyInput Instance;
 
     private InputMoveScene inputMoveScene;
 
     private int buildIndex;    
 
-    public static KeyInput Instance
+    public static KeyInput GetInstance()
     {
-        get
+        if (Instance == null)
         {
-            if (KeyInputInstance == null)
+            Instance = FindObjectOfType<KeyInput>();
+
+            if(Instance == null)
             {
-                KeyInput keyInput = (KeyInput)GameObject.FindObjectOfType(typeof(KeyInput));
-                if (keyInput != null)
-                {
-                    KeyInputInstance = keyInput;
-                }
-                else
-                {
-                    GameObject KeyInputPrefab = Resources.Load<GameObject>("Prefabs/CommonPrefabs/KeyInput");
-                    KeyInputInstance = (GameObject.Instantiate(KeyInputPrefab)).GetComponent<KeyInput>();
-                }
+                GameObject container = new GameObject("KeyInput");
+
+                Instance = container.AddComponent<KeyInput>();
             }
-            return KeyInputInstance;
         }
-    }
+        return Instance;
+        }
+    
 
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
 
-
-        if (KeyInputInstance != null && KeyInputInstance != this)
+        if (Instance != null)
         {
-            Destroy(KeyInputInstance.gameObject);
-            KeyInputInstance = this;
+            if (Instance != this)
+            {
+                Destroy(Instance.gameObject);
+                return;
+            }
         }
-        inputMoveScene = new InputMoveScene();      
+        inputMoveScene = new InputMoveScene();
     }
     
     private void OnEnable()
