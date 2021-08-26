@@ -27,9 +27,9 @@ public class TubeScoreboard : MonoBehaviour
     public GameObject sceneText;
     public int totalDrops = 0; // Total number of drops throughout game
     public string clearTime = ""; // Clear Time
-    [HideInInspector] public int stage1Drops = 0; // Stage 1 Drops
-    [HideInInspector] public int stage2Drops = 0; // Stage 2 Drops
-    [HideInInspector] public int stage3Drops = 0; // Stage 3 Drops
+    [HideInInspector] public float stage1Drops = 0; // Stage 1 Drops
+    [HideInInspector] public float stage2Drops = 0; // Stage 2 Drops
+    [HideInInspector] public float stage3Drops = 0; // Stage 3 Drops
     [HideInInspector] public string clearTime1 = ""; // Stage 1 Clear Time
     [HideInInspector] public string clearTime2 = ""; // Stage 2 Clear Time
     [HideInInspector] public string clearTime3 = ""; // Stage 3 Clear Time
@@ -40,11 +40,11 @@ public class TubeScoreboard : MonoBehaviour
     [HideInInspector] public int score2 = 0; // Light Purple Ball
     [HideInInspector] public int score3 = 0; // Turqoise Ball
     private int stageCounter = 1; // Stage number
-    [HideInInspector] public int excessBalls = 0; // Number of Excess Balls put into tube
-    [HideInInspector] public int wrongColor = 0; // Number of Balls that do not match tube color
+    [HideInInspector] public float excessBalls = 0; // Number of Excess Balls put into tube
+    [HideInInspector] public float wrongColor = 0; // Number of Balls that do not match tube color
     [HideInInspector] public int scoopLost = 0; // **DEPRECATED** Number of Times Scoop was lost
     public int stageBalls = 1; // Number of Balls needed in each tube to move onto next stage
-    int tempColor;
+    float tempColor;
 
     [Header("Prefabs and Objects")]
     public GameObject timer; // Timer Text
@@ -60,7 +60,7 @@ public class TubeScoreboard : MonoBehaviour
     public Transform returnPoint2; // **DEPRECATED** Light Purple Ball Return Point
     public Transform returnPoint3; // **DEPRECATED** Turqoise Ball Return Point
     public GameObject Tools; // Empty Object Containing All Tools Available
-    public List<GameObject> toolList = new List<GameObject>(); // **DEPRECATED** List of Tools
+    public List<GameObject> toolList = new List<GameObject>(); // List of Tools
     public GameObject audioTrigger; // Audio Trigger
     public GameObject popups; // popup manager object
     public GameObject numberGuide; // number guide popup message
@@ -94,7 +94,7 @@ public class TubeScoreboard : MonoBehaviour
     bool gameFailed = false;
     public float gameFailedResult;
     public bool dataRecorded = false;
-    public int isSkipped = 0;
+    public float isSkipped = 0;
     bool movingToLobby = false;
 
     // Boolean to Load Data (Only Used Once after Start Function)
@@ -220,6 +220,7 @@ public class TubeScoreboard : MonoBehaviour
         }
     }
 
+    // Coroutine to move to Lobby (end of game)
     IEnumerator GoToLobby(bool isSkipped)
     {
         yield return new WaitForSeconds(7);
@@ -259,6 +260,11 @@ public class TubeScoreboard : MonoBehaviour
             + "\n\nStage 1 Drops: " + stage1Drops
             + "\n\nStage 2 Drops: " + stage2Drops
             + "\n\nStage 3 Drops: " + stage3Drops
+            + "\n\nStage 1 Clear Time: " + time1.ToString()
+            + "\n\nStage 2 Clear Time: " + time2.ToString()
+            + "\n\nStage 3 Clear Time: " + time3.ToString()
+            + "\n\nWrong Balls: " + wrongColor.ToString()
+            + "\n\nExcess Balls: " + excessBalls.ToString()
             + "\n\nActive Balls 1: " + activeBalls1.Count
             + "\n\nActive Balls 2: " + activeBalls2.Count
             + "\n\nActive Balls 3: " + activeBalls3.Count
@@ -269,7 +275,7 @@ public class TubeScoreboard : MonoBehaviour
             + "\n\nLeft 2: " + left2
             + "\n\nLeft 3: " + left3
             + "\n\nIs Data Recorded? " + (dataRecorded ? "Yes" : "No")
-            + "\n\nIs Game Failed?" + (gameFailed ? "Yes" : "No")
+            + "\n\nIs Game Failed? " + (gameFailed ? "Yes" : "No")
             + "\n\nIs it End of Game? " + (endOfGame ? "Yes" : "No");
     }
 
@@ -669,15 +675,15 @@ public class TubeScoreboard : MonoBehaviour
         {
             case 1:
                 clearTime1 = timer.GetComponent<Text>().text;
-                time1 = timer.GetComponent<Timer>().secondsCount;
+                time1 = timer.GetComponent<Timer>().secondsCount + timer.GetComponent<Timer>().minuteCount * 60 + timer.GetComponent<Timer>().hourCount * 3600;
                 break;
             case 2:
                 clearTime2 = timer.GetComponent<Text>().text;
-                time2 = timer.GetComponent<Timer>().secondsCount;
+                time2 = timer.GetComponent<Timer>().secondsCount + timer.GetComponent<Timer>().minuteCount * 60 + timer.GetComponent<Timer>().hourCount * 3600;
                 break;
             case 3:
                 clearTime3 = timer.GetComponent<Text>().text;
-                time3 = timer.GetComponent<Timer>().secondsCount;
+                time3 = timer.GetComponent<Timer>().secondsCount + timer.GetComponent<Timer>().minuteCount * 60 + timer.GetComponent<Timer>().hourCount * 3600;
                 break;
             default:
                 break;
@@ -735,7 +741,7 @@ public class TubeScoreboard : MonoBehaviour
         }
         if(gameFailed)
         {
-            gameFailedResult =1;
+            gameFailedResult = 1;
 
         }
         else
