@@ -217,7 +217,7 @@ namespace UserData
 
                 GetComponent<NetworkManager>().DoSendToTextMsg();       // <<<< ---------------- 문자전송 추가                
 
-                SceneLoader.LoadScene("OPENEND");
+                SceneLoader.LoadScene(10);
             }
 
             Reset_BoolData();
