@@ -105,11 +105,7 @@ namespace BNG.UserData {
 
 
                 }
-                if (lGripValue > 0.7f)
-                {
-                    ghostSpeak(0);
-
-                }
+                
             }
 
 
