@@ -8,8 +8,8 @@ public class Timer : MonoBehaviour
     public GameObject timer;
     private Text timerText;
     [HideInInspector] public float secondsCount = 0;
-    private int minuteCount;
-    private int hourCount;
+    [HideInInspector] public int minuteCount;
+    [HideInInspector] public int hourCount;
 
     // Start is called before the first frame update
     void Start()
