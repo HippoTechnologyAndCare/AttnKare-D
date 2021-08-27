@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class AudioTrigger : MonoBehaviour
 {
-    [SerializeField] Transform CenterEyeAnchor;
+    [SerializeField] Transform centerEyeAnchor;
+    [SerializeField] GameObject intro;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +16,10 @@ public class AudioTrigger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (!GetComponent<AudioSource>().isPlaying)
+        {
+            if(intro.activeSelf) intro.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -23,7 +28,7 @@ public class AudioTrigger : MonoBehaviour
         {
             GetComponent<AudioSource>().Play();
             GetComponent<BoxCollider>().enabled = false;
-            CenterEyeAnchor.GetComponent<SphereCollider>().enabled = false;
+            centerEyeAnchor.GetComponent<SphereCollider>().enabled = false;
         }
     }
 }

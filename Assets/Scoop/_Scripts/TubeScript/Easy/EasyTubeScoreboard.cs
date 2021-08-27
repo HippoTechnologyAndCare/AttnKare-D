@@ -164,29 +164,30 @@ public class EasyTubeScoreboard : MonoBehaviour
         {
             foreach (GameObject tool in toolList)
             {
-                tool.GetComponent<BNG.Grabbable>().enabled = false;
+                if (tool.GetComponent<BNG.Grabbable>().enabled) tool.GetComponent<BNG.Grabbable>().enabled = false;
             }
         }
         else
         {
             foreach (GameObject tool in toolList)
             {
-                tool.GetComponent<BNG.Grabbable>().enabled = true;
+                if (!tool.GetComponent<BNG.Grabbable>().enabled) tool.GetComponent<BNG.Grabbable>().enabled = true;
             }
             if (!waitMessage.activeSelf)
             {
-                timer.SetActive(true);
-                scoreText.SetActive(true);
+                if (!timer.activeSelf) timer.SetActive(true);
+                if (!scoreText.activeSelf) scoreText.SetActive(true);
             }
             
         }
 
         // Constantly Update In Game Debug Panel if used
-        InGameDebugger();
+        if(debugText.activeSelf) InGameDebugger();
 
         // Move to next scene after data is recorded (Used to write data only once)
         if (dataRecorded && !movingToLobby)
         {
+            Destroy(timer);
             StartCoroutine(GoToLobby(false));
             dataRecorded = false;
             endOfGame = false;
