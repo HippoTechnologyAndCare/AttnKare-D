@@ -147,6 +147,10 @@ public partial class ActorVideo//+Ani,Fx
         animator.SetBool(PARAM_ANIM_IS_WALK, false);
         
     }
+    public void OnFootStep()
+    {
+        
+    }
 }
 
 /*
