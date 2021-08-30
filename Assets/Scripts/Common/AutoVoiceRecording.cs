@@ -68,9 +68,6 @@ public class AutoVoiceRecording : MonoBehaviour
 
     IEnumerator FinishAndMakeClip()
     {
-        //바로 종료하면 마지막 소리가 짤릴 수 있으므로 딜레이 주고 종료
-        yield return new WaitForSeconds(1f);
-
         Microphone.End("");
 
         AudioClip recordingNew = AudioClip.Create(recording.name, (int)((Time.time - startRecordingTime) * recording.frequency), recording.channels, recording.frequency, false);
