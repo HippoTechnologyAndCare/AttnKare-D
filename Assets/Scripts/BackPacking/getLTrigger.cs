@@ -36,17 +36,13 @@ public class getLTrigger : MonoBehaviour
     {
             LtriggerDown = XRRig.GetComponent<InputBridge>().LeftTriggerNear;
             lTrigger = XRRig.GetComponent<InputBridge>().LeftTrigger;
-        if(ex == true)
+            /*
+        if(ex == true) //알림장 3초 확인
         {GameFlow.FsmVariables.GetFsmBool("bCount").Value = true;}
-
 
         if(ex == false)
         {GameFlow.FsmVariables.GetFsmBool("bCount").Value = false;}
-
-
-
-
-
+            */
 
         }
 
@@ -56,17 +52,9 @@ public class getLTrigger : MonoBehaviour
             if (lTrigger >= 0.5)
             {
                 Note.SetActive(true);
-                GameFlow.FsmVariables.GetFsmBool("bCount").Value = true;
+               // GameFlow.FsmVariables.GetFsmBool("bCount").Value = true;
                 
                 
-
-
-
-
-
-
-
-
             }
             if (lTrigger <= 0.9)
             {
@@ -92,8 +80,7 @@ public class getLTrigger : MonoBehaviour
                 if (set)
                 {
                     datacheck.Fsm.Event("Note Checking");
-                    
-                    
+
                 }
                 set = false;
             }
@@ -101,9 +88,6 @@ public class getLTrigger : MonoBehaviour
             {
                 set = true;
             }
-
-            
-
 
 
         }
