@@ -131,7 +131,8 @@ public class EasyTubeScoreboard : MonoBehaviour
                 "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\n";
 
         tempColor = wrongColor;
-        timer.SetActive(false);
+        if(timer != null)timer.SetActive(false);
+
         scoreText.SetActive(false);
     }
 
@@ -175,7 +176,11 @@ public class EasyTubeScoreboard : MonoBehaviour
             }
             if (!waitMessage.activeSelf)
             {
-                if (!timer.activeSelf) timer.SetActive(true);
+                if (timer != null) 
+                {
+                    if (!timer.activeSelf) timer.SetActive(true);
+                }
+
                 if (!scoreText.activeSelf) scoreText.SetActive(true);
             }
             
@@ -187,7 +192,11 @@ public class EasyTubeScoreboard : MonoBehaviour
         // Move to next scene after data is recorded (Used to write data only once)
         if (dataRecorded && !movingToLobby)
         {
-            Destroy(timer);
+            if (timer != null)
+            {
+                Destroy(timer);
+                timer = null;
+            }
             StartCoroutine(GoToLobby(false));
             dataRecorded = false;
             endOfGame = false;
@@ -381,7 +390,8 @@ public class EasyTubeScoreboard : MonoBehaviour
             {
                 endOfGame = true;
                 gameFailed = true;
-                clearTime = timer.GetComponent<Text>().text;
+                if (timer != null) clearTime = timer.GetComponent<Text>().text;
+
                 soundEffects.GetComponent<SoundEffects>().WrongBall();
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
@@ -394,7 +404,7 @@ public class EasyTubeScoreboard : MonoBehaviour
             {
                 endOfGame = true;
                 gameFailed = true;
-                clearTime = timer.GetComponent<Text>().text;
+                if (timer != null) clearTime = timer.GetComponent<Text>().text;
                 soundEffects.GetComponent<SoundEffects>().WrongBall();
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
@@ -407,7 +417,7 @@ public class EasyTubeScoreboard : MonoBehaviour
             {
                 endOfGame = true;
                 gameFailed = true;
-                clearTime = timer.GetComponent<Text>().text;
+                if (timer != null) clearTime = timer.GetComponent<Text>().text;
                 soundEffects.GetComponent<SoundEffects>().WrongBall();
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
@@ -519,7 +529,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         {
             stageAudio.GetComponent<StageAudio>().NextStage();
             clearTime = timer.GetComponent<Text>().text;
-            timer.SetActive(false);
+            if (timer != null) timer.SetActive(false);
             endOfGame = true;
             successBalls1.Clear();
             successBalls2.Clear();
@@ -673,6 +683,8 @@ public class EasyTubeScoreboard : MonoBehaviour
     // Record Stage Clear Time for Each Stage
     void RecordStageClearTime(int stage)
     {
+        if (timer == null) return;
+
         switch (stage)
         {
             case 1:

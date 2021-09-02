@@ -107,7 +107,7 @@ namespace BNG
                             line1.useWorldSpace = false;
                             line1.SetPosition(0, Vector3.zero);
                             line1.SetPosition(1, new Vector3(0, 0, Vector3.Distance(transform.position, hit.point) * LineDistanceModifier));                            
-                            Debug.Log("hit coll = " + hit.collider.name);
+                            //Debug.Log("hit coll = " + hit.collider.name);
                             //----------------***추가된 부분**----------------------- 
                             if(Set)
                             {

@@ -73,7 +73,7 @@ namespace BNG.UserData {
                 if (rTriggerValue > 0.7f && ltriggerValue > 0.7f)
                 {
 
-                    Debug.Log("true");
+                    //Debug.Log("true");
                  
                     Playmaker.FsmVariables.GetFsmBool("triggerDown").Value = true;
 
@@ -81,7 +81,7 @@ namespace BNG.UserData {
                 }
                 if (lGripValue > 0.7f && rGripValue > 0.7f)
                 {
-                    Debug.Log("done");
+                    //Debug.Log("done");
 
                     ghostSpeak(0);
                    

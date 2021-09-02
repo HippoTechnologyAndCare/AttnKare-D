@@ -11,7 +11,11 @@ public class PopUpController : MonoBehaviour
     public void DoAvtivatePopUp(string msg)
     {
         PopUpText.text = msg;
-        StartCoroutine(ShowUp());
+
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(ShowUp());
+        }
     }
 
     IEnumerator ShowUp()
