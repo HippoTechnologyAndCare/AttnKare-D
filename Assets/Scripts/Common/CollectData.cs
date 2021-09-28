@@ -277,6 +277,13 @@ namespace BNG
             InputDataWriter.WriteLine(myData);
             InputDataWriter.Close();
         }
+
+        public void AddTimeStamp(string delimiter, string time)
+        {
+            string _delimiter = delimiter + "\n";
+            string _time = time + "\n"; // for checking if time stamp was added correctly
+            dataPerFrame.Add(_delimiter + "Time: " + _time);
+        }
     }   
 }
 

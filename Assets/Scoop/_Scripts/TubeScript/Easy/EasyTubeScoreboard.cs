@@ -86,6 +86,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     [Header("Data")]
     [SerializeField] Transform setData_PlayerData;
     [SerializeField] Transform saveData_GameDataMG;
+    BNG.CollectData _collectData;
 
     // Temporary Timer Variables
     float delayTimer;
@@ -105,6 +106,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _collectData = GetComponent<BNG.CollectData>();
         /*Debug.Log("Child Count: " + pileOfBalls.transform.childCount);*/
 
         // Add active balls to list
@@ -432,6 +434,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls)
         {
             startTime = delayTimer; 
+            // Add Start Time Stamp here
         }
         else
         {
@@ -519,6 +522,8 @@ public class EasyTubeScoreboard : MonoBehaviour
         /*Debug.Log("Start Wait Coroutine");*/
         yield return new WaitForSeconds(5f);
         /*Debug.Log("Wait Coroutine Finished");*/
+
+        // Add End Time Stamp here
     }
 
     // This function is called when stage is cleared
@@ -590,6 +595,8 @@ public class EasyTubeScoreboard : MonoBehaviour
 
             // Wait 5 seconds to move onto the next stage
             yield return StartCoroutine(Wait());
+
+            // Or Add End Stamp Here
 
             // Record Stage Data
             RecordStageClearTime(stageCounter);
