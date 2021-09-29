@@ -216,14 +216,14 @@ public class TubeScoreboard : MonoBehaviour
         {
             if (!gameFailed) // Game Finish
             {
-                scoreText.GetComponent<Text>().text = "성공!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
+                scoreText.GetComponent<Text>().text = "성공!\n\n";
                 RecordData(endOfGame, gameFailed);
                 AddBreakPoint("Game Finish");
                 dataRecorded = true;                
             }
             else // Too many balls lost
             {
-                scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + totalDrops.ToString() + "\n\n";
+                scoreText.GetComponent<Text>().text = "실패!\n\n";
                 soundEffects.GetComponent<SoundEffects>().WrongBall();
                 RecordData(endOfGame, gameFailed);                
                 AddBreakPoint("Too many balls lost");
@@ -395,7 +395,7 @@ public class TubeScoreboard : MonoBehaviour
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
-                scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + "\n\n";
+                scoreText.GetComponent<Text>().text = "실패!\n\n";
                 soundEffects.GetComponent<SoundEffects>().WrongBall();
                 AddBreakPoint("Fail in stage 1");
                 dataRecorded = true;
@@ -408,7 +408,7 @@ public class TubeScoreboard : MonoBehaviour
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
-                scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + "\n\n";
+                scoreText.GetComponent<Text>().text = "실패!\n\n";
                 soundEffects.GetComponent<SoundEffects>().WrongBall();
                 AddBreakPoint("Fail in stage 2");
                 dataRecorded = true;
@@ -421,7 +421,7 @@ public class TubeScoreboard : MonoBehaviour
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
-                scoreText.GetComponent<Text>().text = "실패!\n\n떨어뜨린 공: " + "\n\n";
+                scoreText.GetComponent<Text>().text = "실패!\n\n";
                 soundEffects.GetComponent<SoundEffects>().WrongBall();
                 AddBreakPoint("Fail in stage 3");
                 dataRecorded = true;
