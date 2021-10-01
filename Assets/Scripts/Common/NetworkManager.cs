@@ -61,13 +61,15 @@ public class NetworkManager : MonoBehaviour
         formData.AddBinaryData("json", File.ReadAllBytes(resPath + "UserData.json"), "UserData.json", "application/octet-stream");
 
 
+        AudioFormat = ".mp3";
+/*
         // 라이브러리 변경 전까지는 wav 파일을 전송 mp3 -> wav
 #if UNITY_EDITOR
         AudioFormat = ".mp3";
 #else
         AudioFormat = ".wav";
 #endif
-
+*/
         formData.AddBinaryData("tutorial_txt", File.ReadAllBytes(resPath + "9_Behavior.txt"), "tutorial_txt.txt", "application/octet-stream");
         formData.AddBinaryData("tutorial_mp3", File.ReadAllBytes(resPath + "9" + AudioFormat), "tutorial_mp3.mp3", "application/octet-stream");
 
