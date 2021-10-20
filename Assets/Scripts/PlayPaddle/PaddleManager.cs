@@ -196,7 +196,7 @@ public class PaddleManager : MonoBehaviour
     {
         if (StageLvl == 1)
         {
-            if (PaddleSpeedTimer > 3.6f && PaddleSpeedTimer < 4.4f)
+            if (PaddleSpeedTimer > 3.6f && PaddleSpeedTimer < 4.3f)
             {
                 SuccessToGo();
 
@@ -219,7 +219,7 @@ public class PaddleManager : MonoBehaviour
         }
         else if (StageLvl == 2)
         {
-            if (PaddleSpeedTimer > 2.6f && PaddleSpeedTimer < 3.4f)
+            if (PaddleSpeedTimer > 2.6f && PaddleSpeedTimer < 3.3f)
             {
                 SuccessToGo();
 
@@ -244,7 +244,7 @@ public class PaddleManager : MonoBehaviour
         {
             if (Vehicle.GetComponent<VehicleController>().Distance < 100)
             {
-                if (PaddleSpeedTimer > 1.6f && PaddleSpeedTimer < 2.4f)
+                if (PaddleSpeedTimer > 1.6f && PaddleSpeedTimer < 2.3f)
                 {
                     SuccessToGo();
                 }
