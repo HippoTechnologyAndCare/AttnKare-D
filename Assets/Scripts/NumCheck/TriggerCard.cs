@@ -6,6 +6,8 @@ using BNG;
 public class TriggerCard : MonoBehaviour
 {
     public InputBridge xrRig;
+    public string orderNum;
+
 
     // Start is called before the first frame update
     void Start()
@@ -13,23 +15,34 @@ public class TriggerCard : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OnTriggerEnter(Collider other)
     {
-        if(xrRig.RightTrigger>=0.2)
+        string num= other.GetComponent<NumCard>().cardNum;
+        TriggerCheck(other);
+       
+    }
+    public void TriggerCheck(Collider other)
+    {
+        if(xrRig.RightTrigger< 0.2f)
         {
+            Debug.Log("IN");
+            if (other.transform.GetComponent<NumCard>().cardNum == orderNum)
+            {
+                other.transform.GetComponent<NumCard>().SetPosRot(this.transform);
 
+
+            }
+            if(other.transform.GetComponent<NumCard>().cardNum != orderNum)
+            {
+                other.transform.GetComponent<NumCard>().ResetPosRot();
+
+            }
 
 
 
 
         }
-
-
     }
+
+
 }
