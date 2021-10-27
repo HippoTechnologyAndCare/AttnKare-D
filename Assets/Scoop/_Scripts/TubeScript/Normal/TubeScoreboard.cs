@@ -127,7 +127,8 @@ public class TubeScoreboard : MonoBehaviour
         InGameDebugger();
 
         // Initialize Scoreboard Text
-        scoreText.GetComponent<Text>().text = stageCounter + " 단계\n\n노란색: " + score1.ToString() + "    연보라색: " + score2.ToString() + "    청록색: " + score3.ToString() +
+        scoreText.GetComponent<Text>().text = stageCounter + " 단계\n\n노란색: " + score1.ToString() + 
+            "    연보라색: " + score2.ToString() + "    청록색: " + score3.ToString() +
                 "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\n";
 
         tempColor = wrongColor;
@@ -206,7 +207,8 @@ public class TubeScoreboard : MonoBehaviour
         delayTimer += Time.deltaTime;
 
         // Moves onto next stage
-        if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls && delayTimer - startTime > 2.8f && delayTimer - startTime < 3.2f && !endOfGame)
+        if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && 
+            successBalls3.Count == stageBalls && delayTimer - startTime > 2.8f && delayTimer - startTime < 3.2f && !endOfGame)
         {
             StartCoroutine(stageClear());
             startTime = 0;
@@ -223,7 +225,7 @@ public class TubeScoreboard : MonoBehaviour
             }
             else // Too many balls lost
             {
-                scoreText.GetComponent<Text>().text = "실패!\n\n";
+                scoreText.GetComponent<Text>().text = "게임 종료\n\n";
                 soundEffects.GetComponent<SoundEffects>().WrongBall();
                 RecordData(endOfGame, gameFailed);                
                 AddBreakPoint("Too many balls lost");
@@ -253,9 +255,11 @@ public class TubeScoreboard : MonoBehaviour
 
         SaveAndFinish(isSkipped);
 
-        yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + SceneManager.GetActiveScene().buildIndex.ToString() + ".mp3"));
+        yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + 
+            SceneManager.GetActiveScene().buildIndex.ToString() + ".mp3"));
 #if UNITY_EDITOR
-        yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + EditorSceneManager.GetActiveScene().buildIndex.ToString() + ".mp3"));
+        yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + 
+            EditorSceneManager.GetActiveScene().buildIndex.ToString() + ".mp3"));
 #endif
 
         SceneLoader.LoadScene(12);
@@ -381,7 +385,8 @@ public class TubeScoreboard : MonoBehaviour
         if (!endOfGame && !movingToLobby)
         {
             // Updates Scoreboard Text
-            scoreText.GetComponent<Text>().text = stageCounter + " 단계\n\n노란색: " + score1.ToString() + "    연보라색: " + score2.ToString() + "    청록색: " + score3.ToString()
+            scoreText.GetComponent<Text>().text = stageCounter + " 단계\n\n노란색: " + score1.ToString() 
+                + "    연보라색: " + score2.ToString() + "    청록색: " + score3.ToString()
                 + "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\n";
 
             // Fails if too many balls are lost (Each Condition is for each stage)
@@ -395,7 +400,7 @@ public class TubeScoreboard : MonoBehaviour
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
-                scoreText.GetComponent<Text>().text = "실패!\n\n";
+                scoreText.GetComponent<Text>().text = "게임 종료\n\n";
                 soundEffects.GetComponent<SoundEffects>().WrongBall();
                 AddBreakPoint("Fail in stage 1");
                 dataRecorded = true;
@@ -408,7 +413,7 @@ public class TubeScoreboard : MonoBehaviour
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
-                scoreText.GetComponent<Text>().text = "실패!\n\n";
+                scoreText.GetComponent<Text>().text = "게임 종료\n\n";
                 soundEffects.GetComponent<SoundEffects>().WrongBall();
                 AddBreakPoint("Fail in stage 2");
                 dataRecorded = true;
@@ -421,7 +426,7 @@ public class TubeScoreboard : MonoBehaviour
                 RecordStageClearTime(stageCounter);
                 RecordStageDrops(stageCounter);
                 RecordData(endOfGame, gameFailed);
-                scoreText.GetComponent<Text>().text = "실패!\n\n";
+                scoreText.GetComponent<Text>().text = "게임 종료\n\n";
                 soundEffects.GetComponent<SoundEffects>().WrongBall();
                 AddBreakPoint("Fail in stage 3");
                 dataRecorded = true;
@@ -458,7 +463,8 @@ public class TubeScoreboard : MonoBehaviour
                         ball.SetActive(false);
                         excessBalls++;
                         soundEffects.GetComponent<SoundEffects>().WrongBall();
-                        StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().numberGuide)); // Show Guide Message
+                        StartCoroutine(popups.GetComponent<PopupManager>()
+                            .ShowMessage(popups.GetComponent<PopupManager>().numberGuide)); // Show Guide Message
                     }
                     else
                     {
@@ -477,7 +483,8 @@ public class TubeScoreboard : MonoBehaviour
                         ball.SetActive(false);
                         excessBalls++;
                         soundEffects.GetComponent<SoundEffects>().WrongBall();
-                        StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().numberGuide)); // Show Guide Message
+                        StartCoroutine(popups.GetComponent<PopupManager>()
+                            .ShowMessage(popups.GetComponent<PopupManager>().numberGuide)); // Show Guide Message
                     }
                     else
                     {
@@ -496,7 +503,8 @@ public class TubeScoreboard : MonoBehaviour
                         ball.SetActive(false);
                         excessBalls++;
                         soundEffects.GetComponent<SoundEffects>().WrongBall();
-                        StartCoroutine(popups.GetComponent<PopupManager>().ShowMessage(popups.GetComponent<PopupManager>().numberGuide)); // Show Guide Message
+                        StartCoroutine(popups.GetComponent<PopupManager>()
+                            .ShowMessage(popups.GetComponent<PopupManager>().numberGuide)); // Show Guide Message
                     }
                     else
                     {
@@ -528,7 +536,8 @@ public class TubeScoreboard : MonoBehaviour
     IEnumerator stageClear()
     {       
         // If score is 3, end game
-        if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls && stageBalls == 3)
+        if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls 
+            && successBalls3.Count == stageBalls && stageBalls == 3)
         {
             stageAudio.GetComponent<StageAudio>().NextStage();
             if (timer != null) 
@@ -556,7 +565,8 @@ public class TubeScoreboard : MonoBehaviour
             voices.GetComponent<Voice>().Stage3Finish();
         }
         // If score is not 3, move onto next stage
-        else if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && successBalls3.Count == stageBalls)
+        else if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls 
+            && successBalls3.Count == stageBalls)
         {
             // Play Stage Clear Sound
             stageAudio.GetComponent<StageAudio>().NextStage();
@@ -608,8 +618,9 @@ public class TubeScoreboard : MonoBehaviour
             stageBalls++;
             stageCounter++;
             waitMessage.SetActive(false);
-            scoreText.GetComponent<Text>().text = stageCounter + " 단계\n\n노란색: " + score1.ToString() + "    연보라색: " + score2.ToString() + "    청록색: " + score3.ToString() + 
-                "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\n";
+            scoreText.GetComponent<Text>().text = stageCounter + " 단계\n\n노란색: " + score1.ToString() 
+                + "    연보라색: " + score2.ToString() + "    청록색: " + score3.ToString() 
+                + "\n\n떨어뜨린 공: " + totalDrops.ToString() + "개\n\n";
             scoreText.SetActive(true);
             numberGuide.GetComponent<Text>().text = "공은 " + stageBalls.ToString() + "개씩만 넣으면 돼요!";
 
@@ -676,19 +687,29 @@ public class TubeScoreboard : MonoBehaviour
         {
             if (failed)
             {
-                results += "Failed: Y\n\n" + WriteStageDrops() + "Wrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
+                results += "Failed: Y\n\n" + WriteStageDrops() 
+                    + "Wrong Color: " + wrongColor.ToString() 
+                    + "\n\nExcess Balls: " 
+                    + excessBalls.ToString() + "\n";
             }
             else if (!failed)
             {
-                results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n";
+                results += "Failed: N\n\n" + WriteStageDrops() 
+                    + WriteStageClearTime() + "\n\nWrong Color: " 
+                    + wrongColor.ToString() + "\n\nExcess Balls: " 
+                    + excessBalls.ToString() + "\n";
             }
         }
         else
         {
-            results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() + "\n\nWrong Color: " + wrongColor.ToString() + "\n\nExcess Balls: " + excessBalls.ToString() + "\n\nTerminated(Stage " + stageCounter + ")\n";
+            results += "Failed: N\n\n" + WriteStageDrops() + WriteStageClearTime() 
+                + "\n\nWrong Color: " + wrongColor.ToString() 
+                + "\n\nExcess Balls: " + excessBalls.ToString() 
+                + "\n\nTerminated(Stage " + stageCounter + ")\n";
         }
 
-        if(GetComponent<SaveScoopData>() != null) GetComponent<SaveScoopData>().SaveTempSceneData(results); // Change location of this if necessary
+        if(GetComponent<SaveScoopData>() != null) GetComponent<SaveScoopData>().SaveTempSceneData(results); 
+        // Change location of this if necessary
     }
 
     // Record Stage Clear Time for Each Stage
@@ -700,15 +721,21 @@ public class TubeScoreboard : MonoBehaviour
         {
             case 1:
                 clearTime1 = timer.GetComponent<Text>().text;
-                time1 = timer.GetComponent<Timer>().secondsCount + timer.GetComponent<Timer>().minuteCount * 60 + timer.GetComponent<Timer>().hourCount * 3600;
+                time1 = timer.GetComponent<Timer>().secondsCount 
+                    + timer.GetComponent<Timer>().minuteCount * 60 
+                    + timer.GetComponent<Timer>().hourCount * 3600;
                 break;
             case 2:
                 clearTime2 = timer.GetComponent<Text>().text;
-                time2 = timer.GetComponent<Timer>().secondsCount + timer.GetComponent<Timer>().minuteCount * 60 + timer.GetComponent<Timer>().hourCount * 3600;
+                time2 = timer.GetComponent<Timer>().secondsCount 
+                    + timer.GetComponent<Timer>().minuteCount * 60 
+                    + timer.GetComponent<Timer>().hourCount * 3600;
                 break;
             case 3:
                 clearTime3 = timer.GetComponent<Text>().text;
-                time3 = timer.GetComponent<Timer>().secondsCount + timer.GetComponent<Timer>().minuteCount * 60 + timer.GetComponent<Timer>().hourCount * 3600;
+                time3 = timer.GetComponent<Timer>().secondsCount 
+                    + timer.GetComponent<Timer>().minuteCount * 60 
+                    + timer.GetComponent<Timer>().hourCount * 3600;
                 break;
             default:
                 break;
@@ -718,7 +745,9 @@ public class TubeScoreboard : MonoBehaviour
     // Write Stage Clear Time to File
     string WriteStageClearTime()
     {
-        return "1 단계 완료시간: " + clearTime1.ToString() + "\n2 단계 완료시간: " + clearTime2.ToString() + "\n3 단계 완료시간: " + clearTime3.ToString() + "\n\n";
+        return "1 단계 완료시간: " + clearTime1.ToString() 
+            + "\n2 단계 완료시간: " + clearTime2.ToString() 
+            + "\n3 단계 완료시간: " + clearTime3.ToString() + "\n\n";
     }
 
     // Record Number of Drops for Each Stage
@@ -743,7 +772,9 @@ public class TubeScoreboard : MonoBehaviour
     // Write Number of Drops for Each Stage to File
     string WriteStageDrops()
     {
-        return "1 단계에서 떨어뜨린 횟수: " + stage1Drops.ToString() + "\n2 단계에서 떨어뜨린 횟수: " + stage2Drops.ToString() + "\n3 단계에서 떨어뜨린 횟수: " + stage3Drops.ToString() + "\n\n";
+        return "1 단계에서 떨어뜨린 횟수: " + stage1Drops.ToString() 
+            + "\n2 단계에서 떨어뜨린 횟수: " + stage2Drops.ToString() 
+            + "\n3 단계에서 떨어뜨린 횟수: " + stage3Drops.ToString() + "\n\n";
     }
 
     // Record Data (When Terminated)
