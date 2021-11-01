@@ -99,6 +99,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     public bool dataRecorded = false;
     public float isSkipped = 0;
     bool movingToLobby = false;
+    bool addedDelimiter = false;
 
     // Boolean to Load Data (Only Used Once after Start Function)
     bool isChecked = false;
@@ -136,6 +137,9 @@ public class EasyTubeScoreboard : MonoBehaviour
         if(timer != null)timer.SetActive(false);
 
         scoreText.SetActive(false);
+
+        // Start Timestamp at beginning of the game
+        GetComponent<BNG.CollectData>().AddTimeStamp("listen start");
     }
 
     // Update is called once per frame
@@ -170,7 +174,7 @@ public class EasyTubeScoreboard : MonoBehaviour
                 if (tool.GetComponent<BNG.Grabbable>().enabled) tool.GetComponent<BNG.Grabbable>().enabled = false;
             }
         }
-        else
+        else // This Process is executed throughout the game
         {
             foreach (GameObject tool in toolList)
             {
@@ -185,7 +189,12 @@ public class EasyTubeScoreboard : MonoBehaviour
 
                 if (!scoreText.activeSelf) scoreText.SetActive(true);
             }
-            
+            // End Delimiter after explanation audio ends
+            if (!addedDelimiter)
+            {
+                GetComponent<BNG.CollectData>().AddTimeStamp("listen end");
+                addedDelimiter = true;
+            }
         }
 
         // Constantly Update In Game Debug Panel if used

@@ -97,6 +97,7 @@ public class TubeScoreboard : MonoBehaviour
     public bool dataRecorded = false;
     public float isSkipped = 0;
     bool movingToLobby = false;
+    bool addedDelimiter = false;
 
     // Boolean to Load Data (Only Used Once after Start Function)
     bool isChecked = false;
@@ -134,6 +135,9 @@ public class TubeScoreboard : MonoBehaviour
         tempColor = wrongColor;
         timer.SetActive(false);
         scoreText.SetActive(false);
+
+        // Start Timestamp at beginning of the game
+        GetComponent<BNG.CollectData>().AddTimeStamp("listen start");
     }
 
     // Update is called once per frame
@@ -168,7 +172,7 @@ public class TubeScoreboard : MonoBehaviour
                 if (tool.GetComponent<BNG.Grabbable>().enabled) tool.GetComponent<BNG.Grabbable>().enabled = false;
             }
         }
-        else
+        else // This Process is executed throughout the game
         {
             foreach (GameObject tool in toolList)
             {
@@ -182,6 +186,12 @@ public class TubeScoreboard : MonoBehaviour
                 }
 
                 if(!scoreText.activeSelf) scoreText.SetActive(true);
+            }
+            // End Delimiter after explanation audio ends
+            if (!addedDelimiter)
+            {
+                GetComponent<BNG.CollectData>().AddTimeStamp("listen end");
+                addedDelimiter = true;
             }
         }
 
