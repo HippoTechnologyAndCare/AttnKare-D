@@ -9,6 +9,10 @@ using UnityEditor.SceneManagement;
 #endif
 using UserData;
 
+/// <summary>
+/// 시작과 끝부분마다 GetComponent<BNG.CollectData>().AddTimeStamp("delimiter name");를 호출하면 됩니다
+/// </summary>
+
 namespace BNG
 {
     public class CollectData : MonoBehaviour
@@ -59,9 +63,9 @@ namespace BNG
         string DeviceSavePath;
 
         float Timer = 0;
-        float plotTimer = 0;
         FileStream DeviceDataInfo;
         StreamWriter DeviceDataWriter;
+        int frame = 0;
 
         // Object Class for storing data
         class Stats
@@ -94,15 +98,15 @@ namespace BNG
         {
             database = new Stats();
 
-            FileName = SceneManager.GetActiveScene().buildIndex.ToString();                                                                                      // SceneManager.GetActiveScene().buildIndex.ToString();
+            FileName = SceneManager.GetActiveScene().buildIndex.ToString();
 #if UNITY_EDITOR
             FileName = EditorSceneManager.GetActiveScene().buildIndex.ToString();
 #endif
 
             // 아래 코드를 막은 이유는 DataManager의 함수와 중복되는 내용
-            //FolderName = "NAME" + DateTime.Now.ToString("yyyyMMddHHdd");                                          // UserData.DataManager.GetInstance().userInfo.Name + "_" + UserData.DataManager.GetInstance().userInfo.Gender;
-            //FilePath_Root = Application.persistentDataPath + "/" + DateTime.Now.ToString("yyyyMMdd") + "/";       //기본 날짜 묶음 C:\Users\uk308\AppData\LocalLow\HippoTnC\Strengthen_Concentration_VR
-            //FilePath_Folder = FilePath_Root + FolderName + "/";
+            // FolderName = "NAME" + DateTime.Now.ToString("yyyyMMddHHdd");                                          // UserData.DataManager.GetInstance().userInfo.Name + "_" + UserData.DataManager.GetInstance().userInfo.Gender;
+            // FilePath_Root = Application.persistentDataPath + "/" + DateTime.Now.ToString("yyyyMMdd") + "/";       //기본 날짜 묶음 C:\Users\uk308\AppData\LocalLow\HippoTnC\Strengthen_Concentration_VR
+            // FilePath_Folder = FilePath_Root + FolderName + "/";
 
             //if (!Directory.Exists(FilePath_Root))
             //{
@@ -116,19 +120,30 @@ namespace BNG
             
             InputSavePath = DataManager.GetInstance().FilePath_Folder + FileName + "_Plot.txt";
             DeviceSavePath = DataManager.GetInstance().FilePath_Folder + FileName + "_Behavior.txt";
+
+            ShowDataOnInspector();
         }
 
-        void Update()
+        void FixedUpdate()
         {
             Timer += Time.deltaTime;
-            plotTimer += Time.deltaTime;
+            frame++;
 
-            if (Timer > .05f)
+            Debug.Log("Time is " + Time.deltaTime.ToString());
+
+            if(frame > 4)
+            {
+                SaveDeviceData();
+                Plot(Timer);
+                frame = 0;
+            }
+
+            /*if (Timer > .05f)
             {
                 SaveDeviceData();
                 Plot(plotTimer);
                 Timer = 0;
-            }
+            }*/
             ShowDataOnInspector();
         }
 
@@ -139,7 +154,7 @@ namespace BNG
                 + "\nA Button Pressed: " + database.AClicks.ToString() + "\nB Button Pressed: " + database.BClicks.ToString()
                 + "\nX Button Pressed: " + database.XClicks.ToString() + "\nY Button Pressed: " + database.YClicks.ToString();
 
-            database.output += database.controllerInput;
+            // Add Number of Clicks to Data List
             dataPerFrame.Add(database.controllerInput);
 
             DeviceDataInfo = new FileStream(DeviceSavePath, FileMode.Append, FileAccess.Write);
@@ -148,7 +163,6 @@ namespace BNG
             {
                 DeviceDataWriter.WriteLine(data);
             }
-            /*DeviceDataWriter.WriteLine(database.output);*/
             DeviceDataWriter.Close();
 
             InputDataInfo = new FileStream(InputSavePath, FileMode.Append, FileAccess.Write);
@@ -159,8 +173,9 @@ namespace BNG
                 InputDataWriter.WriteLine(plot);
             }
             InputDataWriter.Close();
+
             // Delete if unnecessary
-            //SaveInputData(database.controllerInput);
+            // SaveInputData(database.controllerInput);
         }
 
         void ShowDataOnInspector()
@@ -226,24 +241,11 @@ namespace BNG
             _BClicks = database.BClicks;
             _XClicks = database.XClicks;
             _YClicks = database.YClicks;
-
-            //////////////////////////////////////////
-            //////////////////////////////////////////
-            // Create Data String
-            // CODE GOES HERE
-            //////////////////////////////////////////
-            //////////////////////////////////////////
         }
 
         public void SaveDeviceData()
         {
-            dataPerFrame.Add(Buttons() + "\n" + Positions() + "\n");
-            
-            /*DeviceDataInfo = new FileStream(DeviceSavePath, FileMode.Append, FileAccess.Write);
-            DeviceDataWriter = new StreamWriter(DeviceDataInfo, System.Text.Encoding.Unicode);
-            DeviceDataWriter.WriteLine(Buttons());
-            DeviceDataWriter.WriteLine(Positions());
-            DeviceDataWriter.Close();*/
+            dataPerFrame.Add(Timer.ToString() + "\n" + Buttons() + "\n" + Positions() + "\n");
         }
 
         public void Plot(float time)
