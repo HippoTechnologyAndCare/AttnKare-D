@@ -131,7 +131,7 @@ namespace BNG
 
             Debug.Log("Time is " + Time.deltaTime.ToString());
 
-            if(frame > 4)
+            if(frame > 6)
             {
                 SaveDeviceData();
                 Plot(Timer);
