@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BNG;
 
 public class NumCheckManager : MonoBehaviour
 {
+    public Transform Grabber;
     public GameObject[] arrCards;
-
+   
+    Transform colObject;
+    Transform _lastCollision;
+    Transform collision;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +23,6 @@ public class NumCheckManager : MonoBehaviour
         }
 
         ShuffleNum(arrNum); //shuffle numbers
-
 
         for (int count = 0; count < arrCards.Length; count++)
         {
@@ -47,7 +51,45 @@ public class NumCheckManager : MonoBehaviour
         }
         return arrNum;
 
+    }
+
+    public void DisableCollision(Transform colObject)
+    {
+
+        
+        //Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), true );
+        if (_lastCollision != null && _lastCollision != colObject)
+        {
+            //  _lastCollision.GetComponent<Collider>().isTrigger = false;
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), true);
+            Debug.Log("diabled");
+            _lastCollision = colObject;
+            //  colObject.GetComponent<Collider>().isTrigger = true;
+
+        }
+        if (_lastCollision == null)
+        {
+            _lastCollision = colObject;
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), true);
+
+        }
+        else
+        {
+            return;
+        }
+
 
 
     }
+
+    public void EnableCollision()
+    {
+        //Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), false);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), false);
+
+    }
+
+
+
+
 }

@@ -35,8 +35,25 @@ public class TriggerCard : MonoBehaviour
             if(other.transform.GetComponent<NumCard>().cardNum != orderNum)
             {
                 other.transform.GetComponent<NumCard>().ResetPosRot();
+          
 
             }
+
+
+            /*
+            if (other.transform.GetComponent<NumCard>().tag == "Necessary")
+            {
+                other.transform.GetComponent<NumCard>().SetPosRot(this.transform);
+
+
+            }
+            if(other.transform.GetComponent<NumCard>().tag != "Necessary")
+            {
+                other.transform.GetComponent<NumCard>().ResetPosRot();
+          
+
+            }
+            */
 
 
 

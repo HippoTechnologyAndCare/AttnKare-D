@@ -83,7 +83,7 @@ namespace BNG
   /*                Doesn't Need Anymore(Outlinable parameters가 pointer가 들어갔다 나갈 때 마다 변경되어야 하기 때문)   
                     hitObject = hit.collider.gameObject;
 
-                        if (hitObject.GetComponent<Outlinable>().enabled != true)
+                        if (hitObject.GetComponent<Outlinable>().enabled != true)w
                         {
                             hitObject.GetComponent<Outlinable>().enabled = true;
 

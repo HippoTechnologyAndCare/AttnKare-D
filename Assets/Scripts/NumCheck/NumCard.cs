@@ -9,6 +9,8 @@ public class NumCard : MonoBehaviour
    public TextMeshProUGUI cardText;
     Vector3 initPosition;
     Vector3 initRotation;
+ // Transform _lastCollision;
+ // Transform collision;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +43,48 @@ public class NumCard : MonoBehaviour
 
 
     }
+
+    /*
+    public void DisableCollision(Transform colObject)
+    {
+        
+        Debug.Log("diabled");
+        //Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), true );
+        if (_lastCollision != null && _lastCollision != colObject ) 
+        {
+            //  _lastCollision.GetComponent<Collider>().isTrigger = false;
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), true);
+            _lastCollision = colObject;
+        //  colObject.GetComponent<Collider>().isTrigger = true;
+                
+        }
+        if(_lastCollision == null)
+        {
+            _lastCollision = colObject;
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), true);
+
+        }
+        else
+        {
+            return;
+        }
+        
+       
+
+    }
+
+    public void EnableCollision(Transform colObject)
+    {
+        //Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), false);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), false);
+
+    }
+
+    */
+
+   
+
+
 
 
 }
