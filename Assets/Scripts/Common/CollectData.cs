@@ -46,6 +46,8 @@ namespace BNG
         public int _XClicks;
         public int _YClicks;
 
+        public Vector3 currentVelocity;
+
         // File Writing
         FileStream InputDataInfo;
         StreamWriter InputDataWriter;
@@ -66,6 +68,7 @@ namespace BNG
         FileStream DeviceDataInfo;
         StreamWriter DeviceDataWriter;
         int frame = 0;
+        public float dt; // Time Interval
 
         // Object Class for storing data
         class Stats
@@ -73,6 +76,8 @@ namespace BNG
             // Head Transform
             public Vector3 HeadPosition;    // 3D Coordinates (Contains x, y, z)
             public Vector3 HeadAngle;   // Euler Angles (Contains x, y, z)
+            //Head Velocity
+            public Vector3 HeadVelocity;
             // Controller Transform
             public Vector3 LHandPosition;
             public Vector3 RHandPosition;
@@ -127,15 +132,17 @@ namespace BNG
         void FixedUpdate()
         {
             Timer += Time.deltaTime;
+            dt += Time.deltaTime;
             frame++;
 
             Debug.Log("Time is " + Time.deltaTime.ToString());
 
-            if(frame > 6)
+            if(frame > 3)
             {
                 SaveDeviceData();
                 Plot(Timer);
                 frame = 0;
+                dt = 0;
             }
 
             /*if (Timer > .05f)
@@ -185,6 +192,7 @@ namespace BNG
             // Saves Camera Rig Position & EulerAngles, Left Controller Position and Right Controller Position
             database.HeadPosition = Camera.localPosition;
             database.HeadAngle = Camera.eulerAngles;
+            database.HeadVelocity = Camera.gameObject.GetComponent<Rigidbody>().velocity; // Need Fix
             database.LHandPosition = LHand.localPosition;
             database.RHandPosition = RHand.localPosition;
 
@@ -241,17 +249,23 @@ namespace BNG
             _BClicks = database.BClicks;
             _XClicks = database.XClicks;
             _YClicks = database.YClicks;
+            currentVelocity = database.HeadVelocity;
         }
 
         public void SaveDeviceData()
         {
-            dataPerFrame.Add(Timer.ToString() + "\n" + Buttons() + "\n" + Positions() + "\n");
+            dataPerFrame.Add("Time: " + Timer.ToString() + "\n" + "dt: " + dt.ToString() + "\n" + Buttons() + "\n" + Velocity() + "\n"+ Positions() + "\n");
         }
 
         public void Plot(float time)
         {
             string plot = time.ToString() + ", " + _LTrigger.ToString() + ", " + time.ToString() + ", " + _RTrigger.ToString() + ", " + time.ToString() + ", " + _LGrip.ToString() + ", " + time.ToString() + ", " + _RGrip.ToString();
             plotPerFrame.Add(plot);
+        }
+
+        public string Velocity()
+        {
+            return "VELOCITY (" + database.HeadVelocity + ")\n";
         }
 
         public string Positions()
