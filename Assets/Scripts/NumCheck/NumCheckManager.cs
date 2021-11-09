@@ -1,21 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using BNG;
 
 public class NumCheckManager : MonoBehaviour
 {
-    public Transform Grabber;
+    public Grabber numGrabber;
     public GameObject[] arrCards;
-   
+    public GameObject hitCollision = null;
+    public TextMeshProUGUI answerText;
+    public int answerInt = 0;
+    public string[] arrOrder;
+    string[] arrAnswer = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "111", "12", "13", "14", "15" };
+    bool once;
     Transform colObject;
     Transform _lastCollision;
     Transform collision;
+    Grabbable prevGrabbable;
+    GameObject prevhitCollision;
 
     // Start is called before the first frame update
     void Start()
     {
+        arrOrder = new string[15];
+        once = true;
         int[] arrNum = new int[arrCards.Length];
+        
 
         for (int i = 0; i < arrCards.Length; i++)
         {
@@ -35,6 +46,11 @@ public class NumCheckManager : MonoBehaviour
 
         }
 
+    }
+
+    private void Update()
+    {
+       
     }
 
     public int[] ShuffleNum(int[] arrNum)
@@ -61,17 +77,18 @@ public class NumCheckManager : MonoBehaviour
         if (_lastCollision != null && _lastCollision != colObject)
         {
             //  _lastCollision.GetComponent<Collider>().isTrigger = false;
-            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), true);
-            Debug.Log("diabled");
+            //Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), true);
+            colObject.gameObject.layer = LayerMask.NameToLayer("boxCard");
             _lastCollision = colObject;
             //  colObject.GetComponent<Collider>().isTrigger = true;
 
         }
         if (_lastCollision == null)
         {
-            _lastCollision = colObject;
-            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), true);
 
+            _lastCollision = colObject;
+            //Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), true);
+            colObject.gameObject.layer = LayerMask.NameToLayer("boxCard");
         }
         else
         {
@@ -82,13 +99,75 @@ public class NumCheckManager : MonoBehaviour
 
     }
 
+    public void getGrabbable()
+    {
+
+        prevGrabbable = numGrabber.HeldGrabbable;
+
+    }
     public void EnableCollision()
     {
+      
+        if(prevGrabbable && prevGrabbable.CompareTag( "Necessary") )
+        {
+            prevGrabbable.gameObject.layer = LayerMask.NameToLayer("numCard");
+
+            return;
+        }
+        if(hitCollision && prevhitCollision != hitCollision)
+        {
+            Debug.Log("enter");
+            hitCollision.layer = LayerMask.NameToLayer("numCard");
+            prevhitCollision = hitCollision;
+            hitCollision = null;
+            return;
+        }
+        
         //Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), false);
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), false);
+        //Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), false);
+
 
     }
 
+    public void compareArr()
+    {
+
+        
+        if (answerInt == 15)
+        {
+
+
+            answerText.text = "이렇게 마무리 할게요!";
+            StartCoroutine(compareAnswer());
+
+
+        }
+
+
+
+
+
+    }
+
+    IEnumerator compareAnswer()
+    {
+        yield return new WaitForSeconds(1.5f);
+        if (arrOrder == arrAnswer)
+        {
+
+            answerText.text = "고생했어요!\n다음으로 넘어갑니다";
+
+        }
+        if (arrOrder != arrAnswer)
+        {
+            answerText.text = "정답이 맞나요? \n다시 한번 확인해보세요!";
+
+        }
+        once = true;
+
+    }
+
+ 
 
 
 
