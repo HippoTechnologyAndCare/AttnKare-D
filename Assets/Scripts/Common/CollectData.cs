@@ -254,7 +254,7 @@ namespace BNG
 
         public void SaveDeviceData()
         {
-            dataPerFrame.Add("Time: " + Timer.ToString() + "\n" + "dt: " + dt.ToString() + "\n" + Buttons() + "\n" + Velocity() + "\n"+ Positions() + "\n");
+            dataPerFrame.Add("Time: " + Timer.ToString() + "\n" + "dt: " + dt.ToString() + "\n" + Buttons() + "\n" + Positions() + "\n");
         }
 
         public void Plot(float time)

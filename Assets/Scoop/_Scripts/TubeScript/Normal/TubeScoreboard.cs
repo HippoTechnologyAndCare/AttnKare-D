@@ -27,15 +27,15 @@ public class TubeScoreboard : MonoBehaviour
     public GameObject sceneText;
     public int totalDrops = 0; // Total number of drops throughout game
     public string clearTime = ""; // Clear Time
-    [HideInInspector] public float stage1Drops = 0; // Stage 1 Drops
-    [HideInInspector] public float stage2Drops = 0; // Stage 2 Drops
-    [HideInInspector] public float stage3Drops = 0; // Stage 3 Drops
+    [HideInInspector] public float stage1Drops = -1f; // Stage 1 Drops
+    [HideInInspector] public float stage2Drops = -1f; // Stage 2 Drops
+    [HideInInspector] public float stage3Drops = -1f; // Stage 3 Drops
     [HideInInspector] public string clearTime1 = ""; // Stage 1 Clear Time
     [HideInInspector] public string clearTime2 = ""; // Stage 2 Clear Time
     [HideInInspector] public string clearTime3 = ""; // Stage 3 Clear Time
-    public float time1 = -1f; // Stage 1 Clear Time (float) -1 is default value
-    public float time2 = -1f; // Stage 2 Clear Time (float) -1 is default value
-    public float time3 = -1f; // Stage 3 Clear Time (float) -1 is default value
+    [HideInInspector] public float time1 = -1f; // Stage 1 Clear Time (float) -1 is default value
+    [HideInInspector] public float time2 = -1f; // Stage 2 Clear Time (float) -1 is default value
+    [HideInInspector] public float time3 = -1f; // Stage 3 Clear Time (float) -1 is default value
     [HideInInspector] public int score1 = 0; // Yellow Ball
     [HideInInspector] public int score2 = 0; // Light Purple Ball
     [HideInInspector] public int score3 = 0; // Turqoise Ball
@@ -138,6 +138,10 @@ public class TubeScoreboard : MonoBehaviour
 
         // Start Timestamp at beginning of the game
         GetComponent<BNG.CollectData>().AddTimeStamp("listen start");
+
+        stage1Drops = -1f;
+        stage2Drops = -1f;
+        stage3Drops = -1f;
     }
 
     // Update is called once per frame
@@ -688,7 +692,7 @@ public class TubeScoreboard : MonoBehaviour
             endOfGame = true;
         }*/
 
-    // Record Game Score (Change to json variables here)
+    // Record Game Score
     public void RecordData(bool end, bool failed)
     {
         string results = "";
@@ -814,6 +818,10 @@ public class TubeScoreboard : MonoBehaviour
         {
             gameFailedResult = 0;
         }
+
+        RecordStageClearTime(stageCounter);
+        RecordStageDrops(stageCounter);
+        RecordData(endOfGame, gameFailed);
 
         FsmDatacheck.SendEvent("GameClear");
         // Save Data to local 

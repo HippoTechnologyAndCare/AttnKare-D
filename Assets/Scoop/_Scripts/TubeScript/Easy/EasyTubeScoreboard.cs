@@ -30,9 +30,9 @@ public class EasyTubeScoreboard : MonoBehaviour
     public GameObject sceneText;
     public int totalDrops = 0; // Total number of drops throughout game
     public string clearTime = ""; // Clear Time
-    [HideInInspector] public float stage1Drops = 0; // Stage 1 Drops
-    [HideInInspector] public float stage2Drops = 0; // Stage 2 Drops
-    [HideInInspector] public float stage3Drops = 0; // Stage 3 Drops
+    [HideInInspector] public float stage1Drops = -1f; // Stage 1 Drops
+    [HideInInspector] public float stage2Drops = -1f; // Stage 2 Drops
+    [HideInInspector] public float stage3Drops = -1f; // Stage 3 Drops
     [HideInInspector] public string clearTime1 = ""; // Stage 1 Clear Time
     [HideInInspector] public string clearTime2 = ""; // Stage 2 Clear Time
     [HideInInspector] public string clearTime3 = ""; // Stage 3 Clear Time
@@ -140,6 +140,10 @@ public class EasyTubeScoreboard : MonoBehaviour
 
         // Start Timestamp at beginning of the game
         GetComponent<BNG.CollectData>().AddTimeStamp("listen start");
+
+        stage1Drops = -1f;
+        stage2Drops = -1f;
+        stage3Drops = -1f;
     }
 
     // Update is called once per frame
@@ -281,9 +285,9 @@ public class EasyTubeScoreboard : MonoBehaviour
             + "\n\nSuccess Balls 2: " + successBalls2.Count
             + "\n\nSuccess Balls 3: " + successBalls3.Count
             + "\n\nTotal Drops: " + totalDrops
-            + "\n\nStage 1 Drops: " + stage1Drops
-            + "\n\nStage 2 Drops: " + stage2Drops
-            + "\n\nStage 3 Drops: " + stage3Drops
+            + "\n\nStage 1 Drops: " + stage1Drops.ToString()
+            + "\n\nStage 2 Drops: " + stage2Drops.ToString()
+            + "\n\nStage 3 Drops: " + stage3Drops.ToString()
             + "\n\nStage 1 Clear Time: " + time1.ToString()
             + "\n\nStage 2 Clear Time: " + time2.ToString()
             + "\n\nStage 3 Clear Time: " + time3.ToString()
@@ -769,7 +773,6 @@ public class EasyTubeScoreboard : MonoBehaviour
         if(gameFailed)
         {
             gameresultFailed = 1;
-
         }
         else
         {
@@ -778,8 +781,11 @@ public class EasyTubeScoreboard : MonoBehaviour
         if (skipped)
         {
             isSkipped = 1;
-
         }
+
+        RecordStageClearTime(stageCounter);
+        RecordStageDrops(stageCounter);
+        RecordData(endOfGame, gameFailed);
 
         fsm.SendEvent("GameClear");
         // Save Data to local 
