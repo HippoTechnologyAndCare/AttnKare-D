@@ -9650,6 +9650,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 762863287}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &764613864 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7236810885861840590, guid: b9ffca821d7fb2640ae22a124dadf085,
+    type: 3}
+  m_PrefabInstance: {fileID: 914906259}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &764669767 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3782995092187089613, guid: 3aeb4149a8f119340a8f1e6b7db00e98,
@@ -27927,6 +27933,8 @@ MonoBehaviour:
   toolList: []
   audioTrigger: {fileID: 657184785}
   popups: {fileID: 169091151}
+  rightHand: {fileID: 1920337016}
+  leftHand: {fileID: 764613864}
   left1: 0
   left2: 0
   left3: 0
@@ -41474,6 +41482,12 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5053925668127403250, guid: a6e68b9fe240a5845928cc22a4c06a1c, type: 3}
+--- !u!1 &1920337016 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7236810887571167919, guid: b9ffca821d7fb2640ae22a124dadf085,
+    type: 3}
+  m_PrefabInstance: {fileID: 914906259}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1923355689
 PrefabInstance:
   m_ObjectHideFlags: 0

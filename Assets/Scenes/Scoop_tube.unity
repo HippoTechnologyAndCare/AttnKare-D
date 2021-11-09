@@ -27951,6 +27951,8 @@ MonoBehaviour:
   audioTrigger: {fileID: 1943069604}
   popups: {fileID: 602258359}
   numberGuide: {fileID: 602258360}
+  rightHand: {fileID: 914906275}
+  leftHand: {fileID: 914906274}
   left1: 0
   left2: 0
   left3: 0
@@ -27995,6 +27997,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CollidersToIgnore:
   - {fileID: 1261059769}
+--- !u!1 &914906274 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7236810885861840590, guid: b9ffca821d7fb2640ae22a124dadf085,
+    type: 3}
+  m_PrefabInstance: {fileID: 914906259}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &914906275 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7236810887571167919, guid: b9ffca821d7fb2640ae22a124dadf085,
+    type: 3}
+  m_PrefabInstance: {fileID: 914906259}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &915465861
 GameObject:
   m_ObjectHideFlags: 0

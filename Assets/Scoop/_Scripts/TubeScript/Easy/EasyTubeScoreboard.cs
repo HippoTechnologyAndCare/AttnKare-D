@@ -66,7 +66,13 @@ public class EasyTubeScoreboard : MonoBehaviour
     public List<GameObject> toolList = new List<GameObject>(); // List of Tools
     public GameObject audioTrigger; // Audio Trigger
     public GameObject popups; // popup manager object
-    
+
+    [Header("Hands")]
+    [Tooltip("RightController")]
+    public GameObject rightHand;
+    [Tooltip("LeftController")]
+    public GameObject leftHand;
+
     [Header("Debug Panel")]
     public int left1; // Number of Yellow Balls Left Active in Scene
     public int left2; // Number of Light Purple Balls Left Active in Scene
@@ -139,7 +145,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         scoreText.SetActive(false);
 
         // Start Timestamp at beginning of the game
-        GetComponent<BNG.CollectData>().AddTimeStamp("listen start");
+        GetComponent<BNG.CollectData>().AddTimeStamp("GUIDE START");
 
         stage1Drops = -1f;
         stage2Drops = -1f;
@@ -149,6 +155,15 @@ public class EasyTubeScoreboard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null)
+        {
+            Debug.Log("Object Grabbed by Right Hand: " + rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable);
+        }
+        if (leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null)
+        {
+            Debug.Log("Object Grabbed by Left Hand: " + leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable);
+        }
+
         // Load Data on First Frame
         if (!isChecked)
         {
@@ -196,7 +211,7 @@ public class EasyTubeScoreboard : MonoBehaviour
             // End Delimiter after explanation audio ends
             if (!addedDelimiter)
             {
-                GetComponent<BNG.CollectData>().AddTimeStamp("listen end");
+                GetComponent<BNG.CollectData>().AddTimeStamp("GUIDE END");
                 addedDelimiter = true;
             }
         }

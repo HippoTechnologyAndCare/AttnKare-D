@@ -135,8 +135,6 @@ namespace BNG
             dt += Time.deltaTime;
             frame++;
 
-            Debug.Log("Time is " + Time.deltaTime.ToString());
-
             if(frame > 3)
             {
                 SaveDeviceData();
