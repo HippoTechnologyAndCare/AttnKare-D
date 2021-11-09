@@ -820,10 +820,6 @@ public class EasyTubeScoreboard : MonoBehaviour
             default:
                 break;
         }
-        if (idle)
-        {
-            GetComponent<BNG.CollectData>().AddTimeStamp("IDLE END");
-        }
     }
 
     // Write Number of Drops for Each Stage to File
@@ -863,6 +859,10 @@ public class EasyTubeScoreboard : MonoBehaviour
         RecordStageClearTime(stageCounter);
         RecordStageDrops(stageCounter);
         RecordData(endOfGame, gameFailed);
+        if (idle)
+        {
+            GetComponent<BNG.CollectData>().AddTimeStamp("IDLE END");
+        }
 
         fsm.SendEvent("GameClear");
         // Save Data to local 
