@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using EPOOutline;
 using HutongGames.PlayMaker;
+using BNG;
 
 public class Grabber_control : MonoBehaviour
 {
@@ -13,10 +14,17 @@ public class Grabber_control : MonoBehaviour
     public GameObject Unn_timeCheck;
     public bool stageCheck;
     public bool stageCheck2;
+   
+    public CollectData dataCollect;
+    GameObject dataGameobject;
+
+    bool nothing = true;//or when grabbing nothing
+    bool disturbed = true; // for when grabbing unnecessary
+
     // Start is called before the first frame update
     // Update is called once per frame
 
- 
+
 
 
     void Update()
@@ -26,6 +34,12 @@ public class Grabber_control : MonoBehaviour
 
         if(child_outline.Length>0) //if grabber has child
         {
+            if(!nothing) //Stop IDLE in data log
+            {
+                dataCollect.AddTimeStamp("IDLE END");
+                nothing = true;
+            }
+            
             preChild = child_outline[0]; //가장 첫번째 child(but there's only one child anyway)
             Grabbed = preChild.gameObject; // send Grabbed to FSM
             check = true;
@@ -36,6 +50,11 @@ public class Grabber_control : MonoBehaviour
             if(preChild.tag == "Unnecessary")
             {
                 Unn_timeCheck.SetActive(true);
+                if(disturbed)
+                {
+                    dataCollect.AddTimeStamp("DISTURB START");
+                    disturbed = false;
+                }
                 
             }
 
@@ -49,13 +68,34 @@ public class Grabber_control : MonoBehaviour
             }
 
         }
-        else if(child_outline.Length==0 && preChild != null) //Grabber아래에는 gameobject가 안들어있는데 prechild에는 아직 obj가 저장되어있을 때
+        else if(child_outline.Length==0 ) //Grabber아래에는 gameobject가 안들어있는데 
         {
-            check = false;
-            UnnCheck(check, preChild);
-            Unn_timeCheck.SetActive(false);
-            Grabbed.GetComponent<Collider>().isTrigger = false;
-            Grabbed = null;
+            if (nothing) //START IDLE in data log
+            {
+                dataCollect.AddTimeStamp("IDLE START");
+                nothing = false;
+
+            }
+            if (!disturbed)
+            {
+                dataCollect.AddTimeStamp("DISTURB END");
+                disturbed = true;
+
+            }
+
+
+
+            if(preChild != null)// prechild에는 아직 obj가 저장되어있을 때
+            {
+                check = false;
+                UnnCheck(check, preChild);
+                Unn_timeCheck.SetActive(false);
+                Grabbed.GetComponent<Collider>().isTrigger = false;
+
+                Grabbed = null;
+            }
+            
+            
 
 
         }
@@ -83,6 +123,7 @@ public class Grabber_control : MonoBehaviour
 
         else if(!check) 
         {
+
             child_outline.enabled = true; //Grabber가 집은 물건이 사라진다면 outline을 꺼벌림
             preChild = null;
             
@@ -91,4 +132,6 @@ public class Grabber_control : MonoBehaviour
         }
 
     }
+
+   
 }

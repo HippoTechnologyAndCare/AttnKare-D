@@ -30,13 +30,21 @@ public class NumCard : MonoBehaviour
 
     public void SetPosRot(Transform posTrigger)
     {
+        
         transform.position = posTrigger.position;
-        transform.localEulerAngles = new Vector3(0, 180, 0);
+        //transform.localEulerAngles = new Vector3(0, 180, 0);
+        transform.localEulerAngles = new Vector3(90, 180, 0);
 
     }
 
     public void ResetPosRot()
     {
+        /*
+        if (transform.GetComponent<Rigidbody>().useGravity)
+        {
+            transform.GetComponent<Rigidbody>().useGravity = false;
+        }
+        */
         transform.position = initPosition;
         transform.localEulerAngles = initRotation;
 
@@ -44,6 +52,9 @@ public class NumCard : MonoBehaviour
 
     }
 
+    public void SetGravity()
+    {
+    }
     /*
     public void DisableCollision(Transform colObject)
     {
@@ -82,7 +93,7 @@ public class NumCard : MonoBehaviour
 
     */
 
-   
+
 
 
 

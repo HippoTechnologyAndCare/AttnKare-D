@@ -147,7 +147,7 @@ namespace BNG {
             Grabbable grabObject = other.GetComponent<Grabbable>();
             if (grabObject != null && ParentGrabber != null) {
                 ParentGrabber.RemoveValidRemoteGrabbable(other, grabObject);
-                //          cardCollision(other.transform, set);
+                cardCollision(other.transform);
                 
                 return;
             }
@@ -156,7 +156,7 @@ namespace BNG {
             GrabbableChild gc = other.GetComponent<GrabbableChild>();
             if (gc != null && ParentGrabber != null) {
                 ParentGrabber.RemoveValidRemoteGrabbable(other, gc.ParentGrabbable);
-                //          cardCollision(other.transform, set);
+                cardCollision(other.transform);
                 
                 return;
             }
@@ -165,8 +165,9 @@ namespace BNG {
         void cardCollision(Transform collision)
         {
             //bSet : true (DisableCollision)  / false (EnableCollision)
+            Manager.hitCollision = collision.gameObject;
 
-            Manager.DisableCollision(collision);
+            Manager.EnableCollision();
             
            
             

@@ -30,9 +30,9 @@ public class EasyTubeScoreboard : MonoBehaviour
     public GameObject sceneText;
     public int totalDrops = 0; // Total number of drops throughout game
     public string clearTime = ""; // Clear Time
-    [HideInInspector] public float stage1Drops = 0; // Stage 1 Drops
-    [HideInInspector] public float stage2Drops = 0; // Stage 2 Drops
-    [HideInInspector] public float stage3Drops = 0; // Stage 3 Drops
+    [HideInInspector] public float stage1Drops = -1f; // Stage 1 Drops
+    [HideInInspector] public float stage2Drops = -1f; // Stage 2 Drops
+    [HideInInspector] public float stage3Drops = -1f; // Stage 3 Drops
     [HideInInspector] public string clearTime1 = ""; // Stage 1 Clear Time
     [HideInInspector] public string clearTime2 = ""; // Stage 2 Clear Time
     [HideInInspector] public string clearTime3 = ""; // Stage 3 Clear Time
@@ -66,7 +66,21 @@ public class EasyTubeScoreboard : MonoBehaviour
     public List<GameObject> toolList = new List<GameObject>(); // List of Tools
     public GameObject audioTrigger; // Audio Trigger
     public GameObject popups; // popup manager object
-    
+
+    [Header("Hands")]
+    [Tooltip("RightController")]
+    public GameObject rightHand;
+    bool rightGrab = false;
+    [Tooltip("LeftController")]
+    public GameObject leftHand;
+    bool leftGrab = false;
+
+    bool idle = false;
+    bool idleCheck = false;
+
+    GameObject rightPrevGrabbed = null;
+    GameObject leftPrevGrabbed = null;
+
     [Header("Debug Panel")]
     public int left1; // Number of Yellow Balls Left Active in Scene
     public int left2; // Number of Light Purple Balls Left Active in Scene
@@ -139,12 +153,75 @@ public class EasyTubeScoreboard : MonoBehaviour
         scoreText.SetActive(false);
 
         // Start Timestamp at beginning of the game
-        GetComponent<BNG.CollectData>().AddTimeStamp("listen start");
+        GetComponent<BNG.CollectData>().AddTimeStamp("GUIDE START");
+
+        stage1Drops = -1f;
+        stage2Drops = -1f;
+        stage3Drops = -1f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Name of GameObject Grabbed by Each Hand
+        if (rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null)
+        {
+            Debug.Log("Object Grabbed by Right Hand: " + rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable);
+        }
+        if (leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null)
+        {
+            Debug.Log("Object Grabbed by Left Hand: " + leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable);
+        }
+
+        // Check if User is Grabbing Something
+        if (rightHand.GetComponent<BNG.HandController>().grabber != null && leftHand.GetComponent<BNG.HandController>().grabber != null)
+        {
+            // Check for Right Hand Grab
+            if (rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable == null && rightPrevGrabbed != null)
+            {
+                // When Object is Dropped
+                Debug.Log("Object Dropped (R)");
+                rightGrab = false;
+            }
+            else if (rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null && rightPrevGrabbed == null)
+            {
+                // When Object is Grabbed
+                Debug.Log("Object Grabbed (R)");
+                rightGrab = true;
+            }
+
+            // Check for Left Hand Grab
+            if (leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable == null && leftPrevGrabbed != null)
+            {
+                // When Object is Dropped
+                Debug.Log("Object Dropped (L)");
+                leftGrab = false;
+            }
+            else if (leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null && leftPrevGrabbed == null)
+            {
+                // When Object is Grabbed
+                Debug.Log("Object Grabbed (L)");
+                leftGrab = true;
+            }
+
+            // Check Idles
+            if (!rightGrab && !leftGrab) idle = true;
+            else idle = false;
+
+            // Idle Timestamp
+            if (idle && !idleCheck) GetComponent<BNG.CollectData>().AddTimeStamp("IDLE START");
+            else if (!idle && idleCheck) GetComponent<BNG.CollectData>().AddTimeStamp("IDLE END");
+
+            // Save Idle State of Current Frame
+            idleCheck = idle;
+        }
+        // Update What User is Grabbing (Right Hand)
+        if (rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null) rightPrevGrabbed = rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable.gameObject;
+        else rightPrevGrabbed = null;
+        // Update What User is Grabbing (Left Hand)
+        if (leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null) leftPrevGrabbed = leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable.gameObject;
+        else leftPrevGrabbed = null;
+
         // Load Data on First Frame
         if (!isChecked)
         {
@@ -192,7 +269,7 @@ public class EasyTubeScoreboard : MonoBehaviour
             // End Delimiter after explanation audio ends
             if (!addedDelimiter)
             {
-                GetComponent<BNG.CollectData>().AddTimeStamp("listen end");
+                GetComponent<BNG.CollectData>().AddTimeStamp("GUIDE END");
                 addedDelimiter = true;
             }
         }
@@ -281,9 +358,9 @@ public class EasyTubeScoreboard : MonoBehaviour
             + "\n\nSuccess Balls 2: " + successBalls2.Count
             + "\n\nSuccess Balls 3: " + successBalls3.Count
             + "\n\nTotal Drops: " + totalDrops
-            + "\n\nStage 1 Drops: " + stage1Drops
-            + "\n\nStage 2 Drops: " + stage2Drops
-            + "\n\nStage 3 Drops: " + stage3Drops
+            + "\n\nStage 1 Drops: " + stage1Drops.ToString()
+            + "\n\nStage 2 Drops: " + stage2Drops.ToString()
+            + "\n\nStage 3 Drops: " + stage3Drops.ToString()
             + "\n\nStage 1 Clear Time: " + time1.ToString()
             + "\n\nStage 2 Clear Time: " + time2.ToString()
             + "\n\nStage 3 Clear Time: " + time3.ToString()
@@ -769,7 +846,6 @@ public class EasyTubeScoreboard : MonoBehaviour
         if(gameFailed)
         {
             gameresultFailed = 1;
-
         }
         else
         {
@@ -778,7 +854,14 @@ public class EasyTubeScoreboard : MonoBehaviour
         if (skipped)
         {
             isSkipped = 1;
+        }
 
+        RecordStageClearTime(stageCounter);
+        RecordStageDrops(stageCounter);
+        RecordData(endOfGame, gameFailed);
+        if (idle)
+        {
+            GetComponent<BNG.CollectData>().AddTimeStamp("IDLE END");
         }
 
         fsm.SendEvent("GameClear");
