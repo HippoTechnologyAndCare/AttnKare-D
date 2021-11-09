@@ -70,8 +70,16 @@ public class EasyTubeScoreboard : MonoBehaviour
     [Header("Hands")]
     [Tooltip("RightController")]
     public GameObject rightHand;
+    bool rightGrab = false;
     [Tooltip("LeftController")]
     public GameObject leftHand;
+    bool leftGrab = false;
+
+    bool idle = false;
+    bool idleCheck = false;
+
+    GameObject rightPrevGrabbed = null;
+    GameObject leftPrevGrabbed = null;
 
     [Header("Debug Panel")]
     public int left1; // Number of Yellow Balls Left Active in Scene
@@ -155,7 +163,8 @@ public class EasyTubeScoreboard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null)
+        // Name of GameObject Grabbed by Each Hand
+        if (rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null)
         {
             Debug.Log("Object Grabbed by Right Hand: " + rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable);
         }
@@ -163,6 +172,55 @@ public class EasyTubeScoreboard : MonoBehaviour
         {
             Debug.Log("Object Grabbed by Left Hand: " + leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable);
         }
+
+        // Check if User is Grabbing Something
+        if (rightHand.GetComponent<BNG.HandController>().grabber != null && leftHand.GetComponent<BNG.HandController>().grabber != null)
+        {
+            // Check for Right Hand Grab
+            if (rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable == null && rightPrevGrabbed != null)
+            {
+                // When Object is Dropped
+                Debug.Log("Object Dropped (R)");
+                rightGrab = false;
+            }
+            else if (rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null && rightPrevGrabbed == null)
+            {
+                // When Object is Grabbed
+                Debug.Log("Object Grabbed (R)");
+                rightGrab = true;
+            }
+
+            // Check for Left Hand Grab
+            if (leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable == null && leftPrevGrabbed != null)
+            {
+                // When Object is Dropped
+                Debug.Log("Object Dropped (L)");
+                leftGrab = false;
+            }
+            else if (leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null && leftPrevGrabbed == null)
+            {
+                // When Object is Grabbed
+                Debug.Log("Object Grabbed (L)");
+                leftGrab = true;
+            }
+
+            // Check Idles
+            if (!rightGrab && !leftGrab) idle = true;
+            else idle = false;
+
+            // Idle Timestamp
+            if (idle && !idleCheck) GetComponent<BNG.CollectData>().AddTimeStamp("IDLE START");
+            else if (!idle && idleCheck) GetComponent<BNG.CollectData>().AddTimeStamp("IDLE END");
+
+            // Save Idle State of Current Frame
+            idleCheck = idle;
+        }
+        // Update What User is Grabbing (Right Hand)
+        if (rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null) rightPrevGrabbed = rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable.gameObject;
+        else rightPrevGrabbed = null;
+        // Update What User is Grabbing (Left Hand)
+        if (leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null) leftPrevGrabbed = leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable.gameObject;
+        else leftPrevGrabbed = null;
 
         // Load Data on First Frame
         if (!isChecked)
@@ -761,6 +819,10 @@ public class EasyTubeScoreboard : MonoBehaviour
                 break;
             default:
                 break;
+        }
+        if (idle)
+        {
+            GetComponent<BNG.CollectData>().AddTimeStamp("IDLE END");
         }
     }
 
