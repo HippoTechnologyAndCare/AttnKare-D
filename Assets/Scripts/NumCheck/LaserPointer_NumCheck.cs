@@ -100,11 +100,13 @@ namespace BNG
                             {
                                 hitObject = hit.collider.gameObject;
                                 Color outline = new Color(1f,0.8f, 0, 0.6f); //pointer hit 되면 노란 outline으로 변경
-                                hitObject.GetComponent<Outlinable>().FrontParameters.Color = outline;
-                                Set=false;
-                                
+                                if(hitObject.GetComponent<Outlinable>())
+                                {
+                                    hitObject.GetComponent<Outlinable>().FrontParameters.Color = outline;
+                                    
 
-
+                                }
+                                Set = false;
 
 
 
@@ -128,9 +130,15 @@ namespace BNG
                             if(!Set)
                             {
                                 Color outline = new Color(1f,1f, 1f, 0.6f); //pointer 가 나가면 원래 outline 색으로 돌아옴
-                                hitObject.GetComponent<Outlinable>().FrontParameters.Color = outline;
-                                Set=true;
+                                if(hitObject.GetComponent<Outlinable>())
+                                {
+                                    hitObject.GetComponent<Outlinable>().FrontParameters.Color = outline;
                                 
+                                }
+
+                                Set = true;
+
+
 
 
 
