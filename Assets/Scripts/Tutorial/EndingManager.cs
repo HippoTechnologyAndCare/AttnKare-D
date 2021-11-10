@@ -166,6 +166,7 @@ public class EndingManager : MonoBehaviour
         desPos = new Vector3(0.031f, -0.56f, 3.734f);
         StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos, 0.5f));
         yield return new WaitForSeconds(3.0f);
+     
 
 
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>아쉽지만\n이제 헤어질 \n시간이야\n<color=#2e86de><size=0.09><b>(T ^ T)", audioIndex = 0));

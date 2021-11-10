@@ -14,8 +14,7 @@ public class Grabber_control : MonoBehaviour
     public GameObject Unn_timeCheck;
     public bool stageCheck;
     public bool stageCheck2;
-   
-    public CollectData dataCollect;
+    public AddDelimiter delimiters;
     GameObject dataGameobject;
 
     bool nothing = true;//or when grabbing nothing
@@ -36,7 +35,7 @@ public class Grabber_control : MonoBehaviour
         {
             if(!nothing) //Stop IDLE in data log
             {
-                dataCollect.AddTimeStamp("IDLE END");
+                delimiters.addIDLE(nothing);
                 nothing = true;
             }
             
@@ -52,7 +51,7 @@ public class Grabber_control : MonoBehaviour
                 Unn_timeCheck.SetActive(true);
                 if(disturbed)
                 {
-                    dataCollect.AddTimeStamp("DISTURB START");
+                    delimiters.addDISTURB(disturbed);
                     disturbed = false;
                 }
                 
@@ -72,13 +71,13 @@ public class Grabber_control : MonoBehaviour
         {
             if (nothing) //START IDLE in data log
             {
-                dataCollect.AddTimeStamp("IDLE START");
+                delimiters.addIDLE(nothing);
                 nothing = false;
 
             }
             if (!disturbed)
             {
-                dataCollect.AddTimeStamp("DISTURB END");
+                delimiters.addDISTURB(disturbed);
                 disturbed = true;
 
             }
