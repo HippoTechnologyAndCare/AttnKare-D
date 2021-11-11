@@ -127,6 +127,7 @@ namespace BNG
             DeviceSavePath = DataManager.GetInstance().FilePath_Folder + FileName + "_Behavior.txt";
 
             ShowDataOnInspector();
+            /*dataPerFrame.Add("Time, A, B, X, Y, LTr, RTr, LGr, RGr, HPosX, HPosY, HPosZ, HAngX, HAngY, HAngZ, LHPosX, LHPosY, LHPosZ, RHPosX, RHPosY, RHPosZ");*/
         }
 
         void FixedUpdate()
@@ -152,6 +153,7 @@ namespace BNG
             ShowDataOnInspector();
         }
 
+        // Time, A, B, X, Y, LTr, RTr, LGr, RGr, HPosX, HPosY, HPosZ, HAngX, HAngY, HAngZ, LHPosX, LHPosY, LHPosZ, RHPosX, RHPosY, RHPosZ
         public void SaveBehaviorData()     //<<< ------------------------------- 각자 종료할때 호출해서 저장
         {
             database.controllerInput = "Left Trigger Clicks: " + database.LTriggerClicks.ToString() + "\nRight Trigger Clicks: " + database.RTriggerClicks.ToString()
@@ -252,7 +254,8 @@ namespace BNG
 
         public void SaveDeviceData()
         {
-            dataPerFrame.Add("Time: " + Timer.ToString() + "\n" + "dt: " + dt.ToString() + "\n" + Buttons() + "\n" + Positions() + "\n");
+            //                    Time            Controller Buttons    Device Position
+            dataPerFrame.Add(Timer.ToString() + ", " + Buttons() + ", " + Positions());
         }
 
         public void Plot(float time)
@@ -268,20 +271,19 @@ namespace BNG
 
         public string Positions()
         {
-            return "HEAD POSITION (" + database.HeadPosition.x.ToString() + ", " + database.HeadPosition.y.ToString() + ", " + database.HeadPosition.z.ToString() + 
-                " )        HEAD ANGLE (" + database.HeadAngle.x.ToString() + ", " + database.HeadAngle.y.ToString() + ", " + database.HeadAngle.z.ToString() + 
-                " )\nLEFT CONTROLLER POSITION (" + database.LHandPosition.x.ToString() + ", " + database.LHandPosition.y.ToString() + ", " + database.LHandPosition.z.ToString() + 
-                " )        RIGHT CONTROLLER POSITION (" + database.RHandPosition.x.ToString() + ", " + database.RHandPosition.y.ToString() + ", " + database.RHandPosition.z.ToString() + " )"
-                + "\n------------------------------------------------------------------------------------------------------------------------------------------------------------";
+            return database.HeadPosition.x.ToString() + ", " + database.HeadPosition.y.ToString() + ", " + database.HeadPosition.z.ToString() +
+                ", " + database.HeadAngle.x.ToString() + ", " + database.HeadAngle.y.ToString() + ", " + database.HeadAngle.z.ToString() +
+                ", " + database.LHandPosition.x.ToString() + ", " + database.LHandPosition.y.ToString() + ", " + database.LHandPosition.z.ToString() +
+                ", " + database.RHandPosition.x.ToString() + ", " + database.RHandPosition.y.ToString() + ", " + database.RHandPosition.z.ToString();
         }
 
         public string Buttons()
         {
-            return "A Button: " + (_inputBridge.AButtonDown || _inputBridge.AButton || _inputBridge.AButtonUp ? 1 : 0).ToString() +
-                "  B Button: " + (_inputBridge.BButtonDown || _inputBridge.BButton || _inputBridge.BButtonUp ? 1 : 0).ToString() +
-                "  X Button: " + (_inputBridge.XButtonDown || _inputBridge.XButton || _inputBridge.XButtonUp ? 1 : 0).ToString() +
-                "  Y Button: " + (_inputBridge.YButtonDown || _inputBridge.YButton || _inputBridge.YButtonUp ? 1 : 0).ToString() +
-                "\nLeft Trigger: " + _LTrigger.ToString() + "  Right Trigger: " + _RTrigger.ToString() + "  Left Grip: " + _LGrip.ToString() + "  Right Grip: " + _RGrip.ToString() + "\n";
+            return (_inputBridge.AButtonDown || _inputBridge.AButton || _inputBridge.AButtonUp ? 1 : 0).ToString() +
+                ", " + (_inputBridge.BButtonDown || _inputBridge.BButton || _inputBridge.BButtonUp ? 1 : 0).ToString() +
+                ", " + (_inputBridge.XButtonDown || _inputBridge.XButton || _inputBridge.XButtonUp ? 1 : 0).ToString() +
+                ", " + (_inputBridge.YButtonDown || _inputBridge.YButton || _inputBridge.YButtonUp ? 1 : 0).ToString() +
+                ", " + _LTrigger.ToString() + ", " + _RTrigger.ToString() + ", " + _LGrip.ToString() + ", " + _RGrip.ToString();
         }
 
         public void SaveInputData(string myData)
@@ -294,7 +296,7 @@ namespace BNG
 
         public void AddTimeStamp(string delimiter)
         {
-            string _delimiter = delimiter + "\n";
+            string _delimiter = delimiter;
             dataPerFrame.Add(_delimiter);
         }
     }   
