@@ -6,6 +6,7 @@ public class TriggerCard : MonoBehaviour
     public InputBridge xrRig;
     public NumCheckManager Manager;
     public string orderNum;
+  //  bool alrdyIN = false;
     bool inout;
     int arrNum;
 
@@ -20,7 +21,7 @@ public class TriggerCard : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Necessary"))
+        if(other.CompareTag("Necessary") )
         {
             
            //tring num = other.GetComponent<NumCard>().cardNum;
@@ -50,6 +51,7 @@ public class TriggerCard : MonoBehaviour
         
         if(xrRig.RightTrigger< 0.2f)
         {
+           
             inout = true;
             Debug.Log(other.name);
             Manager.arrOrder[arrNum] = other.transform.GetComponent<NumCard>().cardNum;
