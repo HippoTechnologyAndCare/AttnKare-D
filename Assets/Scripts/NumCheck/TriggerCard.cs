@@ -6,9 +6,11 @@ public class TriggerCard : MonoBehaviour
     public InputBridge xrRig;
     public NumCheckManager Manager;
     public string orderNum;
-  //  bool alrdyIN = false;
-    bool inout;
+    GameObject card;
+  //bool alrdyIN = false;
+    bool inout = false;
     int arrNum;
+    bool alrdyIn = false;
 
 
     // Start is called before the first frame update
@@ -23,10 +25,9 @@ public class TriggerCard : MonoBehaviour
     {
         if(other.CompareTag("Necessary") )
         {
-            
-           //tring num = other.GetComponent<NumCard>().cardNum;
-            TriggerCheck(other);
 
+            TriggerCheck(other);
+           
         }
      
        
@@ -36,79 +37,42 @@ public class TriggerCard : MonoBehaviour
     {
         if(other.CompareTag("Necessary"))
         {
-
-            TriggerExitCheck();
-
+            if(other.gameObject == card)
+            {
+                TriggerExitCheck();
+            }
             
-
         }
     }
 
     public void TriggerCheck(Collider other)
     {
-
-        other.GetComponent<Rigidbody>().isKinematic = true;
-        
-        if(xrRig.RightTrigger< 0.2f)
-        {
-           
-            inout = true;
-            Debug.Log(other.name);
-            Manager.arrOrder[arrNum] = other.transform.GetComponent<NumCard>().cardNum;
-            Manager.answerInt += 1;
-            other.transform.GetComponent<NumCard>().SetPosRot(this.transform);
-            Debug.Log("IN");
-            /* make card number match the order
-            if (other.transform.GetComponent<NumCard>().cardNum == orderNum)
-            {
-                other.transform.GetComponent<NumCard>().SetPosRot(this.transform);
+    if (xrRig.RightTrigger < 0.2f)
+    {
+        //   other.GetComponent<Rigidbody>().isKinematic = true;
+        other.GetComponent<Rigidbody>().useGravity = false;
+        Manager.arrOrder[arrNum] = other.transform.GetComponent<NumCard>().cardNum;
+        Manager.answerInt += 1;
+        other.transform.GetComponent<NumCard>().SetPosRot(this.transform);
+        card = other.gameObject;
+        inout = true;
+        Manager.GetComponent<NumCheckManager>().compareArr();
+        Debug.Log("IN");
+    }
 
 
-            }
-            if(other.transform.GetComponent<NumCard>().cardNum != orderNum)
-            {
-                other.transform.GetComponent<NumCard>().ResetPosRot();
-          
-
-            }
-            */
-        }
-
-
-
-        /*
-        if (other.transform.GetComponent<NumCard>().tag == "Necessary")
-        {
-            other.transform.GetComponent<NumCard>().SetPosRot(this.transform);
-
-
-        }
-        if(other.transform.GetComponent<NumCard>().tag != "Necessary")
-        {
-            other.transform.GetComponent<NumCard>().ResetPosRot();
-
-
-        }
-        */
-
-
-
-
-    
     }
 
     public void TriggerExitCheck()
     {
-        if(inout == true)
-        {
+        if (inout){
             Manager.arrOrder[arrNum] = null;
             Manager.answerInt -= 1;
-
+            // card = null;
             inout = false;
 
         }
-
-
+           
 
 
     }

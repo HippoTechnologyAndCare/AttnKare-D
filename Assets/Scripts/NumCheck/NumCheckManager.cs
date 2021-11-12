@@ -63,7 +63,6 @@ public class NumCheckManager : MonoBehaviour
             arrNum[i] = arrNum[rnd_n];
             arrNum[rnd_n]=temp;
 
-
         }
         return arrNum;
 
@@ -76,18 +75,16 @@ public class NumCheckManager : MonoBehaviour
         //Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), true );
         if (_lastCollision != null && _lastCollision != colObject)
         {
-            //  _lastCollision.GetComponent<Collider>().isTrigger = false;
-            //Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), true);
+           
             colObject.gameObject.layer = LayerMask.NameToLayer("boxCard");
             _lastCollision = colObject;
-            //  colObject.GetComponent<Collider>().isTrigger = true;
+        
 
         }
         if (_lastCollision == null)
         {
 
             _lastCollision = colObject;
-            //Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), true);
             colObject.gameObject.layer = LayerMask.NameToLayer("boxCard");
         }
         else
@@ -122,10 +119,7 @@ public class NumCheckManager : MonoBehaviour
             hitCollision = null;
             return;
         }
-        
-        //Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), false);
-        //Physics.IgnoreLayerCollision(LayerMask.NameToLayer("numCard"), LayerMask.NameToLayer("numCard"), false);
-
+       
 
     }
 
@@ -135,8 +129,6 @@ public class NumCheckManager : MonoBehaviour
         
         if (answerInt == 15)
         {
-
-
             answerText.text = "이렇게 마무리 할게요!";
             StartCoroutine(compareAnswer());
 

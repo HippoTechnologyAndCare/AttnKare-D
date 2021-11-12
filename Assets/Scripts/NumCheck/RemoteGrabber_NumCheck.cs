@@ -169,8 +169,6 @@ namespace BNG {
 
             Manager.EnableCollision();
             
-           
-            
         }
 
         #region EditorGizmos
