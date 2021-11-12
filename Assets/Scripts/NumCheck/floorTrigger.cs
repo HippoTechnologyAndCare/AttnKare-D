@@ -33,13 +33,13 @@ public class floorTrigger : MonoBehaviour
     
     IEnumerator TriggerCheck(Transform other)
     {
-        while(XRrig.RightTriggerDown)
+        while(XRrig.RightTrigger > 0.3f)
         {
             yield return null;
                 
 
         }
-        if(!XRrig.RightTriggerDown)
+        if(XRrig.RightTrigger <= 0.3f)
         {
             other.GetComponent<NumCard>().ResetPosRot();
         }
