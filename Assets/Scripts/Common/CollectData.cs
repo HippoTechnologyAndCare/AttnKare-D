@@ -248,11 +248,6 @@ namespace BNG
             _BClicks = database.BClicks;
             _XClicks = database.XClicks;
             _YClicks = database.YClicks;
-            Vector3 v;
-            v.x = velocityX;
-            v.y = velocityY;
-            v.z = velocityZ;
-            currentVelocity = v;
         }
 
         public void SaveDeviceData()
