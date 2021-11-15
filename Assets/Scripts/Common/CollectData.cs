@@ -60,6 +60,11 @@ namespace BNG
         // Data per Frame
         List<string> dataPerFrame = new List<string>();
         List<string> plotPerFrame = new List<string>();
+        Vector3 prevPos;
+        Vector3 curPos;
+        float velocityX;
+        float velocityY;
+        float velocityZ;
 
         string InputSavePath;
         string DeviceSavePath;
@@ -75,9 +80,8 @@ namespace BNG
         {
             // Head Transform
             public Vector3 HeadPosition;    // 3D Coordinates (Contains x, y, z)
-            public Vector3 HeadAngle;   // Euler Angles (Contains x, y, z)
-            //Head Velocity
-            public Vector3 HeadVelocity;
+            public Vector3 HeadAngle;   // Euler Angles (Contains x, y, z
+
             // Controller Transform
             public Vector3 LHandPosition;
             public Vector3 RHandPosition;
@@ -128,6 +132,7 @@ namespace BNG
 
             ShowDataOnInspector();
             /*dataPerFrame.Add("Time, A, B, X, Y, LTr, RTr, LGr, RGr, HPosX, HPosY, HPosZ, HAngX, HAngY, HAngZ, LHPosX, LHPosY, LHPosZ, RHPosX, RHPosY, RHPosZ");*/
+            prevPos = database.HeadPosition;
         }
 
         void FixedUpdate()
@@ -139,17 +144,12 @@ namespace BNG
             if(frame > 3)
             {
                 SaveDeviceData();
+                /*Velocity();*/     // Add Velocity Vector Components
                 Plot(Timer);
                 frame = 0;
                 dt = 0;
             }
 
-            /*if (Timer > .05f)
-            {
-                SaveDeviceData();
-                Plot(plotTimer);
-                Timer = 0;
-            }*/
             ShowDataOnInspector();
         }
 
@@ -192,7 +192,6 @@ namespace BNG
             // Saves Camera Rig Position & EulerAngles, Left Controller Position and Right Controller Position
             database.HeadPosition = Camera.localPosition;
             database.HeadAngle = Camera.eulerAngles;
-            database.HeadVelocity = Camera.gameObject.GetComponent<Rigidbody>().velocity; // Need Fix
             database.LHandPosition = LHand.localPosition;
             database.RHandPosition = RHand.localPosition;
 
@@ -249,7 +248,11 @@ namespace BNG
             _BClicks = database.BClicks;
             _XClicks = database.XClicks;
             _YClicks = database.YClicks;
-            currentVelocity = database.HeadVelocity;
+            Vector3 v;
+            v.x = velocityX;
+            v.y = velocityY;
+            v.z = velocityZ;
+            currentVelocity = v;
         }
 
         public void SaveDeviceData()
@@ -264,9 +267,21 @@ namespace BNG
             plotPerFrame.Add(plot);
         }
 
-        public string Velocity()
+        public void Velocity()
         {
-            return "VELOCITY (" + database.HeadVelocity + ")\n";
+            // Update Current Position
+            curPos = database.HeadPosition;
+
+            // Get xyz components of velocity vector
+            velocityX = (curPos.x - prevPos.x) / dt;
+            velocityY = (curPos.y - prevPos.y) / dt;
+            velocityZ = (curPos.z - prevPos.z) / dt;
+
+            // Save Current State
+            prevPos = curPos;
+
+            // Print Velocity
+            dataPerFrame.Add(velocityX.ToString() + ", " + velocityY.ToString() + ", " + velocityZ.ToString());
         }
 
         public string Positions()
