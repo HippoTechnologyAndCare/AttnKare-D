@@ -7,14 +7,19 @@ using BNG;
 
 public class Grabber_control : MonoBehaviour
 {
+
     public GameObject Grabbed;
     bool check; //집었을 떄 outline을 끄고 내려놓ㅎ았을때 outline을 키기
     Outlinable preChild;
     public float UnObject_Pick; // == bpUnpkT(필요하지 않은 물건을 집은 시간)
-    public GameObject Unn_timeCheck;
+    
     public bool stageCheck;
     public bool stageCheck2;
+
+    public PlayMakerFSM UnnGrab;
+    public GameObject Unn_timeCheck;
     public AddDelimiter delimiters;
+
     GameObject dataGameobject;
 
     bool nothing = true;//or when grabbing nothing
@@ -51,6 +56,7 @@ public class Grabber_control : MonoBehaviour
                 Unn_timeCheck.SetActive(true);
                 if(disturbed)
                 {
+                    UnnGrab.SendEvent("UnnecessaryObjectGrab");
                     delimiters.addDISTURB(disturbed);
                     disturbed = false;
                 }

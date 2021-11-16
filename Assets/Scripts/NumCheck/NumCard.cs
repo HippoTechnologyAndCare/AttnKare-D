@@ -24,9 +24,9 @@ public class NumCard : MonoBehaviour
         cardText.text = cardNum;
     }
 
-    public void SetPosRot(Transform posTrigger)
+    public void SetPosRot(Vector3 posTrigger)//Transform posTrigger
     {
-        transform.position = posTrigger.position;
+        transform.position = posTrigger;
         transform.localEulerAngles = new Vector3(90, 180, 0);
     }
 

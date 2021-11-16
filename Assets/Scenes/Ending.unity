@@ -24541,8 +24541,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.1
-  m_fontSizeBase: 0.1
+  m_fontSize: 0.04
+  m_fontSizeBase: 0.04
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -25659,6 +25659,7 @@ MonoBehaviour:
   TransitionIN: {fileID: 7538987883226259582}
   TransitionOut: {fileID: 2006479722}
   NetworkManager: {fileID: 78541382}
+  VoiceRecord: {fileID: 68795393}
   speed: 0.01
   SpeechBubble: {fileID: 6134581334235497615}
 --- !u!4 &1689042175
@@ -43539,48 +43540,48 @@ PrefabInstance:
     - target: {fileID: 5134966753961592394, guid: a92b1429e9b2bc74ebc6d606d84d1eba,
         type: 3}
       propertyPath: audioSource.Array.size
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5134966753961592394, guid: a92b1429e9b2bc74ebc6d606d84d1eba,
         type: 3}
       propertyPath: audioSource.Array.data[0]
       value: 
-      objectReference: {fileID: 8300000, guid: 1e843f17f1fdde247991184780ec26dc, type: 3}
+      objectReference: {fileID: 8300000, guid: 60419cd04b2b6ff4eaf1ccf197920adf, type: 3}
     - target: {fileID: 5134966753961592394, guid: a92b1429e9b2bc74ebc6d606d84d1eba,
         type: 3}
       propertyPath: audioSource.Array.data[1]
       value: 
-      objectReference: {fileID: 8300000, guid: df48783761037dc4196ca7842d7941c1, type: 3}
+      objectReference: {fileID: 8300000, guid: 3e31c20c7cd008c499dd2e777c3b6444, type: 3}
     - target: {fileID: 5134966753961592394, guid: a92b1429e9b2bc74ebc6d606d84d1eba,
         type: 3}
       propertyPath: audioSource.Array.data[2]
       value: 
-      objectReference: {fileID: 8300000, guid: be2cbd448e4666d4ea480ea048ce0a91, type: 3}
+      objectReference: {fileID: 8300000, guid: f72fa29b45edc53448cb4f04e5c6dd9d, type: 3}
     - target: {fileID: 5134966753961592394, guid: a92b1429e9b2bc74ebc6d606d84d1eba,
         type: 3}
       propertyPath: audioSource.Array.data[3]
       value: 
-      objectReference: {fileID: 8300000, guid: 4e089bb401f51a341af45f175f87bd30, type: 3}
+      objectReference: {fileID: 8300000, guid: 03c6312622fc95d4f8e262120d83ad3f, type: 3}
     - target: {fileID: 5134966753961592394, guid: a92b1429e9b2bc74ebc6d606d84d1eba,
         type: 3}
       propertyPath: audioSource.Array.data[4]
       value: 
-      objectReference: {fileID: 8300000, guid: 15be149cef1dfbe45bd4125ae0272c08, type: 3}
+      objectReference: {fileID: 8300000, guid: d2e680e0127813b4fa51f966507e630b, type: 3}
     - target: {fileID: 5134966753961592394, guid: a92b1429e9b2bc74ebc6d606d84d1eba,
         type: 3}
       propertyPath: audioSource.Array.data[5]
       value: 
-      objectReference: {fileID: 8300000, guid: 1e843f17f1fdde247991184780ec26dc, type: 3}
+      objectReference: {fileID: 8300000, guid: 11a9fb9176531b84ca9bf02c89b0c8c6, type: 3}
     - target: {fileID: 5134966753961592394, guid: a92b1429e9b2bc74ebc6d606d84d1eba,
         type: 3}
       propertyPath: audioSource.Array.data[6]
       value: 
-      objectReference: {fileID: 8300000, guid: df48783761037dc4196ca7842d7941c1, type: 3}
+      objectReference: {fileID: 8300000, guid: 94f69e67fcb373d42b75de8e8fa9dda0, type: 3}
     - target: {fileID: 5134966753961592394, guid: a92b1429e9b2bc74ebc6d606d84d1eba,
         type: 3}
       propertyPath: audioSource.Array.data[7]
       value: 
-      objectReference: {fileID: 8300000, guid: be2cbd448e4666d4ea480ea048ce0a91, type: 3}
+      objectReference: {fileID: 8300000, guid: b750899327abb2045a0850c0e0eb7a53, type: 3}
     - target: {fileID: 5134966753961592394, guid: a92b1429e9b2bc74ebc6d606d84d1eba,
         type: 3}
       propertyPath: audioSource.Array.data[8]
@@ -102954,7 +102955,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 12dc05bc461264e40aa58240d9538398, type: 2}
+  - {fileID: 2100000, guid: e6f1e717024da8145ae9b85d62dd4ff7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -104506,7 +104507,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 12dc05bc461264e40aa58240d9538398, type: 2}
+  - {fileID: 2100000, guid: e6f1e717024da8145ae9b85d62dd4ff7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
