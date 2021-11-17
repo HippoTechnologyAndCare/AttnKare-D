@@ -197,7 +197,7 @@ using BNG;
             StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>유저 정보 미입력", audioIndex = 0,3.0f));
             yield return new WaitForSeconds(3.0f);
         }
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.040>제일 재미있었던 미션은 뭐야?\n그리고 또 어느 미션이\n가장 어려웠어?", audioIndex = 3,7.0f));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.052>제일 재미있었던\n미션은 뭐야?\n그리고 또 어느 미션이\n가장 어려웠어?", audioIndex = 3,7.0f));
         yield return new WaitForSeconds(7.0f);
 
         yield return new WaitForSeconds(8.0f);
@@ -206,8 +206,8 @@ using BNG;
         desPos = new Vector3(-0.02f, -0.693f, 2.795f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>그랬구나~!", audioIndex = 4,3.0f));
         yield return new WaitForSeconds(3.0f);
-//        NetworkManager.DoSendToFinishData();
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.05>나는 오늘 너와 함께해서 \n너무 너무 즐거웠어", audioIndex = 5,3.0f));
+        NetworkManager.DoSendToFinishData();
         yield return new WaitForSeconds(4.0f);
         StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos, 0.2f));
         yield return new WaitForSeconds(1.8f);
