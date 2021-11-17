@@ -9,6 +9,7 @@ using KetosGames.SceneTransition;
 public class ScheduleManager : MonoBehaviour
 {
     public Transform Behavior;
+    //Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("delimiter name");
 
     public Transform Intro;
     public Transform Schedule;
@@ -29,20 +30,31 @@ public class ScheduleManager : MonoBehaviour
     public Transform Slot;
     public Transform Grp;
 
+    public Text TimerText;
+
     List<Transform> SlotList;
     List<Transform> GrpList;
 
     public float[] scene2arr;
 
     bool LeGogo = false;
+    bool BeforeStart = false;
+    bool FirstSelect = false;
+    bool BeforeStarGuideCheck = false;
 
-    float TimeLimit = 300;              //시간 제한 사용 방향 기획 필요
+    float Guide_Length = 24;
+
+    int Timer_Min = 1;
+    int Timer_Sec = 30;
+
+    float TimeLimit = 90;              //시간 제한 사용 방향 기획 필요
+    float TimeLimitForFinish = 120;      //강제종료시간
     float TotalElapsedTime = 0;         //수행한 시간 계산용
-    float TotalElapsedTimeForShow = 0;  //수행한 시간 보여주기용
+    float TotalElapsedTimeForCalc = 0;  //수행한 시간 보여주기용
+    float TimerForBeforeStarted = 0;    //시작하기 누르기까지 시간
+    float TimerForFirstSelect = 0;      //시작하기 누르고 첫 선택까지 시간
 
-    //public bool OnBoard = false;        //보드안에서 집중하고 있는지
-    //float NotOnBoard = 0;               //집중 못한 시간 계산용
-    //float NotOnBoardForShow = 0;        //집중 못한 시간 보여주기용
+    //float TotalScenePlayingTime = 0;    //컨텐츠 시작부터 끝까지 총 시간 TimerForBeforeStarted + TotalElapsedTimeForCalc
 
     public int TotalMovingCnt = 0;      //이동 횟수
     public int ResetCnt = 0;            //초기화 누른 횟수
@@ -61,12 +73,11 @@ public class ScheduleManager : MonoBehaviour
     public Transform setData_PlayerData;
     public Transform saveData_GameDataMG;
 
-
     void Start()
     {
         audioSource = this.GetComponent<AudioSource>();
 
-        LeGogo = true;
+        BeforeStart = true;
         SlotList = new List<Transform>();
         GrpList = new List<Transform>();
 
@@ -80,7 +91,7 @@ public class ScheduleManager : MonoBehaviour
             GrpList.Add(g);
         }
 
-        PlaySoundByTypes("INTRO");
+        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("GUIDE START");
     }
 
     void Update()
@@ -92,30 +103,83 @@ public class ScheduleManager : MonoBehaviour
             if (TotalElapsedTime > 1)
             {
                 TotalElapsedTime = 0;
-                TotalElapsedTimeForShow += 1;
+                TotalElapsedTimeForCalc += 1;
 
-                //ShowUpdate();
-
-                if (TotalElapsedTimeForShow >= TimeLimit)
+                if (Timer_Min != 0 || Timer_Sec != 0)
                 {
-                    //제한 시간 후 해야할 행동
-                    Btn_Finish.gameObject.SetActive(true);
+                    Timer_Sec -= 1;
+
+                    if (Timer_Sec < 0 && Timer_Min > 0)
+                    {
+                        Timer_Sec = 59;
+                        Timer_Min = 0;
+                    }
+
+                    string TextSec = "";
+
+                    if (Timer_Sec < 10)
+                    {
+                        TextSec = "0" + Timer_Sec.ToString();
+                    }
+                    else
+                    {
+                        TextSec = Timer_Sec.ToString();
+                    }
+
+
+                    TimerText.text = "0" + Timer_Min.ToString() + ":" + TextSec;
+                }
+
+                if (TotalElapsedTimeForCalc >= TimeLimit)
+                {
+                    //시간제한
+                    StartCoroutine(TimeLimitAndKeepGoing());
+
+                }
+
+                if (TotalElapsedTimeForCalc >= TimeLimitForFinish)
+                {
+                    //강제종료
+                    StartCoroutine(TimeOutAndFinish());
                 }
             }
-
-            /*            if (OnBoard)
-                        {
-                            NotOnBoard += Time.deltaTime;
-
-                            if (NotOnBoard > 1)
-                            {
-                                NotOnBoard = 0;
-                                NotOnBoardForShow += 1;
-
-                                ShowUpdate();
-                            }
-                        }*/
         }
+
+        if (BeforeStart)
+        {
+            TimerForBeforeStarted += Time.deltaTime;
+
+            if (!BeforeStarGuideCheck && TimerForBeforeStarted > Guide_Length)
+            {
+                Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("GUIDE END");
+                BeforeStarGuideCheck = true;
+            }
+        }
+
+        if (FirstSelect)
+        {
+            TimerForFirstSelect += Time.deltaTime;
+        }
+    }
+
+    IEnumerator TimeLimitAndKeepGoing()
+    {
+        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
+        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("LIMIT");
+
+        yield return new WaitForSeconds(6);
+
+        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
+    }
+
+    IEnumerator TimeOutAndFinish()
+    {
+        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
+        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("OUT");
+
+        yield return new WaitForSeconds(6);
+
+        FinishPanel_Yes(false);
     }
 
     public void LockAllCollision(Transform obj)
@@ -140,7 +204,7 @@ public class ScheduleManager : MonoBehaviour
     public void CheckMovingCnt()
     {
         TotalMovingCnt += 1;
-        //ShowUpdate();
+        FirstSelect = false;
     }
 
     bool CheckEmptySlot()
@@ -176,14 +240,8 @@ public class ScheduleManager : MonoBehaviour
 
             Btn_Finish.gameObject.SetActive(false);
             ResetCnt += 1;
-            //ShowUpdate();
         }
     }
-
-    /*    void ShowUpdate()
-        {
-            ToShow.text = "시간:" + TotalElapsedTimeForShow.ToString() + " / 이동:" + TotalMovingCnt.ToString() + " / 다시하기:" + ResetCnt.ToString() + " / 아니오:" + ClickNoCnt.ToString(); //" / 집중못한 시간:" + NotOnBoardForShow.ToString() + 
-        }*/
 
     public void CheckAllScheduleOnSlot()
     {
@@ -231,6 +289,16 @@ public class ScheduleManager : MonoBehaviour
 
         Intro.gameObject.SetActive(false);
         Schedule.gameObject.SetActive(true);
+        BeforeStart = false;
+        LeGogo = true;
+        FirstSelect = true;
+
+        if (!BeforeStarGuideCheck)
+        {
+            Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("GUIDE SKIP");
+        }
+
+        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("MISSION START");
     }
 
     public void ShowFinishPanel()
@@ -245,7 +313,6 @@ public class ScheduleManager : MonoBehaviour
         Finish.gameObject.SetActive(false);
 
         ClickNoCnt += 1;
-        //ShowUpdate();
     }
 
     public void FinishPanel_Yes(bool Skipped)
@@ -286,14 +353,26 @@ public class ScheduleManager : MonoBehaviour
 
             PlanData = float.Parse(MyScheduleforJson, System.Globalization.CultureInfo.InvariantCulture);
         }
+
+
+        /*
+        계획을 완료하는데 걸린 총 시간                               TotalElapsedTimeForCalc
+        계획을 얼마나 바꾸는지(이동)                                 TotalMovingCnt
+        계획 초기화(다시하기)를 누른 횟수                            ResetCnt
+        완료 결정을 못하고 번복한 횟수                               ClickNoCnt
+        완료된 계획 전송                                             PlanData
+        중도 포기(스킵)                                              SkipYn
+        시작버튼 누르기 까지 걸린 시간                               TimerForBeforeStarted
+        시작하기 누른 후 첫번째 계획 선택까지 걸린 시간              TimerForFirstSelect
+        */
+
+
         // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
-        scene2arr = new float[] { TotalElapsedTimeForShow, TotalMovingCnt, ResetCnt, ClickNoCnt, PlanData, SkipYn };        
+        scene2arr = new float[] { TotalMovingCnt, ResetCnt, ClickNoCnt, PlanData, SkipYn /* , 새로 추가된 데이터 */ };        
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
 
-        Debug.Log(PlanData.ToString());
-
+        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("MISSION END");
         StartCoroutine(GoToNextScene());
-
     }
 
     IEnumerator GoToNextScene()

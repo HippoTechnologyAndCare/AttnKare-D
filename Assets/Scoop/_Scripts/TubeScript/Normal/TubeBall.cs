@@ -91,7 +91,15 @@ public class TubeBall : MonoBehaviour
         } 
         else if (other.gameObject.tag == "Checker1" && GetComponent<Renderer>().sharedMaterial != tubeBall1)
         {
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().wrongColor++;
+            // When Tube is not filled
+            if (GetComponentInParent<TubeScoreboard>().score1 < GetComponentInParent<TubeScoreboard>().stageBalls)
+            {
+                gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().wrongColor++;
+            }
+            else
+            {
+                gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().wrongExcess++;
+            }
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall(); // Play sound when wrong ball is put in
             resetBall();
             gameObject.SetActive(false);
@@ -106,7 +114,14 @@ public class TubeBall : MonoBehaviour
         }
         else if (other.gameObject.tag == "Checker2" && GetComponent<Renderer>().sharedMaterial != tubeBall2)
         {
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().wrongColor++;
+            if (GetComponentInParent<TubeScoreboard>().score2 < GetComponentInParent<TubeScoreboard>().stageBalls)
+            {
+                gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().wrongColor++;
+            }
+            else
+            {
+                gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().wrongExcess++;
+            }
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall(); // Play sound when wrong ball is put in
             resetBall();
             gameObject.SetActive(false);
@@ -121,7 +136,14 @@ public class TubeBall : MonoBehaviour
         }
         else if (other.gameObject.tag == "Checker3" && GetComponent<Renderer>().sharedMaterial != tubeBall3)
         {
-            gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().wrongColor++;
+            if (GetComponentInParent<TubeScoreboard>().score3 < GetComponentInParent<TubeScoreboard>().stageBalls)
+            {
+                gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().wrongColor++;
+            }
+            else
+            {
+                gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().wrongExcess++;
+            }
             gameObject.transform.parent.GetComponentInParent<TubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall(); // Play sound when wrong ball is put in
             resetBall();
             gameObject.SetActive(false);

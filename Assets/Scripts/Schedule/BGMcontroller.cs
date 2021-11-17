@@ -7,6 +7,8 @@ public class BGMcontroller : MonoBehaviour
     AudioSource audioSource;
     public AudioClip Intro;
     public AudioClip BGM;
+    public AudioClip TimeLimit;
+    public AudioClip TimeOut;
 
     void Start()
     {
@@ -31,6 +33,16 @@ public class BGMcontroller : MonoBehaviour
         {
             audioSource.clip = BGM;
             audioSource.loop = true;
+        }
+        else if (Type == "LIMIT")
+        {
+            audioSource.clip = TimeLimit;
+            audioSource.loop = false;
+        }
+        else if (Type == "OUT")
+        {
+            audioSource.clip = TimeOut;
+            audioSource.loop = false;
         }
 
         audioSource.Play();
