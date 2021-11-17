@@ -96,7 +96,11 @@ public class EasyTubeBall : MonoBehaviour
             if(GetComponentInParent<EasyTubeScoreboard>().score1 == 0)
             {
                 gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongColor++;
-            }            
+            }
+            else
+            {
+                gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongExcess++;
+            }
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall();
             resetBall();
             gameObject.SetActive(false);
@@ -115,6 +119,10 @@ public class EasyTubeBall : MonoBehaviour
             {
                 gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongColor++;
             }
+            else
+            {
+                gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongExcess++;
+            }
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall();
             resetBall();
             gameObject.SetActive(false);
@@ -132,6 +140,10 @@ public class EasyTubeBall : MonoBehaviour
             if (GetComponentInParent<EasyTubeScoreboard>().score3 == 0)
             {
                 gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongColor++;
+            }
+            else
+            {
+                gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongExcess++;
             }
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall();
             resetBall();
