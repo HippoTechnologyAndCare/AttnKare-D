@@ -75,6 +75,7 @@ public class Timer : MonoBehaviour
                 {
                     // Lo
                     timeLimitPlayed = true;
+                    scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
                 }
             }
             if(scoreboard.GetComponent<TubeScoreboard>() != null)
@@ -83,6 +84,7 @@ public class Timer : MonoBehaviour
                 {
                     // Hi
                     timeLimitPlayed = true;
+                    scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
                 }
             }
         }
@@ -99,6 +101,7 @@ public class Timer : MonoBehaviour
                 {
                     // Lo
                     timeOutPlayed = true;
+                    scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
                 }
             }
             if (scoreboard.GetComponent<TubeScoreboard>() != null)
@@ -107,6 +110,7 @@ public class Timer : MonoBehaviour
                 {
                     // Hi
                     timeOutPlayed = true;
+                    scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
                 }
             }
         }
