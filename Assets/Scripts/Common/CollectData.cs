@@ -60,12 +60,26 @@ namespace BNG
         // Data per Frame
         List<string> dataPerFrame = new List<string>();
         List<string> plotPerFrame = new List<string>();
-        Vector3 prevPos;
-        Vector3 curPos;
-        float velocityX;
-        float velocityY;
-        float velocityZ;
 
+        // Velocity
+        Vector3 prevPosHead;
+        Vector3 curPosHead;
+        Vector3 prevPosRHand;
+        Vector3 curPosRHand;
+        Vector3 prevPosLHand;
+        Vector3 curPosLHand;
+
+        float velocityXHead;
+        float velocityYHead;
+        float velocityZHead;
+        float velocityXRHand;
+        float velocityYRHand;
+        float velocityZRHand;
+        float velocityXLHand;
+        float velocityYLHand;
+        float velocityZLHand;
+
+        // Path
         string InputSavePath;
         string DeviceSavePath;
 
@@ -132,7 +146,9 @@ namespace BNG
 
             ShowDataOnInspector();
             /*dataPerFrame.Add("Time, A, B, X, Y, LTr, RTr, LGr, RGr, HPosX, HPosY, HPosZ, HAngX, HAngY, HAngZ, LHPosX, LHPosY, LHPosZ, RHPosX, RHPosY, RHPosZ");*/
-            prevPos = database.HeadPosition;
+            prevPosHead = database.HeadPosition;
+            prevPosLHand = database.LHandPosition;
+            prevPosRHand = database.RHandPosition;
         }
 
         void FixedUpdate()
@@ -144,7 +160,6 @@ namespace BNG
             if(frame > 3)
             {
                 SaveDeviceData();
-                /*Velocity();*/     // Add Velocity Vector Components
                 Plot(Timer);
                 frame = 0;
                 dt = 0;
@@ -153,7 +168,8 @@ namespace BNG
             ShowDataOnInspector();
         }
 
-        // Time, A, B, X, Y, LTr, RTr, LGr, RGr, HPosX, HPosY, HPosZ, HAngX, HAngY, HAngZ, LHPosX, LHPosY, LHPosZ, RHPosX, RHPosY, RHPosZ
+        // 30
+        // Time, A, B, X, Y, LTr, RTr, LGr, RGr, HPosX, HPosY, HPosZ, HAngX, HAngY, HAngZ, LHPosX, LHPosY, LHPosZ, RHPosX, RHPosY, RHPosZ, HeadVelX, HeadVelY, HeadVelZ, LHandVelX, LHandVelY, LHandVelZ, RHandVelX, RHandVelY, RHandVelZ
         public void SaveBehaviorData()     //<<< ------------------------------- 각자 종료할때 호출해서 저장
         {
             database.controllerInput = "Left Trigger Clicks: " + database.LTriggerClicks.ToString() + "\nRight Trigger Clicks: " + database.RTriggerClicks.ToString()
@@ -252,8 +268,8 @@ namespace BNG
 
         public void SaveDeviceData()
         {
-            //                    Time            Controller Buttons    Device Position
-            dataPerFrame.Add(Timer.ToString() + ", " + Buttons() + ", " + Positions());
+            //                    Time            Controller Buttons    Device Position      Device Velocity
+            dataPerFrame.Add(Timer.ToString() + ", " + Buttons() + ", " + Positions() + ", " + Velocity());
         }
 
         public void Plot(float time)
@@ -262,21 +278,42 @@ namespace BNG
             plotPerFrame.Add(plot);
         }
 
-        public void Velocity()
+        public string Velocity()
         {
+            // Return Value
+            string result = "";
+
             // Update Current Position
-            curPos = database.HeadPosition;
+            curPosHead = database.HeadPosition;
+            curPosLHand = database.LHandPosition;
+            curPosRHand = database.RHandPosition;
 
             // Get xyz components of velocity vector
-            velocityX = (curPos.x - prevPos.x) / dt;
-            velocityY = (curPos.y - prevPos.y) / dt;
-            velocityZ = (curPos.z - prevPos.z) / dt;
-
+            // Head
+            velocityXHead = (curPosHead.x - prevPosHead.x) / dt;
+            velocityYHead = (curPosHead.y - prevPosHead.y) / dt;
+            velocityZHead = (curPosHead.z - prevPosHead.z) / dt;
+            // Left Hand
+            velocityXLHand = (curPosLHand.x - prevPosLHand.x) / dt;
+            velocityYLHand = (curPosLHand.y - prevPosLHand.y) / dt;
+            velocityZLHand = (curPosLHand.z - prevPosLHand.z) / dt;
+            // Right Hand
+            velocityXRHand = (curPosRHand.x - prevPosRHand.x) / dt;
+            velocityYRHand = (curPosRHand.y - prevPosRHand.y) / dt;
+            velocityZRHand = (curPosRHand.z - prevPosRHand.z) / dt;
+            
             // Save Current State
-            prevPos = curPos;
+            prevPosHead = curPosHead;
+            prevPosLHand = curPosLHand;
+            prevPosRHand = curPosRHand;
 
-            // Print Velocity
-            dataPerFrame.Add(velocityX.ToString() + ", " + velocityY.ToString() + ", " + velocityZ.ToString());
+            // Save to Return Value
+            result += velocityXHead.ToString() + ", " + velocityYHead.ToString() + ", " + velocityZHead.ToString() + ", ";
+            result += velocityXLHand.ToString() + ", " + velocityYLHand.ToString() + ", " + velocityZLHand.ToString() + ", ";
+            result += velocityXRHand.ToString() + ", " + velocityYRHand.ToString() + ", " + velocityZRHand.ToString();
+
+            // Return Velocity
+            return result;
         }
 
         public string Positions()
