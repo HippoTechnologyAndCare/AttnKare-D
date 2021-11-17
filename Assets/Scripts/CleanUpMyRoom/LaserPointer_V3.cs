@@ -80,21 +80,33 @@ namespace BNG
                     LaserEnd.transform.position = hit.point;
                     LaserEnd.transform.rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);
 
-                    if (hit.transform.gameObject.tag == "Necessary" || hit.transform.gameObject.tag == "Necessary_Book" || hit.transform.gameObject.tag == "Necessary_Pencil")
+                    if(hit.transform.gameObject.layer == 10)
                     {
-
-                        hitObject = hit.collider.gameObject;                                                                      
-                        if (InputBridge.Instance.RightTriggerDown == true)
-                        {                                                        
-                            if (hitObject.GetComponent<Outlinable>().enabled != true)
+                        if (hit.transform.gameObject.tag == "Necessary")
+                        {
+                            hitObject = hit.collider.gameObject;
+                            if (InputBridge.Instance.RightTriggerDown == true)
                             {
-                                hitObject.GetComponent<Outlinable>().enabled = true;
+                                if (hitObject.GetComponent<Outlinable>().enabled != true)
+                                {
+                                    hitObject.GetComponent<Outlinable>().enabled = true;
 
-                                SendEvent("Enter");
+                                    SendEvent("NeceEnter");
+                                    fsmG_Obj.Value = hitObject;
+                                }
+                            }
+                        }
+
+                        else if (hit.transform.gameObject.tag == "Unnecessary")
+                        {
+                            hitObject = hit.collider.gameObject;
+                            if (InputBridge.Instance.RightTriggerDown == true)
+                            {
+                                SendEvent("UnneceEnter");
                                 fsmG_Obj.Value = hitObject;
                             }                            
-                        }                            
-                    }
+                        }
+                    }                     
                 }
 
                 // Set position of the cursor

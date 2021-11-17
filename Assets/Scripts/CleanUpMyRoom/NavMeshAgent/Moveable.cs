@@ -77,7 +77,11 @@ public class Moveable : MonoBehaviour
             }
         }
     }
-  
+
+    private void LateUpdate()
+    {
+        
+    }
     IEnumerator GoToTarget()
     {       
         agent.SetDestination(targets[currentNum].position);
