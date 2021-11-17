@@ -93,7 +93,14 @@ public class EasyTubeBall : MonoBehaviour
         } 
         else if (other.gameObject.tag == "Checker1" && GetComponent<Renderer>().sharedMaterial != tubeBall1)
         {
-            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongColor++;
+            if(GetComponentInParent<EasyTubeScoreboard>().score1 == 0)
+            {
+                gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongColor++;
+            }
+            else
+            {
+                gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongExcess++;
+            }
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall();
             resetBall();
             gameObject.SetActive(false);
@@ -108,7 +115,14 @@ public class EasyTubeBall : MonoBehaviour
         }
         else if (other.gameObject.tag == "Checker2" && GetComponent<Renderer>().sharedMaterial != tubeBall2)
         {
-            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongColor++;
+            if (GetComponentInParent<EasyTubeScoreboard>().score2 == 0)
+            {
+                gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongColor++;
+            }
+            else
+            {
+                gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongExcess++;
+            }
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall();
             resetBall();
             gameObject.SetActive(false);
@@ -123,7 +137,14 @@ public class EasyTubeBall : MonoBehaviour
         }
         else if (other.gameObject.tag == "Checker3" && GetComponent<Renderer>().sharedMaterial != tubeBall3)
         {
-            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongColor++;
+            if (GetComponentInParent<EasyTubeScoreboard>().score3 == 0)
+            {
+                gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongColor++;
+            }
+            else
+            {
+                gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().wrongExcess++;
+            }
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().soundEffects.GetComponent<SoundEffects>().WrongBall();
             resetBall();
             gameObject.SetActive(false);

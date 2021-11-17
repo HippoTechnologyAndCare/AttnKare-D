@@ -42,6 +42,7 @@ public class TubeScoreboard : MonoBehaviour
     private int stageCounter = 1; // Stage number
     [HideInInspector] public float excessBalls = 0; // Number of Excess Balls put into tube
     [HideInInspector] public float wrongColor = 0; // Number of Balls that do not match tube color
+    [HideInInspector] public float wrongExcess = 0; // Number of Excess Balls that do not match tube color
     [HideInInspector] public int scoopLost = 0; // **DEPRECATED** Number of Times Scoop was lost
     public int stageBalls = 1; // Number of Balls needed in each tube to move onto next stage
     float tempColor;
@@ -75,6 +76,7 @@ public class TubeScoreboard : MonoBehaviour
 
     bool idle = false;
     bool idleCheck = false;
+    [HideInInspector] public int LoHi = 1; // Lo: 0, Hi: 1
 
     GameObject rightPrevGrabbed = null;
     GameObject leftPrevGrabbed = null;
@@ -368,6 +370,7 @@ public class TubeScoreboard : MonoBehaviour
             + "\n\nStage 3 Clear Time: " + time3.ToString()
             + "\n\nWrong Balls: " + wrongColor.ToString()
             + "\n\nExcess Balls: " + excessBalls.ToString()
+            + "\n\nWrong & Excess: " + wrongExcess.ToString()
             + "\n\nActive Balls 1: " + activeBalls1.Count
             + "\n\nActive Balls 2: " + activeBalls2.Count
             + "\n\nActive Balls 3: " + activeBalls3.Count

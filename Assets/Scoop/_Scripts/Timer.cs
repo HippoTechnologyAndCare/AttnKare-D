@@ -11,6 +11,12 @@ public class Timer : MonoBehaviour
     [HideInInspector] public int minuteCount;
     [HideInInspector] public int hourCount;
 
+    public GameObject voice;            // Sounds/Voice
+    public GameObject scoreboard;       // ScoopGame/Room/Scoreboard
+
+    bool timeLimitPlayed = false;
+    bool timeOutPlayed = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +29,10 @@ public class Timer : MonoBehaviour
     {
         secondsCount += Time.deltaTime;
         UpdateTimerUI();
+
+        // Check Time Limit or Time Out
+        PlayTimeLimitAudio();
+        PlayTimeOutAudio();
     }
 
     // Timer starts running when game starts
@@ -50,6 +60,58 @@ public class Timer : MonoBehaviour
             {
                 hourCount++;
                 minuteCount %= 60;
+            }
+        }
+    }
+
+    public void PlayTimeLimitAudio()
+    {
+        if (!timeLimitPlayed)
+        {
+            // Play Time Limit Audio
+            if(scoreboard.GetComponent<EasyTubeScoreboard>() != null)
+            {
+                if (scoreboard.GetComponent<EasyTubeScoreboard>().LoHi == 0 && (minuteCount == 10 && secondsCount == 0))
+                {
+                    // Lo
+                    timeLimitPlayed = true;
+                    scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
+                }
+            }
+            if(scoreboard.GetComponent<TubeScoreboard>() != null)
+            {
+                if (scoreboard.GetComponent<TubeScoreboard>().LoHi == 1 && (minuteCount == 8 && secondsCount == 0))
+                {
+                    // Hi
+                    timeLimitPlayed = true;
+                    scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
+                }
+            }
+        }
+    }
+
+    public void PlayTimeOutAudio()
+    {
+        if (!timeOutPlayed)
+        {
+            // Play Time Out Audio
+            if (scoreboard.GetComponent<EasyTubeScoreboard>() != null)
+            {
+                if (scoreboard.GetComponent<EasyTubeScoreboard>().LoHi == 0 && (minuteCount == 11 && secondsCount == 0))
+                {
+                    // Lo
+                    timeOutPlayed = true;
+                    scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
+                }
+            }
+            if (scoreboard.GetComponent<TubeScoreboard>() != null)
+            {
+                if (scoreboard.GetComponent<TubeScoreboard>().LoHi == 1 && (minuteCount == 9 && secondsCount == 0))
+                {
+                    // Hi
+                    timeOutPlayed = true;
+                    scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
+                }
             }
         }
     }

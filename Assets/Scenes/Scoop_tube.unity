@@ -9403,6 +9403,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7108526074593422279, guid: a6e68b9fe240a5845928cc22a4c06a1c,
         type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7108526074593422279, guid: a6e68b9fe240a5845928cc22a4c06a1c,
+        type: 3}
       propertyPath: m_TagString
       value: Floor
       objectReference: {fileID: 0}
@@ -9603,6 +9608,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3851124930375403544, guid: a6e68b9fe240a5845928cc22a4c06a1c,
         type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3851124930375403544, guid: a6e68b9fe240a5845928cc22a4c06a1c,
+        type: 3}
       propertyPath: m_TagString
       value: Floor
       objectReference: {fileID: 0}
@@ -9630,6 +9640,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: -2905794834311365291, guid: a6e68b9fe240a5845928cc22a4c06a1c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -2905794834311365291, guid: a6e68b9fe240a5845928cc22a4c06a1c,
         type: 3}
@@ -10928,6 +10943,8 @@ MonoBehaviour:
   secondsCount: 0
   minuteCount: 0
   hourCount: 0
+  voice: {fileID: 2006814251}
+  scoreboard: {fileID: 914906266}
 --- !u!1 &811170718 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7049046636460687828, guid: a6e68b9fe240a5845928cc22a4c06a1c,
@@ -28048,6 +28065,7 @@ MonoBehaviour:
   numberGuide: {fileID: 602258360}
   rightHand: {fileID: 914906275}
   leftHand: {fileID: 914906274}
+  LoHi: 1
   left1: 0
   left2: 0
   left3: 0
