@@ -102,6 +102,7 @@ public class Timer : MonoBehaviour
                     // Lo
                     timeOutPlayed = true;
                     scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
+                    // Call Force End Function from EasyTubeScoreboard
                 }
             }
             if (scoreboard.GetComponent<TubeScoreboard>() != null)
@@ -111,6 +112,7 @@ public class Timer : MonoBehaviour
                     // Hi
                     timeOutPlayed = true;
                     scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
+                    // Call Force End Function from TubeScoreboard
                 }
             }
         }
