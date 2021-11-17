@@ -5241,6 +5241,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 436537841}
   m_CullTransparentMesh: 0
+--- !u!1 &436994245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 436994246}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &436994246
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436994245}
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalPosition: {x: 0.5681492, y: 0.2755196, z: -0.10123506}
+  m_LocalScale: {x: 0.5555556, y: 0.5555556, z: 0.5555556}
+  m_Children: []
+  m_Father: {fileID: 1818625029}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &437967189
 GameObject:
   m_ObjectHideFlags: 0
@@ -9935,6 +9965,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7108526074593422279, guid: a6e68b9fe240a5845928cc22a4c06a1c,
         type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7108526074593422279, guid: a6e68b9fe240a5845928cc22a4c06a1c,
+        type: 3}
       propertyPath: m_TagString
       value: Floor
       objectReference: {fileID: 0}
@@ -10135,6 +10170,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3851124930375403544, guid: a6e68b9fe240a5845928cc22a4c06a1c,
         type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3851124930375403544, guid: a6e68b9fe240a5845928cc22a4c06a1c,
+        type: 3}
       propertyPath: m_TagString
       value: Floor
       objectReference: {fileID: 0}
@@ -10162,6 +10202,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: -2905794834311365291, guid: a6e68b9fe240a5845928cc22a4c06a1c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -2905794834311365291, guid: a6e68b9fe240a5845928cc22a4c06a1c,
         type: 3}
@@ -11322,6 +11367,8 @@ MonoBehaviour:
   secondsCount: 0
   minuteCount: 0
   hourCount: 0
+  voice: {fileID: 1531810225}
+  scoreboard: {fileID: 914906266}
 --- !u!1 &811170718 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7049046636460687828, guid: a6e68b9fe240a5845928cc22a4c06a1c,
@@ -27935,6 +27982,7 @@ MonoBehaviour:
   popups: {fileID: 169091151}
   rightHand: {fileID: 1920337016}
   leftHand: {fileID: 764613864}
+  LoHi: 0
   left1: 0
   left2: 0
   left3: 0
@@ -29627,7 +29675,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1008824044
 PrefabInstance:
@@ -39762,6 +39810,12 @@ CanvasGroup:
     type: 3}
   m_PrefabInstance: {fileID: 1818625027}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &1818625029 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2362556208061639592, guid: 3b28524220c24114aadbd22184ffdc32,
+    type: 3}
+  m_PrefabInstance: {fileID: 1818625027}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1823298440 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 50754954277266222, guid: a6e68b9fe240a5845928cc22a4c06a1c,
@@ -45973,7 +46027,7 @@ PrefabInstance:
     - target: {fileID: 5632175639143357498, guid: b4f16f086fb89f249b1b9a2825769128,
         type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5632175639143357498, guid: b4f16f086fb89f249b1b9a2825769128,
         type: 3}
@@ -46049,6 +46103,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: "\uACF5\uC740 1\uAC1C\uC529\uB9CC \uB123\uC73C\uBA74 \uB3FC\uC694!"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6475292856934326330, guid: b4f16f086fb89f249b1b9a2825769128,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.98039216
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4f16f086fb89f249b1b9a2825769128, type: 3}

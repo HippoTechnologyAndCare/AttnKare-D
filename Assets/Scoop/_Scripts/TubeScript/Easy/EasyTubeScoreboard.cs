@@ -77,6 +77,7 @@ public class EasyTubeScoreboard : MonoBehaviour
 
     bool idle = false;
     bool idleCheck = false;
+    [HideInInspector] public int LoHi = 0; // Lo: 0, Hi: 1
 
     GameObject rightPrevGrabbed = null;
     GameObject leftPrevGrabbed = null;
