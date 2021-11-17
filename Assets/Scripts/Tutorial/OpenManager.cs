@@ -184,16 +184,16 @@ public class OpenManager : MonoBehaviour
 
         yield return new WaitUntil(() => Logo.localScale == new Vector3(0, 0, 0));
 
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.08>안녕 \n<color=#2e86de>(^ v ^)~", audioIndex = 0));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.08>안녕! 반가워!", audioIndex = 0, 3.0f));
         yield return new WaitForSeconds(3.0f);
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.07>이곳은</size><size=0.09> <color=#EA2027>A</color><color=#EE5A24>T</color><color=#F79F1F>T</color><color=#009432>N</color><color=#0652DD>K</color><color=#1B1464>A</color><color=#B53471>R</color><color=#0984e3>E</color></size> <size=0.08>세계야", audioIndex = 1));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.07>이곳은</size><size=0.09> <color=#EA2027>A</color><color=#EE5A24>T</color><color=#F79F1F>T</color><color=#009432>N</color><color=#0652DD>K</color><color=#1B1464>A</color><color=#B53471>R</color><color=#0984e3>E</color></size> <size=0.08>세계야", audioIndex = 1, 3.0f));
         yield return new WaitForSeconds(3.0f);
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>나는 오늘 \n너의 가이드야. \n 잘 부탁해 \n<color=#2e86de>(^ 0 ^)~", audioIndex = 2));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>나는 오늘 \n너의 가이드야. \n 잘 부탁해 \n<color=#2e86de>(^ 0 ^)~", audioIndex = 2, 3.0f));
         yield return new WaitForSeconds(3.0f);
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.053>시작하기 전에\n간단하게 설명해줄게! \n<color=#2e86de>(^ 0 ^)~", audioIndex = 3));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.053>시작하기 전에\n간단하게 설명해줄게! \n<color=#2e86de>(^ 0 ^)~", audioIndex = 3, 3.0f));
 
         yield return new WaitForSeconds(3.0f);
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>잠깐만 기다려줘!!\n<color=#2e86de><size=0.074>(o v o)/", audioIndex = 4));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>잠깐만 기다려줘!!\n<color=#2e86de><size=0.074>(o v o)/", audioIndex = 4, 3.0f));
 
 
         desPos = new Vector3(0.031f, -0.664f, 2.823f);

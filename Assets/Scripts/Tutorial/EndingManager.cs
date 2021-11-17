@@ -8,7 +8,9 @@ using TMPro;
 using UnityEngine.Rendering;
 using KetosGames.SceneTransition;
 using UserData;
-public class EndingManager : MonoBehaviour
+using BNG;
+    
+    public class EndingManager : MonoBehaviour
 {
 
     public GameObject PlayerController;
@@ -20,6 +22,7 @@ public class EndingManager : MonoBehaviour
     public Transform TransitionOut;
 
     public NetworkManager NetworkManager;
+    public AutoVoiceRecording_Ending VoiceRecord;
 
 
 
@@ -155,7 +158,7 @@ public class EndingManager : MonoBehaviour
     
     IEnumerator StartEnding()
     {
-        NetworkManager.DoSendToFinishData();
+        
         TransitionIN.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.5f);
         TransitionIN.gameObject.SetActive(false);
@@ -169,24 +172,56 @@ public class EndingManager : MonoBehaviour
      
 
 
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>아쉽지만\n이제 헤어질 \n시간이야\n<color=#2e86de><size=0.09><b>(T ^ T)", audioIndex = 0));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>아쉽지만\n이제 헤어질 \n시간이 됐어", audioIndex = 0, 2.5f));
         yield return new WaitForSeconds(2.5f);
+        VoiceRecord.StartRecording();
+        if(DataManager.GetInstance().userInfo!=null)
+        {
+            if (DataManager.GetInstance().userInfo.Grade == "L")
+            {
 
+                StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>오늘 비밀번호 누르기,\n계획표 만들기,\n책가방 챙기기,\n공 옮기기를 해봤는데", audioIndex = 1,3.0f));
+                yield return new WaitForSeconds(3.0f);
+
+            }
+            if (DataManager.GetInstance().userInfo.Grade == "H")
+            {
+                StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>오늘 방정리 하기,\n페달 돌리기,\n책가방 챙기기,\n공 옮기기를 해봤는데", audioIndex = 2,7.0f));
+                yield return new WaitForSeconds(3.0f);
+
+
+            }
+        }
+        if(DataManager.GetInstance().userInfo==null)
+        {
+            StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>유저 정보 미입력", audioIndex = 0,3.0f));
+            yield return new WaitForSeconds(3.0f);
+        }
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.040>제일 재미있었던 미션은 뭐야?\n그리고 또 어느 미션이\n가장 어려웠어?", audioIndex = 3,7.0f));
+        yield return new WaitForSeconds(7.0f);
+
+        yield return new WaitForSeconds(8.0f);
+        // if 문으로 고학년 저학년 분리
+        VoiceRecord.StopRecordingNBehavior();
         desPos = new Vector3(-0.02f, -0.693f, 2.795f);
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>오늘 함께해서 \n너무 즐거웠어\n<color=#2e86de><size=0.09><b>(^ - ^)", audioIndex = 1));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>그랬구나~!", audioIndex = 4,3.0f));
         yield return new WaitForSeconds(3.0f);
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>너도 즐거웠다면 \n좋겠다!\n<color=#2e86de><size=0.09><b>(//^ ^//)", audioIndex = 2));
-        yield return new WaitForSeconds(2.5f);
+//        NetworkManager.DoSendToFinishData();
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.05>나는 오늘 너와 함께해서 \n너무 너무 즐거웠어", audioIndex = 5,3.0f));
+        yield return new WaitForSeconds(4.0f);
         StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos, 0.2f));
         yield return new WaitForSeconds(1.8f);
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.055>난 항상 \n이 곳에 있을게!\n다음에 \n또 놀러와\n<color=#2e86de><b>(^ 0 ^)/", audioIndex = 3));
-        yield return new WaitForSeconds(2.0f);
+
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.055>다른 친구가 기다리고 있어서\n이만 가봐야할거 같아!", audioIndex = 6, 3.0f));
+        yield return new WaitForSeconds(4.0f);
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.055>다음에 또 놀러와\n기다릴게!", audioIndex = 7, 3.0f));
+        yield return new WaitForSeconds(4.0f);
 
 
         fadeColor = true;
         SpeechBubble.gameObject.SetActive(false);
         Ghost.GetComponent<Animator>().SetBool("isJump", true);
-
+       
         yield return new WaitForSeconds(3.0f);
 
         TransitionOut.gameObject.SetActive(true);
@@ -202,6 +237,8 @@ public class EndingManager : MonoBehaviour
 
 
     }
+
+    
 
 
 

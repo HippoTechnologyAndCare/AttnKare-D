@@ -47,13 +47,15 @@ public class TriggerCard : MonoBehaviour
 
     public void TriggerCheck(Collider other)
     {
-    if (xrRig.RightTrigger < 0.2f)
+        other.GetComponent<Rigidbody>().isKinematic = true;
+
+        if (xrRig.RightTrigger < 0.2f)
     {
         //   other.GetComponent<Rigidbody>().isKinematic = true;
-        other.GetComponent<Rigidbody>().useGravity = false;
+        
         Manager.arrOrder[arrNum] = other.transform.GetComponent<NumCard>().cardNum;
         Manager.answerInt += 1;
-        other.transform.GetComponent<NumCard>().SetPosRot(this.transform);
+     //   other.transform.GetComponent<NumCard>().SetPosRot(this.transform);
         card = other.gameObject;
         inout = true;
         Manager.GetComponent<NumCheckManager>().compareArr();

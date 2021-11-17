@@ -35,20 +35,11 @@ public class AutoVoiceRecording_Ending : MonoBehaviour
 
     void Update()
     {
-        if (NowRecording)
-        {
-            timer += Time.deltaTime;
-
-            if (timer > MaxRecordingTime - 1)   //timer > 5
-            {
-                //5분이 되면 자동 종료
-                StopRecordingNBehavior();
-            }
-        }
+        
     }
 
     public void StartRecording()
-    {
+    { 
         NowRecording = true;
 
         if (audioSource.clip != null)
@@ -81,16 +72,17 @@ public class AutoVoiceRecording_Ending : MonoBehaviour
         audioSource.clip = recording;
 
         //wav파일로 저장
-        SavWav.Save(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV, recording);
-        
+        //    SavWav.Save(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV, recording);
+        // 왕왕 중요하다 여기 수정해뒀으니까 꼭 다시 읽어봐라
+        SavWav.Save(@"C:\Desktop\" + "sound" + fWAV, recording);
         //저장된 wav파일 mp3로 변환
-        WaveToMP3(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV,
-        UserData.DataManager.GetInstance().FilePath_Folder + FileName + fMP3);
+        WaveToMP3(@"C:\Desktop\" + "sound" + fWAV,
+       @"C:\Desktop\" + "sound" + fMP3);
 
         //파일 저장 완료까지 대기
-        yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fMP3));  
+        yield return new WaitUntil(() => File.Exists(@"C:\Desktop\" + "sound" + fMP3));  
 
-        File.Delete(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV);
+        File.Delete(@"C:\Desktop\" + "sound" + fWAV);
     }
 
 
