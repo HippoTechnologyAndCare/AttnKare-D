@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using KetosGames.SceneTransition;
 using HutongGames.PlayMaker;
@@ -32,6 +33,8 @@ public class PaddleManager : MonoBehaviour
     int StageLvl = 1;                   //스테이지 단계 1 ~ 3 속도가 점점 올라감
     
     float Failure_DistbT = 0;         //친구 손잡이를 잡고 있는 시간
+    bool DisturbChecker = false;      //친구 방해 확인용
+    int DisturbCnt = 0;               //친구 손잡이 잡은 횟수
 
     bool SceneStart = false;             //Scene 시작
     bool PaddleStart = false;           //시작
@@ -44,6 +47,24 @@ public class PaddleManager : MonoBehaviour
     int PaddleFailCnt = 0;              //친구와 속도 맞지 않은 횟수
 
     float DoNothingTimeElapsed = 0;             //안돌리는 시간
+    bool DoNothingChecker = false;             //안돌리는지 확인용
+
+    int PaddleOutCnt = 0;               //핸들에서 손을 뗀 횟수
+    bool CheckPaddleOutCnt = false;     //핸들에서 손을 뗀 횟수 - 1회용 bool
+
+
+    bool GuideComplete = false;
+
+    public Text TimerText;
+
+    float Guide_Length = 29;
+
+    int Timer_Min = 2;
+    int Timer_Sec = 30;
+    float TimeLimit = 150;              //시간 제한 사용 방향 기획 필요
+    float TimeLimitForFinish = 180;      //강제종료시간
+
+
 
 
     //------------- SOUND
@@ -61,17 +82,19 @@ public class PaddleManager : MonoBehaviour
 
 
 
-    public float Data_21 = 0;      //시작버튼 누르기 까지 걸린 시간
-    public float Data_22 = 0;      //완료까지 걸린 총 시간
-    public float Data_23 = 0;      //스테이지1 걸린 시간
-    public float Data_24 = 0;      //스테이지2 걸린 시간
-    public float Data_25 = 0;      //스테이지3 걸린 시간
-    public float Data_26 = 0;      //스테이지1에서 협동을 지키지 않은 횟수
-    public float Data_27 = 0;      //스테이지2에서 협동을 지키지 않은 횟수
-    public float Data_28 = 0;      //스테이지3에서 협동을 지키지 않은 횟수
-    public float Data_29 = 0;      //친구의 페달을 건드린 횟수
-    public float Data_30 = 0;      //아무 행동도 하지 않은 총 시간
-    public float Data_31 = 0;      //중도 포기(스킵)
+    public float Data_401 = 0;      //시작버튼 누르기 까지 걸린 시간
+    public float Data_402 = 0;      //완료까지 걸린 총 시간
+    public float Data_403 = 0;      //스테이지1 걸린 시간
+    public float Data_404 = 0;      //스테이지2 걸린 시간
+    public float Data_405 = 0;      //스테이지3 걸린 시간
+    public float Data_406 = 0;      //스테이지1에서 협동을 지키지 않은 횟수
+    public float Data_407 = 0;      //스테이지2에서 협동을 지키지 않은 횟수
+    public float Data_408 = 0;      //스테이지3에서 협동을 지키지 않은 횟수
+    public float Data_409 = 0;      //친구의 페달을 건드린 횟수
+    public float Data_410 = 0;      //아무 행동도 하지 않은 총 시간
+    public float Data_411 = 0;      //중도 포기(스킵)
+    public float Data_412 = 0;      //친구 페달을 건드린 시간
+    public float Data_413 = 0;      //페달에서 손을 뗀 횟수
 
 
 
@@ -79,6 +102,7 @@ public class PaddleManager : MonoBehaviour
     {
         SceneStart = true;
         audioSource = transform.GetComponent<AudioSource>();
+        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("GUIDE START");
     }
 
     void Update()
@@ -87,17 +111,68 @@ public class PaddleManager : MonoBehaviour
         {
             TimeElapsed += Time.deltaTime;
 
-            if (TimeElapsedShow > 300)
+            if (TimeElapsed > 1)
             {
-                //5분 초과시 강제 종료 ?
-                GameFinish(false);
+                TimeElapsed = 0;
+                TimeElapsedShow += 1;
+
+                if (Timer_Min != 0 || Timer_Sec != 0)
+                {
+                    Timer_Sec -= 1;
+
+                    if (Timer_Sec < 0 && Timer_Min > 0)
+                    {
+                        Timer_Sec = 59;
+                        Timer_Min = 0;
+                    }
+
+                    string TextSec = "";
+
+                    if (Timer_Sec < 10)
+                    {
+                        TextSec = "0" + Timer_Sec.ToString();
+                    }
+                    else
+                    {
+                        TextSec = Timer_Sec.ToString();
+                    }
+
+                    TimerText.text = "0" + Timer_Min.ToString() + ":" + TextSec;
+                }
+
+                if (TimeElapsedShow >= TimeLimit)
+                {
+                    //시간제한
+                    StartCoroutine(TimeLimitAndKeepGoing());
+                }
+
+                if (TimeElapsedShow >= TimeLimitForFinish)
+                {
+                    //강제종료
+                    StartCoroutine(TimeOutAndFinish());
+                }
             }
+
+
+            if (!GuideComplete && TimeElapsedShow > Guide_Length)
+            {
+                Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("GUIDE END");
+                GuideComplete = true;
+            }
+
 
             if (PaddleStart)
             {
                 if (Wheel_Parent_My.childCount != 0)
                 {
                     MyPaddleOn = true;
+                    CheckPaddleOutCnt = true;
+
+                    if (!DoNothingChecker)
+                    {
+                        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("IDLE END");
+                        DoNothingChecker = true;
+                    }
                 }
                 else
                 {
@@ -106,10 +181,31 @@ public class PaddleManager : MonoBehaviour
                     PaddleSpeedTimer = 0;
                 }
 
+                if (!MyPaddleOn && CheckPaddleOutCnt)
+                {
+                    PaddleOutCnt += 1;
+                    CheckPaddleOutCnt = false;
+                }
+
                 if (Wheel_Parent_Bot.childCount != 0)
                 {
                     //친구 핸들 잡고 있는 시간
                     Failure_DistbT += Time.deltaTime;
+
+                    if (DisturbChecker)
+                    {
+                        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("DISTURB START");
+                        DisturbChecker = false;
+                        DisturbCnt += 1;
+                    }
+                }
+                else
+                {
+                    if (!DisturbChecker)
+                    {
+                        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("DISTURB END");
+                        DisturbChecker = true;
+                    }
                 }
 
                 if (MyPaddleOn && PaddleTimerSwitch)
@@ -118,9 +214,16 @@ public class PaddleManager : MonoBehaviour
                     PaddleSpeedTimer += Time.deltaTime;
                 }
 
+
                 if (!MyPaddleOn)
                 {
                     DoNothingTimeElapsed += Time.deltaTime;
+
+                    if (DoNothingChecker)
+                    {
+                        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("IDLE START");
+                        DoNothingChecker = false;
+                    }
                 }
 
                 if (Vehicle.GetComponent<VehicleController>().Distance == 100)
@@ -131,9 +234,36 @@ public class PaddleManager : MonoBehaviour
         }
     }
 
+
+
+
+    IEnumerator TimeLimitAndKeepGoing()
+    {
+        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
+        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("LIMIT");
+
+        yield return new WaitForSeconds(6.2f);
+
+        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
+    }
+
+    IEnumerator TimeOutAndFinish()
+    {
+        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
+        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("OUT");
+
+        yield return new WaitForSeconds(6);
+
+        GameFinish(true);
+    }
+
+
+
+
     public void DoStartPaddle()
     {
-        Data_21 = TimeElapsed;
+        Data_401 = TimeElapsed;
+        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("MISSION START");
 
         PlaySoundByType("CLICK");
         StartCoroutine(StartPaddle());
@@ -142,6 +272,12 @@ public class PaddleManager : MonoBehaviour
     IEnumerator StartPaddle()
     {
         BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
+
+        if (!GuideComplete)
+        {
+            Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("GUIDE SKIP");
+            GuideComplete = true;
+        }
 
         ShowIntroText.text = "준비 ~";
         yield return new WaitForSeconds(1);
@@ -196,14 +332,14 @@ public class PaddleManager : MonoBehaviour
     {
         if (StageLvl == 1)
         {
-            if (PaddleSpeedTimer > 3.6f && PaddleSpeedTimer < 4.3f)
+            if (PaddleSpeedTimer > 3.4f && PaddleSpeedTimer < 4.2f)
             {
                 SuccessToGo();
 
                 if (Vehicle.GetComponent<VehicleController>().Distance > 40)
                 {
-                    Data_23 = TimeElapsed - Data_21;
-                    Data_26 = PaddleFailCnt;
+                    Data_403 = TimeElapsed - Data_401;
+                    Data_406 = PaddleFailCnt;
                     PaddleFailCnt = 0;
                     StageLvl += 1;
                     ShowPopUpInfo("2 단계로 난이도가 변경됩니다.\n조금 더 빠르게 돌리세요 !");
@@ -219,14 +355,14 @@ public class PaddleManager : MonoBehaviour
         }
         else if (StageLvl == 2)
         {
-            if (PaddleSpeedTimer > 2.6f && PaddleSpeedTimer < 3.3f)
+            if (PaddleSpeedTimer > 2.4f && PaddleSpeedTimer < 3.2f)
             {
                 SuccessToGo();
 
                 if (Vehicle.GetComponent<VehicleController>().Distance > 70)
                 {
-                    Data_24 = TimeElapsed - Data_21 - Data_23;
-                    Data_27 = PaddleFailCnt;
+                    Data_404 = TimeElapsed - Data_401 - Data_403;
+                    Data_407 = PaddleFailCnt;
                     PaddleFailCnt = 0;
                     StageLvl += 1;
                     ShowPopUpInfo("3 단계로 난이도가 변경됩니다.\n빠르게 돌리세요 !");
@@ -244,7 +380,7 @@ public class PaddleManager : MonoBehaviour
         {
             if (Vehicle.GetComponent<VehicleController>().Distance < 100)
             {
-                if (PaddleSpeedTimer > 1.6f && PaddleSpeedTimer < 2.3f)
+                if (PaddleSpeedTimer > 1.4f && PaddleSpeedTimer < 2.2f)
                 {
                     SuccessToGo();
                 }
@@ -283,7 +419,7 @@ public class PaddleManager : MonoBehaviour
     public void GameFinish(bool isSkipped)
     {
         PlaySoundByType("FIN");
-
+        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("MISSION END");
         StartCoroutine(FinishNSave());
 
         SceneStart = false;
@@ -295,32 +431,38 @@ public class PaddleManager : MonoBehaviour
 
         if (isSkipped)
         {
-            Data_31 = 1;
+            Data_411 = 1;
             ShowPopUpInfo("수고했어요! 짝짝짝 ~");
         }
         else
         {
-            Data_31 = 0;
+            Data_411 = 0;
             ShowPopUpInfo("정상에 도착했어요!\n잘했어요! 짝짝짝 ~");
         }
 
-        Data_22 = TimeElapsed;
-        Data_25 = TimeElapsed - Data_21 - Data_23 - Data_24;
-        Data_28 = PaddleFailCnt;
-        Data_29 = Failure_DistbT;
-        Data_30 = DoNothingTimeElapsed;
+        
 
-/*        Debug.Log("21 : " + Data_21.ToString()
-                + "\n22 : " + Data_22.ToString()
-                + "\n23 : " + Data_23.ToString()
-                + "\n24 : " + Data_24.ToString()
-                + "\n25 : " + Data_25.ToString()
-                + "\n26 : " + Data_26.ToString()
-                + "\n27 : " + Data_27.ToString()
-                + "\n28 : " + Data_28.ToString()
-                + "\n29 : " + Data_29.ToString()
-                + "\n30 : " + Data_30.ToString()
-                + "\n31 : " + Data_31.ToString());*/
+        Data_402 = TimeElapsed;
+        Data_405 = TimeElapsed - Data_401 - Data_403 - Data_404;
+        Data_408 = PaddleFailCnt;
+        Data_409 = DisturbCnt;
+        Data_410 = DoNothingTimeElapsed;
+        Data_412 = Failure_DistbT;
+        Data_413 = PaddleOutCnt;
+
+
+
+        /*        Debug.Log("21 : " + Data_21.ToString()
+                        + "\n22 : " + Data_22.ToString()
+                        + "\n23 : " + Data_23.ToString()
+                        + "\n24 : " + Data_24.ToString()
+                        + "\n25 : " + Data_25.ToString()
+                        + "\n26 : " + Data_26.ToString()
+                        + "\n27 : " + Data_27.ToString()
+                        + "\n28 : " + Data_28.ToString()
+                        + "\n29 : " + Data_29.ToString()
+                        + "\n30 : " + Data_30.ToString()
+                        + "\n31 : " + Data_31.ToString());*/
 
         DataFsm.SendEvent("GameClear");
         //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex6();
