@@ -179,7 +179,7 @@ public class ScheduleManager : MonoBehaviour
 
         yield return new WaitForSeconds(6);
 
-        FinishPanel_Yes(false);
+        FinishPanel_Yes(true);
     }
 
     public void LockAllCollision(Transform obj)
@@ -355,20 +355,22 @@ public class ScheduleManager : MonoBehaviour
         }
 
 
+
+
         /*
-        계획을 완료하는데 걸린 총 시간                               TotalElapsedTimeForCalc
-        계획을 얼마나 바꾸는지(이동)                                 TotalMovingCnt
-        계획 초기화(다시하기)를 누른 횟수                            ResetCnt
-        완료 결정을 못하고 번복한 횟수                               ClickNoCnt
-        완료된 계획 전송                                             PlanData
-        중도 포기(스킵)                                              SkipYn
-        시작버튼 누르기 까지 걸린 시간                               TimerForBeforeStarted
-        시작하기 누른 후 첫번째 계획 선택까지 걸린 시간              TimerForFirstSelect
+        Data_201 계획을 완료하는데 걸린 총 시간                               TotalElapsedTimeForCalc
+        Data_202 계획을 얼마나 바꾸는지(이동)                                 TotalMovingCnt
+        Data_203 계획 초기화(다시하기)를 누른 횟수                            ResetCnt
+        Data_204 완료 결정을 못하고 번복한 횟수                               ClickNoCnt
+        Data_205 완료된 계획 전송                                             PlanData
+        Data_206 중도 포기(스킵)                                              SkipYn
+        Data_207 시작버튼 누르기 까지 걸린 시간                               TimerForBeforeStarted
+        Data_208 시작하기 누른 후 첫번째 계획 선택까지 걸린 시간              TimerForFirstSelect
         */
 
 
         // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
-        scene2arr = new float[] { TotalMovingCnt, ResetCnt, ClickNoCnt, PlanData, SkipYn /* , 새로 추가된 데이터 */ };        
+        scene2arr = new float[] { TotalElapsedTimeForCalc, TotalMovingCnt, ResetCnt, ClickNoCnt, PlanData, SkipYn /* , TimerForBeforeStarted, TimerForFirstSelect */ };        
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
 
         Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("MISSION END");
