@@ -26,6 +26,9 @@ public class Moveable : MonoBehaviour
 
     public float Speed { get => speed; set => speed = value; }
 
+    Rigidbody m_Rigidbody;
+    NavMeshAgent m_NavMeshAgent;
+
     private void Awake()
     {        
         agent = GetComponent<NavMeshAgent>();
@@ -42,6 +45,8 @@ public class Moveable : MonoBehaviour
         isGoing = false;
         currentNum = 0;
         StartCoroutine(GoToTarget());
+        m_Rigidbody = GetComponent<Rigidbody>();
+        m_NavMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     void FixedUpdate()
@@ -98,5 +103,14 @@ public class Moveable : MonoBehaviour
         {
                 currentNum = 0;
         }          
-    }           
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Floor")
+        {
+            m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            m_NavMeshAgent.enabled = true;
+        }
+    }
 }
