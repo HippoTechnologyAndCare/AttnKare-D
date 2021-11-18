@@ -28,245 +28,277 @@ public class SetPlayerData : MonoBehaviour
 
     public void InitialDataSetting()
     {        
+        // Doorlock Data
         DataManager.GetInstance().dataList.Add(new PlayerData(0, "empty_data", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(1, "data_01", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(2, "data_02", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(3, "data_03", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(4, "data_04", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(5, "data_05", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(6, "data_06", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(7, "data_07", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(8, "data_08", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(9, "data_09", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(10, "data_10", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(11, "data_11", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(12, "data_12", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(13, "data_13", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(14, "data_14", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(15, "data_15", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(16, "data_16", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(17, "data_17", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(18, "data_18", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(19, "data_19", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(20, "data_20", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(21, "data_21", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(22, "data_22", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(23, "data_23", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(24, "data_24", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(25, "data_25", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(26, "data_26", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(27, "data_27", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(28, "data_28", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(29, "data_29", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(30, "data_30", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(31, "data_31", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(32, "data_32", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(33, "data_33", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(34, "data_34", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(35, "data_35", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(36, "data_36", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(37, "data_37", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(38, "data_38", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(39, "data_39", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(40, "data_40", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(41, "data_41", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(42, "data_42", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(43, "data_43", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(44, "data_44", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(45, "data_45", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(46, "data_46", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(47, "data_47", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(48, "data_48", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(49, "data_49", 0));
-        DataManager.GetInstance().dataList.Add(new PlayerData(50, "data_50", 0));        
+        DataManager.GetInstance().dataList.Add(new PlayerData(101, "data_101", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(102, "data_102", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(103, "data_103", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(104, "data_104", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(105, "data_105", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(106, "data_106", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(107, "data_107", 0));
+        // Schedule Data
+        DataManager.GetInstance().dataList.Add(new PlayerData(201, "data_201", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(202, "data_202", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(203, "data_203", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(204, "data_204", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(205, "data_205", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(206, "data_206", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(207, "data_207", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(208, "data_208", 0));
+        // CleanUpMyRoom Data
+        DataManager.GetInstance().dataList.Add(new PlayerData(301, "data_301", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(302, "data_302", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(303, "data_303", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(304, "data_304", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(305, "data_305", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(306, "data_306", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(307, "data_307", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(308, "data_308", 0));
+        // PlayPaddle Data
+        DataManager.GetInstance().dataList.Add(new PlayerData(401, "data_401", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(402, "data_402", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(403, "data_403", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(404, "data_404", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(405, "data_405", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(406, "data_406", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(407, "data_407", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(408, "data_408", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(409, "data_409", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(410, "data_410", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(411, "data_411", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(412, "data_412", 0));
+        // BackPacking Data
+        DataManager.GetInstance().dataList.Add(new PlayerData(501, "data_501", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(502, "data_502", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(503, "data_503", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(504, "data_504", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(505, "data_505", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(506, "data_506", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(507, "data_507", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(508, "data_508", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(509, "data_509", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(510, "data_510", 0));
+        // Scoop Data
+        DataManager.GetInstance().dataList.Add(new PlayerData(601, "data_601", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(602, "data_602", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(603, "data_603", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(604, "data_604", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(605, "data_605", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(606, "data_606", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(607, "data_607", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(608, "data_608", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(609, "data_609", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(610, "data_610", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(611, "data_611", 0));
     }
-
-    // Doorlock //
+    
+    // Set Doorlock //
     public void GetSceneIndex1()
     {
-        FsmFloat data01 = fsm.FsmVariables.GetFsmFloat("psFocusT");
-        FsmFloat data02 = fsm.FsmVariables.GetFsmFloat("psUnfocusT");
-        FsmFloat data03 = fsm.FsmVariables.GetFsmFloat("psWrNumC");
-        FsmFloat data04 = fsm.FsmVariables.GetFsmFloat("psFailC");
-        FsmFloat data05 = fsm.FsmVariables.GetFsmFloat("psRpL");
-        FsmFloat data06 = fsm.FsmVariables.GetFsmFloat("psCmplT");
-        FsmFloat data07 = fsm.FsmVariables.GetFsmFloat("psSkip");
+        FsmFloat data101 = fsm.FsmVariables.GetFsmFloat("psFocusT");
+        FsmFloat data102 = fsm.FsmVariables.GetFsmFloat("psUnfocusT");
+        FsmFloat data103 = fsm.FsmVariables.GetFsmFloat("psWrNumC");
+        FsmFloat data104 = fsm.FsmVariables.GetFsmFloat("psFailC");
+        FsmFloat data105 = fsm.FsmVariables.GetFsmFloat("psRpL");
+        FsmFloat data106 = fsm.FsmVariables.GetFsmFloat("psCmplT");
+        FsmFloat data107 = fsm.FsmVariables.GetFsmFloat("psSkip");
 
-        DataManager.GetInstance().dataList[1].Result = data01.Value;
-        DataManager.GetInstance().dataList[2].Result = data02.Value;
-        DataManager.GetInstance().dataList[3].Result = data03.Value;
-        DataManager.GetInstance().dataList[4].Result = data04.Value;
-        DataManager.GetInstance().dataList[5].Result = data05.Value;
-        DataManager.GetInstance().dataList[6].Result = data06.Value;
-        DataManager.GetInstance().dataList[7].Result = data07.Value;
+        DataManager.GetInstance().dataList[101].Result = data101.Value;
+        DataManager.GetInstance().dataList[102].Result = data102.Value;
+        DataManager.GetInstance().dataList[103].Result = data103.Value;
+        DataManager.GetInstance().dataList[104].Result = data104.Value;
+        DataManager.GetInstance().dataList[105].Result = data105.Value;
+        DataManager.GetInstance().dataList[106].Result = data106.Value;
+        DataManager.GetInstance().dataList[107].Result = data107.Value;
     }
 
-    // Schecule //
+    // Set Schecule //
     public void GetSceneIndex2(params float[] myVal)
     {
-        float data08 = myVal[0];
-        float data09 = myVal[1];
-        float data10 = myVal[2];
-        float data11 = myVal[3];
-        float data12 = myVal[4];
-        float data13 = myVal[5];
+        float data201 = myVal[0];
+        float data202 = myVal[1];
+        float data203 = myVal[2];
+        float data204 = myVal[3];
+        float data205 = myVal[4];
+        float data206 = myVal[5];
+        float data207 = myVal[6];
+        float data208 = myVal[7];
 
-        DataManager.GetInstance().dataList[8].Result = data08;
-        DataManager.GetInstance().dataList[9].Result = data09;
-        DataManager.GetInstance().dataList[10].Result = data10;
-        DataManager.GetInstance().dataList[11].Result = data11;
-        DataManager.GetInstance().dataList[12].Result = data12;
-        DataManager.GetInstance().dataList[13].Result = data13;
+        DataManager.GetInstance().dataList[201].Result = data201;
+        DataManager.GetInstance().dataList[202].Result = data202;
+        DataManager.GetInstance().dataList[203].Result = data203;
+        DataManager.GetInstance().dataList[204].Result = data204;
+        DataManager.GetInstance().dataList[205].Result = data205;
+        DataManager.GetInstance().dataList[206].Result = data206;
+        DataManager.GetInstance().dataList[207].Result = data207;
+        DataManager.GetInstance().dataList[208].Result = data208;
     }
 
-    // Back Packing L //
+    // Set Back Packing L //
     public void GetSceneIndex3()
     {
         //책가방
-        FsmFloat data32 = fsm.FsmVariables.GetFsmFloat("bpCmplT");
-        FsmFloat data33 = fsm.FsmVariables.GetFsmFloat("bpNtcC");
-        FsmFloat data34 = fsm.FsmVariables.GetFsmFloat("bpTmtT");
-        FsmFloat data35 = fsm.FsmVariables.GetFsmFloat("bpUnpkT");
-        FsmFloat data36 = fsm.FsmVariables.GetFsmFloat("bpUnpC");
-        FsmFloat data37 = fsm.FsmVariables.GetFsmFloat("bpStg1C");
-        FsmFloat data38 = fsm.FsmVariables.GetFsmFloat("bpStgChngT");
-        FsmFloat data39 = fsm.FsmVariables.GetFsmFloat("bpUnwT");
-        FsmFloat data40 = fsm.FsmVariables.GetFsmFloat("bpSkip");
+        FsmFloat data501 = fsm.FsmVariables.GetFsmFloat("data_501");
+        FsmFloat data502 = fsm.FsmVariables.GetFsmFloat("data_502");
+        FsmFloat data503 = fsm.FsmVariables.GetFsmFloat("data_503");
+        FsmFloat data504 = fsm.FsmVariables.GetFsmFloat("data_504");
+        FsmFloat data505 = fsm.FsmVariables.GetFsmFloat("data_505");
+        FsmFloat data506 = fsm.FsmVariables.GetFsmFloat("data_506");
+        FsmFloat data507 = fsm.FsmVariables.GetFsmFloat("data_507");
+        FsmFloat data508 = fsm.FsmVariables.GetFsmFloat("data_508");
+        FsmFloat data509 = fsm.FsmVariables.GetFsmFloat("data_509");
+        FsmFloat data510 = fsm.FsmVariables.GetFsmFloat("data_510");
 
-        DataManager.GetInstance().dataList[32].Result = data32.Value;
-        DataManager.GetInstance().dataList[33].Result = data33.Value;
-        DataManager.GetInstance().dataList[34].Result = data34.Value;
-        DataManager.GetInstance().dataList[35].Result = data35.Value;
-        DataManager.GetInstance().dataList[36].Result = data36.Value;
-        DataManager.GetInstance().dataList[37].Result = data37.Value;
-        DataManager.GetInstance().dataList[38].Result = data38.Value;
-        DataManager.GetInstance().dataList[39].Result = data39.Value;
-        DataManager.GetInstance().dataList[40].Result = data40.Value;
+        DataManager.GetInstance().dataList[501].Result = data501.Value;
+        DataManager.GetInstance().dataList[502].Result = data502.Value;
+        DataManager.GetInstance().dataList[503].Result = data503.Value;
+        DataManager.GetInstance().dataList[504].Result = data504.Value;
+        DataManager.GetInstance().dataList[505].Result = data505.Value;
+        DataManager.GetInstance().dataList[506].Result = data506.Value;
+        DataManager.GetInstance().dataList[507].Result = data507.Value;
+        DataManager.GetInstance().dataList[508].Result = data508.Value;
+        DataManager.GetInstance().dataList[509].Result = data509.Value;
+        DataManager.GetInstance().dataList[510].Result = data510.Value;
     }
 
     // Scoop L //
     public void GetSceneIndex4()
     {        
-        FsmFloat data41 = fsm.FsmVariables.GetFsmFloat("data41");
-        FsmFloat data42 = fsm.FsmVariables.GetFsmFloat("data42");
-        FsmFloat data43 = fsm.FsmVariables.GetFsmFloat("data43");
-        FsmFloat data44 = fsm.FsmVariables.GetFsmFloat("data44");
-        FsmFloat data45 = fsm.FsmVariables.GetFsmFloat("data45");
-        FsmFloat data46 = fsm.FsmVariables.GetFsmFloat("data46");
-        FsmFloat data47 = fsm.FsmVariables.GetFsmFloat("data47");
-        FsmFloat data48 = fsm.FsmVariables.GetFsmFloat("data48");
-        FsmFloat data49 = fsm.FsmVariables.GetFsmFloat("data49");
-        FsmFloat data50 = fsm.FsmVariables.GetFsmFloat("data50");
-        DataManager.GetInstance().dataList[41].Result = data41.Value;
-        DataManager.GetInstance().dataList[42].Result = data42.Value;
-        DataManager.GetInstance().dataList[43].Result = data43.Value;
-        DataManager.GetInstance().dataList[44].Result = data44.Value;
-        DataManager.GetInstance().dataList[45].Result = data45.Value;
-        DataManager.GetInstance().dataList[46].Result = data46.Value;
-        DataManager.GetInstance().dataList[47].Result = data47.Value;
-        DataManager.GetInstance().dataList[48].Result = data48.Value;
-        DataManager.GetInstance().dataList[49].Result = data49.Value;
-        DataManager.GetInstance().dataList[50].Result = data50.Value;        
+        //공옮기기
+        FsmFloat data601 = fsm.FsmVariables.GetFsmFloat("data_601");
+        FsmFloat data602 = fsm.FsmVariables.GetFsmFloat("data_602");
+        FsmFloat data603 = fsm.FsmVariables.GetFsmFloat("data_603");
+        FsmFloat data604 = fsm.FsmVariables.GetFsmFloat("data_604");
+        FsmFloat data605 = fsm.FsmVariables.GetFsmFloat("data_605");
+        FsmFloat data606 = fsm.FsmVariables.GetFsmFloat("data_606");
+        FsmFloat data607 = fsm.FsmVariables.GetFsmFloat("data_607");
+        FsmFloat data608 = fsm.FsmVariables.GetFsmFloat("data_608");
+        FsmFloat data609 = fsm.FsmVariables.GetFsmFloat("data_609");
+        FsmFloat data610 = fsm.FsmVariables.GetFsmFloat("data_610");
+        FsmFloat data611 = fsm.FsmVariables.GetFsmFloat("data_611");
+
+        DataManager.GetInstance().dataList[601].Result = data601.Value;
+        DataManager.GetInstance().dataList[602].Result = data602.Value;
+        DataManager.GetInstance().dataList[603].Result = data603.Value;
+        DataManager.GetInstance().dataList[604].Result = data604.Value;
+        DataManager.GetInstance().dataList[605].Result = data605.Value;
+        DataManager.GetInstance().dataList[606].Result = data606.Value;
+        DataManager.GetInstance().dataList[607].Result = data607.Value;
+        DataManager.GetInstance().dataList[608].Result = data608.Value;
+        DataManager.GetInstance().dataList[609].Result = data609.Value;
+        DataManager.GetInstance().dataList[610].Result = data610.Value;
+        DataManager.GetInstance().dataList[611].Result = data611.Value;
     }
 
     // Clean Up My Room //
     public void GetSceneIndex5()
     {
         //방정리
-        FsmFloat data14 = fsm.FsmVariables.GetFsmFloat("crSucessL");
-        FsmFloat data15 = fsm.FsmVariables.GetFsmFloat("crUnfocusT");
-        FsmFloat data16 = fsm.FsmVariables.GetFsmFloat("crCmplT");
-        FsmFloat data17 = fsm.FsmVariables.GetFsmFloat("crGrbC");
-        FsmFloat data18 = fsm.FsmVariables.GetFsmFloat("crMovM");
-        FsmFloat data19 = fsm.FsmVariables.GetFsmFloat("crFocusT");
-        FsmFloat data20 = fsm.FsmVariables.GetFsmFloat("crSkip");
+        FsmFloat data301 = fsm.FsmVariables.GetFsmFloat("crSucessL");
+        FsmFloat data302 = fsm.FsmVariables.GetFsmFloat("crUnfocusT");
+        FsmFloat data303 = fsm.FsmVariables.GetFsmFloat("crCmplT");
+        FsmFloat data304 = fsm.FsmVariables.GetFsmFloat("crGrbC");
+        FsmFloat data305 = fsm.FsmVariables.GetFsmFloat("crMovM");
+        FsmFloat data306 = fsm.FsmVariables.GetFsmFloat("crFocusT");
+        FsmFloat data307 = fsm.FsmVariables.GetFsmFloat("crSkip");
+        FsmFloat data308 = fsm.FsmVariables.GetFsmFloat("data_308");
 
-        DataManager.GetInstance().dataList[14].Result = data14.Value;
-        DataManager.GetInstance().dataList[15].Result = data15.Value;
-        DataManager.GetInstance().dataList[16].Result = data16.Value;
-        DataManager.GetInstance().dataList[17].Result = data17.Value;
-        DataManager.GetInstance().dataList[18].Result = data18.Value;
-        DataManager.GetInstance().dataList[19].Result = data19.Value;
-        DataManager.GetInstance().dataList[20].Result = data20.Value;
+        DataManager.GetInstance().dataList[301].Result = data301.Value;
+        DataManager.GetInstance().dataList[302].Result = data302.Value;
+        DataManager.GetInstance().dataList[303].Result = data303.Value;
+        DataManager.GetInstance().dataList[304].Result = data304.Value;
+        DataManager.GetInstance().dataList[305].Result = data305.Value;
+        DataManager.GetInstance().dataList[306].Result = data306.Value;
+        DataManager.GetInstance().dataList[307].Result = data307.Value;
+        DataManager.GetInstance().dataList[308].Result = data308.Value;
     }
 
     // Play Paddle //
     public void GetSceneIndex6()
     {        
-        FsmFloat data21 = fsm.FsmVariables.GetFsmFloat("Data_21");
-        FsmFloat data22 = fsm.FsmVariables.GetFsmFloat("Data_22");
-        FsmFloat data23 = fsm.FsmVariables.GetFsmFloat("Data_23");
-        FsmFloat data24 = fsm.FsmVariables.GetFsmFloat("Data_24");
-        FsmFloat data25 = fsm.FsmVariables.GetFsmFloat("Data_25");
-        FsmFloat data26 = fsm.FsmVariables.GetFsmFloat("Data_26");
-        FsmFloat data27 = fsm.FsmVariables.GetFsmFloat("Data_27");
-        FsmFloat data28 = fsm.FsmVariables.GetFsmFloat("Data_28");
-        FsmFloat data29 = fsm.FsmVariables.GetFsmFloat("Data_29");
-        FsmFloat data30 = fsm.FsmVariables.GetFsmFloat("Data_30");
-        FsmFloat data31 = fsm.FsmVariables.GetFsmFloat("Data_31");
+        //노젓기
+        FsmFloat data401 = fsm.FsmVariables.GetFsmFloat("Data_401");
+        FsmFloat data402 = fsm.FsmVariables.GetFsmFloat("Data_402");
+        FsmFloat data403 = fsm.FsmVariables.GetFsmFloat("Data_403");
+        FsmFloat data404 = fsm.FsmVariables.GetFsmFloat("Data_404");
+        FsmFloat data405 = fsm.FsmVariables.GetFsmFloat("Data_405");
+        FsmFloat data406 = fsm.FsmVariables.GetFsmFloat("Data_406");
+        FsmFloat data407 = fsm.FsmVariables.GetFsmFloat("Data_407");
+        FsmFloat data408 = fsm.FsmVariables.GetFsmFloat("Data_408");
+        FsmFloat data409 = fsm.FsmVariables.GetFsmFloat("Data_409");
+        FsmFloat data410 = fsm.FsmVariables.GetFsmFloat("Data_410");
+        FsmFloat data411 = fsm.FsmVariables.GetFsmFloat("Data_411");
+        FsmFloat data412 = fsm.FsmVariables.GetFsmFloat("Data_412");
 
-        DataManager.GetInstance().dataList[21].Result = data21.Value;
-        DataManager.GetInstance().dataList[22].Result = data22.Value;
-        DataManager.GetInstance().dataList[23].Result = data23.Value;
-        DataManager.GetInstance().dataList[24].Result = data24.Value;
-        DataManager.GetInstance().dataList[25].Result = data25.Value;
-        DataManager.GetInstance().dataList[26].Result = data26.Value;
-        DataManager.GetInstance().dataList[27].Result = data27.Value;
-        DataManager.GetInstance().dataList[28].Result = data28.Value;
-        DataManager.GetInstance().dataList[29].Result = data29.Value;
-        DataManager.GetInstance().dataList[30].Result = data30.Value;
-        DataManager.GetInstance().dataList[31].Result = data31.Value;
+        DataManager.GetInstance().dataList[401].Result = data401.Value;
+        DataManager.GetInstance().dataList[402].Result = data402.Value;
+        DataManager.GetInstance().dataList[403].Result = data403.Value;
+        DataManager.GetInstance().dataList[404].Result = data404.Value;
+        DataManager.GetInstance().dataList[405].Result = data405.Value;
+        DataManager.GetInstance().dataList[406].Result = data406.Value;
+        DataManager.GetInstance().dataList[407].Result = data407.Value;
+        DataManager.GetInstance().dataList[408].Result = data408.Value;
+        DataManager.GetInstance().dataList[409].Result = data409.Value;
+        DataManager.GetInstance().dataList[410].Result = data410.Value;
+        DataManager.GetInstance().dataList[411].Result = data411.Value;
+        DataManager.GetInstance().dataList[412].Result = data412.Value;
     }
 
     // Back Packing H //
     public void GetSceneIndex7()
-    {        
+    {
         //책가방
-        FsmFloat data32 = fsm.FsmVariables.GetFsmFloat("bpCmplT");
-        FsmFloat data33 = fsm.FsmVariables.GetFsmFloat("bpNtcC");
-        FsmFloat data34 = fsm.FsmVariables.GetFsmFloat("bpTmtT");
-        FsmFloat data35 = fsm.FsmVariables.GetFsmFloat("bpUnpkT");
-        FsmFloat data36 = fsm.FsmVariables.GetFsmFloat("bpUnpC");
-        FsmFloat data37 = fsm.FsmVariables.GetFsmFloat("bpStg1C");
-        FsmFloat data38 = fsm.FsmVariables.GetFsmFloat("bpStgChngT");
-        FsmFloat data39 = fsm.FsmVariables.GetFsmFloat("bpUnwT");
-        FsmFloat data40 = fsm.FsmVariables.GetFsmFloat("bpSkip");
+        FsmFloat data501 = fsm.FsmVariables.GetFsmFloat("data_501");
+        FsmFloat data502 = fsm.FsmVariables.GetFsmFloat("data_502");
+        FsmFloat data503 = fsm.FsmVariables.GetFsmFloat("data_503");
+        FsmFloat data504 = fsm.FsmVariables.GetFsmFloat("data_504");
+        FsmFloat data505 = fsm.FsmVariables.GetFsmFloat("data_505");
+        FsmFloat data506 = fsm.FsmVariables.GetFsmFloat("data_506");
+        FsmFloat data507 = fsm.FsmVariables.GetFsmFloat("data_507");
+        FsmFloat data508 = fsm.FsmVariables.GetFsmFloat("data_508");
+        FsmFloat data509 = fsm.FsmVariables.GetFsmFloat("data_509");
+        FsmFloat data510 = fsm.FsmVariables.GetFsmFloat("data_510");
 
-        DataManager.GetInstance().dataList[32].Result = data32.Value;
-        DataManager.GetInstance().dataList[33].Result = data33.Value;
-        DataManager.GetInstance().dataList[34].Result = data34.Value;
-        DataManager.GetInstance().dataList[35].Result = data35.Value;
-        DataManager.GetInstance().dataList[36].Result = data36.Value;
-        DataManager.GetInstance().dataList[37].Result = data37.Value;
-        DataManager.GetInstance().dataList[38].Result = data38.Value;
-        DataManager.GetInstance().dataList[39].Result = data39.Value;
-        DataManager.GetInstance().dataList[40].Result = data40.Value;
+        DataManager.GetInstance().dataList[501].Result = data501.Value;
+        DataManager.GetInstance().dataList[502].Result = data502.Value;
+        DataManager.GetInstance().dataList[503].Result = data503.Value;
+        DataManager.GetInstance().dataList[504].Result = data504.Value;
+        DataManager.GetInstance().dataList[505].Result = data505.Value;
+        DataManager.GetInstance().dataList[506].Result = data506.Value;
+        DataManager.GetInstance().dataList[507].Result = data507.Value;
+        DataManager.GetInstance().dataList[508].Result = data508.Value;
+        DataManager.GetInstance().dataList[509].Result = data509.Value;
+        DataManager.GetInstance().dataList[510].Result = data510.Value;
     }
 
     // Scoop H //
     public void GetSceneIndex8()
-    {     
-        FsmFloat data41 = fsm.FsmVariables.GetFsmFloat("data41");
-        FsmFloat data42 = fsm.FsmVariables.GetFsmFloat("data42");
-        FsmFloat data43 = fsm.FsmVariables.GetFsmFloat("data43");
-        FsmFloat data44 = fsm.FsmVariables.GetFsmFloat("data44");
-        FsmFloat data45 = fsm.FsmVariables.GetFsmFloat("data45");
-        FsmFloat data46 = fsm.FsmVariables.GetFsmFloat("data46");
-        FsmFloat data47 = fsm.FsmVariables.GetFsmFloat("data47");
-        FsmFloat data48 = fsm.FsmVariables.GetFsmFloat("data48");
-        FsmFloat data49 = fsm.FsmVariables.GetFsmFloat("data49");
-        FsmFloat data50 = fsm.FsmVariables.GetFsmFloat("data50");
+    {
+        //공옮기기
+        FsmFloat data601 = fsm.FsmVariables.GetFsmFloat("data_601");
+        FsmFloat data602 = fsm.FsmVariables.GetFsmFloat("data_602");
+        FsmFloat data603 = fsm.FsmVariables.GetFsmFloat("data_603");
+        FsmFloat data604 = fsm.FsmVariables.GetFsmFloat("data_604");
+        FsmFloat data605 = fsm.FsmVariables.GetFsmFloat("data_605");
+        FsmFloat data606 = fsm.FsmVariables.GetFsmFloat("data_606");
+        FsmFloat data607 = fsm.FsmVariables.GetFsmFloat("data_607");
+        FsmFloat data608 = fsm.FsmVariables.GetFsmFloat("data_608");
+        FsmFloat data609 = fsm.FsmVariables.GetFsmFloat("data_609");
+        FsmFloat data610 = fsm.FsmVariables.GetFsmFloat("data_610");
+        FsmFloat data611 = fsm.FsmVariables.GetFsmFloat("data_611");
 
-        DataManager.GetInstance().dataList[41].Result = data41.Value;
-        DataManager.GetInstance().dataList[42].Result = data42.Value;
-        DataManager.GetInstance().dataList[43].Result = data43.Value;
-        DataManager.GetInstance().dataList[44].Result = data44.Value;
-        DataManager.GetInstance().dataList[45].Result = data45.Value;
-        DataManager.GetInstance().dataList[46].Result = data46.Value;
-        DataManager.GetInstance().dataList[47].Result = data47.Value;
-        DataManager.GetInstance().dataList[48].Result = data48.Value;
-        DataManager.GetInstance().dataList[49].Result = data49.Value;
-        DataManager.GetInstance().dataList[50].Result = data50.Value;
+        DataManager.GetInstance().dataList[601].Result = data601.Value;
+        DataManager.GetInstance().dataList[602].Result = data602.Value;
+        DataManager.GetInstance().dataList[603].Result = data603.Value;
+        DataManager.GetInstance().dataList[604].Result = data604.Value;
+        DataManager.GetInstance().dataList[605].Result = data605.Value;
+        DataManager.GetInstance().dataList[606].Result = data606.Value;
+        DataManager.GetInstance().dataList[607].Result = data607.Value;
+        DataManager.GetInstance().dataList[608].Result = data608.Value;
+        DataManager.GetInstance().dataList[609].Result = data609.Value;
+        DataManager.GetInstance().dataList[610].Result = data610.Value;
+        DataManager.GetInstance().dataList[611].Result = data611.Value;
     }
 }
 
