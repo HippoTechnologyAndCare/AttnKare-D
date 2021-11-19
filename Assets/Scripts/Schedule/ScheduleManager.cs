@@ -370,7 +370,7 @@ public class ScheduleManager : MonoBehaviour
 
 
         // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
-        scene2arr = new float[] { TotalElapsedTimeForCalc, TotalMovingCnt, ResetCnt, ClickNoCnt, PlanData, SkipYn /* , TimerForBeforeStarted, TimerForFirstSelect */ };        
+        scene2arr = new float[] { TotalElapsedTimeForCalc, TotalMovingCnt, ResetCnt, ClickNoCnt, PlanData, SkipYn, TimerForBeforeStarted, TimerForFirstSelect };        
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
 
         Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("MISSION END");

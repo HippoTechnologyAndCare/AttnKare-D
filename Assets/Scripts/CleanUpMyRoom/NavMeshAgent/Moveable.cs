@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using BNG;
 
 public class Moveable : MonoBehaviour
 {
@@ -22,7 +23,10 @@ public class Moveable : MonoBehaviour
     int currentNum;
 
     [SerializeField]
-    bool isGoing;  
+    bool isGoing;
+
+    [Header("Find a reference and put it in")]    
+    [SerializeField] Grabber grabber;
 
     public float Speed { get => speed; set => speed = value; }
 
@@ -48,12 +52,7 @@ public class Moveable : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody>();
         m_NavMeshAgent = GetComponent<NavMeshAgent>();
     }
-
-    void FixedUpdate()
-    {
-                
-    }
-
+  
     void Update()
     {
         Speed = (transform.position - lastPosition).magnitude / Time.deltaTime;
@@ -74,7 +73,7 @@ public class Moveable : MonoBehaviour
 
             if (isGoing)
             {
-                if (Speed == 0)
+                if (Speed == 0 && agent.enabled == true)
                 {
                     isGoing = false;
                     StartCoroutine(GoToTarget());
@@ -82,11 +81,7 @@ public class Moveable : MonoBehaviour
             }
         }
     }
-
-    private void LateUpdate()
-    {
-        
-    }
+  
     IEnumerator GoToTarget()
     {       
         agent.SetDestination(targets[currentNum].position);
@@ -105,12 +100,29 @@ public class Moveable : MonoBehaviour
         }          
     }
 
+    void AddNavSpeed()
+    {       
+        if(m_NavMeshAgent.speed < 1)
+        {
+            m_NavMeshAgent.speed += 0.1f;
+        }
+    }
+
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Floor")
+        if (collision.gameObject.tag == "Wall" && grabber.HeldGrabbable == null)
         {
             m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-            m_NavMeshAgent.enabled = true;
+            m_NavMeshAgent.enabled = true;            
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Wall" && grabber.HeldGrabbable == null)
+        {
+            m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            m_NavMeshAgent.enabled = true;            
         }
     }
 }
