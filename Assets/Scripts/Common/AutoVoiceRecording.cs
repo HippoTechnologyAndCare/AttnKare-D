@@ -23,7 +23,7 @@ public class AutoVoiceRecording : MonoBehaviour
     AudioSource audioSource;
     float startRecordingTime;
 
-    int MaxRecordingTime = 300; // 수정할 필요가 있습니다
+    int MaxRecordingTime = 300;
 
     void Start()
     {

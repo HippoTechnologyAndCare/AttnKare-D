@@ -114,8 +114,9 @@ public class TubeScoreboard : MonoBehaviour
     public float isSkipped = 0;
     bool movingToLobby = false;
     bool addedDelimiter = false;
+    [HideInInspector] public float timeLimit = 0; // DATA
     [HideInInspector] public bool timeOutCheck = false;
-    [HideInInspector] public bool timeOut = false; // DATA
+    [HideInInspector] public float timeOut = 0; // DATA
 
     // Boolean to Load Data (Only Used Once after Start Function)
     bool isChecked = false;
@@ -284,14 +285,30 @@ public class TubeScoreboard : MonoBehaviour
         {
             if (timer != null) 
             {
-                Destroy(timer);
-                timer = null;
+                /*Destroy(timer);*/
+                /*timer = null;*/
+                timer.GetComponent<Text>().enabled = false;
             }
             
             StartCoroutine(GoToLobby(false));
             dataRecorded = false;
             endOfGame = false;
             movingToLobby = true;
+        }
+
+        // Force End when Time Out
+        if (timeOutCheck && !endOfGame)
+        {
+            timeOut = 1;
+            if (timer != null) clearTime = timer.GetComponent<Text>().text;
+            RecordStageClearTime(stageCounter);
+            RecordStageDrops(stageCounter);
+            RecordData(endOfGame, gameFailed);
+            scoreText.GetComponent<Text>().text = "게임 종료\n\n";
+            AddBreakPoint("Time Out");
+            dataRecorded = true;
+
+            timeOutCheck = false;
         }
 
         // Used for Stage Wait Time

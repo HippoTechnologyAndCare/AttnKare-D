@@ -116,8 +116,9 @@ public class EasyTubeScoreboard : MonoBehaviour
     public float isSkipped = 0;
     bool movingToLobby = false;
     bool addedDelimiter = false;
+    [HideInInspector] public float timeLimit = 0; // DATA
     [HideInInspector] public bool timeOutCheck = false;
-    [HideInInspector] public bool timeOut = false;      // DATA
+    [HideInInspector] public float timeOut = 0;      // DATA
 
     // Boolean to Load Data (Only Used Once after Start Function)
     bool isChecked = false;
@@ -296,9 +297,10 @@ public class EasyTubeScoreboard : MonoBehaviour
             movingToLobby = true;
         }
 
+        // Force End when Time Out
         if(timeOutCheck && !endOfGame)
         {
-            timeOut = true;
+            timeOut = 1;
             if (timer != null) clearTime = timer.GetComponent<Text>().text;
             RecordStageClearTime(stageCounter);
             RecordStageDrops(stageCounter);

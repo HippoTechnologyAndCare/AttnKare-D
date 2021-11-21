@@ -82,6 +82,7 @@ public class Timer : MonoBehaviour
                     GetComponent<AudioSource>().Play();
                     Debug.Log("Playing Easy Time Limit Audio");
                     timeLimitPlayed = true;
+                    scoreboard.GetComponent<EasyTubeScoreboard>().timeLimit = 1;
                     scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
                 }
             }
@@ -95,6 +96,7 @@ public class Timer : MonoBehaviour
                     GetComponent<AudioSource>().Play();
                     Debug.Log("Playing Normal Time Limit Audio");
                     timeLimitPlayed = true;
+                    scoreboard.GetComponent<TubeScoreboard>().timeLimit = 1;
                     scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
                 }
             }
