@@ -30,7 +30,20 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        secondsCount += Time.deltaTime;
+        if (scoreboard.GetComponent<EasyTubeScoreboard>() != null)
+        {
+            if (!scoreboard.GetComponent<EasyTubeScoreboard>().movingToLobby)
+            {
+                secondsCount += Time.deltaTime;
+            }
+        }
+        else if (scoreboard.GetComponent<TubeScoreboard>() != null)
+        {
+            if (!scoreboard.GetComponent<TubeScoreboard>().movingToLobby)
+            {
+                secondsCount += Time.deltaTime;
+            }
+        }
         UpdateTimerUI();
 
         // Check Time Limit or Time Out
@@ -72,32 +85,30 @@ public class Timer : MonoBehaviour
         if (!timeLimitPlayed)
         {
             // Play Time Limit Audio
-            if(scoreboard.GetComponent<EasyTubeScoreboard>() != null)
+            if(scoreboard.GetComponent<EasyTubeScoreboard>() != null && !scoreboard.GetComponent<EasyTubeScoreboard>().movingToLobby)
             {
-                if (minuteCount == 10)
+                if (minuteCount == 10 && !voice.GetComponent<AudioSource>().isPlaying)
                 {
-                    Debug.Log("Easy");
                     // Lo
                     GetComponent<AudioSource>().clip = timeLimitAudio;
                     GetComponent<AudioSource>().Play();
-                    Debug.Log("Playing Easy Time Limit Audio");
                     timeLimitPlayed = true;
                     scoreboard.GetComponent<EasyTubeScoreboard>().timeLimit = 1;
                     scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
+                    /*Destroy(GetComponent<AudioSource>().clip);*/
                 }
             }
-            if(scoreboard.GetComponent<TubeScoreboard>() != null)
+            if(scoreboard.GetComponent<TubeScoreboard>() != null && !scoreboard.GetComponent<TubeScoreboard>().movingToLobby)
             {
-                if (minuteCount == 8)
+                if (minuteCount == 8 && !voice.GetComponent<AudioSource>().isPlaying)
                 {
-                    Debug.Log("Normal");
                     // Hi
                     GetComponent<AudioSource>().clip = timeLimitAudio;
                     GetComponent<AudioSource>().Play();
-                    Debug.Log("Playing Normal Time Limit Audio");
                     timeLimitPlayed = true;
                     scoreboard.GetComponent<TubeScoreboard>().timeLimit = 1;
                     scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
+                    /*Destroy(GetComponent<AudioSource>().clip);*/
                 }
             }
         }
@@ -108,28 +119,26 @@ public class Timer : MonoBehaviour
         if (!timeOutPlayed)
         {
             // Play Time Out Audio
-            if (scoreboard.GetComponent<EasyTubeScoreboard>() != null)
+            if (scoreboard.GetComponent<EasyTubeScoreboard>() != null && !scoreboard.GetComponent<EasyTubeScoreboard>().movingToLobby)
             {
-                if (minuteCount == 11)
+                if (minuteCount == 11 && !voice.GetComponent<AudioSource>().isPlaying)
                 {
                     // Lo
                     GetComponent<AudioSource>().clip = timeOutAudio;
                     GetComponent<AudioSource>().Play();
-                    Debug.Log("Playing Easy Time Out Audio");
                     timeOutPlayed = true;
                     scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
                     // Call Force End Function from EasyTubeScoreboard
                     scoreboard.GetComponent<EasyTubeScoreboard>().timeOutCheck = true;
                 }
             }
-            if (scoreboard.GetComponent<TubeScoreboard>() != null)
+            if (scoreboard.GetComponent<TubeScoreboard>() != null && !scoreboard.GetComponent<TubeScoreboard>().movingToLobby)
             {
-                if (minuteCount == 9)
+                if (minuteCount == 9 && !voice.GetComponent<AudioSource>().isPlaying)
                 {
                     // Hi
                     GetComponent<AudioSource>().clip = timeOutAudio;
                     GetComponent<AudioSource>().Play();
-                    Debug.Log("Playing Normal Time Out Audio");
                     timeOutPlayed = true;
                     scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
                     // Call Force End Function from TubeScoreboard

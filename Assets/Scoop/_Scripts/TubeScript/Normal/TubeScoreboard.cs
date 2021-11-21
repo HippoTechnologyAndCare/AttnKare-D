@@ -112,7 +112,7 @@ public class TubeScoreboard : MonoBehaviour
     public float gameFailedResult;
     public bool dataRecorded = false;
     public float isSkipped = 0;
-    bool movingToLobby = false;
+    [HideInInspector] public bool movingToLobby = false;
     bool addedDelimiter = false;
     [HideInInspector] public float timeLimit = 0; // DATA
     [HideInInspector] public bool timeOutCheck = false;
@@ -167,14 +167,14 @@ public class TubeScoreboard : MonoBehaviour
     void Update()
     {
         // Name of GameObject Grabbed by Each Hand
-        if (rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null)
+        /*if (rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null)
         {
             Debug.Log("Object Grabbed by Right Hand: " + rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable);
         }
         if (leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null)
         {
             Debug.Log("Object Grabbed by Left Hand: " + leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable);
-        }
+        }*/
 
         // Check if User is Grabbing Something
         if (rightHand.GetComponent<BNG.HandController>().grabber != null && leftHand.GetComponent<BNG.HandController>().grabber != null)
@@ -183,13 +183,13 @@ public class TubeScoreboard : MonoBehaviour
             if (rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable == null && rightPrevGrabbed != null)
             {
                 // When Object is Dropped
-                Debug.Log("Object Dropped (R)");
+                /*Debug.Log("Object Dropped (R)");*/
                 rightGrab = false;
             }
             else if (rightHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null && rightPrevGrabbed == null)
             {
                 // When Object is Grabbed
-                Debug.Log("Object Grabbed (R)");
+                /*Debug.Log("Object Grabbed (R)");*/
                 rightGrab = true;
             }
 
@@ -197,13 +197,13 @@ public class TubeScoreboard : MonoBehaviour
             if (leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable == null && leftPrevGrabbed != null)
             {
                 // When Object is Dropped
-                Debug.Log("Object Dropped (L)");
+                /*Debug.Log("Object Dropped (L)");*/
                 leftGrab = false;
             }
             else if (leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable != null && leftPrevGrabbed == null)
             {
                 // When Object is Grabbed
-                Debug.Log("Object Grabbed (L)");
+                /*Debug.Log("Object Grabbed (L)");*/
                 leftGrab = true;
             }
 
@@ -283,6 +283,7 @@ public class TubeScoreboard : MonoBehaviour
         // Disable this Script after data is recorded (Used to write data only once)
         if (dataRecorded && !movingToLobby)
         {
+            movingToLobby = true;
             if (timer != null) 
             {
                 /*Destroy(timer);*/
@@ -290,16 +291,21 @@ public class TubeScoreboard : MonoBehaviour
                 timer.GetComponent<Text>().enabled = false;
             }
             
-            StartCoroutine(GoToLobby(false));
             dataRecorded = false;
             endOfGame = false;
-            movingToLobby = true;
+            StartCoroutine(GoToLobby(false));
         }
 
         // Force End when Time Out
         if (timeOutCheck && !endOfGame)
         {
             timeOut = 1;
+
+            foreach (GameObject tool in toolList)
+            {
+                if (tool.GetComponent<BNG.Grabbable>().enabled) tool.GetComponent<BNG.Grabbable>().enabled = false;
+            }
+
             if (timer != null) clearTime = timer.GetComponent<Text>().text;
             RecordStageClearTime(stageCounter);
             RecordStageDrops(stageCounter);
@@ -307,6 +313,8 @@ public class TubeScoreboard : MonoBehaviour
             scoreText.GetComponent<Text>().text = "게임 종료\n\n";
             AddBreakPoint("Time Out");
             dataRecorded = true;
+
+            if (voices != null) voices.GetComponent<Voice>().enabled = false;
 
             timeOutCheck = false;
         }
@@ -318,8 +326,12 @@ public class TubeScoreboard : MonoBehaviour
         if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls && 
             successBalls3.Count == stageBalls && delayTimer - startTime > 2.8f && delayTimer - startTime < 3.2f && !endOfGame)
         {
-            StartCoroutine(stageClear());
-            startTime = 0;
+            if(timeOut != 1)
+            {
+                StartCoroutine(stageClear());
+                startTime = 0;
+            }
+            
         }
         // End of Game
         else if (endOfGame)
@@ -649,11 +661,7 @@ public class TubeScoreboard : MonoBehaviour
             && successBalls3.Count == stageBalls && stageBalls == 3)
         {
             stageAudio.GetComponent<StageAudio>().NextStage();
-            if (timer != null) 
-            {
-                clearTime = timer.GetComponent<Text>().text;
-                timer.SetActive(false);
-            }
+            clearTime = timer.GetComponent<Text>().text;
 
             endOfGame = true;
             successBalls1.Clear();
@@ -670,8 +678,10 @@ public class TubeScoreboard : MonoBehaviour
             AddBreakPoint("Successfully finished game");
             dataRecorded = true;
 
+            if (timer != null) Destroy(timer);
+
             yield return StartCoroutine(Wait());
-            voices.GetComponent<Voice>().Stage3Finish();
+            StartCoroutine(voices.GetComponent<Voice>().Stage3Finish());
         }
         // If score is not 3, move onto next stage
         else if (successBalls1.Count == stageBalls && successBalls2.Count == stageBalls 
@@ -735,11 +745,11 @@ public class TubeScoreboard : MonoBehaviour
 
             if (stageCounter == 2)
             {
-                voices.GetComponent<Voice>().Stage1Finish();
+                StartCoroutine(voices.GetComponent<Voice>().Stage1Finish());
             }
             else if (stageCounter == 3)
             {
-                voices.GetComponent<Voice>().Stage2Finish();
+                StartCoroutine(voices.GetComponent<Voice>().Stage2Finish());
             }
         }
     }
