@@ -74,22 +74,26 @@ public class Timer : MonoBehaviour
             // Play Time Limit Audio
             if(scoreboard.GetComponent<EasyTubeScoreboard>() != null)
             {
-                if (scoreboard.GetComponent<EasyTubeScoreboard>().LoHi == 0 && (minuteCount == 10 && secondsCount == 0))
+                if (minuteCount == 10)
                 {
+                    Debug.Log("Easy");
                     // Lo
                     GetComponent<AudioSource>().clip = timeLimitAudio;
                     GetComponent<AudioSource>().Play();
+                    Debug.Log("Playing Easy Time Limit Audio");
                     timeLimitPlayed = true;
                     scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
                 }
             }
             if(scoreboard.GetComponent<TubeScoreboard>() != null)
             {
-                if (scoreboard.GetComponent<TubeScoreboard>().LoHi == 1 && (minuteCount == 8 && secondsCount == 0))
+                if (minuteCount == 8)
                 {
+                    Debug.Log("Normal");
                     // Hi
                     GetComponent<AudioSource>().clip = timeLimitAudio;
                     GetComponent<AudioSource>().Play();
+                    Debug.Log("Playing Normal Time Limit Audio");
                     timeLimitPlayed = true;
                     scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
                 }
@@ -104,11 +108,12 @@ public class Timer : MonoBehaviour
             // Play Time Out Audio
             if (scoreboard.GetComponent<EasyTubeScoreboard>() != null)
             {
-                if (scoreboard.GetComponent<EasyTubeScoreboard>().LoHi == 0 && (minuteCount == 11 && secondsCount == 0))
+                if (minuteCount == 11)
                 {
                     // Lo
                     GetComponent<AudioSource>().clip = timeOutAudio;
                     GetComponent<AudioSource>().Play();
+                    Debug.Log("Playing Easy Time Out Audio");
                     timeOutPlayed = true;
                     scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
                     // Call Force End Function from EasyTubeScoreboard
@@ -117,11 +122,12 @@ public class Timer : MonoBehaviour
             }
             if (scoreboard.GetComponent<TubeScoreboard>() != null)
             {
-                if (scoreboard.GetComponent<TubeScoreboard>().LoHi == 1 && (minuteCount == 9 && secondsCount == 0))
+                if (minuteCount == 9)
                 {
                     // Hi
                     GetComponent<AudioSource>().clip = timeOutAudio;
                     GetComponent<AudioSource>().Play();
+                    Debug.Log("Playing Normal Time Out Audio");
                     timeOutPlayed = true;
                     scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
                     // Call Force End Function from TubeScoreboard

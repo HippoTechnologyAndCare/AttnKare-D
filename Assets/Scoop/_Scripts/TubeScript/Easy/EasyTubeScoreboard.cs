@@ -286,13 +286,28 @@ public class EasyTubeScoreboard : MonoBehaviour
         {
             if (timer != null)
             {
-                Destroy(timer);
-                timer = null;
+                /*Destroy(timer);*/
+                /*timer = null;*/
+                timer.GetComponent<Text>().enabled = false;
             }
             StartCoroutine(GoToLobby(false));
             dataRecorded = false;
             endOfGame = false;
             movingToLobby = true;
+        }
+
+        if(timeOutCheck && !endOfGame)
+        {
+            timeOut = true;
+            if (timer != null) clearTime = timer.GetComponent<Text>().text;
+            RecordStageClearTime(stageCounter);
+            RecordStageDrops(stageCounter);
+            RecordData(endOfGame, gameFailed);
+            scoreText.GetComponent<Text>().text = "게임 종료\n\n";
+            AddBreakPoint("Time Out");
+            dataRecorded = true;
+
+            timeOutCheck = false;
         }
 
         // Used for Stage Wait Time

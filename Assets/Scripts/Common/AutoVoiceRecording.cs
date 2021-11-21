@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 using NAudio.Lame;
 using NAudio.Wave.WZT;
+/*using System.Diagnostics;*/
 
 public class AutoVoiceRecording : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class AutoVoiceRecording : MonoBehaviour
     AudioSource audioSource;
     float startRecordingTime;
 
-    int MaxRecordingTime = 300;
+    int MaxRecordingTime = 300; // 수정할 필요가 있습니다
 
     void Start()
     {
@@ -42,7 +43,9 @@ public class AutoVoiceRecording : MonoBehaviour
             if (timer > MaxRecordingTime - 1)   //timer > 5
             {
                 //5분이 되면 자동 종료
-                StopRecordingNBehavior();
+                StopRecordingNBehavior(); 
+                // 이 함수가 호출되면서 CollectData의 데이터 기록 함수가 한번 더 호출됩니다. 300초 이상 진행하는 어린이들의 데이터가 
+                // 한번 끊기게 되고, delimiter도 이중으로 기록되어 데이터 분석에 문제가 될 것 같습니다. 빠르게 수정해주시면 감사하겠습니다.
             }
         }
     }
@@ -61,6 +64,8 @@ public class AutoVoiceRecording : MonoBehaviour
 
     public void StopRecordingNBehavior()     // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 이거 호출하면 종료 및 저장
     {
+        /*string callingFuncName = new StackFrame(1).GetMethod().Name;
+        UnityEngine.Debug.Log("called by: " + callingFuncName);*/
         NowRecording = false;
         transform.GetComponent<BNG.CollectData>().SaveBehaviorData();
         StartCoroutine(FinishAndMakeClip());
