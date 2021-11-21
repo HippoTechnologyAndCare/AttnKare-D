@@ -14,6 +14,9 @@ public class Timer : MonoBehaviour
     public GameObject voice;            // Sounds/Voice
     public GameObject scoreboard;       // ScoopGame/Room/Scoreboard
 
+    [SerializeField] AudioClip timeLimitAudio;
+    [SerializeField] AudioClip timeOutAudio;
+
     bool timeLimitPlayed = false;
     bool timeOutPlayed = false;
 
@@ -74,6 +77,8 @@ public class Timer : MonoBehaviour
                 if (scoreboard.GetComponent<EasyTubeScoreboard>().LoHi == 0 && (minuteCount == 10 && secondsCount == 0))
                 {
                     // Lo
+                    GetComponent<AudioSource>().clip = timeLimitAudio;
+                    GetComponent<AudioSource>().Play();
                     timeLimitPlayed = true;
                     scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
                 }
@@ -83,6 +88,8 @@ public class Timer : MonoBehaviour
                 if (scoreboard.GetComponent<TubeScoreboard>().LoHi == 1 && (minuteCount == 8 && secondsCount == 0))
                 {
                     // Hi
+                    GetComponent<AudioSource>().clip = timeLimitAudio;
+                    GetComponent<AudioSource>().Play();
                     timeLimitPlayed = true;
                     scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
                 }
@@ -100,9 +107,12 @@ public class Timer : MonoBehaviour
                 if (scoreboard.GetComponent<EasyTubeScoreboard>().LoHi == 0 && (minuteCount == 11 && secondsCount == 0))
                 {
                     // Lo
+                    GetComponent<AudioSource>().clip = timeOutAudio;
+                    GetComponent<AudioSource>().Play();
                     timeOutPlayed = true;
                     scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
                     // Call Force End Function from EasyTubeScoreboard
+                    scoreboard.GetComponent<EasyTubeScoreboard>().timeOutCheck = true;
                 }
             }
             if (scoreboard.GetComponent<TubeScoreboard>() != null)
@@ -110,9 +120,12 @@ public class Timer : MonoBehaviour
                 if (scoreboard.GetComponent<TubeScoreboard>().LoHi == 1 && (minuteCount == 9 && secondsCount == 0))
                 {
                     // Hi
+                    GetComponent<AudioSource>().clip = timeOutAudio;
+                    GetComponent<AudioSource>().Play();
                     timeOutPlayed = true;
                     scoreboard.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
                     // Call Force End Function from TubeScoreboard
+                    scoreboard.GetComponent<TubeScoreboard>().timeOutCheck = true;
                 }
             }
         }

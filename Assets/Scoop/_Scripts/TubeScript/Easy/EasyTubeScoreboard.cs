@@ -116,6 +116,8 @@ public class EasyTubeScoreboard : MonoBehaviour
     public float isSkipped = 0;
     bool movingToLobby = false;
     bool addedDelimiter = false;
+    [HideInInspector] public bool timeOutCheck = false;
+    [HideInInspector] public bool timeOut = false;      // DATA
 
     // Boolean to Load Data (Only Used Once after Start Function)
     bool isChecked = false;
@@ -253,7 +255,7 @@ public class EasyTubeScoreboard : MonoBehaviour
                 if (tool.GetComponent<BNG.Grabbable>().enabled) tool.GetComponent<BNG.Grabbable>().enabled = false;
             }
         }
-        else // This Process is executed throughout the game
+        else // Enable Grab (This Process is executed throughout the game)
         {
             foreach (GameObject tool in toolList)
             {
