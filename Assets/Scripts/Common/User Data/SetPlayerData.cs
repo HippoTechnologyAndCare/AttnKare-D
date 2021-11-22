@@ -68,6 +68,7 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList.Add(new PlayerData(410, "data_410", 0));
         DataManager.GetInstance().dataList.Add(new PlayerData(411, "data_411", 0));
         DataManager.GetInstance().dataList.Add(new PlayerData(412, "data_412", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(413, "data_413", 0));
         // BackPacking Data
         DataManager.GetInstance().dataList.Add(new PlayerData(501, "data_501", 0));
         DataManager.GetInstance().dataList.Add(new PlayerData(502, "data_502", 0));
@@ -91,6 +92,8 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList.Add(new PlayerData(609, "data_609", 0));
         DataManager.GetInstance().dataList.Add(new PlayerData(610, "data_610", 0));
         DataManager.GetInstance().dataList.Add(new PlayerData(611, "data_611", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(612, "data_612", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(613, "data_613", 0));
     }
     
     // Set Doorlock //
@@ -177,6 +180,8 @@ public class SetPlayerData : MonoBehaviour
         FsmFloat data609 = fsm.FsmVariables.GetFsmFloat("data_609");
         FsmFloat data610 = fsm.FsmVariables.GetFsmFloat("data_610");
         FsmFloat data611 = fsm.FsmVariables.GetFsmFloat("data_611");
+        FsmFloat data612 = fsm.FsmVariables.GetFsmFloat("data_612");
+        FsmFloat data613 = fsm.FsmVariables.GetFsmFloat("data_613");
 
         DataManager.GetInstance().dataList[601].Result = data601.Value;
         DataManager.GetInstance().dataList[602].Result = data602.Value;
@@ -189,6 +194,8 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList[609].Result = data609.Value;
         DataManager.GetInstance().dataList[610].Result = data610.Value;
         DataManager.GetInstance().dataList[611].Result = data611.Value;
+        DataManager.GetInstance().dataList[612].Result = data612.Value;
+        DataManager.GetInstance().dataList[613].Result = data613.Value;
     }
 
     // Clean Up My Room //
@@ -230,6 +237,7 @@ public class SetPlayerData : MonoBehaviour
         FsmFloat data410 = fsm.FsmVariables.GetFsmFloat("Data_410");
         FsmFloat data411 = fsm.FsmVariables.GetFsmFloat("Data_411");
         FsmFloat data412 = fsm.FsmVariables.GetFsmFloat("Data_412");
+        FsmFloat data413 = fsm.FsmVariables.GetFsmFloat("Data_413");
 
         DataManager.GetInstance().dataList[401].Result = data401.Value;
         DataManager.GetInstance().dataList[402].Result = data402.Value;
@@ -243,6 +251,7 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList[410].Result = data410.Value;
         DataManager.GetInstance().dataList[411].Result = data411.Value;
         DataManager.GetInstance().dataList[412].Result = data412.Value;
+        DataManager.GetInstance().dataList[413].Result = data413.Value;
     }
 
     // Back Packing H //
@@ -287,6 +296,8 @@ public class SetPlayerData : MonoBehaviour
         FsmFloat data609 = fsm.FsmVariables.GetFsmFloat("data_609");
         FsmFloat data610 = fsm.FsmVariables.GetFsmFloat("data_610");
         FsmFloat data611 = fsm.FsmVariables.GetFsmFloat("data_611");
+        FsmFloat data612 = fsm.FsmVariables.GetFsmFloat("data_612");
+        FsmFloat data613 = fsm.FsmVariables.GetFsmFloat("data_613");
 
         DataManager.GetInstance().dataList[601].Result = data601.Value;
         DataManager.GetInstance().dataList[602].Result = data602.Value;
@@ -299,6 +310,8 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList[609].Result = data609.Value;
         DataManager.GetInstance().dataList[610].Result = data610.Value;
         DataManager.GetInstance().dataList[611].Result = data611.Value;
+        DataManager.GetInstance().dataList[612].Result = data612.Value;
+        DataManager.GetInstance().dataList[613].Result = data613.Value;
     }
 }
 
