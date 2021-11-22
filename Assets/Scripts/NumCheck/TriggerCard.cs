@@ -10,14 +10,18 @@ public class TriggerCard : MonoBehaviour
   //bool alrdyIN = false;
     bool inout = false;
     int arrNum;
-    bool alrdyIn = false;
+   // bool alrdyIn = false;
+    MeshRenderer meshRenderer;
 
 
+
+    GrabbablesInTrigger gZone;
     // Start is called before the first frame update
     void Start()
     {
-       
+        gZone = GetComponent<GrabbablesInTrigger>(); //to get all closet grabbables
         arrNum = int.Parse(orderNum) - 1;
+        meshRenderer = GetComponent<MeshRenderer>();
         
     }
 
@@ -35,6 +39,7 @@ public class TriggerCard : MonoBehaviour
 
     public void OnTriggerExit(Collider other)
     {
+        
         if(other.CompareTag("Necessary"))
         {
             if(other.gameObject == card)
@@ -55,6 +60,7 @@ public class TriggerCard : MonoBehaviour
         
         Manager.arrOrder[arrNum] = other.transform.GetComponent<NumCard>().cardNum;
         Manager.answerInt += 1;
+            meshRenderer.enabled = false;
      //   other.transform.GetComponent<NumCard>().SetPosRot(this.transform);
         card = other.gameObject;
         inout = true;
@@ -68,6 +74,7 @@ public class TriggerCard : MonoBehaviour
     public void TriggerExitCheck()
     {
         if (inout){
+            meshRenderer.enabled = true;
             Manager.arrOrder[arrNum] = null;
             Manager.answerInt -= 1;
             // card = null;
