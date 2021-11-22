@@ -15,7 +15,6 @@ public class TriggerCheck_NumCheck : MonoBehaviour
     void Start()
     {
         arrNum = int.Parse(orderNum) - 1;
-
     }
 
     // Update is called once per frame
@@ -26,11 +25,11 @@ public class TriggerCheck_NumCheck : MonoBehaviour
 
     public void TriggerIn()
     {
-        card = transform.GetChild(1).gameObject;
+        card = transform.GetChild(2).gameObject;
         Manager.arrOrder[arrNum] = card.transform.GetComponent<NumCard>().cardNum;
         Manager.answerInt += 1;
 
-
+        
         Manager.GetComponent<NumCheckManager>().compareArr();
     }
 

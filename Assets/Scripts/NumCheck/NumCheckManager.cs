@@ -9,22 +9,25 @@ public class NumCheckManager : MonoBehaviour
     public Grabber numGrabber;
     public GameObject[] arrCards;
     public GameObject hitCollision = null;
+    public Canvas finCanvas;
     public TextMeshProUGUI answerText;
     public int answerInt = 0;
     public string[] arrOrder;
     string[] arrAnswer = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "111", "12", "13", "14", "15" };
-    bool once;
+  //  bool once;
     Transform colObject;
     Transform _lastCollision;
     Transform collision;
     Grabbable prevGrabbable;
     GameObject prevhitCollision;
+    IEnumerator currentCoroutine;
 
     // Start is called before the first frame update
     void Start()
     {
+      
         arrOrder = new string[15];
-        once = true;
+     //   once = true;
         int[] arrNum = new int[arrCards.Length];
         
 
@@ -125,24 +128,39 @@ public class NumCheckManager : MonoBehaviour
 
     public void compareArr()
     {
+        Debug.Log("inside");
 
-        
+
         if (answerInt == 15)
         {
             answerText.text = "이렇게 마무리 할게요!";
-            StartCoroutine(compareAnswer());
+            finCanvas.gameObject.SetActive(true);
+
 
 
         }
-
-
+       
 
 
 
     }
 
-    IEnumerator compareAnswer()
+    public void ResetCoroutine()
     {
+        StopAllCoroutines();
+
+    }    
+    public void startCoroutines()
+    {
+        StartCoroutine(CompareAnswer());
+
+    }
+
+    public IEnumerator CompareAnswer()
+    {
+       
+        
+
         yield return new WaitForSeconds(1.5f);
         if (arrOrder == arrAnswer)
         {
@@ -153,9 +171,15 @@ public class NumCheckManager : MonoBehaviour
         if (arrOrder != arrAnswer)
         {
             answerText.text = "정답이 맞나요? \n다시 한번 확인해보세요!";
+            yield return new WaitForSeconds(3.0f);
+            finCanvas.gameObject.SetActive(false);
+
+
 
         }
-        once = true;
+
+        ResetCoroutine();
+      //  once = true;
 
     }
 

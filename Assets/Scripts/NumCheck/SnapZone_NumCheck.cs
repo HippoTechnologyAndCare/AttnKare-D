@@ -175,7 +175,7 @@ namespace BNG
 
                 // Collider may have been disabled
                 if (g.Key == null)
-                {
+                { 
                     continue;
                 }
 
