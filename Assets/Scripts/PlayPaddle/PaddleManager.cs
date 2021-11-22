@@ -465,7 +465,6 @@ public class PaddleManager : MonoBehaviour
                         + "\n31 : " + Data_31.ToString());*/
 
         DataFsm.SendEvent("GameClear");
-        //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex6();
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
 
         StartCoroutine(GoToNextScene());
