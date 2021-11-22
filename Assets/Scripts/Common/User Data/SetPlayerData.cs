@@ -92,6 +92,8 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList.Add(new PlayerData(609, "data_609", 0));
         DataManager.GetInstance().dataList.Add(new PlayerData(610, "data_610", 0));
         DataManager.GetInstance().dataList.Add(new PlayerData(611, "data_611", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(612, "data_612", 0));
+        DataManager.GetInstance().dataList.Add(new PlayerData(613, "data_613", 0));
     }
     
     // Set Doorlock //
@@ -178,6 +180,8 @@ public class SetPlayerData : MonoBehaviour
         FsmFloat data609 = fsm.FsmVariables.GetFsmFloat("data_609");
         FsmFloat data610 = fsm.FsmVariables.GetFsmFloat("data_610");
         FsmFloat data611 = fsm.FsmVariables.GetFsmFloat("data_611");
+        FsmFloat data612 = fsm.FsmVariables.GetFsmFloat("data_612");
+        FsmFloat data613 = fsm.FsmVariables.GetFsmFloat("data_613");
 
         DataManager.GetInstance().dataList[601].Result = data601.Value;
         DataManager.GetInstance().dataList[602].Result = data602.Value;
@@ -190,6 +194,8 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList[609].Result = data609.Value;
         DataManager.GetInstance().dataList[610].Result = data610.Value;
         DataManager.GetInstance().dataList[611].Result = data611.Value;
+        DataManager.GetInstance().dataList[612].Result = data612.Value;
+        DataManager.GetInstance().dataList[613].Result = data613.Value;
     }
 
     // Clean Up My Room //
@@ -290,6 +296,8 @@ public class SetPlayerData : MonoBehaviour
         FsmFloat data609 = fsm.FsmVariables.GetFsmFloat("data_609");
         FsmFloat data610 = fsm.FsmVariables.GetFsmFloat("data_610");
         FsmFloat data611 = fsm.FsmVariables.GetFsmFloat("data_611");
+        FsmFloat data612 = fsm.FsmVariables.GetFsmFloat("data_612");
+        FsmFloat data613 = fsm.FsmVariables.GetFsmFloat("data_613");
 
         DataManager.GetInstance().dataList[601].Result = data601.Value;
         DataManager.GetInstance().dataList[602].Result = data602.Value;
@@ -302,6 +310,8 @@ public class SetPlayerData : MonoBehaviour
         DataManager.GetInstance().dataList[609].Result = data609.Value;
         DataManager.GetInstance().dataList[610].Result = data610.Value;
         DataManager.GetInstance().dataList[611].Result = data611.Value;
+        DataManager.GetInstance().dataList[612].Result = data612.Value;
+        DataManager.GetInstance().dataList[613].Result = data613.Value;
     }
 }
 

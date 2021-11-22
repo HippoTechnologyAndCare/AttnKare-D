@@ -36,7 +36,7 @@ public class AutoVoiceRecording : MonoBehaviour
 
     void Update()
     {
-        if (NowRecording)
+        /*if (NowRecording)
         {
             timer += Time.deltaTime;
 
@@ -47,7 +47,7 @@ public class AutoVoiceRecording : MonoBehaviour
                 // 이 함수가 호출되면서 CollectData의 데이터 기록 함수가 한번 더 호출됩니다. 300초 이상 진행하는 어린이들의 데이터가 
                 // 한번 끊기게 되고, delimiter도 이중으로 기록되어 데이터 분석에 문제가 될 것 같습니다. 빠르게 수정해주시면 감사하겠습니다.
             }
-        }
+        }*/
     }
 
     public void StartRecording()
