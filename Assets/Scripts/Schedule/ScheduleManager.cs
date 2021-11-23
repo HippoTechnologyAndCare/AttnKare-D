@@ -42,6 +42,9 @@ public class ScheduleManager : MonoBehaviour
     bool FirstSelect = false;
     bool BeforeStarGuideCheck = false;
 
+    bool CheckTimeLimit = false;
+    bool CheckTimeOut = false;
+
     float Guide_Length = 24;
 
     int Timer_Min = 1;
@@ -130,16 +133,17 @@ public class ScheduleManager : MonoBehaviour
                     TimerText.text = "0" + Timer_Min.ToString() + ":" + TextSec;
                 }
 
-                if (TotalElapsedTimeForCalc >= TimeLimit)
+                if (!CheckTimeLimit && TotalElapsedTimeForCalc >= TimeLimit)
                 {
                     //시간제한
+                    CheckTimeLimit = true;
                     StartCoroutine(TimeLimitAndKeepGoing());
-
                 }
 
-                if (TotalElapsedTimeForCalc >= TimeLimitForFinish)
+                if (!CheckTimeOut && TotalElapsedTimeForCalc >= TimeLimitForFinish)
                 {
                     //강제종료
+                    CheckTimeOut = true;
                     StartCoroutine(TimeOutAndFinish());
                 }
             }
@@ -353,8 +357,6 @@ public class ScheduleManager : MonoBehaviour
 
             PlanData = float.Parse(MyScheduleforJson, System.Globalization.CultureInfo.InvariantCulture);
         }
-
-
 
 
         /*

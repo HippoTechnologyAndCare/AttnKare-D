@@ -41,6 +41,9 @@ public class PaddleManager : MonoBehaviour
     float TimeElapsed = 0;
     int TimeElapsedShow = 0;
 
+    float TimeElapsed_Timer = 0;
+    int TimeElapsedShow_Timer = 0;
+
     bool MyPaddleOn = false;            //핸들을 잡았는지
     bool PaddleTimerSwitch = false;     //바르게 돌리고 있을때 시간 체크용
     float PaddleSpeedTimer = 0;         //핸들 속도 체크용
@@ -115,42 +118,6 @@ public class PaddleManager : MonoBehaviour
             {
                 TimeElapsed = 0;
                 TimeElapsedShow += 1;
-
-                if (Timer_Min != 0 || Timer_Sec != 0)
-                {
-                    Timer_Sec -= 1;
-
-                    if (Timer_Sec < 0 && Timer_Min > 0)
-                    {
-                        Timer_Sec = 59;
-                        Timer_Min = 0;
-                    }
-
-                    string TextSec = "";
-
-                    if (Timer_Sec < 10)
-                    {
-                        TextSec = "0" + Timer_Sec.ToString();
-                    }
-                    else
-                    {
-                        TextSec = Timer_Sec.ToString();
-                    }
-
-                    TimerText.text = "0" + Timer_Min.ToString() + ":" + TextSec;
-                }
-
-                if (TimeElapsedShow >= TimeLimit)
-                {
-                    //시간제한
-                    StartCoroutine(TimeLimitAndKeepGoing());
-                }
-
-                if (TimeElapsedShow >= TimeLimitForFinish)
-                {
-                    //강제종료
-                    StartCoroutine(TimeOutAndFinish());
-                }
             }
 
 
@@ -163,6 +130,50 @@ public class PaddleManager : MonoBehaviour
 
             if (PaddleStart)
             {
+                TimeElapsed_Timer += Time.deltaTime;
+
+                if (TimeElapsed > 1)
+                {
+                    TimeElapsed = 0;
+                    TimeElapsedShow_Timer += 1;
+
+                    if (Timer_Min != 0 || Timer_Sec != 0)
+                    {
+                        Timer_Sec -= 1;
+
+                        if (Timer_Sec < 0 && Timer_Min > 0)
+                        {
+                            Timer_Sec = 59;
+                            Timer_Min = 0;
+                        }
+
+                        string TextSec = "";
+
+                        if (Timer_Sec < 10)
+                        {
+                            TextSec = "0" + Timer_Sec.ToString();
+                        }
+                        else
+                        {
+                            TextSec = Timer_Sec.ToString();
+                        }
+
+                        TimerText.text = "0" + Timer_Min.ToString() + ":" + TextSec;
+                    }
+
+                    if (TimeElapsedShow_Timer >= TimeLimit)
+                    {
+                        //시간제한
+                        StartCoroutine(TimeLimitAndKeepGoing());
+                    }
+
+                    if (TimeElapsedShow_Timer >= TimeLimitForFinish)
+                    {
+                        //강제종료
+                        StartCoroutine(TimeOutAndFinish());
+                    }
+                }
+
                 if (Wheel_Parent_My.childCount != 0)
                 {
                     MyPaddleOn = true;
