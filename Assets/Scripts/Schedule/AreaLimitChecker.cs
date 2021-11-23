@@ -14,17 +14,17 @@ public class AreaLimitChecker : MonoBehaviour
         audioSource = this.GetComponent<AudioSource>();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
-        if (collision.collider.gameObject.name == "HeadCollision")
+        if (collision.tag == "Player")
         {
             BehaviorMG.GetComponent<BNG.CollectData>().AddTimeStamp("ESCAPE END");
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider collision)
     {
-        if (collision.collider.gameObject.name == "HeadCollision")
+        if (collision.tag == "Player")
         {
             BehaviorMG.GetComponent<BNG.CollectData>().AddTimeStamp("ESCAPE START");
 
