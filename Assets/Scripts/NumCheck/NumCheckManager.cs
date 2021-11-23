@@ -6,14 +6,21 @@ using BNG;
 
 public class NumCheckManager : MonoBehaviour
 {
+    public GameObject RighthandPointer;
     public Grabber numGrabber;
-    public GameObject[] arrCards;
+    public GameObject Triggers;
     public GameObject hitCollision = null;
+    public GameObject[] arrCards;
+    
+    [Header("UI")]
     public Canvas finCanvas;
+    public Canvas startCanvas;
     public TextMeshProUGUI answerText;
+
+    [Header("Debug")]
     public int answerInt = 0;
     public string[] arrOrder;
-    string[] arrAnswer = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "111", "12", "13", "14", "15" };
+    string[] arrAnswer = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" };
   //  bool once;
     Transform colObject;
     Transform _lastCollision;
@@ -21,6 +28,10 @@ public class NumCheckManager : MonoBehaviour
     Grabbable prevGrabbable;
     GameObject prevhitCollision;
     IEnumerator currentCoroutine;
+    float accumTime = 0f;
+    float fadeTime = 1f;
+    bool fade;
+
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +59,8 @@ public class NumCheckManager : MonoBehaviour
             Debug.Log(arrCards[count].transform.name);
 
         }
+
+        StartCoroutine(OpeningCoroutine());
 
     }
 
@@ -126,15 +139,16 @@ public class NumCheckManager : MonoBehaviour
 
     }
 
-    public void compareArr()
+    public void CompareArr()
     {
         Debug.Log("inside");
-
-
+        fade = true;
+        StartCoroutine(FadeInOut(fade,finCanvas));
         if (answerInt == 15)
         {
+            RighthandPointer.SetActive(true);
             answerText.text = "이렇게 마무리 할게요!";
-            finCanvas.gameObject.SetActive(true);
+            
 
 
 
@@ -152,39 +166,94 @@ public class NumCheckManager : MonoBehaviour
     }    
     public void startCoroutines()
     {
-        StartCoroutine(CompareAnswer());
+        StartCoroutine(FinishAnswer());
 
     }
 
-    public IEnumerator CompareAnswer()
+    public IEnumerator FinishAnswer()
     {
-       
-        
-
         yield return new WaitForSeconds(1.5f);
-        if (arrOrder == arrAnswer)
+        
+        for(int i = 0; i < arrOrder.Length; i++)
         {
-
-            answerText.text = "고생했어요!\n다음으로 넘어갑니다";
-
+            if(!arrCards[i].Equals(arrAnswer[i]))
+            {
+                Debug.Log("not equal");
+                answerText.text = "정답이 맞나요? \n다시 한번 확인해보세요!";
+                yield return new WaitForSeconds(3.0f);
+                fade = false;
+                yield return StartCoroutine(FadeInOut(fade, finCanvas));
+                yield break;
+            }
         }
-        if (arrOrder != arrAnswer)
-        {
-            answerText.text = "정답이 맞나요? \n다시 한번 확인해보세요!";
-            yield return new WaitForSeconds(3.0f);
-            finCanvas.gameObject.SetActive(false);
-
-
-
-        }
-
+        answerText.text = "고생했어요!\n다음으로 넘어갑니다";
+            
+        
         ResetCoroutine();
       //  once = true;
 
     }
+    public IEnumerator AgainAnswer()
+    {
+        yield return new WaitForSeconds(0.9f);
+        fade = false;
+        yield return StartCoroutine(FadeInOut(fade, finCanvas));
+
+    }
+
+    IEnumerator OpeningCoroutine()
+    {
+        yield return new WaitForSeconds(2.0f);
+        accumTime = 0f;
+
+        fade = false;
+        yield return StartCoroutine(FadeInOut(fade,startCanvas)); 
+        yield return new WaitForSeconds(0.8f);
+        RighthandPointer.SetActive(false);
+
+
+        for (int i =0;i <4;i++)
+        {
+            Triggers.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            Triggers.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+
+            
+        }
+
+        Triggers.SetActive(true);
+    }
 
  
+    
 
+    private IEnumerator FadeInOut(bool fade,Canvas canvas) // true = fade in / false = fade out
+    {
+        if(fade)//fade in
+        {
+            accumTime = 0f;
 
+            while (accumTime < fadeTime)
+            {
+                canvas.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0f, 1f, accumTime / fadeTime);
+                yield return 0;
+                accumTime += Time.deltaTime;
+            }
+            canvas.GetComponent<CanvasGroup>().alpha = 1f;
 
+        }
+        if(!fade)//fade out
+        {
+            while (accumTime < fadeTime)
+            {
+                canvas.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(1f, 0f, accumTime / fadeTime);
+                yield return 0;
+                accumTime += Time.deltaTime;
+            }
+            canvas.GetComponent<CanvasGroup>().alpha = 0f;
+
+        }
+
+    }
 }

@@ -64,7 +64,7 @@ public class TriggerCard : MonoBehaviour
      //   other.transform.GetComponent<NumCard>().SetPosRot(this.transform);
         card = other.gameObject;
         inout = true;
-        Manager.GetComponent<NumCheckManager>().compareArr();
+        Manager.GetComponent<NumCheckManager>().CompareArr();
         Debug.Log("IN");
     }
 
