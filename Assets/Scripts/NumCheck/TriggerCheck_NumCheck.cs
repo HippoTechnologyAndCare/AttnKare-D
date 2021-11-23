@@ -30,7 +30,7 @@ public class TriggerCheck_NumCheck : MonoBehaviour
         Manager.answerInt += 1;
 
         
-        Manager.GetComponent<NumCheckManager>().compareArr();
+        Manager.GetComponent<NumCheckManager>().CompareArr();
     }
 
     public void TriggerOut()
