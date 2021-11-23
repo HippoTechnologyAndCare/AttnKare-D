@@ -113,7 +113,7 @@ public class GameDataManager : MonoBehaviour
     {
         string convertIndex = sceneIndex.ToString();
         string functionName = "GetSceneIndex" + convertIndex;
-
+        Debug.Log(functionName);
         GameObject.Find("SetPlayerData").SendMessage(functionName);
     }
 }
