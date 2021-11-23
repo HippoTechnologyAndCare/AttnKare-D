@@ -36,7 +36,6 @@ public class NumCheckManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
         arrOrder = new string[15];
      //   once = true;
         int[] arrNum = new int[arrCards.Length];
@@ -71,17 +70,14 @@ public class NumCheckManager : MonoBehaviour
 
     public int[] ShuffleNum(int[] arrNum)
     {
-
         for(int i =0; i < arrNum.Length; i++)
         {
             int rnd_n = Random.Range(0, arrNum.Length);
             int temp = arrNum[i];
             arrNum[i] = arrNum[rnd_n];
             arrNum[rnd_n]=temp;
-
         }
         return arrNum;
-
     }
 
     public void DisableCollision(Transform colObject)
