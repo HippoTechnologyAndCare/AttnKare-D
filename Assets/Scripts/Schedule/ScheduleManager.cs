@@ -40,7 +40,7 @@ public class ScheduleManager : MonoBehaviour
     bool LeGogo = false;
     bool BeforeStart = false;
     bool FirstSelect = false;
-    bool BeforeStarGuideCheck = false;
+    bool BeforeStartGuideCheck = false;
 
     bool CheckTimeLimit = false;
     bool CheckTimeOut = false;
@@ -153,10 +153,10 @@ public class ScheduleManager : MonoBehaviour
         {
             TimerForBeforeStarted += Time.deltaTime;
 
-            if (!BeforeStarGuideCheck && TimerForBeforeStarted > Guide_Length)
+            if (!BeforeStartGuideCheck && TimerForBeforeStarted > Guide_Length)
             {
                 Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("GUIDE END");
-                BeforeStarGuideCheck = true;
+                BeforeStartGuideCheck = true;
             }
         }
 
@@ -170,6 +170,8 @@ public class ScheduleManager : MonoBehaviour
     {
         Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
         BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("LIMIT");
+
+        Timer_Sec = 30;
 
         yield return new WaitForSeconds(6);
 
@@ -297,7 +299,7 @@ public class ScheduleManager : MonoBehaviour
         LeGogo = true;
         FirstSelect = true;
 
-        if (!BeforeStarGuideCheck)
+        if (!BeforeStartGuideCheck)
         {
             Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("GUIDE SKIP");
         }
