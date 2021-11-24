@@ -38,20 +38,25 @@ public class NumCheckManager : MonoBehaviour
     {
         arrOrder = new string[15];
      //   once = true;
-        int[] arrNum = new int[arrCards.Length];
+        string[] arrNum = new string[arrCards.Length];
         
 
-        for (int i = 0; i < arrCards.Length; i++)
+        for (int i = 0; i < arrCards.Length-4; i++)
         {
-            arrNum[i] = i + 1;
+            arrNum[i] = (i + 1).ToString();
         }
+
+        arrNum[arrCards.Length - 4] = ":)";
+        arrNum[arrCards.Length - 3] = "&";
+        arrNum[arrCards.Length - 2] = "$";
+        arrNum[arrCards.Length - 1] = "@";
 
         ShuffleNum(arrNum); //shuffle numbers
 
         for (int count = 0; count < arrCards.Length; count++)
         {
-            int num = arrNum[count];
-            string num_s = num.ToString();
+            
+            string num_s = arrNum[count];
 
             arrCards[count].GetComponent<NumCard>().cardNum = num_s;
             arrCards[count].GetComponent<NumCard>().SetCardNum();
@@ -59,7 +64,7 @@ public class NumCheckManager : MonoBehaviour
 
         }
 
-        StartCoroutine(OpeningCoroutine());
+        
 
     }
 
@@ -68,18 +73,18 @@ public class NumCheckManager : MonoBehaviour
        
     }
 
-    public int[] ShuffleNum(int[] arrNum)
+    public string[] ShuffleNum(string[] arrNum)
     {
         for(int i =0; i < arrNum.Length; i++)
         {
             int rnd_n = Random.Range(0, arrNum.Length);
-            int temp = arrNum[i];
+            string temp = arrNum[i];
             arrNum[i] = arrNum[rnd_n];
             arrNum[rnd_n]=temp;
         }
         return arrNum;
     }
-
+    
     public void DisableCollision(Transform colObject)
     {
 
@@ -134,35 +139,30 @@ public class NumCheckManager : MonoBehaviour
        
 
     }
+    
 
     public void CompareArr()
     {
         Debug.Log("inside");
         fade = true;
         StartCoroutine(FadeInOut(fade,finCanvas));
+
         if (answerInt == 15)
         {
             RighthandPointer.SetActive(true);
             answerText.text = "이렇게 마무리 할게요!";
-            
-
-
-
         }
-       
-
-
-
+      
     }
 
     public void ResetCoroutine()
     {
         StopAllCoroutines();
-
     }    
-    public void startCoroutines()
+    public void CoroutineWrapper(string name)
     {
-        StartCoroutine(FinishAnswer());
+        string corname = name;
+        StartCoroutine(corname);
 
     }
 
@@ -183,10 +183,9 @@ public class NumCheckManager : MonoBehaviour
             }
         }
         answerText.text = "고생했어요!\n다음으로 넘어갑니다";
-            
-        
+        RighthandPointer.SetActive(false);
+
         ResetCoroutine();
-      //  once = true;
 
     }
     public IEnumerator AgainAnswer()
@@ -194,10 +193,9 @@ public class NumCheckManager : MonoBehaviour
         yield return new WaitForSeconds(0.9f);
         fade = false;
         yield return StartCoroutine(FadeInOut(fade, finCanvas));
-
     }
 
-    IEnumerator OpeningCoroutine()
+    public IEnumerator OpeningCoroutine()
     {
         yield return new WaitForSeconds(2.0f);
         accumTime = 0f;
@@ -228,6 +226,7 @@ public class NumCheckManager : MonoBehaviour
     {
         if(fade)//fade in
         {
+            canvas.gameObject.SetActive(true);
             accumTime = 0f;
 
             while (accumTime < fadeTime)
@@ -248,6 +247,7 @@ public class NumCheckManager : MonoBehaviour
                 accumTime += Time.deltaTime;
             }
             canvas.GetComponent<CanvasGroup>().alpha = 0f;
+            canvas.gameObject.SetActive(false);
 
         }
 
