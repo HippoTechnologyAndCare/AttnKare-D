@@ -45,7 +45,7 @@ public class ScheduleManager : MonoBehaviour
     bool CheckTimeLimit = false;
     bool CheckTimeOut = false;
 
-    float Guide_Length = 24;
+    float Guide_Length = 25;
 
     int Timer_Min = 1;
     int Timer_Sec = 30;
