@@ -132,9 +132,9 @@ public class PaddleManager : MonoBehaviour
             {
                 TimeElapsed_Timer += Time.deltaTime;
 
-                if (TimeElapsed > 1)
+                if (TimeElapsed_Timer > 1)
                 {
-                    TimeElapsed = 0;
+                    TimeElapsed_Timer = 0;
                     TimeElapsedShow_Timer += 1;
 
                     if (Timer_Min != 0 || Timer_Sec != 0)
@@ -253,6 +253,8 @@ public class PaddleManager : MonoBehaviour
         Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
         BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("LIMIT");
 
+        Timer_Sec = 30;
+
         yield return new WaitForSeconds(6.2f);
 
         BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
@@ -326,8 +328,8 @@ public class PaddleManager : MonoBehaviour
     {
         if (PaddleStart && col.collider.tag == "HANDLE_MY")
         {
-            PaddleTimerSwitch = false;
             MyPaddleSpeedForCal();
+            PaddleTimerSwitch = false;
         }
     }
 
@@ -343,7 +345,7 @@ public class PaddleManager : MonoBehaviour
     {
         if (StageLvl == 1)
         {
-            if (PaddleSpeedTimer > 3.4f && PaddleSpeedTimer < 4.2f)
+            if (PaddleSpeedTimer > 3.2f && PaddleSpeedTimer < 4.5f)
             {
                 SuccessToGo();
 
@@ -366,7 +368,7 @@ public class PaddleManager : MonoBehaviour
         }
         else if (StageLvl == 2)
         {
-            if (PaddleSpeedTimer > 2.4f && PaddleSpeedTimer < 3.2f)
+            if (PaddleSpeedTimer > 2.2f && PaddleSpeedTimer < 3.5f)
             {
                 SuccessToGo();
 
@@ -391,7 +393,7 @@ public class PaddleManager : MonoBehaviour
         {
             if (Vehicle.GetComponent<VehicleController>().Distance < 100)
             {
-                if (PaddleSpeedTimer > 1.4f && PaddleSpeedTimer < 2.2f)
+                if (PaddleSpeedTimer > 1.2f && PaddleSpeedTimer < 2.5f)
                 {
                     SuccessToGo();
                 }
