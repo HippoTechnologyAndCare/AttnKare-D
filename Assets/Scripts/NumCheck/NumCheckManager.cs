@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using BNG;
+using UnityEngine.UI;
 
 public class NumCheckManager : MonoBehaviour
 {
     public GameObject RighthandPointer;
+    public DataCheck_NumMatch DataCheck;
     public Grabber numGrabber;
     public GameObject Triggers;
     public GameObject hitCollision = null;
@@ -16,20 +18,25 @@ public class NumCheckManager : MonoBehaviour
     public Canvas finCanvas;
     public Canvas startCanvas;
     public TextMeshProUGUI answerText;
+    [Tooltip("Add SpriteImage for Distraction")]
+    public Sprite[] DistracImage;
+    public GameObject ImagePrefab;
 
     [Header("Debug")]
     public int answerInt = 0;
+    [Tooltip("Current Array of Answers")]
     public string[] arrOrder;
     string[] arrAnswer = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" };
-  //  bool once;
-    Transform colObject;
+    //  bool once;
+    
+    
     Transform _lastCollision;
-    Transform collision;
-    Grabbable prevGrabbable;
+    Grabbable PrevGrabbable;
     GameObject prevhitCollision;
     IEnumerator currentCoroutine;
     float accumTime = 0f;
     float fadeTime = 1f;
+    int sprite = 0;
     bool fade;
 
 
@@ -41,15 +48,11 @@ public class NumCheckManager : MonoBehaviour
         string[] arrNum = new string[arrCards.Length];
         
 
-        for (int i = 0; i < arrCards.Length-4; i++)
+        for (int i = 0; i < arrCards.Length; i++)
         {
             arrNum[i] = (i + 1).ToString();
         }
 
-        arrNum[arrCards.Length - 4] = ":)";
-        arrNum[arrCards.Length - 3] = "&";
-        arrNum[arrCards.Length - 2] = "$";
-        arrNum[arrCards.Length - 1] = "@";
 
         ShuffleNum(arrNum); //shuffle numbers
 
@@ -57,15 +60,38 @@ public class NumCheckManager : MonoBehaviour
         {
             
             string num_s = arrNum[count];
-
+            int num = int.Parse(num_s);
             arrCards[count].GetComponent<NumCard>().cardNum = num_s;
             arrCards[count].GetComponent<NumCard>().SetCardNum();
+            if(num > arrCards.Length - DistracImage.Length)
+            {
+                SetSprite(arrCards[count]);
+
+            }
+            
             Debug.Log(arrCards[count].transform.name);
 
         }
+        
 
         
 
+    }
+
+    private void SetSprite(GameObject card)
+    {
+        GameObject image = Instantiate(ImagePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        image.transform.SetParent(card.GetComponentInChildren<Canvas>().transform);
+        RectTransform imageRect = image.GetComponent < RectTransform >();
+        imageRect.anchoredPosition3D = new Vector3(0, 0, 0);
+        imageRect.localEulerAngles = new Vector3(0, 0, -90);
+        imageRect.localScale = new Vector3(1, 1, 1);
+        image.GetComponent<Image>().sprite = DistracImage[sprite];
+        sprite++;
+
+        
+        
+        
     }
 
     private void Update()
@@ -115,16 +141,26 @@ public class NumCheckManager : MonoBehaviour
 
     public void getGrabbable()
     {
+        
+        PrevGrabbable = numGrabber.HeldGrabbable;
+        if(PrevGrabbable.tag == "Necessary")
+        {
+            DataCheck.GrabbedCount += 1;
+    
 
-        prevGrabbable = numGrabber.HeldGrabbable;
+        }if(PrevGrabbable.tag == "Unnecessary")
+        {
 
+        }
+        
     }
+
     public void EnableCollision()
     {
       
-        if(prevGrabbable && prevGrabbable.CompareTag( "Necessary") )
+        if(PrevGrabbable && PrevGrabbable.CompareTag( "Necessary") )
         {
-            prevGrabbable.gameObject.layer = LayerMask.NameToLayer("numCard");
+            PrevGrabbable.gameObject.layer = LayerMask.NameToLayer("numCard");
 
             return;
         }

@@ -173,27 +173,29 @@ using BNG;
 
 
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>아쉽지만\n이제 헤어질 \n시간이 됐어", audioIndex = 0, 2.5f));
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(3.0f);
         VoiceRecord.StartRecording();
-        if(DataManager.GetInstance().userInfo!=null)
+        if(DataManager.GetInstance().userInfo.Grade!=null)
         {
+            
             if (DataManager.GetInstance().userInfo.Grade == "L")
             {
 
-                StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>오늘 비밀번호 누르기,\n계획표 만들기,\n책가방 챙기기,\n공 옮기기를 해봤는데", audioIndex = 1,3.0f));
+                StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.05>오늘 비밀번호 누르기,\n계획표 만들기,\n책가방 챙기기,\n공 옮기기를 해봤는데", audioIndex = 1,3.0f));
                 yield return new WaitForSeconds(3.0f);
 
             }
             if (DataManager.GetInstance().userInfo.Grade == "H")
             {
-                StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>오늘 방정리 하기,\n페달 돌리기,\n책가방 챙기기,\n공 옮기기를 해봤는데", audioIndex = 2,7.0f));
+                StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.05>오늘 방정리 하기,\n페달 돌리기,\n책가방 챙기기,\n공 옮기기를 해봤는데", audioIndex = 2,7.0f));
                 yield return new WaitForSeconds(3.0f);
 
 
             }
         }
-        if(DataManager.GetInstance().userInfo==null)
+        if(DataManager.GetInstance().userInfo.Grade==null)
         {
+            
             StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>유저 정보 미입력", audioIndex = 0,3.0f));
             yield return new WaitForSeconds(3.0f);
         }
