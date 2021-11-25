@@ -7,6 +7,7 @@ public class TriggerCheck_NumCheck : MonoBehaviour
 {
     [Header("Manager")]
     public NumCheckManager Manager;
+    public DataCheck_NumMatch DataCheck;
     public string orderNum;
     GameObject card;
     
@@ -28,7 +29,10 @@ public class TriggerCheck_NumCheck : MonoBehaviour
         card = transform.GetChild(2).gameObject;
         Manager.arrOrder[arrNum] = card.transform.GetComponent<NumCard>().cardNum;
         Manager.answerInt += 1;
-
+        if(orderNum != card.transform.GetComponent<NumCard>().cardNum)
+        {
+            DataCheck.WrongOrder += 1;
+        }
         
         Manager.GetComponent<NumCheckManager>().CompareArr();
     }
