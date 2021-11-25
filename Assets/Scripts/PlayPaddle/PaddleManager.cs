@@ -328,6 +328,8 @@ public class PaddleManager : MonoBehaviour
     {
         if (PaddleStart && col.collider.tag == "HANDLE_MY")
         {
+            Debug.Log(StageLvl + "_" + PaddleSpeedTimer);
+
             MyPaddleSpeedForCal();
             PaddleTimerSwitch = false;
         }
@@ -345,7 +347,7 @@ public class PaddleManager : MonoBehaviour
     {
         if (StageLvl == 1)
         {
-            if (PaddleSpeedTimer > 3.2f && PaddleSpeedTimer < 4.5f)
+            if (PaddleSpeedTimer > 2.5f && PaddleSpeedTimer < 3.5f)
             {
                 SuccessToGo();
 
@@ -368,7 +370,7 @@ public class PaddleManager : MonoBehaviour
         }
         else if (StageLvl == 2)
         {
-            if (PaddleSpeedTimer > 2.2f && PaddleSpeedTimer < 3.5f)
+            if (PaddleSpeedTimer > 1.5f && PaddleSpeedTimer < 2.5f)
             {
                 SuccessToGo();
 
@@ -393,7 +395,7 @@ public class PaddleManager : MonoBehaviour
         {
             if (Vehicle.GetComponent<VehicleController>().Distance < 100)
             {
-                if (PaddleSpeedTimer > 1.2f && PaddleSpeedTimer < 2.5f)
+                if (PaddleSpeedTimer > 1f && PaddleSpeedTimer < 2f)
                 {
                     SuccessToGo();
                 }
