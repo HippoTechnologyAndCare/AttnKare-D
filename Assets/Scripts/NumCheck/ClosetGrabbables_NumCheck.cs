@@ -27,7 +27,6 @@ public class ClosetGrabbables_NumCheck : MonoBehaviour
         if(!GetGrabbable.ClosestGrabbable && currentGrabbable)
         {
             GrabbableKinematic(currentGrabbable, false);
-
         }
         
         
@@ -41,7 +40,6 @@ public class ClosetGrabbables_NumCheck : MonoBehaviour
             {
                 goGrabed.GetComponent<Rigidbody>().isKinematic = check;
                 prevGrabbable = goGrabed;
-
             }
             if (!check)
             {

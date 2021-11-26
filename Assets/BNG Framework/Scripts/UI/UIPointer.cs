@@ -81,7 +81,7 @@ namespace BNG {
 
         public void Update() {
             data = uiSystem.EventData;
-
+            
             // Can bail early if not looking at anything
             if (data == null || data.pointerCurrentRaycast.gameObject == null) {
                 
@@ -92,7 +92,8 @@ namespace BNG {
 
             // Set position of the cursor
             if (_cursor != null ) {
-
+                Debug.Log(data.pointerCurrentRaycast.gameObject);
+               
                 bool lookingAtUI = data.pointerCurrentRaycast.module.GetType() == typeof(GraphicRaycaster);
                 selectedPointerEvents = data.pointerCurrentRaycast.gameObject.GetComponent<PointerEvents>();
                 bool lookingAtPhysicalObject = selectedPointerEvents != null;

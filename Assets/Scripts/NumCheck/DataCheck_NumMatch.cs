@@ -9,6 +9,8 @@ public class DataCheck_NumMatch : MonoBehaviour
     public float WrongOrder=0;
     [Tooltip("When Card is Grabbed")]
     public float GrabbedCount=0;
+    [Tooltip("When Unnecessary Card is Grabbed")]
+    public float UnGrabbedCount=0;
     
     // Start is called before the first frame update
     void Start()
@@ -21,5 +23,12 @@ public class DataCheck_NumMatch : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void ShowDebug()
+    {
+        Debug.Log(GrabbedCount);
+        Debug.Log(UnGrabbedCount);
+        Debug.Log(WrongOrder);
     }
 }

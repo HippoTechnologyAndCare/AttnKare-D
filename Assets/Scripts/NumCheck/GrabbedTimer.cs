@@ -5,7 +5,9 @@ using BNG;
 
 public class GrabbedTimer : MonoBehaviour
 {
+    [HideInInspector]
     public bool NcsryB;
+    [HideInInspector]
     public bool UncsryB;
     // Start is called before the first frame update
     float NcsryGrab = 0f;
@@ -34,6 +36,12 @@ public class GrabbedTimer : MonoBehaviour
         UncsryB = false;
         NcsryB = false;
 
+    }
+
+    public void ShowDebug()
+    {
+        Debug.Log(UncsryGrab);
+        Debug.Log(NcsryGrab);
     }
     
    

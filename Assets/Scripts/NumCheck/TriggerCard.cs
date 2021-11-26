@@ -65,7 +65,7 @@ public class TriggerCard : MonoBehaviour
         card = other.gameObject;
         inout = true;
         Manager.GetComponent<NumCheckManager>().CompareArr();
-        Debug.Log("IN");
+
     }
 
 

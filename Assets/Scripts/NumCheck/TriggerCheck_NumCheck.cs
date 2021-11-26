@@ -9,7 +9,9 @@ public class TriggerCheck_NumCheck : MonoBehaviour
     public NumCheckManager Manager;
     public DataCheck_NumMatch DataCheck;
     public string orderNum;
-    GameObject card;
+
+
+    NumCard card;
     
     int arrNum;
     // Start is called before the first frame update
@@ -18,18 +20,13 @@ public class TriggerCheck_NumCheck : MonoBehaviour
         arrNum = int.Parse(orderNum) - 1;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void TriggerIn()
     {
-        card = transform.GetChild(2).gameObject;
-        Manager.arrOrder[arrNum] = card.transform.GetComponent<NumCard>().cardNum;
+        card = transform.GetComponentInChildren<NumCard>();
+        Manager.arrOrder[arrNum] = card.cardNum;
         Manager.answerInt += 1;
-        if(orderNum != card.transform.GetComponent<NumCard>().cardNum)
+        if(orderNum != card.cardNum)
         {
             DataCheck.WrongOrder += 1;
         }
