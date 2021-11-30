@@ -275,7 +275,7 @@ public class PaddleManager : MonoBehaviour
 
     public void DoStartPaddle()
     {
-        Data_401 = TimeElapsed;
+        Data_401 = TimeElapsedShow;
         Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("MISSION START");
 
         PlaySoundByType("CLICK");
@@ -353,7 +353,7 @@ public class PaddleManager : MonoBehaviour
 
                 if (Vehicle.GetComponent<VehicleController>().Distance > 40)
                 {
-                    Data_403 = TimeElapsed - Data_401;
+                    Data_403 = TimeElapsedShow - Data_401;
                     Data_406 = PaddleFailCnt;
                     PaddleFailCnt = 0;
                     StageLvl += 1;
@@ -376,7 +376,7 @@ public class PaddleManager : MonoBehaviour
 
                 if (Vehicle.GetComponent<VehicleController>().Distance > 70)
                 {
-                    Data_404 = TimeElapsed - Data_401 - Data_403;
+                    Data_404 = TimeElapsedShow - Data_401 - Data_403;
                     Data_407 = PaddleFailCnt;
                     PaddleFailCnt = 0;
                     StageLvl += 1;
@@ -457,8 +457,8 @@ public class PaddleManager : MonoBehaviour
 
         
 
-        Data_402 = TimeElapsed;
-        Data_405 = TimeElapsed - Data_401 - Data_403 - Data_404;
+        Data_402 = TimeElapsedShow;
+        Data_405 = TimeElapsedShow - Data_401 - Data_403 - Data_404;
         Data_408 = PaddleFailCnt;
         Data_409 = DisturbCnt;
         Data_410 = DoNothingTimeElapsed;
