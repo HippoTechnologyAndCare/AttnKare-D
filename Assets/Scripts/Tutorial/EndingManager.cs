@@ -181,14 +181,14 @@ using BNG;
             if (DataManager.GetInstance().userInfo.Grade == "L")
             {
 
-                StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.05>오늘 비밀번호 누르기,\n계획표 만들기,\n책가방 챙기기,\n공 옮기기를 해봤는데", audioIndex = 1,3.0f));
-                yield return new WaitForSeconds(3.0f);
+                StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.05>오늘 비밀번호 누르기,\n계획표 만들기,\n책가방 챙기기,\n공 옮기기를 해봤는데", audioIndex = 1,7.0f));
+                yield return new WaitForSeconds(7.0f);
 
             }
             if (DataManager.GetInstance().userInfo.Grade == "H")
             {
                 StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.05>오늘 방정리 하기,\n페달 돌리기,\n책가방 챙기기,\n공 옮기기를 해봤는데", audioIndex = 2,7.0f));
-                yield return new WaitForSeconds(3.0f);
+                yield return new WaitForSeconds(7.0f);
 
 
             }

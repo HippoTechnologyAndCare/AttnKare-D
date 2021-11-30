@@ -8,32 +8,63 @@ public class SwapPossible : MonoBehaviour
     public InputBridge xrrig;
     // Start is called before the first frame update
     SnapZone Snapped;
+    Collider collided;
+    bool triggerPressed = false;
+
     private void Start()
     {
         Snapped = transform.GetComponent<SnapZone>();
     }
-    public void OnTriggerEnter(Collider other)
+
+    private void Update()
     {
-        if (xrrig.RightTrigger < 0.2f)
+        if(xrrig.RightTrigger < 0.2f)
         {
-            if (other.transform.name == "Card")
-            {
-               
-                    CardOut(other);
-
-         
-
-            }
-
-
+            triggerPressed = false;
+        }
+        if(xrrig.RightTrigger >0.5f)
+        {
+            triggerPressed = true;
         }
         
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+        
+        if(other.transform.name  == "Card"&& triggerPressed)
+        {
+            collided = other;
+            StartCoroutine(TriggerIn(other));
+        }
+                
+
+            
+        
+    }
+    public void OnTriggerExit(Collider other)
+    {
+        if(collided == other)
+        {
+            StopAllCoroutines();
+        }
+       
+    }
+
+    IEnumerator TriggerIn(Collider other)
+    {
+        yield return new WaitUntil(()=>triggerPressed == false);
+        CardOut(other);
 
     }
 
+
+
+
     private void CardOut(Collider other)
     {
-    
+        
+
+        
         if (Snapped.HeldItem != other)
         {
             Grabbable prevHeld = Snapped.HeldItem;
@@ -43,9 +74,7 @@ public class SwapPossible : MonoBehaviour
             transform.GetComponent<TriggerCheck_NumCheck>().TriggerIn();
 
         }
-    
-            
-
+        
     }
 
     public void CardReset()
@@ -54,4 +83,5 @@ public class SwapPossible : MonoBehaviour
         Snapped.ReleaseAll();
         prevHeld.GetComponent<NumCard>().ResetPosRot();
     }
+
 }
