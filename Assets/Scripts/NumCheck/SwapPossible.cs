@@ -65,7 +65,7 @@ public class SwapPossible : MonoBehaviour
         
 
         
-        if (Snapped.HeldItem != other)
+        if (Snapped.HeldItem != other && Snapped.HeldItem != null)
         {
             Grabbable prevHeld = Snapped.HeldItem;
             Snapped.ReleaseAll();

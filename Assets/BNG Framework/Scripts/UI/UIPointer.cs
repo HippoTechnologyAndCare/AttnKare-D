@@ -92,7 +92,7 @@ namespace BNG {
 
             // Set position of the cursor
             if (_cursor != null ) {
-                Debug.Log(data.pointerCurrentRaycast.gameObject);
+              //  Debug.Log(data.pointerCurrentRaycast.gameObject);
                
                 bool lookingAtUI = data.pointerCurrentRaycast.module.GetType() == typeof(GraphicRaycaster);
                 selectedPointerEvents = data.pointerCurrentRaycast.gameObject.GetComponent<PointerEvents>();

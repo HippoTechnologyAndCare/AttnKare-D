@@ -24,14 +24,19 @@ public class TriggerCheck_NumCheck : MonoBehaviour
     public void TriggerIn()
     {
         card = transform.GetComponentInChildren<NumCard>();
-        Manager.arrOrder[arrNum] = card.cardNum;
-        Manager.answerInt += 1;
-        if(orderNum != card.cardNum)
+        if(card)
         {
-            DataCheck.WrongOrder += 1;
-        }
-        
-        Manager.GetComponent<NumCheckManager>().CompareArr();
+            Manager.arrOrder[arrNum] = card.cardNum;
+            Manager.answerInt += 1;
+            if (orderNum != card.cardNum)
+            {
+                DataCheck.WrongOrder += 1;
+            }
+
+            Manager.GetComponent<NumCheckManager>().CompareArr();
+
+        }    
+       
     }
 
     public void TriggerOut()

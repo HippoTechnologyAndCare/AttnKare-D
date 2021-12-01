@@ -236,7 +236,6 @@ public class NumCheckManager : MonoBehaviour
             if (!arrOrder[i].Equals(arrAnswer[i]))
             {
                 arrGb[i].GetComponent<SwapPossible>().CardReset();
-
             }
         }
     }
