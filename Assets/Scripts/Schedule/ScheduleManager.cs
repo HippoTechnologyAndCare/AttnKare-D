@@ -356,6 +356,11 @@ public class ScheduleManager : MonoBehaviour
                     MySchedule += plan_Box.GetChild(0).GetComponent<Text>().text + " ";
                     MyScheduleforJson += plan_Box.GetChild(1).name;
                 }
+                else
+                {
+                    MySchedule += "0 ";
+                    MyScheduleforJson += "0";
+                }
             }
 
             PlanData = float.Parse(MyScheduleforJson, System.Globalization.CultureInfo.InvariantCulture);
