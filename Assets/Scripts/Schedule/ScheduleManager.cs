@@ -324,6 +324,7 @@ public class ScheduleManager : MonoBehaviour
     public void FinishPanel_Yes(bool Skipped)
     {
         PlaySoundByTypes("CLICK");
+        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("MISSION END");
 
         LeGogo = false;
         float PlanData = 0;
@@ -338,7 +339,7 @@ public class ScheduleManager : MonoBehaviour
         {
             SkipYn = 1;
             Intro.gameObject.SetActive(false);
-            Schedule.gameObject.SetActive(true);
+            //Schedule.gameObject.SetActive(true);
         }
         else
         {
@@ -376,8 +377,6 @@ public class ScheduleManager : MonoBehaviour
         // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
         scene2arr = new float[] { TotalElapsedTimeForCalc, TotalMovingCnt, ResetCnt, ClickNoCnt, PlanData, SkipYn, TimerForBeforeStarted, TimerForFirstSelect };        
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
-
-        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("MISSION END");
         StartCoroutine(GoToNextScene());
     }
 
