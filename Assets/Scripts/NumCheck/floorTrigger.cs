@@ -36,6 +36,7 @@ public class floorTrigger : MonoBehaviour
         while(XRrig.RightTrigger > 0.3f)
         {
             yield return null;
+            
                 
 
         }

@@ -6,53 +6,81 @@ using BNG;
 public class TriggerButton : MonoBehaviour
 {
     public NumOrderManager Manager;
-    public GameObject myButton;
-    public GameObject prevButton;
+    public GameObject crnt;
+    public GameObject prev;
+    public GameObject temp;
+
+    public string btnNum;
+    int btnNum_tmp;
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        btnNum_tmp = int.Parse(btnNum) - 1;
     }
-
-    public void PointerEnter()
+    public void CursorExit()
     {
-        
-
-    }
-    public void PointerExit()
-    {
-        
+        if(temp)
+        {
+            temp.GetComponent<MoveButton>().triggered = false;
+            temp = null;
+        }
     }
     public void CursorEnter()
     {
-        
-        if (myButton == null) //현재 할당된 버튼이 없다면
+        Manager.active = true;
+        if(Manager.currentButton)
         {
-            myButton = Manager.currentButton;
-            MoveButton button = myButton.GetComponent<MoveButton>();
-            button.Trigger = transform.gameObject;
-            button.triggered = true;
-            
-            return;
+            temp = Manager.currentButton;
+            temp.GetComponent<MoveButton>().triggered = true;
+            temp.GetComponent<MoveButton>().Trigger = this.gameObject;
         }
-        if(myButton!=null) //있다면
-        {
-            prevButton = myButton;
-            myButton = Manager.currentButton;
-            myButton.GetComponent<MoveButton>().Trigger = this.gameObject;
-            myButton.GetComponent<MoveButton>().triggered = true;
-            
-            return;
-
-        }
-
+    }
+       
+    /*
+    public void CursorStay()
+    {
+        SetPosButton();
     }
 
-       
+    private void SetPosButton()
+    {
+        if (temp.GetComponent<MoveButton>().click == false)
+        {
+            if (crnt != null) //있다면
+            {
+                prev = crnt;
+                prev.GetComponent<MoveButton>().ResetButton();
+
+            }
+            Debug.Log("passed");
+            crnt = temp;
+            MoveButton button = crnt.GetComponent<MoveButton>();
+            button.SetButton();
+            Manager.active = false;
+
+        }
+    }
+    */
+    public void CursorUp()
+    {
+        if (temp.GetComponent<MoveButton>().click == false)
+        {
+            if (crnt != null) //있다면
+            {
+                prev = crnt;
+                prev.GetComponent<MoveButton>().ResetButton();
+
+            }
+            Debug.Log("passed");
+            crnt = temp;
+            MoveButton button = crnt.GetComponent<MoveButton>();
+            Manager.arrOrder[btnNum_tmp] = button.btnNum;
+            button.SetButton();
+            Manager.active = false;
+
+        }
+    }    
+
+
 }

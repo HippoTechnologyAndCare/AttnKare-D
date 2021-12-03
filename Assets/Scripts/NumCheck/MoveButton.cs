@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using TMPro;
 using BNG;
 
 public class MoveButton : MonoBehaviour
@@ -11,10 +13,12 @@ public class MoveButton : MonoBehaviour
     public NumOrderManager Manager;
     public GameObject Trigger;
     public bool triggered;
-    bool click;
+    public bool click;
+    public string btnNum;
     GameObject prevButton;
     RectTransform rect;
     Vector3 OrginPos;
+    TextMeshProUGUI btnText;
 
     Transform parentCursor;
     // Start is called before the first frame update
@@ -33,68 +37,39 @@ public class MoveButton : MonoBehaviour
             if(RighthandPointer.GetComponent<LineRenderer>().enabled == true)
             {
                 if(XrRig.RightTrigger > 0.5f)
-                {
                     transform.position = new Vector3(parentCursor.position.x, parentCursor.position.y, transform.position.z);
-                }
-                if(XrRig.RightTrigger<0.2f)
-                {
+                if(XrRig.RightTrigger < 0.2f){
                     if (!triggered)
-                    {
                         ResetButton();
-                        
-                    }
-                    if(triggered)
-                    {
-                        SetButton(Trigger.transform.position);
-                    }
-                    
-                }
-                    
+                    click = false;
+                }   
             }
-            
         }
-        
     }
 
-    public void dataTest()
-    {
-        Debug.Log("test");
+    public void SetBtnNum(){
+        btnText = transform.GetComponentInChildren<TextMeshProUGUI>();
+        btnText.text = btnNum;
     }
-    public void MoveNumber()
-    {
+    public void GrabButton(){
         click = true;
         Manager.currentButton = this.transform.gameObject;
+        Manager.CannotGrab(int.Parse(btnNum));
     }
+    
 
-    public void ResetButton()
-    {
-        click = false;
-        Manager.currentButton = null;
+    public void ResetButton(){
+        Trigger = null;
+        triggered = false;
         transform.position = OrginPos;
+        if(Manager.active == false)
+            Manager.currentButton = null;
     }
 
-    public void SetButton(Vector3 pos)
-    {
-        click = false;
-        transform.position = pos;
-        Manager.currentButton = null;
-        Manager.ButtonInTrigger = false;
-        if (Trigger.GetComponent<TriggerButton>().prevButton == null)
-        {
-            return;
-        }
-        if (Trigger.GetComponent<TriggerButton>().prevButton != null)
-        {
-            prevButton = Trigger.GetComponent<TriggerButton>().prevButton;
-            prevButton.GetComponent<MoveButton>().ResetButton();
-            Trigger.GetComponent<TriggerButton>().prevButton = null;
-
-        }
-        
-        
-
-
-
+    public void SetButton(){ 
+        transform.position = Trigger.transform.position;
+        Manager.CanGrab();
+        Manager.currentButton = null; 
     }
    
 
