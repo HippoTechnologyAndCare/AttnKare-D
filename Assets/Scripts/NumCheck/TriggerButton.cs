@@ -74,7 +74,6 @@ public class TriggerButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 prev.GetComponent<MoveButton>().ResetButton();
 
             }
-            Debug.Log("passed");
             crnt = temp;
             MoveButton button = crnt.GetComponent<MoveButton>();
             Manager.arrOrder[btnNum_tmp] = button.btnNum;

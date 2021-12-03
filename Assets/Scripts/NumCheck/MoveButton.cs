@@ -50,6 +50,7 @@ public class MoveButton : MonoBehaviour, IDragHandler
     }
 
     public void SetBtnNum(){
+        transform.name = btnNum;
         btnText = transform.GetComponentInChildren<TextMeshProUGUI>();
         btnText.text = btnNum;
     }
