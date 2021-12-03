@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using BNG;
 
-public class MoveButton : MonoBehaviour
+public class MoveButton : MonoBehaviour, IDragHandler
 {
     public InputBridge XrRig;
     public UIPointer RighthandPointer;
@@ -41,6 +41,8 @@ public class MoveButton : MonoBehaviour
                 if(XrRig.RightTrigger < 0.2f){
                     if (!triggered)
                         ResetButton();
+                    Manager.CanGrab();
+                    Manager.currentButton = null; 
                     click = false;
                 }   
             }
@@ -48,13 +50,15 @@ public class MoveButton : MonoBehaviour
     }
 
     public void SetBtnNum(){
+        transform.name = btnNum;
         btnText = transform.GetComponentInChildren<TextMeshProUGUI>();
         btnText.text = btnNum;
     }
-    public void GrabButton(){
+
+    public void OnDrag(PointerEventData pointerEventData){
         click = true;
         Manager.currentButton = this.transform.gameObject;
-        Manager.CannotGrab(int.Parse(btnNum));
+        Manager.CannotGrab(transform.GetComponent<MoveButton>());
     }
     
 
@@ -71,6 +75,8 @@ public class MoveButton : MonoBehaviour
         Manager.CanGrab();
         Manager.currentButton = null; 
     }
+
+
    
 
 }

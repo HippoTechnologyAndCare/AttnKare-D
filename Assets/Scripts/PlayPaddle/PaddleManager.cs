@@ -50,11 +50,10 @@ public class PaddleManager : MonoBehaviour
     int PaddleFailCnt = 0;              //친구와 속도 맞지 않은 횟수
 
     float DoNothingTimeElapsed = 0;             //안돌리는 시간
-    bool DoNothingChecker = false;             //안돌리는지 확인용
+    bool DoNothingNow = true;             //안돌리는지 확인용
 
     int PaddleOutCnt = 0;               //핸들에서 손을 뗀 횟수
     bool CheckPaddleOutCnt = false;     //핸들에서 손을 뗀 횟수 - 1회용 bool
-
 
     bool GuideComplete = false;
 
@@ -62,12 +61,13 @@ public class PaddleManager : MonoBehaviour
 
     float Guide_Length = 29;
 
-    int Timer_Min = 2;
-    int Timer_Sec = 30;
-    float TimeLimit = 150;              //시간 제한 사용 방향 기획 필요
-    float TimeLimitForFinish = 180;      //강제종료시간
+    int Timer_Min = 2;                  //2 분
+    int Timer_Sec = 30;                 //30 초
+    float TimeLimit = 150;              //시간 제한
+    float TimeLimitForFinish = 180;     //강제종료시간
 
-
+    bool CheckTimeLimit = false;
+    bool CheckTimeOut = false;
 
 
     //------------- SOUND
@@ -84,7 +84,6 @@ public class PaddleManager : MonoBehaviour
     public Transform saveData_GameDataMG;
 
 
-
     public float Data_401 = 0;      //시작버튼 누르기 까지 걸린 시간
     public float Data_402 = 0;      //완료까지 걸린 총 시간
     public float Data_403 = 0;      //스테이지1 걸린 시간
@@ -98,7 +97,6 @@ public class PaddleManager : MonoBehaviour
     public float Data_411 = 0;      //중도 포기(스킵)
     public float Data_412 = 0;      //친구 페달을 건드린 시간
     public float Data_413 = 0;      //페달에서 손을 뗀 횟수
-
 
 
     private void Start()
@@ -161,15 +159,17 @@ public class PaddleManager : MonoBehaviour
                         TimerText.text = "0" + Timer_Min.ToString() + ":" + TextSec;
                     }
 
-                    if (TimeElapsedShow_Timer >= TimeLimit)
+                    if (!CheckTimeLimit && TimeElapsedShow_Timer >= TimeLimit)
                     {
                         //시간제한
+                        CheckTimeLimit = true;
                         StartCoroutine(TimeLimitAndKeepGoing());
                     }
 
-                    if (TimeElapsedShow_Timer >= TimeLimitForFinish)
+                    if (!CheckTimeOut && TimeElapsedShow_Timer >= TimeLimitForFinish)
                     {
                         //강제종료
+                        CheckTimeOut = true;
                         StartCoroutine(TimeOutAndFinish());
                     }
                 }
@@ -179,11 +179,11 @@ public class PaddleManager : MonoBehaviour
                     MyPaddleOn = true;
                     CheckPaddleOutCnt = true;
 
-                    if (!DoNothingChecker)
+/*                    if (DoNothingNow)
                     {
                         Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("IDLE END");
-                        DoNothingChecker = true;
-                    }
+                        DoNothingNow = false;
+                    }*/
                 }
                 else
                 {
@@ -205,7 +205,7 @@ public class PaddleManager : MonoBehaviour
 
                     if (DisturbChecker)
                     {
-                        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("DISTURB START");
+                        //Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("DISTURB START");
                         DisturbChecker = false;
                         DisturbCnt += 1;
                     }
@@ -214,7 +214,7 @@ public class PaddleManager : MonoBehaviour
                 {
                     if (!DisturbChecker)
                     {
-                        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("DISTURB END");
+                        //Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("DISTURB END");
                         DisturbChecker = true;
                     }
                 }
@@ -230,11 +230,11 @@ public class PaddleManager : MonoBehaviour
                 {
                     DoNothingTimeElapsed += Time.deltaTime;
 
-                    if (DoNothingChecker)
+/*                    if (!DoNothingNow)
                     {
                         Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("IDLE START");
-                        DoNothingChecker = false;
-                    }
+                        DoNothingNow = true;
+                    }*/
                 }
 
                 if (Vehicle.GetComponent<VehicleController>().Distance == 100)
@@ -245,15 +245,12 @@ public class PaddleManager : MonoBehaviour
         }
     }
 
-
-
-
     IEnumerator TimeLimitAndKeepGoing()
     {
-        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
         BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("LIMIT");
+        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
 
-        Timer_Sec = 30;
+        Timer_Sec = 30; //30
 
         yield return new WaitForSeconds(6.2f);
 
@@ -262,35 +259,32 @@ public class PaddleManager : MonoBehaviour
 
     IEnumerator TimeOutAndFinish()
     {
-        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
         BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("OUT");
+        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
 
         yield return new WaitForSeconds(6);
 
         GameFinish(true);
     }
 
-
-
-
     public void DoStartPaddle()
     {
         Data_401 = TimeElapsedShow;
-        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("MISSION START");
-
         PlaySoundByType("CLICK");
-        StartCoroutine(StartPaddle());
-    }
-
-    IEnumerator StartPaddle()
-    {
-        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
 
         if (!GuideComplete)
         {
             Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("GUIDE SKIP");
             GuideComplete = true;
         }
+
+        StartCoroutine(StartPaddle());
+    }
+
+    IEnumerator StartPaddle()
+    {
+        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
+        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("MISSION START");
 
         ShowIntroText.text = "준비 ~";
         yield return new WaitForSeconds(1);

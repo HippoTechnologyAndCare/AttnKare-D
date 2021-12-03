@@ -15,9 +15,9 @@ public class NumOrderManager : MonoBehaviour
     public GameObject ImagePrefab;
     public string[] arrOrder;
     public MoveButton[] arrBtn;
-
+    public GameObject[] arrTrig;
     int sprite = 0;
-
+    int order = 0;
 
     void Start()
     {
@@ -34,6 +34,8 @@ public class NumOrderManager : MonoBehaviour
             if (num > arrBtn.Length - DistracImage.Length)
                 SetSprite(arrBtn[count]);
         }
+
+        StartCoroutine(NextOrder());
     }
     public string[] ShuffleNum(string[] arrNum)
     {
@@ -47,27 +49,17 @@ public class NumOrderManager : MonoBehaviour
     }
     private void SetSprite(MoveButton btn)
     {
-        /*
-        GameObject image = Instantiate(ImagePrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        image.transform.SetParent(card.GetComponentInChildren<Canvas>().transform);
-        RectTransform imageRect = image.GetComponent<RectTransform>();
-        imageRect.anchoredPosition3D = new Vector3(0, 0, 0);
-        imageRect.localEulerAngles = new Vector3(0, 0, -90);
-        imageRect.localScale = new Vector3(1, 1, 1);
-        imageRect.sizeDelta = new Vector2(0.11f, 0.17f);
-        image.GetComponent<Image>().sprite = DistracImage[sprite];
-        */
         btn.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = null;
         btn.transform.GetChild(0).GetComponent<Image>().sprite = DistracImage[sprite];
         sprite++;
 
     }
 
-    public void CannotGrab(int num)
+    public void CannotGrab(MoveButton num)
     {
         for(int i =0;i<arrBtn.Length;i++)
         {
-            if(i != num)
+            if(arrBtn[i] != num)
             {
                 arrBtn[i].enabled = false;
 
@@ -85,11 +77,24 @@ public class NumOrderManager : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator NextOrder()
     {
-
-
+        if (order == arrTrig.Length + 1){
+            GameClear();
+            yield break;
+        }
+        for (int i =0; i <3; i++){
+            arrTrig[order].SetActive(true);
+            yield return new WaitForSeconds(0.2f);
+            arrTrig[order].SetActive(false);
+        }
+        arrTrig[order].SetActive(true);
+        order++;
         
+    }
+
+    private void GameClear()
+    {
+        Debug.Log("clear");
     }
 }
