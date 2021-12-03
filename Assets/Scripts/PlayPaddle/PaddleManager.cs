@@ -55,17 +55,16 @@ public class PaddleManager : MonoBehaviour
     int PaddleOutCnt = 0;               //핸들에서 손을 뗀 횟수
     bool CheckPaddleOutCnt = false;     //핸들에서 손을 뗀 횟수 - 1회용 bool
 
-
     bool GuideComplete = false;
 
     public Text TimerText;
 
     float Guide_Length = 29;
 
-    int Timer_Min = 2;      //2 분
-    int Timer_Sec = 30;     //30 초
-    float TimeLimit = 150; //150;              //시간 제한 사용 방향 기획 필요
-    float TimeLimitForFinish = 180; //180;      //강제종료시간
+    int Timer_Min = 2;                  //2 분
+    int Timer_Sec = 30;                 //30 초
+    float TimeLimit = 150;              //시간 제한
+    float TimeLimitForFinish = 180;     //강제종료시간
 
     bool CheckTimeLimit = false;
     bool CheckTimeOut = false;
@@ -85,7 +84,6 @@ public class PaddleManager : MonoBehaviour
     public Transform saveData_GameDataMG;
 
 
-
     public float Data_401 = 0;      //시작버튼 누르기 까지 걸린 시간
     public float Data_402 = 0;      //완료까지 걸린 총 시간
     public float Data_403 = 0;      //스테이지1 걸린 시간
@@ -99,7 +97,6 @@ public class PaddleManager : MonoBehaviour
     public float Data_411 = 0;      //중도 포기(스킵)
     public float Data_412 = 0;      //친구 페달을 건드린 시간
     public float Data_413 = 0;      //페달에서 손을 뗀 횟수
-
 
 
     private void Start()
@@ -182,11 +179,11 @@ public class PaddleManager : MonoBehaviour
                     MyPaddleOn = true;
                     CheckPaddleOutCnt = true;
 
-                    if (DoNothingNow)
+/*                    if (DoNothingNow)
                     {
-                        //Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("IDLE END");
+                        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("IDLE END");
                         DoNothingNow = false;
-                    }
+                    }*/
                 }
                 else
                 {
@@ -233,11 +230,11 @@ public class PaddleManager : MonoBehaviour
                 {
                     DoNothingTimeElapsed += Time.deltaTime;
 
-                    if (!DoNothingNow)
+/*                    if (!DoNothingNow)
                     {
-                        //Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("IDLE START");
+                        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("IDLE START");
                         DoNothingNow = true;
-                    }
+                    }*/
                 }
 
                 if (Vehicle.GetComponent<VehicleController>().Distance == 100)
