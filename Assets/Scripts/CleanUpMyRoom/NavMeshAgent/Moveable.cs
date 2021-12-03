@@ -31,7 +31,7 @@ public class Moveable : MonoBehaviour
     public float Speed { get => speed; set => speed = value; }
 
     Rigidbody m_Rigidbody;
-    NavMeshAgent m_NavMeshAgent;
+    //NavMeshAgent agent;
 
     private void Awake()
     {        
@@ -50,7 +50,7 @@ public class Moveable : MonoBehaviour
         currentNum = 0;
         StartCoroutine(GoToTarget());
         m_Rigidbody = GetComponent<Rigidbody>();
-        m_NavMeshAgent = GetComponent<NavMeshAgent>();
+        //agent = GetComponent<NavMeshAgent>();
     }
   
     void Update()
@@ -102,9 +102,9 @@ public class Moveable : MonoBehaviour
 
     void SpeedUp()
     {       
-        if(m_NavMeshAgent.speed < 1)
+        if(agent.speed < 1)
         {
-            m_NavMeshAgent.speed += 0.1f;
+            agent.speed += 0.1f;
         }
 
         if(animator.GetFloat("MoveSpeed") < 10)
@@ -118,7 +118,7 @@ public class Moveable : MonoBehaviour
         if (collision.gameObject.tag == "Wall" && grabber.HeldGrabbable == null)
         {
             m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-            m_NavMeshAgent.enabled = true;            
+            agent.enabled = true;            
         }
     }
 
@@ -127,7 +127,7 @@ public class Moveable : MonoBehaviour
         if (other.gameObject.tag == "Wall" && grabber.HeldGrabbable == null)
         {
             m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-            m_NavMeshAgent.enabled = true;            
+            agent.enabled = true;            
         }
     }
 }

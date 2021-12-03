@@ -1,4 +1,5 @@
-﻿using EPOOutline;
+﻿using System.Collections;
+using EPOOutline;
 using HutongGames.PlayMaker;
 using UnityEngine;
 
@@ -23,9 +24,11 @@ namespace BNG
         public PlayMakerFSM GoFsm;
         public Grabber graber;
         
+        [SerializeField] private bool switchOn;
         private int lineEndPosition;
         private FsmObject fsmObject;
         private FsmGameObject fsmG_Obj;
+
 
         /// <summary>
         /// 0.5 = Line Goes Half Way. 1 = Line reaches end.
@@ -39,6 +42,36 @@ namespace BNG
         {
             fsmG_Obj = GoFsm.FsmVariables.GetFsmGameObject("grab_g");
             GoFsm.SendEvent(currentEvent);
+        }
+
+        private IEnumerator TriggeredNece()
+        {
+            yield return new WaitForSeconds(0.1f);
+
+            if (InputBridge.Instance.RightTriggerDown == true && switchOn == false)
+            {
+                switchOn = true;
+
+                if (hitObject.GetComponent<Outlinable>().enabled != true)
+                {
+                    hitObject.GetComponent<Outlinable>().enabled = true;
+
+                    SendEvent("NeceEnter");
+                    fsmG_Obj.Value = hitObject;
+                }
+            }
+        }
+
+        private IEnumerator TriggeredUnnece()
+        {
+            yield return new WaitForSeconds(0.1f);
+
+            if (InputBridge.Instance.RightTriggerDown == true && switchOn == false)
+            {
+                switchOn = true;
+                SendEvent("UnneceEnter");
+                fsmG_Obj.Value = hitObject;
+            }
         }
 
         private void Awake()
@@ -67,6 +100,19 @@ namespace BNG
             }
         }
 
+        private void Start()
+        {
+            switchOn = false;
+        }
+
+        private void Update()
+        {            
+            if (InputBridge.Instance.RightTriggerDown == false)
+            {
+                switchOn = false;
+            }
+        }
+
         private void LateUpdate()
         {
             if (Active)
@@ -82,29 +128,18 @@ namespace BNG
 
                     if(hit.transform.gameObject.layer == 10)
                     {
-                        if (hit.transform.gameObject.tag == "Necessary")
+                        if (hit.transform.gameObject.tag == "Necessary" && InputBridge.Instance.RightTriggerDown == false)
                         {
                             hitObject = hit.collider.gameObject;
-                            if (InputBridge.Instance.RightTriggerDown == true)
-                            {
-                                if (hitObject.GetComponent<Outlinable>().enabled != true)
-                                {
-                                    hitObject.GetComponent<Outlinable>().enabled = true;
-
-                                    SendEvent("NeceEnter");
-                                    fsmG_Obj.Value = hitObject;
-                                }
-                            }
+                            
+                            StartCoroutine("TriggeredNece");
                         }
 
-                        else if (hit.transform.gameObject.tag == "Unnecessary")
+                        else if (hit.transform.gameObject.tag == "Unnecessary" && InputBridge.Instance.RightTriggerDown == false)
                         {
                             hitObject = hit.collider.gameObject;
-                            if (InputBridge.Instance.RightTriggerDown == true)
-                            {
-                                SendEvent("UnneceEnter");
-                                fsmG_Obj.Value = hitObject;
-                            }                            
+                                                 
+                            StartCoroutine("TriggeredUnnece");
                         }
                     }                     
                 }
