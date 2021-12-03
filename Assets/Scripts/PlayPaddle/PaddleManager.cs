@@ -62,10 +62,10 @@ public class PaddleManager : MonoBehaviour
 
     float Guide_Length = 29;
 
-    int Timer_Min = 2;
-    int Timer_Sec = 30;
-    float TimeLimit = 150;              //시간 제한 사용 방향 기획 필요
-    float TimeLimitForFinish = 180;      //강제종료시간
+    int Timer_Min = 2;      //2 분
+    int Timer_Sec = 30;     //30 초
+    float TimeLimit = 150; //150;              //시간 제한 사용 방향 기획 필요
+    float TimeLimitForFinish = 180; //180;      //강제종료시간
 
 
 
@@ -245,15 +245,12 @@ public class PaddleManager : MonoBehaviour
         }
     }
 
-
-
-
     IEnumerator TimeLimitAndKeepGoing()
     {
         Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
         BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("LIMIT");
 
-        Timer_Sec = 30;
+        Timer_Sec = 30; //30
 
         yield return new WaitForSeconds(6.2f);
 
@@ -269,9 +266,6 @@ public class PaddleManager : MonoBehaviour
 
         GameFinish(true);
     }
-
-
-
 
     public void DoStartPaddle()
     {
