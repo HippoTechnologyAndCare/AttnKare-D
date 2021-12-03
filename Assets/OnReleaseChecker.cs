@@ -34,7 +34,7 @@ public class OnReleaseChecker : MonoBehaviour
 
         else if (foundGameObj.tag == "Unnecessary")
         {      
-            foundGameObj.GetComponent<Moveable>().SendMessage("AddNavSpeed");            
+            foundGameObj.GetComponent<Moveable>().SendMessage("SpeedUp");            
         }
     }
 

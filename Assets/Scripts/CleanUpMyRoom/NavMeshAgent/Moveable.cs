@@ -100,11 +100,16 @@ public class Moveable : MonoBehaviour
         }          
     }
 
-    void AddNavSpeed()
+    void SpeedUp()
     {       
         if(m_NavMeshAgent.speed < 1)
         {
             m_NavMeshAgent.speed += 0.1f;
+        }
+
+        if(animator.GetFloat("MoveSpeed") < 10)
+        {
+            animator.SetFloat("MoveSpeed", animator.GetFloat("MoveSpeed") + 0.5f);
         }
     }
 
