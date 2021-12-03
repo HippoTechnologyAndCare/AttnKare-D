@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using BNG;
 
-public class TriggerButton : MonoBehaviour
+public class TriggerButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
 {
     public NumOrderManager Manager;
     public GameObject crnt;
@@ -18,7 +19,7 @@ public class TriggerButton : MonoBehaviour
     {
         btnNum_tmp = int.Parse(btnNum) - 1;
     }
-    public void CursorExit()
+    public void OnPointerExit(PointerEventData pointerEventData)
     {
         if(temp)
         {
@@ -26,11 +27,12 @@ public class TriggerButton : MonoBehaviour
             temp = null;
         }
     }
-    public void CursorEnter()
+    public void OnPointerEnter(PointerEventData pointerEventData)
     {
-        Manager.active = true;
-        if(Manager.currentButton)
+        Debug.Log(Manager.currentButton);
+        if(Manager.currentButton!=null)
         {
+            Manager.active = true;
             temp = Manager.currentButton;
             temp.GetComponent<MoveButton>().triggered = true;
             temp.GetComponent<MoveButton>().Trigger = this.gameObject;
@@ -62,7 +64,7 @@ public class TriggerButton : MonoBehaviour
         }
     }
     */
-    public void CursorUp()
+    public void OnPointerUp(PointerEventData pointerEventData)
     {
         if (temp.GetComponent<MoveButton>().click == false)
         {

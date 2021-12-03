@@ -63,11 +63,11 @@ public class NumOrderManager : MonoBehaviour
 
     }
 
-    public void CannotGrab(int num)
+    public void CannotGrab(MoveButton num)
     {
         for(int i =0;i<arrBtn.Length;i++)
         {
-            if(i != num)
+            if(arrBtn[i] != num)
             {
                 arrBtn[i].enabled = false;
 
