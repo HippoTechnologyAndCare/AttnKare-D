@@ -2457,9 +2457,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3c69d794ff928b74fba66a93027fb1da, type: 2}
-  m_sharedMaterial: {fileID: 4540483496524823614, guid: 3c69d794ff928b74fba66a93027fb1da,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4967,14 +4966,22 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 203
-        y: 117
+        x: 196
+        y: 105
         width: 100
-        height: 16
+        height: 32
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
-      transitions: []
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: State 8
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
       actionData:
         actionNames:
         - HutongGames.PlayMaker.Actions.AudioPlay
@@ -5009,7 +5016,7 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           typeName: UnityEngine.AudioClip
-          value: {fileID: 8300000, guid: c1189f658f707a54982aa7a0bbff84c7, type: 3}
+          value: {fileID: 8300000, guid: c64148f9541df3a468cdd76e70518c53, type: 3}
         fsmVarParams: []
         fsmArrayParams: []
         fsmEnumParams: []
@@ -5027,14 +5034,14 @@ MonoBehaviour:
           tooltip: 
           showInInspector: 0
           networkSync: 0
-          value: 0
+          value: 1
         fsmVector2Params: []
         fsmVector3Params: []
         fsmColorParams: []
         fsmRectParams: []
         fsmQuaternionParams: []
         stringParams:
-        - 
+        - FINISHED
         byteData: 
         arrayParamSizes: 
         arrayParamTypes: []
@@ -5054,8 +5061,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 339
-        y: 115
+        x: 349
+        y: 294
         width: 112
         height: 32
       isBreakpoint: 0
@@ -5106,7 +5113,7 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           typeName: UnityEngine.AudioClip
-          value: {fileID: 8300000, guid: 172f9a07aca60564cb48a03cb5320e2b, type: 3}
+          value: {fileID: 8300000, guid: bceac1dabc45fbb4fa64ea9ef13cf756, type: 3}
         fsmVarParams: []
         fsmArrayParams: []
         fsmEnumParams: []
@@ -5161,8 +5168,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 495
-        y: 119
+        x: 497
+        y: 276
         width: 100
         height: 16
       isBreakpoint: 0
@@ -5387,7 +5394,7 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           typeName: UnityEngine.AudioClip
-          value: {fileID: 8300000, guid: b550b6c612f78ea448a6e2745f054d1f, type: 3}
+          value: {fileID: 8300000, guid: 46f2f4663deb78741ad365854fadbbce, type: 3}
         fsmVarParams: []
         fsmArrayParams: []
         fsmEnumParams: []
@@ -5432,8 +5439,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 345
-        y: 220.33594
+        x: 342
+        y: 212.33594
         width: 119.333336
         height: 16
       isBreakpoint: 0
@@ -5475,6 +5482,93 @@ MonoBehaviour:
           networkSync: 0
           typeName: UnityEngine.AudioClip
           value: {fileID: 0}
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 1
+        fsmIntParams: []
+        fsmBoolParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams:
+        - 
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 140000000f000000180000001100000017000000
+        paramName:
+        - gameObject
+        - volume
+        - oneShotClip
+        - WaitForEndOfClip
+        - finishedEvent
+        paramDataPos: 0000000000000000000000000000000000000000
+        paramByteDataSize: 0000000000000000000000000000000000000000
+    - name: State 8
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 354
+        y: 108
+        width: 100
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.AudioPlay
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 81294e04
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams:
+        - ownerOption: 0
+          gameObject:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {fileID: 0}
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          typeName: UnityEngine.AudioClip
+          value: {fileID: 8300000, guid: c900927fd22b3114e8be687ced2cef8d, type: 3}
         fsmVarParams: []
         fsmArrayParams: []
         fsmEnumParams: []
@@ -6346,9 +6440,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3c69d794ff928b74fba66a93027fb1da, type: 2}
-  m_sharedMaterial: {fileID: 4540483496524823614, guid: 3c69d794ff928b74fba66a93027fb1da,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -13472,7 +13565,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 997919535}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -20507,8 +20600,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00579834, y: 0.22000122}
-  m_SizeDelta: {x: -19.709526, y: -91.293236}
+  m_AnchoredPosition: {x: -0.028301239, y: 0.2472992}
+  m_SizeDelta: {x: -18.211, y: -88.3961}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1313727521
 MonoBehaviour:
@@ -22702,9 +22795,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3c69d794ff928b74fba66a93027fb1da, type: 2}
-  m_sharedMaterial: {fileID: 4540483496524823614, guid: 3c69d794ff928b74fba66a93027fb1da,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -32294,7 +32386,7 @@ MonoBehaviour:
           tooltip: 
           showInInspector: 0
           networkSync: 0
-          value: 10
+          value: 16
         fsmIntParams:
         - useVariable: 0
           name: 
@@ -40420,7 +40512,7 @@ MonoBehaviour:
         tooltip: 
         showInInspector: 0
         networkSync: 0
-        value: 75
+        value: 120
       intVariables: []
       boolVariables: []
       stringVariables:
@@ -40785,7 +40877,7 @@ MonoBehaviour:
         tooltip: 
         showInInspector: 0
         networkSync: 0
-        value: 60
+        value: 90
       intVariables: []
       boolVariables: []
       stringVariables:
@@ -41066,8 +41158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.19327801, y: -0.15002453}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -0, y: -0.004}
+  m_SizeDelta: {x: 218.42, y: 93.355}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1887956273
 MonoBehaviour:
@@ -41090,9 +41182,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\uBE44\uBC00\uBC88\uD638\uB97C \uB204\uB974\uACE0 \uC9D1\uC73C\uB85C \uB4E4\uC5B4\uAC00
-    \uBCF4\uC790\n\uC81C\uD55C \uC2DC\uAC04\uC740 1\uBD84\uC774\uACE0 \uBE44\uBC00\uBC88\uD638\uB294
-    5885\uC57C <size=10>(\uC81C\uC790\uB9AC\uC5D0 \uC788\uC73C\uBA74 \uB3C4\uC5B4\uB77D\uC774
-    \uC55E\uC73C\uB85C \uC62C\uAC70\uC57C) </size>"
+    \uBCF4\uC790\n\uC81C\uD55C \uC2DC\uAC04\uC740 <color=orange>1\uBD84 30\uCD08</color>
+    \n\uADF8\uB9AC\uACE0 \uBE44\uBC00\uBC88\uD638\uB294 <color=orange>5885</color>\uC57C\n\uBC14\uB2E5\uC5D0
+    \uBCF4\uC774\uB294 \uC6D0 \uC548\uC5D0\uC11C\uB9CC \uD589\uB3D9\uC744 \uD574\uC57C
+    \uC9D1\uC548\uC73C\uB85C \uB4E4\uC5B4\uAC08 \uC218 \uC788\uC73C\uB2C8 \uC870\uC2EC\uD574!\n\n<color=orange><size=9>(\uC6D0
+    \uC548\uC5D0 \uC11C\uC788\uC73C\uBA74 \uB3C4\uC5B4\uB77D\uC774 \uC55E\uC73C\uB85C
+    \uC62C \uAC70\uC57C) </size>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d4145b80d4101fb43b29e9e55556c584, type: 2}
   m_sharedMaterial: {fileID: -8169137728636540412, guid: d4145b80d4101fb43b29e9e55556c584,
@@ -41120,13 +41215,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 10
+  m_fontSizeBase: 10
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
@@ -42227,9 +42322,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3c69d794ff928b74fba66a93027fb1da, type: 2}
-  m_sharedMaterial: {fileID: 4540483496524823614, guid: 3c69d794ff928b74fba66a93027fb1da,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -61494,7 +61588,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 01:00
+  m_Text: 01:30
 --- !u!224 &1588359878174455811
 RectTransform:
   m_ObjectHideFlags: 0
