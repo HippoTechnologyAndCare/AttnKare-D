@@ -16,8 +16,11 @@ public class NumOrderManager : MonoBehaviour
     public string[] arrOrder;
     public MoveButton[] arrBtn;
     public GameObject[] arrTrig;
+    public CheckData_NumCheck dataCheck;
     int sprite = 0;
     int order = 0;
+    MoveButton prevCard;
+    MoveButton crntCard;
 
     void Start()
     {
@@ -57,15 +60,10 @@ public class NumOrderManager : MonoBehaviour
 
     public void CannotGrab(MoveButton num)
     {
-        for(int i =0;i<arrBtn.Length;i++)
-        {
+        for(int i =0;i<arrBtn.Length;i++){
             if(arrBtn[i] != num)
-            {
                 arrBtn[i].enabled = false;
-
-            }
         }
-        //arrBtn[num].enabled = false;
     }
 
     public void CanGrab()
@@ -74,6 +72,28 @@ public class NumOrderManager : MonoBehaviour
         {
             arrBtn[i].enabled = true;
         }
+
+    }
+
+    public void CardInTrigger(MoveButton card, TriggerButton trigger)
+    {
+
+        if(prevCard==null)
+        {
+            /*check if card is in correct trigger
+             * check if card is inserted in correct order
+             * send signal after inserted
+             */
+
+        }
+        float btnNum_tmp = int.Parse(trigger.trigNum) - 1;
+        if(card.btnNum != trigger.trigNum){
+            dataCheck.wrongTrigger += 1;
+        }
+        if(int.Parse(card.btnNum) != int.Parse(prevCard.btnNum+1)){
+            dataCheck.wrongorder += 1;
+        }
+        
 
     }
 
@@ -97,4 +117,6 @@ public class NumOrderManager : MonoBehaviour
     {
         Debug.Log("clear");
     }
+
+
 }
