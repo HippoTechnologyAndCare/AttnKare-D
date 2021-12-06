@@ -11,13 +11,13 @@ public class TriggerButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public GameObject prev;
     public GameObject temp;
 
-    public string btnNum;
+    public string trigNum;
     int btnNum_tmp;
     // Start is called before the first frame update
 
     private void Start()
     {
-        btnNum_tmp = int.Parse(btnNum) - 1;
+        btnNum_tmp = int.Parse(trigNum) - 1;
     }
     public void OnPointerExit(PointerEventData pointerEventData)
     {
@@ -76,6 +76,9 @@ public class TriggerButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             }
             crnt = temp;
             MoveButton button = crnt.GetComponent<MoveButton>();
+            /*
+             * manager에서 제대로 된 순서인지 확인하고 Set button 되게 수정
+            */
             Manager.arrOrder[btnNum_tmp] = button.btnNum;
             button.SetButton();
             Manager.active = false;
