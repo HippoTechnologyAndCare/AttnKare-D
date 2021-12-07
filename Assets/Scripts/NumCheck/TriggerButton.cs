@@ -12,12 +12,13 @@ public class TriggerButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public GameObject temp;
 
     public string trigNum;
-    int btnNum_tmp;
+    int trigNum_tmp;
     // Start is called before the first frame update
 
     private void Start()
     {
-        btnNum_tmp = int.Parse(trigNum) - 1;
+
+        trigNum_tmp = int.Parse(trigNum) - 1;
     }
     public void OnPointerExit(PointerEventData pointerEventData)
     {
@@ -79,9 +80,8 @@ public class TriggerButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             /*
              * manager에서 제대로 된 순서인지 확인하고 Set button 되게 수정
             */
-            Manager.arrOrder[btnNum_tmp] = button.btnNum;
-            button.SetButton();
-            Manager.active = false;
+            Manager.CardInTrigger(button, this);
+            
 
         }
     }    

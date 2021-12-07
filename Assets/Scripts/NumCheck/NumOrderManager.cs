@@ -17,6 +17,7 @@ public class NumOrderManager : MonoBehaviour
     public MoveButton[] arrBtn;
     public GameObject[] arrTrig;
     public CheckData_NumCheck dataCheck;
+    public TextMeshProUGUI Text;
     int sprite = 0;
     int order = 0;
     MoveButton prevCard;
@@ -77,24 +78,47 @@ public class NumOrderManager : MonoBehaviour
 
     public void CardInTrigger(MoveButton card, TriggerButton trigger)
     {
-
-        if(prevCard==null)
+        /*check if card is in correct trigger
+            * check if card is inserted in correct order
+            * send signal after inserted
+            */
+        crntCard = card;
+        if (prevCard == null)
         {
-            /*check if card is in correct trigger
-             * check if card is inserted in correct order
-             * send signal after inserted
-             */
-
+            Debug.Log(card.btnNum);
+            if (card.btnNum != "1")
+            {
+                dataCheck.wrongorder += 1;
+                StartCoroutine(Warning("¼ø¼­´ë·Î ³Ö¾îÁà"));
+                return;
+            }
+            if (card.btnNum == "1")
+            {
+                prevCard = crntCard;
+                arrOrder[int.Parse(trigger.trigNum) - 1] = card.btnNum;
+                card.SetButton();
+                active = false;
+            }
         }
-        float btnNum_tmp = int.Parse(trigger.trigNum) - 1;
-        if(card.btnNum != trigger.trigNum){
-            dataCheck.wrongTrigger += 1;
+        else
+        {
+            if (int.Parse(card.btnNum) != int.Parse(prevCard.btnNum + 1))
+            {
+                dataCheck.wrongorder += 1;
+                StartCoroutine(Warning("¼ø¼­´ë·Î ³Ö¾îÁà"));
+                return;
+            }
+            if (card.btnNum != trigger.trigNum)
+            {
+                dataCheck.wrongTrigger += 1;
+                StartCoroutine(Warning("ºóÄ­¿¡ ¸Â´Â ¼ýÀÚ¸¦ ³Ö¾îÁà"));
+                return;
+            }
+            arrOrder[int.Parse(trigger.trigNum) - 1] = card.btnNum;
+            prevCard = crntCard;
+            card.SetButton();
+            active = false;
         }
-        if(int.Parse(card.btnNum) != int.Parse(prevCard.btnNum+1)){
-            dataCheck.wrongorder += 1;
-        }
-        
-
     }
 
     IEnumerator NextOrder()
@@ -111,6 +135,17 @@ public class NumOrderManager : MonoBehaviour
         arrTrig[order].SetActive(true);
         order++;
         
+    }
+
+    IEnumerator Warning(string text)
+    {
+        string originalText = Text.text;
+        crntCard.ResetButton();
+        Text.text = text;
+        yield return new WaitForSeconds(1.0f);
+        Text.text = originalText;
+        
+
     }
 
     private void GameClear()
