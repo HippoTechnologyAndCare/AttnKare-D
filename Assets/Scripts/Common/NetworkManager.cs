@@ -8,7 +8,7 @@ using UserData;
 public class NetworkManager : MonoBehaviour
 {
     string ServerURL_feedback = "http://jdi.bitzflex.com:4005/feedback";   //feedback
-    string ServerURL_upload = "http://jdi.bitzflex.com:4005/upload_all_files";   //upload
+    string ServerURL_upload = "http://jdi.bitzflex.com:4005/upload_all_files_v1";   //upload
 
     string AudioFormat = "";
 
@@ -61,7 +61,7 @@ public class NetworkManager : MonoBehaviour
         formData.AddBinaryData("json", File.ReadAllBytes(resPath + "UserData.json"), "UserData.json", "application/octet-stream");
 
 
-        AudioFormat = ".mp3";
+        AudioFormat = ".wav";
 /*
         // 라이브러리 변경 전까지는 wav 파일을 전송 mp3 -> wav
 #if UNITY_EDITOR
@@ -97,7 +97,11 @@ public class NetworkManager : MonoBehaviour
 
             formData.AddBinaryData("scoop_txt", File.ReadAllBytes(resPath + "8_Behavior.txt"), "scoop_txt.txt", "application/octet-stream");
             formData.AddBinaryData("scoop_mp3", File.ReadAllBytes(resPath + "8" + AudioFormat), "scoop_mp3.mp3", "application/octet-stream");
+
         }
+
+        formData.AddBinaryData("ending_txt", File.ReadAllBytes(resPath + "12_Behavior.txt"), "ending_txt.txt", "application/octet-stream");
+        formData.AddBinaryData("ending_mp3", File.ReadAllBytes(resPath + "12"+ AudioFormat), "ending_mp3.wav", "application/octet-stream");
 
         UnityWebRequest webRequest = UnityWebRequest.Post(ServerURL_upload, formData);
 
