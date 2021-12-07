@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Valve.VR;
+//using Valve.VR;
 
 public class SteamVR_HapticController : MonoBehaviour
 {
@@ -13,6 +13,6 @@ public class SteamVR_HapticController : MonoBehaviour
 
     void doHaptics()
     {
-        SteamVR_Actions.vRIF_Haptic.Execute(0, VibrateFrequency, VibrateAmplitude, VibrateDuration, SteamVR_Input_Sources.RightHand);        
+        //SteamVR_Actions.vRIF_Haptic.Execute(0, VibrateFrequency, VibrateAmplitude, VibrateDuration, SteamVR_Input_Sources.RightHand);        
     }
 }

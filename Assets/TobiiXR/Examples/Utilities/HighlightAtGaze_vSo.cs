@@ -24,9 +24,19 @@ namespace Tobii.XR.Examples
             if (hasFocus)
             {
                 GoFsm.gameObject.GetComponent<PlayMakerFSM>();
-                GoFsm.SendEvent("Watching");
                 FsmGameObject thisGameObject = GoFsm.FsmVariables.GetFsmGameObject("sendByO_g");
                 thisGameObject.Value = this.gameObject;
+
+                if (this.gameObject.tag == "Necessary")
+                {
+                    GoFsm.SendEvent("Watching");
+                }
+
+                else if (this.gameObject.tag == "WallCollider")
+                {
+                    GoFsm.SendEvent("Watching_W");
+                }
+                
 
                 //if(this._renderer != null)
                 //{

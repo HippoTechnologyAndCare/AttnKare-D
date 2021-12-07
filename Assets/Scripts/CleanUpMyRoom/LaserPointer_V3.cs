@@ -18,11 +18,12 @@ namespace BNG
         public GameObject _cursor;
         public GameObject LaserEnd;
         public GameObject hitObject;
+        public GameObject rightGrabber;
 
         public bool Active = true;
 
         public PlayMakerFSM GoFsm;
-        public Grabber graber;
+        public Grabber grabber;
         
         [SerializeField] private bool switchOn;
         private int lineEndPosition;
@@ -62,15 +63,22 @@ namespace BNG
             }
         }
 
-        private IEnumerator TriggeredUnnece()
+        private IEnumerator TriggeredUnnece(GameObject hitObj)
         {
             yield return new WaitForSeconds(0.1f);
 
+            Debug.Log(hitObj);
+
             if (InputBridge.Instance.RightTriggerDown == true && switchOn == false)
             {
-                switchOn = true;
-                SendEvent("UnneceEnter");
-                fsmG_Obj.Value = hitObject;
+                switchOn = true;                
+
+                yield return new WaitForSeconds(0.1f);
+                if (grabber.HeldGrabbable == null)
+                {
+                    SendEvent("UnneceEnter");
+                    fsmG_Obj.Value = hitObj;
+                }
             }
         }
 
@@ -103,6 +111,7 @@ namespace BNG
         private void Start()
         {
             switchOn = false;
+           grabber = rightGrabber.GetComponent<Grabber>();
         }
 
         private void Update()
@@ -132,14 +141,14 @@ namespace BNG
                         {
                             hitObject = hit.collider.gameObject;
                             
-                            StartCoroutine("TriggeredNece");
+                            StartCoroutine(TriggeredNece());
                         }
 
                         else if (hit.transform.gameObject.tag == "Unnecessary" && InputBridge.Instance.RightTriggerDown == false)
                         {
                             hitObject = hit.collider.gameObject;
                                                  
-                            StartCoroutine("TriggeredUnnece");
+                            StartCoroutine(TriggeredUnnece(hitObject));
                         }
                     }                     
                 }

@@ -4,14 +4,12 @@ using BNG;
 
 public class OnReleaseChecker : MonoBehaviour
 {
+    Animator animator;
     Grabber grabber;
     string grabbableName;
     GameObject foundGameObj;
 
-    GameObject objToFind;
-
-    FsmObject fsmObject;
-    FsmGameObject fsmG_Obj;
+    GameObject objToFind;    
 
     public PlayMakerFSM GoDuckFsm;
 
@@ -27,9 +25,11 @@ public class OnReleaseChecker : MonoBehaviour
 
         grabbableName = grabber.HeldGrabbable.name;
 
-        if (foundGameObj.tag == "Unnecessary")
+        if (grabber.HeldGrabbable.tag == "Unnecessary")
         {
             SendEvent("Angry sound");
+            animator =  grabber.HeldGrabbable.GetComponent<Animator>();
+            animator.SetInteger("Status", 2);
         }
 
         return grabbableName;
@@ -48,6 +48,8 @@ public class OnReleaseChecker : MonoBehaviour
         {
             SendEvent("Quacking sound");
             foundGameObj.GetComponent<Moveable>().SendMessage("SpeedUp");
+            animator = foundGameObj.GetComponent<Animator>();
+            animator.SetInteger("Status", 1);
         }
     }
 

@@ -69,15 +69,15 @@ public class Moveable : MonoBehaviour
 
         else if (Speed < 0.01f)
         {
-            animator.SetInteger("Status", 0);
-
-            if (isGoing)
+            if(animator.GetInteger("Status") != 2)
             {
-                if (Speed == 0 && agent.enabled == true)
-                {
+                animator.SetInteger("Status", 0);
+            }
+            
+            if (isGoing && Speed == 0 && agent.enabled == true)
+            {                
                     isGoing = false;
-                    StartCoroutine(GoToTarget());
-                }
+                    StartCoroutine(GoToTarget());                
             }
         }
     }
@@ -102,14 +102,14 @@ public class Moveable : MonoBehaviour
 
     void SpeedUp()
     {       
-        if(agent.speed < 1)
+        if(agent.speed < 2)
         {
-            agent.speed += 0.1f;
+            agent.speed += 0.2f;
         }
 
-        if(animator.GetFloat("MoveSpeed") < 10)
+        if(animator.GetFloat("MoveSpeed") < 20)
         {
-            animator.SetFloat("MoveSpeed", animator.GetFloat("MoveSpeed") + 0.5f);
+            animator.SetFloat("MoveSpeed", animator.GetFloat("MoveSpeed") + 1f);
         }
     }
 
