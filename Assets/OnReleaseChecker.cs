@@ -1,4 +1,5 @@
 using UnityEngine;
+using HutongGames.PlayMaker;
 using BNG;
 
 public class OnReleaseChecker : MonoBehaviour
@@ -8,6 +9,12 @@ public class OnReleaseChecker : MonoBehaviour
     GameObject foundGameObj;
 
     GameObject objToFind;
+
+    FsmObject fsmObject;
+    FsmGameObject fsmG_Obj;
+
+    public PlayMakerFSM GoDuckFsm;
+
 
     void Start()
     {
@@ -19,6 +26,11 @@ public class OnReleaseChecker : MonoBehaviour
         Initialize();
 
         grabbableName = grabber.HeldGrabbable.name;
+
+        if (foundGameObj.tag == "Unnecessary")
+        {
+            SendEvent("Angry sound");
+        }
 
         return grabbableName;
     }
@@ -33,8 +45,9 @@ public class OnReleaseChecker : MonoBehaviour
         }
 
         else if (foundGameObj.tag == "Unnecessary")
-        {      
-            foundGameObj.GetComponent<Moveable>().SendMessage("SpeedUp");            
+        {
+            SendEvent("Quacking sound");
+            foundGameObj.GetComponent<Moveable>().SendMessage("SpeedUp");
         }
     }
 
@@ -49,4 +62,10 @@ public class OnReleaseChecker : MonoBehaviour
         grabbableName = null;
         foundGameObj = null;
     }    
+
+    private void SendEvent(string currentEvent)
+        {
+            //fsmG_Obj = GoDuckFsm.FsmVariables.GetFsmGameObject("grab_g");
+            GoDuckFsm.SendEvent(currentEvent);
+        }
 }
