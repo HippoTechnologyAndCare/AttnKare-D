@@ -438,19 +438,6 @@ public class PaddleManager : MonoBehaviour
         AutoController.GetComponent<AutoController>().GameFinish();
         Vehicle.GetComponent<VehicleController>().GameFinish();
 
-        if (isSkipped)
-        {
-            Data_411 = 1;
-            ShowPopUpInfo("수고했어요! 짝짝짝 ~");
-        }
-        else
-        {
-            Data_411 = 0;
-            ShowPopUpInfo("정상에 도착했어요!\n잘했어요! 짝짝짝 ~");
-        }
-
-        
-
         Data_402 = TimeElapsedShow;
         Data_405 = TimeElapsedShow - Data_401 - Data_403 - Data_404;
         Data_408 = PaddleFailCnt;
@@ -459,19 +446,28 @@ public class PaddleManager : MonoBehaviour
         Data_412 = Failure_DistbT;
         Data_413 = PaddleOutCnt;
 
+        if (isSkipped)
+        {
+            Data_411 = 1;
 
 
-        /*        Debug.Log("21 : " + Data_21.ToString()
-                        + "\n22 : " + Data_22.ToString()
-                        + "\n23 : " + Data_23.ToString()
-                        + "\n24 : " + Data_24.ToString()
-                        + "\n25 : " + Data_25.ToString()
-                        + "\n26 : " + Data_26.ToString()
-                        + "\n27 : " + Data_27.ToString()
-                        + "\n28 : " + Data_28.ToString()
-                        + "\n29 : " + Data_29.ToString()
-                        + "\n30 : " + Data_30.ToString()
-                        + "\n31 : " + Data_31.ToString());*/
+            if (StageLvl == 1)
+            {
+                Data_404 = 0;
+                Data_405 = 0;
+            }
+            else if (StageLvl == 2)
+            {
+                Data_405 = 0;
+            }
+
+            ShowPopUpInfo("수고했어요! 짝짝짝 ~");
+        }
+        else
+        {
+            Data_411 = 0;
+            ShowPopUpInfo("정상에 도착했어요!\n잘했어요! 짝짝짝 ~");
+        }
 
         DataFsm.SendEvent("GameClear");
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
