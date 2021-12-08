@@ -232,7 +232,7 @@ using BNG;
         yield return new WaitForSeconds(1.2f);
 
 
-        Application.Quit();
+    //    Application.Quit();
 
 
 
