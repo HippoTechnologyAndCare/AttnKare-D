@@ -449,7 +449,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 98715170}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.2}
+  m_LocalPosition: {x: 0, y: 0, z: -0.435}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 543450653619509272}
@@ -8917,7 +8917,6 @@ GameObject:
   m_Component:
   - component: {fileID: 888635463}
   - component: {fileID: 888635466}
-  - component: {fileID: 888635465}
   - component: {fileID: 888635464}
   m_Layer: 0
   m_Name: Text (TMP)
@@ -9038,14 +9037,6 @@ MonoBehaviour:
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
---- !u!222 &888635465
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 888635462}
-  m_CullTransparentMesh: 0
 --- !u!23 &888635466
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14463,7 +14454,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1118266328}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.604}
+  m_LocalPosition: {x: 0, y: 0, z: 0.093}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 956400860}
@@ -33218,7 +33209,7 @@ MonoBehaviour:
           tooltip: 
           showInInspector: 0
           networkSync: 0
-          value: {x: -0.319, y: 0.063, z: 1.109}
+          value: {x: -0.319, y: 0.063, z: 0.578}
         - useVariable: 0
           name: 
           tooltip: 
@@ -114851,7 +114842,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6540473754358513602}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.53116345, y: -1.9253302, z: -1.836}
+  m_LocalPosition: {x: 0.53116345, y: -1.9253302, z: -2.041}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6540473754358277088}
