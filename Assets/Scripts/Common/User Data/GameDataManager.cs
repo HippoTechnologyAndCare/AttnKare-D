@@ -4,6 +4,8 @@ using UserData;
 
 public class GameDataManager : MonoBehaviour
 {
+    [SerializeField] GameObject pController;
+
     public int currentSceneIndex;
     public int key_rowIndex;
     public GameObject objToFind;
@@ -22,6 +24,16 @@ public class GameDataManager : MonoBehaviour
             setPlayerData.InitialDataSetting();
             DataManager.GetInstance().SavePlayerDataToJson();
             Debug.Log("Data Creat!");
+        }
+
+        if (!DataManager.GetInstance().isTest)
+        {
+            pController = GameObject.Find("PlayerController");
+            if (pController != null)
+            {
+                pController.GetComponent<BNG.SmoothLocomotion>().AllowInput = false;
+                pController.GetComponent<BNG.PlayerRotation>().AllowInput = false;
+            }
         }
     }
     void Start()

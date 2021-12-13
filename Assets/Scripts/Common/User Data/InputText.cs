@@ -23,6 +23,7 @@ namespace UserData
         [SerializeField] private Toggle genderTg_W;
         [SerializeField] private Toggle gradeTg_L;
         [SerializeField] private Toggle gradeTg_H;
+        [SerializeField] private Toggle testMode_Tg;
 
         [SerializeField] private PlayMakerFSM warningFSM;        
         [SerializeField] private SetPlayerData setPlayerData;
@@ -152,6 +153,11 @@ namespace UserData
             DataManager.GetInstance().userInfo.Grade = gradeTg_L.isOn ? "L" : "H";
         }
 
+        private void Check_TestMode()
+        {
+            DataManager.GetInstance().isTest = testMode_Tg.isOn ? true : false;
+        }
+
         private bool ExceptionHandling_Check()
         {
             string u_N = txt_Name.text;
@@ -210,6 +216,7 @@ namespace UserData
 
                 Check_Gender();
                 Check_Grade();
+                Check_TestMode();
 
                 CreatFolder();
 

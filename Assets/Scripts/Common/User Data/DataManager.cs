@@ -7,8 +7,9 @@ using Newtonsoft.Json;
 namespace UserData
 {
     public class DataManager : MonoBehaviour
-    {
+    {        
         public bool isPlayed;
+        public bool isTest = true;
         //public string userInformation;
         //public string userGrade;
         public bool isError_DN;
@@ -172,7 +173,7 @@ namespace UserData
 
         private void Start()
         {
-            es3APIKey = "13de814c5d55";                                   
+            es3APIKey = "13de814c5d55";            
         }
     }
 
@@ -206,7 +207,7 @@ namespace UserData
         private bool _IsHigh;
         private bool _IsLow;
         private bool _IsBoy;
-        private bool _IsGirl;
+        private bool _IsGirl;        
 
         //public UserInfo(string name, int age, string phoneNumber, string gender, string grade)
         //{
@@ -227,7 +228,7 @@ namespace UserData
                 _IsLow = value <= 10;
             }
         }
-
+                
         //그레이드 선택이 수동이므로 현재는 쓰이지 않는 프로퍼티 변수
         private bool IsHigh
         {

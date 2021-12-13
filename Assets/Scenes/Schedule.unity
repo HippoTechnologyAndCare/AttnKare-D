@@ -31627,7 +31627,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4144118093911848929}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97dc4c75aa9c7ac4496efd08a068c08c, type: 3}
   m_Name: 
@@ -31648,7 +31648,8 @@ MonoBehaviour:
   AllowInput: 1
   UpdateMovement: 1
   inputAxis: 01000000
-  MoveAction: {fileID: 0}
+  MoveAction: {fileID: 6972639530819350904, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
   RequireAppFocus: 1
   SprintSpeed: 1.5
   SprintInput: 00000000
@@ -31671,15 +31672,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4144118093911848929}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c7abe05ae0fe07459d7ae7afed8b792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   AllowInput: 1
   inputAxis: 03000000
-  RotateAction: {fileID: 0}
-  RotationType: 1
+  RotateAction: {fileID: -6493913391331992944, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
+  RotationType: 0
   SnapRotationAmount: 45
   SnapInputAmount: 0.75
   SmoothTurnSpeed: 40
@@ -83489,14 +83491,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4144118093911848929}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bd2fd7429a30714ca570a60a988ab32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultLocomotion: 1
   LoadLocomotionFromPrefs: 0
-  locomotionToggleInput: 00000000
+  locomotionToggleInput: 
   LocomotionToggleAction: {fileID: 0}
 --- !u!1 &8116959640625242104
 GameObject:

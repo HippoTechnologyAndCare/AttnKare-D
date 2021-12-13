@@ -18854,7 +18854,12 @@ PrefabInstance:
     - target: {fileID: 2631810782926597050, guid: b9ffca821d7fb2640ae22a124dadf085,
         type: 3}
       propertyPath: AllowInput
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2631810782926597050, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: JumpAction
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2631810782926597051, guid: b9ffca821d7fb2640ae22a124dadf085,
         type: 3}
@@ -18864,7 +18869,7 @@ PrefabInstance:
     - target: {fileID: 2631810782926597051, guid: b9ffca821d7fb2640ae22a124dadf085,
         type: 3}
       propertyPath: AllowInput
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2631810783057794216, guid: b9ffca821d7fb2640ae22a124dadf085,
         type: 3}
@@ -21944,7 +21949,17 @@ PrefabInstance:
     - target: {fileID: 4842569342294394221, guid: b9ffca821d7fb2640ae22a124dadf085,
         type: 3}
       propertyPath: DefaultLocomotion
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842569342294394221, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: LocomotionToggleAction
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842569342294394221, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: locomotionToggleInput.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4844378820297734629, guid: b9ffca821d7fb2640ae22a124dadf085,
         type: 3}
@@ -23375,6 +23390,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772573491184469181, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5776598301702409887, guid: b9ffca821d7fb2640ae22a124dadf085,
         type: 3}
