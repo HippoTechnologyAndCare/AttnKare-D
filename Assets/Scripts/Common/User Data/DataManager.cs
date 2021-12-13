@@ -23,7 +23,9 @@ namespace UserData
         private static DataManager instance; // 싱글턴 인스턴스 생성 (static + 클래스명 문법으로 생성한 변수)
 
         //PlayerData 클래스(클래스안에 생성자 선언)의 List<T>를 생성한다.
-        public List<PlayerData> dataList = new List<PlayerData>(); //생성자 인스턴스를 선언
+        //public List<PlayerData> dataList = new List<PlayerData>(); //생성자 인스턴스를 선언
+
+        public Dictionary<int, PlayerData> dataList = new Dictionary<int, PlayerData>();
 
         //UserInfo 클래스의 생성자를 인스턴스화
         public UserInfo userInfo = new UserInfo();
@@ -99,7 +101,7 @@ namespace UserData
             string fileName = "UserData.json";
             string path = Path.Combine(FilePath_Folder, fileName);
             string jsonData = File.ReadAllText(path);
-            dataList = JsonConvert.DeserializeObject<List<PlayerData>>(jsonData);
+            dataList = JsonConvert.DeserializeObject<Dictionary<int, PlayerData>>(jsonData);
             Debug.Log("load complete");
         }
 
@@ -178,15 +180,13 @@ namespace UserData
     [System.Serializable]
     public class PlayerData // List<T>에 들어갈 클래스 생성
     {
-        // PlayerData를 다룰 리스트에 들어가 매개변수로 사용될 것들을 미리 변수로 선언해 둔다
-        public int ID;
+        // PlayerData를 다룰 리스트에 들어가 매개변수로 사용될 것들을 미리 변수로 선언해 둔다        
         public string DataName;
         public float Result;
 
         // 생성자 생성됨
-        public PlayerData(int iD, string dataName, float result)
-        {
-            this.ID = iD;
+        public PlayerData(string dataName, float result)
+        {            
             this.DataName = dataName;
             this.Result = result;
         }

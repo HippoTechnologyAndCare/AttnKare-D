@@ -1,20 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UserData;
-#if UNITY_EDITOR
-using UnityEditor.SceneManagement;
-#endif
 
 public class GameDataManager : MonoBehaviour
 {
+    public int currentSceneIndex;
+    public int key_rowIndex;
+    public GameObject objToFind;
+
     public SetPlayerData setPlayerData;      
 
     delegate void SaveCurrentSceneData(int SceneIndex);
     SaveCurrentSceneData saveCurrentSceneData;
 
-    public GameObject objToFind;
-
-    private void Awake()
+    void Awake()
     {
         if (!DataManager.GetInstance().isPlayed)
         {
@@ -39,81 +38,65 @@ public class GameDataManager : MonoBehaviour
             DataManager.GetInstance().isPlayed = true;
         }
 
-        CheckSaveDataType();
-    }
-
-    void CheckSaveDataType()
+        CheckSaveDataTypes();        
+    }   
+       
+    void CheckSaveDataTypes()
     {
-        int sceneIndex;
-        sceneIndex = SceneManager.GetActiveScene().buildIndex;
-#if UNITY_EDITOR
-        sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;
-#endif
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;        
 
-        switch (sceneIndex)
+        switch (currentSceneIndex)
         {
-            case 1: //Doorlock
-                saveCurrentSceneData = SetData_pm;
+            case 1: //Doorlock                
+                saveCurrentSceneData = SetData_pm;                            
                 break;
             case 2: //Schedule
                 objToFind = FindObjectOfType<ScheduleManager>().gameObject;
-                saveCurrentSceneData = SetData;
+                saveCurrentSceneData = SetData;                       
                 break;
             case 3: //BP L
-                saveCurrentSceneData = SetData_pm;
+                saveCurrentSceneData = SetData_pm;                      
                 break;
             case 4: //Scoop L
-                saveCurrentSceneData = SetData_pm;
+                saveCurrentSceneData = SetData_pm;                            
                 break;
-            case 5: //CR
-                saveCurrentSceneData = SetData_pm;
+            case 5: //CRUM
+                saveCurrentSceneData = SetData_pm;                            
                 break;
             case 6: //PlayPaddle
-                saveCurrentSceneData = SetData_pm;
+                saveCurrentSceneData = SetData_pm;                                
                 break;
             case 7: //bagpacking H
-                saveCurrentSceneData = SetData_pm;
+                saveCurrentSceneData = SetData_pm;                               
                 break;
             case 8: //Scoop H
-                saveCurrentSceneData = SetData_pm;
+                saveCurrentSceneData = SetData_pm;                                
                 break;
-
-        }
+        }        
     }
 
     public void SaveCurrentData()
     {
-        int sceneIndex;
-        sceneIndex = SceneManager.GetActiveScene().buildIndex;
-#if UNITY_EDITOR
-        sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;
-#endif  
-        saveCurrentSceneData(sceneIndex);
+        
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        saveCurrentSceneData(currentSceneIndex);
 
         DataManager.GetInstance().Invoke("SavePlayerDataToJson", 0.1f);
     }
 
     public void SetData(int sceneIndex)
-    {
-        string convertIndex = sceneIndex.ToString();
-        string functionName = "GetSceneIndex" + convertIndex;
-
+    {        
         switch (sceneIndex)
         {            
-            case 2: //Schedule
-                GameObject.Find("SetPlayerData").SendMessage(functionName,
-                objToFind.GetComponent<ScheduleManager>().scene2arr);
+            case 2: //Schedule                
+                setPlayerData.SetSceneData(objToFind.GetComponent<ScheduleManager>().scene2arr);
                 break;
-        }
-
-        //GameObject.Find("SetPlayerData").SendMessage(functionName);
+        }      
     }
 
     public void SetData_pm(int sceneIndex)
-    {
-        string convertIndex = sceneIndex.ToString();
-        string functionName = "GetSceneIndex" + convertIndex;
-        Debug.Log(functionName);
-        GameObject.Find("SetPlayerData").SendMessage(functionName);
-    }
+    {        
+        GameObject.Find("SetPlayerData").SendMessage("SetSceneData");
+    }    
 }
