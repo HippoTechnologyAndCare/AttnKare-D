@@ -6,7 +6,7 @@ public class GameDataManager : MonoBehaviour
 {
     [SerializeField] GameObject pController;
 
-    public int currentSceneIndex;
+    public int sceneIndex;
     public int key_rowIndex;
     public GameObject objToFind;
 
@@ -16,8 +16,9 @@ public class GameDataManager : MonoBehaviour
     SaveCurrentSceneData saveCurrentSceneData;
 
     void Awake()
-    {
-        if (!DataManager.GetInstance().isPlayed)
+    {                
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (!DataManager.GetInstance().isPlayed && sceneName != "Tutorial")
         {
             DataManager.GetInstance().isPlayed = true;
 
@@ -38,13 +39,15 @@ public class GameDataManager : MonoBehaviour
     }
     void Start()
     {
+        string sceneName = SceneManager.GetActiveScene().name;
+
         if (DataManager.GetInstance().isPlayed == true)
         {
             DataManager.GetInstance().LoadPlayerDataFromJson();
             Debug.Log("Load Data!");
         }
 
-        else
+        else if (sceneName != "Tutorial")
         {
             setPlayerData.InitialDataSetting();
             DataManager.GetInstance().isPlayed = true;
@@ -55,9 +58,9 @@ public class GameDataManager : MonoBehaviour
        
     void CheckSaveDataTypes()
     {
-        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;        
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;        
 
-        switch (currentSceneIndex)
+        switch (sceneIndex)
         {
             case 1: //Doorlock                
                 saveCurrentSceneData = SetData_pm;                            
@@ -90,9 +93,9 @@ public class GameDataManager : MonoBehaviour
     public void SaveCurrentData()
     {
         
-        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-        saveCurrentSceneData(currentSceneIndex);
+        saveCurrentSceneData(sceneIndex);
 
         DataManager.GetInstance().Invoke("SavePlayerDataToJson", 0.1f);
     }
