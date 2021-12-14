@@ -47,7 +47,7 @@ public class OnReleaseChecker : MonoBehaviour
         else if (foundGameObj.tag == "Unnecessary")
         {
             SendEvent("Quacking sound");
-            foundGameObj.GetComponent<Moveable>().SendMessage("SpeedUp");
+            foundGameObj.GetComponent<MoveableDuck>().SendMessage("SpeedUp");
             animator = foundGameObj.GetComponent<Animator>();
             animator.SetInteger("Status", 1);
         }
