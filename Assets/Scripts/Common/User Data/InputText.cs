@@ -14,10 +14,12 @@ namespace UserData
         [SerializeField] private Text txt_Name;
         [SerializeField] private Text txt_Age;
         [SerializeField] private Text txt_Fon;
+        [SerializeField] private Text txt_Loca;
 
         [SerializeField] private InputField inputTxt_Name;
         [SerializeField] private InputField inputTxt_Age;
         [SerializeField] private InputField inputTxt_Fon;
+        [SerializeField] private InputField inputTxt_Loca;
 
         [SerializeField] private Toggle genderTg_M;
         [SerializeField] private Toggle genderTg_W;
@@ -54,6 +56,9 @@ namespace UserData
 
             inputTxt_Name.onValueChanged.AddListener(
                 (word) => inputTxt_Name.text = Regex.Replace(word, @"[^가-힣]", "")
+                );
+            inputTxt_Loca.onValueChanged.AddListener(
+                (word) => inputTxt_Loca.text = Regex.Replace(word, @"[^가-힣]", "")
                 );
         }
 
@@ -158,11 +163,11 @@ namespace UserData
             DataManager.GetInstance().isTest = testMode_Tg.isOn ? true : false;
         }
 
-        private bool ExceptionHandling_Check()
+        private bool ExceptionHandling_Check01()
         {
             string u_N = txt_Name.text;
             string u_A = txt_Age.text;
-            string u_P = txt_Fon.text;
+            string u_P = txt_Fon.text;            
 
             // 각 InputField에 미입력이 있는지 검사
             if (u_N == "" || u_A == "" || u_P == "")
@@ -201,18 +206,33 @@ namespace UserData
             //}
             return isProb;
         }
+        
+        // Location 입력이 되지 않았을때 예외 처리
+        private string ExceptionHandling_Check02()
+        {
+            string u_L = inputTxt_Loca.text;
+            if (u_L == "")
+            {
+                u_L = "웅진플레이도시";
+                inputTxt_Loca.text = u_L;
+            }
+
+            return inputTxt_Loca.text;
+        }
 
         public void Confirm_n_DataExistenceCheck()
         {
             SendEvent("TurnOff Messages");
 
-            ExceptionHandling_Check();
+            ExceptionHandling_Check01();
+            ExceptionHandling_Check02();
 
             if (!isProb)
             {
                 DataManager.GetInstance().userInfo.Name = txt_Name.text;
                 DataManager.GetInstance().userInfo.Age = int.Parse(txt_Age.text);
-                DataManager.GetInstance().userInfo.PhoneNumber = txt_Fon.text;
+                DataManager.GetInstance().userInfo.PhoneNumber = txt_Fon.text;                               
+                DataManager.GetInstance().userInfo.Location = inputTxt_Loca.text;               
 
                 Check_Gender();
                 Check_Grade();

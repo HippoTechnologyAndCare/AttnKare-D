@@ -201,6 +201,7 @@ namespace UserData
         public string _Gender;
         public string Grade;
         public string PhoneNumber;
+        public string Location;
 
         private string _FolderName;
 
@@ -217,7 +218,7 @@ namespace UserData
         //    this._Gender = gender;
         //    this._Grade = grade;
         //}
-
+        
         public int Age
         {
             get { return _Age; }
