@@ -40,7 +40,7 @@ public class SetPlayerData : MonoBehaviour
 
     public void SetFirstKeyInScenes(int scene)
     {
-       // 데이터의 인덱싱이 바뀌면 스위치문의 대입값도 바뀌어야 한다.
+       // 씬의 인덱싱이 바뀌면 스위치문의 대입값도 바뀌어야 한다.
         switch (scene)
         {
             case 1: //doorlock
@@ -110,7 +110,7 @@ public class SetPlayerData : MonoBehaviour
         return eachLastKey;
     }   
 
-    // 2차원 배열로 모든 키를 셋팅하는 함수
+    // 2차원 배열에 모든 키를 셋팅하는 함수
     private int[,] SetEachFirstKey(int[,] arr2)
     {
         int key = TotalFirstKey;                

@@ -10,6 +10,11 @@ public class MoveableHam30 : MonoBehaviour
     Animator animator;
     Vector3 lastPosition = Vector3.zero;
 
+    float waitMin;
+    float waitMax;
+    int evAnimMin;
+    int evAnimMax;
+
     [SerializeField]
     Transform[] targets = new Transform[4];
 
@@ -34,7 +39,11 @@ public class MoveableHam30 : MonoBehaviour
     //NavMeshAgent agent;
 
     private void Awake()
-    {        
+    {
+        waitMin = 0.5f;
+        waitMax = 2f;
+        evAnimMin = 2;
+        evAnimMax = 6;
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
     }
@@ -59,7 +68,7 @@ public class MoveableHam30 : MonoBehaviour
         lastPosition = transform.position;
 
         if (Speed > 0.01f)
-        {
+        {            
             if (!isGoing)
             {
                 isGoing = true;
@@ -69,7 +78,7 @@ public class MoveableHam30 : MonoBehaviour
 
         else if (Speed < 0.01f)
         {
-            if(animator.GetInteger("Status") != 2)
+            if(animator.GetInteger("Status") == 1)
             {
                 animator.SetInteger("Status", 0);
             }
@@ -77,11 +86,25 @@ public class MoveableHam30 : MonoBehaviour
             if (isGoing && Speed == 0 && agent.enabled == true)
             {                
                     isGoing = false;
-                    StartCoroutine(GoToTarget());                
+                    StartCoroutine(GoToTarget());
+                StartCoroutine(BehaviorEvent());
             }
         }
     }
-  
+    
+    IEnumerator BehaviorEvent()
+    {
+        int randNum = Random.Range(1, 4);
+        for(int i =  0; i < randNum; i++)
+        {
+            yield return new WaitForSeconds(Random.Range(waitMin, waitMax));      
+            animator.SetInteger("Status", Random.Range(evAnimMin, evAnimMax));
+            yield return new WaitForSeconds(1f);
+        }        
+    }
+
+
+
     IEnumerator GoToTarget()
     {       
         agent.SetDestination(targets[currentNum].position);
@@ -113,6 +136,11 @@ public class MoveableHam30 : MonoBehaviour
         }
     }
 
+    public void AnimInitialize()
+    {
+        animator.SetInteger("Status", 1);
+    }
+   
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Wall" && grabber.HeldGrabbable == null)
