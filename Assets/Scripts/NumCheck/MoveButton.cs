@@ -46,6 +46,13 @@ public class MoveButton : MonoBehaviour, IDragHandler
                     click = false;
                 }   
             }
+            if(RighthandPointer.GetComponent<LineRenderer>().enabled == false)
+            {
+                ResetButton();
+                Manager.CanGrab();
+                Manager.currentButton = null;
+                click = false;
+            }
         }
     }
 

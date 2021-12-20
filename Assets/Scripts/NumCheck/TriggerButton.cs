@@ -10,14 +10,10 @@ public class TriggerButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public GameObject crnt;
     public GameObject prev;
     public GameObject temp;
-
     public string trigNum;
     int trigNum_tmp;
-    // Start is called before the first frame update
-
     private void Start()
     {
-
         trigNum_tmp = int.Parse(trigNum) - 1;
     }
     public void OnPointerExit(PointerEventData pointerEventData)
@@ -40,51 +36,17 @@ public class TriggerButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }
     }
        
-    /*
-    public void CursorStay()
-    {
-        SetPosButton();
-    }
 
-    private void SetPosButton()
-    {
-        if (temp.GetComponent<MoveButton>().click == false)
-        {
-            if (crnt != null) //있다면
-            {
-                prev = crnt;
-                prev.GetComponent<MoveButton>().ResetButton();
-
-            }
-            Debug.Log("passed");
-            crnt = temp;
-            MoveButton button = crnt.GetComponent<MoveButton>();
-            button.SetButton();
-            Manager.active = false;
-
-        }
-    }
-    */
     public void OnPointerUp(PointerEventData pointerEventData)
     {
-        if (temp.GetComponent<MoveButton>().click == false)
+        if (temp)
         {
-            if (crnt != null) //있다면
+            if (temp.GetComponent<MoveButton>().click == false)
             {
-                prev = crnt;
-                prev.GetComponent<MoveButton>().ResetButton();
-
+                crnt = temp;
+                MoveButton button = crnt.GetComponent<MoveButton>();
+                Manager.CardInTrigger(button, this);
             }
-            crnt = temp;
-            MoveButton button = crnt.GetComponent<MoveButton>();
-            /*
-             * manager에서 제대로 된 순서인지 확인하고 Set button 되게 수정
-            */
-            Manager.CardInTrigger(button, this);
-            
-
         }
     }    
-
-
 }
