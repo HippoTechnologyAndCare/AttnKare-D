@@ -7,37 +7,28 @@ public class CheckData_NumCheck : MonoBehaviour
 {
 
 
-    [Header("Check Order")]
+    [Tooltip("If not in order")]
     public float wrongorder=0;
+    [Tooltip("If not in right blank")]
     public float wrongTrigger = 0;
-    float crnt=0;
-    float prev=0;
+    public float TotalTime = 0;
+    [HideInInspector]
+    public bool start = false;
+    public bool searching = false;
+
+    NumOrderManager manager; 
+ 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        manager = transform.GetComponent<NumOrderManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(start)TotalTime += Time.deltaTime;
     }
-
-    public void CheckOrder(float now)
-    {
-        crnt = now;
-        if(prev == 0&& crnt != 1)
-        {
-            Debug.Log("Should start from 1");
-        }
-        if(crnt != prev+1)
-        {
-            wrongorder += 1;
-            Debug.Log("Wrong Order");
-        }
-
-
-    }
+   
 }
