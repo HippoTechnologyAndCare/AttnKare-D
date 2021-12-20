@@ -8,7 +8,7 @@ using UserData;
 public class NetworkManager : MonoBehaviour
 {
     string ServerURL_feedback = "http://jdi.bitzflex.com:4005/feedback";   //feedback
-    string ServerURL_upload = "http://jdi.bitzflex.com:4005/upload_all_files_v1";   //upload
+    string ServerURL_upload = "http://jdi.bitzflex.com:4005/upload_all_files_v1_withloca";   //upload
 
     string AudioFormat = "";
 
@@ -57,6 +57,7 @@ public class NetworkManager : MonoBehaviour
         formData.AddField("phone", DataManager.GetInstance().userInfo.PhoneNumber);
         formData.AddField("gender", DataManager.GetInstance().userInfo.Gender);
         formData.AddField("age", DataManager.GetInstance().userInfo.Age);
+        formData.AddField("location", DataManager.GetInstance().userInfo.Location);
 
         formData.AddBinaryData("json", File.ReadAllBytes(resPath + "UserData.json"), "UserData.json", "application/octet-stream");
 
