@@ -10,8 +10,7 @@ namespace UserData
     {        
         public bool isPlayed;
         public bool isTest = true;
-        //public string userInformation;
-        //public string userGrade;
+        
         public bool isError_DN;
         public bool isError_UP;
 
@@ -23,7 +22,7 @@ namespace UserData
 
         private static DataManager instance; // 싱글턴 인스턴스 생성 (static + 클래스명 문법으로 생성한 변수)
 
-        //PlayerData 클래스(클래스안에 생성자 선언)의 List<T>를 생성한다.
+        //PlayerData 클래스(클래스안에 생성자 선언)의 Dictionary<int, PlayerData>를 생성한다.
         //public List<PlayerData> dataList = new List<PlayerData>(); //생성자 인스턴스를 선언
 
         public Dictionary<int, PlayerData> dataList = new Dictionary<int, PlayerData>();
