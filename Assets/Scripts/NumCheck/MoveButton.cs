@@ -15,15 +15,19 @@ public class MoveButton : MonoBehaviour, IDragHandler
     public bool triggered;
     public bool click;
     public string btnNum;
+    public string color = "#FF0000";
     GameObject prevButton;
     RectTransform rect;
     Vector3 OrginPos;
     TextMeshProUGUI btnText;
-
+    Color activatedColor;
+    Color originalColor;
     Transform parentCursor;
     // Start is called before the first frame update
     void Start()
     {
+        originalColor = btnText.color;
+        ColorUtility.TryParseHtmlString(color, out activatedColor);
         parentCursor = RighthandPointer.GetComponent<UIPointer>()._cursor.transform;
         OrginPos = transform.position;
     }
@@ -31,7 +35,6 @@ public class MoveButton : MonoBehaviour, IDragHandler
     // Update is called once per frame
     void Update()
     {
-
         if(click)
         {
             if(RighthandPointer.GetComponent<LineRenderer>().enabled == true)
@@ -64,6 +67,7 @@ public class MoveButton : MonoBehaviour, IDragHandler
 
     public void OnDrag(PointerEventData pointerEventData){
         click = true;
+        btnText.color = activatedColor;
         Manager.currentButton = this.transform.gameObject;
         Manager.CannotGrab(transform.GetComponent<MoveButton>());
     }
@@ -73,6 +77,7 @@ public class MoveButton : MonoBehaviour, IDragHandler
         Trigger = null;
         triggered = false;
         transform.position = OrginPos;
+        btnText.color = originalColor;
         if(Manager.active == false)
             Manager.currentButton = null;
     }

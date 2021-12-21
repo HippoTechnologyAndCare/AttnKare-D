@@ -16,7 +16,6 @@ public class NumOrderManager : MonoBehaviour
     public bool active= false;
     public Sprite[] DistracImage;
     public GameObject ImagePrefab;
- //   public string[] arrOrder;
     public MoveButton[] arrBtn;
     public GameObject[] arrTrig;
     public AudioClip[] arrNarr;
@@ -24,11 +23,13 @@ public class NumOrderManager : MonoBehaviour
     public PlayMakerFSM dataFin;
     public Transform GameDataMG;
     public TextMeshProUGUI Text;
-    string[] arrText = new string[] { "<size=0.1>Help me to arrange the numbers!</size>",
+    string[] arrText = new string[] { "<size=0.09>Help me to arrange the numbers!</size>",
         "As you can see,\nnumbers are scattered on board.<size=0.04>\n</size>\nYou can select and drag\nto move any number!",
         "<size=0.085>Find the number from 1 to 8,\n and put them in the correct blank</size>",
-        "Remember!\nYou have to put the number <color=red>in order.</color>"};
+        "Remember!\nYou have to put the numbers <color=red>in order.</color>"};
     public GameObject speechBubble;
+    [HideInInspector]
+    public bool turn = true;
     TextMeshProUGUI tesText;
     public string btnNum;
     int sprite = 0;
@@ -143,7 +144,7 @@ public class NumOrderManager : MonoBehaviour
             speechBubble.SetActive(false);
             yield return new WaitForSeconds(0.9f);
         }
-        Destroy(speechBubble); //if not destroyed, cannot point on board with pointer
+        speechBubble.SetActive(false); //if not destroyed, cannot point on board with pointer
         for (int i =0; i <3; i++){
             foreach(GameObject trigger in arrTrig)
             {
