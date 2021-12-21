@@ -190,6 +190,7 @@ public class NumOrderManager : MonoBehaviour
         GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
         yield return new WaitForSeconds(2.0f);
         KetosGames.SceneTransition.SceneLoader.LoadScene(3); //load play paddle scene
+
     }
     private void GameClear()
     {
