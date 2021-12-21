@@ -100,6 +100,9 @@ public class NetworkManager : MonoBehaviour
             formData.AddBinaryData("scoop_mp3", File.ReadAllBytes(resPath + "8" + AudioFormat), "scoop_mp3.mp3", "application/octet-stream");
 
         }
+        
+        formData.AddBinaryData("numbermatching_txt", File.ReadAllBytes(resPath + "13_Behavior.txt"), "numbermatching_txt", "application/octet-stream");
+        formData.AddBinaryData("numbermatching_mp3", File.ReadAllBytes(resPath + "13" + AudioFormat), "numbermatching_mp3.wav", "application/octet-stream");
 
         formData.AddBinaryData("ending_txt", File.ReadAllBytes(resPath + "12_Behavior.txt"), "ending_txt.txt", "application/octet-stream");
         formData.AddBinaryData("ending_mp3", File.ReadAllBytes(resPath + "12"+ AudioFormat), "ending_mp3.wav", "application/octet-stream");

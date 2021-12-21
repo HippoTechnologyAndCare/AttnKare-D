@@ -12,6 +12,7 @@ public class NumOrderManager : MonoBehaviour
     // Start is called before the first frame update
     public GameObject currentButton;
     public GameObject Ghost;
+    public AutoVoiceRecording DataCollection;
     public InputBridge XrRig;
     public bool active= false;
     public Sprite[] DistracImage;
@@ -69,7 +70,9 @@ public class NumOrderManager : MonoBehaviour
         return arrNum;
     }
     private void SetSprite(MoveButton btn) //특정 버튼에 Distraction Image를 추가
-    {btn.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = null;
+    {
+        btn.distraction = true;
+        btn.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = null;
         Image btnImage = btn.transform.GetChild(0).GetComponent<Image>();
         btnImage.sprite = DistracImage[sprite];
         var tempColor = btnImage.color;
@@ -100,18 +103,18 @@ public class NumOrderManager : MonoBehaviour
         Vector3 myVector = new Vector3(vecAnswer.x, trigNum, cardNum); //Vector3(prevCard, trigger, card)
         if (myVector == vecAnswer)
         {
-            vecAnswer = new Vector3(cardNum + 1, cardNum + 1, cardNum + 1);
             card.SetButton();
             active = false;
             if(cardNum == arrTrig.Length)
             {
                 GameClear();
             }
+            vecAnswer = new Vector3(cardNum + 1, cardNum + 1, cardNum + 1);
             return;
         }
         if (myVector.x != myVector.z)
         {
-            crntCard.ResetButton();
+            
             if (!coroutine)
             {
                 NarrPlay(arrNarr[4]);
@@ -121,7 +124,7 @@ public class NumOrderManager : MonoBehaviour
         }
         if (myVector.y != myVector.z)
         {
-            crntCard.ResetButton();
+            
             if (!coroutine)
             {
                 NarrPlay(arrNarr[5]);
@@ -129,6 +132,7 @@ public class NumOrderManager : MonoBehaviour
             }
             dataCheck.wrongTrigger++;
         }
+        crntCard.ResetButton();
 
 
     }
@@ -178,6 +182,7 @@ public class NumOrderManager : MonoBehaviour
 
     IEnumerator AllClear()
     {
+        DataCollection.StopRecordingNBehavior();
         Ghost.GetComponent<Animator>().SetBool("isJump", true);
         dataCheck.start = false;
         NarrPlay(arrNarr[6]);
@@ -189,11 +194,12 @@ public class NumOrderManager : MonoBehaviour
         dataFin.SendEvent("AllDone");
         GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
         yield return new WaitForSeconds(2.0f);
-        KetosGames.SceneTransition.SceneLoader.LoadScene(3); //load play paddle scene
+        KetosGames.SceneTransition.SceneLoader.LoadScene(12); //load play paddle scene
 
     }
     private void GameClear()
     {
+        StopAllCoroutines();
         StartCoroutine(AllClear());
     }
 

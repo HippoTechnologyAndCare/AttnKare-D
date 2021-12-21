@@ -12,6 +12,7 @@ public class CheckData_NumCheck : MonoBehaviour
     [Tooltip("If not in right blank")]
     public float wrongTrigger = 0;
     public float TotalTime = 0;
+    public float distractedBy = 0;
     [HideInInspector]
     public bool start = false;
     public bool searching = false;

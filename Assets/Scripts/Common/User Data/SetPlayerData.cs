@@ -83,6 +83,11 @@ public class SetPlayerData : MonoBehaviour
                 SceneFirstKey = 601;
                 CurrentScene = scene;
                 break;
+            case 13:
+                Row = 6;
+                SceneFirstKey = 701;
+                CurrentScene = scene;
+                break;
         }     
     }
 
@@ -95,6 +100,7 @@ public class SetPlayerData : MonoBehaviour
         else if (currentKey <= 499) eachFirstKey = 401;
         else if (currentKey <= 599) eachFirstKey = 501;
         else if (currentKey <= 699) eachFirstKey = 601;
+        else if (currentKey <= 799) eachFirstKey = 701;
         return eachFirstKey;
     }
 
@@ -107,6 +113,7 @@ public class SetPlayerData : MonoBehaviour
         else if (currentKey <= 499) eachLastKey = 413;
         else if (currentKey <= 599) eachLastKey = 510;
         else if (currentKey <= 699) eachLastKey = 611;
+        else if (currentKey <= 799) eachLastKey = 704;
         return eachLastKey;
     }   
 
@@ -178,7 +185,7 @@ public class SetPlayerData : MonoBehaviour
         }
 
         SetLastKey(SceneFirstKey);
-        int keyLength = eachLastKey % 10;                
+        int keyLength = eachLastKey % 10;
 
         //mapName 선언
         Dictionary<string, FsmFloat> mapName = new Dictionary<string, FsmFloat>();

@@ -16,6 +16,7 @@ public class MoveButton : MonoBehaviour, IDragHandler
     public bool click;
     public string btnNum;
     public string color = "#FF0000";
+    public bool distraction = false;
     GameObject prevButton;
     RectTransform rect;
     Vector3 OrginPos;
@@ -66,6 +67,10 @@ public class MoveButton : MonoBehaviour, IDragHandler
     }
 
     public void OnDrag(PointerEventData pointerEventData){
+        if(distraction)
+        {
+            Manager.GetComponent<CheckData_NumCheck>().distractedBy += Time.deltaTime;
+        }
         click = true;
         btnText.color = activatedColor;
         Manager.currentButton = this.transform.gameObject;
