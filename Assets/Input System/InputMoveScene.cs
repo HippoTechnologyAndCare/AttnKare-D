@@ -97,6 +97,14 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""MoveToScene_11"",
+                    ""type"": ""Button"",
+                    ""id"": ""a527ce4a-d235-4ea0-806c-5212c6c422bc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -319,6 +327,28 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
                     ""action"": ""MoveToScene_10"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8565836f-93ea-4b2b-8d15-d1b7e2b858b9"",
+                    ""path"": ""<Keyboard>/period"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MoveToScene_11"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5abcc3e0-5bdc-48ba-b7b0-c983d7b3fdd9"",
+                    ""path"": ""<Keyboard>/numpadPeriod"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MoveToScene_11"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -360,6 +390,7 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
         m_SceneCotrolMap_MoveToScene_8 = m_SceneCotrolMap.FindAction("MoveToScene_8", throwIfNotFound: true);
         m_SceneCotrolMap_MoveToScene_9 = m_SceneCotrolMap.FindAction("MoveToScene_9", throwIfNotFound: true);
         m_SceneCotrolMap_MoveToScene_10 = m_SceneCotrolMap.FindAction("MoveToScene_10", throwIfNotFound: true);
+        m_SceneCotrolMap_MoveToScene_11 = m_SceneCotrolMap.FindAction("MoveToScene_11", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -419,6 +450,7 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
     private readonly InputAction m_SceneCotrolMap_MoveToScene_8;
     private readonly InputAction m_SceneCotrolMap_MoveToScene_9;
     private readonly InputAction m_SceneCotrolMap_MoveToScene_10;
+    private readonly InputAction m_SceneCotrolMap_MoveToScene_11;
     public struct SceneCotrolMapActions
     {
         private @InputMoveScene m_Wrapper;
@@ -433,6 +465,7 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
         public InputAction @MoveToScene_8 => m_Wrapper.m_SceneCotrolMap_MoveToScene_8;
         public InputAction @MoveToScene_9 => m_Wrapper.m_SceneCotrolMap_MoveToScene_9;
         public InputAction @MoveToScene_10 => m_Wrapper.m_SceneCotrolMap_MoveToScene_10;
+        public InputAction @MoveToScene_11 => m_Wrapper.m_SceneCotrolMap_MoveToScene_11;
         public InputActionMap Get() { return m_Wrapper.m_SceneCotrolMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -472,6 +505,9 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
                 @MoveToScene_10.started -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_10;
                 @MoveToScene_10.performed -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_10;
                 @MoveToScene_10.canceled -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_10;
+                @MoveToScene_11.started -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_11;
+                @MoveToScene_11.performed -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_11;
+                @MoveToScene_11.canceled -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_11;
             }
             m_Wrapper.m_SceneCotrolMapActionsCallbackInterface = instance;
             if (instance != null)
@@ -506,6 +542,9 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
                 @MoveToScene_10.started += instance.OnMoveToScene_10;
                 @MoveToScene_10.performed += instance.OnMoveToScene_10;
                 @MoveToScene_10.canceled += instance.OnMoveToScene_10;
+                @MoveToScene_11.started += instance.OnMoveToScene_11;
+                @MoveToScene_11.performed += instance.OnMoveToScene_11;
+                @MoveToScene_11.canceled += instance.OnMoveToScene_11;
             }
         }
     }
@@ -540,5 +579,6 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
         void OnMoveToScene_8(InputAction.CallbackContext context);
         void OnMoveToScene_9(InputAction.CallbackContext context);
         void OnMoveToScene_10(InputAction.CallbackContext context);
+        void OnMoveToScene_11(InputAction.CallbackContext context);
     }
 }

@@ -84,6 +84,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "MoveToScene_11",
+                    "type": "Button",
+                    "id": "a527ce4a-d235-4ea0-806c-5212c6c422bc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -304,6 +312,28 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "MoveToScene_10",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8565836f-93ea-4b2b-8d15-d1b7e2b858b9",
+                    "path": "<Keyboard>/period",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MoveToScene_11",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5abcc3e0-5bdc-48ba-b7b0-c983d7b3fdd9",
+                    "path": "<Keyboard>/numpadPeriod",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MoveToScene_11",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

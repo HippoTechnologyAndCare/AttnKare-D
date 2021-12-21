@@ -30,7 +30,7 @@ public class SetPlayerData : MonoBehaviour
 
     // 데이터의 인덱싱이 바뀔때 값을 바꿔야 하는 것들 -> TotalFirstKey에 대입값, sOd의 인자 2가지 값
     const int TotalFirstKey = 101;  
-    SizeOfData sOd = new SizeOfData(6, 13);    
+    SizeOfData sOd = new SizeOfData(7, 13);    
 
     public int Row { get => _Row; set => _Row = value; }
 
@@ -83,7 +83,7 @@ public class SetPlayerData : MonoBehaviour
                 SceneFirstKey = 601;
                 CurrentScene = scene;
                 break;
-            case 13:
+            case 9:
                 Row = 6;
                 SceneFirstKey = 701;
                 CurrentScene = scene;

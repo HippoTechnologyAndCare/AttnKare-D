@@ -87,7 +87,7 @@ public class GameDataManager : MonoBehaviour
             case 8: //Scoop H
                 saveCurrentSceneData = SetData_pm;                                
                 break;
-            case 13: //NUMMATCH
+            case 9: //NUMMATCH
                 saveCurrentSceneData = SetData_pm;
                 break;
         }        
