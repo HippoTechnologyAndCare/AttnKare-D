@@ -24,10 +24,10 @@ public class NumOrderManager : MonoBehaviour
     public PlayMakerFSM dataFin;
     public Transform GameDataMG;
     public TextMeshProUGUI Text;
-    string[] arrText = new string[] { "<size=0.09>Help me to arrange the numbers!</size>",
-        "As you can see,\nnumbers are scattered on board.<size=0.04>\n</size>\nYou can select and drag\nto move any number!",
-        "<size=0.085>Find the number from 1 to 8,\n and put them in the correct blank</size>",
-        "Remember!\nYou have to put the numbers <color=red>in order.</color>"};
+    string[] arrText = new string[] { "<size=0.1>숫자를 순서대로 정리해보자!</size>",
+        "칠판에 숫자가 여기저기 놓아져 있지?\n 오른손 버튼으로 숫자를 선택하면 \n숫자를 옮길 수 있어!",
+        "<size=0.07>1부터 8까지 숫자를 찾아서\n칠판 아래쪽에 있는 빈 동그라미에 놓아줘!</size>",
+        "잊지마! 숫자는 <color=#008080ff>작은 순서대로</color> 정리해야 해!"};
     public GameObject speechBubble;
     [HideInInspector]
     public bool turn = true;
@@ -118,7 +118,7 @@ public class NumOrderManager : MonoBehaviour
             if (!coroutine)
             {
                 NarrPlay(arrNarr[4]);
-                StartCoroutine(Warning("It's not in correct order"));
+                StartCoroutine(Warning("순서대로 다시 놓아볼까?"));
             }
             dataCheck.wrongorder++;
         }
@@ -128,7 +128,7 @@ public class NumOrderManager : MonoBehaviour
             if (!coroutine)
             {
                 NarrPlay(arrNarr[5]);
-                StartCoroutine(Warning("I think it's in wrong blank"));
+                StartCoroutine(Warning("올바른 빈칸인지 다시 확인해봐!"));
             }
             dataCheck.wrongTrigger++;
         }
@@ -186,13 +186,11 @@ public class NumOrderManager : MonoBehaviour
         Ghost.GetComponent<Animator>().SetBool("isJump", true);
         dataCheck.start = false;
         NarrPlay(arrNarr[6]);
-        Text.text = "Great! You have sorted the numbers correctly!";
-        yield return new WaitWhile(() => audioPlay.isPlaying);
-        Text.text = "Moving on to the Next Mission...";
-        NarrPlay(arrNarr[7]);
+        Text.text = "숫자를 1부터 8까지 정리했어! 잘했어~!";
         yield return new WaitWhile(() => audioPlay.isPlaying);
         dataFin.SendEvent("AllDone");
         GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
+        Text.text = "다음으로 넘어가는 중...";
         yield return new WaitForSeconds(2.0f);
         KetosGames.SceneTransition.SceneLoader.LoadScene(12); //load play paddle scene
 
