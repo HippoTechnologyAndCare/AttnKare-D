@@ -67,45 +67,18 @@ namespace BNG.UserData {
         {
             if (FSMCheck)
             {
-                
-
                 //TriggerDown Check
-                if (rTriggerValue > 0.7f && ltriggerValue > 0.7f)
-                {
-
-                    //Debug.Log("true");
-                 
-                    Playmaker.FsmVariables.GetFsmBool("triggerDown").Value = true;
-
-                   
-                }
-                if (lGripValue > 0.7f && rGripValue > 0.7f)
-                {
-                    //Debug.Log("done");
-
-                    ghostSpeak(0);
-                   
-                }
-              
-
+                if (rTriggerValue > 0.7f && ltriggerValue > 0.7f) Playmaker.FsmVariables.GetFsmBool("triggerDown").Value = true;
+                if (lGripValue > 0.7f && rGripValue > 0.7f) ghostSpeak(0);
             }
 
             if (FSMCheck2)
             {
-                if (ltriggerValue >= 0.5)
-                {
+                if (ltriggerValue >= 0.5){
                     Note.SetActive(true);
                     Playmaker.FsmVariables.GetFsmBool("lTriggerPressed").Value = true;
-
-                    
                 }
-                if (ltriggerValue <= 0.9)
-                {
-                    Note.SetActive(false);
-
-
-                }
-                
+                if (ltriggerValue <= 0.9)Note.SetActive(false);
             }
 
 
@@ -126,20 +99,8 @@ namespace BNG.UserData {
             GameObject JasonManager = GameObject.Find("DataManager");
             dataManager = JasonManager.GetComponent<DataManager>();
             gradeLH = dataManager.userInfo.Grade;
-            if(gradeLH == "L")
-            {
-                SceneName= "DoorLock";
-
-
-            }
-            if(gradeLH == "H")
-            {
-                SceneName = "CleanUpMyRoom_2x2";
-            }
-
-
-
-
+            if(gradeLH == "L")SceneName= "DoorLock";
+            if(gradeLH == "H") SceneName = "CleanUpMyRoom_2x2";
         }
 
        
