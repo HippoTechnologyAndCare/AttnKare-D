@@ -28,10 +28,7 @@ namespace UserData
         [SerializeField] private Toggle testMode_Tg;
 
         [SerializeField] private PlayMakerFSM warningFSM;        
-        [SerializeField] private SetPlayerData setPlayerData;
-
-        //private int minLength;
-        //private int maxLength;
+        [SerializeField] private SetPlayerData setPlayerData;       
 
         private bool isProb;
 
@@ -46,10 +43,7 @@ namespace UserData
         }
 
         private void Start()
-        {
-            //inputTxt_Name.characterLimit = 5;
-            //inputTxt_Age.characterLimit = 2;
-
+        {                      
             ManualXRControl.GetInstance().XR_AutoStarter();
             
             setPlayerData.ClearDataSetting();            
@@ -60,6 +54,12 @@ namespace UserData
             inputTxt_Loca.onValueChanged.AddListener(
                 (word) => inputTxt_Loca.text = Regex.Replace(word, @"[^가-힣]", "")
                 );
+
+            // 만약 진단씬을 끝내거나 진단씬 진행중에 Input 씬으로 돌아오면 기존에 저장된 Location이 그대로 입력된다
+            if (DataManager.GetInstance().userInfo.Location != null)
+            {
+                inputTxt_Loca.text = DataManager.GetInstance().userInfo.Location;
+            }
         }
 
         private void Update()
