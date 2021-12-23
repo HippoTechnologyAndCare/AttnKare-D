@@ -100,7 +100,7 @@ public class NumOrderManager : MonoBehaviour
         crntCard = card;
         float cardNum = float.Parse(card.btnNum);
         float trigNum = float.Parse(trigger.trigNum);
-        Vector3 myVector = new Vector3(vecAnswer.x, trigNum, cardNum); //Vector3(prevCard, trigger, card)
+        Vector3 myVector = new Vector3(vecAnswer.x, trigNum, cardNum);
         if (myVector == vecAnswer)
         {
             card.SetButton();
@@ -108,13 +108,13 @@ public class NumOrderManager : MonoBehaviour
             if(cardNum == arrTrig.Length)
             {
                 GameClear();
+                return;
             }
             vecAnswer = new Vector3(cardNum + 1, cardNum + 1, cardNum + 1);
             return;
         }
         if (myVector.x != myVector.z)
         {
-            
             if (!coroutine)
             {
                 NarrPlay(arrNarr[4]);
@@ -124,7 +124,6 @@ public class NumOrderManager : MonoBehaviour
         }
         if (myVector.y != myVector.z)
         {
-            
             if (!coroutine)
             {
                 NarrPlay(arrNarr[5]);
@@ -133,8 +132,6 @@ public class NumOrderManager : MonoBehaviour
             dataCheck.wrongTrigger++;
         }
         crntCard.ResetButton();
-
-
     }
     IEnumerator HighlightTrigger() //Highlight Trigger as introduction
     {
@@ -157,10 +154,7 @@ public class NumOrderManager : MonoBehaviour
                 trigger.SetActive(true);
             }
         }
-        foreach (MoveButton button in arrBtn)
-        {
-            button.enabled = true;
-        }
+        foreach (MoveButton button in arrBtn) { button.enabled = true; }
         dataCheck.start = true; //data check playtime
     }
     
@@ -192,8 +186,7 @@ public class NumOrderManager : MonoBehaviour
         GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
         Text.text = "다음으로 넘어가는 중...";
         yield return new WaitForSeconds(2.0f);
-        KetosGames.SceneTransition.SceneLoader.LoadScene(12); //load play paddle scene
-
+        KetosGames.SceneTransition.SceneLoader.LoadScene(13); //load play paddle scene
     }
     private void GameClear()
     {
