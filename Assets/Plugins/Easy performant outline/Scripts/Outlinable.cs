@@ -54,6 +54,8 @@ namespace EPOOutline
     [ExecuteAlways]
     public class Outlinable : MonoBehaviour
     {
+        private static List<TargetStateListener> tempListeners = new List<TargetStateListener>();
+        
         private static HashSet<Outlinable> outlinables = new HashSet<Outlinable>();
 
         [System.Serializable]
@@ -291,6 +293,14 @@ namespace EPOOutline
         public void RemoveTarget(OutlineTarget target)
         {
             outlineTargets.Remove(target);
+            if (target.renderer != null)
+            {
+                var listener = target.renderer.GetComponent<TargetStateListener>();
+                if (listener == null)
+                    return;
+                
+                listener.RemoveCallback(this, UpdateVisibility);
+            }
         }
         
         public OutlineTarget this[int index]
@@ -330,8 +340,8 @@ namespace EPOOutline
 #endif
             }
 
-            listener.OnVisibilityChanged -= UpdateVisibility;
-            listener.OnVisibilityChanged += UpdateVisibility;
+            listener.RemoveCallback(this, UpdateVisibility);
+            listener.AddCallback(this, UpdateVisibility);
 
             listener.ForceUpdate();
         }
