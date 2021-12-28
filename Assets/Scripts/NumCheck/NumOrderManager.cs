@@ -24,14 +24,10 @@ public class NumOrderManager : MonoBehaviour
     public PlayMakerFSM dataFin;
     public Transform GameDataMG;
     public TextMeshProUGUI Text;
-    string[] arrText = new string[] { "<size=0.1>숫자를 순서대로 정리해보자!</size>",
-        "칠판에 숫자가 여기저기 놓아져 있지?\n 오른손 버튼으로 숫자를 선택하면 \n숫자를 옮길 수 있어!",
-        "<size=0.07>1부터 8까지 숫자를 찾아서\n칠판 아래쪽에 있는 빈 동그라미에 놓아줘!</size>",
-        "잊지마! 숫자는 <color=#008080ff>작은 순서대로</color> 정리해야 해!"};
     public GameObject speechBubble;
+    public TextandSpeech narration;
     [HideInInspector]
     public bool turn = true;
-    TextMeshProUGUI tesText;
     public string btnNum;
     int sprite = 0;
     bool coroutine=false;
@@ -39,11 +35,10 @@ public class NumOrderManager : MonoBehaviour
     AudioSource audioPlay;
     MoveButton crntCard = null;
 
+    public bool b_narStart;
 
     void Start()
     {
-        tesText = speechBubble.GetComponentInChildren<TextMeshProUGUI>();
-        audioPlay = GetComponent<AudioSource>();
         string[] arrRandom = new string[arrBtn.Length];
         for (int i = 0; i < arrBtn.Length; i++)
             arrRandom[i] = (i + 1).ToString();  
@@ -80,8 +75,7 @@ public class NumOrderManager : MonoBehaviour
         btnImage.color = tempColor;
         sprite++;
     }
-
-    public void CannotGrab(MoveButton num) //한 버튼 만졌을 때 다른 버튼 MoveButton OFF
+public void CannotGrab(MoveButton num) //한 버튼 만졌을 때 다른 버튼 MoveButton OFF
     {
         for(int i =0;i<arrBtn.Length;i++){
             if(arrBtn[i] != num)
@@ -117,7 +111,7 @@ public class NumOrderManager : MonoBehaviour
         {
             if (!coroutine)
             {
-                NarrPlay(arrNarr[4]);
+          //      NarrPlay(arrNarr[4]);
                 StartCoroutine(Warning("순서대로 다시 놓아볼까?"));
             }
             dataCheck.wrongorder++;
@@ -126,7 +120,7 @@ public class NumOrderManager : MonoBehaviour
         {
             if (!coroutine)
             {
-                NarrPlay(arrNarr[5]);
+        //        NarrPlay(arrNarr[5]);
                 StartCoroutine(Warning("올바른 빈칸인지 다시 확인해봐!"));
             }
             dataCheck.wrongTrigger++;
@@ -136,16 +130,7 @@ public class NumOrderManager : MonoBehaviour
     IEnumerator HighlightTrigger() //Highlight Trigger as introduction
     {
         yield return new WaitForSeconds(1.0f);
-        for(int i =0;i <arrText.Length; i++)
-        {
-            speechBubble.SetActive(true);
-            NarrPlay(arrNarr[i]);
-            tesText.text = arrText[i];
-            yield return new WaitWhile(() => audioPlay.isPlaying);
-            speechBubble.SetActive(false);
-            yield return new WaitForSeconds(0.9f);
-        }
-        speechBubble.SetActive(false); //if not destroyed, cannot point on board with pointer
+        yield return StartCoroutine(narration.Introduction());
         for (int i =0; i <3; i++){
             foreach(GameObject trigger in arrTrig)
             {
@@ -156,12 +141,6 @@ public class NumOrderManager : MonoBehaviour
         }
         foreach (MoveButton button in arrBtn) { button.enabled = true; }
         dataCheck.start = true; //data check playtime
-    }
-    
-    private void NarrPlay(AudioClip nowclip)
-    {
-        audioPlay.clip = nowclip;
-        audioPlay.Play();
     }
 
     IEnumerator Warning(string text)
@@ -179,7 +158,7 @@ public class NumOrderManager : MonoBehaviour
         DataCollection.StopRecordingNBehavior();
         Ghost.GetComponent<Animator>().SetBool("isJump", true);
         dataCheck.start = false;
-        NarrPlay(arrNarr[6]);
+    //    NarrPlay(arrNarr[6]);
         Text.text = "숫자를 1부터 8까지 정리했어! 잘했어~!";
         yield return new WaitWhile(() => audioPlay.isPlaying);
         dataFin.SendEvent("AllDone");
