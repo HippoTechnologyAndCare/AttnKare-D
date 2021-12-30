@@ -89,6 +89,7 @@ public class MoveButton : MonoBehaviour, IDragHandler
 
     public void SetButton(){ 
         transform.position = Trigger.transform.position;
+        btnText.color = originalColor;
         Manager.CanGrab();
         Manager.currentButton = null; 
     }

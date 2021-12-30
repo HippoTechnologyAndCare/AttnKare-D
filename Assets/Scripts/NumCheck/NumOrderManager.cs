@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using BNG;
 using TMPro;
 using UnityEngine.UI;
@@ -14,6 +15,8 @@ public class NumOrderManager : MonoBehaviour
     [Header("CREATE PREFAB")]
     [Tooltip("Prefab for Number")]
     public GameObject prefab_Button;
+    public InputBridge XrRig;
+    public UIPointer RighthandPointer;
     public int int_buttonN;
     public Transform parent;
     private List<Vector3> arrPos = new List<Vector3>();
@@ -61,6 +64,9 @@ public class NumOrderManager : MonoBehaviour
             go.transform.localPosition = arrPos[i]; go.transform.SetSiblingIndex(i); //Set button's position and index in Hiearchy(if not above trigger, pointer cannot detect button)
             go.GetComponent<MoveButton>().btnNum = (i + 1).ToString(); go.GetComponent<MoveButton>().SetBtnNum(); //Set button Number
             arrBtn[i] = go.GetComponent<MoveButton>();
+            arrBtn[i].XrRig = this.XrRig;
+            arrBtn[i].RighthandPointer = this.RighthandPointer;
+            arrBtn[i].Manager = this;
             if (i > arrBtn.Length - DistracImage.Length) SetSprite(arrBtn[i]);
         }
     }
