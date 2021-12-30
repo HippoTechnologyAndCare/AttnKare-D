@@ -53,15 +53,15 @@ public class PlayBlockManager : MonoBehaviour
 
     int BlockNum = 0;           //몇번째 블록인지
     int StageLevel = 0;         //단계
-    int ShowTipTime = 20;       //지정 시간이 지나면 자동으로 팁 발동 하도록 (진행 유도 목적)
+    //int ShowTipTime = 20;       //지정 시간이 지나면 자동으로 팁 발동 하도록 (진행 유도 목적)
     int TipClicked = 0;         //팁보기 누른 횟수
 
     float TotalElapsed = 0;     //총 시간
 
     int TotalElapsed_Show = 0;      //총 시간 보여주기용
-    int TurnTimeElapsed_Show = 0;   //턴 제한 시간 보여주기용
+    //int TurnTimeElapsed_Show = 0;   //턴 제한 시간 보여주기용
 
-    int BlockRetryCnt = 0;  //블록 다시하기 카운팅용
+    //int BlockRetryCnt = 0;  //블록 다시하기 카운팅용
 
     void Start()
     {
@@ -182,7 +182,7 @@ public class PlayBlockManager : MonoBehaviour
             //결과 저장
 
             Pause = true;
-            TurnTimeElapsed_Show = 0;
+            //TurnTimeElapsed_Show = 0;
 
             foreach (Transform myB in BlockList_My)
             {
@@ -222,7 +222,7 @@ public class PlayBlockManager : MonoBehaviour
             ShowBoardUpdate();
         }
 
-        TurnTimeElapsed_Show = 0;
+        //TurnTimeElapsed_Show = 0;
     }
 
 
