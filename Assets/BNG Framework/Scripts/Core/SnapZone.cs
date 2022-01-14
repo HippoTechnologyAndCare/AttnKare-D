@@ -83,7 +83,7 @@ namespace BNG {
         /// Optional Unity Event to be called when something has been detached from this SnapZone. Passes in the Grabbable is being detattached.
         /// </summary>
         public GrabbableEvent OnDetachEvent;
-
+        
         GrabbablesInTrigger gZone;
 
         Rigidbody heldItemRigid;

@@ -12,18 +12,18 @@ namespace BNG {
         /// <summary>
         /// All grabbables in trigger that are considered valid
         /// </summary>
-        public Dictionary<Collider, Grabbable> NearbyGrabbables;
+        public Dictionary<Collider, Grabbable> NearbyGrabbables;        
 
         /// <summary>
         /// All nearby Grabbables that are considered valid. I.e. Not being held, within range, etc.
         /// </summary>
         public Dictionary<Collider, Grabbable> ValidGrabbables;
-
+        
         /// <summary>
         /// The closest valid grabbable. If grab button is pressed this is the object that will be grabbed.
         /// </summary>
         public Grabbable ClosestGrabbable;
-
+    
         /// <summary>
         /// All grabbables in trigger that are considered valid
         /// </summary>
@@ -69,7 +69,7 @@ namespace BNG {
             // Assign closest grabbable
             ClosestGrabbable = GetClosestGrabbable(ValidGrabbables);
         }
-
+        
         void updateClosestRemoteGrabbables() {
 
             // Assign closest remote grabbable

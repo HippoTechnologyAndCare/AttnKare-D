@@ -49,4 +49,9 @@ public class Draggable : MonoBehaviour
     {
         
     }
+
+    void FixedUpdate()
+    {
+        
+    }
 }

@@ -16,15 +16,20 @@ namespace BNG
         public GameObject cursor;
         public GameObject _cursor;
         public GameObject LaserEnd;
-        public GameObject hitObject;
         public GameObject rightGrabber;
+        public GameObject hitObject;
+        public GameObject selectObject;
+        public float t;
 
         public bool Active = true;
         
         public Grabber grabber;
         
         [SerializeField] private bool switchOn;
-        private int lineEndPosition;        
+        private int lineEndPosition;
+
+        private Vector3 vec2Pos;
+        private Vector3 zPos;
 
         /// <summary>
         /// 0.5 = Line Goes Half Way. 1 = Line reaches end.
@@ -32,42 +37,71 @@ namespace BNG
         [UnityEngine.Tooltip("Example : 0.5 = Line Goes Half Way. 1 = Line reaches end.")]
         public float LineDistanceModifier = 0.8f;
   
-        private IEnumerator TriggeredNece()
+        void MoveCard(GameObject selected)
+        {
+            // LaserEnd의 포지션을 따라간다
+            Vector2 a = selected.transform.position;
+            Vector2 b = LaserEnd.transform.position;
+            vec2Pos = Vector2.Lerp(a, b, t);
+            vec2Pos.z = zPos.z;
+            selected.transform.position = vec2Pos;
+            Debug.Log("연속 로그찍는 상태면 옮기려고 계속 시도중");
+        }
+
+
+        IEnumerator TriggeredPlan(GameObject hitObj)
         {
             yield return new WaitForSeconds(0.1f);
 
-            if (InputBridge.Instance.RightTriggerDown == true && switchOn == false)
+            if (InputBridge.Instance.RightTriggerDown == true)
             {
+                Debug.Log("i am here!");
+                selectObject = hitObj;
+                // switchOn이 true 일때  fixed Update 함수에서 MoveCard 함수 발동
                 switchOn = true;
 
-                if (hitObject.GetComponent<Outlinable>().enabled != true)
-                {
-                    hitObject.GetComponent<Outlinable>().enabled = true;
-
-                    //SendEvent("NeceEnter");
-                    //fsmG_Obj.Value = hitObject;
-                }
+                yield return selectObject;
             }
+
+            else yield return null;
         }
 
-        private IEnumerator TriggeredUnnece(GameObject hitObj)
-        {
-            yield return new WaitForSeconds(0.1f);
+        //private IEnumerator TriggeredNece(GameObject hitObj)
+        //{
+        //    yield return new WaitForSeconds(0.1f);
 
-            Debug.Log(hitObj);
+        //    if (InputBridge.Instance.RightTriggerDown == true && switchOn == false)
+        //    {
+        //        switchOn = true;
 
-            if (InputBridge.Instance.RightTriggerDown == true && switchOn == false)
-            {
-                switchOn = true;                
+        //        if (hitobject.getcomponent<outlinable>().enabled != true)
+        //        {
+        //            hitobject.getcomponent<outlinable>().enabled = true;
 
-                yield return new WaitForSeconds(0.1f);
-                if (grabber.HeldGrabbable == null)
-                {
-                    //SendEvent("UnneceEnter");
-                    //fsmG_Obj.Value = hitObj;
-                }
-            }
-        }
+        //            sendevent("neceenter");
+        //            fsmg_obj.value = hitobject;
+        //        }
+        //    }
+        //}
+
+        //private IEnumerator TriggeredUnnece(GameObject hitObj)
+        //{
+        //    yield return new WaitForSeconds(0.1f);
+
+        //    Debug.Log(hitObj);
+
+        //    if (InputBridge.Instance.RightTriggerDown == true && switchOn == false)
+        //    {
+        //        switchOn = true;                
+
+        //        yield return new WaitForSeconds(0.1f);
+        //        if (grabber.HeldGrabbable == null)
+        //        {
+        //            //SendEvent("UnneceEnter");
+        //            //fsmG_Obj.Value = hitObj;
+        //        }
+        //    }
+        //}
 
         private void Awake()
         {                       
@@ -96,6 +130,7 @@ namespace BNG
 
         private void Start()
         {
+            zPos.z = 1.5f;
             switchOn = false;
             grabber = rightGrabber.GetComponent<Grabber>();
         }
@@ -105,6 +140,15 @@ namespace BNG
             if (InputBridge.Instance.RightTriggerDown == false)
             {
                 switchOn = false;
+                selectObject = null;                
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if(switchOn && InputBridge.Instance.RightTriggerDown == true)
+            {
+                MoveCard(selectObject);
             }
         }
 
@@ -121,22 +165,31 @@ namespace BNG
                     LaserEnd.transform.position = hit.point;
                     LaserEnd.transform.rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);
 
-                    if(hit.transform.gameObject.layer == 10)
+                    if(hit.transform.gameObject != null)
                     {
-                        if (hit.transform.gameObject.tag == "Necessary" && InputBridge.Instance.RightTriggerDown == false)
+                        if (hit.transform.gameObject.layer == 21)
                         {
-                            hitObject = hit.collider.gameObject;
-                            
-                            StartCoroutine(TriggeredNece());
+                            if (hit.transform.gameObject.tag == "PLAN" && InputBridge.Instance.RightTriggerDown == false)
+                            {
+                                hitObject = hit.collider.gameObject;
+
+                                // pointer가 Plan Card 위에서 select하길 대기 완료 
+                                StartCoroutine(TriggeredPlan(hitObject));
+                            }
+
+                            else if (hit.transform.gameObject.tag == "Unnecessary" && InputBridge.Instance.RightTriggerDown == false)
+                            {
+                                hitObject = hit.collider.gameObject;
+
+                                //StartCoroutine(TriggeredUnnece(hitObject));
+                            }
                         }
 
-                        else if (hit.transform.gameObject.tag == "Unnecessary" && InputBridge.Instance.RightTriggerDown == false)
+                        else if (hit.transform.gameObject.layer == 10)
                         {
-                            hitObject = hit.collider.gameObject;
-                                                 
-                            StartCoroutine(TriggeredUnnece(hitObject));
+
                         }
-                    }                     
+                    }                                            
                 }
 
                 // Set position of the cursor
