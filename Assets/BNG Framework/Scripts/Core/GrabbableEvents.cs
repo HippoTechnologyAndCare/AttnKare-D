@@ -217,13 +217,7 @@ namespace BNG {
     /// </summary>
     [System.Serializable]
     public class GrabbableEvent : UnityEvent<Grabbable> { }
-
-    /// <summary>
-    /// Customized Field by Josh
-    /// A UnityEvent with a GameObject as the parameter
-    [System.Serializable]
-    public class StorableEvent : UnityEvent<GameObject> { }
-
+    
     /// <summary>
     /// A UnityEvent with a RaycastHit as the parameter
     /// </summary>
