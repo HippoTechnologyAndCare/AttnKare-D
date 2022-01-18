@@ -74,6 +74,12 @@ namespace BNG_Cus_AddOn
     /// A UnityEvent with a GameObject as the parameter
     [System.Serializable]
     public class StorableEvent : UnityEvent<GameObject> { }
+
+    /// <summary>
+    /// A UnityEvent with a Grabber as the parameter
+    /// </summary>
+    [System.Serializable]
+    public class StorageEvent : UnityEvent<GameObject> { }
 }
 
 
