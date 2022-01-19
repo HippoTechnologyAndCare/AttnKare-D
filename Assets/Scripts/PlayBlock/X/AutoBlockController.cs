@@ -7,7 +7,7 @@ public class AutoBlockController : MonoBehaviour
     public Transform Target;
     public bool isDone = false;
 
-    float Delay = 0;
+    //float Delay = 0;
 
     void Update()
     {

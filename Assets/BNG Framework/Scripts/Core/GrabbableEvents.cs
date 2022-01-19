@@ -217,7 +217,7 @@ namespace BNG {
     /// </summary>
     [System.Serializable]
     public class GrabbableEvent : UnityEvent<Grabbable> { }
-
+    
     /// <summary>
     /// A UnityEvent with a RaycastHit as the parameter
     /// </summary>

@@ -37,6 +37,7 @@ public class GameDataManager : MonoBehaviour
             }
         }
     }
+
     void Start()
     {
         string sceneName = SceneManager.GetActiveScene().name;
