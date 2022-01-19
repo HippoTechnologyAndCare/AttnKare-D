@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using BNG;
 
-public class MoveButton : MonoBehaviour, IDragHandler
+public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public InputBridge XrRig;
     public UIPointer RighthandPointer;
@@ -17,6 +17,8 @@ public class MoveButton : MonoBehaviour, IDragHandler
     public string btnNum;
     public string color = "#FF0000";
     public bool distraction = false;
+    Transform Canvas;
+    Transform originalParent;
     GameObject prevButton;
     RectTransform rect;
     Vector3 OrginPos;
@@ -31,6 +33,9 @@ public class MoveButton : MonoBehaviour, IDragHandler
         ColorUtility.TryParseHtmlString(color, out activatedColor);
         parentCursor = RighthandPointer.GetComponent<UIPointer>()._cursor.transform;
         OrginPos = transform.position;
+        originalParent = this.transform.parent;
+        Canvas = this.transform.parent.parent;
+        Debug.Log(Canvas.name);
     }
 
     // Update is called once per frame
@@ -42,14 +47,15 @@ public class MoveButton : MonoBehaviour, IDragHandler
             {
                 if(XrRig.RightTrigger > 0.5f)
                     transform.position = new Vector3(parentCursor.position.x, parentCursor.position.y, transform.position.z);
-                if(XrRig.RightTrigger < 0.2f){
-                    if (!triggered)
-                        ResetButton();
-                    Manager.CanGrab();
-                    Manager.currentButton = null; 
+                if (XrRig.RightTrigger < 0.2f) {
+                    Debug.Log("up");
+                    this.transform.SetParent(originalParent);
+                    if (Trigger) { Manager.CardInTrigger(this, Trigger.GetComponent<TriggerButton>()); }
+                    if(!Trigger) ResetButton();
                     click = false;
-                }   
-            }
+                    Manager.CanGrab();
+                }
+                }
             if(RighthandPointer.GetComponent<LineRenderer>().enabled == false)
             {
                 ResetButton();
@@ -57,6 +63,7 @@ public class MoveButton : MonoBehaviour, IDragHandler
                 Manager.currentButton = null;
                 click = false;
             }
+            
         }
     }
 
@@ -64,9 +71,12 @@ public class MoveButton : MonoBehaviour, IDragHandler
         transform.name = btnNum;
         btnText = transform.GetComponentInChildren<TextMeshProUGUI>();
         btnText.text = btnNum;
+        
     }
 
-    public void OnDrag(PointerEventData pointerEventData){
+    public void OnPointerDown(PointerEventData pointerEventData){
+
+        this.transform.SetParent(Canvas);
         if(distraction)
         {
             Manager.GetComponent<CheckData_NumCheck>().distractedBy += Time.deltaTime;
@@ -76,11 +86,10 @@ public class MoveButton : MonoBehaviour, IDragHandler
         Manager.currentButton = this.transform.gameObject;
         Manager.CannotGrab(transform.GetComponent<MoveButton>());
     }
-    
-
+  
     public void ResetButton(){
         Trigger = null;
-        triggered = false;
+     //   triggered = false;
         transform.position = OrginPos;
         btnText.color = originalColor;
         if(Manager.active == false)
@@ -94,7 +103,36 @@ public class MoveButton : MonoBehaviour, IDragHandler
         Manager.currentButton = null; 
     }
 
+    public void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("inside");
+        if(collision.gameObject.tag == "Necessary")
+        {
+            Manager.active = true;
+      //      triggered = true;
+            Trigger = collision.gameObject;
+        }
+    }
 
-   
+    public void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.name == "Necessary")
+        {
+    //        triggered = false;
+            Trigger = null;
+        }
+
+    }
+
+    public void OnPointerUp(PointerEventData pointerEventData)
+    {
+        
+
+
+
+
+    }
+
+
 
 }

@@ -20,7 +20,7 @@ public class NumOrderManager : MonoBehaviour
     public int int_buttonN;
     public Transform parent;
     private List<Vector3> arrPos = new List<Vector3>();
-    private MoveButton[] arrBtn;
+    private List<MoveButton> arrBtn;
     public GameObject[] arrTrig;
     [Tooltip("Images for disctraction")]
     public Sprite[] DistracImage;
@@ -57,17 +57,18 @@ public class NumOrderManager : MonoBehaviour
     }
     private void CreateButton()
     {
-        arrBtn = new MoveButton[int_buttonN];
+        arrBtn = new List<MoveButton>();
         for (int i = 0; i < int_buttonN; i++)
         {
             GameObject go = Instantiate(prefab_Button, new Vector3(0, 0, 0), Quaternion.identity, parent);
+            MoveButton goTemp = go.GetComponent<MoveButton>();
             go.transform.localPosition = arrPos[i]; go.transform.SetSiblingIndex(i); //Set button's position and index in Hiearchy(if not above trigger, pointer cannot detect button)
-            go.GetComponent<MoveButton>().btnNum = (i + 1).ToString(); go.GetComponent<MoveButton>().SetBtnNum(); //Set button Number
-            arrBtn[i] = go.GetComponent<MoveButton>();
-            arrBtn[i].XrRig = this.XrRig;
-            arrBtn[i].RighthandPointer = this.RighthandPointer;
-            arrBtn[i].Manager = this;
-            if (i > arrBtn.Length - DistracImage.Length) SetSprite(arrBtn[i]);
+            goTemp.btnNum = (i + 1).ToString(); go.GetComponent<MoveButton>().SetBtnNum(); //Set button Number
+            goTemp.XrRig = this.XrRig;
+            goTemp.RighthandPointer = this.RighthandPointer;
+            goTemp.Manager = this;
+            arrBtn.Add(goTemp);
+            if (i > int_buttonN - DistracImage.Length) SetSprite(goTemp);
         }
     }
     private void SetSprite(MoveButton btn) //특정 버튼에 Distraction Image를 추가
@@ -83,14 +84,14 @@ public class NumOrderManager : MonoBehaviour
     }
     public void CannotGrab(MoveButton num) //한 버튼 만졌을 때 다른 버튼 MoveButton OFF
     {
-        for(int i =0;i<arrBtn.Length;i++){
+        for(int i =0;i<arrBtn.Count;i++){
             if(arrBtn[i] != num)
                 arrBtn[i].enabled = false;
         }
     }
     public void CanGrab() //버튼 놓은 후 다시 MoveButton On
     {
-        for (int i = 0; i < arrBtn.Length; i++)
+        for (int i = 0; i < arrBtn.Count; i++)
             arrBtn[i].enabled = true;
     }
     public void CardInTrigger(MoveButton card, TriggerButton trigger) //카드가 트리거 안에 들어갔을 때 데이터 체크
@@ -109,6 +110,8 @@ public class NumOrderManager : MonoBehaviour
                 return;
             }
             vecAnswer = new Vector3(cardNum + 1, cardNum + 1, cardNum + 1);
+            crntCard.enabled = false;
+            arrBtn.Remove(crntCard);
             return;
         }
         if (myVector.x != myVector.z)
@@ -127,7 +130,7 @@ public class NumOrderManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1.0f);
         yield return StartCoroutine(narration.Introduction());
-        for (int i =0; i <3; i++){
+        for (int i =0; i <2; i++){
             foreach(GameObject trigger in arrTrig)
             {
                 trigger.SetActive(false);

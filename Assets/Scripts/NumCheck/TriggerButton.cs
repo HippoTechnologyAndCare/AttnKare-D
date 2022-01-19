@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using BNG;
 
-public class TriggerButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
+public class TriggerButton : MonoBehaviour //IPointerUpHandler // IPointerExitHandler,
 {
     public NumOrderManager Manager;
     public GameObject crnt;
@@ -16,7 +16,8 @@ public class TriggerButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         trigNum_tmp = int.Parse(trigNum) - 1;
     }
-    public void OnPointerExit(PointerEventData pointerEventData)
+    /*
+    public void OnCollisionExit()
     {
         if(temp)
         {
@@ -24,21 +25,11 @@ public class TriggerButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             temp = null;
         }
     }
-    public void OnPointerEnter(PointerEventData pointerEventData)
-    {
-        Debug.Log(Manager.currentButton);
-        if(Manager.currentButton!=null)
-        {
-            Manager.active = true;
-            temp = Manager.currentButton;
-            temp.GetComponent<MoveButton>().triggered = true;
-            temp.GetComponent<MoveButton>().Trigger = this.gameObject;
-        }
-    }
-       
+ 
 
     public void OnPointerUp(PointerEventData pointerEventData)
     {
+        
         if (temp)
         {
             if (temp.GetComponent<MoveButton>().click == false)
@@ -48,5 +39,21 @@ public class TriggerButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 Manager.CardInTrigger(button, this);
             }
         }
-    }    
+        
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Necessary")
+        {
+            if (Manager.currentButton != null)
+            {
+                Manager.active = true;
+                temp = Manager.currentButton;
+                temp.GetComponent<MoveButton>().triggered = true;
+                temp.GetComponent<MoveButton>().Trigger = this.gameObject;
+            }
+        }
+    }
+*/
 }
