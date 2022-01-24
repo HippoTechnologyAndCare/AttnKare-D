@@ -13,15 +13,16 @@ public class Guide_Paddle : MonoBehaviour
         INTRO,
         START,
         STAGE,
-        TIMELIMIT,
-        TIMEDONE
-
+        ALLDONE
     }
 
     public static PADDLE_STATE m_ePSTATE;
     public int intStage;
-    private int intComplete;
+    private int m_nComplete;
     private string m_strOrder;
+
+    public Animation FriendAnimation;
+    private int m_nAnimation;
 
     int m_nWrongSpeed;
     int m_nWrongOrder;
@@ -37,8 +38,8 @@ public class Guide_Paddle : MonoBehaviour
     void TimeCheck_Stage()
     {
         m_fTOTALTIME += Time.deltaTime;
-        if (m_fTOTALTIME > TIMELIMIT_PADDLE) Debug.Log("time done");
-        if (m_fTOTALTIME > TIMEOUT_PADDLE) Debug.Log("SCENE NEXT");
+        if (m_fTOTALTIME > TIMELIMIT_PADDLE) Hud.ErrorMessage("time limit");
+        if (m_fTOTALTIME > TIMEOUT_PADDLE) Hud.ErrorMessage("time over");
     }
 
     void TimeCheck_Start()
@@ -49,6 +50,7 @@ public class Guide_Paddle : MonoBehaviour
     void Start()
     {
         m_listCOLLIDER = new List<PaddleCollider>(FindObjectsOfType<PaddleCollider>());
+        Hud = GameObject.Find("Hud_Paddle").GetComponent<Hud_Paddle>();
         Make_INTRO(); //시작하기까지 시간체크
     }
 
@@ -59,27 +61,24 @@ public class Guide_Paddle : MonoBehaviour
         {
             case PADDLE_STATE.INTRO:     Run_INTRO(); break;
             case PADDLE_STATE.START:     Run_START(); break;
-            case PADDLE_STATE.STAGE:     Run_STAGE(); break;
-            case PADDLE_STATE.TIMELIMIT: break;
-            case PADDLE_STATE.TIMEDONE:  break;
-
+            case PADDLE_STATE.STAGE:     Run_STAGE(); break; 
+            case PADDLE_STATE.ALLDONE:   break;
         }
-
     }
     void Make_INTRO()
     {
+        foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = false;
         m_ePSTATE = PADDLE_STATE.INTRO;
-
     }
 
     void Run_INTRO()
     {
         TimeCheck_Start();
-
     }
     
     public void Make_START()
     {
+        foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = true;
         m_ePSTATE = PADDLE_STATE.START;
     }
     
@@ -90,53 +89,50 @@ public class Guide_Paddle : MonoBehaviour
 
     void Make_STAGE()
     {
-        m_listSTAGE.Add(m_fTOTALTIME);
+        m_listSTAGE.Add(m_fTOTALTIME); 
+        string animName = "Paddle" + intStage.ToString(); //Change Animation of Character
+        FriendAnimation.Play(animName);
         m_ePSTATE = PADDLE_STATE.STAGE;
         Debug.Log(m_listSTAGE.Count);
-
     }
     void Run_STAGE()
     {
         TimeCheck_Stage();
     }
-
-    
-
+   
     void Make_ALLDONE()
     {
         m_listSTAGE.Add(m_fTOTALTIME);
         Debug.Log("COMPLETE");
         foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = false; //paddle component 내부의 collider를 빼 더이상 체크 X
-        m_ePSTATE = PADDLE_STATE.TIMEDONE;
-
-
+        m_ePSTATE = PADDLE_STATE.ALLDONE;
     }
 
 
     void NEXTSTAGE()
     {
         Debug.Log("CHECK_STAGE");
-
         Make_STAGE();
         m_arrWrongOrder[intStage] = m_nWrongOrder;
         m_arrWrongSpeed[intStage] = m_nWrongSpeed;
-        m_nWrongOrder = m_nWrongSpeed = intComplete = 0;
+        m_nWrongOrder = m_nWrongSpeed = m_nComplete = 0;
         Manager_Paddle.intStage++;
         intStage = Manager_Paddle.intStage;
         Debug.Log(intStage);
         if (intStage > 2) Make_ALLDONE();
-
-
     }
     public void Check_Order() //write in hud and datacheck 
     {
-       m_nWrongOrder++; Debug.Log("CHECK_ORDER");
+        Hud.ErrorMessage("wrong order");
+        m_nWrongOrder++;
+        Debug.Log("CHECK_ORDER");
 
     }
 
     public void Check_Speed() //write in hud and data check
     {
         Debug.Log("CHECK_SPEED");
+        Hud.ErrorMessage("wrong speed");
         m_nWrongSpeed++;
     }
 
@@ -146,14 +142,13 @@ public class Guide_Paddle : MonoBehaviour
         Manager_Paddle.SDB[intStage].strHANDLE = null; //한바퀴 돌면 strHANDEL을 null 시킴
         if (m_strOrder != Manager_Paddle.SDB[intStage].strORDER) { Check_Order(); return; }
         if (time > 0.9f || time < -0.9f) { Check_Speed(); return; }
-        intComplete += 1;
-        if (Manager_Paddle.SDB[intStage].intCount == intComplete)
+        m_nComplete += 1;
+        if (Manager_Paddle.SDB[intStage].intCount == m_nComplete)
         {
             NEXTSTAGE();//다음 스테이지 넘어가기
             return;
         }
-        Debug.Log("CHECK" + Manager_Paddle.SDB[intStage].fTime + "  ," + Manager_Paddle.SDB[intStage].intCount + " , " + intComplete);
-
+        Debug.Log("CHECK" + Manager_Paddle.SDB[intStage].fTime + "  ," + Manager_Paddle.SDB[intStage].intCount + " , " + m_nComplete);
     }
     
     Hud_Paddle Hud;
