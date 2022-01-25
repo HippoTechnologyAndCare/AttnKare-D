@@ -6,11 +6,10 @@ using UnityEngine.EventSystems;
 using TMPro;
 using BNG;
 
-public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandler
 {
     public InputBridge XrRig;
     public UIPointer RighthandPointer;
-    public NumOrderManager Manager;
     public GameObject Trigger;
     public bool triggered;
     public bool click;
@@ -27,6 +26,13 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     Color originalColor;
     Transform parentCursor;
     // Start is called before the first frame update
+
+    Guide_NumCheck Guide;
+    void Awake()
+    {
+        Guide = GameObject.Find("Guide").GetComponent<Guide_NumCheck>();
+        Debug.Log(Guide.name);
+    }
     void Start()
     {
         originalColor = btnText.color;
@@ -50,17 +56,17 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 if (XrRig.RightTrigger < 0.2f) {
                     Debug.Log("up");
                     this.transform.SetParent(originalParent);
-                    if (Trigger) { Manager.CardInTrigger(this, Trigger.GetComponent<TriggerButton>()); }
+                    if (Trigger) { Guide.NumInTrigger(this, Trigger); }
                     if(!Trigger) ResetButton();
                     click = false;
-                    Manager.CanGrab();
+                    Guide.CanGrab();
                 }
                 }
             if(RighthandPointer.GetComponent<LineRenderer>().enabled == false)
             {
                 ResetButton();
-                Manager.CanGrab();
-                Manager.currentButton = null;
+                Guide.CanGrab();
+ //               Guide.currentButton = null;
                 click = false;
             }
             
@@ -79,12 +85,12 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         this.transform.SetParent(Canvas);
         if(distraction)
         {
-            Manager.GetComponent<CheckData_NumCheck>().distractedBy += Time.deltaTime;
+            Guide.GetComponent<CheckData_NumCheck>().distractedBy += Time.deltaTime;
         }
         click = true;
         btnText.color = activatedColor;
-        Manager.currentButton = this.transform.gameObject;
-        Manager.CannotGrab(transform.GetComponent<MoveButton>());
+    //    Guide.currentButton = this.transform.gameObject;
+        Guide.CannotGrab(transform.GetComponent<MoveButton>());
     }
   
     public void ResetButton(){
@@ -92,24 +98,23 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
      //   triggered = false;
         transform.position = OrginPos;
         btnText.color = originalColor;
-        if(Manager.active == false)
-            Manager.currentButton = null;
+   //     if(Guide.active == false)
+   //         Guide.currentButton = null;
     }
 
     public void SetButton(){ 
         transform.position = Trigger.transform.position;
         btnText.color = originalColor;
-        Manager.CanGrab();
-        Manager.currentButton = null; 
+
+  //      Guide.currentButton = null; 
     }
 
     public void OnCollisionEnter(Collision collision)
     {
         Debug.Log("inside");
         if(collision.gameObject.tag == "Necessary")
-        {
-            Manager.active = true;
-      //      triggered = true;
+        { 
+            Guide.active = true;
             Trigger = collision.gameObject;
         }
     }
@@ -118,21 +123,8 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         if (collision.gameObject.name == "Necessary")
         {
-    //        triggered = false;
             Trigger = null;
         }
-
     }
-
-    public void OnPointerUp(PointerEventData pointerEventData)
-    {
-        
-
-
-
-
-    }
-
-
 
 }

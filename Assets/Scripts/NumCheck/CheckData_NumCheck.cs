@@ -17,13 +17,13 @@ public class CheckData_NumCheck : MonoBehaviour
     public bool start = false;
     public bool searching = false;
 
-    NumOrderManager manager; 
+    Guide_NumCheck Guide; 
  
 
     // Start is called before the first frame update
     void Start()
     {
-        manager = transform.GetComponent<NumOrderManager>();
+        Guide = GameObject.Find("Guide").GetComponent<Guide_NumCheck>();
     }
 
     // Update is called once per frame
