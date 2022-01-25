@@ -12,9 +12,6 @@ public class PaddleCollider : MonoBehaviour
     public bool bPaddle = true;
     public bool bORDER = false;
 
-
-
-
     Guide_Paddle Guide;
     private void Start()
     {
@@ -66,81 +63,3 @@ public class PaddleCollider : MonoBehaviour
 }
 
 
-
-
-
-
-/*
-    Manager_Paddle.HANDLE_INFO m_eHandleInfo;
-    public Manager_Paddle.HANDLE m_eHandle;
-    public bool bAuto;
-    GameObject go_Handle;
-    GameObject go_AutoHandle;
-
-    public static float fAUTO;
-    public static float fHANDLE;
-    
-
-    bool bUP;
-    bool set = true;
-    float timePassed;
-    float timeMinus;
-    private void Start()
-    {
-        m_eHandleInfo = Manager_Paddle.HDB[(int)m_eHandle];
-        go_AutoHandle = GameObject.FindGameObjectWithTag("HANDLE_AUTO");
-        go_Handle = GameObject.FindGameObjectWithTag("HANDLE_MY");
-        if (m_eHandleInfo.strPaddle == "UP") bUP = true;
-
-    }
-    private void Update()
-    {
-        timePassed += Time.deltaTime;
-        
-    }
-    
-
-    public void OnCollisionEnter(Collision other)
-    {
-        if (m_eHandle == Manager_Paddle.HANDLE.UP)
-        {
-            if (other.gameObject.tag == "HANDLE_MY")
-            {
-                Debug.Log("up");
-                fHANDLE = timePassed;
-            }
-            if(other.gameObject.tag == "HANDLE_AUTO")
-            {
-                fAUTO = timePassed;
-            }
-            CheckRound();
-        }
-    }
-   
-     private void CheckRound()
-    {
-       
-            timeMinus = fAUTO - fHANDLE;
-            if (timeMinus > 0.6f || timeMinus < -0.6f)
-            {
-                Debug.Log(timeMinus);
-                StartCoroutine(DEBUG("SPEED"));
-            }
-            ResetHandle();
-        
-    }
-
-    public IEnumerator DEBUG(string text)
-    {
-        Debug.Log(text);
-        yield return null;
-
-    }
-
-    private void ResetHandle()
-    {
-        fAUTO = fHANDLE = timeMinus = timePassed= 0;
-        set = false;
-
-    }
-    */
