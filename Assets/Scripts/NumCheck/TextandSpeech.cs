@@ -31,6 +31,9 @@ public class TextandSpeech : MonoBehaviour
     private TextMeshProUGUI txt_speech; //text in canvas
     [SerializeField]
     private char divider;
+    public GameObject m_goFace;
+    public GameObject m_goAutoSpeech;
+
     private void Start()
     {
         audioPlay = GetComponent<AudioSource>();
@@ -77,6 +80,12 @@ public class TextandSpeech : MonoBehaviour
         if (arrBoardNarr[index]) { NarrPlay(arrBoardNarr[index]); yield return new WaitWhile(() => audioPlay.isPlaying); }
         txt_BoardTxt.text = originalText;
         coroutine = false;
+    }
+
+    public void Bothered(bool active)
+    {
+        m_goFace.SetActive(active);
+        m_goAutoSpeech.SetActive(active);
     }
 
 }

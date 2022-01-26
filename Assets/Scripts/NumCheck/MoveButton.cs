@@ -59,7 +59,6 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
                     if (Trigger) { Guide.NumInTrigger(this, Trigger); }
                     if(!Trigger) ResetButton();
                     click = false;
-                    Guide.CanGrab();
                 }
                 }
             if(RighthandPointer.GetComponent<LineRenderer>().enabled == false)

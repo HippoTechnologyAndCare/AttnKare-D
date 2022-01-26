@@ -21,8 +21,6 @@ public class FinishButton : MonoBehaviour
     {
         Fin1 = FinishCanvas.transform.GetChild(0);
         Fin2 = FinishCanvas.transform.GetChild(1);
-
- 
     }
 
     // Update is called once per frame

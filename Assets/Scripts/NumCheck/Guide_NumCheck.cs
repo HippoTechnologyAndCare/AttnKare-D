@@ -20,7 +20,7 @@ public class Guide_NumCheck : MonoBehaviour
     public int int_buttonN;
     public Transform parent;
     public List<Vector3> arrPos = new List<Vector3>();
-    private List<MoveButton> arrBtn;
+    public List<MoveButton> arrBtn;
     public GameObject[] arrTrig;
     [Tooltip("Images for disctraction")]
     public Sprite[] DistracImage;
@@ -123,12 +123,14 @@ public class Guide_NumCheck : MonoBehaviour
     }
     public void CannotGrab(MoveButton num) //한 버튼 만졌을 때 다른 버튼 MoveButton OFF
     {
+        Debug.Log("DISABLED");
         for(int i =0;i<arrBtn.Count;i++){
             if(arrBtn[i] != num) arrBtn[i].enabled = false;
         }
     }
     public void CanGrab() //버튼 놓은 후 다시 MoveButton On
     {
+        Debug.Log("Enabled");
         for (int i = 0; i < arrBtn.Count; i++) arrBtn[i].enabled = true;
     }
     public void NumInTrigger(MoveButton num, GameObject trigger) //카드가 트리거 안에 들어갔을 때 데이터 체크
@@ -146,6 +148,7 @@ public class Guide_NumCheck : MonoBehaviour
                 return;
             }
             arrBtn.Remove(num);
+            Destroy(num);
             Index++;
             StartCoroutine(narration.BoardUI(4));
             auto.AutoMove();
@@ -169,7 +172,7 @@ public class Guide_NumCheck : MonoBehaviour
     {
         yield return new WaitForSeconds(1.0f);
         yield return StartCoroutine(narration.Introduction());
-        for (int i =0; i <2; i++){
+        for (int i =0; i <1; i++){
             foreach(GameObject trigger in arrTrig)
             {
                 trigger.SetActive(false);
@@ -186,10 +189,10 @@ public class Guide_NumCheck : MonoBehaviour
         DataCollection.StopRecordingNBehavior();
         Ghost.GetComponent<Animator>().SetBool("isJump", true);
         dataCheck.start = false;
-        yield return StartCoroutine(narration.BoardUI(2)); //Game clear narration
+        yield return StartCoroutine(narration.BoardUI(3)); //Game clear narration
         dataFin.SendEvent("AllDone");
         GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
-        yield return StartCoroutine(narration.BoardUI(3));
+        yield return StartCoroutine(narration.BoardUI(4));
         yield return new WaitForSeconds(2.0f);
         KetosGames.SceneTransition.SceneLoader.LoadScene(13); //load play paddle scene
     }
