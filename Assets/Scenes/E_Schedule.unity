@@ -2573,7 +2573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Return: {fileID: 8300000, guid: b10769d5ed250504c8e33d6f05024665, type: 3}
-  BehaviorMG: {fileID: 267640738}
+  BehaviorMG: {fileID: 0}
 --- !u!54 &341464851
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5269,6 +5269,7 @@ GameObject:
   m_Component:
   - component: {fileID: 597562632}
   - component: {fileID: 597562633}
+  - component: {fileID: 597562634}
   - component: {fileID: 597562635}
   m_Layer: 0
   m_Name: ScheduleBoard
@@ -5329,6 +5330,42 @@ MonoBehaviour:
   Sound_Put: {fileID: 8300000, guid: 81a6bb18b866a9142a20ce5d3297bc32, type: 3}
   setData_PlayerData: {fileID: 2090270716}
   saveData_GameDataMG: {fileID: 495000293}
+--- !u!114 &597562634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597562631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bd802d461565714197e9aded9db93b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectData: {fileID: 267640740}
+  voiceRecording: {fileID: 267640741}
+  Intro: {fileID: 0}
+  scheduleBoard: {fileID: 0}
+  Finish: {fileID: 0}
+  WellDoneAndBye: {fileID: 0}
+  FinishCntDwn: {fileID: 0}
+  BGM_Controller: {fileID: 0}
+  Result: {fileID: 0}
+  Btn_Finish: {fileID: 0}
+  TextTitle: {fileID: 0}
+  ToShow: {fileID: 0}
+  Slot: {fileID: 0}
+  Grp: {fileID: 0}
+  TimerText: {fileID: 0}
+  scene2arr: []
+  TotalMovingCnt: 0
+  ResetCnt: 0
+  Sound_Count: {fileID: 0}
+  Sound_In: {fileID: 0}
+  Sound_Click: {fileID: 0}
+  Sound_Put: {fileID: 0}
+  setData_PlayerData: {fileID: 0}
+  saveData_GameDataMG: {fileID: 0}
 --- !u!82 &597562635
 AudioSource:
   m_ObjectHideFlags: 0

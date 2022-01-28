@@ -4,15 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using KetosGames.SceneTransition;
+using BNG;
 
 
 public class ScheduleManager1 : MonoBehaviour
 {
-    public Transform Behavior;
+    //public Transform Behavior;
+    public CollectData collectData;
+    public AutoVoiceRecording voiceRecording;
     //Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("delimiter name");
 
     public Transform Intro;
-    public Transform Schedule;
+    //public Transform Schedule;
+    public GameObject scheduleBoard;
     public Transform Finish;
     public Transform WellDoneAndBye;
     public TextMeshProUGUI FinishCntDwn;
@@ -93,8 +97,7 @@ public class ScheduleManager1 : MonoBehaviour
         {
             GrpList.Add(g);
         }
-
-        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("GUIDE START");
+        collectData.AddTimeStamp("GUIDE START");        
     }
 
     void Update()
@@ -155,7 +158,7 @@ public class ScheduleManager1 : MonoBehaviour
 
             if (!BeforeStartGuideCheck && TimerForBeforeStarted > Guide_Length)
             {
-                Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("GUIDE END");
+                collectData.AddTimeStamp("GUIDE END");
                 BeforeStartGuideCheck = true;
             }
         }
@@ -168,7 +171,7 @@ public class ScheduleManager1 : MonoBehaviour
 
     IEnumerator TimeLimitAndKeepGoing()
     {
-        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
+        collectData.AddTimeStamp("TIME LIMIT");
         BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("LIMIT");
 
         Timer_Sec = 30;
@@ -180,7 +183,7 @@ public class ScheduleManager1 : MonoBehaviour
 
     IEnumerator TimeOutAndFinish()
     {
-        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
+        collectData.AddTimeStamp("TIME OUT");
         BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("OUT");
 
         yield return new WaitForSeconds(6);
@@ -294,17 +297,17 @@ public class ScheduleManager1 : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         Intro.gameObject.SetActive(false);
-        Schedule.gameObject.SetActive(true);
+        scheduleBoard.gameObject.SetActive(true);
         BeforeStart = false;
         LeGogo = true;
         FirstSelect = true;
 
         if (!BeforeStartGuideCheck)
-        {
-            Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("GUIDE SKIP");
+        {            
+            collectData.AddTimeStamp("GUIDE SKIP");
         }
 
-        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("MISSION START");
+        collectData.AddTimeStamp("MISSION START");
     }
 
     public void ShowFinishPanel()
@@ -324,16 +327,16 @@ public class ScheduleManager1 : MonoBehaviour
     public void FinishPanel_Yes(bool Skipped)
     {
         PlaySoundByTypes("CLICK");
-        Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("MISSION END");
+        collectData.AddTimeStamp("MISSION END");
 
         LeGogo = false;
         float PlanData = 0;
 
-        Schedule.gameObject.SetActive(false);
+        scheduleBoard.gameObject.SetActive(false);
         Finish.gameObject.SetActive(false);
         WellDoneAndBye.gameObject.SetActive(true);
 
-        Behavior.GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();
+        voiceRecording.StopRecordingNBehavior();
 
         if (Skipped)
         {
@@ -398,7 +401,7 @@ public class ScheduleManager1 : MonoBehaviour
         FinishCntDwn.text = "1";
         yield return new WaitForSeconds(1);
 
-        SceneLoader.LoadScene(3);
+        KetosGames.SceneTransition.SceneLoader.LoadScene(3);
     }
 
 

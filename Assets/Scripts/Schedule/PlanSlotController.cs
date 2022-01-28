@@ -23,7 +23,6 @@ public class PlanSlotController : MonoBehaviour
         }
     }
 
-
     public void resetPlanSlot()
     {
         passenger = null;
