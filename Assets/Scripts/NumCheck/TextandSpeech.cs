@@ -82,6 +82,12 @@ public class TextandSpeech : MonoBehaviour
         coroutine = false;
     }
 
+    public void EndUI(string txt)
+    {
+        txt_BoardTxt.text = txt;
+ 
+    }
+
     public void Bothered(bool active)
     {
         m_goFace.SetActive(active);

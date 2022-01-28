@@ -18,16 +18,17 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
     public bool distraction = false;
     Transform Canvas;
     Transform originalParent;
-    GameObject prevButton;
     RectTransform rect;
     Vector3 OrginPos;
     TextMeshProUGUI btnText;
     Color activatedColor;
+    int a;
     Color originalColor;
     Transform parentCursor;
     // Start is called before the first frame update
 
     Guide_NumCheck Guide;
+    public Guide_NumCheck.INDEX m_eIndex;
     void Awake()
     {
         Guide = GameObject.Find("Guide").GetComponent<Guide_NumCheck>();
@@ -54,18 +55,16 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
                 if(XrRig.RightTrigger > 0.5f)
                     transform.position = new Vector3(parentCursor.position.x, parentCursor.position.y, transform.position.z);
                 if (XrRig.RightTrigger < 0.2f) {
-                    Debug.Log("up");
                     this.transform.SetParent(originalParent);
-                    if (Trigger) { Guide.NumInTrigger(this, Trigger); }
+                    if (Trigger) { Guide.NumInTrigger(this, Trigger);}
                     if(!Trigger) ResetButton();
                     click = false;
                 }
-                }
+            }
             if(RighthandPointer.GetComponent<LineRenderer>().enabled == false)
             {
                 ResetButton();
                 Guide.CanGrab();
- //               Guide.currentButton = null;
                 click = false;
             }
             
@@ -88,29 +87,23 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
         }
         click = true;
         btnText.color = activatedColor;
-    //    Guide.currentButton = this.transform.gameObject;
         Guide.CannotGrab(transform.GetComponent<MoveButton>());
     }
   
     public void ResetButton(){
         Trigger = null;
-     //   triggered = false;
         transform.position = OrginPos;
         btnText.color = originalColor;
-   //     if(Guide.active == false)
-   //         Guide.currentButton = null;
+
     }
 
     public void SetButton(){ 
         transform.position = Trigger.transform.position;
         btnText.color = originalColor;
-
-  //      Guide.currentButton = null; 
     }
 
     public void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("inside");
         if(collision.gameObject.tag == "Necessary")
         { 
             Guide.active = true;

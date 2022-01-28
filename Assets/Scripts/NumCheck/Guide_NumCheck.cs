@@ -40,15 +40,19 @@ public class Guide_NumCheck : MonoBehaviour
 
     public static int Index = 0;
     AutoButton auto;
+
+    public enum INDEX { ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN }
     public struct NUMCHECK_LIST
     {
+        public INDEX eIndex;
         public int nNum;//종류
         public GameObject goNum;
         public GameObject goTrig; //trigger
         public int nBtn;
-        public bool bIN;    
-        public NUMCHECK_LIST(int nNum, GameObject goNum, GameObject goTrig, int nBtn, bool bIN)
+        public bool bIN;
+        public NUMCHECK_LIST(INDEX eIndex, int nNum, GameObject goNum, GameObject goTrig, int nBtn, bool bIN)
         {
+            this.eIndex = eIndex;
             this.nNum = nNum;
             this.goNum = goNum;
             this.goTrig = goTrig;
@@ -58,16 +62,16 @@ public class Guide_NumCheck : MonoBehaviour
     }
 
     public static NUMCHECK_LIST[] NCDB = new NUMCHECK_LIST[]  {
-      new NUMCHECK_LIST(1,  null, null, 0, false),
-      new NUMCHECK_LIST(2,  null, null, 0, false),
-      new NUMCHECK_LIST(3,  null, null, 0, false),
-      new NUMCHECK_LIST(4,  null, null, 0, false),
-      new NUMCHECK_LIST(5,  null, null, 0, false),
-      new NUMCHECK_LIST(6,  null, null, 0, false),
-      new NUMCHECK_LIST(7,  null, null, 0, false),
-      new NUMCHECK_LIST(8,  null, null, 0, false),
-      new NUMCHECK_LIST(9,  null, null, 0, false),
-      new NUMCHECK_LIST(10, null, null, 0, false)
+      new NUMCHECK_LIST( INDEX.ONE ,1,  null, null, 0, false),
+      new NUMCHECK_LIST(INDEX.TWO ,2,  null, null, 0, false),
+      new NUMCHECK_LIST(INDEX.THREE ,3,  null, null, 0, false),
+      new NUMCHECK_LIST(INDEX.FOUR ,4,  null, null, 0, false),
+      new NUMCHECK_LIST(INDEX.FIVE,5,  null, null, 0, false),
+      new NUMCHECK_LIST(INDEX.SIX ,6,  null, null, 0, false),
+      new NUMCHECK_LIST(INDEX.SEVEN ,7,  null, null, 0, false),
+      new NUMCHECK_LIST(INDEX.EIGHT ,8,  null, null, 0, false),
+      new NUMCHECK_LIST(INDEX.NINE ,9,  null, null, 0, false),
+      new NUMCHECK_LIST(INDEX.TEN ,10, null, null, 0, false)
     };
     void Awake()
     {
@@ -84,9 +88,15 @@ public class Guide_NumCheck : MonoBehaviour
 
     private void SetPosition() //creat list of position of number buttons on board(total 30)
     {
-        for (float i = -1.1f; i <= 1.15f; i += 0.25f)
+        for (float i = -0.8f; i <= 0.95f; i += 0.25f)
             for (float j = 0.3f; j >= -0.2f; j -= 0.25f)
-                arrPos.Add(new Vector3(i, j, 0));
+            {
+                float n = i;
+                float m = j;
+                n += Random.Range(-0.07f, 0.07f);   //위치를 랜던하게 하기 위해서
+                m -= Random.Range(-0.08f, 0.08f);   //위치를 랜던하기 하기 위해서
+                arrPos.Add(new Vector3(n, m, 0)); 
+            }
         Shuffle.ShuffleList(arrPos);
     }
     private void CreateButton()
@@ -100,7 +110,7 @@ public class Guide_NumCheck : MonoBehaviour
             goTemp.btnNum = (i + 1).ToString(); go.GetComponent<MoveButton>().SetBtnNum(); //Set button Number
             goTemp.XrRig = this.XrRig;
             goTemp.RighthandPointer = this.RighthandPointer;
-            if (i < NCDB.Length) NCDB[i].goNum = goTemp.gameObject;
+            if (i < NCDB.Length) { NCDB[i].goNum = goTemp.gameObject; goTemp.m_eIndex = NCDB[i].eIndex; }
             arrBtn.Add(goTemp);
             if (i > int_buttonN - DistracImage.Length) SetSprite(goTemp);
         }
@@ -123,14 +133,12 @@ public class Guide_NumCheck : MonoBehaviour
     }
     public void CannotGrab(MoveButton num) //한 버튼 만졌을 때 다른 버튼 MoveButton OFF
     {
-        Debug.Log("DISABLED");
         for(int i =0;i<arrBtn.Count;i++){
             if(arrBtn[i] != num) arrBtn[i].enabled = false;
         }
     }
     public void CanGrab() //버튼 놓은 후 다시 MoveButton On
     {
-        Debug.Log("Enabled");
         for (int i = 0; i < arrBtn.Count; i++) arrBtn[i].enabled = true;
     }
     public void NumInTrigger(MoveButton num, GameObject trigger) //카드가 트리거 안에 들어갔을 때 데이터 체크
@@ -138,7 +146,7 @@ public class Guide_NumCheck : MonoBehaviour
         int cardNum = int.Parse(num.btnNum);
         NUMCHECK_LIST m_current = NCDB[Index];
         m_current.nBtn = cardNum;
-        if(m_current.nBtn == NCDB[Index].nNum && m_current.goTrig == trigger.gameObject)
+        if(NCDB[(int)num.m_eIndex].nNum == NCDB[Index].nNum && NCDB[(int)num.m_eIndex].goTrig == trigger.gameObject)
         {
             num.SetButton();
             active = false;
@@ -154,12 +162,12 @@ public class Guide_NumCheck : MonoBehaviour
             auto.AutoMove();
             return;
         }
-        if( m_current.nBtn != NCDB[Index].nNum) //현재 버튼이 순서에 맞지 않음
+        if(NCDB[(int)num.m_eIndex].nNum != m_current.nNum) //현재 버튼이 순서에 맞지 않음
         {
             if (!narration.coroutine) StartCoroutine(narration.BoardUI(0)); //wrong order warning and narration
             dataCheck.wrongorder++;
         }
-        if(m_current.goTrig != trigger.gameObject) //현재 버튼이 올바른 칸에 있지 않음
+        if(NCDB[(int)num.m_eIndex].goTrig != trigger.gameObject) //현재 버튼이 올바른 칸에 있지 않음
         {
             if (!narration.coroutine) StartCoroutine(narration.BoardUI(1)); //wrong trigger warning text and narration
             dataCheck.wrongTrigger++;
@@ -180,9 +188,11 @@ public class Guide_NumCheck : MonoBehaviour
                 trigger.SetActive(true);
             }
         }
+        yield return new WaitForSeconds(0.8f);
         foreach (MoveButton button in arrBtn) { button.enabled = true; }
         dataCheck.start = true; //data check playtime
         auto.AutoMove();
+
     }
     private IEnumerator ClearCoroutine()
     {
@@ -192,7 +202,8 @@ public class Guide_NumCheck : MonoBehaviour
         yield return StartCoroutine(narration.BoardUI(3)); //Game clear narration
         dataFin.SendEvent("AllDone");
         GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
-        yield return StartCoroutine(narration.BoardUI(4));
+        yield return new WaitForSeconds(2.5f);
+        narration.EndUI("다음으로 넘어가는 중....");
         yield return new WaitForSeconds(2.0f);
         KetosGames.SceneTransition.SceneLoader.LoadScene(13); //load play paddle scene
     }

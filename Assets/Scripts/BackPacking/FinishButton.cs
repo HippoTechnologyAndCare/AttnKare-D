@@ -43,7 +43,6 @@ public class FinishButton : MonoBehaviour
 
     IEnumerator PressedFirst()
     {
-
         float lerpTime = 0f;
         while (FinishCanvas.alpha < 1.0f) //fade in
         {
@@ -61,7 +60,6 @@ public class FinishButton : MonoBehaviour
         }
         yield return new WaitForSeconds(7.0f);
         bFin = false; //if not pressed for 7 seconds turn off 
-
     }
 
 

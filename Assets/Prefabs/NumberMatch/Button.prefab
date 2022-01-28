@@ -182,7 +182,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: dedf9f3453b7ad949b26b001687e208a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -234,8 +234,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.932, y: 0.203}
-  m_SizeDelta: {x: 0.1885, y: 0.1917}
+  m_AnchoredPosition: {x: -0.98211, y: 0.25964}
+  m_SizeDelta: {x: 0.07716, y: 0.06588}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4255727728799849073
 CanvasRenderer:
@@ -333,13 +333,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   XrRig: {fileID: 0}
   RighthandPointer: {fileID: 0}
-  Manager: {fileID: 0}
   Trigger: {fileID: 0}
   triggered: 0
   click: 0
   btnNum: 
   color: '#FF0000'
   distraction: 0
+  m_eIndex: 0
 --- !u!135 &4255727728799849074
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -432,8 +432,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.01187, y: 0}
+  m_SizeDelta: {x: 0.14146, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4255727729288816763
 CanvasRenderer:
@@ -463,7 +463,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1
+  m_text: 15
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
