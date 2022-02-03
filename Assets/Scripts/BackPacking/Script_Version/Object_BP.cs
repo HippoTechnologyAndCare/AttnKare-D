@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BNG;
 
 public class Object_BP : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class Object_BP : MonoBehaviour
     public enum OBJ_BP { PENCIL, PEN, ERASER, TXTBOOK, GLUE, PCAP, PCASE}
     public enum TAG_BP {NECESSARY, UNNECESSARY, NECESSARY_PENCIL, NECESSARY_BOOK}
     public enum KIND_BP { NONE, GREEN, RED, BLUE, PURLPLE, BLACK, KOREAN, SCIENCE, ART, ENGLISH, SOCIALS, MATH, MUSIC, GYM, ETHICS }
+
+
     public struct BP_INFO
     {
         public OBJ_BP eObj;
@@ -35,9 +38,14 @@ public class Object_BP : MonoBehaviour
         } 
     }
     public static List<BP_INFO> listObj = new List<BP_INFO>();
-    
-     //PACK_DISTRACTION
+
+
+    //PACK_DISTRACTION
     // Start is called before the first frame update
+
+
+    public InputBridge XrRig;
+    public static bool bGrabbed;
     void Start()
     {
         
@@ -46,6 +54,7 @@ public class Object_BP : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (XrRig.RightTrigger > 0.8f) bGrabbed = true;
+        if (XrRig.RightTrigger < 0.2f) bGrabbed = false;
     }
 }
