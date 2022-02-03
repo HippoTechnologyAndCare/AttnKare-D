@@ -16,7 +16,7 @@ public class ScheduleManager1 : MonoBehaviour
 
     public Transform Intro;
     //public Transform Schedule;
-    public GameObject scheduleBoard;
+    public GameObject board;
     public Transform Finish;
     public Transform WellDoneAndBye;
     public TextMeshProUGUI FinishCntDwn;
@@ -77,8 +77,8 @@ public class ScheduleManager1 : MonoBehaviour
     public AudioClip Sound_Put;
 
     //------------- Manager
-    public Transform setData_PlayerData;
-    public Transform saveData_GameDataMG;
+    public Transform SetPlayerData;
+    public Transform GameDataManager;
 
     void Start()
     {
@@ -197,7 +197,7 @@ public class ScheduleManager1 : MonoBehaviour
         {
             if (go != obj)
             {
-                go.GetComponent<PlanCubeController>().enabled = false;
+                go.GetComponent<PlanCubeController1>().enabled = false;
             }
         }
     }
@@ -206,7 +206,7 @@ public class ScheduleManager1 : MonoBehaviour
     {
         foreach (Transform go in GrpList)
         {
-            go.GetComponent<PlanCubeController>().enabled = true;
+            go.GetComponent<PlanCubeController1>().enabled = true;
         }
     }
 
@@ -222,7 +222,7 @@ public class ScheduleManager1 : MonoBehaviour
 
         foreach (Transform s in SlotList)
         {
-            if (s.GetComponent<PlanSlotController>().passenger != null)
+            if (s.GetComponent<PlanSlotController1>().passenger != null)
             {
                 check = true;
             }
@@ -239,12 +239,12 @@ public class ScheduleManager1 : MonoBehaviour
         {
             for (int s = 0; s < SlotList.Count; s++)
             {
-                SlotList[s].GetComponent<PlanSlotController>().resetPlanSlot();
+                SlotList[s].GetComponent<PlanSlotController1>().resetPlanSlot();
             }
 
             for (int g = 0; g < GrpList.Count; g++)
             {
-                GrpList[g].GetComponent<PlanCubeController>().resetPlanCube();
+                GrpList[g].GetComponent<PlanCubeController1>().resetPlanCube();
             }
 
             Btn_Finish.gameObject.SetActive(false);
@@ -258,7 +258,7 @@ public class ScheduleManager1 : MonoBehaviour
 
         foreach (Transform aSlot in SlotList)
         {
-            if (aSlot.GetComponent<PlanSlotController>().passenger == null)
+            if (aSlot.GetComponent<PlanSlotController1>().passenger == null)
             {
                 AllDone = false;
             }
@@ -297,7 +297,7 @@ public class ScheduleManager1 : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         Intro.gameObject.SetActive(false);
-        scheduleBoard.gameObject.SetActive(true);
+        board.gameObject.SetActive(true);
         BeforeStart = false;
         LeGogo = true;
         FirstSelect = true;
@@ -332,7 +332,7 @@ public class ScheduleManager1 : MonoBehaviour
         LeGogo = false;
         float PlanData = 0;
 
-        scheduleBoard.gameObject.SetActive(false);
+        board.gameObject.SetActive(false);
         Finish.gameObject.SetActive(false);
         WellDoneAndBye.gameObject.SetActive(true);
 
@@ -384,7 +384,7 @@ public class ScheduleManager1 : MonoBehaviour
 
         // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
         scene2arr = new float[] { TotalElapsedTimeForCalc, TotalMovingCnt, ResetCnt, ClickNoCnt, PlanData, SkipYn, TimerForBeforeStarted, TimerForFirstSelect };        
-        saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
+        GameDataManager.GetComponent<GameDataManager>().SaveCurrentData();
         StartCoroutine(GoToNextScene());
     }
 

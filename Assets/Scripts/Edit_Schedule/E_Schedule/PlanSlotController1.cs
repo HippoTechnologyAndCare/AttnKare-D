@@ -7,19 +7,26 @@ public class PlanSlotController1 : MonoBehaviour
 {
     public GameObject passenger;
 
-    private void OnCollisionEnter(Collision collision)
+    Color thisColor;
+
+
+    void Start()
+    {
+        thisColor = this.GetComponent<Image>().color;
+    }
+    void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.tag == "PLAN")
         {
-            this.transform.GetComponent<Image>().color = new Color(0, 255, 0, 0.5f);
+            thisColor = new Color(0, 255, 0, 0.5f);
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    void OnCollisionExit(Collision collision)
     {
         if (collision.collider.tag == "PLAN")
         {
-            this.transform.GetComponent<Image>().color = new Color(255, 255, 255, 0.15f);
+            thisColor = new Color(255, 255, 255, 0.15f);
         }
     }
 
@@ -27,6 +34,6 @@ public class PlanSlotController1 : MonoBehaviour
     public void resetPlanSlot()
     {
         passenger = null;
-        this.transform.GetComponent<Image>().color = new Color(255, 255, 255, 0.15f);
+        thisColor = new Color(255, 255, 255, 0.15f);
     }
 }
