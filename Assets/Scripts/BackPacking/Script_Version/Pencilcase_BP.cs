@@ -6,9 +6,10 @@ public class Pencilcase_BP : MonoBehaviour
 {
     // Start is called before the first frame update
     enum STATE { ENTER, EXIT }
-    STATE m_eState;
+    STATE m_eState = STATE.EXIT;
 
     Collision m_Col;
+    bool check;
     void Start()
     {
         
@@ -27,25 +28,29 @@ public class Pencilcase_BP : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.layer == 10) { m_Col = collision; m_eState = STATE.ENTER; }
+        if(collision.transform.GetComponent<GrabObj_BP>()) {  m_Col = collision; Debug.Log(m_Col.gameObject.name); m_eState = STATE.ENTER; }
         //if object is grabbable store it
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if(collision == m_Col) { m_eState = STATE.EXIT; m_Col = null; }
+        if(collision == m_Col) { m_eState = STATE.EXIT; m_Col = null; Debug.Log("EXOT");}
         //if exit collider without releasing, null m_Col
     }
 
     void Enter()
     {
-        if (Object_BP.bGrabbed) return;
-        if (!Object_BP.bGrabbed) { CheckObj(m_Col.transform); m_eState = STATE.EXIT; }
+        if (check)
+        {
+            if (Object_BP.bGrabbed) return;
+            if (!Object_BP.bGrabbed) { Debug.Log(m_Col.gameObject.name); CheckObj(m_Col.transform); m_eState = STATE.EXIT; }
+        }
+
     }
 
     void CheckObj(Transform obj)
     {
-        if(obj.tag != "Necessary_Pencil") { obj.GetComponent<GrabObj_BP>().Reset(); }
+        if(!obj.CompareTag("Necessary_Pencil")) { obj.GetComponent<GrabObj_BP>().Reset(); }
     }
     void Pressed()
     {

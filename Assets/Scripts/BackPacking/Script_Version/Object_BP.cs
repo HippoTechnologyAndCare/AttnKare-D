@@ -19,7 +19,7 @@ public class Object_BP : MonoBehaviour
      * 방해물
      *  장난감 기차, 장난감 차, 폴더, 물감, 노트
      */
-    public enum OBJ_BP { PENCIL, PEN, ERASER, TXTBOOK, GLUE, PCAP, PCASE}
+    public enum OBJ_BP { DISTURB, PENCIL, PEN, ERASER, TXTBOOK, GLUE, PCAP, PCASE}
     public enum TAG_BP {NECESSARY, UNNECESSARY, NECESSARY_PENCIL, NECESSARY_BOOK}
     public enum KIND_BP { NONE, GREEN, RED, BLUE, PURLPLE, BLACK, KOREAN, SCIENCE, ART, ENGLISH, SOCIALS, MATH, MUSIC, GYM, ETHICS }
 
