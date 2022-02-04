@@ -10,31 +10,44 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
     public ScheduleManager1 scheduleManager;
 
     public Transform HandCursor;
-    public Transform HandController;
+    public HandController handController;
 
     public Transform Canvas;
     public Transform Grp;
 
     public Vector2 StartPos;
 
-    public GameObject slot_Now;
-    GameObject slot_New;
+    public float t;
+
+    public GameObject activeSlot;
+
+    GameObject IntoSlot;
+    UIPointer uiPointer;
+
+    Vector3 vec2Pos;
+    Vector3 zPos;
 
     bool NowClicked = false;
     bool PointerOnCube = false;
 
     void Start()
     {
+        zPos.z = 2.323f;
         StartPos = this.transform.localPosition;
+        uiPointer = HandCursor.GetComponent<BNG.UIPointer>();        
     }
 
     void Update()
+    {
+        
+    }
+    void FixedUpdate()
     {
         if (NowClicked)
         {
             if (HandCursor.GetComponent<LineRenderer>().enabled == true)
             {
-                transform.position = HandCursor.GetComponent<BNG.UIPointer>()._cursor.transform.position;                
+                MoveCard();
             }
             else
             {
@@ -42,18 +55,18 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
             }
 
 
-            if (!PointerOnCube && HandController.GetComponent<BNG.HandController>().PointAmount == 1)
+            if (!PointerOnCube && handController.PointAmount == 1)
             {
                 this.transform.SetParent(Grp);
                 scheduleManager.ReleaseAllCollision();
-                scheduleManager.PlaySoundByTypes("PUT");                
+                scheduleManager.PlaySoundByTypes("PUT");
 
                 NowClicked = false;
-                slot_New = null;
+                IntoSlot = null;
 
-                if (slot_Now != null)
+                if (activeSlot != null)
                 {
-                    transform.localPosition = slot_Now.transform.localPosition;
+                    transform.localPosition = activeSlot.transform.localPosition;
                 }
                 else
                 {
@@ -62,6 +75,16 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
             }
         }
     }
+    void MoveCard()
+    {
+        // LaserEnd의 포지션을 따라간다
+        Vector2 a = this.transform.position;
+        Vector2 b = uiPointer._cursor.transform.position;
+        vec2Pos = Vector2.Lerp(a, b, t);
+        vec2Pos.z = zPos.z;
+        this.transform.position = vec2Pos;
+        Debug.Log("연속 로그찍는 상태면 옮기려고 계속 시도중");
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -69,53 +92,53 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
         this.transform.SetParent(Canvas);
         scheduleManager.LockAllCollision(this.transform);
     }
-
+    
     public void OnPointerUp(PointerEventData eventData)
     {
         this.transform.SetParent(Grp);
         scheduleManager.ReleaseAllCollision();
         scheduleManager.PlaySoundByTypes("PUT");
 
-        if (slot_New != null) //슬롯에 들어온 경우
+        if (IntoSlot != null) //슬롯에 들어온 경우
         {
-            if (slot_New == slot_Now)
+            if (IntoSlot == activeSlot)
             {
-                transform.localPosition = slot_Now.transform.localPosition;
+                transform.localPosition = activeSlot.transform.localPosition;
                 return;
             }
 
-            if (slot_New.GetComponent<PlanSlotController1>().passenger == null) //새로운 슬롯이 비어있는 경우
+            if (IntoSlot.GetComponent<PlanSlotController1>().passenger == null) //새로운 슬롯이 비어있는 경우
             {
-                if (slot_Now != null)
+                if (activeSlot != null)
                 {
-                    slot_Now.GetComponent<PlanSlotController1>().passenger = null;
+                    activeSlot.GetComponent<PlanSlotController1>().passenger = null;
                 }
 
-                slot_Now = slot_New;
-                transform.localPosition = slot_Now.transform.localPosition;
-                slot_Now.GetComponent<PlanSlotController1>().passenger = this.gameObject;
+                activeSlot = IntoSlot;
+                transform.localPosition = activeSlot.transform.localPosition;
+                activeSlot.GetComponent<PlanSlotController1>().passenger = this.gameObject;
             }
             else
             {
                 //새로운 슬롯에 이미 계획이 있는 경우
 
-                if (slot_Now == null) //현재 할당된 슬롯이 없는 경우
+                if (activeSlot == null) //현재 할당된 슬롯이 없는 경우
                 {
-                    slot_New.GetComponent<PlanSlotController1>().passenger.GetComponent<PlanCubeController1>().resetPlanCube();
+                    IntoSlot.GetComponent<PlanSlotController1>().passenger.GetComponent<PlanCubeController1>().resetPlanCube();
                 }
                 else
                 {
                     //현재 할당된 슬롯이 있어서 바꿔치기 하는 경우
-                    GameObject tempObj = slot_New.GetComponent<PlanSlotController1>().passenger;
+                    GameObject tempObj = IntoSlot.GetComponent<PlanSlotController1>().passenger;
 
-                    tempObj.transform.localPosition = slot_Now.transform.localPosition;
-                    tempObj.GetComponent<PlanCubeController1>().slot_Now = slot_Now;
-                    slot_Now.GetComponent<PlanSlotController1>().passenger = tempObj;
+                    tempObj.transform.localPosition = activeSlot.transform.localPosition;
+                    tempObj.GetComponent<PlanCubeController1>().activeSlot = activeSlot;
+                    activeSlot.GetComponent<PlanSlotController1>().passenger = tempObj;
                 }
 
-                slot_Now = slot_New;
-                transform.localPosition = slot_Now.transform.localPosition;
-                slot_Now.GetComponent<PlanSlotController1>().passenger = this.gameObject;
+                activeSlot = IntoSlot;
+                transform.localPosition = activeSlot.transform.localPosition;
+                activeSlot.GetComponent<PlanSlotController1>().passenger = this.gameObject;
             }
 
             scheduleManager.CheckMovingCnt();
@@ -123,9 +146,9 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
         }
         else
         {
-            if (slot_Now != null)
+            if (activeSlot != null)
             {
-                transform.localPosition = slot_Now.transform.localPosition;
+                transform.localPosition = activeSlot.transform.localPosition;
             }
             else
             {
@@ -134,14 +157,14 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
         }
 
         NowClicked = false;
-        slot_New = null;
+        IntoSlot = null;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.tag == "SLOT")
         {
-            slot_New = collision.collider.gameObject;
+            IntoSlot = collision.collider.gameObject;
         }
 
         if (collision.collider.tag == "POINTER")
@@ -155,7 +178,7 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
     {
         if (collision.collider.tag == "SLOT")
         {
-            slot_New = null;
+            IntoSlot = null;
         }
 
         if (collision.collider.tag == "POINTER")
@@ -166,8 +189,8 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
 
     public void resetPlanCube()
     {
-        slot_Now = null;
-        slot_New = null;
+        activeSlot = null;
+        IntoSlot = null;
         transform.localPosition = StartPos;
     }
 }

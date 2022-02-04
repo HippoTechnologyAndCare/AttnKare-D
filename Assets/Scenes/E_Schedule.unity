@@ -583,11 +583,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scheduleManager: {fileID: 597562634}
   HandCursor: {fileID: 1405856165229722246}
-  HandController: {fileID: 6339257226215212254}
+  handController: {fileID: 6339257226215212255}
   Canvas: {fileID: 7428048669433816910}
   Grp: {fileID: 157544900}
   StartPos: {x: 0, y: 0}
-  slot_Now: {fileID: 0}
+  t: 0.5
+  activeSlot: {fileID: 0}
 --- !u!1 &84847508
 GameObject:
   m_ObjectHideFlags: 0
@@ -1641,7 +1642,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 424, y: -357}
+  m_AnchoredPosition: {x: 420, y: -240}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!65 &159546182
@@ -2633,11 +2634,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scheduleManager: {fileID: 597562634}
   HandCursor: {fileID: 1405856165229722246}
-  HandController: {fileID: 6339257226215212254}
+  handController: {fileID: 6339257226215212255}
   Canvas: {fileID: 7428048669433816910}
   Grp: {fileID: 157544900}
   StartPos: {x: 0, y: 0}
-  slot_Now: {fileID: 0}
+  t: 0.5
+  activeSlot: {fileID: 0}
 --- !u!1 &333917645
 GameObject:
   m_ObjectHideFlags: 0
@@ -3491,11 +3493,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scheduleManager: {fileID: 597562634}
   HandCursor: {fileID: 1405856165229722246}
-  HandController: {fileID: 6339257226215212254}
+  handController: {fileID: 6339257226215212255}
   Canvas: {fileID: 7428048669433816910}
   Grp: {fileID: 157544900}
   StartPos: {x: 0, y: 0}
-  slot_Now: {fileID: 0}
+  t: 0.5
+  activeSlot: {fileID: 0}
 --- !u!1001 &388713639
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5585,7 +5588,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 420, y: -90}
+  m_AnchoredPosition: {x: 420, y: -32.7}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &593576208
@@ -8178,11 +8181,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scheduleManager: {fileID: 597562634}
   HandCursor: {fileID: 1405856165229722246}
-  HandController: {fileID: 6339257226215212254}
+  handController: {fileID: 6339257226215212255}
   Canvas: {fileID: 7428048669433816910}
   Grp: {fileID: 157544900}
   StartPos: {x: 0, y: 0}
-  slot_Now: {fileID: 0}
+  t: 0.5
+  activeSlot: {fileID: 0}
 --- !u!1 &921836161
 GameObject:
   m_ObjectHideFlags: 0
@@ -9944,11 +9948,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scheduleManager: {fileID: 597562634}
   HandCursor: {fileID: 1405856165229722246}
-  HandController: {fileID: 6339257226215212254}
+  handController: {fileID: 6339257226215212255}
   Canvas: {fileID: 7428048669433816910}
   Grp: {fileID: 157544900}
   StartPos: {x: 0, y: 0}
-  slot_Now: {fileID: 0}
+  t: 0.5
+  activeSlot: {fileID: 0}
 --- !u!114 &1118607269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11131,11 +11136,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scheduleManager: {fileID: 597562634}
   HandCursor: {fileID: 1405856165229722246}
-  HandController: {fileID: 6339257226215212254}
+  handController: {fileID: 6339257226215212255}
   Canvas: {fileID: 7428048669433816910}
   Grp: {fileID: 157544900}
   StartPos: {x: 0, y: 0}
-  slot_Now: {fileID: 0}
+  t: 0.5
+  activeSlot: {fileID: 0}
 --- !u!114 &1324663539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11806,11 +11812,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scheduleManager: {fileID: 597562634}
   HandCursor: {fileID: 1405856165229722246}
-  HandController: {fileID: 6339257226215212254}
+  handController: {fileID: 6339257226215212255}
   Canvas: {fileID: 7428048669433816910}
   Grp: {fileID: 157544900}
   StartPos: {x: 0, y: 0}
-  slot_Now: {fileID: 0}
+  t: 0.5
+  activeSlot: {fileID: 0}
 --- !u!1 &1401866948
 GameObject:
   m_ObjectHideFlags: 0
@@ -15753,7 +15760,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1879618242
 RectTransform:
   m_ObjectHideFlags: 0

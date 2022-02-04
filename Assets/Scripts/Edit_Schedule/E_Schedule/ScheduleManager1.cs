@@ -54,8 +54,8 @@ public class ScheduleManager1 : MonoBehaviour
     int Timer_Min = 1;
     int Timer_Sec = 30;
 
-    float TimeLimit = 90;              //시간 제한 사용 방향 기획 필요
-    float TimeLimitForFinish = 120;      //강제종료시간
+    float TimeLimit = 900;              //시간 제한 사용 방향 기획 필요
+    float TimeLimitForFinish = 1200;      //강제종료시간
     float TotalElapsedTime = 0;         //수행한 시간 계산용
     float TotalElapsedTimeForCalc = 0;  //수행한 시간 보여주기용
     float TimerForBeforeStarted = 0;    //시작하기 누르기까지 시간
