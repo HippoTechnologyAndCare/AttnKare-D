@@ -6,25 +6,21 @@ using BNG;
 public class GrabObj_BP : MonoBehaviour
 {
     // Start is called before the first frame update
-    public Object_BP.OBJ_BP m_eObj;
-    public Object_BP.KIND_BP m_eKind;
+    public Object_BP.OBJ_BP eObj;
+    public Object_BP.KIND_BP eKind;
 
-    Vector3 m_v3Start;
+    Vector3 m_v3Pos;
+    Vector3 m_v3Rot;
     void Start()
     {
-        m_v3Start = this.transform.position;
-        Debug.Log(m_v3Start);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-       
+        m_v3Pos = this.transform.localPosition;
+        m_v3Rot = transform.localEulerAngles;
     }
 
     public void Reset()
     {
-        transform.position = m_v3Start;
+        transform.localPosition = m_v3Pos;
+        transform.localEulerAngles = m_v3Rot;
         Debug.Log("RESET");
     }
 }
