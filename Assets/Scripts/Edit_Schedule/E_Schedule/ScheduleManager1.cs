@@ -6,6 +6,13 @@ using TMPro;
 using KetosGames.SceneTransition;
 using BNG;
 
+public enum ESoundType
+{
+    IN,
+    CLICK,
+    CNT,
+    PUT
+}
 
 public class ScheduleManager1 : MonoBehaviour
 {
@@ -69,12 +76,12 @@ public class ScheduleManager1 : MonoBehaviour
 
     int SkipYn = 0;
 
-    //------------- SOUND
-    AudioSource audioSource;
+    //------------- SOUND    
     public AudioClip Sound_Count;
     public AudioClip Sound_In;
     public AudioClip Sound_Click;
     public AudioClip Sound_Put;
+    AudioSource audioSource;
 
     //------------- Manager
     public Transform SetPlayerData;
@@ -87,7 +94,7 @@ public class ScheduleManager1 : MonoBehaviour
         BeforeStart = true;
         SlotList = new List<Transform>();
         GrpList = new List<Transform>();
-
+        
         foreach (Transform s in Slot)
         {
             SlotList.Add(s);
@@ -233,7 +240,7 @@ public class ScheduleManager1 : MonoBehaviour
 
     public void reSetAll()
     {
-        PlaySoundByTypes("CLICK");
+        PlaySoundByTypes(ESoundType.CLICK);
 
         if (CheckEmptySlot())
         {
@@ -273,7 +280,7 @@ public class ScheduleManager1 : MonoBehaviour
 
     public void DoStartSchedule()
     {
-        PlaySoundByTypes("CLICK");
+        PlaySoundByTypes(ESoundType.CLICK);
         StartCoroutine(StartCntDown());
     }
 
@@ -284,13 +291,13 @@ public class ScheduleManager1 : MonoBehaviour
         TextTitle.text = "준비 ~";
 
         yield return new WaitForSeconds(1f);
-        PlaySoundByTypes("CNT");
+        PlaySoundByTypes(ESoundType.CNT);
         TextTitle.text = "3";
         yield return new WaitForSeconds(1);
-        PlaySoundByTypes("CNT");
+        PlaySoundByTypes(ESoundType.CNT);
         TextTitle.text = "2";
         yield return new WaitForSeconds(1);
-        PlaySoundByTypes("CNT");
+        PlaySoundByTypes(ESoundType.CNT);
         TextTitle.text = "1";
         yield return new WaitForSeconds(1);
         TextTitle.text = "시작 !";
@@ -312,13 +319,13 @@ public class ScheduleManager1 : MonoBehaviour
 
     public void ShowFinishPanel()
     {
-        PlaySoundByTypes("CLICK");
+        PlaySoundByTypes(ESoundType.CLICK);
         Finish.gameObject.SetActive(true);
     }
 
     public void FinishPanel_No()
     {
-        PlaySoundByTypes("CLICK");
+        PlaySoundByTypes(ESoundType.CLICK);
         Finish.gameObject.SetActive(false);
 
         ClickNoCnt += 1;
@@ -326,7 +333,7 @@ public class ScheduleManager1 : MonoBehaviour
 
     public void FinishPanel_Yes(bool Skipped)
     {
-        PlaySoundByTypes("CLICK");
+        PlaySoundByTypes(ESoundType.CLICK);
         collectData.AddTimeStamp("MISSION END");
 
         LeGogo = false;
@@ -406,27 +413,44 @@ public class ScheduleManager1 : MonoBehaviour
 
 
 
-    public void PlaySoundByTypes(string Type)
+    public void PlaySoundByTypes(ESoundType soundType)
     {
         audioSource.clip = null;
 
-        if (Type == "IN")
+        switch (soundType)
         {
-            audioSource.clip = Sound_In;
+            case ESoundType.CLICK:
+                audioSource.clip = Sound_Click;
+                break;
+            case ESoundType.IN:
+                audioSource.clip = Sound_In;
+                break;
+            case ESoundType.CNT:
+                audioSource.clip = Sound_Count;
+                break;
+            case ESoundType.PUT:
+                audioSource.clip = Sound_Put;
+                break;
         }
-        else if (Type == "CLICK")
-        {
-            audioSource.clip = Sound_Click; 
-        }
-        else if (Type == "CNT")
-        {
-            audioSource.clip = Sound_Count;
-        }
-        else if (Type == "PUT")
-        {
-            audioSource.clip = Sound_Put;
-        }
-
         audioSource.Play();
+
+        //if (Type == "IN")
+        //{
+        //    audioSource.clip = Sound_In;
+        //}
+        //else if (Type == "CLICK")
+        //{
+        //    audioSource.clip = Sound_Click; 
+        //}
+        //else if (Type == "CNT")
+        //{
+        //    audioSource.clip = Sound_Count;
+        //}
+        //else if (Type == "PUT")
+        //{
+        //    audioSource.clip = Sound_Put;
+        //}
+
+        
     }
 }

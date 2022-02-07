@@ -32,7 +32,7 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
 
     void Start()
     {
-        zPos.z = 2.323f;
+        zPos.z = 2.21874f;
         StartPos = this.transform.localPosition;
         uiPointer = HandCursor.GetComponent<BNG.UIPointer>();        
     }
@@ -54,12 +54,11 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
                 Debug.Log("???");
             }
 
-
             if (!PointerOnCube && handController.PointAmount == 1)
             {
                 this.transform.SetParent(Grp);
                 scheduleManager.ReleaseAllCollision();
-                scheduleManager.PlaySoundByTypes("PUT");
+                scheduleManager.PlaySoundByTypes(ESoundType.PUT);
 
                 NowClicked = false;
                 IntoSlot = null;
@@ -97,7 +96,7 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
     {
         this.transform.SetParent(Grp);
         scheduleManager.ReleaseAllCollision();
-        scheduleManager.PlaySoundByTypes("PUT");
+        scheduleManager.PlaySoundByTypes(ESoundType.PUT);
 
         if (IntoSlot != null) //슬롯에 들어온 경우
         {
@@ -170,7 +169,7 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
         if (collision.collider.tag == "POINTER")
         {
             PointerOnCube = true;
-            scheduleManager.PlaySoundByTypes("IN");
+            scheduleManager.PlaySoundByTypes(ESoundType.IN);
         }
     }
 
