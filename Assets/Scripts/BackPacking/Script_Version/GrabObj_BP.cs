@@ -17,7 +17,7 @@ public class GrabObj_BP : MonoBehaviour
         m_v3Rot = transform.localEulerAngles;
     }
 
-    public void Reset()
+    public void ResetPosition()
     {
         transform.localPosition = m_v3Pos;
         transform.localEulerAngles = m_v3Rot;

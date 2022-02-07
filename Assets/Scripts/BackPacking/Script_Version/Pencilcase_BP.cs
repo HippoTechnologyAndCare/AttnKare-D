@@ -69,12 +69,11 @@ public class Pencilcase_BP : MonoBehaviour
 
     void CheckObj(Transform obj)
     {
-
         switch (obj.tag)
         {
             case "Necessary_Pencil": CheckCorrect(obj); break;
-            case "Necessary": necessary++; obj.GetComponent<GrabObj_BP>().Reset(); break;
-            case "Unnecessary": unnecessary++; obj.GetComponent<GrabObj_BP>().Reset(); break;
+            case "Necessary": necessary++; obj.GetComponent<GrabObj_BP>().ResetPosition(); break;
+            case "Unnecessary": unnecessary++; obj.GetComponent<GrabObj_BP>().ResetPosition(); break;
         }
         m_tCol = null;
     }
@@ -125,7 +124,7 @@ public class Pencilcase_BP : MonoBehaviour
             m_tChild.localScale = new Vector3(1, 1, 1);
             m_nPncilIndex++;
         }
-        else m_GOBJ.Reset();
+        else m_GOBJ.ResetPosition();
     }
     void SetPen()
     {
@@ -134,7 +133,7 @@ public class Pencilcase_BP : MonoBehaviour
             SetPosition(false);
             m_tChild.localScale = new Vector3(0.5241489f, 1.009642f, 1.028336f);
         }
-        else m_GOBJ.Reset();
+        else m_GOBJ.ResetPosition();
     }
 
     IEnumerator AllDone()
