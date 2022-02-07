@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BNG;
+using EPOOutline;
 
 public class Object_BP : MonoBehaviour
 {
@@ -66,15 +67,27 @@ public class Object_BP : MonoBehaviour
 
     };
 
-
     //PACK_DISTRACTION
     // Start is called before the first frame update
 
-
+  
     public InputBridge XrRig;
     public static bool bGrabbed;
+    public GameObject[] arrStage2;
+    GameObject m_tPencilcase;
+    
+
+    void Stage1()
+    {
+
+    }
+    public void Stage2()
+    {
+
+    }
     void Start()
     {
+        m_tPencilcase = GameObject.Find("Pencilcase_complete");
     }
 
     // Update is called once per frame

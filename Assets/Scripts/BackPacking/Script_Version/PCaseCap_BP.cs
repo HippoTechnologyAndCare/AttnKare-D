@@ -8,9 +8,11 @@ public class PCaseCap_BP : MonoBehaviour
 { 
     //UI용 만들어서 case cap activate 해야함
     public Transform Cap;
-    Transform m_tParent;
+    public Pencilcase_BP pc_Collider;
+    public Transform finalPC;
     Object_BP.STATE m_eState;
 
+    GameObject Manager;
     Transform m_tChild;
     Vector3 m_v3Pos = new Vector3(2.2e-05f, -2e-06f, 0.000332f);
     Vector3 m_v3Rot = new Vector3(-180, -180, -180);
@@ -19,10 +21,13 @@ public class PCaseCap_BP : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_tParent = transform.parent;
-        Cap.GetComponentInChildren<RingHelper>().enabled = Cap.GetComponent<Rigidbody>().useGravity
-                   = Cap.GetComponent<BoxCollider>().enabled = Cap.GetComponent<Outlinable>().enabled = true;
-        Cap.GetComponentInChildren<Animator>().gameObject.SetActive(true);
+        Manager = GameObject.Find("GameFlow_Manager");
+        m_eState = Object_BP.STATE.EXIT;
+        Cap.GetComponent<Rigidbody>().useGravity= true;
+        Cap.GetComponent<BoxCollider>().enabled = true; Cap.GetComponent<Outlinable>().enabled = true;
+        Cap.Find("Arrow_cap").gameObject.SetActive(true);
+        Cap.Find("RingHelper").gameObject.SetActive(true);
+        pc_Collider.enabled = false;
     }
 
     // Update is called once per frame
@@ -50,17 +55,22 @@ public class PCaseCap_BP : MonoBehaviour
     void Enter()
     {
         if (Object_BP.bGrabbed) return; //wait until trigger is released
-        if (!Object_BP.bGrabbed) { m_eState = Object_BP.STATE.EXIT; }
+        if (!Object_BP.bGrabbed) { CheckCap();  m_eState = Object_BP.STATE.EXIT; }
     }
 
     void CheckCap()
     {
+        Debug.Log("enter");
         transform.GetComponent<Collider>().enabled = false;
         m_tChild = Cap.Find("Pencilcase_cover");
+        m_tChild.SetParent(transform.parent);
         m_tChild.localPosition = m_v3Pos;
         m_tChild.localEulerAngles = m_v3Rot;
         m_tChild.localScale = m_v3Scale;
-        Destroy(Cap); 
+        Destroy(Cap.gameObject);
+        transform.parent.SetParent(finalPC);
+        Manager.GetComponent<Object_BP>().Stage2();
+        Destroy(gameObject);
 
     }
 }
