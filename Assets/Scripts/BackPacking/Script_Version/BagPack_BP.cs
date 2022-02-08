@@ -11,22 +11,25 @@ public class BagPack_BP : MonoBehaviour
     public Transform m_tChild;
     public int unnecessary;
     public int necessary;
-
+    Object_BP.KIND_BP m_eKind;
+    Object_BP.BP_INFO m_Bpinfo;
     int m_nPosIndex = 0;
     Transform m_tParent;
+    Transform m_tPrevParent;
     GrabObj_BP m_GOBJ;
-    Material m_matCol;
-    List<Material> m_lMat = new List<Material>();
-    Material m_matGlue;
-    Material m_matPencilCase;
+    List<Transform> m_tTxt = new List<Transform>();
+    Transform m_tGlue;
+    Transform m_tPencilCase;
     void Start()
     {
         m_eState = Object_BP.STATE.EXIT;
-        m_lMat.Add(GameObject.Find("TextBook1").GetComponent<Material>());
-        m_lMat.Add(GameObject.Find("TextBook2").GetComponent<Material>());
-        m_lMat.Add(GameObject.Find("TextBook3").GetComponent<Material>());
-        m_lMat.Add(GameObject.Find("TextBook4").GetComponent<Material>());
+        m_tTxt.Add(transform.Find("TextBook1").transform);
+        m_tTxt.Add(transform.Find("TextBook2").transform);
+        m_tTxt.Add(transform.Find("TextBook3").transform);
+        m_tTxt.Add(transform.Find("TextBook4").transform);
 
+        m_tPencilCase = transform.Find("PencilCase_Final").transform;
+        m_tGlue = transform.Find("glue").transform;
     }
 
     // Update is called once per frame
@@ -68,31 +71,38 @@ public class BagPack_BP : MonoBehaviour
     {
         m_tParent = obj;
         m_GOBJ = m_tParent.GetComponent<GrabObj_BP>();
-        m_tChild = obj.GetComponentInChildren<MeshRenderer>().transform;
-        m_matCol = m_tChild.GetComponent<Material>();
+        m_tChild = m_tParent.GetComponentInChildren<MeshRenderer>().transform;
         switch (m_GOBJ.eObj)
         {
             case Object_BP.OBJ_BP.TXTBOOK: SetTextbook(); break;
-            case Object_BP.OBJ_BP.PCASE: SetPCase(); break;
-            case Object_BP.OBJ_BP.GLUE: SetGlue(); break;
+            case Object_BP.OBJ_BP.PCASE: SetPosition(m_tPencilCase); break;
+            case Object_BP.OBJ_BP.GLUE: SetPosition(m_tGlue); break;
             default: Debug.Log(m_tChild.name); return;
         }
     }
-    void SetPCase()
+
+    void SetPosition(Transform m_tTarget)
     {
-        m_matPencilCase = m_matCol;
-    }
-    void SetGlue()
-    {
-        m_matGlue = m_matCol;
+        m_tPrevParent = m_tChild.parent;
+        m_tChild.SetParent(this.transform);
+        m_tChild.localPosition = m_tTarget.localPosition;
+        m_tChild.localEulerAngles = m_tTarget.localEulerAngles;
+        m_tChild.localScale = m_tTarget.localScale;
+        Destroy(m_tTarget.gameObject);
+        Destroy(m_tPrevParent.gameObject);
+        ResetVariable();
+
     }
     void SetTextbook()
     {
-        if (Object_BP.BP2DB[(int)m_GOBJ.eKind].bCorrect)
+        m_eKind = m_GOBJ.eKind;
+        m_Bpinfo = Object_BP.BP2DB[(int)m_eKind];
+        Debug.Log(m_Bpinfo.bCorrect.ToString());
+        Debug.Log(m_Bpinfo.eKind.ToString());
+        if (m_Bpinfo.bCorrect)
         {
-            m_lMat[m_nPosIndex] = m_matCol;
+            SetPosition(m_tTxt[m_nPosIndex]);
             m_nPosIndex++;
-
         }
         else m_GOBJ.ResetPosition();
     }
@@ -100,6 +110,6 @@ public class BagPack_BP : MonoBehaviour
     void ResetVariable()
     {
         m_tParent = m_tChild = m_tCol = null;
-        m_matCol = null;
+        m_GOBJ = null;
     }
 }

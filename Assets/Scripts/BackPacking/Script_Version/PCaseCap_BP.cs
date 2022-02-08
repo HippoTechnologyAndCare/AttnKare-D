@@ -11,7 +11,6 @@ public class PCaseCap_BP : MonoBehaviour
     public Pencilcase_BP pc_Collider;
     public Transform finalPC;
     Object_BP.STATE m_eState;
-
     GameObject Manager;
     Transform m_tChild;
     Vector3 m_v3Pos = new Vector3(2.2e-05f, -2e-06f, 0.000332f);
@@ -69,6 +68,7 @@ public class PCaseCap_BP : MonoBehaviour
         m_tChild.localScale = m_v3Scale;
         Destroy(Cap.gameObject);
         transform.parent.SetParent(finalPC);
+        finalPC.gameObject.SetActive(true);
         Manager.GetComponent<Object_BP>().Stage2();
         Destroy(gameObject);
 
