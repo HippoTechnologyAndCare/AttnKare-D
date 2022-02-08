@@ -81,8 +81,7 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
         Vector2 b = uiPointer._cursor.transform.position;
         vec2Pos = Vector2.Lerp(a, b, t);
         vec2Pos.z = zPos.z;
-        this.transform.position = vec2Pos;
-        Debug.Log("연속 로그찍는 상태면 옮기려고 계속 시도중");
+        this.transform.position = vec2Pos;        
     }
 
     public void OnPointerDown(PointerEventData eventData)

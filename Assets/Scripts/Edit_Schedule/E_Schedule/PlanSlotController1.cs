@@ -7,19 +7,23 @@ public class PlanSlotController1 : MonoBehaviour
 {
     public GameObject passenger;
 
-    Image image;
+    [SerializeField] Transform cube;
+
+    Material mat;
 
 
     void Start()
     {
-        image = this.GetComponent<Image>();
+        cube = this.gameObject.transform.Find("Cube");
+        mat = cube.GetComponent<MeshRenderer>().material;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "PLAN")
-        {            
-            image.color = new Color(0, 255, 0, 0.5f);
+        {
+            mat.color = new Color(0.67f, 0, 0.545f, 0.12f);
+            
         }
     }
 
@@ -28,7 +32,7 @@ public class PlanSlotController1 : MonoBehaviour
         if (collision.collider.tag == "PLAN")
         {
             Debug.Log("enter");
-            image.color = new Color(0, 255, 0, 0.5f);
+            mat.color = new Color(0.67f, 0, 0.545f, 0.7f);
         }
     }
 
@@ -36,7 +40,8 @@ public class PlanSlotController1 : MonoBehaviour
     {
         if (collision.collider.tag == "PLAN")
         {
-            image.color = new Color(255, 255, 255, 0.15f);
+            Debug.Log("exit");
+            mat.color = new Color(0.67f, 0, 0.545f, 0.12f);
         }
     }
 
@@ -44,6 +49,6 @@ public class PlanSlotController1 : MonoBehaviour
     public void resetPlanSlot()
     {
         passenger = null;
-        image.color = new Color(255, 255, 255, 0.15f);
+        mat.color = new Color(0.67f, 0, 0.545f, 0.12f);
     }
 }

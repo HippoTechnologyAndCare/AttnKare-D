@@ -444,7 +444,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 74130298}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.0507}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 662331822}
@@ -683,11 +683,11 @@ GameObject:
   - component: {fileID: 88436253}
   - component: {fileID: 88436252}
   m_Layer: 5
-  m_Name: Cube (2)
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!224 &88436250
 RectTransform:
@@ -841,6 +841,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passenger: {fileID: 0}
+  cube: {fileID: 0}
 --- !u!114 &88743273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1673,7 +1674,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 157544899}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.0507}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 74130299}
@@ -1703,7 +1704,7 @@ GameObject:
   - component: {fileID: 185149261}
   - component: {fileID: 185149260}
   m_Layer: 5
-  m_Name: TIme2
+  m_Name: TIme_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1721,7 +1722,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 461856531}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1761,7 +1762,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC624\uD6C4 2\uC2DC"
+  m_Text: "\uC624\uC804 8\uC2DC"
 --- !u!222 &185149261
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1995,7 +1996,7 @@ GameObject:
   - component: {fileID: 265023141}
   - component: {fileID: 265023140}
   m_Layer: 5
-  m_Name: TIme1
+  m_Name: TIme_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2018,7 +2019,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 73}
-  m_SizeDelta: {x: 160, y: 80}
+  m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &265023140
 MonoBehaviour:
@@ -2053,7 +2054,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC544\uCE68 8\uC2DC"
+  m_Text: "\uC624\uD6C4 1\uC2DC"
 --- !u!222 &265023141
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2074,7 +2075,7 @@ GameObject:
   - component: {fileID: 266956916}
   - component: {fileID: 266956915}
   m_Layer: 5
-  m_Name: TIme2
+  m_Name: TIme_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2092,12 +2093,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1614332075}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 73}
-  m_SizeDelta: {x: 160, y: 80}
+  m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &266956915
 MonoBehaviour:
@@ -2579,8 +2580,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 130, y: 60, z: 0.05}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 200.67024, y: 100.6464, z: 0.050722357}
+  m_Center: {x: 0, y: 0, z: 0.025381815}
 --- !u!54 &303900832
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2610,6 +2611,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passenger: {fileID: 0}
+  cube: {fileID: 0}
 --- !u!114 &303900834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2782,8 +2784,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 150, y: 60, z: 0.02}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 200.67024, y: 100.6464, z: 0.050722357}
+  m_Center: {x: 0, y: 0, z: 0.025381815}
 --- !u!114 &325993255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3234,7 +3236,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a1041563d52cf3b46b5783e1d6c9f992, type: 2}
+  - {fileID: 2100000, guid: a077711eec90d464a9c674bdb3e1119e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3276,11 +3278,11 @@ GameObject:
   - component: {fileID: 359934415}
   - component: {fileID: 359934414}
   m_Layer: 5
-  m_Name: Cube (2)
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!224 &359934412
 RectTransform:
@@ -3533,7 +3535,7 @@ MonoBehaviour:
   m_Color: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3727,8 +3729,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 150, y: 60, z: 0.02}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 200.67024, y: 100.6464, z: 0.050722357}
+  m_Center: {x: 0, y: 0, z: 0.025381815}
 --- !u!114 &387748449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4261,7 +4263,7 @@ MonoBehaviour:
   m_Color: {r: 0.3307624, g: 0, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4525,8 +4527,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: -0.0507}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 185149259}
   - {fileID: 641407304}
+  - {fileID: 185149259}
   m_Father: {fileID: 976793244}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4546,8 +4548,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 130, y: 60, z: 0.05}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 200.67024, y: 100.6464, z: 0.050722357}
+  m_Center: {x: 0, y: 0, z: 0.025381815}
 --- !u!54 &461856533
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4615,6 +4617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passenger: {fileID: 0}
+  cube: {fileID: 0}
 --- !u!1 &472116131
 GameObject:
   m_ObjectHideFlags: 0
@@ -4627,7 +4630,7 @@ GameObject:
   - component: {fileID: 472116134}
   - component: {fileID: 472116133}
   m_Layer: 5
-  m_Name: TIme3
+  m_Name: TIme_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4650,7 +4653,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 73}
-  m_SizeDelta: {x: 160, y: 80}
+  m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &472116133
 MonoBehaviour:
@@ -4685,7 +4688,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC624\uD6C4 4\uC2DC"
+  m_Text: "\uC624\uD6C4 3\uC2DC"
 --- !u!222 &472116134
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5454,7 +5457,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5492,11 +5495,11 @@ GameObject:
   - component: {fileID: 553703945}
   - component: {fileID: 553703944}
   m_Layer: 5
-  m_Name: Cube (2)
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!224 &553703943
 RectTransform:
@@ -6475,7 +6478,7 @@ RectTransform:
   m_LocalScale: {x: 200.00002, y: 100, z: 0.05}
   m_Children: []
   m_Father: {fileID: 461856531}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6501,7 +6504,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a1041563d52cf3b46b5783e1d6c9f992, type: 2}
+  - {fileID: 2100000, guid: c29d6a029bf66ce47bb82a631f40a909, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6595,7 +6598,7 @@ GameObject:
   - component: {fileID: 650606194}
   - component: {fileID: 650606193}
   m_Layer: 5
-  m_Name: TIme3
+  m_Name: TIme_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6613,12 +6616,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1267354467}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 73}
-  m_SizeDelta: {x: 160, y: 80}
+  m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &650606193
 MonoBehaviour:
@@ -6653,7 +6656,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC624\uD6C4 4\uC2DC"
+  m_Text: "\uC624\uC804 9\uC2DC"
 --- !u!222 &650606194
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6806,7 +6809,7 @@ RectTransform:
   m_LocalScale: {x: 200.00002, y: 100, z: 0.05}
   m_Children: []
   m_Father: {fileID: 864901845}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6832,7 +6835,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a1041563d52cf3b46b5783e1d6c9f992, type: 2}
+  - {fileID: 2100000, guid: df7796a109ca809489008791f08b1be8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7112,7 +7115,7 @@ GameObject:
   - component: {fileID: 715782385}
   - component: {fileID: 715782384}
   m_Layer: 5
-  m_Name: TIme3
+  m_Name: TIme_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7130,12 +7133,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1788903061}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 73}
-  m_SizeDelta: {x: 160, y: 80}
+  m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &715782384
 MonoBehaviour:
@@ -7221,7 +7224,7 @@ RectTransform:
   m_LocalScale: {x: 200.00002, y: 100, z: 0.05}
   m_Children: []
   m_Father: {fileID: 1614332075}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7247,7 +7250,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a1041563d52cf3b46b5783e1d6c9f992, type: 2}
+  - {fileID: 2100000, guid: c9d55ff8772659c47a477fc720f08991, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7616,7 +7619,7 @@ MonoBehaviour:
   m_Color: {r: 0.3307624, g: 0, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -7733,7 +7736,7 @@ GameObject:
   - component: {fileID: 786155003}
   - component: {fileID: 786155002}
   m_Layer: 5
-  m_Name: TIme1
+  m_Name: TIme_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7791,7 +7794,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC544\uCE68 8\uC2DC"
+  m_Text: "\uC624\uC804 7\uC2DC"
 --- !u!222 &786155003
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8230,8 +8233,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: -0.0507}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1986495269}
   - {fileID: 690219586}
+  - {fileID: 1986495269}
   m_Father: {fileID: 976793244}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8251,8 +8254,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 130, y: 60, z: 0.05}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 200.67024, y: 100.6464, z: 0.050722357}
+  m_Center: {x: 0, y: 0, z: 0.025381815}
 --- !u!54 &864901847
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8282,6 +8285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passenger: {fileID: 0}
+  cube: {fileID: 0}
 --- !u!114 &864901849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8432,7 +8436,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a1041563d52cf3b46b5783e1d6c9f992, type: 2}
+  - {fileID: 2100000, guid: 61df1ab555d3d7341962aa7085801f66, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8537,7 +8541,7 @@ GameObject:
   - component: {fileID: 912505147}
   - component: {fileID: 912505146}
   m_Layer: 5
-  m_Name: Cube (1)
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8581,7 +8585,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a1041563d52cf3b46b5783e1d6c9f992, type: 2}
+  - {fileID: 2100000, guid: 193ae6f4ddc2177489afa5b984f4833c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8726,8 +8730,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 150, y: 60, z: 0.02}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 200.67024, y: 100.6464, z: 0.050722357}
+  m_Center: {x: 0, y: 0, z: 0.025381815}
 --- !u!114 &916613714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8894,11 +8898,11 @@ GameObject:
   - component: {fileID: 945392680}
   - component: {fileID: 945392679}
   m_Layer: 5
-  m_Name: Cube (2)
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!224 &945392678
 RectTransform:
@@ -9021,7 +9025,7 @@ MonoBehaviour:
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -9166,6 +9170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passenger: {fileID: 0}
+  cube: {fileID: 0}
 --- !u!114 &953175279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9718,11 +9723,11 @@ GameObject:
   - component: {fileID: 1037368005}
   - component: {fileID: 1037368004}
   m_Layer: 5
-  m_Name: Cube (2)
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!224 &1037368002
 RectTransform:
@@ -10409,7 +10414,7 @@ RectTransform:
   m_LocalScale: {x: 200.00002, y: 100, z: 0.05}
   m_Children: []
   m_Father: {fileID: 1623705357}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10435,7 +10440,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a1041563d52cf3b46b5783e1d6c9f992, type: 2}
+  - {fileID: 2100000, guid: fe533cc64a655054aafdf439c52222a1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10621,8 +10626,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 150, y: 60, z: 0.02}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 200.67024, y: 100.6464, z: 0.050722357}
+  m_Center: {x: 0, y: 0, z: 0.025381815}
 --- !u!114 &1118607267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11440,8 +11445,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: -0.0507}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 650606192}
   - {fileID: 1947892132}
+  - {fileID: 650606192}
   m_Father: {fileID: 976793244}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11461,8 +11466,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 130, y: 60, z: 0.05}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 200.67024, y: 100.6464, z: 0.050722357}
+  m_Center: {x: 0, y: 0, z: 0.025381815}
 --- !u!54 &1267354469
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11530,6 +11535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passenger: {fileID: 0}
+  cube: {fileID: 0}
 --- !u!1 &1275069352
 GameObject:
   m_ObjectHideFlags: 0
@@ -11775,8 +11781,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 150, y: 60, z: 0.02}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 200.67024, y: 100.6464, z: 0.050722357}
+  m_Center: {x: 0, y: 0, z: 0.025381815}
 --- !u!114 &1324663537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12334,8 +12340,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 150, y: 60, z: 0.02}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 200.67024, y: 100.6464, z: 0.050722357}
+  m_Center: {x: 0, y: 0, z: 0.025381815}
 --- !u!114 &1397295771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12621,7 +12627,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a1041563d52cf3b46b5783e1d6c9f992, type: 2}
+  - {fileID: 2100000, guid: 8e7699619bed2034fa4bf27d22f7c5ac, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13037,7 +13043,7 @@ MonoBehaviour:
   m_Color: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -13095,8 +13101,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: -0.0507}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1556855873}
   - {fileID: 2119172432}
+  - {fileID: 1556855873}
   m_Father: {fileID: 976793244}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13116,8 +13122,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 130, y: 60, z: 0.05}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 200.67024, y: 100.6464, z: 0.050722357}
+  m_Center: {x: 0, y: 0, z: 0.025381815}
 --- !u!54 &1489864269
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13147,6 +13153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passenger: {fileID: 0}
+  cube: {fileID: 0}
 --- !u!114 &1489864271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13197,7 +13204,7 @@ GameObject:
   - component: {fileID: 1516358712}
   - component: {fileID: 1516358711}
   m_Layer: 5
-  m_Name: TIme2
+  m_Name: TIme_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13215,12 +13222,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1623705357}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 73}
-  m_SizeDelta: {x: 160, y: 80}
+  m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1516358711
 MonoBehaviour:
@@ -13695,7 +13702,7 @@ GameObject:
   - component: {fileID: 1556855875}
   - component: {fileID: 1556855874}
   m_Layer: 5
-  m_Name: TIme3
+  m_Name: TIme_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13713,12 +13720,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1489864267}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 73}
-  m_SizeDelta: {x: 160, y: 80}
+  m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1556855874
 MonoBehaviour:
@@ -13753,7 +13760,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC624\uD6C4 4\uC2DC"
+  m_Text: "\uC624\uD6C4 12\uC2DC"
 --- !u!222 &1556855875
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13886,7 +13893,7 @@ GameObject:
   - component: {fileID: 1579545098}
   - component: {fileID: 1579545097}
   m_Layer: 5
-  m_Name: TIme1
+  m_Name: TIme_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13909,7 +13916,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 73}
-  m_SizeDelta: {x: 160, y: 80}
+  m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1579545097
 MonoBehaviour:
@@ -13944,7 +13951,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC544\uCE68 8\uC2DC"
+  m_Text: "\uC624\uC804 10\uC2DC"
 --- !u!222 &1579545098
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14216,8 +14223,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: -0.0507}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 266956914}
   - {fileID: 720243988}
+  - {fileID: 266956914}
   m_Father: {fileID: 976793244}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14237,8 +14244,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 130, y: 60, z: 0.05}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 200.67024, y: 100.6464, z: 0.050722357}
+  m_Center: {x: 0, y: 0, z: 0.025381815}
 --- !u!54 &1614332077
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14268,6 +14275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passenger: {fileID: 0}
+  cube: {fileID: 0}
 --- !u!114 &1614332079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14338,8 +14346,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: -0.0507}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1516358710}
   - {fileID: 1094859478}
+  - {fileID: 1516358710}
   m_Father: {fileID: 976793244}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14359,8 +14367,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 130, y: 60, z: 0.05}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 200.67024, y: 100.6464, z: 0.050722357}
+  m_Center: {x: 0, y: 0, z: 0.025381815}
 --- !u!54 &1623705359
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14390,6 +14398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passenger: {fileID: 0}
+  cube: {fileID: 0}
 --- !u!114 &1623705361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14791,6 +14800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passenger: {fileID: 0}
+  cube: {fileID: 0}
 --- !u!114 &1645745986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15169,7 +15179,7 @@ GameObject:
   - component: {fileID: 1696466331}
   - component: {fileID: 1696466330}
   m_Layer: 5
-  m_Name: TIme1
+  m_Name: TIme_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15192,7 +15202,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 73}
-  m_SizeDelta: {x: 160, y: 80}
+  m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1696466330
 MonoBehaviour:
@@ -15227,7 +15237,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC544\uCE68 8\uC2DC"
+  m_Text: "\uC624\uD6C4 4\uC2DC"
 --- !u!222 &1696466331
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15248,7 +15258,7 @@ GameObject:
   - component: {fileID: 1707084622}
   - component: {fileID: 1707084621}
   m_Layer: 5
-  m_Name: Cube (1)
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15266,7 +15276,7 @@ RectTransform:
   m_LocalScale: {x: 200.00002, y: 100, z: 0.05}
   m_Children: []
   m_Father: {fileID: 1788903061}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -15292,7 +15302,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a1041563d52cf3b46b5783e1d6c9f992, type: 2}
+  - {fileID: 2100000, guid: 5da6b54b16a3dc946bca07ce38550fc9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16820,8 +16830,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: -0.0507}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 715782383}
   - {fileID: 1707084620}
+  - {fileID: 715782383}
   m_Father: {fileID: 976793244}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16841,8 +16851,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 130, y: 60, z: 0.05}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 200.67024, y: 100.6464, z: 0.050722357}
+  m_Center: {x: 0, y: 0, z: 0.025381815}
 --- !u!54 &1788903063
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16872,6 +16882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passenger: {fileID: 0}
+  cube: {fileID: 0}
 --- !u!114 &1788903065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17860,7 +17871,7 @@ GameObject:
   - component: {fileID: 1947892134}
   - component: {fileID: 1947892133}
   m_Layer: 5
-  m_Name: Cube (1)
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17878,7 +17889,7 @@ RectTransform:
   m_LocalScale: {x: 200.00002, y: 100, z: 0.05}
   m_Children: []
   m_Father: {fileID: 1267354467}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -17904,7 +17915,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a1041563d52cf3b46b5783e1d6c9f992, type: 2}
+  - {fileID: 2100000, guid: a69adb9cb71cc5b4399e9de1553e73dd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18056,6 +18067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passenger: {fileID: 0}
+  cube: {fileID: 0}
 --- !u!1 &1956476295
 GameObject:
   m_ObjectHideFlags: 0
@@ -18627,7 +18639,7 @@ GameObject:
   - component: {fileID: 1986495271}
   - component: {fileID: 1986495270}
   m_Layer: 5
-  m_Name: TIme2
+  m_Name: TIme_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18645,12 +18657,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 864901845}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 73}
-  m_SizeDelta: {x: 160, y: 80}
+  m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1986495270
 MonoBehaviour:
@@ -18685,7 +18697,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC624\uD6C4 2\uC2DC"
+  m_Text: "\uC624\uC804 11\uC2DC"
 --- !u!222 &1986495271
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18887,11 +18899,11 @@ GameObject:
   - component: {fileID: 2063652851}
   - component: {fileID: 2063652850}
   m_Layer: 5
-  m_Name: Cube (1)
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!224 &2063652848
 RectTransform:
@@ -19272,7 +19284,7 @@ GameObject:
   - component: {fileID: 2119172434}
   - component: {fileID: 2119172433}
   m_Layer: 5
-  m_Name: Cube (1)
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19290,7 +19302,7 @@ RectTransform:
   m_LocalScale: {x: 200.00002, y: 100, z: 0.05}
   m_Children: []
   m_Father: {fileID: 1489864267}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -19316,7 +19328,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a1041563d52cf3b46b5783e1d6c9f992, type: 2}
+  - {fileID: 2100000, guid: 54c9e43eab1f9a348b6ca363b402b12d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
