@@ -11,8 +11,6 @@ public class BagPack_BP : MonoBehaviour
     public Transform m_tChild;
     public int unnecessary;
     public int necessary;
-    Object_BP.KIND_BP m_eKind;
-    Object_BP.BP_INFO m_Bpinfo;
     int m_nPosIndex = 0;
     Transform m_tParent;
     Transform m_tPrevParent;
@@ -20,6 +18,7 @@ public class BagPack_BP : MonoBehaviour
     List<Transform> m_tTxt = new List<Transform>();
     Transform m_tGlue;
     Transform m_tPencilCase;
+
     void Start()
     {
         m_eState = Object_BP.STATE.EXIT;
@@ -62,8 +61,8 @@ public class BagPack_BP : MonoBehaviour
         switch (obj.tag)
         {
             case "Necessary": CheckCorrect(obj); break;
-            case "Necessary_Pencil": necessary++; obj.GetComponent<GrabObj_BP>().ResetPosition(); break;
-            case "Unnecessary": unnecessary++; obj.GetComponent<GrabObj_BP>().ResetPosition(); break;
+            case "Necessary_Pencil": necessary++; ResetVariable(obj); break;
+            case "Unnecessary": unnecessary++; ResetVariable(obj); break;
         }
         m_tCol = null;
     }
@@ -90,25 +89,22 @@ public class BagPack_BP : MonoBehaviour
         m_tChild.localScale = m_tTarget.localScale;
         Destroy(m_tTarget.gameObject);
         Destroy(m_tPrevParent.gameObject);
-        ResetVariable();
 
     }
     void SetTextbook()
     {
-        m_eKind = m_GOBJ.eKind;
-        m_Bpinfo = Object_BP.BP2DB[(int)m_eKind];
-        Debug.Log(m_Bpinfo.bCorrect.ToString());
-        Debug.Log(m_Bpinfo.eKind.ToString());
-        if (m_Bpinfo.bCorrect)
+        string name = m_GOBJ.name;
+        if (name == "txtB_Korean" || m_GOBJ.name == "txtB_Science" || m_GOBJ.name == "txtB_Art" || m_GOBJ.name == "txtB_English")
         {
             SetPosition(m_tTxt[m_nPosIndex]);
             m_nPosIndex++;
         }
-        else m_GOBJ.ResetPosition();
+        else ResetVariable(m_tParent);
     }
 
-    void ResetVariable()
+    void ResetVariable(Transform obj)
     {
+        obj.GetComponent<GrabObj_BP>().ResetPosition();
         m_tParent = m_tChild = m_tCol = null;
         m_GOBJ = null;
     }
