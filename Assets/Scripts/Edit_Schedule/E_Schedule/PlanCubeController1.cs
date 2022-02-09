@@ -21,17 +21,18 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
 
     public GameObject activeSlot;
 
-    GameObject IntoSlot;
-    UIPointer uiPointer;
+    [SerializeField]  GameObject IntoSlot;
+    UIPointer uiPointer;   
 
     Vector3 vec2Pos;
     Vector3 zPos;
 
+    [SerializeField] bool currWorking;
     bool NowClicked = false;
     bool PointerOnCube = false;
 
     void Start()
-    {
+    {        
         zPos.z = 2.21874f;
         StartPos = this.transform.localPosition;
         uiPointer = HandCursor.GetComponent<BNG.UIPointer>();        
@@ -160,8 +161,9 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "SLOT")
+        if (collision.collider.tag == "SLOT" && !currWorking)
         {
+            currWorking = true;
             IntoSlot = collision.collider.gameObject;
         }
 
@@ -176,6 +178,7 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
     {
         if (collision.collider.tag == "SLOT")
         {
+            currWorking = false;
             IntoSlot = null;
         }
 

@@ -412,7 +412,6 @@ public class ScheduleManager1 : MonoBehaviour
     }
 
 
-
     public void PlaySoundByTypes(ESoundType soundType)
     {
         audioSource.clip = null;
