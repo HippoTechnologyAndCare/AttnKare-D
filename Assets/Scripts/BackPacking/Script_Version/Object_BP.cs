@@ -75,12 +75,7 @@ public class Object_BP : MonoBehaviour
     public static bool bGrabbed;
     public GameObject[] arrStage2;
     GameObject m_tPencilcase;
-    
 
-    void Stage1()
-    {
-
-    }
     public void Stage2()
     {
 
