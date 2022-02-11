@@ -71,7 +71,8 @@ public class GameDataManager : MonoBehaviour
                 saveCurrentSceneData = SetData;                       
                 break;
             case 3: //BP L
-                saveCurrentSceneData = SetData_pm;                      
+                objToFind = FindObjectOfType<TempScriptJason>().gameObject;
+                saveCurrentSceneData = SetData;                      
                 break;
             case 4: //Scoop L
                 objToFind = FindObjectOfType<EasyTubeScoreboard>().gameObject;
@@ -84,7 +85,8 @@ public class GameDataManager : MonoBehaviour
                 saveCurrentSceneData = SetData_pm;                                
                 break;
             case 7: //bagpacking H
-                saveCurrentSceneData = SetData_pm;                               
+                objToFind = FindObjectOfType<TempScriptJason>().gameObject;
+                saveCurrentSceneData = SetData;                               
                 break;
             case 8: //Scoop H
                 objToFind = FindObjectOfType<TubeScoreboard>().gameObject;
@@ -114,7 +116,7 @@ public class GameDataManager : MonoBehaviour
                 setPlayerData.SetSceneData(objToFind.GetComponent<ScheduleManager>().scene2arr);
                 break;
             case 3: //BP L
-                
+                setPlayerData.SetSceneData(objToFind.GetComponent<TempScriptJason>().arrFloat);
                 break;
             case 4: //Scoop L
                 setPlayerData.SetSceneData(objToFind.GetComponent<EasyTubeScoreboard>().scene2arr);
@@ -126,7 +128,7 @@ public class GameDataManager : MonoBehaviour
                 
                 break;
             case 7: //bagpacking H
-
+                setPlayerData.SetSceneData(objToFind.GetComponent<TempScriptJason>().arrFloat);
                 break;
             case 8: //Scoop H
                 setPlayerData.SetSceneData(objToFind.GetComponent<TubeScoreboard>().scene2arr);                
