@@ -28198,7 +28198,7 @@ MonoBehaviour:
   setData_PlayerData: {fileID: 1489584990}
   saveData_GameDataMG: {fileID: 1256690473}
   endOfGame: 0
-  gameFailedResult: 0
+  gameresultFailed: 0
   dataRecorded: 0
   isSkipped: 0
   movingToLobby: 0
@@ -38173,7 +38173,7 @@ MonoBehaviour:
             typeName: UnityEngine.Object
             value: {fileID: 914906271}
           TargetTypeName: TubeScoreboard
-          PropertyName: gameFailedResult
+          PropertyName: gameresultFailed
           BoolParameter:
             useVariable: 0
             name: 
@@ -38279,7 +38279,7 @@ MonoBehaviour:
             tooltip: 
             showInInspector: 0
             networkSync: 0
-            enumName: HutongGames.PlayMaker.None
+            enumName: 
             intValue: 0
           ArrayParameter:
             useVariable: 0
@@ -38288,7 +38288,7 @@ MonoBehaviour:
             showInInspector: 0
             networkSync: 0
             type: -1
-            objectTypeName: UnityEngine.Object
+            objectTypeName: 
             floatValues: []
             intValues: 
             boolValues: 
