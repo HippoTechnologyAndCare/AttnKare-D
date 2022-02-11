@@ -10,10 +10,13 @@ public class Pencilcase_BP : MonoBehaviour
 
 
     public Transform m_tCol;
+    public Transform finalPC;
     Transform m_pencilParent;
     Transform m_tParent;
     public int unnecessary;
     public int necessary;
+    UI_BP Hud;
+    GameObject Manager;
     int m_nPosIndex = 1;
     int m_nPncilIndex=0;
     int m_nStg1 = 0;
@@ -23,8 +26,11 @@ public class Pencilcase_BP : MonoBehaviour
     Vector3 m_v3SetRot;
     public Transform m_tChild;
     GrabObj_BP m_GOBJ;
+    int a;
     void Start()
     {
+        Manager = GameObject.Find("GameFlow_Manager");
+        Hud = GameObject.Find("UI").GetComponent<UI_BP>();
         m_eState = Object_BP.STATE.EXIT;
         m_pencilParent = this.transform.parent;
         float m_fY = -0.00029f;
@@ -72,8 +78,8 @@ public class Pencilcase_BP : MonoBehaviour
         switch (obj.tag)
         {
             case "Necessary_Pencil": CheckCorrect(obj); break;
-            case "Necessary": necessary++; obj.GetComponent<GrabObj_BP>().ResetPosition(); break;
-            case "Unnecessary": unnecessary++; obj.GetComponent<GrabObj_BP>().ResetPosition(); break;
+            case "Necessary": ResetVariables(obj.GetComponent<GrabObj_BP>()); break;
+            case "Unnecessary": ResetVariables(obj.GetComponent<GrabObj_BP>()); break;
         }
         m_tCol = null;
     }
@@ -95,7 +101,6 @@ public class Pencilcase_BP : MonoBehaviour
    
     void SetPosition(bool bEraser)
     {
-
         m_tChild.SetParent(m_pencilParent);
         if (bEraser) {
             m_tChild.localPosition = arr_Pos[0];
@@ -110,11 +115,7 @@ public class Pencilcase_BP : MonoBehaviour
         m_grabbable = m_tParent.GetComponent<Grabbable>(); m_grabbable.enabled = false;
         Destroy(m_tParent.gameObject);
         m_nStg1++;
-        if(m_nStg1 == 6)
-        {
-            //wait for seconds end activate pcap
-            StartCoroutine(AllDone());
-        }
+        if(m_nStg1 == 6) StartCoroutine(AllDone());//wait for seconds end activate pcap
     }
     void SetPencil()
     {
@@ -124,7 +125,7 @@ public class Pencilcase_BP : MonoBehaviour
             m_tChild.localScale = new Vector3(1, 1, 1);
             m_nPncilIndex++;
         }
-        else m_GOBJ.ResetPosition();
+        else ResetVariables(m_GOBJ);
     }
     void SetPen()
     {
@@ -133,14 +134,25 @@ public class Pencilcase_BP : MonoBehaviour
             SetPosition(false);
             m_tChild.localScale = new Vector3(0.5241489f, 1.009642f, 1.028336f);
         }
-        else m_GOBJ.ResetPosition();
+        else ResetVariables(m_GOBJ);
     }
 
     IEnumerator AllDone()
     {
         yield return new WaitForSeconds(1.0f);
-        Transform cap = transform.parent.Find("PencilCase_Cap_target");
-        cap.gameObject.SetActive(true);
+        transform.SetParent(finalPC);
+        finalPC.gameObject.SetActive(true);
+        Manager.GetComponent<Object_BP>().Stage2();
+    }
+
+    void ResetVariables(GrabObj_BP obj)
+    {
+        
+        StartCoroutine(Hud.WrongPencil());
+        necessary++;
+        obj.ResetPosition();
+        m_tParent = m_tChild = m_tCol = null;
+        m_GOBJ = null;
     }
    
 }

@@ -111,7 +111,8 @@ public class GameDataManager : MonoBehaviour
             case 2: //Schedule                
                 setPlayerData.SetSceneData(objToFind.GetComponent<ScheduleManager>().scene2arr);
                 break;
-        }      
+        }
+
     }
 
     public void SetData_pm(int sceneIndex)
