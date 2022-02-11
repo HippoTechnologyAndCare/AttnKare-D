@@ -25,7 +25,6 @@ public class SpriteLOD_BP : MonoBehaviour
         if(other.name == "HeadCollision")
         {
             m_fdistance = Vector3.Distance(this.transform.position, other.transform.position);
-            Debug.Log(m_fdistance);
             m_falpha = 1 / m_fdistance / closeDistance;
             Image.color = new Color(Image.color.r, Image.color.g, Image.color.b, m_falpha);
         }

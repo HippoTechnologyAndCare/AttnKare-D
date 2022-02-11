@@ -147,7 +147,6 @@ public class Pencilcase_BP : MonoBehaviour
 
     void ResetVariables(GrabObj_BP obj)
     {
-        
         StartCoroutine(Hud.WrongPencil());
         necessary++;
         obj.ResetPosition();

@@ -9,7 +9,7 @@ public class BagPack_BP : MonoBehaviour
     // Start is called before the first frame updateq
     Transform m_tCol;
     public Transform m_tChild;
-    GameObject Hud;
+    UI_BP Hud;
     public int unnecessary;
     public int necessary;
     public bool bStage2 = false;
@@ -21,9 +21,10 @@ public class BagPack_BP : MonoBehaviour
     Transform m_tGlue;
     Transform m_tPencilCase;
 
+
     void Start()
     {
-        Hud = GameObject.Find("UI");
+        Hud = GameObject.Find("UI").GetComponent<UI_BP>();
         m_eState = Object_BP.STATE.EXIT;
         m_tTxt.Add(transform.Find("TextBook1").transform);
         m_tTxt.Add(transform.Find("TextBook2").transform);
@@ -63,14 +64,14 @@ public class BagPack_BP : MonoBehaviour
     {
         if (!bStage2) // if stage 1, cannot put obj in bag
         {
-            ResetVariable(obj); //add warning
+            ResetVariable(obj, 1); //add warning
             return;
         }
         switch (obj.tag)
         {
             case "Necessary": CheckCorrect(obj); break;
-            case "Necessary_Pencil": necessary++; ResetVariable(obj); break;
-            case "Unnecessary": unnecessary++; ResetVariable(obj); break;
+            case "Necessary_Pencil": necessary++; ResetVariable(obj, 1); break;
+            case "Unnecessary": unnecessary++; ResetVariable(obj, 3); break;
         }
         m_tCol = null;
     }
@@ -97,7 +98,6 @@ public class BagPack_BP : MonoBehaviour
         m_tChild.localScale = m_tTarget.localScale;
         Destroy(m_tTarget.gameObject);
         Destroy(m_tPrevParent.gameObject);
-
     }
     void SetTextbook()
     {
@@ -107,15 +107,22 @@ public class BagPack_BP : MonoBehaviour
             SetPosition(m_tTxt[m_nPosIndex]);
             m_nPosIndex++;
         }
-        else ResetVariable(m_tParent);
+        else ResetVariable(m_tParent,2);
     }
 
-    void ResetVariable(Transform obj)
+    void ResetVariable(Transform obj, int index)
     {
+        switch (index)
+        {
+            case 1: Hud.WrongBag(index); break; //pencil
+            case 2: break; //book
+            case 3: break; //memo
+        }
         obj.GetComponent<GrabObj_BP>().ResetPosition();
         m_tParent = m_tChild = m_tCol = null;
         m_GOBJ = null;
     }
     //책 잘못 넣으면 시간표 확인
     //물건 잘못 넣으면 알림장 확인
+    //연필을 넣으면 아니라고 하기
 }

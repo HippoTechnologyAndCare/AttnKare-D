@@ -9,7 +9,7 @@ public class UI_BP : MonoBehaviour
     [Header("CANVAS")]
     public CanvasGroup Camera_Stage; // Stage_Canvas
     public CanvasGroup Board_Start; //Start_Canvas
-    public CanvasGroup Bag_Wrong; //Wrong Books
+    public Transform Bag_Wrong; //Wrong Books
     public Transform PencilCase_Wrong; //WrongPencil
     public Transform Cap_Find; //Cap Canvas
     public Transform Button_Skip; //Button_Canvas
@@ -24,14 +24,14 @@ public class UI_BP : MonoBehaviour
     public AudioClip[] Clips_Narration;
     public AudioSource Audio_Effect;
     public AudioClip[] Clips_Effect;
-
     TextMeshProUGUI m_txtStartInfo;
-
     public bool bEndUI;
+
+    string line;
     // Start is called before the first frame update
     void Start()
     {
-        m_txtStartInfo = Board_Start.GetComponentInChildren<TextMeshProUGUI>();
+        
         bEndUI = false;
     }
 
@@ -40,17 +40,18 @@ public class UI_BP : MonoBehaviour
     {
         
     }
-
     public IEnumerator CanvasStart()
     {
-        yield return new WaitForSeconds(0.8f);
-
-        m_txtStartInfo.text = "잘했어!\n< b >< i > 무엇을 챙겨야할 지 모를땐 알림장을 열어 보면 돼! </ b ></ i >";
+        var child = Board_Start.transform.GetChild(0);
+        m_txtStartInfo = child.transform.Find("Info1").GetComponent<TextMeshProUGUI>();
+        m_txtStartInfo.text = "<size=1.4>책가방을 챙기자! </size>\n<size=1.2><b><i> STAGE 1 :</size></b></i>\n알림장을 보며 필기구를<i>필통</i> 에 넣어줘!\n<size=0.1>\n</size><size=1.2><b><i> STAGE 2 :</size></b></i>\n교과서와 알림장에 적힌 준비물을<i> 가방</i> 에 넣어줘!\n<size=0.1>\n</size>";
+        NarrationSound(0);
         yield return new WaitUntil(() => Audio_Narration.isPlaying);
-        m_txtStartInfo.text = "< size = 1.2 >< b >< i > STAGE 1 :</ size ></ b ></ i >\n알림장을 보며 필기구를<i>필통</ i > 에 넣어줘!\n< size = 0.1 >\n</ size >< size = 1.2 >< b >< i > STAGE 2 :</ size ></ b ></ i >\n교과서와 알림장에 적힌 준비물을<i> 가방</ i > 에 넣어줘!\n< size = 0.1 >\n</ size > 제한시간은 < color = green > 2분 30초 </ color > 야.\n마음껏 돌아다니면서 가방을 챙겨봐!";
-        NarrationSound(2);
+        m_txtStartInfo.text = "<size=1.1>알림장과 시간표는 방 벽에 붙여뒀어\n가까이 다가가야 보이니 명심해!\n제한시간은 <color=green> 2분 30초 </color>야.\n마음껏 돌아다니면서 가방을 챙겨봐!";
+        NarrationSound(1);
         yield return new WaitUntil(() => Audio_Narration.isPlaying);
-        bEndUI = true; //상위 스크립트가 이걸 읽은 뒤 그 다음 단계 실행 상위 스크립트에서 이걸 다시 false로 세팅해야함
+        Board_Start.DOFade(0, 3);
+        bEndUI = true; //상위 스크립트가 이걸 읽은 뒤 그 다음 단계 실행 상위 스크립트에서 이걸 다시 false로 세팅해야함(grabbable키게)
     }
 
     void NarrationSound(int index)
@@ -71,16 +72,27 @@ public class UI_BP : MonoBehaviour
 
     }
 
-    public IEnumerator WrongBag()
+    public IEnumerator WrongBag(int index)
     {
+        TextMeshProUGUI tmproText = Bag_Wrong.GetComponentInChildren<TextMeshProUGUI>();
+        switch (index)
+        {
+            case 1: line = "연필은 필통에 넣는거 잊지 마!";  break; //pencil
+            case 2: line = "시간표를 다시 확인해봐!";  break; //textbook
+            case 3: line = "알림장을 다시 확인해봐!";  break; //memo
+        }
+        tmproText.text = line;
         Bag_Wrong.gameObject.SetActive(true);
-        yield return null;
+        EffectSound("INCORRECT");
+        yield return new WaitForSeconds(3.0f);
+        Bag_Wrong.gameObject.SetActive(false);
     }
 
     public IEnumerator StageNotification(int stage)
     {
         TextMeshProUGUI text;
-        text = Camera_Stage.transform.Find("Num").GetComponent<TextMeshProUGUI>();
+        var child = Camera_Stage.transform.GetChild(0);
+        text = child.Find("Num").GetComponent<TextMeshProUGUI>();
         text.text = stage.ToString();
         Camera_Stage.gameObject.SetActive(true);
         yield return new WaitForSeconds(2.0f);
@@ -108,5 +120,4 @@ public class UI_BP : MonoBehaviour
         }
         Audio_Effect.Play();
     }
-
 }

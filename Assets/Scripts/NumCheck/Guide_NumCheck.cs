@@ -197,11 +197,11 @@ public class Guide_NumCheck : MonoBehaviour
     private IEnumerator ClearCoroutine()
     {
         DataCollection.StopRecordingNBehavior();
+        GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
         Ghost.GetComponent<Animator>().SetBool("isJump", true);
         dataCheck.start = false;
         yield return StartCoroutine(narration.BoardUI(3)); //Game clear narration
         dataFin.SendEvent("AllDone");
-        GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
         yield return new WaitForSeconds(2.5f);
         narration.EndUI("다음으로 넘어가는 중....");
         yield return new WaitForSeconds(2.0f);
