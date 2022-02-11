@@ -74,7 +74,8 @@ public class GameDataManager : MonoBehaviour
                 saveCurrentSceneData = SetData_pm;                      
                 break;
             case 4: //Scoop L
-                saveCurrentSceneData = SetData_pm;                            
+                objToFind = FindObjectOfType<EasyTubeScoreboard>().gameObject;
+                saveCurrentSceneData = SetData;                            
                 break;
             case 5: //CRUM
                 saveCurrentSceneData = SetData_pm;                            
@@ -86,7 +87,8 @@ public class GameDataManager : MonoBehaviour
                 saveCurrentSceneData = SetData_pm;                               
                 break;
             case 8: //Scoop H
-                saveCurrentSceneData = SetData_pm;                                
+                objToFind = FindObjectOfType<TubeScoreboard>().gameObject;
+                saveCurrentSceneData = SetData;                                
                 break;
             case 9: //NUMMATCH
                 saveCurrentSceneData = SetData_pm;
@@ -110,6 +112,27 @@ public class GameDataManager : MonoBehaviour
         {            
             case 2: //Schedule                
                 setPlayerData.SetSceneData(objToFind.GetComponent<ScheduleManager>().scene2arr);
+                break;
+            case 3: //BP L
+                
+                break;
+            case 4: //Scoop L
+                setPlayerData.SetSceneData(objToFind.GetComponent<EasyTubeScoreboard>().scene2arr);
+                break;
+            case 5: //CRUM
+                
+                break;
+            case 6: //PlayPaddle
+                
+                break;
+            case 7: //bagpacking H
+
+                break;
+            case 8: //Scoop H
+                setPlayerData.SetSceneData(objToFind.GetComponent<TubeScoreboard>().scene2arr);                
+                break;
+            case 9: //NUMMATCH
+                
                 break;
         }      
     }

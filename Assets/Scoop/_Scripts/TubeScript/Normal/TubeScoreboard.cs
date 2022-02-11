@@ -101,7 +101,7 @@ public class TubeScoreboard : MonoBehaviour
     [SerializeField] Transform setData_PlayerData;
     [SerializeField] Transform saveData_GameDataMG;
     BNG.CollectData _collectData;
-    float[] scene2arr;
+    public float[] scene2arr;
 
     // Temporary Timer Variables
     float delayTimer;
