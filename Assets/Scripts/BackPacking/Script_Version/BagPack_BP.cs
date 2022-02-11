@@ -9,8 +9,10 @@ public class BagPack_BP : MonoBehaviour
     // Start is called before the first frame updateq
     Transform m_tCol;
     public Transform m_tChild;
+    GameObject Hud;
     public int unnecessary;
     public int necessary;
+    public bool bStage2 = false;
     int m_nPosIndex = 0;
     Transform m_tParent;
     Transform m_tPrevParent;
@@ -21,6 +23,7 @@ public class BagPack_BP : MonoBehaviour
 
     void Start()
     {
+        Hud = GameObject.Find("UI");
         m_eState = Object_BP.STATE.EXIT;
         m_tTxt.Add(transform.Find("TextBook1").transform);
         m_tTxt.Add(transform.Find("TextBook2").transform);
@@ -58,6 +61,11 @@ public class BagPack_BP : MonoBehaviour
     }
     void CheckObj(Transform obj)
     {
+        if (!bStage2) // if stage 1, cannot put obj in bag
+        {
+            ResetVariable(obj); //add warning
+            return;
+        }
         switch (obj.tag)
         {
             case "Necessary": CheckCorrect(obj); break;
@@ -108,4 +116,6 @@ public class BagPack_BP : MonoBehaviour
         m_tParent = m_tChild = m_tCol = null;
         m_GOBJ = null;
     }
+    //책 잘못 넣으면 시간표 확인
+    //물건 잘못 넣으면 알림장 확인
 }

@@ -24,6 +24,7 @@ public class Object_BP : MonoBehaviour
     public enum TAG_BP {NECESSARY, UNNECESSARY, NECESSARY_PENCIL, NECESSARY_BOOK}
     public enum KIND_BP { NONE, GREEN, RED, BLUE, PURLPLE, BLACK, KOREAN, SCIENCE, ART, ENGLISH, SOCIALS, MATH, MUSIC, GYM, ETHICS, SCHOOL, TOY }
 
+    public enum CASE_BP { INCORRECT, CORRECT, COMPLETE, STAR, BEEP, APPEAR, PENCILCASE }
     public enum STATE { ENTER, EXIT }
     public struct BP_INFO
     {
@@ -75,14 +76,16 @@ public class Object_BP : MonoBehaviour
     public static bool bGrabbed;
     public GameObject[] arrStage2;
     GameObject m_tPencilcase;
-
-    public void Stage2()
-    {
-
-    }
+    UI_BP Hud;
+    BagPack_BP Bag;
+    Pencilcase_BP Pencilcase;
+    
     void Start()
     {
         m_tPencilcase = GameObject.Find("Pencilcase_complete");
+        Hud = GameObject.Find("UI").GetComponent<UI_BP>();
+        Pencilcase = GameObject.Find("Pencilcase_Collider").GetComponent<Pencilcase_BP>();
+        Bag = GameObject.Find("Bag_Collider").GetComponent<BagPack_BP>();
     }
 
     // Update is called once per frame
@@ -90,5 +93,16 @@ public class Object_BP : MonoBehaviour
     {
         if (XrRig.RightTrigger > 0.8f) bGrabbed = true;
         if (XrRig.RightTrigger < 0.2f) bGrabbed = false;
+    }
+
+    public void Stage1()
+    {
+        StartCoroutine(Hud.StageNotification(1));
+    }
+    public void Stage2()
+    {
+        Bag.bStage2 = true;
+        Hud.ChangeMemo();
+        StartCoroutine(Hud.StageNotification(2));
     }
 }
