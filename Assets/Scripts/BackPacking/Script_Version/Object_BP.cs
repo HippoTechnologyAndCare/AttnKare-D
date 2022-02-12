@@ -79,13 +79,36 @@ public class Object_BP : MonoBehaviour
     UI_BP Hud;
     BagPack_BP Bag;
     Pencilcase_BP Pencilcase;
-    
+    public List<Grabbable> listGrabbable; //list of all grabbable;
     void Start()
     {
+        foreach (Grabbable grab in listGrabbable)
+        {
+            grab.enabled = false;
+        }
         m_tPencilcase = GameObject.Find("Pencilcase_complete");
         Hud = GameObject.Find("UI").GetComponent<UI_BP>();
         Pencilcase = GameObject.Find("Pencilcase_Collider").GetComponent<Pencilcase_BP>();
         Bag = GameObject.Find("Bag_Collider").GetComponent<BagPack_BP>();
+
+        StartCoroutine(GameStart());
+    }
+    IEnumerator GameStart()
+    {
+        Debug.Log("start");
+        StartCoroutine(Hud.CanvasStart());
+        bool exit= true;
+        while (exit)
+        {
+            if (!Hud.bEndUI) exit = false;
+        }
+        Hud.bEndUI = false;
+        Stage1();
+        foreach (Grabbable grab in listGrabbable)
+        {
+            grab.enabled = true;
+        }
+        yield return null;
     }
 
     // Update is called once per frame
