@@ -6,7 +6,7 @@ using BNG;
 
 public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    
+
     public ScheduleManager1 scheduleManager;
 
     public Transform HandCursor;
@@ -19,28 +19,35 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
 
     public float t;
 
-    public GameObject activeSlot;
+    public Transform activeSlot;
 
-    [SerializeField]  GameObject IntoSlot;
-    UIPointer uiPointer;   
+    [SerializeField] Transform IntoSlot;
+    [SerializeField] Transform currSlot;
+    [SerializeField] Transform cube;
+    UIPointer uiPointer;
+    Material mat;
 
     Vector3 vec2Pos;
     Vector3 zPos;
 
-    [SerializeField] bool currWorking;
+    [SerializeField] bool working;
     bool NowClicked = false;
     bool PointerOnCube = false;
 
+
+    //test
+    [SerializeField] List<Transform> Slots;
     void Start()
-    {        
+    {
+        working = false;
+        Slots = new List<Transform>();
         zPos.z = 2.21874f;
         StartPos = this.transform.localPosition;
-        uiPointer = HandCursor.GetComponent<BNG.UIPointer>();        
+        uiPointer = HandCursor.GetComponent<BNG.UIPointer>();
     }
 
     void Update()
-    {
-        
+    {        
     }
     void FixedUpdate()
     {
@@ -82,7 +89,7 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
         Vector2 b = uiPointer._cursor.transform.position;
         vec2Pos = Vector2.Lerp(a, b, t);
         vec2Pos.z = zPos.z;
-        this.transform.position = vec2Pos;        
+        this.transform.position = vec2Pos;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -91,7 +98,7 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
         this.transform.SetParent(Canvas);
         scheduleManager.LockAllCollision(this.transform);
     }
-    
+
     public void OnPointerUp(PointerEventData eventData)
     {
         this.transform.SetParent(Grp);
@@ -159,12 +166,25 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
         IntoSlot = null;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "SLOT" && !currWorking)
+        if (collision.collider.tag == "SLOT" /*&& !PlanCubeController1.working*/)
         {
-            currWorking = true;
-            IntoSlot = collision.collider.gameObject;
+            IntoSlot = collision.transform;
+            Slots.Add(IntoSlot);
+            if(IntoSlot == Slots[0])
+            {
+                                                           
+            }
+            //foreach(GameObject s in currSlot)
+            //{                
+            //    if(s == Slots[0])
+            //    {
+            //        IntoSlot = collision.collider.gameObject;
+            //        currSlot.GetComponent<Material>().color = new Color(0.67f, 0, 0.545f, 0.12f);
+            //    }
+            //}
+            //PlanCubeController1.working = true;            
         }
 
         if (collision.collider.tag == "POINTER")
@@ -174,12 +194,48 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    void OnCollisionStay(Collision collision)
     {
         if (collision.collider.tag == "SLOT")
         {
-            currWorking = false;
-            IntoSlot = null;
+            if (Slots.Count == 1 && !working)
+            {
+                IntoSlot = collision.collider.transform;
+                Debug.Log("enter");
+                working = true;
+                cube = IntoSlot.transform.Find("Cube");
+                mat = cube.GetComponent<MeshRenderer>().material;
+                mat.color = new Color(0.67f, 0, 0.545f, 0.12f);
+            }
+        }
+        
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.tag == "SLOT")
+        {
+            Debug.Log("exit");
+            working = false;
+            IntoSlot = collision.transform;
+            Slots.Remove(IntoSlot);            
+            if (IntoSlot == Slots[0])
+            {
+                cube = IntoSlot.transform.Find("Cube");
+                mat = cube.GetComponent<MeshRenderer>().material;
+                mat.color = new Color(0.67f, 0, 0.545f, 0.12f);
+                IntoSlot = null;
+            }
+                
+            //foreach (GameObject s in currSlot)
+            //{
+            //    if(s == currSlot)
+            //    {
+            //        
+            //    }
+            //}
+            
+            //PlanCubeController1.working = false;
         }
 
         if (collision.collider.tag == "POINTER")
@@ -190,6 +246,7 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
 
     public void resetPlanCube()
     {
+        working = false;
         activeSlot = null;
         IntoSlot = null;
         transform.localPosition = StartPos;
