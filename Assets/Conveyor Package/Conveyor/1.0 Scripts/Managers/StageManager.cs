@@ -52,7 +52,7 @@ public class StageManager : MonoBehaviour
             if (currentGameState == GameState.Stage3) currentGameState = GameState.Stage3End;
         }
 
-        if (!m_factoryManager.m_gameData.m_dataSaved && currentGameState == GameState.GameEnd) { m_factoryManager.SaveGameData(); Debug.Log("Game Data has been Saved!"); }
+        if (!m_factoryManager.m_gameData.IsDataSaved() && currentGameState == GameState.GameEnd) { m_factoryManager.SaveGameData(); Debug.Log("Game Data has been Saved!"); }
     }
 
     public void GenerateColor()

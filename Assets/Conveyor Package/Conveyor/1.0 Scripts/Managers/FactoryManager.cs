@@ -120,7 +120,10 @@ public class FactoryManager : MonoBehaviour
         // Save Game Skipped Boolean
 
         // Change Game Data State as Saved
-        m_gameData.m_dataSaved = true;
+        m_gameData.SetDataSaved(true);
+
+        string jsonOutput = JsonUtility.ToJson(m_gameData);
+        Debug.Log(jsonOutput);
     }
 
     void UpdateDebugText(List<int> scores)
@@ -138,23 +141,23 @@ public class FactoryManager : MonoBehaviour
 [Serializable]
 public class CollectibleData
 {
-    int m_stage1Success;
-    int m_stage2Success;
-    int m_stage3Success;
+    public int m_stage1Success;
+    public int m_stage2Success;
+    public int m_stage3Success;
 
-    List<List<int>> m_stage1Score;
-    List<List<int>> m_stage2Score;
-    List<List<int>> m_stage3Score;
+    public List<List<int>> m_stage1Score;
+    public List<List<int>> m_stage2Score;
+    public List<List<int>> m_stage3Score;
 
-    float m_escapeTime;
-    int m_escapeCount;
+    public float m_escapeTime;
+    public int m_escapeCount;
 
-    int m_toysOnFloor;
+    public int m_toysOnFloor;
 
-    bool m_isSkipped;
+    public bool m_isSkipped;
 
     // Bool to Check if Data is Saved
-    public bool m_dataSaved;
+    bool m_dataSaved;
 
     // Constructor
     public CollectibleData()
@@ -162,8 +165,6 @@ public class CollectibleData
         m_stage1Score = new List<List<int>>();
         m_stage2Score = new List<List<int>>();
         m_stage3Score = new List<List<int>>();
-        
-        m_dataSaved = false;
     }
 
     // Getters
@@ -189,4 +190,7 @@ public class CollectibleData
     public void SetEscapeCount(int val) { m_escapeCount = val; }
     public void SetToysOnFloor(int val) { m_toysOnFloor = val; }
     public void SetSkipped(bool val) { m_isSkipped = val; }
+
+    public bool IsDataSaved() { return m_dataSaved; }
+    public void SetDataSaved(bool input) { m_dataSaved = input; }
 }
