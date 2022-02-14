@@ -7,15 +7,15 @@ public class PlanSlotController1 : MonoBehaviour
 {
     public GameObject passenger;
 
-    [SerializeField] Transform cube;
+    //[SerializeField] Transform cube;
 
-    Material mat;
+    //Material mat;
 
 
     void Start()
     {
-        cube = this.gameObject.transform.Find("Cube");
-        mat = cube.GetComponent<MeshRenderer>().material;
+        //cube = this.gameObject.transform.Find("Cube");
+        //mat = cube.GetComponent<MeshRenderer>().material;
     }
 
     //private void OnTriggerEnter(Collider other)
@@ -49,7 +49,7 @@ public class PlanSlotController1 : MonoBehaviour
     public void resetPlanSlot()
     {
         passenger = null;
-        mat.color = new Color(0.67f, 0, 0.545f, 0.12f);
+        //mat.color = new Color(0.67f, 0, 0.545f, 0.12f);
     }
 }
 

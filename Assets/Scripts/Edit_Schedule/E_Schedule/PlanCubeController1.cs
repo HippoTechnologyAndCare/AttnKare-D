@@ -19,9 +19,9 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
 
     public float t;
 
-    public Transform activeSlot;
+    public GameObject activeSlot;
 
-    [SerializeField] Transform IntoSlot;
+    [SerializeField] GameObject IntoSlot;
     [SerializeField] Transform currSlot;
     [SerializeField] Transform cube;
     UIPointer uiPointer;
@@ -36,11 +36,11 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
 
 
     //test
-    [SerializeField] List<Transform> Slots;
+    [SerializeField] List<GameObject> Slots;
     void Start()
     {
         working = false;
-        Slots = new List<Transform>();
+        Slots = new List<GameObject>();
         zPos.z = 2.21874f;
         StartPos = this.transform.localPosition;
         uiPointer = HandCursor.GetComponent<BNG.UIPointer>();
@@ -170,7 +170,7 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
     {
         if (collision.collider.tag == "SLOT" /*&& !PlanCubeController1.working*/)
         {
-            IntoSlot = collision.transform;
+            IntoSlot = collision.gameObject;
             Slots.Add(IntoSlot);
             if(IntoSlot == Slots[0])
             {
@@ -200,12 +200,12 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
         {
             if (Slots.Count == 1 && !working)
             {
-                IntoSlot = collision.collider.transform;
-                Debug.Log("enter");
+                IntoSlot = collision.collider.gameObject;
+                Debug.Log("new stay");
                 working = true;
-                cube = IntoSlot.transform.Find("Cube");
-                mat = cube.GetComponent<MeshRenderer>().material;
-                mat.color = new Color(0.67f, 0, 0.545f, 0.12f);
+                cube = IntoSlot.gameObject.transform.Find("Cube");
+                cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.7f);
+                //mat.color = new Color(0.67f, 0, 0.545f, 0.7f);
             }
         }
         
@@ -215,15 +215,16 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
     {
         if (collision.collider.tag == "SLOT")
         {
+            IntoSlot = collision.gameObject;
+            Slots.Remove(IntoSlot);
+            cube = IntoSlot.gameObject.transform.Find("Cube");
+            cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.12f);
             Debug.Log("exit");
             working = false;
-            IntoSlot = collision.transform;
-            Slots.Remove(IntoSlot);            
-            if (IntoSlot == Slots[0])
+            if (Slots.Count == 0)
             {
-                cube = IntoSlot.transform.Find("Cube");
-                mat = cube.GetComponent<MeshRenderer>().material;
-                mat.color = new Color(0.67f, 0, 0.545f, 0.12f);
+                
+                //mat.color = new Color(0.67f, 0, 0.545f, 0.12f);
                 IntoSlot = null;
             }
                 
