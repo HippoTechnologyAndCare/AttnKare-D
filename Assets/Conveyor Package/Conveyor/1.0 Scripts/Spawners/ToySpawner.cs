@@ -8,8 +8,6 @@ public class ToySpawner : MonoBehaviour
     [SerializeField] Transform m_spawnedToys;
     [SerializeField] GameObject m_grabbableToy;
 
-    [SerializeField] ToySpawnerConveyor m_toySpawnerConveyor; 
-
     float m_time = 0;
     int m_spawnCount = 0;
 

@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class ToySpawnerConveyor : MonoBehaviour
 {
-    [SerializeField] Transform m_spawnedToys;
-    [SerializeField] ToySpawner m_toySpawner;
-
     public float speed = 100f;
     public Vector3 direction = new Vector3(-1, 0, 0);
     private void OnTriggerStay(Collider other) { other.gameObject.GetComponent<Rigidbody>().velocity = speed * direction * Time.deltaTime; }
