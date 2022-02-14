@@ -113,17 +113,7 @@ public class Grabber_control : MonoBehaviour
     {
         if(check) //
         {
-        
             child_outline.enabled= false; //잡은 순간 오브젝트의 outline을 꺼야함
-
-          // if(child_outline.gameObject.tag == "Unnecessary") //집은 오브젝트가 unn이라면 Time에 plus가 됨
-          //  {
-           // UnObject_Pick += Time.deltaTime;
-
-          //  }
-
-            
-
         }
 
         else if(!check) 
@@ -132,8 +122,6 @@ public class Grabber_control : MonoBehaviour
             child_outline.enabled = true; //Grabber가 집은 물건이 사라진다면 outline을 꺼벌림
             preChild = null;
             
-
-
         }
 
     }

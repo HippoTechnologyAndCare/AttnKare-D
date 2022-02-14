@@ -20,7 +20,8 @@ public class BagPack_BP : MonoBehaviour
     List<Transform> m_tTxt = new List<Transform>();
     Transform m_tGlue;
     Transform m_tPencilCase;
-
+    int m_nAllDone = 0;
+    int a;
 
     void Start()
     {
@@ -64,7 +65,7 @@ public class BagPack_BP : MonoBehaviour
     {
         if (!bStage2) // if stage 1, cannot put obj in bag
         {
-            ResetVariable(obj, 1); //add warning
+            ResetVariable(obj, 4); //add warning
             return;
         }
         switch (obj.tag)
@@ -91,6 +92,7 @@ public class BagPack_BP : MonoBehaviour
 
     void SetPosition(Transform m_tTarget)
     {
+        m_nAllDone++;
         m_tPrevParent = m_tChild.parent;
         m_tChild.SetParent(this.transform);
         m_tChild.localPosition = m_tTarget.localPosition;
@@ -98,6 +100,8 @@ public class BagPack_BP : MonoBehaviour
         m_tChild.localScale = m_tTarget.localScale;
         Destroy(m_tTarget.gameObject);
         Destroy(m_tPrevParent.gameObject);
+        if (m_nAllDone >= 6) AllDone();
+
     }
     void SetTextbook()
     {
@@ -114,13 +118,19 @@ public class BagPack_BP : MonoBehaviour
     {
         switch (index)
         {
-            case 1: Hud.WrongBag(index); break; //pencil
-            case 2: break; //book
-            case 3: break; //memo
+            case 1: StartCoroutine(Hud.WrongBag(index)); break; //pencil
+            case 2: StartCoroutine(Hud.WrongBag(index)); break; //book
+            case 3: StartCoroutine(Hud.WrongBag(index)); break; //memo
+            case 4: StartCoroutine(Hud.WrongBag(index)); break;
         }
         obj.GetComponent<GrabObj_BP>().ResetPosition();
         m_tParent = m_tChild = m_tCol = null;
         m_GOBJ = null;
+    }
+
+    void AllDone()
+    {
+        Debug.Log("AllDone");
     }
     //책 잘못 넣으면 시간표 확인
     //물건 잘못 넣으면 알림장 확인

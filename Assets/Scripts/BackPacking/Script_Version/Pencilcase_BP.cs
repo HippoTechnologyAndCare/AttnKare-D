@@ -8,9 +8,9 @@ public class Pencilcase_BP : MonoBehaviour
     // Start is called before the first frame update
     Object_BP.STATE m_eState;
 
-
     public Transform m_tCol;
     public Transform finalPC;
+    public GameObject CaseCover;
     Transform m_pencilParent;
     Transform m_tParent;
     public int unnecessary;
@@ -26,7 +26,6 @@ public class Pencilcase_BP : MonoBehaviour
     Vector3 m_v3SetRot;
     public Transform m_tChild;
     GrabObj_BP m_GOBJ;
-    int a;
     void Start()
     {
         Manager = GameObject.Find("GameFlow_Manager");
@@ -139,9 +138,12 @@ public class Pencilcase_BP : MonoBehaviour
 
     IEnumerator AllDone()
     {
+        this.GetComponent<Collider>().enabled = false;
         yield return new WaitForSeconds(1.0f);
-        transform.SetParent(finalPC);
+        CaseCover.SetActive(true);
+        transform.parent.SetParent(finalPC);
         finalPC.gameObject.SetActive(true);
+        Hud.EffectSound("PENCILCASE");
         Manager.GetComponent<Object_BP>().Stage2();
     }
 
