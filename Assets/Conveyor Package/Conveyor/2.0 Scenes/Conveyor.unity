@@ -2031,10 +2031,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2470062233575171139, guid: 96886485ff428cb4f8f817eb8cbdb989,
+        type: 3}
+      propertyPath: m_Layer
+      value: 26
+      objectReference: {fileID: 0}
     - target: {fileID: 3031178846687105445, guid: 96886485ff428cb4f8f817eb8cbdb989,
         type: 3}
       propertyPath: m_Name
       value: Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 3031178846687105445, guid: 96886485ff428cb4f8f817eb8cbdb989,
+        type: 3}
+      propertyPath: m_Layer
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 4107178901565998512, guid: 96886485ff428cb4f8f817eb8cbdb989,
+        type: 3}
+      propertyPath: m_Layer
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 5328825356903946222, guid: 96886485ff428cb4f8f817eb8cbdb989,
+        type: 3}
+      propertyPath: m_Layer
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 6120857662248917429, guid: 96886485ff428cb4f8f817eb8cbdb989,
+        type: 3}
+      propertyPath: m_Layer
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 6921818312444637154, guid: 96886485ff428cb4f8f817eb8cbdb989,
+        type: 3}
+      propertyPath: m_Layer
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 7801695388976583630, guid: 96886485ff428cb4f8f817eb8cbdb989,
         type: 3}
@@ -2727,10 +2757,25 @@ PrefabInstance:
       propertyPath: m_factoryManager
       value: 
       objectReference: {fileID: 1708212833}
+    - target: {fileID: 4156943548708965839, guid: 9f8504f85dcce2e4faf4eb83c9ec8d1b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 5426197184295573832, guid: 9f8504f85dcce2e4faf4eb83c9ec8d1b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 26
+      objectReference: {fileID: 0}
     - target: {fileID: 5604694231926144898, guid: 9f8504f85dcce2e4faf4eb83c9ec8d1b,
         type: 3}
       propertyPath: m_Name
       value: Closed Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 5604694231926144898, guid: 9f8504f85dcce2e4faf4eb83c9ec8d1b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 5604694231926144901, guid: 9f8504f85dcce2e4faf4eb83c9ec8d1b,
         type: 3}
@@ -4850,7 +4895,7 @@ GameObject:
   - component: {fileID: 5057760928449537995}
   - component: {fileID: 307636346744065420}
   - component: {fileID: 307636346744065421}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Conveyor Center Out
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22237,7 +22282,7 @@ GameObject:
   - component: {fileID: 3872664271508133338}
   - component: {fileID: 6941129241803173550}
   - component: {fileID: 6941129241803173551}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Conveyor Right Out
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27004,7 +27049,7 @@ GameObject:
   - component: {fileID: 3243497730041396317}
   - component: {fileID: 9167229110822268957}
   - component: {fileID: 9167229110822268958}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Conveyor Left Out
   m_TagString: Untagged
   m_Icon: {fileID: 0}
