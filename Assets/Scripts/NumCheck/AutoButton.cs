@@ -19,7 +19,7 @@ public class AutoButton : MonoBehaviour
     Color activatedColor;
     Color originalColor;
     bool m_bStart;
-    public float m_fBothering;
+    public float m_fBothering; //방해받은 시간
     public bool m_bSet;
     TextandSpeech narration;
     void Start()

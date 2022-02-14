@@ -63,6 +63,7 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
             }
             if(RighthandPointer.GetComponent<LineRenderer>().enabled == false)
             {
+                this.transform.SetParent(originalParent);
                 ResetButton();
                 Guide.CanGrab();
                 click = false;

@@ -85,7 +85,7 @@ public class Guide_NumCheck : MonoBehaviour
         auto = GetComponentInChildren<AutoButton>();
         StartCoroutine(GameStart());
     }
-
+   
     private void SetPosition() //creat list of position of number buttons on board(total 30)
     {
         for (float i = -0.8f; i <= 0.95f; i += 0.25f)

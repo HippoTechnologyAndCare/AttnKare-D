@@ -17,13 +17,10 @@ public class AddDelimiter : MonoBehaviour
         {
             dataCollect.AddTimeStamp("IDLE START");
 
-
         }
         if(!IDLE)
         {
-
             dataCollect.AddTimeStamp("IDLE END");
-
 
         }
 
@@ -41,10 +38,6 @@ public class AddDelimiter : MonoBehaviour
         {
             dataCollect.AddTimeStamp("DISTURB END");
         }
-
-
-
-
     }
 
     public void endEverything()

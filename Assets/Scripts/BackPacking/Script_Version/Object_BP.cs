@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BNG;
 using EPOOutline;
+using DG.Tweening;
 
 public class Object_BP : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class Object_BP : MonoBehaviour
     public enum TAG_BP {NECESSARY, UNNECESSARY, NECESSARY_PENCIL, NECESSARY_BOOK}
     public enum KIND_BP { NONE, GREEN, RED, BLUE, PURLPLE, BLACK, KOREAN, SCIENCE, ART, ENGLISH, SOCIALS, MATH, MUSIC, GYM, ETHICS, SCHOOL, TOY }
 
+    public enum GAZE_BP { MEMO, TV, TIMETABLE, NOTWATCHING }
     public enum CASE_BP { INCORRECT, CORRECT, COMPLETE, STAR, BEEP, APPEAR, PENCILCASE }
     public enum STATE { ENTER, EXIT }
     public struct BP_INFO
@@ -73,9 +75,22 @@ public class Object_BP : MonoBehaviour
 
   
     public InputBridge XrRig;
+    public GameObject CenterEye;
+    public GameObject prefabFade;
+    public Transform RightController;
     public static bool bGrabbed;
     public GameObject[] arrStage2;
+    public GameObject VideoPlayer;
+    bool m_bTotalTime = false; //총시간 확인
+    float m_fTotalTime;
+    bool m_bStageChangeTime = false; //1단계 완료 후 2단계 시작까지 걸리는 시간
+    float m_fStageChangeTime;
+    bool bTimeLimit;
+    bool bTimeDone;
     GameObject m_tPencilcase;
+    GameObject m_goFade;
+    GameObject m_tRightPointer;
+    Grabber m_tGrabber;
     UI_BP Hud;
     BagPack_BP Bag;
     Pencilcase_BP Pencilcase;
@@ -90,42 +105,61 @@ public class Object_BP : MonoBehaviour
         Hud = GameObject.Find("UI").GetComponent<UI_BP>();
         Pencilcase = GameObject.Find("Pencilcase_Collider").GetComponent<Pencilcase_BP>();
         Bag = GameObject.Find("Bag_Collider").GetComponent<BagPack_BP>();
-
-        StartCoroutine(GameStart());
+        m_tRightPointer = RightController.Find("RightHandPointer").gameObject;
+        m_tGrabber = RightController.Find("Grabber").GetComponent<Grabber>();
+        StartCoroutine(FadeOut());
     }
-    IEnumerator GameStart()
+
+    IEnumerator FadeOut()
     {
-        Debug.Log("start");
+        m_tRightPointer.SetActive(false);
+        m_tGrabber.enabled = false;
+        m_goFade =  Instantiate(prefabFade, CenterEye.transform.position, Quaternion.identity);
+        m_goFade.transform.SetParent(CenterEye.transform);
+        yield return new WaitForSeconds(0.7f);
+        //Destroy(m_goFade);
+        yield return new WaitForSeconds(0.5f);
         StartCoroutine(Hud.CanvasStart());
-        bool exit= true;
-        while (exit)
-        {
-            if (!Hud.bEndUI) exit = false;
-        }
-        Hud.bEndUI = false;
-        Stage1();
-        foreach (Grabbable grab in listGrabbable)
-        {
-            grab.enabled = true;
-        }
-        yield return null;
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (XrRig.RightTrigger > 0.8f) bGrabbed = true;
         if (XrRig.RightTrigger < 0.2f) bGrabbed = false;
+        if (m_bTotalTime)
+        {
+            m_fTotalTime += Time.deltaTime;
+            if (m_fTotalTime >= 150f & !bTimeLimit) { TotalTime("TIME LIMIT"); bTimeLimit = true; }
+            if (m_fTotalTime >= 200f & !bTimeDone) { TotalTime("TIME OUT"); bTimeDone = true; }
+        }
+        if (m_bStageChangeTime) m_fStageChangeTime += Time.deltaTime;
+
     }
 
     public void Stage1()
     {
+        Debug.Log("Stage1");
+        VideoPlayer.SetActive(true);
+        m_bTotalTime = true;
         StartCoroutine(Hud.StageNotification(1));
+        m_tRightPointer.SetActive(true);
+        m_tGrabber.enabled = true;
+        foreach (Grabbable grab in listGrabbable)
+        {
+            grab.enabled = true;
+        }
     }
     public void Stage2()
     {
+        Debug.Log("stage2");
+        m_bStageChangeTime = true;
         Bag.bStage2 = true;
         Hud.ChangeMemo();
         StartCoroutine(Hud.StageNotification(2));
     }
+
+    void TotalTime(string strTime)
+    {
+        Hud.TimeCheck(strTime);
+    }
+
 }
