@@ -2411,7 +2411,6 @@ MonoBehaviour:
   m_spawnedToys: {fileID: 904417606}
   m_grabbableToy: {fileID: 3130526325166050803, guid: b8daab46e69ea1f40bcb21c2cc0c1c60,
     type: 3}
-  m_toySpawnerConveyor: {fileID: 0}
 --- !u!1 &1309266627
 GameObject:
   m_ObjectHideFlags: 0
@@ -3756,7 +3755,6 @@ MonoBehaviour:
   m_spawnedToys: {fileID: 904417606}
   m_grabbableToy: {fileID: 3130526325166050803, guid: 4dbf013e893a8f64aa48592514351c02,
     type: 3}
-  m_toySpawnerConveyor: {fileID: 0}
 --- !u!1 &1937091683
 GameObject:
   m_ObjectHideFlags: 0
@@ -4123,7 +4121,6 @@ MonoBehaviour:
   m_spawnedToys: {fileID: 904417606}
   m_grabbableToy: {fileID: 3130526325166050803, guid: 240f588f4fc07144da0e8b968fc89894,
     type: 3}
-  m_toySpawnerConveyor: {fileID: 0}
 --- !u!1 &2130194676
 GameObject:
   m_ObjectHideFlags: 0
@@ -4853,7 +4850,7 @@ GameObject:
   - component: {fileID: 5057760928449537995}
   - component: {fileID: 307636346744065420}
   - component: {fileID: 307636346744065421}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Conveyor Center Out
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4885,8 +4882,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97eb308ecd61a0649822ab4c5f9c46ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_spawnedToys: {fileID: 904417606}
-  m_toySpawner: {fileID: 0}
   speed: 100
   direction: {x: -1, y: 0, z: 0}
 --- !u!114 &314096970569618770
@@ -17438,7 +17433,7 @@ GameObject:
   - component: {fileID: 8098088717245923738}
   - component: {fileID: 5174365643664981439}
   - component: {fileID: 5174365643664981438}
-  m_Layer: 25
+  m_Layer: 23
   m_Name: Conveyor Main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22242,7 +22237,7 @@ GameObject:
   - component: {fileID: 3872664271508133338}
   - component: {fileID: 6941129241803173550}
   - component: {fileID: 6941129241803173551}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Conveyor Right Out
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22274,8 +22269,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97eb308ecd61a0649822ab4c5f9c46ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_spawnedToys: {fileID: 904417606}
-  m_toySpawner: {fileID: 0}
   speed: 100
   direction: {x: -1, y: 0, z: 0}
 --- !u!1 &6943409836896537976
@@ -23521,6 +23514,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Box
       objectReference: {fileID: 0}
+    - target: {fileID: 624365431066199273, guid: d1c9204f3af9af04bad6cab19b746dae,
+        type: 3}
+      propertyPath: m_Layer
+      value: 26
+      objectReference: {fileID: 0}
     - target: {fileID: 2145419383164083269, guid: d1c9204f3af9af04bad6cab19b746dae,
         type: 3}
       propertyPath: m_RootOrder
@@ -23576,6 +23574,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2343199266985595207, guid: d1c9204f3af9af04bad6cab19b746dae,
+        type: 3}
+      propertyPath: m_Layer
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 3715432832613133560, guid: d1c9204f3af9af04bad6cab19b746dae,
+        type: 3}
+      propertyPath: m_Layer
+      value: 26
+      objectReference: {fileID: 0}
     - target: {fileID: 3838202327848585364, guid: d1c9204f3af9af04bad6cab19b746dae,
         type: 3}
       propertyPath: toy1
@@ -23611,6 +23619,21 @@ PrefabInstance:
       propertyPath: m_factoryManager
       value: 
       objectReference: {fileID: 1708212833}
+    - target: {fileID: 4382136097882917980, guid: d1c9204f3af9af04bad6cab19b746dae,
+        type: 3}
+      propertyPath: m_Layer
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 6691085896433350260, guid: d1c9204f3af9af04bad6cab19b746dae,
+        type: 3}
+      propertyPath: m_Layer
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 7805645231325814528, guid: d1c9204f3af9af04bad6cab19b746dae,
+        type: 3}
+      propertyPath: m_Layer
+      value: 26
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1c9204f3af9af04bad6cab19b746dae, type: 3}
 --- !u!33 &7934157716305508535
@@ -26981,7 +27004,7 @@ GameObject:
   - component: {fileID: 3243497730041396317}
   - component: {fileID: 9167229110822268957}
   - component: {fileID: 9167229110822268958}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Conveyor Left Out
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27013,8 +27036,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97eb308ecd61a0649822ab4c5f9c46ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_spawnedToys: {fileID: 904417606}
-  m_toySpawner: {fileID: 0}
   speed: 100
   direction: {x: -1, y: 0, z: 0}
 --- !u!1 &9167792161268593074
