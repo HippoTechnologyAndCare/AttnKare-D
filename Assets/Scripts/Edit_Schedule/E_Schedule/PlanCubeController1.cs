@@ -15,15 +15,17 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
     public Transform Canvas;
     public Transform Grp;
 
-    public Vector2 StartPos;
+    public Vector3 StartPos;
 
     public float t;
 
     public GameObject activeSlot;
 
-    [SerializeField] GameObject IntoSlot;
+    [SerializeField] GameObject grpPrefab;
+    [SerializeField] GameObject intoSlot;
     [SerializeField] Transform currSlot;
     [SerializeField] Transform cube;
+
     UIPointer uiPointer;
     Material mat;
 
@@ -39,6 +41,7 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
     [SerializeField] List<GameObject> Slots;
     void Start()
     {
+        grpPrefab = this.gameObject;
         working = false;
         Slots = new List<GameObject>();
         zPos.z = 2.21874f;
@@ -69,7 +72,7 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
                 scheduleManager.PlaySoundByTypes(ESoundType.PUT);
 
                 NowClicked = false;
-                IntoSlot = null;
+                intoSlot = null;
 
                 if (activeSlot != null)
                 {
@@ -96,7 +99,7 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
     {
         NowClicked = true;
         this.transform.SetParent(Canvas);
-        scheduleManager.LockAllCollision(this.transform);
+        scheduleManager.LockAllCollision(this.transform);        
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -105,24 +108,29 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
         scheduleManager.ReleaseAllCollision();
         scheduleManager.PlaySoundByTypes(ESoundType.PUT);
 
-        if (IntoSlot != null) //슬롯에 들어온 경우
+        if (intoSlot != null) //슬롯에 들어온 경우
         {
-            if (IntoSlot == activeSlot)
+            if (intoSlot == activeSlot)
             {
                 transform.localPosition = activeSlot.transform.localPosition;
                 return;
             }
 
-            if (IntoSlot.GetComponent<PlanSlotController1>().passenger == null) //새로운 슬롯이 비어있는 경우
+            // 슬롯에 큐브가 들어가는 조건 탐색
+            if (intoSlot.GetComponent<PlanSlotController1>().passenger == null) //새로운 슬롯이 비어있는 경우
             {
                 if (activeSlot != null)
                 {
                     activeSlot.GetComponent<PlanSlotController1>().passenger = null;
                 }
 
-                activeSlot = IntoSlot;
+                activeSlot = intoSlot;
                 transform.localPosition = activeSlot.transform.localPosition;
+                InstantiateCard(grpPrefab);
                 activeSlot.GetComponent<PlanSlotController1>().passenger = this.gameObject;
+                activeSlot.GetComponent<PlanSlotController1>().isStore = true;
+                MeshRendererOff(activeSlot);
+
             }
             else
             {
@@ -130,21 +138,23 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
 
                 if (activeSlot == null) //현재 할당된 슬롯이 없는 경우
                 {
-                    IntoSlot.GetComponent<PlanSlotController1>().passenger.GetComponent<PlanCubeController1>().resetPlanCube();
+                    intoSlot.GetComponent<PlanSlotController1>().passenger.GetComponent<PlanCubeController1>().resetPlanCube();
                 }
                 else
                 {
                     //현재 할당된 슬롯이 있어서 바꿔치기 하는 경우
-                    GameObject tempObj = IntoSlot.GetComponent<PlanSlotController1>().passenger;
+                    GameObject tempObj = intoSlot.GetComponent<PlanSlotController1>().passenger;
 
                     tempObj.transform.localPosition = activeSlot.transform.localPosition;
                     tempObj.GetComponent<PlanCubeController1>().activeSlot = activeSlot;
                     activeSlot.GetComponent<PlanSlotController1>().passenger = tempObj;
                 }
 
-                activeSlot = IntoSlot;
+                activeSlot = intoSlot;
                 transform.localPosition = activeSlot.transform.localPosition;
                 activeSlot.GetComponent<PlanSlotController1>().passenger = this.gameObject;
+                activeSlot.GetComponent<PlanSlotController1>().isStore = true;
+                MeshRendererOff(activeSlot);
             }
 
             scheduleManager.CheckMovingCnt();
@@ -163,28 +173,15 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
         }
 
         NowClicked = false;
-        IntoSlot = null;
+        intoSlot = null;
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "SLOT" /*&& !PlanCubeController1.working*/)
+        if (collision.collider.tag == "SLOT")
         {
-            IntoSlot = collision.gameObject;
-            Slots.Add(IntoSlot);
-            if(IntoSlot == Slots[0])
-            {
-                                                           
-            }
-            //foreach(GameObject s in currSlot)
-            //{                
-            //    if(s == Slots[0])
-            //    {
-            //        IntoSlot = collision.collider.gameObject;
-            //        currSlot.GetComponent<Material>().color = new Color(0.67f, 0, 0.545f, 0.12f);
-            //    }
-            //}
-            //PlanCubeController1.working = true;            
+            intoSlot = collision.gameObject;
+            Slots.Add(intoSlot);                      
         }
 
         if (collision.collider.tag == "POINTER")
@@ -200,12 +197,11 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
         {
             if (Slots.Count == 1 && !working)
             {
-                IntoSlot = collision.collider.gameObject;
+                intoSlot = collision.collider.gameObject;
                 Debug.Log("new stay");
                 working = true;
-                cube = IntoSlot.gameObject.transform.Find("Cube");
-                cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.7f);
-                //mat.color = new Color(0.67f, 0, 0.545f, 0.7f);
+                cube = intoSlot.gameObject.transform.Find("Cube");
+                cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.7f);                
             }
         }
         
@@ -215,28 +211,16 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
     {
         if (collision.collider.tag == "SLOT")
         {
-            IntoSlot = collision.gameObject;
-            Slots.Remove(IntoSlot);
-            cube = IntoSlot.gameObject.transform.Find("Cube");
+            intoSlot = collision.gameObject;
+            Slots.Remove(intoSlot);
+            cube = intoSlot.gameObject.transform.Find("Cube");
             cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.12f);
             Debug.Log("exit");
             working = false;
             if (Slots.Count == 0)
-            {
-                
-                //mat.color = new Color(0.67f, 0, 0.545f, 0.12f);
-                IntoSlot = null;
-            }
-                
-            //foreach (GameObject s in currSlot)
-            //{
-            //    if(s == currSlot)
-            //    {
-            //        
-            //    }
-            //}
-            
-            //PlanCubeController1.working = false;
+            {                                
+                intoSlot = null;
+            }             
         }
 
         if (collision.collider.tag == "POINTER")
@@ -245,11 +229,26 @@ public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerU
         }
     }
 
+    void MeshRendererOff(GameObject actSlot)
+    {
+        cube = intoSlot.gameObject.transform.Find("Cube");
+        cube.GetComponent<MeshRenderer>().enabled = false;
+    }
+
+    void InstantiateCard(GameObject thisG)
+    {
+        
+        GameObject cardClone = (Instantiate(thisG));
+        cardClone.transform.SetParent(Grp);
+        cardClone.transform.localPosition = StartPos;
+        cardClone.transform.localScale = new Vector3(1, 1, 1);
+    }
+
     public void resetPlanCube()
     {
         working = false;
         activeSlot = null;
-        IntoSlot = null;
+        intoSlot = null;
         transform.localPosition = StartPos;
     }
 }
