@@ -114,7 +114,7 @@ public class Object_BP : MonoBehaviour
         Delimiter = GameObject.Find("DataCheck_Manager").GetComponent<AddDelimiter>();
         m_tRightPointer = RightController.Find("RightHandPointer").gameObject;
         m_tGrabber = RightController.Find("Grabber").GetComponent<Grabber>();
-        StartCoroutine(FadeOut());
+        StartCoroutine(FadeIn());
     }
 
     IEnumerator FadeOut()
@@ -177,6 +177,11 @@ public class Object_BP : MonoBehaviour
         StartCoroutine(Hud.TimeCheck(strTime));
     }
 
+
+    void MissionComplete()
+    {
+
+    }
     void GameDone()
     {
         StartCoroutine(Hud.GameFinish());
