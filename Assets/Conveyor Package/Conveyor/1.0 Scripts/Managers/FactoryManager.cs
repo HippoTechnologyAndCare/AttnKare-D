@@ -97,9 +97,13 @@ public class FactoryManager : MonoBehaviour
     public void SaveGameData()
     {
         // Save Box Scores per Stage
-        m_gameData.SetStage1Boxes(m_stage1Score);
+        /*m_gameData.SetStage1Boxes(m_stage1Score);
         m_gameData.SetStage2Boxes(m_stage2Score);
-        m_gameData.SetStage3Boxes(m_stage3Score);
+        m_gameData.SetStage3Boxes(m_stage3Score);*/
+
+        m_gameData.SetStage1(ParseList(m_stage1Score));
+        m_gameData.SetStage2(ParseList(m_stage2Score));
+        m_gameData.SetStage3(ParseList(m_stage3Score));
 
         // Save Successful Boxes per Stage
         int boxCount = 0;
@@ -126,6 +130,24 @@ public class FactoryManager : MonoBehaviour
         Debug.Log(jsonOutput);
     }
 
+    string ParseList(List<List<int>> listToParse)
+    {
+        string json = "[";
+
+        for(int i = 0; i < listToParse.Count; i++)
+        {
+            json += "[";
+            for (int j = 0; j < listToParse[i].Count; j++)
+            {
+                json += listToParse[i][j].ToString() + ',';
+            }
+            json += "]";
+        }
+        json += "]";
+
+        return json;
+    }
+
     void UpdateDebugText(List<int> scores)
     {
         string _isSuccessful = scores[0] == 1 ? "Yes" : "No";
@@ -145,9 +167,13 @@ public class CollectibleData
     public int m_stage2Success;
     public int m_stage3Success;
 
-    public List<List<int>> m_stage1Score;
+    public string m_stage1;
+    public string m_stage2;
+    public string m_stage3;
+
+    /*public List<List<int>> m_stage1Score;
     public List<List<int>> m_stage2Score;
-    public List<List<int>> m_stage3Score;
+    public List<List<int>> m_stage3Score;*/
 
     public float m_escapeTime;
     public int m_escapeCount;
@@ -160,20 +186,24 @@ public class CollectibleData
     bool m_dataSaved;
 
     // Constructor
-    public CollectibleData()
+    /*public CollectibleData()
     {
         m_stage1Score = new List<List<int>>();
         m_stage2Score = new List<List<int>>();
         m_stage3Score = new List<List<int>>();
-    }
+    }*/
 
     // Getters
     public int GetStage1Success() { return m_stage1Success; }
     public int GetStage2Success() { return m_stage2Success; }
     public int GetStage3Success() { return m_stage3Success; }
-    public List<List<int>> GetStage1Boxes() { return m_stage1Score; }
+    public string GetStage1() { return m_stage1; }
+    public string GetStage2() { return m_stage2; }
+    public string GetStage3() { return m_stage3; }
+
+    /*public List<List<int>> GetStage1Boxes() { return m_stage1Score; }
     public List<List<int>> GetStage2Boxes() { return m_stage2Score; }
-    public List<List<int>> GetStage3Boxes() { return m_stage3Score; }
+    public List<List<int>> GetStage3Boxes() { return m_stage3Score; }*/
     public float GetEscapeTime() { return m_escapeTime; }
     public int GetEscapeCount() { return m_escapeCount; }
     public int GetToysOnFloor() { return m_toysOnFloor; }
@@ -183,9 +213,13 @@ public class CollectibleData
     public void SetStage1Success(int val) { m_stage1Success = val; }
     public void SetStage2Success(int val) { m_stage2Success = val; }
     public void SetStage3Success(int val) { m_stage3Success = val; }
-    public void SetStage1Boxes(List<List<int>> dataPacket) { m_stage1Score = dataPacket; }
+    public void SetStage1(string str) { m_stage1 = str; }
+    public void SetStage2(string str) { m_stage2 = str; }
+    public void SetStage3(string str) { m_stage3 = str; }
+
+    /*public void SetStage1Boxes(List<List<int>> dataPacket) { m_stage1Score = dataPacket; }
     public void SetStage2Boxes(List<List<int>> dataPacket) { m_stage2Score = dataPacket; }
-    public void SetStage3Boxes(List<List<int>> dataPacket) { m_stage3Score = dataPacket; }
+    public void SetStage3Boxes(List<List<int>> dataPacket) { m_stage3Score = dataPacket; }*/
     public void SetEscapeTime(float val) { m_escapeTime = val; }
     public void SetEscapeCount(int val) { m_escapeCount = val; }
     public void SetToysOnFloor(int val) { m_toysOnFloor = val; }
