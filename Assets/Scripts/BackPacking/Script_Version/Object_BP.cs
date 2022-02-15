@@ -4,6 +4,8 @@ using UnityEngine;
 using BNG;
 using EPOOutline;
 using DG.Tweening;
+using KetosGames.SceneTransition;
+using UnityEngine.SceneManagement;
 
 public class Object_BP : MonoBehaviour
 {
@@ -76,14 +78,15 @@ public class Object_BP : MonoBehaviour
   
     public InputBridge XrRig;
     public GameObject CenterEye;
-    public GameObject prefabFade;
+    public GameObject prefabFadeIn;
+    public GameObject prefabFadeOut;
     public Transform RightController;
     public static bool bGrabbed;
     public GameObject[] arrStage2;
     public GameObject VideoPlayer;
     bool m_bTotalTime = false; //총시간 확인
-    float m_fTotalTime;
-    bool m_bStageChangeTime = false; //1단계 완료 후 2단계 시작까지 걸리는 시간
+    public float m_fTotalTime;
+    public bool m_bStageChangeTime = false; //1단계 완료 후 2단계 시작까지 걸리는 시간
     float m_fStageChangeTime;
     bool bTimeLimit;
     bool bTimeDone;
@@ -95,6 +98,9 @@ public class Object_BP : MonoBehaviour
     BagPack_BP Bag;
     Pencilcase_BP Pencilcase;
     public List<Grabbable> listGrabbable; //list of all grabbable;
+    public int buildindex;
+    public CollectData DataCollect;
+    AddDelimiter Delimiter;
     void Start()
     {
         foreach (Grabbable grab in listGrabbable)
@@ -105,6 +111,7 @@ public class Object_BP : MonoBehaviour
         Hud = GameObject.Find("UI").GetComponent<UI_BP>();
         Pencilcase = GameObject.Find("Pencilcase_Collider").GetComponent<Pencilcase_BP>();
         Bag = GameObject.Find("Bag_Collider").GetComponent<BagPack_BP>();
+        Delimiter = GameObject.Find("DataCheck_Manager").GetComponent<AddDelimiter>();
         m_tRightPointer = RightController.Find("RightHandPointer").gameObject;
         m_tGrabber = RightController.Find("Grabber").GetComponent<Grabber>();
         StartCoroutine(FadeOut());
@@ -114,11 +121,17 @@ public class Object_BP : MonoBehaviour
     {
         m_tRightPointer.SetActive(false);
         m_tGrabber.enabled = false;
-        m_goFade =  Instantiate(prefabFade, CenterEye.transform.position, Quaternion.identity);
+        m_goFade =  Instantiate(prefabFadeIn, CenterEye.transform.position, Quaternion.identity);
         m_goFade.transform.SetParent(CenterEye.transform);
-        yield return new WaitForSeconds(0.7f);
-        //Destroy(m_goFade);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.2f);
+        NextScene();
+    }
+
+    IEnumerator FadeIn()
+    {
+        m_goFade = Instantiate(prefabFadeIn, CenterEye.transform.position, Quaternion.identity);
+        m_goFade.transform.SetParent(CenterEye.transform);
+        yield return new WaitForSeconds(1.2f);
         StartCoroutine(Hud.CanvasStart());
     }
     void Update()
@@ -129,7 +142,7 @@ public class Object_BP : MonoBehaviour
         {
             m_fTotalTime += Time.deltaTime;
             if (m_fTotalTime >= 150f & !bTimeLimit) { TotalTime("TIME LIMIT"); bTimeLimit = true; }
-            if (m_fTotalTime >= 200f & !bTimeDone) { TotalTime("TIME OUT"); bTimeDone = true; }
+            if (m_fTotalTime >= 200f & !bTimeDone) { TotalTime("TIME OUT"); GameDone(); bTimeDone = true; }
         }
         if (m_bStageChangeTime) m_fStageChangeTime += Time.deltaTime;
 
@@ -159,7 +172,21 @@ public class Object_BP : MonoBehaviour
 
     void TotalTime(string strTime)
     {
-        Hud.TimeCheck(strTime);
+        Debug.Log("TIME");
+        DataCollect.AddTimeStamp(strTime);
+        StartCoroutine(Hud.TimeCheck(strTime));
+    }
+
+    void GameDone()
+    {
+        StartCoroutine(Hud.GameFinish());
+        Delimiter.endEverything();
+        DataCollect.AddTimeStamp("MISSION END");
+        StartCoroutine(FadeOut());
+    }
+    public void NextScene()
+    {
+        KetosGames.SceneTransition.SceneLoader.LoadScene(buildindex);
     }
 
 }

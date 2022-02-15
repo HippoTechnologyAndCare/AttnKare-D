@@ -134,7 +134,7 @@ public class UI_BP : MonoBehaviour
         switch (strStamp)
         {
             case "TIME LIMIT": tmproTime.text = "조금만 서둘러볼까?"; index = 2; break;
-            case "TIME OUT": tmproTime.text = "여기까지해볼게!"; index = 3; break;
+            case "TIME OUT": tmproTime.text = "여기까지 해볼게!"; index = 3; break;
             default: break;
         }
         Camera_Time.DOFade(1, 0.8f);
@@ -143,4 +143,22 @@ public class UI_BP : MonoBehaviour
         Camera_Time.DOFade(0, 0.8f);
     }
 
+    public IEnumerator GameFinish()
+    {
+        GameObject Fin2 = Camera_Finish.transform.Find("Fin_2").gameObject;
+        GameObject Fin1 = Camera_Finish.transform.Find("Fin_1").gameObject;
+        Fin1.SetActive(false);
+        Fin2.SetActive(true);
+        Camera_Finish.DOFade(1, 0.4f);
+        yield return new WaitForSeconds(1.0f);
+        Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "3";
+        yield return new WaitForSeconds(1.0f);
+        Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "2";
+        yield return new WaitForSeconds(1.0f);
+        Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "1";
+        yield return new WaitForSeconds(1.0f);
+        Manager.NextScene();
+
+
+    }
 }

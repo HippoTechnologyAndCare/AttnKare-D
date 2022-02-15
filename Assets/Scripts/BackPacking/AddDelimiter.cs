@@ -8,8 +8,6 @@ public class AddDelimiter : MonoBehaviour
     public bool IDLE;
     public bool DISTURB;
     public CollectData dataCollect;
-
-
     public void addIDLE(bool check)
     {
         IDLE = check;
