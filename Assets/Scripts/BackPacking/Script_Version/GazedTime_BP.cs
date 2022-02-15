@@ -38,4 +38,9 @@ public class GazedTime_BP : MonoBehaviour
     {
         m_fTV += Time.deltaTime;
     }
+
+    void NotWatching()
+    {
+        goGazed = null;
+    }
 }

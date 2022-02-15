@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EPOOutline;
 
 public class BagPack_BP : MonoBehaviour
 {
@@ -20,8 +21,8 @@ public class BagPack_BP : MonoBehaviour
     List<Transform> m_tTxt = new List<Transform>();
     Transform m_tGlue;
     Transform m_tPencilCase;
+    Transform m_tParentBag; //Bag
     int m_nAllDone = 0;
-    int a;
 
     void Start()
     {
@@ -32,6 +33,7 @@ public class BagPack_BP : MonoBehaviour
         m_tTxt.Add(transform.Find("TextBook3").transform);
         m_tTxt.Add(transform.Find("TextBook4").transform);
 
+        m_tParentBag = transform.parent; 
         m_tPencilCase = transform.Find("PencilCase_Final").transform;
         m_tGlue = transform.Find("glue").transform;
     }
@@ -98,9 +100,10 @@ public class BagPack_BP : MonoBehaviour
         m_tChild.localPosition = m_tTarget.localPosition;
         m_tChild.localEulerAngles = m_tTarget.localEulerAngles;
         m_tChild.localScale = m_tTarget.localScale;
+        m_tChild.GetComponent<Outlinable>().enabled = false; //off outlinable
         Destroy(m_tTarget.gameObject);
         Destroy(m_tPrevParent.gameObject);
-        if (m_nAllDone >= 6) AllDone();
+        if (m_nAllDone >= 6) StartCoroutine(AllDone());
 
     }
     void SetTextbook()
@@ -128,9 +131,12 @@ public class BagPack_BP : MonoBehaviour
         m_GOBJ = null;
     }
 
-    void AllDone()
+    IEnumerator AllDone()
     {
+        Destroy(m_tParentBag.GetComponentInChildren<RaycastCircle>().gameObject); //destroy overlapsphere
+        m_tParent.GetComponent<Animator>().SetBool("Done", true);
         Debug.Log("AllDone");
+        yield return new WaitForSeconds(2.5f);
     }
     //책 잘못 넣으면 시간표 확인
     //물건 잘못 넣으면 알림장 확인
