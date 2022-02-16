@@ -22,6 +22,8 @@ public class BagPack_BP : MonoBehaviour
     Transform m_tGlue;
     Transform m_tPencilCase;
     Transform m_tParentBag; //Bag
+    GameObject m_goParticle;
+    GameObject m_goBagComplete;
     int m_nAllDone = 0;
 
     void Start()
@@ -137,6 +139,11 @@ public class BagPack_BP : MonoBehaviour
         m_tParent.GetComponent<Animator>().SetBool("Done", true);
         Debug.Log("AllDone");
         yield return new WaitForSeconds(2.5f);
+    }
+
+    void BagEffect()
+    {
+
     }
     //책 잘못 넣으면 시간표 확인
     //물건 잘못 넣으면 알림장 확인
