@@ -3346,8 +3346,11 @@ MonoBehaviour:
   m_closedBoxSpawner: {fileID: 242981766}
   m_debugger:
     stage1Score: 
+    stage1Destroyed: 0
     stage2Score: 
+    stage2Destroyed: 0
     stage3Score: 
+    stage3Destroyed: 0
     m_grabbedList: []
     gameState: 
     stageColor: 
@@ -5091,7 +5094,7 @@ GameObject:
   - component: {fileID: 5057760928449537995}
   - component: {fileID: 307636346744065420}
   - component: {fileID: 307636346744065421}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Conveyor Center Out
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22478,7 +22481,7 @@ GameObject:
   - component: {fileID: 3872664271508133338}
   - component: {fileID: 6941129241803173550}
   - component: {fileID: 6941129241803173551}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Conveyor Right Out
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27245,7 +27248,7 @@ GameObject:
   - component: {fileID: 3243497730041396317}
   - component: {fileID: 9167229110822268957}
   - component: {fileID: 9167229110822268958}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Conveyor Left Out
   m_TagString: Untagged
   m_Icon: {fileID: 0}
