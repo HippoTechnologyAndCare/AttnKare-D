@@ -19,7 +19,7 @@ public class Debugger
     public string gameState;
     public string stageColor;
 }
-
+// Debugging & Data Management
 public class FactoryManager : MonoBehaviour
 {
     [SerializeField] StageManager m_stageManager;
