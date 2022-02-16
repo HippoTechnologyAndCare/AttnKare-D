@@ -9,9 +9,9 @@ public class GazedTime_BP : MonoBehaviour
     public GameObject goGazed;
     public Object_BP.GAZE_BP GazedObject;
 
-    float m_fTimetable;
-    float m_fTV;
-    float m_fMemo;
+    public float m_fTimetable;
+    public float m_fTV;
+    public float m_fMemo;
     private void Update()
     {
         switch (GazedObject)

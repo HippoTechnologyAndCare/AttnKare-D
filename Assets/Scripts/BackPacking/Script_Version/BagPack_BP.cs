@@ -11,6 +11,7 @@ public class BagPack_BP : MonoBehaviour
     Transform m_tCol;
     public Transform m_tChild;
     UI_BP Hud;
+    Object_BP Manager;
     public int unnecessary;
     public int necessary;
     public bool bStage2 = false;
@@ -22,13 +23,17 @@ public class BagPack_BP : MonoBehaviour
     Transform m_tGlue;
     Transform m_tPencilCase;
     Transform m_tParentBag; //Bag
+    //완성된후 이펙트 추가
     GameObject m_goParticle;
     GameObject m_goBagComplete;
+    GameObject m_goBottom;
+    GameObject m_goArrow;
     int m_nAllDone = 0;
 
     void Start()
     {
         Hud = GameObject.Find("UI").GetComponent<UI_BP>();
+        Manager = GameObject.Find("GameFlow_Manager").GetComponent<Object_BP>();
         m_eState = Object_BP.STATE.EXIT;
         m_tTxt.Add(transform.Find("TextBook1").transform);
         m_tTxt.Add(transform.Find("TextBook2").transform);
@@ -137,13 +142,27 @@ public class BagPack_BP : MonoBehaviour
     {
         Destroy(m_tParentBag.GetComponentInChildren<RaycastCircle>().gameObject); //destroy overlapsphere
         m_tParent.GetComponent<Animator>().SetBool("Done", true);
+        Hud.BagAllPacked();
+        //turn off time
         Debug.Log("AllDone");
         yield return new WaitForSeconds(2.5f);
+        BagEffect();
+        yield return new WaitForSeconds(1.0f);
+        Hud.EffectSound("COMPLETE");
+        Manager.GameDone();
     }
 
     void BagEffect()
     {
-
+        m_goParticle = m_tParent.Find("VfxBagComplete Variant").gameObject;
+        m_goBagComplete = m_tParent.Find("BagDone").gameObject;
+        m_goArrow = m_tParent.Find("Arrow").gameObject;
+        m_goBottom = m_tParent.Find("bottom").gameObject;
+        m_goParticle.SetActive(true);
+        m_goBagComplete.SetActive(true);
+        m_goBottom.SetActive(false);
+        m_goArrow.SetActive(false);
+        m_tParent.GetComponent<MeshRenderer>().enabled = false;
     }
     //책 잘못 넣으면 시간표 확인
     //물건 잘못 넣으면 알림장 확인

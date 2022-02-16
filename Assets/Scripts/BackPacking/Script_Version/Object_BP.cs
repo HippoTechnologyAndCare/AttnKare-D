@@ -75,7 +75,10 @@ public class Object_BP : MonoBehaviour
     //PACK_DISTRACTION
     // Start is called before the first frame update
 
-  
+    UI_BP Hud;
+    BagPack_BP Bag;
+    Pencilcase_BP Pencilcase;
+
     public InputBridge XrRig;
     public GameObject CenterEye;
     public GameObject prefabFadeIn;
@@ -84,30 +87,50 @@ public class Object_BP : MonoBehaviour
     public static bool bGrabbed;
     public GameObject[] arrStage2;
     public GameObject VideoPlayer;
+    public GameDataManager SaveData;
+
+    //DATA
+    public CollectData DataCollect;
+    public AutoVoiceRecording BehaviorData;
+    AddDelimiter Delimiter;
     bool m_bTotalTime = false; //총시간 확인
     public float m_fTotalTime;
-    public bool m_bStageChangeTime = false; //1단계 완료 후 2단계 시작까지 걸리는 시간
+    public bool m_bStageChangeTime = true; //1단계 완료 후 2단계 시작까지 걸리는 시간
     float m_fStageChangeTime;
     bool bTimeLimit;
     bool bTimeDone;
-    GameObject m_tPencilcase;
+
+    bool m_bHudEnd = false; //wait for coroutine in hud to end (in total time)
+    int a;
+ //   GameObject m_tPencilcase;
     GameObject m_goFade;
     GameObject m_tRightPointer;
     Grabber m_tGrabber;
-    UI_BP Hud;
-    BagPack_BP Bag;
-    Pencilcase_BP Pencilcase;
+
+    /*DATA NEEDED
+     * TOTAL TIME (501)
+     * MEMO GAZE TIME (502)
+     * TIMETABLE GAZE TIME (503)
+     * UNNECESSARY GRAB TIME (504) //방해요소와 필요한 학용품 구분
+     * WRONMG PUT COUNT(505)
+     * STAGE 2 GRAB IN STAGE 1 (506) //없애기
+     * STAGE 1 -> STAGE 2 TIME (507)
+     * DISTARCTED VIDEO TIME (508)
+     * SKIP(509)
+     * UNNECESSARY GRAB COUNT(509)
+     */
+
+
     public List<Grabbable> listGrabbable; //list of all grabbable;
     public int buildindex;
-    public CollectData DataCollect;
-    AddDelimiter Delimiter;
+
     void Start()
     {
         foreach (Grabbable grab in listGrabbable)
         {
             grab.enabled = false;
         }
-        m_tPencilcase = GameObject.Find("Pencilcase_complete");
+ //       m_tPencilcase = GameObject.Find("Pencilcase_complete");
         Hud = GameObject.Find("UI").GetComponent<UI_BP>();
         Pencilcase = GameObject.Find("Pencilcase_Collider").GetComponent<Pencilcase_BP>();
         Bag = GameObject.Find("Bag_Collider").GetComponent<BagPack_BP>();
@@ -131,6 +154,7 @@ public class Object_BP : MonoBehaviour
     {
         m_goFade = Instantiate(prefabFadeIn, CenterEye.transform.position, Quaternion.identity);
         m_goFade.transform.SetParent(CenterEye.transform);
+        Debug.Log("wait");
         yield return new WaitForSeconds(1.2f);
         StartCoroutine(Hud.CanvasStart());
     }
@@ -142,7 +166,7 @@ public class Object_BP : MonoBehaviour
         {
             m_fTotalTime += Time.deltaTime;
             if (m_fTotalTime >= 150f & !bTimeLimit) { TotalTime("TIME LIMIT"); bTimeLimit = true; }
-            if (m_fTotalTime >= 200f & !bTimeDone) { TotalTime("TIME OUT"); GameDone(); bTimeDone = true; }
+            if (m_fTotalTime >= 200f & !bTimeDone) { TotalTime("TIME OUT"); StartCoroutine(GameDone()); bTimeDone = true; }
         }
         if (m_bStageChangeTime) m_fStageChangeTime += Time.deltaTime;
 
@@ -170,23 +194,25 @@ public class Object_BP : MonoBehaviour
         StartCoroutine(Hud.StageNotification(2));
     }
 
-    void TotalTime(string strTime)
+    void TotalTime(string strTime) //Add timestamp (TIME LIMIT, TIME OVER) & Show Warning
     {
         Debug.Log("TIME");
         DataCollect.AddTimeStamp(strTime);
         StartCoroutine(Hud.TimeCheck(strTime));
     }
-
-
-    void MissionComplete()
+    public IEnumerator GameDone()
     {
-
-    }
-    void GameDone()
-    {
-        StartCoroutine(Hud.GameFinish());
+        m_bTotalTime = false;
+        if (!m_bHudEnd)
+        {
+            Debug.Log("IN");
+            m_bHudEnd = Hud.bEndUI;
+        }
+        yield return StartCoroutine(Hud.GameFinish());
         Delimiter.endEverything();
         DataCollect.AddTimeStamp("MISSION END");
+        SaveData.SaveCurrentData();
+        BehaviorData.StopRecordingNBehavior();
         StartCoroutine(FadeOut());
     }
     public void NextScene()

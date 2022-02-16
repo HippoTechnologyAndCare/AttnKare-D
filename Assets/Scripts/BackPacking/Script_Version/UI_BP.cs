@@ -27,6 +27,7 @@ public class UI_BP : MonoBehaviour
     TextMeshProUGUI m_txtStartInfo;
     public bool bEndUI;
 
+    int a;
     string line;
     Object_BP Manager;
     // Start is called before the first frame update
@@ -141,6 +142,8 @@ public class UI_BP : MonoBehaviour
         NarrationSound(index);
         yield return new WaitUntil(() => !Audio_Narration.isPlaying);
         Camera_Time.DOFade(0, 0.8f);
+        yield return new WaitUntil(() => Camera_Time.alpha == 0);
+        bEndUI = true;
     }
 
     public IEnumerator GameFinish()
@@ -158,7 +161,12 @@ public class UI_BP : MonoBehaviour
         Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "1";
         yield return new WaitForSeconds(1.0f);
         Manager.NextScene();
+        
+    }
 
-
+    public void BagAllPacked()
+    {
+        Board_Finish.gameObject.SetActive(true);
+        EffectSound("STAR");
     }
 }
