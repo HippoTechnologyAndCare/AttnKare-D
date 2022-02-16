@@ -1,8 +1,12 @@
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEditor.SceneManagement;
+using UserData;
 
 [Serializable]
 public class Debugger
@@ -20,8 +24,8 @@ public class FactoryManager : MonoBehaviour
 {
     [SerializeField] StageManager m_stageManager;
     [SerializeField] AudioManager m_audioManager;
-    [SerializeField] UIManager    m_UIManager;
-    [SerializeField] PlayArea     m_playArea;
+    [SerializeField] UIManager m_UIManager;
+    [SerializeField] PlayArea m_playArea;
 
     [SerializeField] Text m_debuggerUI;                               // Debugger UI
 
@@ -35,8 +39,14 @@ public class FactoryManager : MonoBehaviour
 
     public CollectibleData m_gameData;
     public static List<GameObject> m_grabbedList;
+    static string m_json;
 
     [SerializeField] Debugger m_debugger;
+
+    public static string GetJsonData() { return m_json; }
+
+    // Set Path for Json Export
+    public void ExportAsJson() { File.WriteAllText(DataManager.GetInstance().FilePath_Folder + "Conveyor.json", m_json); }
 
     void DebugScore()
     {
@@ -58,13 +68,13 @@ public class FactoryManager : MonoBehaviour
 
         // Debugger
         m_debugger.stage1Score = new List<int>(); m_debugger.stage2Score = new List<int>(); m_debugger.stage3Score = new List<int>();
-        for (int i = 0; i < 5; i++)  { m_debugger.stage1Score.Add(-1); }
+        for (int i = 0; i < 5; i++) { m_debugger.stage1Score.Add(-1); }
         for (int i = 0; i < 10; i++) { m_debugger.stage2Score.Add(-1); m_debugger.stage3Score.Add(-1); }
     }
 
     private void Update() { DebugScore(); }
 
-    public static void AddToGrabbedList(GameObject toy) { if(!m_grabbedList.Contains(toy)) m_grabbedList.Add(toy); }                                                    // Called in Toy.cs
+    public static void AddToGrabbedList(GameObject toy) { if (!m_grabbedList.Contains(toy)) m_grabbedList.Add(toy); }                                                    // Called in Toy.cs
     public static void RemoveFromGrabbedList(GameObject toy) { if (m_grabbedList.Contains(toy)) m_grabbedList.Remove(toy); }                                            // Called in Box.cs
     public static void CheckMissing() { foreach (GameObject toy in m_grabbedList) if (toy == null) Debug.Log("Missing Object: " + m_grabbedList.IndexOf(toy)); }        // Called in Box.cs
 
@@ -73,13 +83,13 @@ public class FactoryManager : MonoBehaviour
     public void BoxIn(BoxType boxType)
     {
         if (boxType == BoxType.PlainBox) m_openBoxSpawner.SpawnNextBox();
-        if (boxType == BoxType.OpenBox)  m_closedBoxSpawner.SpawnNextBox();
+        if (boxType == BoxType.OpenBox) m_closedBoxSpawner.SpawnNextBox();
     }
 
     // Get Score of Box Instance (Called in Box.cs)
-    public void GetScore(List<int> scores,int index)
+    public void GetScore(List<int> scores, int index)
     {
-        switch(index)
+        switch (index)
         {
             case 1: m_stage1Score.Add(scores); break;
             case 2: m_stage2Score.Add(scores); break;
@@ -107,10 +117,10 @@ public class FactoryManager : MonoBehaviour
 
         // Save Successful Boxes per Stage
         int boxCount = 0;
-        for(int i = 0; i < m_stage1Score.Count; i++)  { if (m_stage1Score[i][0] == 1) boxCount++; }
-        m_gameData.SetStage1Success(boxCount);  boxCount = 0;
+        for (int i = 0; i < m_stage1Score.Count; i++) { if (m_stage1Score[i][0] == 1) boxCount++; }
+        m_gameData.SetStage1Success(boxCount); boxCount = 0;
         for (int i = 0; i < m_stage2Score.Count; i++) { if (m_stage2Score[i][0] == 1) boxCount++; }
-        m_gameData.SetStage2Success(boxCount);  boxCount = 0;
+        m_gameData.SetStage2Success(boxCount); boxCount = 0;
         for (int i = 0; i < m_stage3Score.Count; i++) { if (m_stage3Score[i][0] == 1) boxCount++; }
         m_gameData.SetStage3Success(boxCount);
 
@@ -126,23 +136,38 @@ public class FactoryManager : MonoBehaviour
         // Change Game Data State as Saved
         m_gameData.SetDataSaved(true);
 
-        string jsonOutput = JsonUtility.ToJson(m_gameData);
-        Debug.Log(jsonOutput);
+        FormatJson();
+
+        ExportAsJson();
     }
 
+    void FormatJson()
+    {
+        m_json += "[\n";
+
+        for (int i = 1; i < 11; i++)
+        {
+            m_json += m_gameData.GetMemberVariableJson(i) + ",\n";
+        }
+
+        m_json = m_json.Remove(m_json.Length - 2, 1);
+        m_json += "]";
+    }
     string ParseList(List<List<int>> listToParse)
     {
         string json = "[";
 
-        for(int i = 0; i < listToParse.Count; i++)
+        for (int i = 0; i < listToParse.Count; i++)
         {
             json += "[";
             for (int j = 0; j < listToParse[i].Count; j++)
             {
                 json += listToParse[i][j].ToString() + ',';
             }
-            json += "]";
+            json = json.Remove(json.Length - 1);
+            json += "],";
         }
+        json = json.Remove(json.Length - 1);
         json += "]";
 
         return json;
@@ -153,9 +178,9 @@ public class FactoryManager : MonoBehaviour
         string _isSuccessful = scores[0] == 1 ? "Yes" : "No";
 
         UIManager.AddBoxDebuggerText(m_debuggerUI, "Is Successful? " + _isSuccessful);
-        UIManager.AddBoxDebuggerText(m_debuggerUI, "Excess",       scores[1]);
-        UIManager.AddBoxDebuggerText(m_debuggerUI, "WrongColor",   scores[2]);
-        UIManager.AddBoxDebuggerText(m_debuggerUI, "Total",        scores[3]);
+        UIManager.AddBoxDebuggerText(m_debuggerUI, "Excess", scores[1]);
+        UIManager.AddBoxDebuggerText(m_debuggerUI, "WrongColor", scores[2]);
+        UIManager.AddBoxDebuggerText(m_debuggerUI, "Total", scores[3]);
         UIManager.AddBoxDebuggerText(m_debuggerUI, "");
     }
 }
@@ -163,24 +188,24 @@ public class FactoryManager : MonoBehaviour
 [Serializable]
 public class CollectibleData
 {
-    public int m_stage1Success;
-    public int m_stage2Success;
-    public int m_stage3Success;
+    int m_stage1Success;
+    int m_stage2Success;
+    int m_stage3Success;
 
-    public string m_stage1;
-    public string m_stage2;
-    public string m_stage3;
+    string m_stage1;
+    string m_stage2;
+    string m_stage3;
 
     /*public List<List<int>> m_stage1Score;
     public List<List<int>> m_stage2Score;
     public List<List<int>> m_stage3Score;*/
 
-    public float m_escapeTime;
-    public int m_escapeCount;
+    float m_escapeTime;
+    int m_escapeCount;
 
-    public int m_toysOnFloor;
+    int m_toysOnFloor;
 
-    public bool m_isSkipped;
+    bool m_isSkipped;
 
     // Bool to Check if Data is Saved
     bool m_dataSaved;
@@ -192,6 +217,25 @@ public class CollectibleData
         m_stage2Score = new List<List<int>>();
         m_stage3Score = new List<List<int>>();
     }*/
+
+    public string GetMemberVariableJson(int index)
+    {
+        switch (index)
+        {
+            case 1: return JsonUtility.ToJson(ToJsonDataInt(1, m_stage1Success), true);
+            case 2: return JsonUtility.ToJson(ToJsonDataInt(2, m_stage2Success), true);
+            case 3: return JsonUtility.ToJson(ToJsonDataInt(3, m_stage3Success), true);
+            case 4: return JsonUtility.ToJson(ToJsonDataString(4, m_stage1), true);
+            case 5: return JsonUtility.ToJson(ToJsonDataString(5, m_stage2), true);
+            case 6: return JsonUtility.ToJson(ToJsonDataString(6, m_stage3), true);
+            case 7: return JsonUtility.ToJson(ToJsonDataFloat(7, m_escapeTime), true);
+            case 8: return JsonUtility.ToJson(ToJsonDataInt(8, m_escapeCount), true); ;
+            case 9: return JsonUtility.ToJson(ToJsonDataInt(9, m_toysOnFloor), true);
+            case 10: return JsonUtility.ToJson(ToJsonDataInt(10, m_isSkipped ? 1 : 0), true);
+            default: return "";
+        }
+    }
+
 
     // Getters
     public int GetStage1Success() { return m_stage1Success; }
@@ -227,4 +271,75 @@ public class CollectibleData
 
     public bool IsDataSaved() { return m_dataSaved; }
     public void SetDataSaved(bool input) { m_dataSaved = input; }
+
+    public JsonDataInt ToJsonDataInt(int dataNum, int var)
+    {
+        JsonDataInt jsonDataField = new JsonDataInt();
+
+        int sceneIndex;
+
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;
+#if UNITY_EDITOR
+        sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;
+#endif
+
+        jsonDataField.ID = sceneIndex * 100 + dataNum;
+        jsonDataField.Result = var;
+
+        return jsonDataField;
+    }
+
+    public JsonDataFloat ToJsonDataFloat(int dataNum, float var)
+    {
+        JsonDataFloat jsonDataField = new JsonDataFloat();
+
+        int sceneIndex;
+
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;
+#if UNITY_EDITOR
+        sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;
+#endif
+
+        jsonDataField.ID = sceneIndex * 100 + dataNum;
+        jsonDataField.Result = var;
+
+        return jsonDataField;
+    }
+
+    public JsonDataString ToJsonDataString(int dataNum, string var)
+    {
+        JsonDataString jsonDataField = new JsonDataString();
+
+        int sceneIndex;
+
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;
+#if UNITY_EDITOR
+        sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;
+#endif
+
+        jsonDataField.ID = sceneIndex * 100 + dataNum;
+        jsonDataField.Result = var;
+
+        return jsonDataField;
+    }
+}
+
+[Serializable]
+public class JsonDataInt
+{
+    public int ID;
+    public int Result;
+}
+
+[Serializable]
+public class JsonDataFloat
+{
+    public int ID;
+    public float Result;
+}
+[Serializable]
+public class JsonDataString
+{
+    public int ID;
+    public string Result;
 }
