@@ -41,9 +41,31 @@ public class StageManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentGameState == GameState.Stage1Start) { stage?.Invoke(1); GenerateColor(); m_boxCount = 5;  currentGameState = GameState.Stage1; }
-        if (currentGameState == GameState.Stage2Start) { stage?.Invoke(2); GenerateColor(); m_boxCount = 10; currentGameState = GameState.Stage2; }
-        if (currentGameState == GameState.Stage3Start) { stage?.Invoke(3); GenerateColor(); m_boxCount = 10; currentGameState = GameState.Stage3; }
+        if (currentGameState == GameState.Stage1Start) 
+        {
+            stage?.Invoke(1);
+            GenerateColor();
+            m_boxCount = 5;
+            currentGameState = GameState.Stage1;
+        }
+        if (currentGameState == GameState.Stage2Start)
+        {
+            NextStage();
+            stage?.Invoke(2);
+            GenerateColor();
+            m_boxCount = 10;
+            currentGameState = GameState.Stage2;
+            FactoryManager.ResetDestroyCount(1);
+        }
+        if (currentGameState == GameState.Stage3Start)
+        {
+            NextStage();
+            stage?.Invoke(3);
+            GenerateColor();
+            m_boxCount = 10;
+            currentGameState = GameState.Stage3;
+            FactoryManager.ResetDestroyCount(2);
+        }
 
         if(m_boxCount == 0)
         {
@@ -52,7 +74,13 @@ public class StageManager : MonoBehaviour
             if (currentGameState == GameState.Stage3) currentGameState = GameState.Stage3End;
         }
 
-        if (!m_factoryManager.m_gameData.IsDataSaved() && currentGameState == GameState.GameEnd) { m_factoryManager.SaveGameData(); Debug.Log("Game Data has been Saved!"); }
+        if (!FactoryManager.m_gameData.IsDataSaved() && currentGameState == GameState.GameEnd) 
+        {
+            NextStage();
+            FactoryManager.ResetDestroyCount(3);
+            m_factoryManager.SaveGameData();
+            Debug.Log("Game Data has been Saved!");
+        }
     }
 
     public void GenerateColor()

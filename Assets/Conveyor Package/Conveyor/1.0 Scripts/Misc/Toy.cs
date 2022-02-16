@@ -52,7 +52,18 @@ namespace BNG
 
         public void DisableGrab() { if(!m_grabbable.BeingHeld) m_grabbable.enabled = false; }
 
-        private void OnTriggerEnter(Collider other) { if (other.gameObject.name == "Destroy Toy") Destroy(gameObject); }
+        private void OnTriggerEnter(Collider other) 
+        {
+            if (other.gameObject.name == "Destroy Toy")
+            {
+                Destroy(gameObject);
+
+                if(m_toyType == StageManager.m_currentColor)
+                {
+                    FactoryManager.m_destroyCount++;
+                }
+            }
+        }
 
         public void OnObjectSpawn() { }
     }
