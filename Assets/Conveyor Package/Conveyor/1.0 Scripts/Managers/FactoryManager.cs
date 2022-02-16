@@ -13,13 +13,16 @@ public class Debugger
 {
     [Header("Score Debugger")]
     public List<int> stage1Score;
+    public int stage1Destroyed;
     public List<int> stage2Score;
+    public int stage2Destroyed;
     public List<int> stage3Score;
+    public int stage3Destroyed;
     public List<GameObject> m_grabbedList;
     public string gameState;
     public string stageColor;
 }
-
+// Debugging & Data Management
 public class FactoryManager : MonoBehaviour
 {
     [SerializeField] StageManager m_stageManager;
@@ -37,8 +40,9 @@ public class FactoryManager : MonoBehaviour
     [HideInInspector] public List<List<int>> m_stage2Score;
     [HideInInspector] public List<List<int>> m_stage3Score;
 
-    public CollectibleData m_gameData;
+    public static CollectibleData m_gameData;
     public static List<GameObject> m_grabbedList;
+    public static int m_destroyCount;
     static string m_json;
 
     [SerializeField] Debugger m_debugger;
@@ -57,6 +61,10 @@ public class FactoryManager : MonoBehaviour
         m_debugger.gameState = Enum.GetName(typeof(GameState), StageManager.currentGameState);
         m_debugger.stageColor = StageManager.m_currentColor.ToString() + " / " + StageManager.m_currentColor + " / " + Enum.GetName(typeof(BNG.Toy.ToyType), StageManager.m_currentColor);
         m_debugger.m_grabbedList = m_grabbedList;
+
+        m_debugger.stage1Destroyed = StageManager.m_currentStage == 1 ? m_destroyCount : m_gameData.GetStage1DestroyCnt();
+        m_debugger.stage2Destroyed = StageManager.m_currentStage == 2 ? m_destroyCount : m_gameData.GetStage2DestroyCnt();
+        m_debugger.stage3Destroyed = StageManager.m_currentStage == 3 ? m_destroyCount : m_gameData.GetStage3DestroyCnt();
     }
 
     // Start is called before the first frame update
@@ -77,6 +85,18 @@ public class FactoryManager : MonoBehaviour
     public static void AddToGrabbedList(GameObject toy) { if (!m_grabbedList.Contains(toy)) m_grabbedList.Add(toy); }                                                    // Called in Toy.cs
     public static void RemoveFromGrabbedList(GameObject toy) { if (m_grabbedList.Contains(toy)) m_grabbedList.Remove(toy); }                                            // Called in Box.cs
     public static void CheckMissing() { foreach (GameObject toy in m_grabbedList) if (toy == null) Debug.Log("Missing Object: " + m_grabbedList.IndexOf(toy)); }        // Called in Box.cs
+    public static void ResetDestroyCount(int stage) { SetDestroyCnt(stage); m_destroyCount = 0; }
+
+    static void SetDestroyCnt(int stage)
+    {
+        switch (stage)
+        {
+            case 1: m_gameData.SetStage1DestroyCnt(m_destroyCount); break;
+            case 2: m_gameData.SetStage2DestroyCnt(m_destroyCount); break;
+            case 3: m_gameData.SetStage3DestroyCnt(m_destroyCount); break;
+            default: break;
+        }
+    }
 
     // If Box is in, make Box Spawner Spawn next Box
     // Called in Box.cs
@@ -145,7 +165,7 @@ public class FactoryManager : MonoBehaviour
     {
         m_json += "[\n";
 
-        for (int i = 1; i < 11; i++)
+        for (int i = 1; i < 14; i++)
         {
             m_json += m_gameData.GetMemberVariableJson(i) + ",\n";
         }
@@ -192,6 +212,10 @@ public class CollectibleData
     int m_stage2Success;
     int m_stage3Success;
 
+    int m_stage1DestroyCnt;
+    int m_stage2DestroyCnt;
+    int m_stage3DestroyCnt;
+
     string m_stage1;
     string m_stage2;
     string m_stage3;
@@ -222,16 +246,19 @@ public class CollectibleData
     {
         switch (index)
         {
-            case 1: return JsonUtility.ToJson(ToJsonDataInt(1, m_stage1Success), true);
-            case 2: return JsonUtility.ToJson(ToJsonDataInt(2, m_stage2Success), true);
-            case 3: return JsonUtility.ToJson(ToJsonDataInt(3, m_stage3Success), true);
-            case 4: return JsonUtility.ToJson(ToJsonDataString(4, m_stage1), true);
-            case 5: return JsonUtility.ToJson(ToJsonDataString(5, m_stage2), true);
-            case 6: return JsonUtility.ToJson(ToJsonDataString(6, m_stage3), true);
-            case 7: return JsonUtility.ToJson(ToJsonDataFloat(7, m_escapeTime), true);
-            case 8: return JsonUtility.ToJson(ToJsonDataInt(8, m_escapeCount), true); ;
-            case 9: return JsonUtility.ToJson(ToJsonDataInt(9, m_toysOnFloor), true);
-            case 10: return JsonUtility.ToJson(ToJsonDataInt(10, m_isSkipped ? 1 : 0), true);
+            case 1:  return JsonUtility.ToJson(ToJsonDataInt(1, m_stage1Success), true);
+            case 2:  return JsonUtility.ToJson(ToJsonDataInt(2, m_stage2Success), true);
+            case 3:  return JsonUtility.ToJson(ToJsonDataInt(3, m_stage3Success), true);
+            case 4:  return JsonUtility.ToJson(ToJsonDataInt(4, m_stage1DestroyCnt), true);
+            case 5:  return JsonUtility.ToJson(ToJsonDataInt(5, m_stage2DestroyCnt), true);
+            case 6:  return JsonUtility.ToJson(ToJsonDataInt(6, m_stage3DestroyCnt), true);
+            case 7:  return JsonUtility.ToJson(ToJsonDataString(7, m_stage1), true);
+            case 8:  return JsonUtility.ToJson(ToJsonDataString(8, m_stage2), true);
+            case 9:  return JsonUtility.ToJson(ToJsonDataString(9, m_stage3), true);
+            case 10: return JsonUtility.ToJson(ToJsonDataFloat(10, m_escapeTime), true);
+            case 11: return JsonUtility.ToJson(ToJsonDataInt(11, m_escapeCount), true);
+            case 12: return JsonUtility.ToJson(ToJsonDataInt(12, m_toysOnFloor), true);
+            case 13: return JsonUtility.ToJson(ToJsonDataInt(13, m_isSkipped ? 1 : 0), true);
             default: return "";
         }
     }
@@ -241,6 +268,9 @@ public class CollectibleData
     public int GetStage1Success() { return m_stage1Success; }
     public int GetStage2Success() { return m_stage2Success; }
     public int GetStage3Success() { return m_stage3Success; }
+    public int GetStage1DestroyCnt() { return m_stage1DestroyCnt; }
+    public int GetStage2DestroyCnt() { return m_stage2DestroyCnt; }
+    public int GetStage3DestroyCnt() { return m_stage3DestroyCnt; }
     public string GetStage1() { return m_stage1; }
     public string GetStage2() { return m_stage2; }
     public string GetStage3() { return m_stage3; }
@@ -257,6 +287,9 @@ public class CollectibleData
     public void SetStage1Success(int val) { m_stage1Success = val; }
     public void SetStage2Success(int val) { m_stage2Success = val; }
     public void SetStage3Success(int val) { m_stage3Success = val; }
+    public void SetStage1DestroyCnt(int val) { m_stage1DestroyCnt = val; }
+    public void SetStage2DestroyCnt(int val) { m_stage2DestroyCnt = val; }
+    public void SetStage3DestroyCnt(int val) { m_stage3DestroyCnt = val; }
     public void SetStage1(string str) { m_stage1 = str; }
     public void SetStage2(string str) { m_stage2 = str; }
     public void SetStage3(string str) { m_stage3 = str; }
