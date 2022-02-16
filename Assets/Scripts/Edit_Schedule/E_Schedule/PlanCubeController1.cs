@@ -11,8 +11,9 @@ namespace Scheduler
 
         public ScheduleManager1 scheduleManager;
 
-        public enum CardState { Idle, Move, Enter, Done};
-        public CardState cardState;
+        public enum CARD_STATE { IDLE, MOVE, ENTER, DONE };
+        
+        public CARD_STATE cardState;
 
         public Transform HandCursor;
         public HandController handController;
@@ -26,12 +27,17 @@ namespace Scheduler
 
         public GameObject activeSlot;
 
+        [SerializeField] CardCreater cardCreater;
+
+        [SerializeField] GameObject originPos_P;
+        //[SerializeField] Transform originPos;
         [SerializeField] GameObject cardPrb;
         [SerializeField] GameObject intoSlot;
         [SerializeField] Transform currSlot;
         [SerializeField] Transform cube;
 
         [SerializeField] bool isHomeTW;
+        //[SerializeField] bool isWorking;
 
         UIPointer uiPointer;
         Material mat;
@@ -48,9 +54,12 @@ namespace Scheduler
         [SerializeField] List<GameObject> Slots;
         void Start()
         {
-            cardState =  CardState.Idle;
-            cardPrb = this.gameObject;
-            //working = false;
+            FindOriginPos();
+
+            intoSlot = null;
+            cube = null;
+            cardState =  CARD_STATE.IDLE;
+            cardPrb = this.gameObject;          
             Slots = new List<GameObject>();
             zPos.z = 2.21874f;
             StartPos = this.transform.localPosition;
@@ -93,10 +102,18 @@ namespace Scheduler
                 }
             }
         }
+
+        void FindOriginPos()
+        {
+            originPos_P = GameObject.Find("Origin Pos");
+            string myName = this.name.Replace("(Clone)", "");
+            cardCreater = originPos_P.transform.Find(myName).GetComponent<CardCreater>();            
+        }
+
         void MoveCard()
         {
             // LaserEnd의 포지션을 따라간다
-            cardState = CardState.Move;
+            cardState = CARD_STATE.MOVE;
             Vector2 a = this.transform.position;
             Vector2 b = uiPointer._cursor.transform.position;
             vec2Pos = Vector2.Lerp(a, b, t);
@@ -133,7 +150,7 @@ namespace Scheduler
                         activeSlot.GetComponent<PlanSlotController1>().passenger = null;
                     }
 
-                    if(!isHomeTW)
+                    if(!isHomeTW && !cardCreater.isStore)
                     {
                         InstantiateCard(cardPrb);
                     }
@@ -143,8 +160,7 @@ namespace Scheduler
                     activeSlot.GetComponent<PlanSlotController1>().passenger = this.gameObject;
                     activeSlot.GetComponent<PlanSlotController1>().isStore = true;
                     MeshRendererOff(activeSlot);
-                    cardState = CardState.Done;
-
+                    cardState = CARD_STATE.DONE;
                 }
                 else
                 {
@@ -164,7 +180,7 @@ namespace Scheduler
                         activeSlot.GetComponent<PlanSlotController1>().passenger = tempObj;
                     }
 
-                    cardState = CardState.Done;
+                    cardState = CARD_STATE.DONE;
                     activeSlot = intoSlot;
                     transform.localPosition = activeSlot.transform.localPosition;
                     activeSlot.GetComponent<PlanSlotController1>().passenger = this.gameObject;
@@ -179,11 +195,12 @@ namespace Scheduler
             {
                 if (activeSlot != null)
                 {
-                    cardState = CardState.Done;
+                    cardState = CARD_STATE.DONE;
                     transform.localPosition = activeSlot.transform.localPosition;
                 }
                 else
-                {                    
+                {
+                    cardState = CARD_STATE.IDLE;
                     transform.localPosition = StartPos;
                 }
             }
@@ -211,16 +228,16 @@ namespace Scheduler
         {
             if (collision.collider.tag == "SLOT")
             {
-                if (Slots.Count == 1 && cardState != CardState.Enter)
+                if (Slots.Count == 1)
                 {
-                    intoSlot = collision.collider.gameObject;
-                    Debug.Log("new stay");
-                    cardState = CardState.Enter;
+                    //isWorking = true;
+                    intoSlot = collision.collider.gameObject;                    
+                    cardState = CARD_STATE.ENTER;
                     cube = intoSlot.gameObject.transform.Find("Cube");
                     cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.7f);
                     if(!NowClicked && cube.GetComponent<MeshRenderer>().enabled == false)
                     {
-                        cardState = CardState.Done;
+                        cardState = CARD_STATE.DONE;
                     }
                 }
             }
@@ -231,12 +248,13 @@ namespace Scheduler
         {
             if (collision.collider.tag == "SLOT")
             {
+                //isWorking = false;
                 intoSlot = collision.gameObject;
                 Slots.Remove(intoSlot);
                 cube = intoSlot.gameObject.transform.Find("Cube");
                 cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.12f);
                 Debug.Log("exit");
-                cardState = CardState.Move;
+                cardState = CARD_STATE.MOVE;
                 if (Slots.Count == 0)
                 {
                     intoSlot = null;
@@ -283,7 +301,7 @@ namespace Scheduler
 
         public void resetPlanCube()
         {
-            cardState = CardState.Idle;
+            cardState = CARD_STATE.IDLE;
             activeSlot = null;
             intoSlot = null;
             transform.localPosition = StartPos;

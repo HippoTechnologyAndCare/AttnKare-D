@@ -8,13 +8,13 @@ namespace Scheduler
     {
         [SerializeField] GameObject originPos;
         [SerializeField] GameObject cardPrefab;
+
+        [SerializeField] string otherName;
         public bool isStore;
 
         void Start()
         {
-            originPos = this.gameObject;                     
-
-            InstantiateCard(cardPrefab);
+            originPos = this.gameObject;                                
         }
 
         void Update()
@@ -32,18 +32,27 @@ namespace Scheduler
 
         private void OnTriggerStay(Collider other)
         {
-            if(other.name == this.name && !isStore)
+            if (other.tag == "PLAN")
             {
-                isStore = true;
-
+                otherName = other.name.Replace("(Clone)", "");
+                if (this.name == otherName && !isStore)
+                {
+                    isStore = true;
+                }
             }
+            
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.name == this.name && isStore)
+
+            if (other.tag == "PLAN")
             {
-                isStore = false;
+                otherName = other.name.Replace("(Clone)", "");
+                if (this.name == otherName && isStore)
+                {
+                    isStore = false;
+                }
             }
         }
     }
