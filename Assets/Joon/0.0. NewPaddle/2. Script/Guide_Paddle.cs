@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BNG;
 
 public class Guide_Paddle : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class Guide_Paddle : MonoBehaviour
 
     public static PADDLE_STATE m_ePSTATE;
     public int intStage;
+    public CollectData BehaviorData;
     private int m_nComplete;
     private string m_strOrder;
 
@@ -29,8 +31,9 @@ public class Guide_Paddle : MonoBehaviour
     int[] m_arrWrongSpeed = new int[] { 0, 0, 0 };
     int[] m_arrWrongOrder = new int[] { 0, 0, 0 };
 
-
-    float m_fTOTALTIME;
+    float m_fPrevTime = 0;
+    float m_fStageTime = 0;
+    float m_fTOTALTIME =0;
     float m_fSTARTTIME;
     List<float> m_listSTAGE = new List<float>();
     List<PaddleCollider> m_listCOLLIDER;
@@ -68,6 +71,8 @@ public class Guide_Paddle : MonoBehaviour
     void Make_INTRO()
     {
         foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = false;
+        //+hud start voice and canvas
+        BehaviorData.AddTimeStamp("GUIDE START");
         m_ePSTATE = PADDLE_STATE.INTRO;
     }
 
@@ -79,6 +84,7 @@ public class Guide_Paddle : MonoBehaviour
     public void Make_START()
     {
         foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = true;
+        AnimationStart();
         m_ePSTATE = PADDLE_STATE.START;
     }
     
@@ -89,9 +95,7 @@ public class Guide_Paddle : MonoBehaviour
 
     void Make_STAGE()
     {
-        m_listSTAGE.Add(m_fTOTALTIME); 
-        string animName = "Paddle" + intStage.ToString(); //Change Animation of Character
-        FriendAnimation.Play(animName);
+        StageTimeAdd();   
         m_ePSTATE = PADDLE_STATE.STAGE;
         Debug.Log(m_listSTAGE.Count);
     }
@@ -102,15 +106,27 @@ public class Guide_Paddle : MonoBehaviour
    
     void Make_ALLDONE()
     {
-        m_listSTAGE.Add(m_fTOTALTIME);
+        StageTimeAdd();
         Debug.Log("COMPLETE");
         foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = false; //paddle component 내부의 collider를 빼 더이상 체크 X
         m_ePSTATE = PADDLE_STATE.ALLDONE;
     }
 
+    void AnimationStart()
+    {
+        string animName = "Paddle" + intStage.ToString(); //Change Animation of Character
+        FriendAnimation.Play(animName);
+    }
 
+    void StageTimeAdd()
+    {
+        m_fStageTime = m_fTOTALTIME - m_fPrevTime;
+        m_fPrevTime = m_fTOTALTIME;
+        m_listSTAGE.Add(m_fStageTime);
+    }
     void NEXTSTAGE()
     {
+        Hud.ErrorMessage("stage");
         Debug.Log("CHECK_STAGE");
         Make_STAGE();
         m_arrWrongOrder[intStage] = m_nWrongOrder;
@@ -148,7 +164,13 @@ public class Guide_Paddle : MonoBehaviour
             NEXTSTAGE();//다음 스테이지 넘어가기
             return;
         }
+        Hud.ErrorMessage("correct");
         Debug.Log("CHECK" + Manager_Paddle.SDB[intStage].fTime + "  ," + Manager_Paddle.SDB[intStage].intCount + " , " + m_nComplete);
+    }
+
+    void GameFinish() // 게임 끝나면 어떻게 할지 여기에 추가
+    {
+        Hud.ErrorMessage("complete");
     }
     
     Hud_Paddle Hud;

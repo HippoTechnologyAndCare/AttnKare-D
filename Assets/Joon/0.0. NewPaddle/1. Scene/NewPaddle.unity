@@ -874,7 +874,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 109396455}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1859817969}
@@ -882,8 +882,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 221.6, y: -70.3}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 186, y: -29.3}
+  m_SizeDelta: {x: 100, y: 67.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &109396457
 MonoBehaviour:
@@ -933,8 +933,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80
-  m_fontSizeBase: 80
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4736,8 +4736,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 13.4, y: -70.3}
-  m_SizeDelta: {x: 300, y: 150}
+  m_AnchoredPosition: {x: -22, y: -29.300001}
+  m_SizeDelta: {x: 300, y: 101.11}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &500431793
 MonoBehaviour:
@@ -4787,8 +4787,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80
-  m_fontSizeBase: 80
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4934,8 +4934,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 502521017}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1779655761}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -9030,6 +9030,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   intStage: 0
+  BehaviorData: {fileID: 0}
   FriendAnimation: {fileID: 1981684260}
 --- !u!1 &912353355
 GameObject:
@@ -10764,7 +10765,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074382074}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1859817969}
@@ -10772,8 +10773,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -118.3, y: -70.3}
-  m_SizeDelta: {x: 300, y: 150}
+  m_AnchoredPosition: {x: -76, y: -29.300001}
+  m_SizeDelta: {x: 300, y: 101.11}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1074382076
 MonoBehaviour:
@@ -10823,8 +10824,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -17307,10 +17308,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_textDISTANCE: {fileID: 500431793}
   m_textERROR: {fileID: 1962694378}
-  audioClips:
+  audioNarration:
+  - {fileID: 8300000, guid: 1aa1061dac979534a9aaa819d3d7bdd3, type: 3}
+  - {fileID: 8300000, guid: b80e681dae5acf347b9e56d3d62da9e3, type: 3}
+  - {fileID: 8300000, guid: 1a8fa31483637f843a82e0af75d42d1b, type: 3}
+  audioEffect:
+  - {fileID: 8300000, guid: f6ba2c16c86180148906c2b6840404ae, type: 3}
+  - {fileID: 8300000, guid: 3ceadf14726b0864fb39bb646c0f9ba0, type: 3}
+  - {fileID: 8300000, guid: 61f73b9d56573a94885bd9662777d870, type: 3}
   - {fileID: 8300000, guid: 22fc4e11b42782c4ab8521260c7e81c2, type: 3}
-  - {fileID: 8300000, guid: a42af09bb07a5364daf2e2f6b6e06188, type: 3}
-  - {fileID: 8300000, guid: f5a623780ab13294181125317d44baa7, type: 3}
+  - {fileID: 8300000, guid: a47420325cec16d4098463a7f0a1eabf, type: 3}
+  - {fileID: 8300000, guid: c1c78fadef4dddf4cb4047ab4d972bd6, type: 3}
 --- !u!1 &1740390374
 GameObject:
   m_ObjectHideFlags: 0
@@ -17593,7 +17601,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1779655762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18917,8 +18925,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1859817961}
-  m_LocalRotation: {x: 0.051019993, y: -0.22252797, z: 0.011662184, w: 0.9735206}
-  m_LocalPosition: {x: 0, y: 0, z: 1.6496019}
+  m_LocalRotation: {x: -0, y: -0.4790537, z: -0, w: 0.8777856}
+  m_LocalPosition: {x: 0, y: 0, z: 0.849}
   m_LocalScale: {x: 0.001, y: 0.0012, z: 1}
   m_Children:
   - {fileID: 1962694377}
@@ -18929,11 +18937,11 @@ RectTransform:
   - {fileID: 140670909}
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 6, y: -25.751, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -57.247, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.5074668, y: -0.44199985}
-  m_SizeDelta: {x: 800, y: 300}
+  m_AnchoredPosition: {x: -0.176, y: -0.2276}
+  m_SizeDelta: {x: 598.4927, y: 192.8958}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!65 &1859817970
 BoxCollider:
@@ -19771,7 +19779,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1962694376}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.000000018161}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1859817969}
@@ -19779,8 +19787,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0, y: 50.2}
-  m_SizeDelta: {x: 800, y: 150}
+  m_AnchoredPosition: {x: 0.00085831, y: 50.574}
+  m_SizeDelta: {x: 598.5, y: 91.748}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1962694378
 MonoBehaviour:
@@ -19830,8 +19838,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
