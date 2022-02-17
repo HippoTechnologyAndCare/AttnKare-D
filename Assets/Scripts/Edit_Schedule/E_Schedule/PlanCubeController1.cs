@@ -22,7 +22,7 @@ namespace Scheduler
         public Transform Grp;
 
         public GameObject activeSlot;
-        public Vector3 StartPos;
+        public Vector3 startPos;
 
         public float t;
         public bool isHomeTW;
@@ -32,8 +32,7 @@ namespace Scheduler
         [SerializeField] GameObject originPos_P;
         //[SerializeField] Transform originPos;
         [SerializeField] GameObject cardPrb;
-        [SerializeField] GameObject intoSlot;
-        [SerializeField] Transform currSlot;
+        [SerializeField] GameObject intoSlot;        
         [SerializeField] Transform cube;
         
         //[SerializeField] bool isWorking;
@@ -45,8 +44,8 @@ namespace Scheduler
         Vector3 zPos;
 
         //[SerializeField] bool working;
-        bool NowClicked = false;
-        bool PointerOnCube = false;
+        bool nowClicked = false;
+        bool pointerOnCube = false;
 
 
         //test
@@ -61,7 +60,7 @@ namespace Scheduler
             cardPrb = this.gameObject;          
             Slots = new List<GameObject>();
             zPos.z = 2.21874f;
-            StartPos = this.transform.localPosition;
+            startPos = this.transform.localPosition;
             uiPointer = HandCursor.GetComponent<BNG.UIPointer>();
         }
 
@@ -70,7 +69,7 @@ namespace Scheduler
         }
         void FixedUpdate()
         {
-            if (NowClicked)
+            if (nowClicked)
             {
                 if (HandCursor.GetComponent<LineRenderer>().enabled == true)
                 {
@@ -81,13 +80,13 @@ namespace Scheduler
                     Debug.Log("???");
                 }
 
-                if (!PointerOnCube && handController.PointAmount == 1)
+                if (!pointerOnCube && handController.PointAmount == 1)
                 {
                     this.transform.SetParent(Grp);
                     scheduleManager.ReleaseAllCollision();
                     scheduleManager.PlaySoundByTypes(ESoundType.PUT);
 
-                    NowClicked = false;
+                    nowClicked = false;
                     intoSlot = null;
 
                     if (activeSlot != null)
@@ -96,7 +95,7 @@ namespace Scheduler
                     }
                     else
                     {
-                        transform.localPosition = StartPos;
+                        transform.localPosition = startPos;
                     }
                 }
             }
@@ -122,7 +121,7 @@ namespace Scheduler
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            NowClicked = true;
+            nowClicked = true;
             this.transform.SetParent(Canvas);
             scheduleManager.LockAllCollision(this.transform);
         }
@@ -149,9 +148,12 @@ namespace Scheduler
                         activeSlot.GetComponent<PlanSlotController1>().passenger = null;
                     }
 
-                    if(!isHomeTW && !cardCreater.isStored)
+                    if (!isHomeTW && !cardCreater.isStored)
                     {
-                        InstantiateCard(cardPrb);
+                        if(!scheduleManager.isReset)
+                        {
+                            InstantiateCard(cardPrb);
+                        }                        
                     }
 
                     activeSlot = intoSlot;
@@ -200,11 +202,11 @@ namespace Scheduler
                 else
                 {
                     cardState = CARD_STATE.IDLE;
-                    transform.localPosition = StartPos;
+                    transform.localPosition = startPos;
                 }
             }
 
-            NowClicked = false;
+            nowClicked = false;
             intoSlot = null;
         }
 
@@ -218,7 +220,7 @@ namespace Scheduler
 
             if (collision.collider.tag == "POINTER")
             {
-                PointerOnCube = true;
+                pointerOnCube = true;
                 scheduleManager.PlaySoundByTypes(ESoundType.IN);
             }
         }
@@ -233,8 +235,12 @@ namespace Scheduler
                     intoSlot = collision.collider.gameObject;                    
                     cardState = CARD_STATE.ENTER;
                     cube = intoSlot.gameObject.transform.Find("Cube");
-                    cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.7f);
-                    if(!NowClicked && cube.GetComponent<MeshRenderer>().enabled == false)
+                    if(activeSlot == null)
+                    {
+                        cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.7f);
+                    }
+                    
+                    if(!nowClicked && cube.GetComponent<MeshRenderer>().enabled == false)
                     {
                         cardState = CARD_STATE.DONE;
                     }
@@ -261,7 +267,7 @@ namespace Scheduler
 
             if (collision.collider.tag == "POINTER")
             {
-                PointerOnCube = false;
+                pointerOnCube = false;
             }
         }
 
@@ -293,16 +299,17 @@ namespace Scheduler
 
             GameObject cardClone = (Instantiate(thisG));
             cardClone.transform.SetParent(Grp);
-            cardClone.transform.localPosition = StartPos;
+            cardClone.transform.localPosition = startPos;
             cardClone.transform.localScale = new Vector3(1, 1, 1);
         }
 
-        public void resetPlanCube()
+        public IEnumerator resetPlanCube()
         {
             cardState = CARD_STATE.IDLE;
             activeSlot = null;
             intoSlot = null;
-            transform.localPosition = StartPos;
+            yield return new WaitForSeconds(0.07f);
+            transform.localPosition = startPos;
         }
     }
 

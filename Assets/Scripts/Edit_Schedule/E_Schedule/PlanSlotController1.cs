@@ -24,18 +24,29 @@ namespace Scheduler
 
         private void Update()
         {
+            // 슬롯안에 stored된 카드를 빼는 상황일때
             if (passenger == null && inSlot)
             {
                 inSlot = false;
                 mesh.enabled = true;
+                
             }
-        }
-
+        }        
 
         public void resetPlanSlot()
         {
-            passenger = null;
-        }
+            
+            if(passenger != null)
+            {
+                string keyword = "(Clone)";
+                if (RemoveWord.EndsWithWord(passenger.name, keyword))
+                {
+                    Destroy(passenger);
+                }
+                passenger = null;
+            }
+                        
+        }        
     }
 }
 

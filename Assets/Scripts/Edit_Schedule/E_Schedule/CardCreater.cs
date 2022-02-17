@@ -8,13 +8,20 @@ namespace Scheduler
     {
         [SerializeField] GameObject originPos;
         [SerializeField] GameObject cardPrefab;
+        [SerializeField] GameObject storedCard;
+        [SerializeField] ScheduleManager1 schManager;
+
 
         [SerializeField] string otherName;
         public bool isStored;
 
+        string word;
+
         void Start()
         {
-            originPos = this.gameObject;                                
+            schManager = GameObject.FindObjectOfType<ScheduleManager1>();
+            originPos = this.gameObject;
+            word = "(Clone)";
         }
 
         void Update()
@@ -41,9 +48,19 @@ namespace Scheduler
                 {                    
                     other.GetComponent<PlanCubeController1>().isHomeTW = true;
                     isStored = true;
+                    storedCard = other.gameObject;
+                }  
+                
+                else if(storedCard != null && schManager.isReset)
+                {
+                    if(RemoveWord.EndsWithWord(storedCard.name, word))
+                    {
+                        Destroy(storedCard);
+                        isStored = false;
+                        storedCard = null;
+                    }
                 }
-            }
-            
+            }                        
         }
 
         private void OnTriggerExit(Collider other)
@@ -56,6 +73,7 @@ namespace Scheduler
                 {
                     other.GetComponent<PlanCubeController1>().isHomeTW = false;
                     isStored = false;
+                    storedCard = null;
                 }
             }
         }

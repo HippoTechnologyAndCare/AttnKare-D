@@ -46,43 +46,45 @@ namespace Scheduler
         public Text TimerText;
 
         List<Transform> SlotList;
-        List<Transform> GrpList;
+        [SerializeField] List<Transform> GrpList;
 
         public float[] scene2arr;
 
-        bool LeGogo = false;
-        bool BeforeStart = false;
-        bool FirstSelect = false;
-        bool BeforeStartGuideCheck = false;
+        public bool isReset = false;
 
-        bool CheckTimeLimit = false;
-        bool CheckTimeOut = false;
+        bool leGogo = false;
+        bool beforeStart = false;
+        bool firstSelect = false;
+        bool beforeStartGuideCheck = false;
 
-        float Guide_Length = 25;
+        bool checkTimeLimit = false;
+        bool checkTimeOut = false;
 
-        int Timer_Min = 1;
-        int Timer_Sec = 30;
+        float guide_Length = 25;
 
-        float TimeLimit = 900;              //시간 제한 사용 방향 기획 필요
-        float TimeLimitForFinish = 1200;      //강제종료시간
-        float TotalElapsedTime = 0;         //수행한 시간 계산용
-        float TotalElapsedTimeForCalc = 0;  //수행한 시간 보여주기용
-        float TimerForBeforeStarted = 0;    //시작하기 누르기까지 시간
-        float TimerForFirstSelect = 0;      //시작하기 누르고 첫 선택까지 시간
+        int timer_Min = 1;
+        int timer_Sec = 30;
+
+        float timeLimit = 900;              //시간 제한 사용 방향 기획 필요
+        float timeLimitForFinish = 1200;      //강제종료시간
+        float totalElapsedTime = 0;         //수행한 시간 계산용
+        float totalElapsedTimeForCalc = 0;  //수행한 시간 보여주기용
+        float timerForBeforeStarted = 0;    //시작하기 누르기까지 시간
+        float timerForFirstSelect = 0;      //시작하기 누르고 첫 선택까지 시간
 
         //float TotalScenePlayingTime = 0;    //컨텐츠 시작부터 끝까지 총 시간 TimerForBeforeStarted + TotalElapsedTimeForCalc
 
-        public int TotalMovingCnt = 0;      //이동 횟수
-        public int ResetCnt = 0;            //초기화 누른 횟수
-        int ClickNoCnt = 0;                 //아니오 누른 횟수
+        public int totalMovingCnt = 0;      //이동 횟수
+        public int resetCnt = 0;            //초기화 누른 횟수
+        int selectNoCtn = 0;                 //아니오 누른 횟수
 
-        int SkipYn = 0;
+        int skipYn = 0;
 
         //------------- SOUND    
-        public AudioClip Sound_Count;
-        public AudioClip Sound_In;
-        public AudioClip Sound_Click;
-        public AudioClip Sound_Put;
+        public AudioClip sound_Count;
+        public AudioClip sound_In;
+        public AudioClip sound_Click;
+        public AudioClip sound_Put;
         AudioSource audioSource;
 
         //------------- Manager
@@ -93,88 +95,83 @@ namespace Scheduler
         {
             audioSource = this.GetComponent<AudioSource>();
 
-            BeforeStart = true;
+            beforeStart = true;
+
             SlotList = new List<Transform>();
             GrpList = new List<Transform>();
 
-            foreach (Transform s in Slot)
-            {
-                SlotList.Add(s);
-            }
+            InitSlotList();
+            InitGrpList();
 
-            foreach (Transform g in Grp)
-            {
-                GrpList.Add(g);
-            }
             collectData.AddTimeStamp("GUIDE START");
         }
-
+       
         void Update()
         {
-            if (LeGogo)
+            if (leGogo)
             {
-                TotalElapsedTime += Time.deltaTime;
+                totalElapsedTime += Time.deltaTime;
 
-                if (TotalElapsedTime > 1)
+                if (totalElapsedTime > 1)
                 {
-                    TotalElapsedTime = 0;
-                    TotalElapsedTimeForCalc += 1;
+                    totalElapsedTime = 0;
+                    totalElapsedTimeForCalc += 1;
 
-                    if (Timer_Min != 0 || Timer_Sec != 0)
+                    if (timer_Min != 0 || timer_Sec != 0)
                     {
-                        Timer_Sec -= 1;
+                        timer_Sec -= 1;
 
-                        if (Timer_Sec < 0 && Timer_Min > 0)
+                        if (timer_Sec < 0 && timer_Min > 0)
                         {
-                            Timer_Sec = 59;
-                            Timer_Min = 0;
+                            timer_Sec = 59;
+                            timer_Min = 0;
                         }
 
                         string TextSec = "";
 
-                        if (Timer_Sec < 10)
+                        if (timer_Sec < 10)
                         {
-                            TextSec = "0" + Timer_Sec.ToString();
+                            TextSec = "0" + timer_Sec.ToString();
                         }
                         else
                         {
-                            TextSec = Timer_Sec.ToString();
+                            TextSec = timer_Sec.ToString();
                         }
 
 
-                        TimerText.text = "0" + Timer_Min.ToString() + ":" + TextSec;
+                        TimerText.text = "0" + timer_Min.ToString() + ":" + TextSec;
                     }
 
-                    if (!CheckTimeLimit && TotalElapsedTimeForCalc >= TimeLimit)
+                    if (!checkTimeLimit && totalElapsedTimeForCalc >= timeLimit)
                     {
                         //시간제한
-                        CheckTimeLimit = true;
+                        checkTimeLimit = true;
                         StartCoroutine(TimeLimitAndKeepGoing());
                     }
 
-                    if (!CheckTimeOut && TotalElapsedTimeForCalc >= TimeLimitForFinish)
+                    if (!checkTimeOut && totalElapsedTimeForCalc >= timeLimitForFinish)
                     {
                         //강제종료
-                        CheckTimeOut = true;
+                        checkTimeOut = true;
                         StartCoroutine(TimeOutAndFinish());
                     }
                 }
             }
 
-            if (BeforeStart)
+            if (beforeStart)
             {
-                TimerForBeforeStarted += Time.deltaTime;
+                timerForBeforeStarted += Time.deltaTime;
 
-                if (!BeforeStartGuideCheck && TimerForBeforeStarted > Guide_Length)
+                if (!beforeStartGuideCheck && timerForBeforeStarted > guide_Length)
                 {
                     collectData.AddTimeStamp("GUIDE END");
-                    BeforeStartGuideCheck = true;
+                    beforeStartGuideCheck = true;
                 }
             }
 
-            if (FirstSelect)
+            if (firstSelect)
             {
-                TimerForFirstSelect += Time.deltaTime;
+                timerForFirstSelect += Time.deltaTime;
             }
         }
 
@@ -183,7 +180,7 @@ namespace Scheduler
             collectData.AddTimeStamp("TIME LIMIT");
             BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("LIMIT");
 
-            Timer_Sec = 30;
+            timer_Sec = 30;
 
             yield return new WaitForSeconds(6);
 
@@ -198,6 +195,50 @@ namespace Scheduler
             yield return new WaitForSeconds(6);
 
             FinishPanel_Yes(true);
+        }      
+
+        IEnumerator ResetDelay()
+        {
+            isReset = true;
+            yield return new WaitForSeconds(0.05f);
+            isReset = false;           
+        }
+
+        List<Transform> InitSlotList()
+        {
+            
+            foreach (Transform s in Slot)
+            {
+                SlotList.Add(s);
+            }
+            return SlotList;
+        }
+
+        List<Transform> InitGrpList()
+        {                       
+            foreach (Transform g in Grp)
+            {
+                GrpList.Add(g);
+            }
+            Debug.Log("grpList 초기화");
+            return GrpList;
+        }
+
+        List<Transform> ResetGrpList()
+        {            
+            string keyword = "(Clone)";
+            
+            foreach (Transform g in Grp)
+            {
+                if(g != null)
+                {
+                    if (RemoveWord.EndsWithWord(g.name, keyword))
+                    {
+                        GrpList.Remove(g);
+                    }
+                }                                              
+            }            
+            return GrpList;
         }
 
         public void LockAllCollision(Transform obj)
@@ -221,8 +262,8 @@ namespace Scheduler
 
         public void CheckMovingCnt()
         {
-            TotalMovingCnt += 1;
-            FirstSelect = false;
+            totalMovingCnt += 1;
+            firstSelect = false;
         }
 
         bool CheckEmptySlot()
@@ -246,6 +287,8 @@ namespace Scheduler
 
             if (CheckEmptySlot())
             {
+                StartCoroutine(ResetDelay());
+
                 for (int s = 0; s < SlotList.Count; s++)
                 {
                     SlotList[s].GetComponent<PlanSlotController1>().resetPlanSlot();
@@ -253,11 +296,12 @@ namespace Scheduler
 
                 for (int g = 0; g < GrpList.Count; g++)
                 {
-                    GrpList[g].GetComponent<PlanCubeController1>().resetPlanCube();
+                    StartCoroutine(GrpList[g].GetComponent<PlanCubeController1>().resetPlanCube());                    
                 }
+                ResetGrpList();
 
                 Btn_Finish.gameObject.SetActive(false);
-                ResetCnt += 1;
+                resetCnt += 1;
             }
         }
 
@@ -307,11 +351,11 @@ namespace Scheduler
 
             Intro.gameObject.SetActive(false);
             board.gameObject.SetActive(true);
-            BeforeStart = false;
-            LeGogo = true;
-            FirstSelect = true;
+            beforeStart = false;
+            leGogo = true;
+            firstSelect = true;
 
-            if (!BeforeStartGuideCheck)
+            if (!beforeStartGuideCheck)
             {
                 collectData.AddTimeStamp("GUIDE SKIP");
             }
@@ -330,7 +374,7 @@ namespace Scheduler
             PlaySoundByTypes(ESoundType.CLICK);
             Finish.gameObject.SetActive(false);
 
-            ClickNoCnt += 1;
+            selectNoCtn += 1;
         }
 
         public void FinishPanel_Yes(bool Skipped)
@@ -338,7 +382,7 @@ namespace Scheduler
             PlaySoundByTypes(ESoundType.CLICK);
             collectData.AddTimeStamp("MISSION END");
 
-            LeGogo = false;
+            leGogo = false;
             float PlanData = 0;
 
             board.gameObject.SetActive(false);
@@ -349,13 +393,13 @@ namespace Scheduler
 
             if (Skipped)
             {
-                SkipYn = 1;
+                skipYn = 1;
                 Intro.gameObject.SetActive(false);
                 //Schedule.gameObject.SetActive(true);
             }
             else
             {
-                SkipYn = 0;
+                skipYn = 0;
                 string MySchedule = "";
                 string MyScheduleforJson = "";
 
@@ -392,7 +436,7 @@ namespace Scheduler
 
 
             // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
-            scene2arr = new float[] { TotalElapsedTimeForCalc, TotalMovingCnt, ResetCnt, ClickNoCnt, PlanData, SkipYn, TimerForBeforeStarted, TimerForFirstSelect };
+            scene2arr = new float[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, PlanData, skipYn, timerForBeforeStarted, timerForFirstSelect };
             GameDataManager.GetComponent<GameDataManager>().SaveCurrentData();
             StartCoroutine(GoToNextScene());
         }
@@ -413,7 +457,6 @@ namespace Scheduler
             KetosGames.SceneTransition.SceneLoader.LoadScene(3);
         }
 
-
         public void PlaySoundByTypes(ESoundType soundType)
         {
             audioSource.clip = null;
@@ -421,38 +464,19 @@ namespace Scheduler
             switch (soundType)
             {
                 case ESoundType.CLICK:
-                    audioSource.clip = Sound_Click;
+                    audioSource.clip = sound_Click;
                     break;
                 case ESoundType.IN:
-                    audioSource.clip = Sound_In;
+                    audioSource.clip = sound_In;
                     break;
                 case ESoundType.CNT:
-                    audioSource.clip = Sound_Count;
+                    audioSource.clip = sound_Count;
                     break;
                 case ESoundType.PUT:
-                    audioSource.clip = Sound_Put;
+                    audioSource.clip = sound_Put;
                     break;
             }
-            audioSource.Play();
-
-            //if (Type == "IN")
-            //{
-            //    audioSource.clip = Sound_In;
-            //}
-            //else if (Type == "CLICK")
-            //{
-            //    audioSource.clip = Sound_Click; 
-            //}
-            //else if (Type == "CNT")
-            //{
-            //    audioSource.clip = Sound_Count;
-            //}
-            //else if (Type == "PUT")
-            //{
-            //    audioSource.clip = Sound_Put;
-            //}
-
-
+            audioSource.Play();            
         }
     }
 
