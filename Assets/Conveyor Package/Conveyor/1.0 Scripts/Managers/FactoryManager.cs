@@ -36,6 +36,9 @@ public class FactoryManager : MonoBehaviour
     [SerializeField] BoxSpawner m_openBoxSpawner;
     [SerializeField] BoxSpawner m_closedBoxSpawner;
 
+    [SerializeField] Conveyor m_mainConveyor;
+    [SerializeField] Transform m_spawnedToys;
+
     [HideInInspector] public List<List<int>> m_stage1Score;
     [HideInInspector] public List<List<int>> m_stage2Score;
     [HideInInspector] public List<List<int>> m_stage3Score;
@@ -97,6 +100,26 @@ public class FactoryManager : MonoBehaviour
             default: break;
         }
     }
+
+    /*public void RestartFactory()
+    {
+        m_mainConveyor.enabled = true;
+
+        for (int i = 0; i < m_spawnedToys.childCount; i++)
+        {
+            m_spawnedToys.GetChild(i).GetComponent<BNG.Toy>().OnEnter();
+        }
+    }
+    public void StopFactory()
+    {
+        m_mainConveyor.enabled = false;
+
+        for(int i = 0; i < m_spawnedToys.childCount; i++)
+        {
+            m_spawnedToys.GetChild(i).GetComponent<BNG.Toy>().OnEscape();
+        }
+    }*/
+
 
     // If Box is in, make Box Spawner Spawn next Box
     // Called in Box.cs

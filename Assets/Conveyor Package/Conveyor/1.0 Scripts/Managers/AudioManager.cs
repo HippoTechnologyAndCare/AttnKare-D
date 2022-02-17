@@ -18,6 +18,11 @@ public class AudioManager : MonoBehaviour
     // Initialized as Something Random (Not GameState.Waiting)
     GameState prev = GameState.Stage3End;
 
+    [SerializeField] PlayArea m_playArea;
+
+    // Enable this after Guide
+    [SerializeField] GameObject m_playerTracker;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -82,6 +87,8 @@ public class AudioManager : MonoBehaviour
             m_audioSource.clip = m_introAudio[i];
 
             if (i == 1 || i == 3) InvokeGuide(i);
+            if (i == 2) CancelInvoke("InvokeBlink");
+            if (i == 4) { m_playArea.ChangeColor(true); m_playerTracker.SetActive(true); }
 
             m_audioSource.Play();
 
@@ -129,13 +136,16 @@ public class AudioManager : MonoBehaviour
         // Blink UI
         if(index == 1)
         {
-
+            InvokeRepeating("InvokeBlink", 1f, .5f);
         }
 
         // Show Play Area Rules
         if(index == 3)
         {
-
+            Invoke("InvokePlayArea", 1.8f);
         }
     }
+
+    void InvokeBlink() { UIManager.BlinkImage(); }
+    void InvokePlayArea() { m_playArea.ChangeColor(false); }
 }

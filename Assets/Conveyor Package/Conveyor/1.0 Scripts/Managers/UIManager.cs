@@ -39,8 +39,9 @@ public class UIManager : MonoBehaviour
     public static void EnableMainUIImage() { s_MainUIImage.gameObject.SetActive(true); }
     public static void DisableMainUIImage() { s_MainUIImage.gameObject.SetActive(false); }
 
-    public void BlinkImage()
+    public static void BlinkImage()
     {
+        if (!s_MainUIImage.gameObject.activeSelf) EnableMainUIImage();
         s_MainUIImage.enabled = !s_MainUIImage.enabled;
     }
 

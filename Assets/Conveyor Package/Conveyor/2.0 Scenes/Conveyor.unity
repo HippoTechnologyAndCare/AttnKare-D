@@ -3084,6 +3084,8 @@ MonoBehaviour:
   m_plainBoxSpawner: {fileID: 2027041891}
   m_openBoxSpawner: {fileID: 1066967403}
   m_closedBoxSpawner: {fileID: 242981766}
+  m_mainConveyor: {fileID: 5174365643664981438}
+  m_spawnedToys: {fileID: 904417606}
   m_debugger:
     stage1Score: 
     stage1Destroyed: 0
@@ -3255,6 +3257,8 @@ MonoBehaviour:
   m_stage2Audio: {fileID: 8300000, guid: 297b99536652b394083427c3924df269, type: 3}
   m_stage3Audio: {fileID: 8300000, guid: 6111bfb1cd7a17141b5a12cc1119e981, type: 3}
   m_stageClearEffect: {fileID: 8300000, guid: c853f5dd98ae7094faad24eea71329b1, type: 3}
+  m_playArea: {fileID: 1562863779}
+  m_playerTracker: {fileID: 736176761}
 --- !u!82 &1802068750
 AudioSource:
   m_ObjectHideFlags: 0
