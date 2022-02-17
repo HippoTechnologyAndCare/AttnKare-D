@@ -39,20 +39,9 @@ public class UIManager : MonoBehaviour
     public static void EnableMainUIImage() { s_MainUIImage.gameObject.SetActive(true); }
     public static void DisableMainUIImage() { s_MainUIImage.gameObject.SetActive(false); }
 
-    public IEnumerator BlinkImage()
+    public void BlinkImage()
     {
-        for(int i = 0; i < 3; i++)
-        {
-            MainUIImage.gameObject.SetActive(true);
-            yield return new WaitForSeconds(.5f);
-
-            MainUIImage.gameObject.SetActive(false);
-            yield return new WaitForSeconds(.5f);
-        }
-
-        MainUIImage.gameObject.SetActive(true);
-
-        yield break;
+        s_MainUIImage.enabled = !s_MainUIImage.enabled;
     }
 
     public static void ResetText(Text uiText) { uiText.text = ""; }

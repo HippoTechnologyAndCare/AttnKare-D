@@ -103,4 +103,14 @@ public class StageManager : MonoBehaviour
 
     public static void BoxCountDec() { m_boxCount--; }
     public static void NextStage()   { m_currentStage++; }
+    public static void AudioEnd(int index)
+    {
+        switch (index)
+        {
+            case 0: currentGameState = GameState.Stage1Start; break;
+            case 1: currentGameState = GameState.Stage2Start; break;
+            case 2: currentGameState = GameState.Stage3Start; break;
+            case 3: currentGameState = GameState.GameEnd;     break;
+        }
+    }
 }
