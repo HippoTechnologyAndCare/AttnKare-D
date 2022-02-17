@@ -37,11 +37,6 @@ public class AudioManager : MonoBehaviour
         m_waitLength[1] = m_stage1Audio.length + m_stageClearEffect.length;
         m_waitLength[2] = m_stage2Audio.length + m_stageClearEffect.length;
         m_waitLength[3] = m_stage3Audio.length + m_stageClearEffect.length;
-
-        for (int i = 0; i < m_waitLength.Length; i++)
-        {
-            Debug.Log("Intro Audio Length: " + m_waitLength[i]);
-        }
     }
 
     // Update is called once per frame

@@ -494,9 +494,9 @@ MonoBehaviour:
   MainUIText: {fileID: 4806274911212027475}
   MainUIImage: {fileID: 700134388}
   m_robotIcons:
-  - {fileID: 21300000, guid: 777a307d146599548ad4d7ed8d20c77c, type: 3}
-  - {fileID: 21300000, guid: 6df081fb226a75642a7614f39f47daaf, type: 3}
-  - {fileID: 21300000, guid: b5c8380da0a8f3c43ba6ac0cbeb9d17c, type: 3}
+  - {fileID: 21300000, guid: 8e7c0c073f9b6ff4bbd764a9f755666a, type: 3}
+  - {fileID: 21300000, guid: 9e7cbd2f26acbe142a10424e75b1734e, type: 3}
+  - {fileID: 21300000, guid: 1d3ddcab1a2820842b37507d60415878, type: 3}
 --- !u!1 &230850789
 GameObject:
   m_ObjectHideFlags: 0
@@ -1183,7 +1183,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 500}
+  m_SizeDelta: {x: 584, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &700134388
 MonoBehaviour:
@@ -1321,7 +1321,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &736176762
 Transform:
   m_ObjectHideFlags: 0
@@ -3084,8 +3084,6 @@ MonoBehaviour:
   m_plainBoxSpawner: {fileID: 2027041891}
   m_openBoxSpawner: {fileID: 1066967403}
   m_closedBoxSpawner: {fileID: 242981766}
-  m_mainConveyor: {fileID: 5174365643664981438}
-  m_spawnedToys: {fileID: 904417606}
   m_debugger:
     stage1Score: 
     stage1Destroyed: 0
@@ -15885,7 +15883,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4806274911212027474
 RectTransform:
   m_ObjectHideFlags: 0
