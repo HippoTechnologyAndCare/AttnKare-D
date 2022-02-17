@@ -6,6 +6,8 @@ public class AudioManager : MonoBehaviour
 {
     AudioSource m_audioSource;
 
+    [SerializeField] List<AudioClip> m_introAudio;
+
     [SerializeField] AudioClip m_intro;
     [SerializeField] AudioClip m_stage1Audio;
     [SerializeField] AudioClip m_stage2Audio;
@@ -57,6 +59,11 @@ public class AudioManager : MonoBehaviour
 
         // Wait for Audio to End
         StartCoroutine(WaitForAudio(index));
+    }
+
+    public void PlayIntroAudio()
+    {
+
     }
 
     IEnumerator WaitForAudio(int index)

@@ -3245,10 +3245,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbcd70f794a07b041aa8c606c6d08b23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_introAudio:
+  - {fileID: 8300000, guid: 7ad71958ef0b35b4b9a900bf79656d7a, type: 3}
+  - {fileID: 8300000, guid: a1b2156063a89a943bdd9cb74757c027, type: 3}
+  - {fileID: 8300000, guid: 60d64f135fe200247bc2dcac3c98903c, type: 3}
+  - {fileID: 8300000, guid: b6267edbe38bc18409ab786e305bed5c, type: 3}
+  - {fileID: 8300000, guid: 07f3279cdf66d4741b2300aeb390c5b3, type: 3}
   m_intro: {fileID: 8300000, guid: c853f5dd98ae7094faad24eea71329b1, type: 3}
-  m_stage1Audio: {fileID: 8300000, guid: c853f5dd98ae7094faad24eea71329b1, type: 3}
-  m_stage2Audio: {fileID: 8300000, guid: c853f5dd98ae7094faad24eea71329b1, type: 3}
-  m_stage3Audio: {fileID: 8300000, guid: c853f5dd98ae7094faad24eea71329b1, type: 3}
+  m_stage1Audio: {fileID: 8300000, guid: d464ea52c7473c646b04c516bb44c0d8, type: 3}
+  m_stage2Audio: {fileID: 8300000, guid: 297b99536652b394083427c3924df269, type: 3}
+  m_stage3Audio: {fileID: 8300000, guid: 6111bfb1cd7a17141b5a12cc1119e981, type: 3}
 --- !u!82 &1802068750
 AudioSource:
   m_ObjectHideFlags: 0
