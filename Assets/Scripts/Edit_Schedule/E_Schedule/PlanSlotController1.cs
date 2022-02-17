@@ -8,7 +8,7 @@ namespace Scheduler
     {
         public GameObject passenger;
 
-        public bool isStore;
+        public bool inSlot;
 
         [SerializeField] Transform cube;
 
@@ -17,16 +17,16 @@ namespace Scheduler
 
         void Start()
         {
-            isStore = false;
+            inSlot = false;
             cube = this.gameObject.transform.Find("Cube");
             mesh = cube.GetComponent<MeshRenderer>();
         }
 
         private void Update()
         {
-            if (passenger == null && isStore)
+            if (passenger == null && inSlot)
             {
-                isStore = false;
+                inSlot = false;
                 mesh.enabled = true;
             }
         }
