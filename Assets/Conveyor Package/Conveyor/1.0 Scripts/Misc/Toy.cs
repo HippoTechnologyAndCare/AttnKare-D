@@ -12,6 +12,8 @@ namespace BNG
 
         Rigidbody m_rigidbody;
         Grabbable m_grabbable;
+
+        Vector3 m_speedBeforeStop;
         private void Start()
         {
             m_rigidbody = GetComponent<Rigidbody>();
@@ -65,6 +67,15 @@ namespace BNG
             }
         }
 
+        public void OnEscape()
+        {
+            m_speedBeforeStop = m_rigidbody.velocity;
+        }
+
+        public void OnEnter()
+        {
+            m_rigidbody.velocity = m_speedBeforeStop;
+        }
         public void OnObjectSpawn() { }
     }
 }

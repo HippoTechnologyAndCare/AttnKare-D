@@ -36,6 +36,9 @@ public class FactoryManager : MonoBehaviour
     [SerializeField] BoxSpawner m_openBoxSpawner;
     [SerializeField] BoxSpawner m_closedBoxSpawner;
 
+    /*[SerializeField] Conveyor m_mainConveyor;
+    [SerializeField] Transform m_spawnedToys;*/
+
     [HideInInspector] public List<List<int>> m_stage1Score;
     [HideInInspector] public List<List<int>> m_stage2Score;
     [HideInInspector] public List<List<int>> m_stage3Score;
@@ -62,9 +65,9 @@ public class FactoryManager : MonoBehaviour
         m_debugger.stageColor = StageManager.m_currentColor.ToString() + " / " + StageManager.m_currentColor + " / " + Enum.GetName(typeof(BNG.Toy.ToyType), StageManager.m_currentColor);
         m_debugger.m_grabbedList = m_grabbedList;
 
-        m_debugger.stage1Destroyed = StageManager.m_currentStage == 1 ? m_destroyCount : m_gameData.GetStage1DestroyCnt();
-        m_debugger.stage2Destroyed = StageManager.m_currentStage == 2 ? m_destroyCount : m_gameData.GetStage2DestroyCnt();
-        m_debugger.stage3Destroyed = StageManager.m_currentStage == 3 ? m_destroyCount : m_gameData.GetStage3DestroyCnt();
+        m_debugger.stage1Destroyed = StageManager.currentGameState == GameState.Stage1 ? m_destroyCount : m_gameData.GetStage1DestroyCnt();
+        m_debugger.stage2Destroyed = StageManager.currentGameState == GameState.Stage2 ? m_destroyCount : m_gameData.GetStage2DestroyCnt();
+        m_debugger.stage3Destroyed = StageManager.currentGameState == GameState.Stage3 ? m_destroyCount : m_gameData.GetStage3DestroyCnt();
     }
 
     // Start is called before the first frame update
@@ -97,6 +100,26 @@ public class FactoryManager : MonoBehaviour
             default: break;
         }
     }
+
+    /*public void RestartFactory()
+    {
+        m_mainConveyor.enabled = true;
+
+        for (int i = 0; i < m_spawnedToys.childCount; i++)
+        {
+            m_spawnedToys.GetChild(i).GetComponent<BNG.Toy>().OnEnter();
+        }
+    }
+    public void StopFactory()
+    {
+        m_mainConveyor.enabled = false;
+
+        for(int i = 0; i < m_spawnedToys.childCount; i++)
+        {
+            m_spawnedToys.GetChild(i).GetComponent<BNG.Toy>().OnEscape();
+        }
+    }*/
+
 
     // If Box is in, make Box Spawner Spawn next Box
     // Called in Box.cs
