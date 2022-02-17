@@ -21,11 +21,11 @@ namespace Scheduler
         public Transform Canvas;
         public Transform Grp;
 
+        public GameObject activeSlot;
         public Vector3 StartPos;
 
         public float t;
-
-        public GameObject activeSlot;
+        public bool isHomeTW;
 
         [SerializeField] CardCreater cardCreater;
 
@@ -35,8 +35,7 @@ namespace Scheduler
         [SerializeField] GameObject intoSlot;
         [SerializeField] Transform currSlot;
         [SerializeField] Transform cube;
-
-        [SerializeField] bool isHomeTW;
+        
         //[SerializeField] bool isWorking;
 
         UIPointer uiPointer;
@@ -150,7 +149,7 @@ namespace Scheduler
                         activeSlot.GetComponent<PlanSlotController1>().passenger = null;
                     }
 
-                    if(!isHomeTW && !cardCreater.isStore)
+                    if(!isHomeTW && !cardCreater.isStored)
                     {
                         InstantiateCard(cardPrb);
                     }
@@ -158,7 +157,7 @@ namespace Scheduler
                     activeSlot = intoSlot;
                     transform.localPosition = activeSlot.transform.localPosition;                    
                     activeSlot.GetComponent<PlanSlotController1>().passenger = this.gameObject;
-                    activeSlot.GetComponent<PlanSlotController1>().isStore = true;
+                    activeSlot.GetComponent<PlanSlotController1>().inSlot = true;
                     MeshRendererOff(activeSlot);
                     cardState = CARD_STATE.DONE;
                 }
@@ -184,7 +183,7 @@ namespace Scheduler
                     activeSlot = intoSlot;
                     transform.localPosition = activeSlot.transform.localPosition;
                     activeSlot.GetComponent<PlanSlotController1>().passenger = this.gameObject;
-                    activeSlot.GetComponent<PlanSlotController1>().isStore = true;
+                    activeSlot.GetComponent<PlanSlotController1>().inSlot = true;
                     MeshRendererOff(activeSlot);
                 }
 
@@ -252,8 +251,7 @@ namespace Scheduler
                 intoSlot = collision.gameObject;
                 Slots.Remove(intoSlot);
                 cube = intoSlot.gameObject.transform.Find("Cube");
-                cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.12f);
-                Debug.Log("exit");
+                cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.12f);               
                 cardState = CARD_STATE.MOVE;
                 if (Slots.Count == 0)
                 {
@@ -269,7 +267,7 @@ namespace Scheduler
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.name == this.name && !isHomeTW)
+            if (other.tag == "Birthplace" && !isHomeTW)
             {
                 isHomeTW = true;
             }
@@ -277,7 +275,7 @@ namespace Scheduler
 
         void OnTriggerExit(Collider other)
         {
-            if (other.name == this.name && isHomeTW)
+            if (other.tag == "Birthplace" && !isHomeTW)
             {
                 isHomeTW = false;
             }

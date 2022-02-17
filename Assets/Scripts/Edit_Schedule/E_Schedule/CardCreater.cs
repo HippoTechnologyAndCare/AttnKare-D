@@ -10,7 +10,7 @@ namespace Scheduler
         [SerializeField] GameObject cardPrefab;
 
         [SerializeField] string otherName;
-        public bool isStore;
+        public bool isStored;
 
         void Start()
         {
@@ -34,10 +34,13 @@ namespace Scheduler
         {
             if (other.tag == "PLAN")
             {
+                other.GetComponent<PlanCubeController1>().cardState = PlanCubeController1.CARD_STATE.IDLE;
                 otherName = other.name.Replace("(Clone)", "");
-                if (this.name == otherName && !isStore)
-                {
-                    isStore = true;
+
+                if (this.name == otherName && !isStored)
+                {                    
+                    other.GetComponent<PlanCubeController1>().isHomeTW = true;
+                    isStored = true;
                 }
             }
             
@@ -49,9 +52,10 @@ namespace Scheduler
             if (other.tag == "PLAN")
             {
                 otherName = other.name.Replace("(Clone)", "");
-                if (this.name == otherName && isStore)
+                if (this.name == otherName && isStored)
                 {
-                    isStore = false;
+                    other.GetComponent<PlanCubeController1>().isHomeTW = false;
+                    isStored = false;
                 }
             }
         }
