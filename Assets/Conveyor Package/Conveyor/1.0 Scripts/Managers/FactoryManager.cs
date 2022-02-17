@@ -36,8 +36,8 @@ public class FactoryManager : MonoBehaviour
     [SerializeField] BoxSpawner m_openBoxSpawner;
     [SerializeField] BoxSpawner m_closedBoxSpawner;
 
-    [SerializeField] Conveyor m_mainConveyor;
-    [SerializeField] Transform m_spawnedToys;
+    /*[SerializeField] Conveyor m_mainConveyor;
+    [SerializeField] Transform m_spawnedToys;*/
 
     [HideInInspector] public List<List<int>> m_stage1Score;
     [HideInInspector] public List<List<int>> m_stage2Score;

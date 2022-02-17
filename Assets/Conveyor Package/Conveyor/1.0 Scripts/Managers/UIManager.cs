@@ -36,7 +36,11 @@ public class UIManager : MonoBehaviour
         }
     }
     public static void SetMainUIImage(int index) { s_MainUIImage.sprite = s_robotIcons[index]; }
-    public static void EnableMainUIImage() { s_MainUIImage.gameObject.SetActive(true); }
+    public static void EnableMainUIImage()
+    {
+        s_MainUIImage.gameObject.SetActive(true);
+        if (!s_MainUIImage.enabled) s_MainUIImage.enabled = true;
+    }
     public static void DisableMainUIImage() { s_MainUIImage.gameObject.SetActive(false); }
 
     public static void BlinkImage()
