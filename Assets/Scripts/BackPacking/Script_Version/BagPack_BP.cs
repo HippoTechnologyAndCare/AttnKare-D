@@ -15,6 +15,7 @@ public class BagPack_BP : MonoBehaviour
     public int unnecessary;
     public int necessary;
     public bool bStage2 = false;
+    public HapticController_Joon HapticShake;
     int m_nPosIndex = 0;
     Transform m_tParent;
     Transform m_tPrevParent;
@@ -101,13 +102,14 @@ public class BagPack_BP : MonoBehaviour
 
     void SetPosition(Transform m_tTarget)
     {
+        Hud.EffectSound("CORRECT");
         m_nAllDone++;
         m_tPrevParent = m_tChild.parent;
         m_tChild.SetParent(this.transform);
         m_tChild.localPosition = m_tTarget.localPosition;
         m_tChild.localEulerAngles = m_tTarget.localEulerAngles;
         m_tChild.localScale = m_tTarget.localScale;
-        m_tChild.GetComponent<Outlinable>().enabled = false; //off outlinable
+        m_tPrevParent.GetComponent<Outlinable>().enabled = false; //off outlinable
         Destroy(m_tTarget.gameObject);
         Destroy(m_tPrevParent.gameObject);
         if (m_nAllDone >= 6) StartCoroutine(AllDone());
@@ -121,7 +123,7 @@ public class BagPack_BP : MonoBehaviour
             SetPosition(m_tTxt[m_nPosIndex]);
             m_nPosIndex++;
         }
-        else ResetVariable(m_tParent,2);
+        else { necessary++; ResetVariable(m_tParent, 2); }
     }
 
     void ResetVariable(Transform obj, int index)
@@ -141,7 +143,7 @@ public class BagPack_BP : MonoBehaviour
     IEnumerator AllDone()
     {
         Destroy(m_tParentBag.GetComponentInChildren<RaycastCircle>().gameObject); //destroy overlapsphere
-        m_tParent.GetComponent<Animator>().SetBool("Done", true);
+        m_tParentBag.GetComponent<Animator>().SetBool("Done", true);
         Hud.BagAllPacked();
         //turn off time
         Debug.Log("AllDone");
@@ -149,20 +151,20 @@ public class BagPack_BP : MonoBehaviour
         BagEffect();
         yield return new WaitForSeconds(1.0f);
         Hud.EffectSound("COMPLETE");
-        Manager.GameDone();
+        StartCoroutine(Manager.GameDone());
     }
 
     void BagEffect()
     {
-        m_goParticle = m_tParent.Find("VfxBagComplete Variant").gameObject;
-        m_goBagComplete = m_tParent.Find("BagDone").gameObject;
-        m_goArrow = m_tParent.Find("Arrow").gameObject;
-        m_goBottom = m_tParent.Find("bottom").gameObject;
+        m_goParticle = m_tParentBag.Find("VfxBagComplete Variant").gameObject;
+        m_goBagComplete = m_tParentBag.Find("BagDone").gameObject;
+        m_goArrow = m_tParentBag.Find("Arrow").gameObject;
+        m_goBottom = m_tParentBag.Find("bottom").gameObject;
         m_goParticle.SetActive(true);
         m_goBagComplete.SetActive(true);
         m_goBottom.SetActive(false);
         m_goArrow.SetActive(false);
-        m_tParent.GetComponent<MeshRenderer>().enabled = false;
+        m_tParentBag.GetComponent<MeshRenderer>().enabled = false;
     }
     //책 잘못 넣으면 시간표 확인
     //물건 잘못 넣으면 알림장 확인

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class UI_BP : MonoBehaviour
     public Transform Board_Finish; //Finish_Canvas
     public CanvasGroup Camera_Time; //5min_Canvas
     public CanvasGroup Camera_Finish; //FinCavas
+    public Text Time_Text; //TIMER
     [Header("MEMO")]
     public Image Memo;
     public Sprite Stage2Memo;
@@ -26,28 +28,37 @@ public class UI_BP : MonoBehaviour
     public AudioClip[] Clips_Effect;
     TextMeshProUGUI m_txtStartInfo;
     public bool bEndUI;
-
-    int a;
+    public bool bTimeStart;
+    float m_fTime = 150;
+    TimeSpan m_TimeSpan;
     string line;
+    bool timeChange = true;
     Object_BP Manager;
     // Start is called before the first frame update
     void Start()
     {
         Manager = GameObject.Find("GameFlow_Manager").GetComponent<Object_BP>();
-        bEndUI = false;
+        bEndUI = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (bTimeStart)
+        {
+            m_fTime -= Time.deltaTime;
+            m_TimeSpan = TimeSpan.FromSeconds(m_fTime);
+            Time_Text.text = m_TimeSpan.ToString(@"mm\:ss");
+            if (m_fTime <= 60 && timeChange == true) { StartCoroutine(TimeChange()); timeChange = false; }
+            if (m_fTime < 0) bTimeStart = false;
+        }
     }
     public IEnumerator CanvasStart()
     {
         yield return new WaitForSeconds(2.0f);
         var child = Board_Start.transform.GetChild(0);
         m_txtStartInfo = child.transform.Find("Info1").GetComponent<TextMeshProUGUI>();
-        m_txtStartInfo.text = "<size=1.4>책가방을 챙기자! </size>\n\n<size=1.2><b><i> STAGE 1 :</size></b></i>\n알림장을 보며 필기구를<i>필통</i> 에 넣어줘!\n<size=0.1>\n</size><size=1.2><b><i> STAGE 2 :</size></b></i>\n교과서와 알림장에 적힌 준비물을<i> 가방</i> 에 넣어줘!\n<size=0.1>\n</size>";
+        m_txtStartInfo.text = "<size=1.4>책가방을 챙기자! </size>\n\n<size=1.2><b><i> STAGE 1 :</size></b></i>\n알림장을 보며 필기구를 <i>필통</i> 에 넣어줘!\n<size=0.1>\n</size><size=1.2><b><i> STAGE 2 :</size></b></i>\n교과서와 알림장에 적힌 준비물을<i> 가방</i> 에 넣어줘!\n<size=0.1>\n</size>";
         NarrationSound(0);
         yield return new WaitUntil(() => !Audio_Narration.isPlaying);
         m_txtStartInfo.text = "<size=1.1>알림장과 시간표는 방 벽에 붙여뒀어\n가까이 다가가야 보이니 명심해!\n제한시간은 <color=green> 2분 30초 </color>야.\n마음껏 돌아다니면서 가방을 챙겨봐!";
@@ -104,6 +115,7 @@ public class UI_BP : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         Camera_Stage.DOFade(0, 1.5f);
         yield return new WaitUntil(() => Camera_Stage.alpha == 0);
+        bTimeStart = true;
         Camera_Stage.gameObject.SetActive(false);
     }
 
@@ -128,8 +140,25 @@ public class UI_BP : MonoBehaviour
     }
     //===========Time Check=======
 
+    public IEnumerator TimeChange()
+    {
+        Color originalColor = Time_Text.color;
+        Time_Text.color = Color.red;
+        for(int i =0; i < 4; i++)
+        {
+            Time_Text.enabled = false;
+            EffectSound("BEEP");
+            yield return new WaitForSeconds(0.5f);
+            Time_Text.enabled = true;
+            yield return new WaitForSeconds(0.5f);
+
+        }
+        Time_Text.color = originalColor;
+        yield return null;
+    }
     public IEnumerator TimeCheck(string strStamp)
     {
+        bEndUI = false;
         TextMeshProUGUI tmproTime = Camera_Time.GetComponentInChildren<TextMeshProUGUI>();
         int index = 0;
         switch (strStamp)
@@ -160,7 +189,6 @@ public class UI_BP : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "1";
         yield return new WaitForSeconds(1.0f);
-        Manager.NextScene();
         
     }
 

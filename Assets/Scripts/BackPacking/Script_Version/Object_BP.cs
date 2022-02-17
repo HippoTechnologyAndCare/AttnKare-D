@@ -101,7 +101,6 @@ public class Object_BP : MonoBehaviour
     bool bTimeDone;
 
     bool m_bHudEnd = false; //wait for coroutine in hud to end (in total time)
-    int a;
  //   GameObject m_tPencilcase;
     GameObject m_goFade;
     GameObject m_tRightPointer;
@@ -144,10 +143,10 @@ public class Object_BP : MonoBehaviour
     {
         m_tRightPointer.SetActive(false);
         m_tGrabber.enabled = false;
-        m_goFade =  Instantiate(prefabFadeIn, CenterEye.transform.position, Quaternion.identity);
+        m_goFade =  Instantiate(prefabFadeOut, CenterEye.transform.position, Quaternion.identity);
         m_goFade.transform.SetParent(CenterEye.transform);
         yield return new WaitForSeconds(1.2f);
-        NextScene();
+        KetosGames.SceneTransition.SceneLoader.LoadScene(buildindex);
     }
 
     IEnumerator FadeIn()
@@ -157,6 +156,7 @@ public class Object_BP : MonoBehaviour
         Debug.Log("wait");
         yield return new WaitForSeconds(1.2f);
         StartCoroutine(Hud.CanvasStart());
+        DataCollect.AddTimeStamp("GUIDE START");
     }
     void Update()
     {
@@ -166,7 +166,7 @@ public class Object_BP : MonoBehaviour
         {
             m_fTotalTime += Time.deltaTime;
             if (m_fTotalTime >= 150f & !bTimeLimit) { TotalTime("TIME LIMIT"); bTimeLimit = true; }
-            if (m_fTotalTime >= 200f & !bTimeDone) { TotalTime("TIME OUT"); StartCoroutine(GameDone()); bTimeDone = true; }
+            if (m_fTotalTime >= 200f & !bTimeDone) {  TotalTime("TIME OUT"); StartCoroutine(GameDone()); bTimeDone = true; }
         }
         if (m_bStageChangeTime) m_fStageChangeTime += Time.deltaTime;
 
@@ -174,7 +174,8 @@ public class Object_BP : MonoBehaviour
 
     public void Stage1()
     {
-        Debug.Log("Stage1");
+        DataCollect.AddTimeStamp("GUIDE END");
+        DataCollect.AddTimeStamp("MISSION START");
         VideoPlayer.SetActive(true);
         m_bTotalTime = true;
         StartCoroutine(Hud.StageNotification(1));
@@ -187,7 +188,6 @@ public class Object_BP : MonoBehaviour
     }
     public void Stage2()
     {
-        Debug.Log("stage2");
         m_bStageChangeTime = true;
         Bag.bStage2 = true;
         Hud.ChangeMemo();
@@ -196,28 +196,26 @@ public class Object_BP : MonoBehaviour
 
     void TotalTime(string strTime) //Add timestamp (TIME LIMIT, TIME OVER) & Show Warning
     {
-        Debug.Log("TIME");
         DataCollect.AddTimeStamp(strTime);
         StartCoroutine(Hud.TimeCheck(strTime));
     }
     public IEnumerator GameDone()
     {
-        m_bTotalTime = false;
-        if (!m_bHudEnd)
-        {
-            Debug.Log("IN");
-            m_bHudEnd = Hud.bEndUI;
-        }
+        yield return new WaitUntil(() => Hud.bEndUI == true);
         yield return StartCoroutine(Hud.GameFinish());
+        NextScene();
+    }
+
+  
+    public void NextScene()
+    {
+        Debug.Log("CALLED");
+        m_bTotalTime = false;
         Delimiter.endEverything();
         DataCollect.AddTimeStamp("MISSION END");
         SaveData.SaveCurrentData();
         BehaviorData.StopRecordingNBehavior();
         StartCoroutine(FadeOut());
     }
-    public void NextScene()
-    {
-        KetosGames.SceneTransition.SceneLoader.LoadScene(buildindex);
-    }
-
+   
 }

@@ -78,7 +78,7 @@ public class Pencilcase_BP : MonoBehaviour
         {
             case "Necessary_Pencil": CheckCorrect(obj); break;
             case "Necessary": ResetVariables(obj.GetComponent<GrabObj_BP>()); break;
-            case "Unnecessary": ResetVariables(obj.GetComponent<GrabObj_BP>()); break;
+            case "Unnecessary": unnecessary ++; ResetVariables(obj.GetComponent<GrabObj_BP>()); break;
         }
         m_tCol = null;
     }
@@ -100,6 +100,7 @@ public class Pencilcase_BP : MonoBehaviour
    
     void SetPosition(bool bEraser)
     {
+        Hud.EffectSound("CORRECT");
         m_tChild.SetParent(m_pencilParent);
         if (bEraser) {
             m_tChild.localPosition = arr_Pos[0];
@@ -124,16 +125,16 @@ public class Pencilcase_BP : MonoBehaviour
             m_tChild.localScale = new Vector3(1, 1, 1);
             m_nPncilIndex++;
         }
-        else ResetVariables(m_GOBJ);
+        else { necessary++; ResetVariables(m_GOBJ); }
     }
     void SetPen()
     {
-        if(Object_BP.BP1DB[(int)m_GOBJ.eKind].bCorrect)
+        if (Object_BP.BP1DB[(int)m_GOBJ.eKind].bCorrect)
         {
             SetPosition(false);
             m_tChild.localScale = new Vector3(0.5241489f, 1.009642f, 1.028336f);
         }
-        else ResetVariables(m_GOBJ);
+        else { necessary++; ResetVariables(m_GOBJ); }
     }
 
     IEnumerator AllDone()
@@ -150,10 +151,8 @@ public class Pencilcase_BP : MonoBehaviour
     void ResetVariables(GrabObj_BP obj)
     {
         StartCoroutine(Hud.WrongPencil());
-        necessary++;
         obj.ResetPosition();
         m_tParent = m_tChild = m_tCol = null;
         m_GOBJ = null;
     }
-   
 }

@@ -40,6 +40,11 @@ public class GrabbedObject_BP : MonoBehaviour
             tag = Grabbed.tag;
             GrabbedOutlinable = Grabbed.GetComponent<Outlinable>();
             UnnCheck(true, GrabbedOutlinable);
+            if (!nothing) //Stop IDLE in data log
+            {
+                delimiters.addIDLE(nothing);
+                nothing = true;
+            }
             switch (tag)
             {
                 case "Necessary": if (Manager.m_bStageChangeTime) Manager.m_bStageChangeTime = false; break;
@@ -51,11 +56,13 @@ public class GrabbedObject_BP : MonoBehaviour
         {
             if (nothing) //START IDLE in data log
             {
+                Debug.Log("NOTHIG");
                 delimiters.addIDLE(nothing);
                 nothing = false;
             }
             if (!disturbed)
             {
+                Debug.Log("DISTURBED");
                 delimiters.addDISTURB(disturbed);
                 disturbed = true;
             }
