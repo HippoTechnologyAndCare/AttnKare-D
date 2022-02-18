@@ -220,6 +220,11 @@ public class FactoryManager : MonoBehaviour
         return json;
     }
 
+    public static void LoadNextScene()
+    {
+        Debug.Log("Load Next Scene Function Called");
+        // Load Scene by Scene Index
+    }
     void UpdateDebugText(List<int> scores)
     {
         string _isSuccessful = scores[0] == 1 ? "Yes" : "No";

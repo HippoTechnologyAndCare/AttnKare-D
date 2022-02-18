@@ -29,14 +29,16 @@ public class SkipButton : MonoBehaviour
         {
             // Show First UI
             Invoke("ResetPressCount", 3f);
+            UIManager.ShowSkipCanvas();
         }
         else if (m_pressCount == 2 && !FactoryManager.m_gameData.IsDataSaved())
         {
-            // Show Second UI and End Game
+            // Save Data
             FactoryManager.m_gameData.SetSkipped(true);
             StageManager.ChangeGameState(GameState.GameEnd);
-            
-            // Scene Load Function
+
+            // Show Second UI
+            StartCoroutine(UIManager.CountSecondsOnCanvas());
         }
         else
             return;
@@ -48,5 +50,12 @@ public class SkipButton : MonoBehaviour
             Clicker.localPosition = new Vector3(Clicker.localPosition.x, Clicker.localPosition.y, Mathf.Clamp(Clicker.localPosition.z, m_buttonUpPos, m_buttonDownPos));
     }
 
-    void ResetPressCount() { if(m_pressCount == 1) m_pressCount = 0; }
+    void ResetPressCount()
+    {
+        if (m_pressCount == 1)
+        {
+            m_pressCount = 0;
+            UIManager.HideSkipCanvas();
+        }
+    }
 }
