@@ -1545,6 +1545,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8788774741986201833}
     m_Modifications:
+    - target: {fileID: 48433068248388171, guid: 46199eeb69234eb4da7bdbd8f43f6397,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4138655948866813941, guid: 46199eeb69234eb4da7bdbd8f43f6397,
         type: 3}
       propertyPath: m_RootOrder
@@ -3360,6 +3365,12 @@ Transform:
   m_Father: {fileID: 1213358220}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1775385756 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2548836399774486288, guid: 46199eeb69234eb4da7bdbd8f43f6397,
+    type: 3}
+  m_PrefabInstance: {fileID: 796146792}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1802068747
 GameObject:
   m_ObjectHideFlags: 0
@@ -24738,6 +24749,7 @@ GameObject:
   - component: {fileID: 5645222023770431308}
   - component: {fileID: 7616480652570700678}
   - component: {fileID: 8265179249203415636}
+  - component: {fileID: 8265179249203415637}
   m_Layer: 28
   m_Name: Robot_Skip
   m_TagString: Untagged
@@ -24758,6 +24770,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.0038913148, y: 0.0025877855, z: 0.0014969109}
   m_Center: {x: 0.000032571555, y: -0.000021518568, z: -0.0003122217}
+--- !u!114 &8265179249203415637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265179249203415635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c773e94dedd890a4faae418a8805cb47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_factoryManager: {fileID: 1708212833}
+  Clicker: {fileID: 1775385756}
+  m_buttonUpPos: 0
+  m_buttonDownPos: 0
 --- !u!33 &8270441692289885530
 MeshFilter:
   m_ObjectHideFlags: 0

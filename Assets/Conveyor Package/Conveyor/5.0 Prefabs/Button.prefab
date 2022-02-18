@@ -320,7 +320,6 @@ GameObject:
   - component: {fileID: 6514220184550411958}
   - component: {fileID: 48433068248388171}
   - component: {fileID: 4250038129145166133}
-  - component: {fileID: 7754917056483502108}
   m_Layer: 28
   m_Name: Clicker
   m_TagString: Untagged
@@ -468,17 +467,3 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &7754917056483502108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7240888775502881824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c773e94dedd890a4faae418a8805cb47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_buttonUpPos: 0
-  m_buttonDownPos: 0

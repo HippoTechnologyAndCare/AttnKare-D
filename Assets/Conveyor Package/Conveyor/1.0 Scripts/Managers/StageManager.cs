@@ -39,9 +39,11 @@ public class StageManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void Update() { TrackGameState(); }
+
+    void TrackGameState()
     {
-        if (currentGameState == GameState.Stage1Start) 
+        if (currentGameState == GameState.Stage1Start)
         {
             stage?.Invoke(1);
             GenerateColor();
@@ -67,14 +69,14 @@ public class StageManager : MonoBehaviour
             FactoryManager.ResetDestroyCount(2);
         }
 
-        if(m_boxCount == 0)
+        if (m_boxCount == 0)
         {
             if (currentGameState == GameState.Stage1) currentGameState = GameState.Stage1End;
             if (currentGameState == GameState.Stage2) currentGameState = GameState.Stage2End;
             if (currentGameState == GameState.Stage3) currentGameState = GameState.Stage3End;
         }
 
-        if (!FactoryManager.m_gameData.IsDataSaved() && currentGameState == GameState.GameEnd) 
+        if (!FactoryManager.m_gameData.IsDataSaved() && currentGameState == GameState.GameEnd)
         {
             NextStage();
             FactoryManager.ResetDestroyCount(3);
@@ -101,6 +103,7 @@ public class StageManager : MonoBehaviour
         UIManager.EnableMainUIImage();
     }
 
+    public static void ChangeGameState(GameState gameState) { currentGameState = gameState; }
     public static void BoxCountDec() { m_boxCount--; }
     public static void NextStage()   { m_currentStage++; }
     public static void AudioEnd(int index)

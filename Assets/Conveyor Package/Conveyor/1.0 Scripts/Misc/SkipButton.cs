@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class SkipButton : MonoBehaviour
 {
-    /*[SerializeField] Transform Clicker;*/
+    [SerializeField] FactoryManager m_factoryManager;
+
+    [SerializeField] Transform Clicker;
 
     [SerializeField] float m_buttonUpPos;
     [SerializeField] float m_buttonDownPos;
@@ -13,16 +15,11 @@ public class SkipButton : MonoBehaviour
 
     private void Start()
     {
-        m_buttonUpPos = transform.localPosition.z;
-        m_buttonDownPos = transform.localPosition.z + .08f;
+        m_buttonUpPos = Clicker.localPosition.z;
+        m_buttonDownPos = Clicker.localPosition.z + .08f;
     }
     private void Update() { ClampButton(); }
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Pressed by " + other.gameObject.name);
-
-        OnSkipButtonPressed();
-    }
+    private void OnTriggerEnter(Collider other) { OnSkipButtonPressed(); }
 
     void OnSkipButtonPressed()
     {
@@ -31,11 +28,16 @@ public class SkipButton : MonoBehaviour
         if (m_pressCount == 1)
         {
             // Show First UI
+            Debug.Log("Press Count: 1");
+            Invoke("ResetPressCount", 3f);
         }
         else if (m_pressCount == 2)
         {
             // Show Second UI and End Game
             FactoryManager.m_gameData.SetSkipped(true);
+            m_factoryManager.SaveGameData();
+            StageManager.ChangeGameState(GameState.GameEnd);
+            Debug.Log("Press Count: 2");
         }
         else
             return;
@@ -43,15 +45,9 @@ public class SkipButton : MonoBehaviour
 
     void ClampButton()
     {
-        /*if(Clicker.localPosition.y < m_downLimit)
-        {
-            Clicker.localPosition = new Vector3(Clicker.localPosition.x, m_downLimit, Clicker.localPosition.z);
-        }    
-        if(Clicker.localPosition.y > m_upLimit)
-        {
-            Clicker.localPosition = new Vector3(Clicker.localPosition.x, m_upLimit, Clicker.localPosition.z);
-        }*/
-        if (transform.localPosition.z > m_buttonDownPos || transform.localPosition.z < m_buttonUpPos)
-            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, Mathf.Clamp(transform.localPosition.z, m_buttonUpPos, m_buttonDownPos));
+        if (Clicker.localPosition.z > m_buttonDownPos || Clicker.localPosition.z < m_buttonUpPos)
+            Clicker.localPosition = new Vector3(Clicker.localPosition.x, Clicker.localPosition.y, Mathf.Clamp(Clicker.localPosition.z, m_buttonUpPos, m_buttonDownPos));
     }
+
+    void ResetPressCount() { if(m_pressCount == 1) m_pressCount = 0; }
 }
