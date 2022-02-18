@@ -5,17 +5,19 @@ using UnityEngine.UI;
 using TMPro;
 using KetosGames.SceneTransition;
 using BNG;
+using UnityEngine.Serialization;
 
 public enum ESoundType
 {
-    IN,
-    CLICK,
-    CNT,
-    PUT
+    In,
+    Click,
+    Cnt,
+    Put
 }
 
 namespace Scheduler
 {
+    [RequireComponent(typeof(Transform))]
     public class ScheduleManager1 : MonoBehaviour
     {
         //public Transform Behavior;
@@ -23,12 +25,12 @@ namespace Scheduler
         public AutoVoiceRecording voiceRecording;
         //Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("delimiter name");
 
-        public Transform Intro;
+        public Transform intro;
         //public Transform Schedule;
         public GameObject board;
         public Transform Finish;
-        public Transform WellDoneAndBye;
-        public TextMeshProUGUI FinishCntDwn;
+        [FormerlySerializedAs("WellDoneAndBye")] public Transform wellDoneAndBye;
+        [FormerlySerializedAs("FinishCntDwn")] public TextMeshProUGUI finishCntDwn;
 
         public Transform BGM_Controller;
 
@@ -62,8 +64,8 @@ namespace Scheduler
 
         float guide_Length = 25;
 
-        int timer_Min = 1;
-        int timer_Sec = 30;
+        int timerMin = 1;
+        int timerSec = 30;
 
         float timeLimit = 900;              //시간 제한 사용 방향 기획 필요
         float timeLimitForFinish = 1200;      //강제종료시간
@@ -117,29 +119,29 @@ namespace Scheduler
                     totalElapsedTime = 0;
                     totalElapsedTimeForCalc += 1;
 
-                    if (timer_Min != 0 || timer_Sec != 0)
+                    if (timerMin != 0 || timerSec != 0)
                     {
-                        timer_Sec -= 1;
+                        timerSec -= 1;
 
-                        if (timer_Sec < 0 && timer_Min > 0)
+                        if (timerSec < 0 && timerMin > 0)
                         {
-                            timer_Sec = 59;
-                            timer_Min = 0;
+                            timerSec = 59;
+                            timerMin = 0;
                         }
 
                         string TextSec = "";
 
-                        if (timer_Sec < 10)
+                        if (timerSec < 10)
                         {
-                            TextSec = "0" + timer_Sec.ToString();
+                            TextSec = "0" + timerSec.ToString();
                         }
                         else
                         {
-                            TextSec = timer_Sec.ToString();
+                            TextSec = timerSec.ToString();
                         }
 
 
-                        TimerText.text = "0" + timer_Min.ToString() + ":" + TextSec;
+                        TimerText.text = "0" + timerMin.ToString() + ":" + TextSec;
                     }
 
                     if (!checkTimeLimit && totalElapsedTimeForCalc >= timeLimit)
@@ -180,7 +182,7 @@ namespace Scheduler
             collectData.AddTimeStamp("TIME LIMIT");
             BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("LIMIT");
 
-            timer_Sec = 30;
+            timerSec = 30;
 
             yield return new WaitForSeconds(6);
 
@@ -283,21 +285,22 @@ namespace Scheduler
 
         public void reSetAll()
         {
-            PlaySoundByTypes(ESoundType.CLICK);
+            PlaySoundByTypes(ESoundType.Click);
 
             if (CheckEmptySlot())
             {
                 StartCoroutine(ResetDelay());
 
-                for (int s = 0; s < SlotList.Count; s++)
+                foreach (var t in SlotList)
                 {
-                    SlotList[s].GetComponent<PlanSlotController1>().resetPlanSlot();
+                    t.GetComponent<PlanSlotController1>().resetPlanSlot();
                 }
-
-                for (int g = 0; g < GrpList.Count; g++)
+                
+                foreach(var t in SlotList)
                 {
-                    StartCoroutine(GrpList[g].GetComponent<PlanCubeController1>().resetPlanCube());                    
+                    StartCoroutine(t.GetComponent<PlanCubeController1>().resetPlanCube());
                 }
+              
                 ResetGrpList();
 
                 Btn_Finish.gameObject.SetActive(false);
@@ -326,7 +329,7 @@ namespace Scheduler
 
         public void DoStartSchedule()
         {
-            PlaySoundByTypes(ESoundType.CLICK);
+            PlaySoundByTypes(ESoundType.Click);
             StartCoroutine(StartCntDown());
         }
 
@@ -337,19 +340,19 @@ namespace Scheduler
             TextTitle.text = "준비 ~";
 
             yield return new WaitForSeconds(1f);
-            PlaySoundByTypes(ESoundType.CNT);
+            PlaySoundByTypes(ESoundType.Cnt);
             TextTitle.text = "3";
             yield return new WaitForSeconds(1);
-            PlaySoundByTypes(ESoundType.CNT);
+            PlaySoundByTypes(ESoundType.Cnt);
             TextTitle.text = "2";
             yield return new WaitForSeconds(1);
-            PlaySoundByTypes(ESoundType.CNT);
+            PlaySoundByTypes(ESoundType.Cnt);
             TextTitle.text = "1";
             yield return new WaitForSeconds(1);
             TextTitle.text = "시작 !";
             yield return new WaitForSeconds(1f);
 
-            Intro.gameObject.SetActive(false);
+            intro.gameObject.SetActive(false);
             board.gameObject.SetActive(true);
             beforeStart = false;
             leGogo = true;
@@ -365,13 +368,13 @@ namespace Scheduler
 
         public void ShowFinishPanel()
         {
-            PlaySoundByTypes(ESoundType.CLICK);
+            PlaySoundByTypes(ESoundType.Click);
             Finish.gameObject.SetActive(true);
         }
 
         public void FinishPanel_No()
         {
-            PlaySoundByTypes(ESoundType.CLICK);
+            PlaySoundByTypes(ESoundType.Click);
             Finish.gameObject.SetActive(false);
 
             selectNoCtn += 1;
@@ -379,7 +382,7 @@ namespace Scheduler
 
         public void FinishPanel_Yes(bool Skipped)
         {
-            PlaySoundByTypes(ESoundType.CLICK);
+            PlaySoundByTypes(ESoundType.Click);
             collectData.AddTimeStamp("MISSION END");
 
             leGogo = false;
@@ -387,21 +390,21 @@ namespace Scheduler
 
             board.gameObject.SetActive(false);
             Finish.gameObject.SetActive(false);
-            WellDoneAndBye.gameObject.SetActive(true);
+            wellDoneAndBye.gameObject.SetActive(true);
 
             voiceRecording.StopRecordingNBehavior();
 
             if (Skipped)
             {
                 skipYn = 1;
-                Intro.gameObject.SetActive(false);
+                intro.gameObject.SetActive(false);
                 //Schedule.gameObject.SetActive(true);
             }
             else
             {
                 skipYn = 0;
                 string MySchedule = "";
-                string MyScheduleforJson = "";
+                string MyScheduleForJson = "";
 
                 foreach (Transform plan_Slot in SlotList)
                 {
@@ -445,13 +448,13 @@ namespace Scheduler
         {
             yield return new WaitForSeconds(2);
 
-            FinishCntDwn.text = "3";
+            finishCntDwn.text = "3";
             yield return new WaitForSeconds(1);
 
-            FinishCntDwn.text = "2";
+            finishCntDwn.text = "2";
             yield return new WaitForSeconds(1);
 
-            FinishCntDwn.text = "1";
+            finishCntDwn.text = "1";
             yield return new WaitForSeconds(1);
 
             KetosGames.SceneTransition.SceneLoader.LoadScene(3);
@@ -463,16 +466,16 @@ namespace Scheduler
 
             switch (soundType)
             {
-                case ESoundType.CLICK:
+                case ESoundType.Click:
                     audioSource.clip = sound_Click;
                     break;
-                case ESoundType.IN:
+                case ESoundType.In:
                     audioSource.clip = sound_In;
                     break;
-                case ESoundType.CNT:
+                case ESoundType.Cnt:
                     audioSource.clip = sound_Count;
                     break;
-                case ESoundType.PUT:
+                case ESoundType.Put:
                     audioSource.clip = sound_Put;
                     break;
             }

@@ -84,7 +84,7 @@ namespace Scheduler
                 {
                     this.transform.SetParent(Grp);
                     scheduleManager.ReleaseAllCollision();
-                    scheduleManager.PlaySoundByTypes(ESoundType.PUT);
+                    scheduleManager.PlaySoundByTypes(ESoundType.Put);
 
                     nowClicked = false;
                     intoSlot = null;
@@ -130,7 +130,7 @@ namespace Scheduler
         {
             this.transform.SetParent(Grp);
             scheduleManager.ReleaseAllCollision();
-            scheduleManager.PlaySoundByTypes(ESoundType.PUT);
+            scheduleManager.PlaySoundByTypes(ESoundType.Put);
 
             if (intoSlot != null) //슬롯에 들어온 경우
             {
@@ -221,7 +221,7 @@ namespace Scheduler
             if (collision.collider.tag == "POINTER")
             {
                 pointerOnCube = true;
-                scheduleManager.PlaySoundByTypes(ESoundType.IN);
+                scheduleManager.PlaySoundByTypes(ESoundType.In);
             }
         }
 
