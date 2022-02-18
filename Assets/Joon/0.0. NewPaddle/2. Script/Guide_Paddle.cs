@@ -26,6 +26,7 @@ public class Guide_Paddle : MonoBehaviour
     public Animation FriendAnimation;
     private int m_nAnimation;
 
+    int m_nDisturbed;
     int m_nWrongSpeed;
     int m_nWrongOrder;
     int[] m_arrWrongSpeed = new int[] { 0, 0, 0 };
@@ -41,8 +42,8 @@ public class Guide_Paddle : MonoBehaviour
     void TimeCheck_Stage()
     {
         m_fTOTALTIME += Time.deltaTime;
-        if (m_fTOTALTIME > TIMELIMIT_PADDLE) Hud.ErrorMessage("time limit");
-        if (m_fTOTALTIME > TIMEOUT_PADDLE) Hud.ErrorMessage("time over");
+        if (m_fTOTALTIME > TIMELIMIT_PADDLE) Hud.AudioController("time limit");
+        if (m_fTOTALTIME > TIMEOUT_PADDLE) Hud.AudioController("time over");
     }
 
     void TimeCheck_Start()
@@ -72,6 +73,7 @@ public class Guide_Paddle : MonoBehaviour
     {
         foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = false;
         //+hud start voice and canvas
+        Hud.AudioController("guide");
         BehaviorData.AddTimeStamp("GUIDE START");
         m_ePSTATE = PADDLE_STATE.INTRO;
     }
@@ -83,19 +85,27 @@ public class Guide_Paddle : MonoBehaviour
     
     public void Make_START()
     {
+        BehaviorData.AddTimeStamp("GUIDE SKIP");
         foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = true;
-        AnimationStart();
+        StartCoroutine(Hud.CountDown());
         m_ePSTATE = PADDLE_STATE.START;
     }
     
     void Run_START()
     {
+        if (!Hud.bCoroutine)
+        {
+            Hud.AudioController("bgm");
+            AnimationStart();
+            Hud.bCoroutine = true;
+        }
         TimeCheck_Stage();
     }
 
     void Make_STAGE()
     {
-        StageTimeAdd();   
+        StageTimeAdd();
+        AnimationStart();
         m_ePSTATE = PADDLE_STATE.STAGE;
         Debug.Log(m_listSTAGE.Count);
     }
@@ -126,20 +136,20 @@ public class Guide_Paddle : MonoBehaviour
     }
     void NEXTSTAGE()
     {
-        Hud.ErrorMessage("stage");
+        Hud.AudioController("stage");
         Debug.Log("CHECK_STAGE");
-        Make_STAGE();
         m_arrWrongOrder[intStage] = m_nWrongOrder;
         m_arrWrongSpeed[intStage] = m_nWrongSpeed;
         m_nWrongOrder = m_nWrongSpeed = m_nComplete = 0;
         Manager_Paddle.intStage++;
         intStage = Manager_Paddle.intStage;
         Debug.Log(intStage);
-        if (intStage > 2) Make_ALLDONE();
+        if (intStage > 2) { Make_ALLDONE(); return; }
+        Make_STAGE();
     }
     public void Check_Order() //write in hud and datacheck 
     {
-        Hud.ErrorMessage("wrong order");
+        Hud.AudioController("wrong order");
         m_nWrongOrder++;
         Debug.Log("CHECK_ORDER");
 
@@ -148,7 +158,7 @@ public class Guide_Paddle : MonoBehaviour
     public void Check_Speed() //write in hud and data check
     {
         Debug.Log("CHECK_SPEED");
-        Hud.ErrorMessage("wrong speed");
+        Hud.AudioController("wrong speed");
         m_nWrongSpeed++;
     }
 
@@ -156,21 +166,42 @@ public class Guide_Paddle : MonoBehaviour
     {
         m_strOrder = Manager_Paddle.SDB[intStage].strHANDLE;
         Manager_Paddle.SDB[intStage].strHANDLE = null; //한바퀴 돌면 strHANDEL을 null 시킴
-        if (m_strOrder != Manager_Paddle.SDB[intStage].strORDER) { Check_Order(); return; }
-        if (time > 0.9f || time < -0.9f) { Check_Speed(); return; }
+        if (m_strOrder != Manager_Paddle.SDB[intStage].strORDER) { Debug.Log(m_strOrder+ intStage); Check_Order(); return; }
+        if (time > 0.7f || time < -0.7f) { Check_Speed(); return; }
         m_nComplete += 1;
         if (Manager_Paddle.SDB[intStage].intCount == m_nComplete)
         {
             NEXTSTAGE();//다음 스테이지 넘어가기
             return;
         }
-        Hud.ErrorMessage("correct");
+        Hud.AudioController("correct");
         Debug.Log("CHECK" + Manager_Paddle.SDB[intStage].fTime + "  ," + Manager_Paddle.SDB[intStage].intCount + " , " + m_nComplete);
+    }
+
+    public void Disturb(bool bStamp)
+    {
+        if (bStamp)
+        {
+            BehaviorData.AddTimeStamp("DISTURB START");
+            m_nDisturbed++;
+        }
+        if (!bStamp) BehaviorData.AddTimeStamp("DISTURB END");
+
+    }
+
+    public void IDLE(bool bStamp)
+    {
+        if (bStamp)
+        {
+            BehaviorData.AddTimeStamp("IDLE START");
+            m_nDisturbed++;
+        }
+        if (!bStamp) BehaviorData.AddTimeStamp("IDLE END");
     }
 
     void GameFinish() // 게임 끝나면 어떻게 할지 여기에 추가
     {
-        Hud.ErrorMessage("complete");
+        Hud.AudioController("complete");
     }
     
     Hud_Paddle Hud;
