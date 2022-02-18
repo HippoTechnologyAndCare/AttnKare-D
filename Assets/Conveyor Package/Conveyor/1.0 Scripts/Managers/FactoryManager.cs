@@ -183,6 +183,8 @@ public class FactoryManager : MonoBehaviour
         FormatJson();
 
         ExportAsJson();
+
+        Debug.Log("Game Data has been Saved!");
     }
 
     void FormatJson()

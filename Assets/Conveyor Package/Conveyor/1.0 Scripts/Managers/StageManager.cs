@@ -81,7 +81,6 @@ public class StageManager : MonoBehaviour
             NextStage();
             FactoryManager.ResetDestroyCount(3);
             m_factoryManager.SaveGameData();
-            Debug.Log("Game Data has been Saved!");
         }
     }
 

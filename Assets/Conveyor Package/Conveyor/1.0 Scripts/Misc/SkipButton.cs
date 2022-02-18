@@ -28,16 +28,15 @@ public class SkipButton : MonoBehaviour
         if (m_pressCount == 1)
         {
             // Show First UI
-            Debug.Log("Press Count: 1");
             Invoke("ResetPressCount", 3f);
         }
-        else if (m_pressCount == 2)
+        else if (m_pressCount == 2 && !FactoryManager.m_gameData.IsDataSaved())
         {
             // Show Second UI and End Game
             FactoryManager.m_gameData.SetSkipped(true);
-            m_factoryManager.SaveGameData();
             StageManager.ChangeGameState(GameState.GameEnd);
-            Debug.Log("Press Count: 2");
+            
+            // Scene Load Function
         }
         else
             return;
