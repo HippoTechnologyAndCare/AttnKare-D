@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 4138655948215037562}
   - component: {fileID: 4138655948215037560}
   - component: {fileID: 4138655948215037561}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Push
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 4138655948868582764}
   - component: {fileID: 4138655948868582770}
   - component: {fileID: 4138655948868582771}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +320,8 @@ GameObject:
   - component: {fileID: 6514220184550411958}
   - component: {fileID: 48433068248388171}
   - component: {fileID: 4250038129145166133}
-  m_Layer: 0
+  - component: {fileID: 7754917056483502108}
+  m_Layer: 28
   m_Name: Clicker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -369,7 +370,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 118
   m_CollisionDetection: 0
 --- !u!153 &4250038129145166133
 ConfigurableJoint:
@@ -386,8 +387,8 @@ ConfigurableJoint:
   m_ConnectedAnchor: {x: 2.2346784e-10, y: 1.1173396e-10, z: 0.0018745842}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
-  m_XMotion: 0
-  m_YMotion: 0
+  m_XMotion: 1
+  m_YMotion: 1
   m_ZMotion: 1
   m_AngularXMotion: 0
   m_AngularYMotion: 0
@@ -467,3 +468,17 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &7754917056483502108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7240888775502881824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c773e94dedd890a4faae418a8805cb47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_buttonUpPos: 0
+  m_buttonDownPos: 0
