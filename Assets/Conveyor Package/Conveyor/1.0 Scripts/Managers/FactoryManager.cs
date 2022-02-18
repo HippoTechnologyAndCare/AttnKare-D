@@ -199,7 +199,7 @@ public class FactoryManager : MonoBehaviour
     }
     string ParseList(List<List<int>> listToParse)
     {
-        string json = "[";
+        string json = "";
 
         for (int i = 0; i < listToParse.Count; i++)
         {
@@ -208,11 +208,12 @@ public class FactoryManager : MonoBehaviour
             {
                 json += listToParse[i][j].ToString() + ',';
             }
-            json = json.Remove(json.Length - 1);
+            if (json.Length > 0) json = json.Remove(json.Length - 1);
             json += "],";
         }
-        json = json.Remove(json.Length - 1);
-        json += "]";
+
+        if(json.Length > 0) json = json.Remove(json.Length - 1);
+        json = "[" + json + "]";
 
         return json;
     }
