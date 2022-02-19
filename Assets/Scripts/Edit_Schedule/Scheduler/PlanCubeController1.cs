@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using BNG;
+using UnityEngine.Serialization;
 
 namespace Scheduler
 {
@@ -11,15 +12,15 @@ namespace Scheduler
 
         public ScheduleManager1 scheduleManager;
 
-        public enum CARD_STATE { IDLE, MOVE, ENTER, DONE };
+        public enum CardState { Idle, Move, Enter, Done };
         
-        public CARD_STATE cardState;
+        public CardState cardState;
 
-        public Transform HandCursor;
+        [FormerlySerializedAs("HandCursor")] public Transform handCursor;
         public HandController handController;
 
-        public Transform Canvas;
-        public Transform Grp;
+        [FormerlySerializedAs("Canvas")] public Transform canvas;
+        [FormerlySerializedAs("Grp")] public Transform grp;
 
         public GameObject activeSlot;
         public Vector3 startPos;
@@ -27,7 +28,7 @@ namespace Scheduler
         public float t;
         public bool isHomeTW;
 
-        [SerializeField] CardCreater cardCreater;
+        [FormerlySerializedAs("cardCreater")] [SerializeField] CardCreator cardCreator;
 
         [SerializeField] GameObject originPos_P;
         //[SerializeField] Transform originPos;
@@ -37,98 +38,85 @@ namespace Scheduler
         
         //[SerializeField] bool isWorking;
 
-        UIPointer uiPointer;
-        Material mat;
+        private UIPointer uiPointer;
 
-        Vector3 vec2Pos;
-        Vector3 zPos;
+        private Vector3 vec2Pos;
+        private Vector3 zPos;
 
         //[SerializeField] bool working;
-        bool nowClicked = false;
-        bool pointerOnCube = false;
+        private bool nowClicked = false;
+        private bool pointerOnCube = false;
 
 
         //test
-        [SerializeField] List<GameObject> Slots;
-        void Start()
+        [FormerlySerializedAs("Slots")] [SerializeField] List<GameObject> slots;
+
+        private void Start()
         {
             FindOriginPos();
 
+            slots = new List<GameObject>();
+            
             intoSlot = null;
             cube = null;
-            cardState =  CARD_STATE.IDLE;
-            cardPrb = this.gameObject;          
-            Slots = new List<GameObject>();
+            cardState =  CardState.Idle;
+            cardPrb = gameObject;
             zPos.z = 2.21874f;
-            startPos = this.transform.localPosition;
-            uiPointer = HandCursor.GetComponent<BNG.UIPointer>();
+            startPos = transform.localPosition;
+            uiPointer = handCursor.GetComponent<BNG.UIPointer>();
         }
 
-        void Update()
+        private void FixedUpdate()
         {
-        }
-        void FixedUpdate()
-        {
-            if (nowClicked)
+            if (!nowClicked) return;
+            if (handCursor.GetComponent<LineRenderer>().enabled)
             {
-                if (HandCursor.GetComponent<LineRenderer>().enabled == true)
-                {
-                    MoveCard();
-                }
-                else
-                {
-                    Debug.Log("???");
-                }
-
-                if (!pointerOnCube && handController.PointAmount == 1)
-                {
-                    this.transform.SetParent(Grp);
-                    scheduleManager.ReleaseAllCollision();
-                    scheduleManager.PlaySoundByTypes(ESoundType.Put);
-
-                    nowClicked = false;
-                    intoSlot = null;
-
-                    if (activeSlot != null)
-                    {
-                        transform.localPosition = activeSlot.transform.localPosition;
-                    }
-                    else
-                    {
-                        transform.localPosition = startPos;
-                    }
-                }
+                MoveCard();
             }
+            else
+            {
+                Debug.Log("???");
+            }
+
+            if (pointerOnCube || handController.PointAmount != 1) return;
+            transform.SetParent(grp);
+            scheduleManager.ReleaseAllCollision();
+            scheduleManager.PlaySoundByTypes(ESoundType.Put);
+
+            nowClicked = false;
+            intoSlot = null;
+
+            transform.localPosition = activeSlot == null ? startPos : activeSlot.transform.localPosition;
         }
 
-        void FindOriginPos()
+        private void FindOriginPos()
         {
             originPos_P = GameObject.Find("Origin Pos");
-            string myName = this.name.Replace("(Clone)", "");
-            cardCreater = originPos_P.transform.Find(myName).GetComponent<CardCreater>();            
+            var myName = name.Replace("(Clone)", "");
+            cardCreator = originPos_P.transform.Find(myName).GetComponent<CardCreator>();            
         }
 
-        void MoveCard()
+        private void MoveCard()
         {
             // LaserEnd의 포지션을 따라간다
-            cardState = CARD_STATE.MOVE;
-            Vector2 a = this.transform.position;
+            cardState = CardState.Move;
+            Vector2 a = transform.position;
             Vector2 b = uiPointer._cursor.transform.position;
             vec2Pos = Vector2.Lerp(a, b, t);
             vec2Pos.z = zPos.z;
-            this.transform.position = vec2Pos;
+            transform.position = vec2Pos;
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
             nowClicked = true;
-            this.transform.SetParent(Canvas);
-            scheduleManager.LockAllCollision(this.transform);
+            transform.SetParent(canvas);
+            scheduleManager.LockAllCollision(transform);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            this.transform.SetParent(Grp);
+            transform.SetParent(grp);
             scheduleManager.ReleaseAllCollision();
             scheduleManager.PlaySoundByTypes(ESoundType.Put);
 
@@ -148,7 +136,7 @@ namespace Scheduler
                         activeSlot.GetComponent<PlanSlotController1>().passenger = null;
                     }
 
-                    if (!isHomeTW && !cardCreater.isStored)
+                    if (!isHomeTW && !cardCreator.isStored)
                     {
                         if(!scheduleManager.isReset)
                         {
@@ -161,7 +149,7 @@ namespace Scheduler
                     activeSlot.GetComponent<PlanSlotController1>().passenger = this.gameObject;
                     activeSlot.GetComponent<PlanSlotController1>().inSlot = true;
                     MeshRendererOff(activeSlot);
-                    cardState = CARD_STATE.DONE;
+                    cardState = CardState.Done;
                 }
                 else
                 {
@@ -181,7 +169,7 @@ namespace Scheduler
                         activeSlot.GetComponent<PlanSlotController1>().passenger = tempObj;
                     }
 
-                    cardState = CARD_STATE.DONE;
+                    cardState = CardState.Done;
                     activeSlot = intoSlot;
                     transform.localPosition = activeSlot.transform.localPosition;
                     activeSlot.GetComponent<PlanSlotController1>().passenger = this.gameObject;
@@ -196,12 +184,12 @@ namespace Scheduler
             {
                 if (activeSlot != null)
                 {
-                    cardState = CARD_STATE.DONE;
+                    cardState = CardState.Done;
                     transform.localPosition = activeSlot.transform.localPosition;
                 }
                 else
                 {
-                    cardState = CARD_STATE.IDLE;
+                    cardState = CardState.Idle;
                     transform.localPosition = startPos;
                 }
             }
@@ -210,12 +198,12 @@ namespace Scheduler
             intoSlot = null;
         }
 
-        void OnCollisionEnter(Collision collision)
+        private void OnCollisionEnter(Collision collision)
         {
             if (collision.collider.tag == "SLOT")
             {
                 intoSlot = collision.gameObject;
-                Slots.Add(intoSlot);
+                slots.Add(intoSlot);
             }
 
             if (collision.collider.tag == "POINTER")
@@ -225,41 +213,37 @@ namespace Scheduler
             }
         }
 
-        void OnCollisionStay(Collision collision)
+        private void OnCollisionStay(Collision collision)
         {
-            if (collision.collider.tag == "SLOT")
+            if (collision.collider.tag != "SLOT") return;
+            if (slots.Count != 1) return;
+            //isWorking = true;
+            intoSlot = collision.collider.gameObject;                    
+            cardState = CardState.Enter;
+            cube = intoSlot.gameObject.transform.Find("Cube");
+            if(activeSlot == null)
             {
-                if (Slots.Count == 1)
-                {
-                    //isWorking = true;
-                    intoSlot = collision.collider.gameObject;                    
-                    cardState = CARD_STATE.ENTER;
-                    cube = intoSlot.gameObject.transform.Find("Cube");
-                    if(activeSlot == null)
-                    {
-                        cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.7f);
-                    }
+                cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.7f);
+            }
                     
-                    if(!nowClicked && cube.GetComponent<MeshRenderer>().enabled == false)
-                    {
-                        cardState = CARD_STATE.DONE;
-                    }
-                }
+            if(!nowClicked && cube.GetComponent<MeshRenderer>().enabled == false)
+            {
+                cardState = CardState.Done;
             }
 
         }
 
-        void OnCollisionExit(Collision collision)
+        private void OnCollisionExit(Collision collision)
         {
             if (collision.collider.tag == "SLOT")
             {
                 //isWorking = false;
                 intoSlot = collision.gameObject;
-                Slots.Remove(intoSlot);
+                slots.Remove(intoSlot);
                 cube = intoSlot.gameObject.transform.Find("Cube");
                 cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.12f);               
-                cardState = CARD_STATE.MOVE;
-                if (Slots.Count == 0)
+                cardState = CardState.Move;
+                if (slots.Count == 0)
                 {
                     intoSlot = null;
                 }
@@ -279,7 +263,7 @@ namespace Scheduler
             }
         }
 
-        void OnTriggerExit(Collider other)
+        private void OnTriggerExit(Collider other)
         {
             if (other.tag == "Birthplace" && !isHomeTW)
             {
@@ -287,25 +271,23 @@ namespace Scheduler
             }
         }
 
-        Transform MeshRendererOff(GameObject actSlot)
+        private void MeshRendererOff(GameObject actSlot)
         {
-            cube = intoSlot.gameObject.transform.Find("Cube");
+            cube = actSlot.gameObject.transform.Find("Cube");
             cube.GetComponent<MeshRenderer>().enabled = false;
-            return cube;
         }
 
-        void InstantiateCard(GameObject thisG)
+        private void InstantiateCard(GameObject thisG)
         {
-
-            GameObject cardClone = (Instantiate(thisG));
-            cardClone.transform.SetParent(Grp);
+            var cardClone = Instantiate(thisG);
+            cardClone.transform.SetParent(grp);
             cardClone.transform.localPosition = startPos;
             cardClone.transform.localScale = new Vector3(1, 1, 1);
         }
 
         public IEnumerator resetPlanCube()
         {
-            cardState = CARD_STATE.IDLE;
+            cardState = CardState.Idle;
             activeSlot = null;
             intoSlot = null;
             yield return new WaitForSeconds(0.07f);

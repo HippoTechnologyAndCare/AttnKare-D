@@ -12,10 +12,10 @@ namespace Scheduler
 
         [SerializeField] Transform cube;
 
-        MeshRenderer mesh;
+        private MeshRenderer mesh;
 
 
-        void Start()
+        private void Start()
         {
             inSlot = false;
             cube = this.gameObject.transform.Find("Cube");
@@ -25,27 +25,21 @@ namespace Scheduler
         private void Update()
         {
             // 슬롯안에 stored된 카드를 빼는 상황일때
-            if (passenger == null && inSlot)
-            {
-                inSlot = false;
-                mesh.enabled = true;
-                
-            }
+            if (passenger != null || !inSlot) return;
+            inSlot = false;
+            mesh.enabled = true;
         }        
 
-        public void resetPlanSlot()
+        public void ResetPlanSlot()
         {
-            
-            if(passenger != null)
+            if (passenger == null) return;
+            const string keyword = "(Clone)";
+            if (RemoveWord.EndsWithWord(passenger.name, keyword))
             {
-                string keyword = "(Clone)";
-                if (RemoveWord.EndsWithWord(passenger.name, keyword))
-                {
-                    Destroy(passenger);
-                }
-                passenger = null;
+                Destroy(passenger);
             }
-                        
+            passenger = null;
+
         }        
     }
 }

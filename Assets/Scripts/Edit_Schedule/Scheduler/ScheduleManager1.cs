@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -20,59 +21,58 @@ namespace Scheduler
     [RequireComponent(typeof(Transform))]
     public class ScheduleManager1 : MonoBehaviour
     {
-        //public Transform Behavior;
+        
         public CollectData collectData;
         public AutoVoiceRecording voiceRecording;
-        //Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("delimiter name");
+        
+        private const float TimeLimit = 900; //시간 제한 사용 방향 기획 필요
+        private const float TimeLimitForFinish = 1200; //강제종료시간
 
         public Transform intro;
-        //public Transform Schedule;
         public GameObject board;
-        public Transform Finish;
-        [FormerlySerializedAs("WellDoneAndBye")] public Transform wellDoneAndBye;
-        [FormerlySerializedAs("FinishCntDwn")] public TextMeshProUGUI finishCntDwn;
+        public Transform finish;
+        public Transform wellDoneAndBye;
+        public TextMeshProUGUI finishCntDwn;
 
-        public Transform BGM_Controller;
+        public Transform bgmController;
 
-        public Text Result;
+        public Text result;
 
-        public Transform Btn_Finish;
+        public Transform btnFinish;
 
-        public TextMeshProUGUI TextTitle;
+        public TextMeshProUGUI textTitle;
 
-        public Text ToShow;
+        public Text toShow;
 
-        public Transform Slot;
-        public Transform Grp;
+        public Transform slot;
+        public Transform grp;
 
-        public Text TimerText;
+        public Text timerText;
 
-        List<Transform> SlotList;
-        [SerializeField] List<Transform> GrpList;
+        private List<Transform> slotList; 
+        [SerializeField] private List<Transform> grpList;
 
-        public float[] scene2arr;
+        public float[] scene2Arr;
 
         public bool isReset = false;
 
-        bool leGogo = false;
-        bool beforeStart = false;
-        bool firstSelect = false;
-        bool beforeStartGuideCheck = false;
+        private bool leGogo = false;
+        private bool beforeStart = false;
+        private bool firstSelect = false;
+        private bool beforeStartGuideCheck = false;
 
-        bool checkTimeLimit = false;
-        bool checkTimeOut = false;
+        private bool checkTimeLimit = false;
+        private bool checkTimeOut = false;
 
-        float guide_Length = 25;
+        private float guide_Length = 25;
 
-        int timerMin = 1;
-        int timerSec = 30;
-
-        float timeLimit = 900;              //시간 제한 사용 방향 기획 필요
-        float timeLimitForFinish = 1200;      //강제종료시간
-        float totalElapsedTime = 0;         //수행한 시간 계산용
-        float totalElapsedTimeForCalc = 0;  //수행한 시간 보여주기용
-        float timerForBeforeStarted = 0;    //시작하기 누르기까지 시간
-        float timerForFirstSelect = 0;      //시작하기 누르고 첫 선택까지 시간
+        private int timerMin = 1;
+        private int timerSec = 30;
+        
+        private float totalElapsedTime = 0;         //수행한 시간 계산용
+        private float totalElapsedTimeForCalc = 0;  //수행한 시간 보여주기용
+        private float timerForBeforeStarted = 0;    //시작하기 누르기까지 시간
+        private float timerForFirstSelect = 0;      //시작하기 누르고 첫 선택까지 시간
 
         //float TotalScenePlayingTime = 0;    //컨텐츠 시작부터 끝까지 총 시간 TimerForBeforeStarted + TotalElapsedTimeForCalc
 
@@ -83,15 +83,15 @@ namespace Scheduler
         int skipYn = 0;
 
         //------------- SOUND    
-        public AudioClip sound_Count;
-        public AudioClip sound_In;
-        public AudioClip sound_Click;
-        public AudioClip sound_Put;
-        AudioSource audioSource;
+        [FormerlySerializedAs("sound_Count")] public AudioClip soundCount;
+        [FormerlySerializedAs("sound_In")] public AudioClip soundIn;
+        [FormerlySerializedAs("sound_Click")] public AudioClip soundClick;
+        [FormerlySerializedAs("sound_Put")] public AudioClip soundPut;
+        private AudioSource audioSource;
 
         //------------- Manager
-        public Transform SetPlayerData;
-        public Transform GameDataManager;
+        [FormerlySerializedAs("SetPlayerData")] public Transform setPlayerData;
+        [FormerlySerializedAs("GameDataManager")] public Transform gameDataManager;
 
         void Start()
         {
@@ -99,16 +99,16 @@ namespace Scheduler
 
             beforeStart = true;
 
-            SlotList = new List<Transform>();
-            GrpList = new List<Transform>();
+            slotList = new List<Transform>();
+            grpList = new List<Transform>();
 
             InitSlotList();
             InitGrpList();
 
             collectData.AddTimeStamp("GUIDE START");
         }
-       
-        void Update()
+
+        private void Update()
         {
             if (leGogo)
             {
@@ -129,29 +129,29 @@ namespace Scheduler
                             timerMin = 0;
                         }
 
-                        string TextSec = "";
+                        string textSec = "";
 
                         if (timerSec < 10)
                         {
-                            TextSec = "0" + timerSec.ToString();
+                            textSec = "0" + timerSec.ToString();
                         }
                         else
                         {
-                            TextSec = timerSec.ToString();
+                            textSec = timerSec.ToString();
                         }
 
 
-                        TimerText.text = "0" + timerMin.ToString() + ":" + TextSec;
+                        timerText.text = "0" + timerMin.ToString() + ":" + textSec;
                     }
 
-                    if (!checkTimeLimit && totalElapsedTimeForCalc >= timeLimit)
+                    if (!checkTimeLimit && totalElapsedTimeForCalc >= TimeLimit)
                     {
                         //시간제한
                         checkTimeLimit = true;
                         StartCoroutine(TimeLimitAndKeepGoing());
                     }
 
-                    if (!checkTimeOut && totalElapsedTimeForCalc >= timeLimitForFinish)
+                    if (!checkTimeOut && totalElapsedTimeForCalc >= TimeLimitForFinish)
                     {
                         //강제종료
                         checkTimeOut = true;
@@ -180,19 +180,19 @@ namespace Scheduler
         IEnumerator TimeLimitAndKeepGoing()
         {
             collectData.AddTimeStamp("TIME LIMIT");
-            BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("LIMIT");
+            bgmController.GetComponent<BGMcontroller>().PlayBGMByTypes("LIMIT");
 
             timerSec = 30;
 
             yield return new WaitForSeconds(6);
 
-            BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
+            bgmController.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
         }
 
         IEnumerator TimeOutAndFinish()
         {
             collectData.AddTimeStamp("TIME OUT");
-            BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("OUT");
+            bgmController.GetComponent<BGMcontroller>().PlayBGMByTypes("OUT");
 
             yield return new WaitForSeconds(6);
 
@@ -209,54 +209,51 @@ namespace Scheduler
         List<Transform> InitSlotList()
         {
             
-            foreach (Transform s in Slot)
+            foreach (Transform s in slot)
             {
-                SlotList.Add(s);
+                slotList.Add(s);
             }
-            return SlotList;
+            return slotList;
         }
 
         List<Transform> InitGrpList()
         {                       
-            foreach (Transform g in Grp)
+            foreach (Transform g in grp)
             {
-                GrpList.Add(g);
+                grpList.Add(g);
             }
             Debug.Log("grpList 초기화");
-            return GrpList;
+            return grpList;
         }
 
         List<Transform> ResetGrpList()
         {            
             string keyword = "(Clone)";
             
-            foreach (Transform g in Grp)
+            foreach (Transform g in grp)
             {
                 if(g != null)
                 {
                     if (RemoveWord.EndsWithWord(g.name, keyword))
                     {
-                        GrpList.Remove(g);
+                        grpList.Remove(g);
                     }
                 }                                              
             }            
-            return GrpList;
+            return grpList;
         }
 
         public void LockAllCollision(Transform obj)
         {
-            foreach (Transform go in GrpList)
+            foreach (var go in grpList.Where(go => go != obj))
             {
-                if (go != obj)
-                {
-                    go.GetComponent<PlanCubeController1>().enabled = false;
-                }
+                go.GetComponent<PlanCubeController1>().enabled = false;
             }
         }
 
         public void ReleaseAllCollision()
         {
-            foreach (Transform go in GrpList)
+            foreach (Transform go in grpList)
             {
                 go.GetComponent<PlanCubeController1>().enabled = true;
             }
@@ -272,7 +269,7 @@ namespace Scheduler
         {
             bool check = false;
 
-            foreach (Transform s in SlotList)
+            foreach (Transform s in slotList)
             {
                 if (s.GetComponent<PlanSlotController1>().passenger != null)
                 {
@@ -291,28 +288,28 @@ namespace Scheduler
             {
                 StartCoroutine(ResetDelay());
 
-                foreach (var t in SlotList)
+                foreach (var t in slotList)
                 {
-                    t.GetComponent<PlanSlotController1>().resetPlanSlot();
+                    t.GetComponent<PlanSlotController1>().ResetPlanSlot();
                 }
                 
-                foreach(var t in SlotList)
+                foreach(var t in slotList)
                 {
                     StartCoroutine(t.GetComponent<PlanCubeController1>().resetPlanCube());
                 }
               
                 ResetGrpList();
 
-                Btn_Finish.gameObject.SetActive(false);
+                btnFinish.gameObject.SetActive(false);
                 resetCnt += 1;
             }
         }
 
         public void CheckAllScheduleOnSlot()
         {
-            bool AllDone = true;
+            var AllDone = true;
 
-            foreach (Transform aSlot in SlotList)
+            foreach (Transform aSlot in slotList)
             {
                 if (aSlot.GetComponent<PlanSlotController1>().passenger == null)
                 {
@@ -322,7 +319,7 @@ namespace Scheduler
 
             if (AllDone)
             {
-                Btn_Finish.gameObject.SetActive(true);
+                btnFinish.gameObject.SetActive(true);
             }
         }
 
@@ -335,21 +332,21 @@ namespace Scheduler
 
         IEnumerator StartCntDown()
         {
-            BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
+            bgmController.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
 
-            TextTitle.text = "준비 ~";
+            textTitle.text = "준비 ~";
 
             yield return new WaitForSeconds(1f);
             PlaySoundByTypes(ESoundType.Cnt);
-            TextTitle.text = "3";
+            textTitle.text = "3";
             yield return new WaitForSeconds(1);
             PlaySoundByTypes(ESoundType.Cnt);
-            TextTitle.text = "2";
+            textTitle.text = "2";
             yield return new WaitForSeconds(1);
             PlaySoundByTypes(ESoundType.Cnt);
-            TextTitle.text = "1";
+            textTitle.text = "1";
             yield return new WaitForSeconds(1);
-            TextTitle.text = "시작 !";
+            textTitle.text = "시작 !";
             yield return new WaitForSeconds(1f);
 
             intro.gameObject.SetActive(false);
@@ -369,13 +366,13 @@ namespace Scheduler
         public void ShowFinishPanel()
         {
             PlaySoundByTypes(ESoundType.Click);
-            Finish.gameObject.SetActive(true);
+            finish.gameObject.SetActive(true);
         }
 
         public void FinishPanel_No()
         {
             PlaySoundByTypes(ESoundType.Click);
-            Finish.gameObject.SetActive(false);
+            finish.gameObject.SetActive(false);
 
             selectNoCtn += 1;
         }
@@ -389,7 +386,7 @@ namespace Scheduler
             float PlanData = 0;
 
             board.gameObject.SetActive(false);
-            Finish.gameObject.SetActive(false);
+            finish.gameObject.SetActive(false);
             wellDoneAndBye.gameObject.SetActive(true);
 
             voiceRecording.StopRecordingNBehavior();
@@ -403,26 +400,24 @@ namespace Scheduler
             else
             {
                 skipYn = 0;
-                string MySchedule = "";
-                string MyScheduleForJson = "";
+                var myScheduleForJson = "";
 
-                foreach (Transform plan_Slot in SlotList)
+                foreach (Transform planSlot in slotList)
                 {
-                    Transform plan_Box = plan_Slot.GetComponent<PlanSlotController>().passenger.transform;
+                    Transform planBox = planSlot.GetComponent<PlanSlotController>().passenger.transform;
 
-                    if (plan_Box != null)
+                    if (planBox != null)
                     {
-                        MySchedule += plan_Box.GetChild(0).GetComponent<Text>().text + " ";
-                        MyScheduleForJson += plan_Box.GetChild(1).name;
+                        var text = planBox.GetChild(0).GetComponent<Text>().text + " ";
+                        myScheduleForJson += planBox.GetChild(1).name;
                     }
                     else
                     {
-                        MySchedule += "0 ";
-                        MyScheduleForJson += "0";
+                        myScheduleForJson += "0";
                     }
                 }
 
-                PlanData = float.Parse(MyScheduleForJson, System.Globalization.CultureInfo.InvariantCulture);
+                PlanData = float.Parse(myScheduleForJson, System.Globalization.CultureInfo.InvariantCulture);
             }
 
 
@@ -439,8 +434,8 @@ namespace Scheduler
 
 
             // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
-            scene2arr = new float[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, PlanData, skipYn, timerForBeforeStarted, timerForFirstSelect };
-            GameDataManager.GetComponent<GameDataManager>().SaveCurrentData();
+            scene2Arr = new float[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, PlanData, skipYn, timerForBeforeStarted, timerForFirstSelect };
+            gameDataManager.GetComponent<GameDataManager>().SaveCurrentData();
             StartCoroutine(GoToNextScene());
         }
 
@@ -462,24 +457,15 @@ namespace Scheduler
 
         public void PlaySoundByTypes(ESoundType soundType)
         {
-            audioSource.clip = null;
-
-            switch (soundType)
+            audioSource.clip = soundType switch
             {
-                case ESoundType.Click:
-                    audioSource.clip = sound_Click;
-                    break;
-                case ESoundType.In:
-                    audioSource.clip = sound_In;
-                    break;
-                case ESoundType.Cnt:
-                    audioSource.clip = sound_Count;
-                    break;
-                case ESoundType.Put:
-                    audioSource.clip = sound_Put;
-                    break;
-            }
-            audioSource.Play();            
+                ESoundType.Click => soundClick,
+                ESoundType.In => soundIn,
+                ESoundType.Cnt => soundCount,
+                ESoundType.Put => soundPut,
+                _ => null
+            };
+            audioSource.Play();
         }
     }
 

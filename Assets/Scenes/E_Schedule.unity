@@ -2625,7 +2625,17 @@ PrefabInstance:
       objectReference: {fileID: 157544900}
     - target: {fileID: 8960217609888956745, guid: 437db5f5351fa6247a971c974c70e06b,
         type: 3}
+      propertyPath: grp
+      value: 
+      objectReference: {fileID: 157544900}
+    - target: {fileID: 8960217609888956745, guid: 437db5f5351fa6247a971c974c70e06b,
+        type: 3}
       propertyPath: Canvas
+      value: 
+      objectReference: {fileID: 7428048669433816910}
+    - target: {fileID: 8960217609888956745, guid: 437db5f5351fa6247a971c974c70e06b,
+        type: 3}
+      propertyPath: canvas
       value: 
       objectReference: {fileID: 7428048669433816910}
     - target: {fileID: 8960217609888956745, guid: 437db5f5351fa6247a971c974c70e06b,
@@ -2636,6 +2646,11 @@ PrefabInstance:
     - target: {fileID: 8960217609888956745, guid: 437db5f5351fa6247a971c974c70e06b,
         type: 3}
       propertyPath: HandCursor
+      value: 
+      objectReference: {fileID: 1405856165229722246}
+    - target: {fileID: 8960217609888956745, guid: 437db5f5351fa6247a971c974c70e06b,
+        type: 3}
+      propertyPath: handCursor
       value: 
       objectReference: {fileID: 1405856165229722246}
     - target: {fileID: 8960217609888956745, guid: 437db5f5351fa6247a971c974c70e06b,
@@ -5441,28 +5456,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collectData: {fileID: 267640740}
   voiceRecording: {fileID: 267640741}
-  Intro: {fileID: 1787534863}
+  intro: {fileID: 1787534863}
   board: {fileID: 1879618241}
-  Finish: {fileID: 398394510}
-  WellDoneAndBye: {fileID: 95894952}
-  FinishCntDwn: {fileID: 743621968}
-  BGM_Controller: {fileID: 1275069353}
-  Result: {fileID: 1108226730}
-  Btn_Finish: {fileID: 1184697274}
-  TextTitle: {fileID: 112374438}
-  ToShow: {fileID: 2127198986}
-  Slot: {fileID: 976793244}
-  Grp: {fileID: 157544900}
-  TimerText: {fileID: 886456585}
-  scene2arr: []
-  TotalMovingCnt: 0
-  ResetCnt: 0
-  Sound_Count: {fileID: 8300000, guid: f6ba2c16c86180148906c2b6840404ae, type: 3}
-  Sound_In: {fileID: 8300000, guid: 96a66c8233acdff40a72e102fc819781, type: 3}
-  Sound_Click: {fileID: 8300000, guid: 3ceadf14726b0864fb39bb646c0f9ba0, type: 3}
-  Sound_Put: {fileID: 8300000, guid: 81a6bb18b866a9142a20ce5d3297bc32, type: 3}
-  SetPlayerData: {fileID: 2090270716}
-  GameDataManager: {fileID: 495000293}
+  finish: {fileID: 398394510}
+  wellDoneAndBye: {fileID: 95894952}
+  finishCntDwn: {fileID: 743621968}
+  bgmController: {fileID: 1275069353}
+  result: {fileID: 1108226730}
+  btnFinish: {fileID: 1184697274}
+  textTitle: {fileID: 112374438}
+  toShow: {fileID: 2127198986}
+  slot: {fileID: 976793244}
+  grp: {fileID: 157544900}
+  timerText: {fileID: 886456585}
+  grpList: []
+  scene2Arr: []
+  isReset: 0
+  totalMovingCnt: 0
+  resetCnt: 0
+  soundCount: {fileID: 8300000, guid: f6ba2c16c86180148906c2b6840404ae, type: 3}
+  soundIn: {fileID: 8300000, guid: 96a66c8233acdff40a72e102fc819781, type: 3}
+  soundClick: {fileID: 8300000, guid: 3ceadf14726b0864fb39bb646c0f9ba0, type: 3}
+  soundPut: {fileID: 8300000, guid: 81a6bb18b866a9142a20ce5d3297bc32, type: 3}
+  setPlayerData: {fileID: 2090270716}
+  gameDataManager: {fileID: 495000293}
 --- !u!82 &597562635
 AudioSource:
   m_ObjectHideFlags: 0
@@ -14398,6 +14415,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originPos: {fileID: 0}
   cardPrefab: {fileID: 325672392}
+  storedCard: {fileID: 0}
+  schManager: {fileID: 0}
   otherName: 
   isStored: 0
 --- !u!54 &1653360553
@@ -14511,6 +14530,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originPos: {fileID: 0}
   cardPrefab: {fileID: 1324663533}
+  storedCard: {fileID: 0}
+  schManager: {fileID: 0}
   otherName: 
   isStored: 0
 --- !u!222 &1653449871
@@ -19732,7 +19753,17 @@ PrefabInstance:
       objectReference: {fileID: 157544900}
     - target: {fileID: 24079193540402628, guid: debe9d0c9d0aeda48a7809507451b31d,
         type: 3}
+      propertyPath: grp
+      value: 
+      objectReference: {fileID: 157544900}
+    - target: {fileID: 24079193540402628, guid: debe9d0c9d0aeda48a7809507451b31d,
+        type: 3}
       propertyPath: Canvas
+      value: 
+      objectReference: {fileID: 7428048669433816910}
+    - target: {fileID: 24079193540402628, guid: debe9d0c9d0aeda48a7809507451b31d,
+        type: 3}
+      propertyPath: canvas
       value: 
       objectReference: {fileID: 7428048669433816910}
     - target: {fileID: 24079193540402628, guid: debe9d0c9d0aeda48a7809507451b31d,
@@ -19743,6 +19774,11 @@ PrefabInstance:
     - target: {fileID: 24079193540402628, guid: debe9d0c9d0aeda48a7809507451b31d,
         type: 3}
       propertyPath: HandCursor
+      value: 
+      objectReference: {fileID: 1405856165229722246}
+    - target: {fileID: 24079193540402628, guid: debe9d0c9d0aeda48a7809507451b31d,
+        type: 3}
+      propertyPath: handCursor
       value: 
       objectReference: {fileID: 1405856165229722246}
     - target: {fileID: 24079193540402628, guid: debe9d0c9d0aeda48a7809507451b31d,
@@ -33934,7 +33970,17 @@ PrefabInstance:
       objectReference: {fileID: 157544900}
     - target: {fileID: 1574199180251669699, guid: 6100f05628174bc4196a63197edb4b50,
         type: 3}
+      propertyPath: grp
+      value: 
+      objectReference: {fileID: 157544900}
+    - target: {fileID: 1574199180251669699, guid: 6100f05628174bc4196a63197edb4b50,
+        type: 3}
       propertyPath: Canvas
+      value: 
+      objectReference: {fileID: 7428048669433816910}
+    - target: {fileID: 1574199180251669699, guid: 6100f05628174bc4196a63197edb4b50,
+        type: 3}
+      propertyPath: canvas
       value: 
       objectReference: {fileID: 7428048669433816910}
     - target: {fileID: 1574199180251669699, guid: 6100f05628174bc4196a63197edb4b50,
@@ -33945,6 +33991,11 @@ PrefabInstance:
     - target: {fileID: 1574199180251669699, guid: 6100f05628174bc4196a63197edb4b50,
         type: 3}
       propertyPath: HandCursor
+      value: 
+      objectReference: {fileID: 1405856165229722246}
+    - target: {fileID: 1574199180251669699, guid: 6100f05628174bc4196a63197edb4b50,
+        type: 3}
+      propertyPath: handCursor
       value: 
       objectReference: {fileID: 1405856165229722246}
     - target: {fileID: 1574199180251669699, guid: 6100f05628174bc4196a63197edb4b50,
@@ -40902,7 +40953,17 @@ PrefabInstance:
       objectReference: {fileID: 157544900}
     - target: {fileID: 2353206459476390664, guid: 7fe9011d8a0925a499ebc36f2f7ffb17,
         type: 3}
+      propertyPath: grp
+      value: 
+      objectReference: {fileID: 157544900}
+    - target: {fileID: 2353206459476390664, guid: 7fe9011d8a0925a499ebc36f2f7ffb17,
+        type: 3}
       propertyPath: Canvas
+      value: 
+      objectReference: {fileID: 7428048669433816910}
+    - target: {fileID: 2353206459476390664, guid: 7fe9011d8a0925a499ebc36f2f7ffb17,
+        type: 3}
+      propertyPath: canvas
       value: 
       objectReference: {fileID: 7428048669433816910}
     - target: {fileID: 2353206459476390664, guid: 7fe9011d8a0925a499ebc36f2f7ffb17,
@@ -40913,6 +40974,11 @@ PrefabInstance:
     - target: {fileID: 2353206459476390664, guid: 7fe9011d8a0925a499ebc36f2f7ffb17,
         type: 3}
       propertyPath: HandCursor
+      value: 
+      objectReference: {fileID: 1405856165229722246}
+    - target: {fileID: 2353206459476390664, guid: 7fe9011d8a0925a499ebc36f2f7ffb17,
+        type: 3}
+      propertyPath: handCursor
       value: 
       objectReference: {fileID: 1405856165229722246}
     - target: {fileID: 2353206459476390664, guid: 7fe9011d8a0925a499ebc36f2f7ffb17,
@@ -43346,7 +43412,17 @@ PrefabInstance:
       objectReference: {fileID: 157544900}
     - target: {fileID: 2633503555941022022, guid: fda14af6ef864d14c97ba2f3e05261d6,
         type: 3}
+      propertyPath: grp
+      value: 
+      objectReference: {fileID: 157544900}
+    - target: {fileID: 2633503555941022022, guid: fda14af6ef864d14c97ba2f3e05261d6,
+        type: 3}
       propertyPath: Canvas
+      value: 
+      objectReference: {fileID: 7428048669433816910}
+    - target: {fileID: 2633503555941022022, guid: fda14af6ef864d14c97ba2f3e05261d6,
+        type: 3}
+      propertyPath: canvas
       value: 
       objectReference: {fileID: 7428048669433816910}
     - target: {fileID: 2633503555941022022, guid: fda14af6ef864d14c97ba2f3e05261d6,
@@ -43357,6 +43433,11 @@ PrefabInstance:
     - target: {fileID: 2633503555941022022, guid: fda14af6ef864d14c97ba2f3e05261d6,
         type: 3}
       propertyPath: HandCursor
+      value: 
+      objectReference: {fileID: 1405856165229722246}
+    - target: {fileID: 2633503555941022022, guid: fda14af6ef864d14c97ba2f3e05261d6,
+        type: 3}
+      propertyPath: handCursor
       value: 
       objectReference: {fileID: 1405856165229722246}
     - target: {fileID: 2633503555941022022, guid: fda14af6ef864d14c97ba2f3e05261d6,
@@ -52287,7 +52368,17 @@ PrefabInstance:
       objectReference: {fileID: 157544900}
     - target: {fileID: 3919214856862882226, guid: d001a1726fe1f784a9ade3747019173e,
         type: 3}
+      propertyPath: grp
+      value: 
+      objectReference: {fileID: 157544900}
+    - target: {fileID: 3919214856862882226, guid: d001a1726fe1f784a9ade3747019173e,
+        type: 3}
       propertyPath: Canvas
+      value: 
+      objectReference: {fileID: 7428048669433816910}
+    - target: {fileID: 3919214856862882226, guid: d001a1726fe1f784a9ade3747019173e,
+        type: 3}
+      propertyPath: canvas
       value: 
       objectReference: {fileID: 7428048669433816910}
     - target: {fileID: 3919214856862882226, guid: d001a1726fe1f784a9ade3747019173e,
@@ -52298,6 +52389,11 @@ PrefabInstance:
     - target: {fileID: 3919214856862882226, guid: d001a1726fe1f784a9ade3747019173e,
         type: 3}
       propertyPath: HandCursor
+      value: 
+      objectReference: {fileID: 1405856165229722246}
+    - target: {fileID: 3919214856862882226, guid: d001a1726fe1f784a9ade3747019173e,
+        type: 3}
+      propertyPath: handCursor
       value: 
       objectReference: {fileID: 1405856165229722246}
     - target: {fileID: 3919214856862882226, guid: d001a1726fe1f784a9ade3747019173e,
@@ -53231,7 +53327,17 @@ PrefabInstance:
       objectReference: {fileID: 157544900}
     - target: {fileID: 4053352589762739939, guid: 731c4a1b61e20804eb5ce94c4c5ab6c1,
         type: 3}
+      propertyPath: grp
+      value: 
+      objectReference: {fileID: 157544900}
+    - target: {fileID: 4053352589762739939, guid: 731c4a1b61e20804eb5ce94c4c5ab6c1,
+        type: 3}
       propertyPath: Canvas
+      value: 
+      objectReference: {fileID: 7428048669433816910}
+    - target: {fileID: 4053352589762739939, guid: 731c4a1b61e20804eb5ce94c4c5ab6c1,
+        type: 3}
+      propertyPath: canvas
       value: 
       objectReference: {fileID: 7428048669433816910}
     - target: {fileID: 4053352589762739939, guid: 731c4a1b61e20804eb5ce94c4c5ab6c1,
@@ -53242,6 +53348,11 @@ PrefabInstance:
     - target: {fileID: 4053352589762739939, guid: 731c4a1b61e20804eb5ce94c4c5ab6c1,
         type: 3}
       propertyPath: HandCursor
+      value: 
+      objectReference: {fileID: 1405856165229722246}
+    - target: {fileID: 4053352589762739939, guid: 731c4a1b61e20804eb5ce94c4c5ab6c1,
+        type: 3}
+      propertyPath: handCursor
       value: 
       objectReference: {fileID: 1405856165229722246}
     - target: {fileID: 4053352589762739939, guid: 731c4a1b61e20804eb5ce94c4c5ab6c1,
@@ -68068,7 +68179,17 @@ PrefabInstance:
       objectReference: {fileID: 157544900}
     - target: {fileID: 5833900865456910614, guid: 7b000983e3e1321489e2b8e9f2bbef93,
         type: 3}
+      propertyPath: grp
+      value: 
+      objectReference: {fileID: 157544900}
+    - target: {fileID: 5833900865456910614, guid: 7b000983e3e1321489e2b8e9f2bbef93,
+        type: 3}
       propertyPath: Canvas
+      value: 
+      objectReference: {fileID: 7428048669433816910}
+    - target: {fileID: 5833900865456910614, guid: 7b000983e3e1321489e2b8e9f2bbef93,
+        type: 3}
+      propertyPath: canvas
       value: 
       objectReference: {fileID: 7428048669433816910}
     - target: {fileID: 5833900865456910614, guid: 7b000983e3e1321489e2b8e9f2bbef93,
@@ -68079,6 +68200,11 @@ PrefabInstance:
     - target: {fileID: 5833900865456910614, guid: 7b000983e3e1321489e2b8e9f2bbef93,
         type: 3}
       propertyPath: HandCursor
+      value: 
+      objectReference: {fileID: 1405856165229722246}
+    - target: {fileID: 5833900865456910614, guid: 7b000983e3e1321489e2b8e9f2bbef93,
+        type: 3}
+      propertyPath: handCursor
       value: 
       objectReference: {fileID: 1405856165229722246}
     - target: {fileID: 5833900865456910614, guid: 7b000983e3e1321489e2b8e9f2bbef93,
@@ -84299,7 +84425,17 @@ PrefabInstance:
       objectReference: {fileID: 157544900}
     - target: {fileID: 7726237006052165722, guid: 4d507b46dabc9ff4b98f63426346c4ce,
         type: 3}
+      propertyPath: grp
+      value: 
+      objectReference: {fileID: 157544900}
+    - target: {fileID: 7726237006052165722, guid: 4d507b46dabc9ff4b98f63426346c4ce,
+        type: 3}
       propertyPath: Canvas
+      value: 
+      objectReference: {fileID: 7428048669433816910}
+    - target: {fileID: 7726237006052165722, guid: 4d507b46dabc9ff4b98f63426346c4ce,
+        type: 3}
+      propertyPath: canvas
       value: 
       objectReference: {fileID: 7428048669433816910}
     - target: {fileID: 7726237006052165722, guid: 4d507b46dabc9ff4b98f63426346c4ce,
@@ -84310,6 +84446,11 @@ PrefabInstance:
     - target: {fileID: 7726237006052165722, guid: 4d507b46dabc9ff4b98f63426346c4ce,
         type: 3}
       propertyPath: HandCursor
+      value: 
+      objectReference: {fileID: 1405856165229722246}
+    - target: {fileID: 7726237006052165722, guid: 4d507b46dabc9ff4b98f63426346c4ce,
+        type: 3}
+      propertyPath: handCursor
       value: 
       objectReference: {fileID: 1405856165229722246}
     - target: {fileID: 7726237006052165722, guid: 4d507b46dabc9ff4b98f63426346c4ce,
@@ -85390,7 +85531,17 @@ PrefabInstance:
       objectReference: {fileID: 157544900}
     - target: {fileID: 7858800569098473017, guid: 5f24a489473190a4b913eee4f4b28ebf,
         type: 3}
+      propertyPath: grp
+      value: 
+      objectReference: {fileID: 157544900}
+    - target: {fileID: 7858800569098473017, guid: 5f24a489473190a4b913eee4f4b28ebf,
+        type: 3}
       propertyPath: Canvas
+      value: 
+      objectReference: {fileID: 7428048669433816910}
+    - target: {fileID: 7858800569098473017, guid: 5f24a489473190a4b913eee4f4b28ebf,
+        type: 3}
+      propertyPath: canvas
       value: 
       objectReference: {fileID: 7428048669433816910}
     - target: {fileID: 7858800569098473017, guid: 5f24a489473190a4b913eee4f4b28ebf,
@@ -85401,6 +85552,11 @@ PrefabInstance:
     - target: {fileID: 7858800569098473017, guid: 5f24a489473190a4b913eee4f4b28ebf,
         type: 3}
       propertyPath: HandCursor
+      value: 
+      objectReference: {fileID: 1405856165229722246}
+    - target: {fileID: 7858800569098473017, guid: 5f24a489473190a4b913eee4f4b28ebf,
+        type: 3}
+      propertyPath: handCursor
       value: 
       objectReference: {fileID: 1405856165229722246}
     - target: {fileID: 7858800569098473017, guid: 5f24a489473190a4b913eee4f4b28ebf,
@@ -88848,7 +89004,17 @@ PrefabInstance:
       objectReference: {fileID: 157544900}
     - target: {fileID: 8234463149971801435, guid: 1597bfeac9bb4b847a4c20ad24229424,
         type: 3}
+      propertyPath: grp
+      value: 
+      objectReference: {fileID: 157544900}
+    - target: {fileID: 8234463149971801435, guid: 1597bfeac9bb4b847a4c20ad24229424,
+        type: 3}
       propertyPath: Canvas
+      value: 
+      objectReference: {fileID: 7428048669433816910}
+    - target: {fileID: 8234463149971801435, guid: 1597bfeac9bb4b847a4c20ad24229424,
+        type: 3}
+      propertyPath: canvas
       value: 
       objectReference: {fileID: 7428048669433816910}
     - target: {fileID: 8234463149971801435, guid: 1597bfeac9bb4b847a4c20ad24229424,
@@ -88859,6 +89025,11 @@ PrefabInstance:
     - target: {fileID: 8234463149971801435, guid: 1597bfeac9bb4b847a4c20ad24229424,
         type: 3}
       propertyPath: HandCursor
+      value: 
+      objectReference: {fileID: 1405856165229722246}
+    - target: {fileID: 8234463149971801435, guid: 1597bfeac9bb4b847a4c20ad24229424,
+        type: 3}
+      propertyPath: handCursor
       value: 
       objectReference: {fileID: 1405856165229722246}
     - target: {fileID: 8234463149971801435, guid: 1597bfeac9bb4b847a4c20ad24229424,
@@ -89911,7 +90082,17 @@ PrefabInstance:
       objectReference: {fileID: 157544900}
     - target: {fileID: 8341718877787721205, guid: 2df16f9aeee855241895d7c097343657,
         type: 3}
+      propertyPath: grp
+      value: 
+      objectReference: {fileID: 157544900}
+    - target: {fileID: 8341718877787721205, guid: 2df16f9aeee855241895d7c097343657,
+        type: 3}
       propertyPath: Canvas
+      value: 
+      objectReference: {fileID: 7428048669433816910}
+    - target: {fileID: 8341718877787721205, guid: 2df16f9aeee855241895d7c097343657,
+        type: 3}
+      propertyPath: canvas
       value: 
       objectReference: {fileID: 7428048669433816910}
     - target: {fileID: 8341718877787721205, guid: 2df16f9aeee855241895d7c097343657,
@@ -89922,6 +90103,11 @@ PrefabInstance:
     - target: {fileID: 8341718877787721205, guid: 2df16f9aeee855241895d7c097343657,
         type: 3}
       propertyPath: HandCursor
+      value: 
+      objectReference: {fileID: 1405856165229722246}
+    - target: {fileID: 8341718877787721205, guid: 2df16f9aeee855241895d7c097343657,
+        type: 3}
+      propertyPath: handCursor
       value: 
       objectReference: {fileID: 1405856165229722246}
     - target: {fileID: 8341718877787721205, guid: 2df16f9aeee855241895d7c097343657,
@@ -94607,7 +94793,17 @@ PrefabInstance:
       objectReference: {fileID: 157544900}
     - target: {fileID: 8947846084373547617, guid: 55aa480aca0382349a840d82b75d5354,
         type: 3}
+      propertyPath: grp
+      value: 
+      objectReference: {fileID: 157544900}
+    - target: {fileID: 8947846084373547617, guid: 55aa480aca0382349a840d82b75d5354,
+        type: 3}
       propertyPath: Canvas
+      value: 
+      objectReference: {fileID: 7428048669433816910}
+    - target: {fileID: 8947846084373547617, guid: 55aa480aca0382349a840d82b75d5354,
+        type: 3}
+      propertyPath: canvas
       value: 
       objectReference: {fileID: 7428048669433816910}
     - target: {fileID: 8947846084373547617, guid: 55aa480aca0382349a840d82b75d5354,
@@ -94618,6 +94814,11 @@ PrefabInstance:
     - target: {fileID: 8947846084373547617, guid: 55aa480aca0382349a840d82b75d5354,
         type: 3}
       propertyPath: HandCursor
+      value: 
+      objectReference: {fileID: 1405856165229722246}
+    - target: {fileID: 8947846084373547617, guid: 55aa480aca0382349a840d82b75d5354,
+        type: 3}
+      propertyPath: handCursor
       value: 
       objectReference: {fileID: 1405856165229722246}
     - target: {fileID: 8947846084373547617, guid: 55aa480aca0382349a840d82b75d5354,
@@ -94911,7 +95112,17 @@ PrefabInstance:
       objectReference: {fileID: 157544900}
     - target: {fileID: 8972709724300043954, guid: eb5f32b6d8220f94dbc4dbfb401eb179,
         type: 3}
+      propertyPath: grp
+      value: 
+      objectReference: {fileID: 157544900}
+    - target: {fileID: 8972709724300043954, guid: eb5f32b6d8220f94dbc4dbfb401eb179,
+        type: 3}
       propertyPath: Canvas
+      value: 
+      objectReference: {fileID: 7428048669433816910}
+    - target: {fileID: 8972709724300043954, guid: eb5f32b6d8220f94dbc4dbfb401eb179,
+        type: 3}
+      propertyPath: canvas
       value: 
       objectReference: {fileID: 7428048669433816910}
     - target: {fileID: 8972709724300043954, guid: eb5f32b6d8220f94dbc4dbfb401eb179,
@@ -94922,6 +95133,11 @@ PrefabInstance:
     - target: {fileID: 8972709724300043954, guid: eb5f32b6d8220f94dbc4dbfb401eb179,
         type: 3}
       propertyPath: HandCursor
+      value: 
+      objectReference: {fileID: 1405856165229722246}
+    - target: {fileID: 8972709724300043954, guid: eb5f32b6d8220f94dbc4dbfb401eb179,
+        type: 3}
+      propertyPath: handCursor
       value: 
       objectReference: {fileID: 1405856165229722246}
     - target: {fileID: 8972709724300043954, guid: eb5f32b6d8220f94dbc4dbfb401eb179,
