@@ -12,10 +12,10 @@ public class SkipForSchedule1 : MonoBehaviour
     bool bActive = false;
     public CanvasGroup FinishCanvas;
     private Coroutine coroutine = null;
-    string debugstring;
+    private string debugString;
     Transform Fin1;
     Transform Fin2;
-    public int buildindex;
+    public int buildIndex;
 
     public Transform ScheduleManager;
 
@@ -51,7 +51,7 @@ public class SkipForSchedule1 : MonoBehaviour
         {
             if (bActive) // if hand is what touching button
             {
-                ScheduleManager.GetComponent<ScheduleManager>().FinishPanel_Yes(true);
+                ScheduleManager.GetComponent<Scheduler.ScheduleManager1>().FinishPanel_Yes(true);
                 coroutine = StartCoroutine(NextScene());
             }
         }
@@ -104,6 +104,6 @@ public class SkipForSchedule1 : MonoBehaviour
         Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "1";
         yield return new WaitForSeconds(1.0f);
 
-        SceneLoader.LoadScene(buildindex);
+        SceneLoader.LoadScene(buildIndex);
     }
 }

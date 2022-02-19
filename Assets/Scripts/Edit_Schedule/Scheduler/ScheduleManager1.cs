@@ -52,9 +52,9 @@ namespace Scheduler
         private List<Transform> slotList; 
         [SerializeField] private List<Transform> grpList;
 
-        public float[] scene2Arr;
+        public float[] Scene2Arr { get; set; }
 
-        public bool isReset = false;
+        public bool isReset;
 
         private bool leGogo = false;
         private bool beforeStart = false;
@@ -78,9 +78,9 @@ namespace Scheduler
 
         public int totalMovingCnt = 0;      //이동 횟수
         public int resetCnt = 0;            //초기화 누른 횟수
-        int selectNoCtn = 0;                 //아니오 누른 횟수
+        private int selectNoCtn = 0;                 //아니오 누른 횟수
 
-        int skipYn = 0;
+        private int skipYn = 0;
 
         //------------- SOUND    
         [FormerlySerializedAs("sound_Count")] public AudioClip soundCount;
@@ -93,11 +93,12 @@ namespace Scheduler
         [FormerlySerializedAs("SetPlayerData")] public Transform setPlayerData;
         [FormerlySerializedAs("GameDataManager")] public Transform gameDataManager;
 
-        void Start()
+        private void Start()
         {
             audioSource = this.GetComponent<AudioSource>();
 
             beforeStart = true;
+            isReset = false;
 
             slotList = new List<Transform>();
             grpList = new List<Transform>();
@@ -189,7 +190,7 @@ namespace Scheduler
             bgmController.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
         }
 
-        IEnumerator TimeOutAndFinish()
+        private IEnumerator TimeOutAndFinish()
         {
             collectData.AddTimeStamp("TIME OUT");
             bgmController.GetComponent<BGMcontroller>().PlayBGMByTypes("OUT");
@@ -197,16 +198,16 @@ namespace Scheduler
             yield return new WaitForSeconds(6);
 
             FinishPanel_Yes(true);
-        }      
+        }
 
-        IEnumerator ResetDelay()
+        private IEnumerator ResetDelay()
         {
             isReset = true;
             yield return new WaitForSeconds(0.05f);
             isReset = false;           
         }
 
-        List<Transform> InitSlotList()
+        private List<Transform> InitSlotList()
         {
             
             foreach (Transform s in slot)
@@ -216,7 +217,7 @@ namespace Scheduler
             return slotList;
         }
 
-        List<Transform> InitGrpList()
+        private List<Transform> InitGrpList()
         {                       
             foreach (Transform g in grp)
             {
@@ -280,7 +281,7 @@ namespace Scheduler
             return check;
         }
 
-        public void reSetAll()
+        public void ReSetAll()
         {
             PlaySoundByTypes(ESoundType.Click);
 
@@ -307,17 +308,14 @@ namespace Scheduler
 
         public void CheckAllScheduleOnSlot()
         {
-            var AllDone = true;
+            var allDone = true;
 
-            foreach (Transform aSlot in slotList)
+            foreach (var aSlot in slotList.Where(aSlot => aSlot.GetComponent<PlanSlotController1>().passenger == null))
             {
-                if (aSlot.GetComponent<PlanSlotController1>().passenger == null)
-                {
-                    AllDone = false;
-                }
+                allDone = false;
             }
 
-            if (AllDone)
+            if (allDone)
             {
                 btnFinish.gameObject.SetActive(true);
             }
@@ -402,10 +400,8 @@ namespace Scheduler
                 skipYn = 0;
                 var myScheduleForJson = "";
 
-                foreach (Transform planSlot in slotList)
+                foreach (var planBox in slotList.Select(planSlot => planSlot.GetComponent<PlanSlotController>().passenger.transform))
                 {
-                    Transform planBox = planSlot.GetComponent<PlanSlotController>().passenger.transform;
-
                     if (planBox != null)
                     {
                         var text = planBox.GetChild(0).GetComponent<Text>().text + " ";
@@ -434,12 +430,12 @@ namespace Scheduler
 
 
             // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
-            scene2Arr = new float[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, PlanData, skipYn, timerForBeforeStarted, timerForFirstSelect };
+            Scene2Arr = new[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, PlanData, skipYn, timerForBeforeStarted, timerForFirstSelect };
             gameDataManager.GetComponent<GameDataManager>().SaveCurrentData();
             StartCoroutine(GoToNextScene());
         }
 
-        IEnumerator GoToNextScene()
+        private IEnumerator GoToNextScene()
         {
             yield return new WaitForSeconds(2);
 
@@ -468,6 +464,4 @@ namespace Scheduler
             audioSource.Play();
         }
     }
-
 }
-

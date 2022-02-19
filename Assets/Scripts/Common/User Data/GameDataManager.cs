@@ -1,23 +1,25 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UserData;
 
 public class GameDataManager : MonoBehaviour
 {
-    [SerializeField] GameObject pController;
+    [SerializeField] private GameObject pController;
 
     public int sceneIndex;
-    public int key_rowIndex;
+    [FormerlySerializedAs("key_rowIndex")] public int keyRowIndex;
     public GameObject objToFind;
 
-    public SetPlayerData setPlayerData;      
+    public SetPlayerData setPlayerData;
 
-    delegate void SaveCurrentSceneData(int SceneIndex);
-    SaveCurrentSceneData saveCurrentSceneData;
+    private delegate void SaveCurrentSceneData(int SceneIndex);
 
-    void Awake()
+    private SaveCurrentSceneData saveCurrentSceneData;
+
+    private void Awake()
     {                
-        string sceneName = SceneManager.GetActiveScene().name;
+        var sceneName = SceneManager.GetActiveScene().name;
         if (!DataManager.GetInstance().isPlayed && sceneName != "Tutorial")
         {
             DataManager.GetInstance().isPlayed = true;
@@ -27,20 +29,17 @@ public class GameDataManager : MonoBehaviour
             Debug.Log("Data Creat!");
         }
 
-        if (!DataManager.GetInstance().isTest)
-        {
-            pController = GameObject.Find("PlayerController");
-            if (pController != null)
-            {
-                pController.GetComponent<BNG.SmoothLocomotion>().AllowInput = false;
-                pController.GetComponent<BNG.PlayerRotation>().AllowInput = false;
-            }
-        }
+        if (DataManager.GetInstance().isTest) return;
+        pController = GameObject.Find("PlayerController");
+        
+        if (pController == null) return;
+        pController.GetComponent<BNG.SmoothLocomotion>().AllowInput = false;
+        pController.GetComponent<BNG.PlayerRotation>().AllowInput = false;
     }
 
-    void Start()
+    private void Start()
     {
-        string sceneName = SceneManager.GetActiveScene().name;
+        var sceneName = SceneManager.GetActiveScene().name;
 
         if (DataManager.GetInstance().isPlayed == true)
         {
@@ -55,9 +54,9 @@ public class GameDataManager : MonoBehaviour
         }
 
         CheckSaveDataTypes();        
-    }   
-       
-    void CheckSaveDataTypes()
+    }
+
+    private void CheckSaveDataTypes()
     {
         sceneIndex = SceneManager.GetActiveScene().buildIndex;        
 
@@ -84,7 +83,7 @@ public class GameDataManager : MonoBehaviour
             case 6: //PlayPaddle
                 saveCurrentSceneData = SetData_pm;                                
                 break;
-            case 7: //bagpacking H
+            case 7: //Bagpacking H
                 objToFind = FindObjectOfType<TempScriptJason>().gameObject;
                 saveCurrentSceneData = SetData;                               
                 break;
@@ -108,12 +107,12 @@ public class GameDataManager : MonoBehaviour
         DataManager.GetInstance().Invoke("SavePlayerDataToJson", 0.1f);
     }
 
-    public void SetData(int sceneIndex)
+    private void SetData(int sceneIndex)
     {        
         switch (sceneIndex)
         {            
             case 2: //Schedule                
-                setPlayerData.SetSceneData(objToFind.GetComponent<ScheduleManager>().scene2arr);
+                setPlayerData.SetSceneData(objToFind.GetComponent<Scheduler.ScheduleManager1>().Scene2Arr);
                 break;
             case 3: //BP L
                 setPlayerData.SetSceneData(objToFind.GetComponent<TempScriptJason>().arrFloat);
@@ -139,7 +138,7 @@ public class GameDataManager : MonoBehaviour
         }      
     }
 
-    public void SetData_pm(int sceneIndex)
+    private void SetData_pm(int sceneIndex)
     {        
         GameObject.Find("SetPlayerData").SendMessage("SetSceneData");
     }    

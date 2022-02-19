@@ -28,10 +28,8 @@ public class DisturbChecker1 : MonoBehaviour
 
     private void OnTriggerExit(Collider collision)
     {
-        if (collision.tag == "Grabber")
-        {
-            Debug.Log("Grabber_OUT");
-            BehaviorMG.GetComponent<BNG.CollectData>().AddTimeStamp("DISTURB END");
-        }
+        if (collision.tag != "Grabber") return;
+        Debug.Log("Grabber_OUT");
+        BehaviorMG.GetComponent<BNG.CollectData>().AddTimeStamp("DISTURB END");
     }
 }

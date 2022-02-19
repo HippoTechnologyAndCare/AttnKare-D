@@ -4722,7 +4722,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 597562634}
         m_TargetAssemblyTypeName: ScheduleManager1, Assembly-CSharp
-        m_MethodName: reSetAll
+        m_MethodName: ReSetAll
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5470,7 +5470,6 @@ MonoBehaviour:
   grp: {fileID: 157544900}
   timerText: {fileID: 886456585}
   grpList: []
-  scene2Arr: []
   isReset: 0
   totalMovingCnt: 0
   resetCnt: 0
@@ -16956,7 +16955,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onButtonDown.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1881490323}
+      objectReference: {fileID: 0}
     - target: {fileID: 2241436189192890596, guid: e4ba92361369c7a4db66ed05d1cad342,
         type: 3}
       propertyPath: onButtonDown.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -17055,11 +17054,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1881490322}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f50476b5ed4aef645b58b844229ac3af, type: 3}
+  m_Script: {fileID: 11500000, guid: d217b5b6413f4f54fa5cd11436366be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   FinishCanvas: {fileID: 301691092}
-  buildindex: 3
+  buildIndex: 3
   ScheduleManager: {fileID: 597562632}
 --- !u!1 &1886172739
 GameObject:
@@ -19425,7 +19424,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2127198985
 RectTransform:
   m_ObjectHideFlags: 0
