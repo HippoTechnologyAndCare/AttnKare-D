@@ -113,9 +113,11 @@ public class Hud_Paddle : MonoBehaviour
 
     public void PlayNarration(AudioClip audioClip, bool loop)
     {
+        bCoroutine = true;
         m_audioNarration.clip = audioClip;
         m_audioNarration.Play();
         m_audioNarration.loop = loop;
+        bCoroutine = false;
 
     }
 
