@@ -11,7 +11,6 @@ public class PaddleCollider : MonoBehaviour
     int c;
     public bool bPaddle = true;
     public bool bORDER = false;
-
     Guide_Paddle Guide;
     private void Start()
     {
@@ -29,7 +28,7 @@ public class PaddleCollider : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         nStage = Manager_Paddle.intStage;
-        if (collision.collider.tag == "HANDLE_MY")
+        if (collision.collider.tag == "HANDLE_MY" && GrabPaddle.HOLDING)
         {
             if (e_HANDLE == HANDLE.UP)
             {

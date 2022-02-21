@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BNG;
+using KetosGames.SceneTransition;
 
 public class Manager_Paddle : MonoBehaviour
 {

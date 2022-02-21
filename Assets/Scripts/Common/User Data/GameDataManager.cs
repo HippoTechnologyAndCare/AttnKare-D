@@ -81,7 +81,8 @@ public class GameDataManager : MonoBehaviour
                 saveCurrentSceneData = SetData_pm;                            
                 break;
             case 6: //PlayPaddle
-                saveCurrentSceneData = SetData_pm;                                
+                objToFind = FindObjectOfType<Guide_Paddle>().gameObject;
+                saveCurrentSceneData = SetData;                                
                 break;
             case 7: //Bagpacking H
                 objToFind = FindObjectOfType<TempScriptJason>().gameObject;
@@ -124,7 +125,7 @@ public class GameDataManager : MonoBehaviour
                 
                 break;
             case 6: //PlayPaddle
-                
+                setPlayerData.SetSceneData(objToFind.GetComponent<Guide_Paddle>().arrData);
                 break;
             case 7: //bagpacking H
                 setPlayerData.SetSceneData(objToFind.GetComponent<TempScriptJason>().arrFloat);

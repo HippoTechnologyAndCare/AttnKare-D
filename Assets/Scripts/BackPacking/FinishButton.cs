@@ -15,7 +15,6 @@ public class FinishButton : MonoBehaviour
     private Coroutine coroutine = null;
     Transform Fin1;
     Transform Fin2;
-    public int buildindex;
     public UnityEvent NextEvent;
 
     // Start is called before the first frame update

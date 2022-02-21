@@ -7,8 +7,11 @@ using TMPro;
 public class Hud_Paddle : MonoBehaviour
 {
     public Text txtButton;
+    public Canvas canvasDistance;
     public TextMeshProUGUI txtDISTANCE;
     public TextMeshProUGUI txtERROR;
+    public Canvas canvasFinish;
+    TextMeshProUGUI txtFinish;
     public AudioClip[] clipNarration;
     /*
      * [0] : Guide
@@ -57,7 +60,6 @@ public class Hud_Paddle : MonoBehaviour
 
     public void AudioController(string text)
     {
-        txtERROR.text = text;
         if (!bCoroutine)
         {
             switch (text)
@@ -83,15 +85,16 @@ public class Hud_Paddle : MonoBehaviour
         m_audioEffect.clip = clipEffect[0];
         m_audioEffect.Play();
         txtButton.text = "3";
-        yield return new WaitForSeconds(.7f);
+        yield return new WaitForSeconds(.9f);
         m_audioEffect.Play();
         txtButton.text = "2";
-        yield return new WaitForSeconds(.7f);
+        yield return new WaitForSeconds(.9f);
         m_audioEffect.Play();
         txtButton.text = "1";
-        yield return new WaitForSeconds(.7f);
+        yield return new WaitForSeconds(.9f);
         txtButton.transform.parent.parent.gameObject.SetActive(false);
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(2f);
+        canvasDistance.gameObject.SetActive(true);
         bCoroutine = false;
 
 
@@ -114,5 +117,22 @@ public class Hud_Paddle : MonoBehaviour
         m_audioNarration.Play();
         m_audioNarration.loop = loop;
 
+    }
+
+    public IEnumerator NextScene()
+    {
+        bCoroutine = true;
+        canvasFinish.gameObject.SetActive(true);
+        canvasDistance.gameObject.SetActive(false);
+        txtFinish= canvasFinish.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        txtFinish.text = "이동합니다";
+        yield return new WaitForSeconds(0.9f);
+        txtFinish.text = "3";
+        yield return new WaitForSeconds(0.9f);
+        txtFinish.text = "2";
+        yield return new WaitForSeconds(0.9f);
+        txtFinish.text = "1";
+        yield return new WaitForSeconds(0.5f);
+        bCoroutine = false;
     }
 }
