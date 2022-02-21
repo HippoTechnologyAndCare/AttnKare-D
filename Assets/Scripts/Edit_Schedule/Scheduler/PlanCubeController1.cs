@@ -32,24 +32,25 @@ namespace Scheduler
 
         [FormerlySerializedAs("cardCreator")] [SerializeField] OriginPosController originPosController;
 
-        [SerializeField] GameObject originPos_P;
+        [FormerlySerializedAs("originPos_P")] [SerializeField] GameObject originPosP;
 
 
         //[SerializeField] Transform originPos;
         [SerializeField] private GameObject cardPrb;
+        [SerializeField] private GameObject prevActSlot;
         [SerializeField] private GameObject prevSlot;
         [SerializeField] Transform cube;
         
         //[SerializeField] bool isWorking;
 
-        private UIPointer uiPointer;
+        private UIPointer _uiPointer;
 
-        private Vector3 vec2Pos;
+        private Vector3 _vec2Pos;
         private Vector3 zPos;
 
         //[SerializeField] bool working;
-        private bool nowClicked = false;
-        private bool pointerOnCube = false;
+        [SerializeField] private bool nowClicked = false;
+        private bool _pointerOnCube = false;
         
         //test
         [SerializeField] private List<GameObject> slots;
@@ -67,7 +68,7 @@ namespace Scheduler
             cardPrb = gameObject;
             zPos.z = 2.21874f;
             startPos = transform.localPosition;
-            uiPointer = handCursor.GetComponent<BNG.UIPointer>();
+            _uiPointer = handCursor.GetComponent<BNG.UIPointer>();
         }
 
         private void FixedUpdate()
@@ -75,14 +76,17 @@ namespace Scheduler
             if (!nowClicked) return;
             if (handCursor.GetComponent<LineRenderer>().enabled)
             {
-                MoveCard();
+                if (_pointerOnCube)
+                {
+                    MoveCard();
+                }
             }
             else
             {
                 Debug.Log("???");
             }
 
-            if (pointerOnCube || handController.PointAmount != 1) return;
+            if (_pointerOnCube || handController.PointAmount != 1) return;
             transform.SetParent(grp);
             scheduleManager.ReleaseAllCollision();
             scheduleManager.PlaySoundByTypes(ESoundType.Put);
@@ -96,9 +100,9 @@ namespace Scheduler
 
         private void FindOriginPos()
         {
-            originPos_P = GameObject.Find("Origin Pos");
+            originPosP = GameObject.Find("Origin Pos");
             var myName = name.Replace("(Clone)", "");
-            originPosController = originPos_P.transform.Find(myName).GetComponent<OriginPosController>();            
+            originPosController = originPosP.transform.Find(myName).GetComponent<OriginPosController>();            
         }
 
         private void MoveCard()
@@ -106,24 +110,30 @@ namespace Scheduler
             // LaserEnd의 포지션을 따라간다
             cardState = CardState.Move;
             Vector2 a = transform.position;
-            Vector2 b = uiPointer._cursor.transform.position;
-            vec2Pos = Vector2.Lerp(a, b, t);
-            vec2Pos.z = zPos.z;
-            transform.position = vec2Pos;
+            Vector2 b = _uiPointer._cursor.transform.position;
+            _vec2Pos = Vector2.Lerp(a, b, t);
+            _vec2Pos.z = zPos.z;
+            transform.position = _vec2Pos;
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
             nowClicked = true;
-            transform.SetParent(canvas);
-            scheduleManager.LockAllCollision(transform);
+            Transform transform1;
+            (transform1 = transform).SetParent(canvas);
+            scheduleManager.LockAllCollision(transform1);
+            Debug.Log("pointerDown은 연속인가");
             //아래 조건문에 activeSlot아니고 intoSlot일 수도 있음
-            if(activeSlot == null) return;
-            MeshRendererOn(activeSlot);
+            if (activeSlot != null && !scheduleManager.pointerLock)
+            {
+                scheduleManager.pointerLock = true;
+                MeshRendererOn(activeSlot);
+            }
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            scheduleManager.pointerLock = false;
             transform.SetParent(grp);
             scheduleManager.ReleaseAllCollision();
             scheduleManager.PlaySoundByTypes(ESoundType.Put);
@@ -165,13 +175,13 @@ namespace Scheduler
                     //새로운 슬롯에 이미 계획이 있는 경우
                     if (activeSlot == null /*&& workingSlot.GetComponent<PlanSlotController1>().passenger == null*/) //현재 할당된 슬롯이 없는 경우
                     {
-                        Debug.Log("요기요");
+                        // 새로운 슬롯에 있던 카드 먼저 처리 프로세스
                         var cardB = workingSlot.GetComponent<PlanSlotController1>().passenger;
-                        cardB.GetComponent<PlanCubeController1>().activeSlot = null;
                         cardB.GetComponent<PlanCubeController1>().originPosController.CardDestroyer(cardB);
+                        //cardB.GetComponent<PlanCubeController1>().activeSlot = null;
                         activeSlot = workingSlot;
                         //workingSlot.GetComponent<PlanSlotController1>().passenger.GetComponent<PlanCubeController1>().resetPlanCube(0.07f);
-                        if (!isHomeTW && !originPosController.isStored)
+                        if (!isHomeTW && originPosController.storedCard == null)
                         {
                             if(!scheduleManager.isReset)
                             {
@@ -190,6 +200,10 @@ namespace Scheduler
                             var tempCardA = gameObject;
                             // A슬롯을 tempSlotA에 복사
                             var tempSlotA = activeSlot;
+                            if (prevActSlot != null)
+                            {
+                                prevActSlot = activeSlot;
+                            }
                             // B슬롯에 있는 passenger(B큐브)를 tempCard에 임시로 복사
                             var tempCardB = workingSlot.GetComponent<PlanSlotController1>().passenger;
                             // B큐브에 있는 activeSlot(B슬롯)을 tempSlot에 임시로 복사
@@ -256,7 +270,7 @@ namespace Scheduler
 
             if (collision.collider.tag == "POINTER")
             {
-                pointerOnCube = true;
+                _pointerOnCube = true;
                 scheduleManager.PlaySoundByTypes(ESoundType.In);
             }
         }
@@ -269,16 +283,22 @@ namespace Scheduler
             workingSlot = collision.collider.gameObject;
             //isWorking = true;
             
-            if(activeSlot == null || prevSlot != null)
+            if(workingSlot != null && nowClicked)
             {
                 cardState = CardState.Enter;
                 cube = workingSlot.gameObject.transform.Find("Cube");
                 cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.7f);
+                Debug.Log("색을 진하게 바꿉니다");
             }
                     
             if(!nowClicked && cube.GetComponent<MeshRenderer>().enabled == false)
             {
                 cardState = CardState.Done;
+                if (prevActSlot == null)
+                {
+                    prevActSlot = activeSlot;
+                    Debug.Log("첫번째 act슬롯을 가졌으니 prevActSlot에 복사합니다");
+                }
             }
 
         }
@@ -293,7 +313,8 @@ namespace Scheduler
                     prevSlot = collision.gameObject;
                     slots.Remove(prevSlot);
                     cube = prevSlot.gameObject.transform.Find("Cube");
-                    cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.12f);               
+                    cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.12f); 
+                    Debug.Log("색을 연하게 바꿉니다");
                     cardState = CardState.Move;
                     if (slots.Count == 0)
                     {
@@ -304,7 +325,7 @@ namespace Scheduler
                     break;
                 }
                 case "POINTER":
-                    pointerOnCube = false;
+                    _pointerOnCube = false;
                     break;
             }
         }
@@ -314,7 +335,7 @@ namespace Scheduler
             if (other.tag == "Birthplace" && !isHomeTW)
             {
                 isHomeTW = true;
-                if(prevSlot != null) return;
+                if(prevActSlot != null) return;
                 activeSlot = null;
             }
         }
@@ -342,10 +363,12 @@ namespace Scheduler
 
         private void InstantiateCard(GameObject thisG)
         {
-            var cardClone = Instantiate(thisG);
-            cardClone.transform.SetParent(grp);
-            cardClone.transform.localPosition = startPos;
-            cardClone.transform.localScale = new Vector3(1, 1, 1);
+            var cloneCard = Instantiate(thisG);
+
+            cloneCard.GetComponent<PlanCubeController1>().activeSlot = null;
+            cloneCard.transform.SetParent(grp);
+            cloneCard.transform.localPosition = startPos;
+            cloneCard.transform.localScale = new Vector3(1, 1, 1);
         }
 
         public IEnumerator resetPlanCube(float wait)

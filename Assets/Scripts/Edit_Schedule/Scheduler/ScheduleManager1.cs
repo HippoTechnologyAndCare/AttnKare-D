@@ -55,6 +55,7 @@ namespace Scheduler
         public float[] Scene2Arr { get; set; }
 
         public bool isReset;
+        public bool pointerLock;
 
         private bool leGogo = false;
         private bool beforeStart = false;
@@ -97,6 +98,7 @@ namespace Scheduler
         {
             audioSource = this.GetComponent<AudioSource>();
 
+            pointerLock = false;
             beforeStart = true;
             isReset = false;
 
