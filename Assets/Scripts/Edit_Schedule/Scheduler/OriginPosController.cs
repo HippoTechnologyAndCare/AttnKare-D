@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 namespace Scheduler
 {
-    public class CardCreator : MonoBehaviour
+    public class OriginPosController : MonoBehaviour
     {
         [SerializeField] private GameObject originPos;
         [SerializeField] private GameObject cardPrefab;
@@ -23,14 +24,40 @@ namespace Scheduler
             originPos = gameObject;
             word = "(Clone)";
         }
-
-        private void InstantiateCard(GameObject cardP)
+        
+        public void CardDestroyer(GameObject cardB)
         {
-            var cardClone = Instantiate(cardP, cardPrefab.GetComponent<PlanCubeController1>().grp, true);
-            cardClone.transform.localPosition = originPos.transform.localPosition;
-            cardClone.transform.localScale = new Vector3(1, 1, 1);
-        }
+            if (storedCard == null)
+            {
+                storedCard = cardB;
+                cardB.transform.localPosition = originPos.transform.localPosition;
+                Debug.Log("originsPos가 비어서 cardB를 옮겨옴");
+            }
+            
+            else if (storedCard != null)
+            {
+                if (!RemoveWord.EndsWithWord(cardB.name, word))
+                {
+                    cardB.transform.localPosition = originPos.transform.localPosition;
+                    Destroy(storedCard);
+                    storedCard = cardB;
+                    Debug.Log("cardB가 원본이라 origin pos로 옮겨오고기존자리 카드는 삭제함");
+                }
+                
+                else if (!RemoveWord.EndsWithWord(storedCard.name, word))
+                {
+                    Destroy(cardB);
+                    Debug.Log("origin pos에 있는 카드가 원본이라 cardB는 삭제함");
+                }
+            }
 
+            else
+            {
+                Debug.Log("아무 조건문도 안거침");
+            }
+            storedCard.GetComponent<PlanCubeController1>().activeSlot = null;
+        }
+        
         private void OnTriggerStay(Collider other)
         {
             if (!other.CompareTag("PLAN")) return;
