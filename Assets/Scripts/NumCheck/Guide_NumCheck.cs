@@ -37,7 +37,8 @@ public class Guide_NumCheck : MonoBehaviour
     [HideInInspector]
     public bool turn = true;
     int sprite = 0;
-
+    bool m_bColor = true;
+    int m_nPos = 0;
     public static int Index = 0;
     AutoButton auto;
 
@@ -49,15 +50,15 @@ public class Guide_NumCheck : MonoBehaviour
         public GameObject goNum;
         public GameObject goTrig; //trigger
         public int nBtn;
-        public bool bIN;
-        public NUMCHECK_LIST(INDEX eIndex, int nNum, GameObject goNum, GameObject goTrig, int nBtn, bool bIN)
+        public bool bColor;
+        public NUMCHECK_LIST(INDEX eIndex, int nNum, GameObject goNum, GameObject goTrig, int nBtn, bool bColor)
         {
             this.eIndex = eIndex;
             this.nNum = nNum;
             this.goNum = goNum;
             this.goTrig = goTrig;
             this.nBtn = nBtn;
-            this.bIN = bIN;
+            this.bColor = bColor; // true = red // false = yellow
         }
     }
 
@@ -73,6 +74,20 @@ public class Guide_NumCheck : MonoBehaviour
       new NUMCHECK_LIST(INDEX.NINE ,9,  null, null, 0, false),
       new NUMCHECK_LIST(INDEX.TEN ,10, null, null, 0, false)
     };
+    public static NUMCHECK_LIST[] NCDB2 = new NUMCHECK_LIST[] {
+      new NUMCHECK_LIST( INDEX.ONE ,1,  null, null, 0, false),
+      new NUMCHECK_LIST(INDEX.TWO ,2,  null, null, 0, true),
+      new NUMCHECK_LIST(INDEX.THREE ,3,  null, null, 0, false),
+      new NUMCHECK_LIST(INDEX.FOUR ,4,  null, null, 0, true),
+      new NUMCHECK_LIST(INDEX.FIVE,5,  null, null, 0, false),
+      new NUMCHECK_LIST(INDEX.SIX ,6,  null, null, 0, true),
+      new NUMCHECK_LIST(INDEX.SEVEN ,7,  null, null, 0, false),
+      new NUMCHECK_LIST(INDEX.EIGHT ,8,  null, null, 0, true),
+      new NUMCHECK_LIST(INDEX.NINE ,9,  null, null, 0, false),
+      new NUMCHECK_LIST(INDEX.TEN ,10, null, null, 0, true)
+
+    };
+
     void Awake()
     {
         SetPosition();
@@ -113,6 +128,29 @@ public class Guide_NumCheck : MonoBehaviour
             if (i < NCDB.Length) { NCDB[i].goNum = goTemp.gameObject; goTemp.m_eIndex = NCDB[i].eIndex; }
             arrBtn.Add(goTemp);
             if (i > int_buttonN - DistracImage.Length) SetSprite(goTemp);
+        }
+    }
+
+    private void CreateStage2()
+    {
+        arrBtn = new List<MoveButton>();
+        for (int i = 0; i < 10; i++)
+        {
+            for(int j = 0; j < 2; j++)
+            {
+                if (j == 0) { m_bColor = true; }
+                if(j == 1) { m_bColor = false; }
+                GameObject go = Instantiate(prefab_Button, new Vector3(0, 0, 0), Quaternion.identity, parent);
+                MoveButton goTemp = go.GetComponent<MoveButton>();
+                go.transform.localPosition = arrPos[m_nPos]; go.transform.SetSiblingIndex(m_nPos); //Set button's position and index in Hiearchy(if not above trigger, pointer cannot detect button)
+                goTemp.btnNum = (i + 1).ToString(); go.GetComponent<MoveButton>().SetBtnStage2(m_bColor); //Set button Number
+                goTemp.XrRig = this.XrRig;
+                goTemp.RighthandPointer = this.RighthandPointer;
+                // if (i < NCDB2.Length) { NCDB[i].goNum = goTemp.gameObject; goTemp.m_eIndex = NCDB[i].eIndex; }
+                arrBtn.Add(goTemp);
+                m_nPos++;
+            }
+            
         }
     }
 
@@ -175,6 +213,41 @@ public class Guide_NumCheck : MonoBehaviour
         CanGrab();
         num.ResetButton();
 
+    }
+
+    public void NumStage2(MoveButton num, GameObject trigger)
+    {
+        int cardNum = int.Parse(num.btnNum);
+        NUMCHECK_LIST m_current = NCDB[Index];
+        m_current.nBtn = cardNum;
+        if (NCDB[(int)num.m_eIndex].nNum == NCDB[Index].nNum && NCDB[(int)num.m_eIndex].goTrig == trigger.gameObject)
+        {
+            num.SetButton();
+            active = false;
+            if (cardNum >= arrTrig.Length)
+            {
+                GameClear();
+                return;
+            }
+            arrBtn.Remove(num);
+            Destroy(num);
+            Index++;
+            StartCoroutine(narration.BoardUI(4));
+            auto.AutoMove();
+            return;
+        }
+        if (NCDB[(int)num.m_eIndex].nNum != m_current.nNum) //현재 버튼이 순서에 맞지 않음
+        {
+            if (!narration.coroutine) StartCoroutine(narration.BoardUI(0)); //wrong order warning and narration
+            dataCheck.wrongorder++;
+        }
+        if (NCDB[(int)num.m_eIndex].goTrig != trigger.gameObject) //현재 버튼이 올바른 칸에 있지 않음
+        {
+            if (!narration.coroutine) StartCoroutine(narration.BoardUI(1)); //wrong trigger warning text and narration
+            dataCheck.wrongTrigger++;
+        }
+        CanGrab();
+        num.ResetButton();
     }
     private IEnumerator GameStart() //Highlight Trigger as introduction
     {

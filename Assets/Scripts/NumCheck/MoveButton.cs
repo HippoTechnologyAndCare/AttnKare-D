@@ -22,11 +22,10 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
     Vector3 OrginPos;
     TextMeshProUGUI btnText;
     Color activatedColor;
-    int a;
     Color originalColor;
     Transform parentCursor;
     // Start is called before the first frame update
-
+    public bool bStage = false;
     Guide_NumCheck Guide;
     public Guide_NumCheck.INDEX m_eIndex;
     void Awake()
@@ -56,7 +55,7 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
                     transform.position = new Vector3(parentCursor.position.x, parentCursor.position.y, transform.position.z);
                 if (XrRig.RightTrigger < 0.2f) {
                     this.transform.SetParent(originalParent);
-                    if (Trigger) { Guide.NumInTrigger(this, Trigger);}
+                    if (Trigger) { if(!bStage)Guide.NumInTrigger(this, Trigger); if (bStage) Guide.NumStage2(this, Trigger); }
                     if(!Trigger) ResetButton();
                     click = false;
                 }
@@ -76,7 +75,14 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
         transform.name = btnNum;
         btnText = transform.GetComponentInChildren<TextMeshProUGUI>();
         btnText.text = btnNum;
-        
+    }
+    public void SetBtnStage2(bool bcolor)
+    {
+        transform.name = btnNum;
+        btnText = transform.GetComponentInChildren<TextMeshProUGUI>();
+        btnText.text = btnNum;
+        if (bcolor == true) btnText.color = Color.red;
+        if (bcolor == false) btnText.color = Color.yellow;
     }
 
     public void OnPointerDown(PointerEventData pointerEventData){

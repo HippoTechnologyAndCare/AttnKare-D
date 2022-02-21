@@ -26,7 +26,7 @@ public class Guide_Paddle : MonoBehaviour
     private string m_strOrder;
     public GrabPaddle GrabPaddle;
     public Animation FriendAnimation;
-
+    bool m_bStamp = true;
     float m_nWrongSpeed;
     float m_nWrongOrder;
 
@@ -34,9 +34,9 @@ public class Guide_Paddle : MonoBehaviour
     float m_fStageTime = 0;
     float m_fTOTALTIME =0;
     float m_fSTARTTIME;
-    List<float> m_listSTAGE = new List<float>();
-    List<float> m_listOrder = new List<float>();
-    List<float> m_listSpeed = new List<float>();
+    float[] m_listSTAGE = new float[] { 0, 0, 0 };
+    float[] m_listOrder = new float[] { 0, 0, 0 };
+    float[] m_listSpeed = new float[] { 0, 0, 0 };
     List<PaddleCollider> m_listCOLLIDER;
 
     //DATA
@@ -94,13 +94,12 @@ public class Guide_Paddle : MonoBehaviour
     void Run_INTRO()
     {
         TimeCheck_Start();
-        if (Hud.bCoroutine == false)
+        if (!Hud.bCoroutine)
         {
-            BehaviorData.AddTimeStamp("GUIDE END");
-            Hud.bCoroutine = true;
+            if (m_bStamp) { Debug.Log("STAMP");  BehaviorData.AddTimeStamp("GUIDE END"); m_bStamp = false; }
         }
     }
-    
+
     public void Make_START()
     {
         if (Hud.bCoroutine)
@@ -130,7 +129,6 @@ public class Guide_Paddle : MonoBehaviour
         StageTimeAdd();
         AnimationStart();
         m_ePSTATE = PADDLE_STATE.STAGE;
-        Debug.Log(m_listSTAGE.Count);
     }
     void Run_STAGE()
     {
@@ -156,9 +154,9 @@ public class Guide_Paddle : MonoBehaviour
     {
         m_fStageTime = m_fTOTALTIME - m_fPrevTime;
         m_fPrevTime = m_fTOTALTIME;
-        m_listSTAGE.Add(m_fStageTime);
-        m_listOrder.Add(m_nWrongOrder);
-        m_listSpeed.Add(m_nWrongSpeed);
+        m_fStageTime = m_listSTAGE[intStage];
+        m_nWrongOrder = m_listOrder[intStage];
+        m_nWrongSpeed= m_listSpeed[intStage];
         m_nWrongSpeed = m_nWrongOrder = 0;
     }
     void NEXTSTAGE()
@@ -233,6 +231,7 @@ public class Guide_Paddle : MonoBehaviour
     void Datacollect()
     {
         BehaviorData.GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();
+
         data_401 = m_fSTARTTIME;
         data_402 = m_fTOTALTIME;
         data_403 = m_listSTAGE[0];
@@ -248,8 +247,9 @@ public class Guide_Paddle : MonoBehaviour
         data_413 = GrabPaddle.fIdleTime;
         data_415 = GrabPaddle.fDisturbTime;
         data_416 = GrabPaddle.fIdleCount;
+        Debug.Log("MID");
         arrData = new float[] { data_401, data_402, data_403, data_404, data_405, data_406, data_407, data_408, data_409, data_410 , data_411 ,data_412 , data_413, data_414, data_415, data_416 };
-        for(int i = 0; i < 16; i++)
+        for(int i = 0; i < arrData.Length; i++)
         {
            Debug.Log(arrData[i]);
         }
