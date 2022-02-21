@@ -88,7 +88,7 @@ namespace Scheduler
 
             if (_pointerOnCube || handController.PointAmount != 1) return;
             transform.SetParent(grp);
-            scheduleManager.ReleaseAllCollision();
+            //scheduleManager.ReleaseAllCollision(); 기존 자리
             scheduleManager.PlaySoundByTypes(ESoundType.Put);
 
             nowClicked = false;
@@ -135,7 +135,7 @@ namespace Scheduler
         {
             scheduleManager.pointerLock = false;
             transform.SetParent(grp);
-            scheduleManager.ReleaseAllCollision();
+            //scheduleManager.ReleaseAllCollision(); // 262번 줄로 이동함
             scheduleManager.PlaySoundByTypes(ESoundType.Put);
             
             if (workingSlot != null) //슬롯에 들어온 경우
@@ -238,7 +238,7 @@ namespace Scheduler
                 }
 
                 scheduleManager.CheckMovingCnt();
-                scheduleManager.CheckAllScheduleOnSlot();
+                scheduleManager.CheckAllScheduleOnSlot(); 
             }
             else
             {
@@ -258,6 +258,8 @@ namespace Scheduler
             nowClicked = false;
             intoSlot = null;
             workingSlot = null;
+            scheduleManager.InitGrpList();
+            scheduleManager.ReleaseAllCollision(); //문제가 생기면 원래위치로 :138
         }
 
         private void OnCollisionEnter(Collision collision)

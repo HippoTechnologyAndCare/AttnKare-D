@@ -219,17 +219,34 @@ namespace Scheduler
             return slotList;
         }
 
-        private List<Transform> InitGrpList()
-        {                       
-            foreach (Transform g in grp)
-            {
-                grpList.Add(g);
-            }
+        public List<Transform> InitGrpList()
+        {
+            if (grpList == null) return grpList;
+            RemoveGrpList();
+            AddGrpList();
             Debug.Log("grpList 초기화");
             return grpList;
         }
 
-        List<Transform> ResetGrpList()
+        private void AddGrpList()
+        {
+            foreach (Transform g in grp)
+            {
+                grpList.Add(g);
+            }
+            Debug.Log("grpList 추가");
+        }
+
+        private void RemoveGrpList()
+        {
+            foreach (Transform g in grp)
+            {
+                grpList.Remove(g);
+            }
+            Debug.Log("grpList 삭제");
+        }
+
+        private List<Transform> ResetGrpList()
         {            
             string keyword = "(Clone)";
             
