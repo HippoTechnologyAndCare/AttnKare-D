@@ -200,10 +200,10 @@ namespace Scheduler
             FinishPanel_Yes(true);
         }
 
-        private IEnumerator ResetDelay()
+        private IEnumerator ResetDelay(float wait)
         {
             isReset = true;
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(wait);
             isReset = false;           
         }
 
@@ -270,7 +270,7 @@ namespace Scheduler
         {
             bool check = false;
 
-            foreach (Transform s in slotList)
+            foreach (var s in slotList)
             {
                 if (s.GetComponent<PlanSlotController1>().passenger != null)
                 {
@@ -287,18 +287,22 @@ namespace Scheduler
 
             if (CheckEmptySlot())
             {
-                StartCoroutine(ResetDelay());
+                StartCoroutine(ResetDelay(0.05f));
 
                 foreach (var t in slotList)
                 {
                     t.GetComponent<PlanSlotController1>().ResetPlanSlot();
                 }
                 
-                foreach(var t in slotList)
+                foreach(var t in grpList)
                 {
-                    StartCoroutine(t.GetComponent<PlanCubeController1>().resetPlanCube());
+                    StartCoroutine(t.GetComponent<PlanCubeController1>().resetPlanCube(0.07f));
                 }
               
+                foreach (var t in slotList)
+                {
+                    StartCoroutine(t.GetComponent<PlanSlotController1>().ResetSlotMesh(0.1f));
+                }
                 ResetGrpList();
 
                 btnFinish.gameObject.SetActive(false);

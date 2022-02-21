@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,28 +9,34 @@ namespace Scheduler
     {
         public GameObject passenger;
 
-        public bool inSlot;
+        //public bool inSlot;
 
         [SerializeField] Transform cube;
 
         private MeshRenderer mesh;
+        //private GameObject otherCard;
 
 
         private void Start()
         {
-            inSlot = false;
-            cube = this.gameObject.transform.Find("Cube");
+            passenger = null;
+            //inSlot = false;
+            cube = gameObject.transform.Find("Cube");
             mesh = cube.GetComponent<MeshRenderer>();
         }
 
         private void Update()
         {
-            // 슬롯안에 stored된 카드를 빼는 상황일때
-            if (passenger != null || !inSlot) return;
-            inSlot = false;
-            mesh.enabled = true;
-        }        
+            // if (passenger == null )
+            // {
+            //     mesh.enabled = true;
+            // }
 
+            
+            // 슬롯안에 stored된 카드를 빼는 상황일때
+        }
+                
+        // 리셋 버튼을 눌렀을때 Slot안에 있는 클론된 큐브들은 소멸
         public void ResetPlanSlot()
         {
             if (passenger == null) return;
@@ -40,7 +47,14 @@ namespace Scheduler
             }
             passenger = null;
 
-        }        
+        }
+
+        public IEnumerator ResetSlotMesh(float wait)
+        {
+            yield return new WaitForSeconds(wait);
+            mesh.material.color = new Color(0.67f, 0, 0.545f, 0.12f);
+            mesh.enabled = true;
+        }
     }
 }
 
