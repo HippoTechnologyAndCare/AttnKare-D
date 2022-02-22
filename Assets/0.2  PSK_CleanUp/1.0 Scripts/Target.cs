@@ -14,7 +14,7 @@ public class Target : MonoBehaviour {
     /**************************************************************************
     // Method Start
     ***************************************************************************/
-    //사용자가 물건을 놓을때 Target을 3초간 지연후 disable시켜줍니다.-called by guide
+    //사용자가 물건을 놓을때 Target을 3초간 지연후 disable시켜줍니다.-called by arrange
     public void DeActivate() {        
         StartCoroutine("DelayedOut");
     }
@@ -42,6 +42,7 @@ public class Target : MonoBehaviour {
     void Start() {
         m_Arrange     = GameObject.Find("/Objects/Arranges/"+Arrange.CDB[(int)m_eArrange].Object_name).GetComponent<Arrange>();
         m_aRenderers  = GetComponentsInChildren<MeshRenderer>(true);  
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame        

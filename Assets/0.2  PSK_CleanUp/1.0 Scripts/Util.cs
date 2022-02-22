@@ -40,17 +40,17 @@ public class Util {
     ***************************************************************************/
     //const string  LOG_FILE_PATH = "D:\\"; //절대경로지정->경로가없으면 Exception
     const string LOG_FILE_PATH = ".\\";       //실행폴더에 로그생성    
-    const string CAPTURE_LOG = "Capture.txt";
-    //시리얼 통신 캡쳐 로그파일 출력
-    public static void CLOG(string msg) {        
+    const string EVAL_LOG = "Eval.txt";
+    //평가결과 저장 로그파일 출력
+    public static void ELOG(string msg) {        
         DateTime localDate = DateTime.Now;
-        StreamWriter sw = new StreamWriter(LOG_FILE_PATH + "_" + CAPTURE_LOG, true);
+        StreamWriter sw = new StreamWriter(LOG_FILE_PATH + "_" + EVAL_LOG, true);
         sw.WriteLine(localDate.Year + "/" + localDate.Month + "/" + localDate.Day + ":" + localDate.Hour + "-" + localDate.Minute + "-" + localDate.Second + "." + localDate.Millisecond + ": " + msg);
         sw.Flush();
         sw.Close();
     }
-    public static void EraseCLOG()  {
-        string path = LOG_FILE_PATH + "_" + CAPTURE_LOG;
+    public static void EraseELOG()  {
+        string path = LOG_FILE_PATH + "_" + EVAL_LOG;
         InitFile(path);
     }
 
@@ -67,7 +67,7 @@ public class Util {
         sw.Close();
     }
     
-    //지정한 파일을 삭제하고새로 만들업줍니다
+    //지정한 파일을 삭제하고 새로 만들업줍니다
     static void InitFile(string path){               
         bool bExist = File.Exists(path);
         if(bExist) File.Delete(path);

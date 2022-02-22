@@ -145,7 +145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &4382918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2598,7 +2598,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &128248854
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -2653,7 +2653,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -4691,7 +4691,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &263351685
 Transform:
   m_ObjectHideFlags: 0
@@ -5628,7 +5628,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &301376221
 Transform:
   m_ObjectHideFlags: 0
@@ -12528,7 +12528,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &572696023
 Transform:
   m_ObjectHideFlags: 0
@@ -13076,7 +13076,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &607634947
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13119,7 +13119,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -13135,7 +13135,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -13151,7 +13151,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -13167,7 +13167,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -13499,7 +13499,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &671990499
 Transform:
   m_ObjectHideFlags: 0
@@ -14071,8 +14071,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: -0.27, y: 0.10614506, z: 0.40125734}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.29996374, y: 0.10614506, z: 0.40125734}
+  m_Center: {x: -0.014981873, y: 0, z: 3.6981584e-10}
 --- !u!114 &696368451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14344,7 +14344,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &699615274
 Transform:
   m_ObjectHideFlags: 0
@@ -15404,7 +15404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &754350281
 Transform:
   m_ObjectHideFlags: 0
@@ -16034,6 +16034,7 @@ MonoBehaviour:
   m_goRightHandPointer: {fileID: 1405856165229722247}
   m_Character: {fileID: 122421566001855722}
   m_Hud: {fileID: 1447035231}
+  goArranges: {fileID: 2009995723}
 --- !u!1 &876864541
 GameObject:
   m_ObjectHideFlags: 0
@@ -20409,7 +20410,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1182598751
 Transform:
   m_ObjectHideFlags: 0
@@ -22506,8 +22507,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uBC15\uC2A4, \uAC8C\uC784\uD328\uB4DC, \uC2A4\uD0E0\uB4DC, \uCC45, \uC9C0\uAD6C\uBCF8,
-    \uBFC5\uB9DD\uCE58, \uB85C\uC158, \uC0AC\uACFC, \uC7A5\uB09C\uAC10\uC790\uB3D9\uCC28"
+  m_text: "\uC7A5\uB09C\uAC10\uC0AC\uACFC, \uC7A5\uB09C\uAC10\uCC28, \uC7A5\uB09C\uAC10\uBB3C\uCD1D, 
+    \uB179\uC0C9\uCC451, \uB178\uB780\uCC45, \uB179\uC0C9\uCC452,  \uBC14\uC9C01,
+    \uBC14\uC9C02, \uB178\uB780\uBC18\uBC14\uC9C0"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d4145b80d4101fb43b29e9e55556c584, type: 2}
   m_sharedMaterial: {fileID: -8169137728636540412, guid: d4145b80d4101fb43b29e9e55556c584,
@@ -23124,8 +23126,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_eArrange: 8
-  m_bCleanable: 1
-  m_bPositioned: 0
+  m_bCleanable: 0
+  m_bPositioned: 1
   m_bDroppable: 1
   m_bNearCatch: 0
   m_fAccept_radius: 0.2
@@ -23308,7 +23310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1270566867
 Transform:
   m_ObjectHideFlags: 0
@@ -25172,7 +25174,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &1440047881
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -25496,6 +25498,8 @@ MonoBehaviour:
   m_goDuck: {fileID: 1784537132303737714}
   m_audiDuckQuack: {fileID: 8300000, guid: a5f53e11ad13bec47ae5f20185b9e585, type: 3}
   m_audiDuckAngry: {fileID: 8300000, guid: 7913824d98b55d34daa7690ea5b0303d, type: 3}
+  m_textToClean: {fileID: 1239978994}
+  m_textCleaned: {fileID: 1590962731}
   m_goTimeOutF: {fileID: 1313727519}
   m_goTimeOutL: {fileID: 501288558}
   m_goTimeOutR: {fileID: 1338855104}
@@ -27177,8 +27181,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: -0.27, y: 0.10614506, z: 0.40125734}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.27171367, y: 0.10614506, z: 0.40125734}
+  m_Center: {x: -0.00085676456, y: 0, z: 7.1246004e-13}
 --- !u!114 &1515336606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29780,7 +29784,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!135 &1729934060
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -32227,7 +32231,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &1879098686
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32351,7 +32355,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1885460873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32368,7 +32372,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -32384,7 +32388,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -32400,7 +32404,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -32416,7 +32420,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -32432,7 +32436,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -33614,7 +33618,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1991293824
 Transform:
   m_ObjectHideFlags: 0
@@ -34558,7 +34562,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2041764567
 Transform:
   m_ObjectHideFlags: 0
@@ -105044,7 +105048,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &7451861105337509076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105074,7 +105078,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -105090,7 +105094,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -105106,7 +105110,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -105122,7 +105126,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -105138,7 +105142,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5

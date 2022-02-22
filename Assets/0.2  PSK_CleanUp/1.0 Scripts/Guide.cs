@@ -62,9 +62,9 @@ public class Guide : MonoBehaviour {
         m_nTotArranged++;       
         m_Hud.PopUpCount(m_nTotArranged,true);
         m_Hud.ShowStarParticle(dst);
-    
-        //정리한 물건 문자열 갱신 ?
-        //m_Hud.NoteUpdateArrange(Manager.saArrangeK[(int)m_eArrange]);
+        //정리한 물건 문자열 갱신       
+        GetArrangeStr(); 
+        m_Hud.NoteUpdateArrange(arrangedStr,arrangeableStr);
         if (m_nTotArranged >= ARRANGE_OBJECT) m_Hud.PlayWellDone();        
     }
     //from Hud.cs
@@ -127,7 +127,7 @@ public class Guide : MonoBehaviour {
         if(m_nFinBtnDown<2) m_Hud.PlayWarning();
         if(m_nFinBtnDown==2) {
             m_Hud.ShowMoving();
-            Make_Next();
+            Make_End();
         }       
     }
     //평가관련 : 총이동거리를 계산합니다.
@@ -152,10 +152,13 @@ public class Guide : MonoBehaviour {
     // Monobehavier Start
     ***************************************************************************/
     public HUD    m_Hud;
-    
+    public GameObject goArranges;
+    Arrange[] m_aArranges; //정리할 정보를 갖고 있음
+
     // Start is called before the first frame update
     void Start() {        
-        m_RightGrabber = m_goRightGrabber.GetComponent<Grabber>();
+        m_RightGrabber  = m_goRightGrabber.GetComponent<Grabber>();
+        m_aArranges     = goArranges.GetComponentsInChildren<Arrange>(true);
         Make_Intro();         
     }
 
@@ -216,27 +219,42 @@ public class Guide : MonoBehaviour {
     }
     void Run_Next() { }
     
-    public GameObject goArranges;
+
     void ReportData() {
 
-        //아래데이타 처리
-        /*
-        m_bTimeOutArrange; //방청소시간 초과 여부 / 총 2분중
-        m_bTImeOutScene;   //Scene Play시간 초과여부  / 총 5분중 
-        m_nTotArranged;    //제위치에 정리된 갯수
-        m_fTimeTaken;      //정리하는데 걸리는 시간 : 모두정리, 사용자        
-        m_fTimeLookValid;  //Player가 필요한곳을 보는 시간 
-        m_fTimeLookInvalid;//Player가 불필요한곳을 보는 시간            
-        m_nGrabCount;      //Player가 물건을 잡은 횟수
-        m_fMoveDistance;   //Player 총이동거리 
-        m_nObstacleTouch;  //Player가 방해 물체를 건든 횟수        
-        m_nFinBtnDown;     //Player가 Fin Button 클릿횟수        
+        //Summary 데이타 처리
+        string eval = ""
+        +"m_bTimeOutArrange= " + m_bTimeOutArrange    +"\r\n"     //방청소시간 초과 여부 / 총 2분중
+        +"m_bTImeOutScene= "    + m_bTImeOutScene     +"\r\n"     //Scene Play시간 초과여부  / 총 5분중 
+        +"m_nTotArranged= "     + m_nTotArranged      +"\r\n"     //제위치에 정리된 갯수
+        +"m_fTimeTaken= "       + m_fTimeTaken        +"\r\n"     //정리하는데 걸리는 시간 : 모두정리, 사용자        
+        +"m_fTimeLookValid= "   + m_fTimeLookValid    +"\r\n"     //Player가 필요한곳을 보는 시간 
+        +"m_fTimeLookInvalid= " + m_fTimeLookInvalid  +"\r\n"      //Player가 불필요한곳을 보는 시간            
+        +"m_nGrabCount= "       + m_nGrabCount        +"\r\n"     //Player가 물건을 잡은 횟수
+        +"m_fMoveDistance= "    + m_fMoveDistance     +"\r\n"     //Player 총이동거리 
+        +"m_nObstacleTouch= "   + m_nObstacleTouch    +"\r\n"     //Player가 방해 물체를 건든 횟수        
+        +"m_nFinBtnDown= "      + m_nFinBtnDown       +"\r\n";     //Player가 Fin Button 클릿횟수        
         
-         */
-        Arrange[] a_Arragnes = goArranges.GetComponentsInChildren<Arrange>(true);
-        foreach(Arrange arrange in a_Arragnes) arrange.SaveResult();
-        
-        //Arrange.CDB //데이타 처리
+        Debug.Log(eval);   // to console
+        Util.ELOG(eval);   // to logfile .//Eval.txt
+                 
+         //각 물건별 개별(Arrange.CDB 데이타 처리        
+        foreach(Arrange arrange in m_aArranges) 
+        {
+            arrange.SaveResult();
+            eval = "" 
+               +"eArrange= "    + Arrange.CDB[(int)arrange.m_eArrange].eArrange    + ", "     //종류
+               +"Object_name= " + Arrange.CDB[(int)arrange.m_eArrange].Object_name + ", "     //나에게 와야할 GameObject Name 
+               +"bCleanable= "  + Arrange.CDB[(int)arrange.m_eArrange].bCleanable  + ", "     //청소대상여부
+               +"bPositioned= " + Arrange.CDB[(int)arrange.m_eArrange].bPositioned + ", "     //제위치여부
+               +"nGrabCount= "  + Arrange.CDB[(int)arrange.m_eArrange].nGrabCount  + ", "     //Player가 내 물건을 잡은 횟수
+               +"fGrabTime= "   + Arrange.CDB[(int)arrange.m_eArrange].fGrabTime   + ", "     //Player가 내 물건을 잡은 시간
+               +"nPosiCount = " + Arrange.CDB[(int)arrange.m_eArrange].nPosiCount  + ", "     //자기위치에 둔 횟수
+               +"kor_name= "    + Arrange.CDB[(int)arrange.m_eArrange].kor_name    + ", "     //한글명
+               +"\r\n";
+            Debug.Log(eval);   // to console
+            Util.ELOG(eval);   // to logfile .//Eval.txt
+         }
     }
 
     /*****************************************************************************
@@ -252,7 +270,18 @@ public class Guide : MonoBehaviour {
     void Load_Next_Scene()  {
         KetosGames.SceneTransition.SceneLoader.LoadScene(NEXT_SCENE);
         Debug.Log("다음신을 로드합니다");
-
     }
+    //정리할 물건, 정리한 물건 정보 문자열 처리 -for hud
+    string arrangedStr, arrangeableStr;
+    void GetArrangeStr() {
+        arrangedStr = arrangeableStr = "";
+        foreach(Arrange arrange in m_aArranges) {
+            if (arrange.m_bCleanable) {
+                string name = Arrange.CDB[(int)arrange.m_eArrange].kor_name;
+                if(arrange.m_bPositioned) arrangedStr += name+",";
+                else arrangeableStr += name+",";
+            }            
+        }
+    }    
 }
 }

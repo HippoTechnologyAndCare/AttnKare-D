@@ -42,18 +42,18 @@ public class Arrange : MonoBehaviour {
         new ARRANGE_INFO(ARRANGE.GLOBE,       "Globe",     false, false, 0, 0.0f, 0, "지구본"  ),             
         new ARRANGE_INFO(ARRANGE.MOUTH_WASH,  "MouthWash", false, false, 0, 0.0f, 0, "로션"   ),             
   		new ARRANGE_INFO(ARRANGE.TOY_HAMMER,  "ToyHammer", false, false, 0, 0.0f, 0, "뽕망치"  ),                     
-        new ARRANGE_INFO(ARRANGE.TOY_APPLE,   "ToyApple",  false, false, 0, 0.0f, 0, "사과"   ),             
-        new ARRANGE_INFO(ARRANGE.TOY_CAR1,    "ToyCar1",   false, false, 0, 0.0f, 0, "자동차1" ),                     
+        new ARRANGE_INFO(ARRANGE.TOY_APPLE,   "ToyApple",  false, false, 0, 0.0f, 0, "장난감사과"   ),             
+        new ARRANGE_INFO(ARRANGE.TOY_CAR1,    "ToyCar1",   false, false, 0, 0.0f, 0, "장난감차" ),                     
         new ARRANGE_INFO(ARRANGE.TOY_CAR2,    "ToyCar2",   false, false, 0, 0.0f, 0, "자동차2" ),                     
-        new ARRANGE_INFO(ARRANGE.TOY_GUN,     "ToyGun",    false, false, 0, 0.0f, 0, "총"     ),                     
+        new ARRANGE_INFO(ARRANGE.TOY_GUN,     "ToyGun",    false, false, 0, 0.0f, 0, "장난감물총" ),                     
         new ARRANGE_INFO(ARRANGE.TOY_BALL,    "ToyBall",   false, false, 0, 0.0f, 0, "공"     ),                     
         new ARRANGE_INFO(ARRANGE.TOY_BUNNY,   "ToyBunny",  false, false, 0, 0.0f, 0, "토끼"   ),                     
-        new ARRANGE_INFO(ARRANGE.BOOK1,       "Book1",     false, false, 0, 0.0f, 0, "책1"    ),             
-        new ARRANGE_INFO(ARRANGE.BOOK2,       "Book2",     false, false, 0, 0.0f, 0, "책2"    ),             
-        new ARRANGE_INFO(ARRANGE.BOOK3,       "Book3",     false, false, 0, 0.0f, 0, "책3"    ),                     
+        new ARRANGE_INFO(ARRANGE.BOOK1,       "Book1",     false, false, 0, 0.0f, 0, "녹색책1"    ),             
+        new ARRANGE_INFO(ARRANGE.BOOK2,       "Book2",     false, false, 0, 0.0f, 0, "노란책"    ),             
+        new ARRANGE_INFO(ARRANGE.BOOK3,       "Book3",     false, false, 0, 0.0f, 0, "녹색책2"    ),                     
         new ARRANGE_INFO(ARRANGE.PANTS1,      "Pants1",    false, false, 0, 0.0f, 0, "바지1"  ),             
         new ARRANGE_INFO(ARRANGE.PANTS2,      "Pants2",    false, false, 0, 0.0f, 0, "바지2"  ),             
-        new ARRANGE_INFO(ARRANGE.PANTS3,      "Pants3",    false, false, 0, 0.0f, 0, "바지3"  ),             
+        new ARRANGE_INFO(ARRANGE.PANTS3,      "Pants3",    false, false, 0, 0.0f, 0, "노란반바지"  ),             
     };    
    
     /**************************************************************************/
@@ -106,7 +106,7 @@ public class Arrange : MonoBehaviour {
     // 내위치에 갖다놈
     // 원래 정리대상이 아닌데 다시 갖다 놓는경우, 정리대상을 갖다 놓는경우 구분할것
     void SetPositoned()  { 
-        m_bPositioned = true;    //CDB갱신
+        m_bPositioned = true;    
         //내위치를 Target의 위치에 둡니다
         if(!m_bDroppable) SetRigidBody(false); 
         DropAt(m_Target.transform);

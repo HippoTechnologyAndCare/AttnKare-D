@@ -211,6 +211,15 @@ public class HUD : MonoBehaviour
     }
     
     /**************************************************************************
+    // 정리한 물건 물자열 관리
+    ***************************************************************************/    
+    //정리한물건 정보 갱신
+    public  TextMeshProUGUI m_textToClean, m_textCleaned;    
+    public void NoteUpdateArrange(string arrangedStr, string arrangeableStr)  { 
+        m_textCleaned.text = arrangedStr;
+        m_textToClean.text = arrangeableStr;        
+    }
+    /**************************************************************************
     // Timeout시 메세지("아쉽지만 시간이...") 전시합니다. 바라보는 방향에 안내판이 전시된다    
     ***************************************************************************/    
     public GameObject m_goTimeOutF,m_goTimeOutL,m_goTimeOutR,m_goTimeOutB,m_goTimeOutFText, m_goHowTo;
