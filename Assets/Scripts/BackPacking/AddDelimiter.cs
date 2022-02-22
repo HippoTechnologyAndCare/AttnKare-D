@@ -8,8 +8,6 @@ public class AddDelimiter : MonoBehaviour
     public bool IDLE;
     public bool DISTURB;
     public CollectData dataCollect;
-
-
     public void addIDLE(bool check)
     {
         IDLE = check;
@@ -17,13 +15,10 @@ public class AddDelimiter : MonoBehaviour
         {
             dataCollect.AddTimeStamp("IDLE START");
 
-
         }
         if(!IDLE)
         {
-
             dataCollect.AddTimeStamp("IDLE END");
-
 
         }
 
@@ -41,10 +36,6 @@ public class AddDelimiter : MonoBehaviour
         {
             dataCollect.AddTimeStamp("DISTURB END");
         }
-
-
-
-
     }
 
     public void endEverything()

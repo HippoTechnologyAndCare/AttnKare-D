@@ -59,7 +59,7 @@ public class NetworkManager : MonoBehaviour
         formData.AddField("age", DataManager.GetInstance().userInfo.Age);
         formData.AddField("location", DataManager.GetInstance().userInfo.Location);
 
-        formData.AddBinaryData("json", File.ReadAllBytes(resPath + "UserData.json"), "UserData.json", "application/octet-stream");
+        formData.AddBinaryData("json", File.ReadAllBytes(resPath + "UserData.json"), "interaction.json", "application/octet-stream");
 
 
         AudioFormat = ".wav";
@@ -71,8 +71,8 @@ public class NetworkManager : MonoBehaviour
         AudioFormat = ".wav";
 #endif
 */
-        formData.AddBinaryData("tutorial_txt", File.ReadAllBytes(resPath + "9_Behavior.txt"), "tutorial_txt.txt", "application/octet-stream");
-        formData.AddBinaryData("tutorial_mp3", File.ReadAllBytes(resPath + "9" + AudioFormat), "tutorial_mp3.mp3", "application/octet-stream");
+        formData.AddBinaryData("tutorial_txt", File.ReadAllBytes(resPath + "10_Behavior.txt"), "tutorial_txt.txt", "application/octet-stream");
+        formData.AddBinaryData("tutorial_mp3", File.ReadAllBytes(resPath + "10" + AudioFormat), "tutorial_mp3.mp3", "application/octet-stream");
 
         if (DataManager.GetInstance().userInfo.Grade == "L")
         {
@@ -101,11 +101,11 @@ public class NetworkManager : MonoBehaviour
 
         }
         
-        formData.AddBinaryData("numbermatching_txt", File.ReadAllBytes(resPath + "13_Behavior.txt"), "numbermatching_txt", "application/octet-stream");
-        formData.AddBinaryData("numbermatching_mp3", File.ReadAllBytes(resPath + "13" + AudioFormat), "numbermatching_mp3.wav", "application/octet-stream");
+        formData.AddBinaryData("numbermatching_txt", File.ReadAllBytes(resPath + "9_Behavior.txt"), "numbermatching_txt", "application/octet-stream");
+        formData.AddBinaryData("numbermatching_mp3", File.ReadAllBytes(resPath + "9" + AudioFormat), "numbermatching_mp3.mp3", "application/octet-stream");
 
-        formData.AddBinaryData("ending_txt", File.ReadAllBytes(resPath + "12_Behavior.txt"), "ending_txt.txt", "application/octet-stream");
-        formData.AddBinaryData("ending_mp3", File.ReadAllBytes(resPath + "12"+ AudioFormat), "ending_mp3.wav", "application/octet-stream");
+        formData.AddBinaryData("ending_txt", File.ReadAllBytes(resPath + "13_Behavior.txt"), "ending_txt.txt", "application/octet-stream");
+        formData.AddBinaryData("ending_mp3", File.ReadAllBytes(resPath + "13"+ AudioFormat), "ending_mp3.wav", "application/octet-stream");
 
         UnityWebRequest webRequest = UnityWebRequest.Post(ServerURL_upload, formData);
 

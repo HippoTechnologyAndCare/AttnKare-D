@@ -14,11 +14,11 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
     public bool triggered;
     public bool click;
     public string btnNum;
-    public string color = "#FF0000";
+    public string color = "#FFFFFF";
     public bool distraction = false;
+    public bool bColor;
     Transform Canvas;
     Transform originalParent;
-    GameObject prevButton;
     RectTransform rect;
     Vector3 OrginPos;
     TextMeshProUGUI btnText;
@@ -26,8 +26,9 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
     Color originalColor;
     Transform parentCursor;
     // Start is called before the first frame update
-
+    public bool bStage = false;
     Guide_NumCheck Guide;
+    public Guide_NumCheck.INDEX m_eIndex;
     void Awake()
     {
         Guide = GameObject.Find("Guide").GetComponent<Guide_NumCheck>();
@@ -35,7 +36,7 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
     }
     void Start()
     {
-        originalColor = btnText.color;
+
         ColorUtility.TryParseHtmlString(color, out activatedColor);
         parentCursor = RighthandPointer.GetComponent<UIPointer>()._cursor.transform;
         OrginPos = transform.position;
@@ -54,29 +55,40 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
                 if(XrRig.RightTrigger > 0.5f)
                     transform.position = new Vector3(parentCursor.position.x, parentCursor.position.y, transform.position.z);
                 if (XrRig.RightTrigger < 0.2f) {
-                    Debug.Log("up");
                     this.transform.SetParent(originalParent);
-                    if (Trigger) { Guide.NumInTrigger(this, Trigger); }
-                    if(!Trigger) ResetButton();
+                    if (Trigger) { if(!bStage)Guide.NumInTrigger(this, Trigger); if (bStage) Guide.NumStage2(this, Trigger); }
+                    if (!Trigger) { ResetButton(); Guide.CanGrab(); }
                     click = false;
                 }
-                }
+            }
             if(RighthandPointer.GetComponent<LineRenderer>().enabled == false)
             {
+                this.transform.SetParent(originalParent);
                 ResetButton();
                 Guide.CanGrab();
- //               Guide.currentButton = null;
                 click = false;
             }
             
         }
     }
 
-    public void SetBtnNum(){
+    public void SetBtnNum(bool color){
+        int a;
         transform.name = btnNum;
         btnText = transform.GetComponentInChildren<TextMeshProUGUI>();
         btnText.text = btnNum;
-        
+        btnText.color = color ? Color.red : Color.yellow;
+        originalColor = btnText.color;
+    }
+    public void SetBtnStage2(bool color)
+    {
+
+        bColor = color;
+        transform.name = btnNum + bColor;
+        btnText = transform.GetComponentInChildren<TextMeshProUGUI>();
+        btnText.text = btnNum;
+        btnText.color = color ? Color.red : Color.yellow;
+        originalColor = btnText.color;
     }
 
     public void OnPointerDown(PointerEventData pointerEventData){
@@ -88,29 +100,23 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
         }
         click = true;
         btnText.color = activatedColor;
-    //    Guide.currentButton = this.transform.gameObject;
         Guide.CannotGrab(transform.GetComponent<MoveButton>());
     }
   
     public void ResetButton(){
         Trigger = null;
-     //   triggered = false;
         transform.position = OrginPos;
         btnText.color = originalColor;
-   //     if(Guide.active == false)
-   //         Guide.currentButton = null;
+
     }
 
     public void SetButton(){ 
         transform.position = Trigger.transform.position;
         btnText.color = originalColor;
-
-  //      Guide.currentButton = null; 
     }
 
     public void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("inside");
         if(collision.gameObject.tag == "Necessary")
         { 
             Guide.active = true;

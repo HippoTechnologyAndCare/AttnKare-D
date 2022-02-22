@@ -27,6 +27,7 @@ public class SetPlayerData : MonoBehaviour
     int key;    
     int eachLastKey;
     int eachFirstKey;
+    int keyLength;
 
     // 데이터의 인덱싱이 바뀔때 값을 바꿔야 하는 것들 -> TotalFirstKey에 대입값, sOd의 인자 2가지 값
     const int TotalFirstKey = 101;  
@@ -115,8 +116,8 @@ public class SetPlayerData : MonoBehaviour
         else if (currentKey <= 699) eachLastKey = 611;
         else if (currentKey <= 799) eachLastKey = 704;
         return eachLastKey;
-    }   
-
+    }
+       
     // 2차원 배열에 모든 키를 셋팅하는 함수
     private int[,] SetEachFirstKey(int[,] arr2)
     {
@@ -140,6 +141,14 @@ public class SetPlayerData : MonoBehaviour
             }            
         }
         return sOd.userDataArr2;
+    }
+
+    private int GetKeyLength(int eachLastKey)
+    {
+        string temp_s = eachLastKey.ToString();
+        temp_s =  temp_s.Remove(0, 1);
+        keyLength = int.Parse(temp_s);
+        return keyLength;
     }
 
     public void ClearDataSetting()
@@ -185,7 +194,8 @@ public class SetPlayerData : MonoBehaviour
         }
 
         SetLastKey(SceneFirstKey);
-        int keyLength = eachLastKey % 10;
+        GetKeyLength(eachLastKey);
+        Debug.Log("keyLength = " + keyLength);
 
         //mapName 선언
         Dictionary<string, FsmFloat> mapName = new Dictionary<string, FsmFloat>();
@@ -217,8 +227,9 @@ public class SetPlayerData : MonoBehaviour
         }
         
         SetLastKey(SceneFirstKey);
-        int keyLength = eachLastKey % 10;
-        
+        GetKeyLength(eachLastKey);
+        Debug.Log("keyLength = " + keyLength);
+
         Dictionary<string, float> mapName = new Dictionary<string, float>();
 
         for (int i = 0; i < keyLength; i++)

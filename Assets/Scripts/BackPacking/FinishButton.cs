@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using KetosGames.SceneTransition;
 using TMPro;
@@ -14,7 +15,7 @@ public class FinishButton : MonoBehaviour
     private Coroutine coroutine = null;
     Transform Fin1;
     Transform Fin2;
-    public int buildindex;
+    public UnityEvent NextEvent;
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +44,6 @@ public class FinishButton : MonoBehaviour
 
     IEnumerator PressedFirst()
     {
-
         float lerpTime = 0f;
         while (FinishCanvas.alpha < 1.0f) //fade in
         {
@@ -61,7 +61,6 @@ public class FinishButton : MonoBehaviour
         }
         yield return new WaitForSeconds(7.0f);
         bFin = false; //if not pressed for 7 seconds turn off 
-
     }
 
 
@@ -78,7 +77,10 @@ public class FinishButton : MonoBehaviour
         Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "1";
         yield return new WaitForSeconds(1.0f);
 
-        SceneLoader.LoadScene(buildindex);
+        if(NextEvent != null)
+        {
+            NextEvent.Invoke();
+        }
     }
   
 

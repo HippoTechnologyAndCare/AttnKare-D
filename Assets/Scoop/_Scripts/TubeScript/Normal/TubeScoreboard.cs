@@ -101,6 +101,7 @@ public class TubeScoreboard : MonoBehaviour
     [SerializeField] Transform setData_PlayerData;
     [SerializeField] Transform saveData_GameDataMG;
     BNG.CollectData _collectData;
+    public float[] scene2arr;
 
     // Temporary Timer Variables
     float delayTimer;
@@ -109,7 +110,7 @@ public class TubeScoreboard : MonoBehaviour
     // Boolean for Gameplay
     public bool endOfGame = false;
     bool gameFailed = false;
-    public float gameFailedResult;
+    public float gameresultFailed;
     public bool dataRecorded = false;
     public float isSkipped = 0;
     [HideInInspector] public bool movingToLobby = false;
@@ -916,12 +917,12 @@ public class TubeScoreboard : MonoBehaviour
         }
         if(gameFailed)
         {
-            gameFailedResult = 1;
+            gameresultFailed = 1;
 
         }
         else
         {
-            gameFailedResult = 0;
+            gameresultFailed = 0;
         }
 
         RecordStageClearTime(stageCounter);
@@ -934,6 +935,8 @@ public class TubeScoreboard : MonoBehaviour
         }
 
         FsmDatacheck.SendEvent("GameClear");
+
+        scene2arr = new float[] { time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, wrongExcess, gameresultFailed, isSkipped };
         // Save Data to local 
         //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex8();
         //time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, gameFailed ? 1 : 0, isSkipped

@@ -32,8 +32,12 @@ public class AreaLimitChecker : MonoBehaviour
         {
             BehaviorMG.GetComponent<BNG.CollectData>().AddTimeStamp("ESCAPE START");
             Checker = true;
-            audioSource.clip = Return;
-            audioSource.Play();
+            if (!audioSource.isPlaying)
+            {
+                audioSource.clip = Return;
+                audioSource.Play();
+            }
+
         }
     }
 }
