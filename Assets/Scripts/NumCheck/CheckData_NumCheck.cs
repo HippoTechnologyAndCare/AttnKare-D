@@ -6,16 +6,28 @@ using BNG;
 public class CheckData_NumCheck : MonoBehaviour
 {
 
-
+    public AutoButton AUTO;
     [Tooltip("If not in order")]
     public float wrongorder=0;
     [Tooltip("If not in right blank")]
     public float wrongTrigger = 0;
     public float TotalTime = 0;
     public float distractedBy = 0;
+    public float wrongColor = 0; 
+
     [HideInInspector]
     public bool start = false;
     public bool searching = false;
+
+
+    float data_701; //total time
+    float data_702; //wrong order
+    float data_703; //wrong trigger
+    float data_704; //distracted by
+    float data_705; //bothering
+    float data_706; //stage 2 wrong order
+    float data_707; //stage 2 wrong trigger
+    float data_708; //stage 2 wrong color
 
     Guide_NumCheck Guide; 
  
@@ -30,6 +42,15 @@ public class CheckData_NumCheck : MonoBehaviour
     void Update()
     {
         if(start)TotalTime += Time.deltaTime;
+    }
+    public void Stage1()
+    {
+        data_702 = wrongorder;
+        data_703 = wrongTrigger;
+        data_704 = distractedBy;
+        data_705 = AUTO.m_fBothering;
+
+        wrongorder = wrongTrigger = 0;
     }
    
 }

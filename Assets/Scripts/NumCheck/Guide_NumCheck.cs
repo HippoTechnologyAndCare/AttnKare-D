@@ -18,7 +18,7 @@ public class Guide_NumCheck : MonoBehaviour
     public InputBridge XrRig;
     public UIPointer RighthandPointer;
     public int int_buttonN;
-    public Transform parent;
+    public Transform ButtonParent;
     public List<Vector3> arrPos = new List<Vector3>();
     public List<MoveButton> arrBtn;
     public GameObject[] arrTrig;
@@ -41,6 +41,7 @@ public class Guide_NumCheck : MonoBehaviour
     int m_nPos = 0;
     public static int Index = 0;
     AutoButton auto;
+    List<GameObject> m_goAnswer;
 
     public enum INDEX { ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN }
     public struct NUMCHECK_LIST
@@ -119,10 +120,11 @@ public class Guide_NumCheck : MonoBehaviour
         arrBtn = new List<MoveButton>();
         for (int i = 0; i < int_buttonN; i++)
         {
-            GameObject go = Instantiate(prefab_Button, new Vector3(0, 0, 0), Quaternion.identity, parent);
+            GameObject go = Instantiate(prefab_Button, new Vector3(0, 0, 0), Quaternion.identity, ButtonParent);
             MoveButton goTemp = go.GetComponent<MoveButton>();
             go.transform.localPosition = arrPos[i]; go.transform.SetSiblingIndex(i); //Set button's position and index in Hiearchy(if not above trigger, pointer cannot detect button)
-            goTemp.btnNum = (i + 1).ToString(); go.GetComponent<MoveButton>().SetBtnNum(); //Set button Number
+            bool color = (Random.value > 0.5f);
+            goTemp.btnNum = (i + 1).ToString(); go.GetComponent<MoveButton>().SetBtnNum(color); //Set button Number
             goTemp.XrRig = this.XrRig;
             goTemp.RighthandPointer = this.RighthandPointer;
             if (i < NCDB.Length) { NCDB[i].goNum = goTemp.gameObject; goTemp.m_eIndex = NCDB[i].eIndex; }
@@ -138,25 +140,39 @@ public class Guide_NumCheck : MonoBehaviour
         {
             for(int j = 0; j < 2; j++)
             {
-                if (j == 0) { m_bColor = true; }
-                if(j == 1) { m_bColor = false; }
-                GameObject go = Instantiate(prefab_Button, new Vector3(0, 0, 0), Quaternion.identity, parent);
+                bool isEven = i % 2 == 0;
+                m_bColor = j == 0 ? false : true; //j 0이면 true(red) 1이면 false(yellow)
+                GameObject go = Instantiate(prefab_Button, new Vector3(0, 0, 0), Quaternion.identity, ButtonParent);
                 MoveButton goTemp = go.GetComponent<MoveButton>();
                 go.transform.localPosition = arrPos[m_nPos]; go.transform.SetSiblingIndex(m_nPos); //Set button's position and index in Hiearchy(if not above trigger, pointer cannot detect button)
                 goTemp.btnNum = (i + 1).ToString(); go.GetComponent<MoveButton>().SetBtnStage2(m_bColor); //Set button Number
                 goTemp.XrRig = this.XrRig;
                 goTemp.RighthandPointer = this.RighthandPointer;
-                // if (i < NCDB2.Length) { NCDB[i].goNum = goTemp.gameObject; goTemp.m_eIndex = NCDB[i].eIndex; }
+                if (i < NCDB2.Length)
+                { goTemp.m_eIndex = NCDB2[i].eIndex;
+                    if(isEven != m_bColor) NCDB2[i].goNum = goTemp.gameObject;
+                }
                 arrBtn.Add(goTemp);
+                goTemp.enabled = goTemp.bStage = true; //stage 2가 시작되면 cangrab을 바로 키고, move button stage2임을 알려준다
                 m_nPos++;
             }
             
         }
+        for(int i = 0; i <NCDB2.Length; i++)
+        {
+            Debug.Log(NCDB2[i].goNum + " " + NCDB2[i].bColor);
+        }
+
     }
 
     void SetTrigger()
     {
         for (int i = 0; i < arrTrig.Length; i++) NCDB[i].goTrig = arrTrig[i];
+    }
+
+    void TriggerStage2()
+    {
+        for (int i = 0; i < arrTrig.Length; i++) NCDB2[i].goTrig = arrTrig[i];
     }
     private void SetSprite(MoveButton btn) //특정 버튼에 Distraction Image를 추가
     {
@@ -190,10 +206,11 @@ public class Guide_NumCheck : MonoBehaviour
             active = false;
             if (cardNum >= arrTrig.Length)
             {
-                GameClear();
+                Stage2();
                 return;
             }
             arrBtn.Remove(num);
+            GameObject go = num.gameObject;
             Destroy(num);
             Index++;
             StartCoroutine(narration.BoardUI(4));
@@ -220,7 +237,7 @@ public class Guide_NumCheck : MonoBehaviour
         int cardNum = int.Parse(num.btnNum);
         NUMCHECK_LIST m_current = NCDB[Index];
         m_current.nBtn = cardNum;
-        if (NCDB[(int)num.m_eIndex].nNum == NCDB[Index].nNum && NCDB[(int)num.m_eIndex].goTrig == trigger.gameObject)
+        if (NCDB2[(int)num.m_eIndex].nNum == NCDB2[Index].nNum && NCDB2[(int)num.m_eIndex].goTrig == trigger.gameObject && NCDB2[(int)num.m_eIndex].bColor == num.bColor)
         {
             num.SetButton();
             active = false;
@@ -233,24 +250,30 @@ public class Guide_NumCheck : MonoBehaviour
             Destroy(num);
             Index++;
             StartCoroutine(narration.BoardUI(4));
-            auto.AutoMove();
+            CanGrab();
             return;
         }
-        if (NCDB[(int)num.m_eIndex].nNum != m_current.nNum) //현재 버튼이 순서에 맞지 않음
+        if (NCDB2[(int)num.m_eIndex].nNum != m_current.nNum) //현재 버튼이 순서에 맞지 않음
         {
             if (!narration.coroutine) StartCoroutine(narration.BoardUI(0)); //wrong order warning and narration
             dataCheck.wrongorder++;
         }
-        if (NCDB[(int)num.m_eIndex].goTrig != trigger.gameObject) //현재 버튼이 올바른 칸에 있지 않음
+        if (NCDB2[(int)num.m_eIndex].goTrig != trigger.gameObject) //현재 버튼이 올바른 칸에 있지 않음
         {
             if (!narration.coroutine) StartCoroutine(narration.BoardUI(1)); //wrong trigger warning text and narration
             dataCheck.wrongTrigger++;
+        }
+        if(NCDB2[(int)num.m_eIndex].bColor != num.bColor)
+        { 
+          //  if (!narration.coroutine) StartCoroutine(narration.BoardUI(9));
+            dataCheck.wrongColor++;
         }
         CanGrab();
         num.ResetButton();
     }
     private IEnumerator GameStart() //Highlight Trigger as introduction
     {
+        Index = 0;
         yield return new WaitForSeconds(1.0f);
         yield return StartCoroutine(narration.Introduction());
         for (int i =0; i <1; i++){
@@ -280,11 +303,31 @@ public class Guide_NumCheck : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         KetosGames.SceneTransition.SceneLoader.LoadScene(13); //load play paddle scene
     }
+
+    private void Stage2()
+    { //reset before starting stage 2
+        StopAllCoroutines();
+        dataCheck.Stage1();
+        foreach(MoveButton go in arrBtn)Destroy(go.gameObject);
+        foreach (Transform child in ButtonParent.transform) Destroy(child.gameObject);
+        Index = 0;
+        StartCoroutine(Stage2Start());
+    }
+
+    IEnumerator Stage2Start()
+    {
+
+        CreateStage2();
+        TriggerStage2();
+        yield return null;
+    }
     private void GameClear()
     {
         StopAllCoroutines();
         StartCoroutine(ClearCoroutine());
     }
+    //1단계에서 잘못된 순서, 트리거
+    //2단계에서 잘못돈 순서, 트리거, 색깔
 
    
 }

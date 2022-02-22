@@ -14,8 +14,9 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
     public bool triggered;
     public bool click;
     public string btnNum;
-    public string color = "#FF0000";
+    public string color = "#FFFFFF";
     public bool distraction = false;
+    public bool bColor;
     Transform Canvas;
     Transform originalParent;
     RectTransform rect;
@@ -35,7 +36,7 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
     }
     void Start()
     {
-        originalColor = btnText.color;
+
         ColorUtility.TryParseHtmlString(color, out activatedColor);
         parentCursor = RighthandPointer.GetComponent<UIPointer>()._cursor.transform;
         OrginPos = transform.position;
@@ -56,7 +57,7 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
                 if (XrRig.RightTrigger < 0.2f) {
                     this.transform.SetParent(originalParent);
                     if (Trigger) { if(!bStage)Guide.NumInTrigger(this, Trigger); if (bStage) Guide.NumStage2(this, Trigger); }
-                    if(!Trigger) ResetButton();
+                    if (!Trigger) { ResetButton(); Guide.CanGrab(); }
                     click = false;
                 }
             }
@@ -71,18 +72,23 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
         }
     }
 
-    public void SetBtnNum(){
+    public void SetBtnNum(bool color){
+        int a;
         transform.name = btnNum;
         btnText = transform.GetComponentInChildren<TextMeshProUGUI>();
         btnText.text = btnNum;
+        btnText.color = color ? Color.red : Color.yellow;
+        originalColor = btnText.color;
     }
-    public void SetBtnStage2(bool bcolor)
+    public void SetBtnStage2(bool color)
     {
-        transform.name = btnNum;
+
+        bColor = color;
+        transform.name = btnNum + bColor;
         btnText = transform.GetComponentInChildren<TextMeshProUGUI>();
         btnText.text = btnNum;
-        if (bcolor == true) btnText.color = Color.red;
-        if (bcolor == false) btnText.color = Color.yellow;
+        btnText.color = color ? Color.red : Color.yellow;
+        originalColor = btnText.color;
     }
 
     public void OnPointerDown(PointerEventData pointerEventData){
