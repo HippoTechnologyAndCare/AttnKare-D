@@ -55,7 +55,7 @@ public class CheckData_NumCheck : MonoBehaviour
         data_706 = distractedBy;
         data_707 = AUTO.m_fBothering;
 
-
+        Debug.Log("data");
         wrongorder = wrongTrigger = 0;
     }
 
@@ -69,6 +69,10 @@ public class CheckData_NumCheck : MonoBehaviour
         data_710 = wrongColor;
 
         arrData = new float[] { data_701, data_702, data_703, data_704, data_705, data_706, data_707, data_708, data_709, data_710 };
+        for(int i =0; i < arrData.Length; i++)
+        {
+            Debug.Log(arrData[i]);
+        }
     }
    
 }

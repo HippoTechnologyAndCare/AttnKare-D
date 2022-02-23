@@ -22,8 +22,10 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
     RectTransform rect;
     Vector3 OrginPos;
     TextMeshProUGUI btnText;
-    Color activatedColor;
+    Color activatedColor = Color.white;
     Color originalColor;
+    Color colorRed;
+    Color colorYellow;
     Transform parentCursor;
     // Start is called before the first frame update
     public bool bStage = false;
@@ -37,7 +39,8 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
     void Start()
     {
 
-        ColorUtility.TryParseHtmlString(color, out activatedColor);
+        ColorUtility.TryParseHtmlString("#FF0900", out colorRed );
+        ColorUtility.TryParseHtmlString("#FF9B00", out colorYellow);
         parentCursor = RighthandPointer.GetComponent<UIPointer>()._cursor.transform;
         OrginPos = transform.position;
         originalParent = this.transform.parent;
@@ -73,21 +76,19 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
     }
 
     public void SetBtnNum(bool color){
-        int a;
         transform.name = btnNum;
         btnText = transform.GetComponentInChildren<TextMeshProUGUI>();
         btnText.text = btnNum;
-        btnText.color = color ? Color.red : Color.yellow;
+        btnText.color = color ? colorRed : colorYellow;
         originalColor = btnText.color;
     }
-    public void SetBtnStage2(bool color)
+    public void SetBtnStage2(bool color) //솔직히 위에꺼랑 같아서 삭제 가능
     {
-
         bColor = color;
         transform.name = btnNum + bColor;
         btnText = transform.GetComponentInChildren<TextMeshProUGUI>();
         btnText.text = btnNum;
-        btnText.color = color ? Color.red : Color.yellow;
+        btnText.color = color ? colorRed : colorYellow;
         originalColor = btnText.color;
     }
 

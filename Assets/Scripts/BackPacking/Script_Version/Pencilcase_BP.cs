@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BNG;
+using EPOOutline;
 
 public class Pencilcase_BP : MonoBehaviour
 {
@@ -143,6 +144,7 @@ public class Pencilcase_BP : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         CaseCover.SetActive(true);
         transform.parent.SetParent(finalPC);
+        finalPC.GetComponent<Outlinable>().enabled = true;
         finalPC.gameObject.SetActive(true);
         Hud.EffectSound("PENCILCASE");
         Manager.GetComponent<Object_BP>().Stage2();

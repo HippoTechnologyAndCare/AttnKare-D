@@ -27,7 +27,8 @@ public class TextandSpeech : MonoBehaviour
     public GameObject go_SpeechBubble; // canvas or gameobject(turned off when not speaking)
     [SerializeField]
     private TextAsset txta_speech; // speech
-    List<string> list_text;
+    List<string> list_txtSpeech;
+    List<string> list_txtBoard;
     private TextMeshProUGUI txt_speech; //text in canvas
     [SerializeField]
     private char divider;
@@ -36,7 +37,7 @@ public class TextandSpeech : MonoBehaviour
 
     private void Start()
     {
-        list_text = TextToList(txta_speech);
+        list_txtSpeech = TextToList(txta_speech);
         audioPlay = GetComponent<AudioSource>();
         txt_speech = go_SpeechBubble.GetComponentInChildren<TextMeshProUGUI>();
     }
@@ -63,7 +64,7 @@ public class TextandSpeech : MonoBehaviour
         {
             go_SpeechBubble.SetActive(true);
             NarrPlay(arrNarr[i]);
-            txt_speech.text = list_text[i];
+            txt_speech.text = list_txtSpeech[i];
             yield return new WaitWhile(() => audioPlay.isPlaying);
             go_SpeechBubble.SetActive(false);
             yield return new WaitForSeconds(0.9f);
@@ -75,8 +76,8 @@ public class TextandSpeech : MonoBehaviour
     {
         coroutine = true;
         string originalText = txt_BoardTxt.text;
-        list_text = TextToList(txta_board);
-        txt_BoardTxt.text = list_text[index];
+        list_txtBoard = TextToList(txta_board);
+        txt_BoardTxt.text = list_txtBoard[index];
         if (arrBoardNarr[index]) { NarrPlay(arrBoardNarr[index]); yield return new WaitWhile(() => audioPlay.isPlaying); }
         txt_BoardTxt.text = originalText;
         coroutine = false;

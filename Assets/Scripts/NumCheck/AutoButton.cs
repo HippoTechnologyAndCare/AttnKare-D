@@ -14,9 +14,8 @@ public class AutoButton : MonoBehaviour
     public InputBridge XrRig;
     public UIPointer RighthandPointer;
     Guide_NumCheck guide;
-    public string color = "#FF0000";
     TextMeshProUGUI m_tmrpoText;
-    Color activatedColor;
+    Color activatedColor = Color.white;
     Color originalColor;
     bool m_bStart;
     public float m_fBothering; //방해받은 시간
@@ -24,8 +23,6 @@ public class AutoButton : MonoBehaviour
     TextandSpeech narration;
     void Start()
     {
-        originalColor = Color.white;
-        ColorUtility.TryParseHtmlString(color, out activatedColor);
         guide = GameObject.Find("Guide").GetComponent<Guide_NumCheck>();
         narration = GameObject.Find("Guide").GetComponent<TextandSpeech>();
     }
@@ -51,6 +48,7 @@ public class AutoButton : MonoBehaviour
     }
     IEnumerator SetPosition()
     {
+        originalColor = Guide_NumCheck.NCDB[Guide_NumCheck.Index].goNum.GetComponentInChildren<TextMeshProUGUI>().color;
         Finger.SetActive(true);
         narration.Bothered(true);
         m_bStart = true;

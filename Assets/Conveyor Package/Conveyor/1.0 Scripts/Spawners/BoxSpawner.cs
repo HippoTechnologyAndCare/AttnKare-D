@@ -39,6 +39,7 @@ public class BoxSpawner : MonoBehaviour
             Instantiate(m_boxPrefab, m_spawnPoint.position, Quaternion.Euler(m_spawnPoint.eulerAngles.x, m_spawnPoint.eulerAngles.y, m_spawnPoint.eulerAngles.z), m_spawnables);
         }
     }
+    // Erase iterations parameter, make waitTime formula for stage, check currentStage and delegate invoke execution order
 
     public void SpawnNextBox()
     {

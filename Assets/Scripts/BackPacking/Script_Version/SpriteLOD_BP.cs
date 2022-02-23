@@ -28,7 +28,6 @@ public class SpriteLOD_BP : MonoBehaviour
         {
             m_fdistance = Vector3.Distance(this.transform.position, other.transform.position);
             float lerpAmt = 1.0f - Mathf.Clamp01((m_fdistance - minRange) / (maxRange - minRange));
-            Debug.Log(m_fdistance);
             Image.color = new Color(Image.color.r, Image.color.g, Image.color.b, lerpAmt);
         }
     }

@@ -213,7 +213,6 @@ public class Guide_NumCheck : MonoBehaviour
             GameObject go = num.gameObject;
             Destroy(num);
             Index++;
-            StartCoroutine(narration.BoardUI(4));
             auto.AutoMove();
             return;
         }
@@ -249,7 +248,6 @@ public class Guide_NumCheck : MonoBehaviour
             arrBtn.Remove(num);
             Destroy(num);
             Index++;
-            StartCoroutine(narration.BoardUI(3));
             CanGrab();
             return;
         }
@@ -292,10 +290,11 @@ public class Guide_NumCheck : MonoBehaviour
     }
     private IEnumerator ClearCoroutine()
     {
+        dataCheck.Stage2();
         DataCollection.StopRecordingNBehavior();
         GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
         Ghost.GetComponent<Animator>().SetBool("isJump", true);
-        yield return StartCoroutine(narration.BoardUI(3)); //Game clear narration
+        yield return StartCoroutine(narration.BoardUI(5)); //Game clear narration
         dataFin.SendEvent("AllDone");
         yield return new WaitForSeconds(2.5f);
         narration.EndUI("다음으로 넘어가는 중....");
@@ -323,7 +322,6 @@ public class Guide_NumCheck : MonoBehaviour
     private void GameClear()
     {
         StopAllCoroutines();
-        dataCheck.Stage2();
         StartCoroutine(ClearCoroutine());
     }
     //1단계에서 잘못된 순서, 트리거
