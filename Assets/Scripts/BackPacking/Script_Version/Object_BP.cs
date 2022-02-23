@@ -74,10 +74,13 @@ public class Object_BP : MonoBehaviour
 
     //PACK_DISTRACTION
     // Start is called before the first frame update
+    public bool YOUNG;
 
     UI_BP Hud;
     BagPack_BP Bag;
     Pencilcase_BP Pencilcase;
+    BagPack_BP_Young Bag_Young;
+  //  Pencilcase_BP_Young Pencilcase;
 
     public InputBridge XrRig;
     public GameObject CenterEye;
@@ -88,7 +91,9 @@ public class Object_BP : MonoBehaviour
     public GameObject[] arrStage2;
     public GameObject VideoPlayer;
     public GameDataManager SaveData;
-
+    //
+    public float TimeLimit;
+    public float TimeFin;
     //DATA
     public CollectData DataCollect;
     public AutoVoiceRecording BehaviorData;
@@ -132,6 +137,7 @@ public class Object_BP : MonoBehaviour
  //       m_tPencilcase = GameObject.Find("Pencilcase_complete");
         Hud = GameObject.Find("UI").GetComponent<UI_BP>();
         Pencilcase = GameObject.Find("Pencilcase_Collider").GetComponent<Pencilcase_BP>();
+        Bag_Young = GameObject.Find("Bag_Collider").GetComponent<BagPack_BP_Young>();
         Bag = GameObject.Find("Bag_Collider").GetComponent<BagPack_BP>();
         Delimiter = GameObject.Find("DataCheck_Manager").GetComponent<AddDelimiter>();
         m_tRightPointer = RightController.Find("RightHandPointer").gameObject;
@@ -165,8 +171,8 @@ public class Object_BP : MonoBehaviour
         if (m_bTotalTime)
         {
             m_fTotalTime += Time.deltaTime;
-            if (m_fTotalTime >= 150f & !bTimeLimit) { TotalTime("TIME LIMIT"); bTimeLimit = true; }
-            if (m_fTotalTime >= 200f & !bTimeDone) {  TotalTime("TIME OUT"); StartCoroutine(GameDone()); bTimeDone = true; }
+            if (m_fTotalTime >= TimeLimit & !bTimeLimit) { TotalTime("TIME LIMIT"); bTimeLimit = true; }
+            if (m_fTotalTime >= TimeFin & !bTimeDone) {  TotalTime("TIME OUT"); StartCoroutine(GameDone()); bTimeDone = true; }
         }
         if (m_bStageChangeTime) m_fStageChangeTime += Time.deltaTime;
 
@@ -189,7 +195,8 @@ public class Object_BP : MonoBehaviour
     public void Stage2()
     {
         m_bStageChangeTime = true;
-        Bag.bStage2 = true;
+        if (YOUNG) Bag_Young.bStage2 = true; 
+        if(!YOUNG) Bag.bStage2 = true;
         Hud.ChangeMemo();
         StartCoroutine(Hud.StageNotification(2));
     }

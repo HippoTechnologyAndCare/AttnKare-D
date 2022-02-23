@@ -34,7 +34,7 @@ public class HighlightAtGaze_BP : MonoBehaviour, IGazeFocusable
 
     private void Start()
     {
-        GazedObjects = GameObject.Find("HightlightAtGaze").GetComponent<GazedTime_BP>();
+        GazedObjects = GameObject.Find("HighlightAtGaze").GetComponent<GazedTime_BP>();
     }
 
    

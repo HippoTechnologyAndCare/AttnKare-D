@@ -18,6 +18,10 @@ public class UI_BP : MonoBehaviour
     public CanvasGroup Camera_Time; //5min_Canvas
     public CanvasGroup Camera_Finish; //FinCavas
     public Text Time_Text; //TIMER
+    [Header("TEXTASSET")]
+    public char divider = '@';
+    public TextAsset TEXT;
+    List<string> list_txtIntro;
     [Header("MEMO")]
     public Image Memo;
     public Sprite Stage2Memo;
@@ -29,7 +33,7 @@ public class UI_BP : MonoBehaviour
     TextMeshProUGUI m_txtStartInfo;
     public bool bEndUI;
     public bool bTimeStart;
-    float m_fTime = 150;
+    public float m_fTime;
     TimeSpan m_TimeSpan;
     string line;
     bool timeChange = true;
@@ -38,6 +42,7 @@ public class UI_BP : MonoBehaviour
     void Start()
     {
         Manager = GameObject.Find("GameFlow_Manager").GetComponent<Object_BP>();
+        list_txtIntro = TextToList(TEXT);
         bEndUI = true;
     }
 
@@ -53,15 +58,27 @@ public class UI_BP : MonoBehaviour
             if (m_fTime < 0) bTimeStart = false;
         }
     }
-    public IEnumerator CanvasStart()
+    private List<string> TextToList(TextAsset txta_speech) //change textasset to list of string using divider
+    {
+        var listToReturn = new List<string>();
+        var arrayString = txta_speech.text.Split(divider); //can change divider
+        foreach (var line in arrayString)
+        {
+            listToReturn.Add(line);
+        }
+        return listToReturn;
+    }
+
+
+        public IEnumerator CanvasStart()
     {
         yield return new WaitForSeconds(2.0f);
         var child = Board_Start.transform.GetChild(0);
         m_txtStartInfo = child.transform.Find("Info1").GetComponent<TextMeshProUGUI>();
-        m_txtStartInfo.text = "<size=1.4>책가방을 챙기자! </size>\n\n<size=1.2><b><i> STAGE 1 :</size></b></i>\n알림장을 보며 필기구를 <i>필통</i> 에 넣어줘!\n<size=0.1>\n</size><size=1.2><b><i> STAGE 2 :</size></b></i>\n교과서와 알림장에 적힌 준비물을<i> 가방</i> 에 넣어줘!\n<size=0.1>\n</size>";
+        m_txtStartInfo.text = list_txtIntro[0];
         NarrationSound(0);
         yield return new WaitUntil(() => !Audio_Narration.isPlaying);
-        m_txtStartInfo.text = "<size=1.1>알림장과 시간표는 방 벽에 붙여뒀어\n가까이 다가가야 보이니 명심해!\n제한시간은 <color=green> 2분 30초 </color>야.\n마음껏 돌아다니면서 가방을 챙겨봐!";
+        m_txtStartInfo.text = list_txtIntro[1];
         NarrationSound(1);
         yield return new WaitUntil(() => !Audio_Narration.isPlaying);
         Board_Start.DOFade(0, 3);
