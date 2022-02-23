@@ -21,13 +21,17 @@ public class CheckData_NumCheck : MonoBehaviour
 
 
     float data_701; //total time
-    float data_702; //wrong order
-    float data_703; //wrong trigger
-    float data_704; //distracted by
-    float data_705; //bothering
-    float data_706; //stage 2 wrong order
-    float data_707; //stage 2 wrong trigger
-    float data_708; //stage 2 wrong color
+    float data_702; //stage 1 time
+    float data_703; //stage 2 time
+    float data_704; //wrong order
+    float data_705; //wrong trigger
+    float data_706; //distracted by
+    float data_707; //bothering
+    float data_708; //stage 2 wrong order
+    float data_709;//stage 2 wrong trigger
+    float data_710;//stage 2 wrong color
+
+    public float[] arrData;
 
     Guide_NumCheck Guide; 
  
@@ -45,12 +49,26 @@ public class CheckData_NumCheck : MonoBehaviour
     }
     public void Stage1()
     {
-        data_702 = wrongorder;
-        data_703 = wrongTrigger;
-        data_704 = distractedBy;
-        data_705 = AUTO.m_fBothering;
+        data_702 = TotalTime;
+        data_704 = wrongorder;
+        data_705 = wrongTrigger;
+        data_706 = distractedBy;
+        data_707 = AUTO.m_fBothering;
+
 
         wrongorder = wrongTrigger = 0;
+    }
+
+    public void Stage2()
+    {
+        start = false;
+        data_701 = TotalTime;
+        data_703 = TotalTime - data_702;
+        data_708 = wrongorder;
+        data_709 = wrongTrigger;
+        data_710 = wrongColor;
+
+        arrData = new float[] { data_701, data_702, data_703, data_704, data_705, data_706, data_707, data_708, data_709, data_710 };
     }
    
 }

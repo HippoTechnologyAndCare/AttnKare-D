@@ -153,7 +153,7 @@ public class Guide_NumCheck : MonoBehaviour
                     if(isEven != m_bColor) NCDB2[i].goNum = goTemp.gameObject;
                 }
                 arrBtn.Add(goTemp);
-                goTemp.enabled = goTemp.bStage = true; //stage 2가 시작되면 cangrab을 바로 키고, move button stage2임을 알려준다
+                goTemp.bStage = true; //stage 2가 시작되면 cangrab을 바로 키고, move button stage2임을 알려준다
                 m_nPos++;
             }
             
@@ -249,7 +249,7 @@ public class Guide_NumCheck : MonoBehaviour
             arrBtn.Remove(num);
             Destroy(num);
             Index++;
-            StartCoroutine(narration.BoardUI(4));
+            StartCoroutine(narration.BoardUI(3));
             CanGrab();
             return;
         }
@@ -265,7 +265,7 @@ public class Guide_NumCheck : MonoBehaviour
         }
         if(NCDB2[(int)num.m_eIndex].bColor != num.bColor)
         { 
-          //  if (!narration.coroutine) StartCoroutine(narration.BoardUI(9));
+            if (!narration.coroutine) StartCoroutine(narration.BoardUI(4));
             dataCheck.wrongColor++;
         }
         CanGrab();
@@ -275,7 +275,7 @@ public class Guide_NumCheck : MonoBehaviour
     {
         Index = 0;
         yield return new WaitForSeconds(1.0f);
-        yield return StartCoroutine(narration.Introduction());
+        yield return StartCoroutine(narration.CharacterSpeak(0,4));
         for (int i =0; i <1; i++){
             foreach(GameObject trigger in arrTrig)
             {
@@ -295,7 +295,6 @@ public class Guide_NumCheck : MonoBehaviour
         DataCollection.StopRecordingNBehavior();
         GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
         Ghost.GetComponent<Animator>().SetBool("isJump", true);
-        dataCheck.start = false;
         yield return StartCoroutine(narration.BoardUI(3)); //Game clear narration
         dataFin.SendEvent("AllDone");
         yield return new WaitForSeconds(2.5f);
@@ -316,14 +315,15 @@ public class Guide_NumCheck : MonoBehaviour
 
     IEnumerator Stage2Start()
     {
-
         CreateStage2();
         TriggerStage2();
-        yield return null;
+        yield return StartCoroutine(narration.CharacterSpeak(4, 6));
+        CanGrab();
     }
     private void GameClear()
     {
         StopAllCoroutines();
+        dataCheck.Stage2();
         StartCoroutine(ClearCoroutine());
     }
     //1단계에서 잘못된 순서, 트리거

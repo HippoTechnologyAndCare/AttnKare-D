@@ -36,6 +36,7 @@ public class TextandSpeech : MonoBehaviour
 
     private void Start()
     {
+        list_text = TextToList(txta_speech);
         audioPlay = GetComponent<AudioSource>();
         txt_speech = go_SpeechBubble.GetComponentInChildren<TextMeshProUGUI>();
     }
@@ -56,10 +57,9 @@ public class TextandSpeech : MonoBehaviour
         audioPlay.Play();
     }
 
-    public IEnumerator Introduction() //read all introduction text
+    public IEnumerator CharacterSpeak(int start, int end) //read all introduction text
     {
-        list_text = TextToList(txta_speech);
-        for (int i = 0; i < list_text.Count; i++)
+        for (int i = start; i < end; i++)
         {
             go_SpeechBubble.SetActive(true);
             NarrPlay(arrNarr[i]);
@@ -80,6 +80,7 @@ public class TextandSpeech : MonoBehaviour
         if (arrBoardNarr[index]) { NarrPlay(arrBoardNarr[index]); yield return new WaitWhile(() => audioPlay.isPlaying); }
         txt_BoardTxt.text = originalText;
         coroutine = false;
+
     }
 
     public void EndUI(string txt)
