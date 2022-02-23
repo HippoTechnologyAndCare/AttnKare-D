@@ -93,7 +93,8 @@ public class GameDataManager : MonoBehaviour
                 saveCurrentSceneData = SetData;                                
                 break;
             case 9: //NUMMATCH
-                saveCurrentSceneData = SetData_pm;
+                objToFind = FindObjectOfType<CheckData_NumCheck>().gameObject;
+                saveCurrentSceneData = SetData;
                 break;
         }        
     }
@@ -134,7 +135,7 @@ public class GameDataManager : MonoBehaviour
                 setPlayerData.SetSceneData(objToFind.GetComponent<TubeScoreboard>().scene2arr);                
                 break;
             case 9: //NUMMATCH
-                
+                setPlayerData.SetSceneData(objToFind.GetComponent<CheckData_NumCheck>().arrData);
                 break;
         }      
     }
