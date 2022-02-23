@@ -29,6 +29,7 @@ public class Hud_Paddle : MonoBehaviour
      */
     AudioSource m_audioEffect;
     AudioSource m_audioNarration;
+    AudioSource m_audioBGM;
     int m_nDISTANCE  = 0;
     int m_nPERCENT;
     public bool bCoroutine;
@@ -39,10 +40,11 @@ public class Hud_Paddle : MonoBehaviour
         var audioSources = transform.GetComponents<AudioSource>();
         m_audioEffect = audioSources[0];
         m_audioNarration = audioSources[1];
+        m_audioBGM = audioSources[2];
     }
     void Start()
     {
-        
+        m_audioBGM.clip = clipNarration[3];
     }
 
     // Update is called once per frame
@@ -60,12 +62,9 @@ public class Hud_Paddle : MonoBehaviour
 
     public void AudioController(string text)
     {
-        if (!bCoroutine)
-        {
-            switch (text)
+        switch (text)
             {
                 case "guide"      : PlayNarration(clipNarration[0], false); break;
-                case "bgm"        : PlayNarration(clipNarration[3], true); break;
                 case "button"     : StartCoroutine(TextSpeechWarning(null, clipEffect[1])); break;
                 case "correct"    : StartCoroutine(TextSpeechWarning("잘했어!", clipEffect[2])); break;
                 case "wrong order": StartCoroutine(TextSpeechWarning("친구 방향에 맞춰 돌려야 해", clipEffect[3])); break;
@@ -75,10 +74,13 @@ public class Hud_Paddle : MonoBehaviour
                 case "stage"      : StartCoroutine(TextSpeechWarning("속도와 방향이 바뀌었어!", clipEffect[4])); break;
                 case "complete"   : StartCoroutine(TextSpeechWarning("정말 잘했어!", clipEffect[5])); break;
             }
-        }
     }
-
    
+    public void BGMplay(bool play)
+    {
+        if (play) m_audioBGM.Play();
+        if (!play) m_audioBGM.Pause();
+    }
     public IEnumerator CountDown() {
         bCoroutine = true;
         m_audioNarration.Stop();
@@ -103,6 +105,7 @@ public class Hud_Paddle : MonoBehaviour
     {
         bCoroutine = true;
         if (text!=null) txtERROR.text = text;
+        Debug.Log(text);
         m_audioEffect.clip = audioClip;
         m_audioEffect.Play();
         if (audioClip.length < 1f) yield return new WaitForSeconds(2.0f);

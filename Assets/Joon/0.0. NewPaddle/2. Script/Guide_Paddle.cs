@@ -110,6 +110,7 @@ public class Guide_Paddle : MonoBehaviour
         StartCoroutine(Hud.CountDown());
         FriendAnimation.Play("Intro");
         m_ePSTATE = PADDLE_STATE.START;
+        Hud.BGMplay(true);
         BehaviorData.AddTimeStamp("MISSION START");
     }
     
@@ -164,10 +165,10 @@ public class Guide_Paddle : MonoBehaviour
         Hud.AudioController("stage");
         Debug.Log("CHECK_STAGE");
         m_nComplete = 0;
+        Debug.Log(intStage);
+        if (intStage >= 2) { Make_ALLDONE(); return; }
         Manager_Paddle.intStage++;
         intStage = Manager_Paddle.intStage;
-        Debug.Log(intStage);
-        if (intStage > 2) { Make_ALLDONE(); return; }
         Make_STAGE();
     }
     public void Check_Order() //write in hud and datacheck 

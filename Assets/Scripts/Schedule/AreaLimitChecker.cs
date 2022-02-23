@@ -9,7 +9,7 @@ public class AreaLimitChecker : MonoBehaviour
 
     public Transform BehaviorMG;
 
-    bool Checker = false;
+    public bool Checker = false;
 
     void Start()
     {
