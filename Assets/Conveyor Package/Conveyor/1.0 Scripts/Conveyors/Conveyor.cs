@@ -11,4 +11,5 @@ public class Conveyor : MonoBehaviour
     private void OnDisable()                    { StageManager.stage -= SetConveyorSpeed; }
     private void OnTriggerStay(Collider other)  { other.gameObject.GetComponent<Rigidbody>().velocity = speed * direction * Time.deltaTime; }
     public void SetConveyorSpeed(int stage)     { if (stage > 2) speed = speed * 2; }
+                                                  // speed = 20 + (StageManager.currentStage - 1) * 5;
 }
