@@ -28,6 +28,7 @@ namespace Scheduler
         private const float TimeLimit = 900; //시간 제한 사용 방향 기획 필요
         private const float TimeLimitForFinish = 1200; //강제종료시간
 
+        public Transform mainUi;
         public Transform intro;
         public GameObject board;
         public Transform finish;
@@ -355,21 +356,22 @@ namespace Scheduler
         {
             bgmController.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
 
-            textTitle.text = "준비 ~";
+            textTitle.text = "<color=#FFFFFF>준비 ~";
 
             yield return new WaitForSeconds(1f);
             PlaySoundByTypes(ESoundType.Cnt);
-            textTitle.text = "3";
+            textTitle.text = "<color=#FFFFFF>3";
             yield return new WaitForSeconds(1);
             PlaySoundByTypes(ESoundType.Cnt);
-            textTitle.text = "2";
+            textTitle.text = "<color=#FFFFFF>2";
             yield return new WaitForSeconds(1);
             PlaySoundByTypes(ESoundType.Cnt);
-            textTitle.text = "1";
+            textTitle.text = "<color=#FFFFFF>1";
             yield return new WaitForSeconds(1);
-            textTitle.text = "시작 !";
+            textTitle.text = "<color=#FFFFFF>시작 !";
             yield return new WaitForSeconds(1f);
 
+            mainUi.GetComponent<GraphicRaycaster>().enabled = true;
             intro.gameObject.SetActive(false);
             board.gameObject.SetActive(true);
             beforeStart = false;

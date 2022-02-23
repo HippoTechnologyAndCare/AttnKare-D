@@ -6,66 +6,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using Scheduler;
 using UnityEngine.EventSystems;
-
-[System.Serializable]
-public class TxtNTimeScript : ISerializationCallbackReceiver
-{
-    [SerializeField] 
-    private DictionaryScriptableObject dictionaryData;
-
-    [SerializeField]
-    private List<string> keys = new List<string>();
-    [SerializeField]
-    private List<float> values = new List<float>();
-
-    public Dictionary<string, float> TxtDictionary = new Dictionary<string, float>();
-
-    public bool modifyValues;
-    
-    public void OnBeforeSerialize()
-    {
-        if (modifyValues) return;
-        keys.Clear();
-        values.Clear();
-    
-        for (var i = 0; i != Math.Min(dictionaryData.Keys.Count, dictionaryData.Values.Count); i++)
-        {
-            keys.Add((dictionaryData.Keys[i]));
-            values.Add(dictionaryData.Values[i]);
-        }
-    }
-
-    public void OnAfterDeserialize()
-    {
-        
-    }
-    
-    public void DeserializeDictionary()
-    {
-        Debug.Log("Deserialization");
-        TxtDictionary = new Dictionary<string, float>();
-        dictionaryData.Keys.Clear();
-        dictionaryData.Values.Clear();
-
-        for (var i = 0; i < Math.Min(keys.Count, values.Count); i++)
-        {
-            dictionaryData.Keys.Add(keys[i]);
-            dictionaryData.Values.Add(values[i]);
-            TxtDictionary.Add(keys[i], values[i]);
-        }
-
-        modifyValues = false;
-    }
-}
 
 public class HUDSchedule : MonoBehaviour
 {
     private enum Voice {HowTo, Start, HalfInfo, WellDone}
 
-    public TxtNTimeScript dicScript;
+    public DictionaryScript dicScript;
     [SerializeField] DictionaryScriptableObject dicData;
 
+    [SerializeField] private ScheduleManager1 schManager;
     /*************************************************************************
     //처음 안내문구 음성과 문구을 전시합니다
     *************************************************************************/
@@ -103,6 +54,7 @@ public class HUDSchedule : MonoBehaviour
         StartCoroutine(HowToPlaySetUiTxt());
     }
 
+    
     private IEnumerator HowToPlaySetUiTxt()
     {
         yield return new WaitForSeconds(2f);
@@ -129,22 +81,9 @@ public class HUDSchedule : MonoBehaviour
             yield return new WaitForSeconds(item.Value);
         }
         
-        // foreach (var setT in howToScriptTxt)
-        // {
-        //     if (!_isFade)
-        //     {
-        //         howToTMP.SetText(setT);
-        //         FadeInCanvas(infoCanvas, 1f); // Info Canvas fade In
-        //         _isFade = true;
-        //     }
-        //
-        //     yield return new WaitForSeconds(2f);
-        //     howToTMP.SetText(setT);
-        // }
-
-        //yield return new WaitForSeconds(3f);
-        
         FadeOutCanvas(infoCanvas, 1f);
+        yield return new WaitForSeconds(1f);
+        schManager.intro.gameObject.SetActive(true);
     }
     
     private IEnumerator HowToPlayVoiceText()
