@@ -94,7 +94,6 @@ public class FactoryManager : MonoBehaviour
 
     private void Update() { DebugScore(); }
     private void OnApplicationQuit() { if(!m_gameData.IsDataSaved()) SaveGameData(); }
-
     public static void AddToGrabbedList(GameObject toy) { if (!m_grabbedList.Contains(toy)) m_grabbedList.Add(toy); }                                                    // Called in Toy.cs
     public static void RemoveFromGrabbedList(GameObject toy) { if (m_grabbedList.Contains(toy)) m_grabbedList.Remove(toy); }                                            // Called in Box.cs
     public static void CheckMissing() { foreach (GameObject toy in m_grabbedList) if (toy == null) Debug.Log("Missing Object: " + m_grabbedList.IndexOf(toy)); }        // Called in Box.cs
