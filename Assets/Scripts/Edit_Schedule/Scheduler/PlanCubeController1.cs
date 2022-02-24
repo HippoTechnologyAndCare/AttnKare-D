@@ -118,11 +118,14 @@ namespace Scheduler
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            nowClicked = true;
-            Transform transform1;
-            (transform1 = transform).SetParent(canvas);
-            scheduleManager.LockAllCollision(transform1);
-            Debug.Log("pointerDown은 연속인가");
+            if (!nowClicked)
+            {
+                //scheduleManager.InitGrpList();
+                transform.SetParent(canvas);
+                scheduleManager.LockAllCollision(transform);
+                nowClicked = true;
+            }
+            
             //아래 조건문에 activeSlot아니고 intoSlot일 수도 있음
             if (activeSlot != null && !scheduleManager.pointerLock)
             {
@@ -258,7 +261,7 @@ namespace Scheduler
             nowClicked = false;
             intoSlot = null;
             workingSlot = null;
-            scheduleManager.InitGrpList();
+            //scheduleManager.InitGrpList();
             scheduleManager.ReleaseAllCollision(); //문제가 생기면 원래위치로 :138
         }
 
@@ -366,17 +369,21 @@ namespace Scheduler
         private void InstantiateCard(GameObject thisG)
         {
             var cloneCard = Instantiate(thisG);
-
+            scheduleManager.grpList.Add(cloneCard.transform);
             cloneCard.GetComponent<PlanCubeController1>().activeSlot = null;
             cloneCard.transform.SetParent(grp);
             cloneCard.transform.localPosition = startPos;
             cloneCard.transform.localScale = new Vector3(1, 1, 1);
         }
 
-        public IEnumerator resetPlanCube(float wait)
+        public IEnumerator ResetPlanCube(float wait)
         {
-            cardState = CardState.Idle;
-            activeSlot = null;
+            if (activeSlot != null)
+            {
+                cardState = CardState.Idle;
+                activeSlot = null;
+            }
+            
             intoSlot = null;
             workingSlot = null;
             yield return new WaitForSeconds(wait);

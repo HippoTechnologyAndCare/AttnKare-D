@@ -13,14 +13,12 @@ namespace Scheduler
         [SerializeField] private GameObject originPos;
         [SerializeField] private GameObject cardPrefab;
         [SerializeField] private ScheduleManager1 schManager;
-
-
+        
         [SerializeField] private string otherName;
 
         private GameObject _tempSlot;
         private string _word;
-
-
+        
         private void Start()
         {
             schManager = FindObjectOfType<ScheduleManager1>();
@@ -49,8 +47,9 @@ namespace Scheduler
                     if (storedCard != null)
                     {
                         Debug.Log("destroy originPos Card = " + storedCard);
+                        schManager.grpList.Remove(storedCard.transform);
                         Destroy(storedCard);
-                        //storedCard = cardB;
+                        
                     }
                     //cardB.GetComponent<PlanCubeController1>().activeSlot = null;
                     Debug.Log("storedCard =" + storedCard.name);
@@ -59,6 +58,7 @@ namespace Scheduler
                     if (!RemoveWord.EndsWithWord(storedCard.name, _word))
                     {
                         Debug.Log("3");
+                        schManager.grpList.Remove(cardB.transform);
                         Destroy(cardB);
                     }
                     //Destroy(storedCard);
@@ -68,6 +68,7 @@ namespace Scheduler
                 
                 else if (!RemoveWord.EndsWithWord(storedCard.name, _word))
                 {
+                    schManager.grpList.Remove(cardB.transform);
                     Destroy(cardB);
                     Debug.Log("origin pos에 있는 카드가 원본이라 cardB는 삭제함");
                 }
@@ -99,6 +100,7 @@ namespace Scheduler
             else if(storedCard != null && schManager.isReset)
             {
                 if(!RemoveWord.EndsWithWord(storedCard.name, _word)) return;
+                schManager.grpList.Remove(storedCard.transform);
                 Destroy(storedCard);
                 isStored = false;
                 storedCard = null;
@@ -113,6 +115,18 @@ namespace Scheduler
             if (name != otherName || !isStored) return;
             other.GetComponent<PlanCubeController1>().isHomeTW = false;
             isStored = false;
+            storedCard = null;
+        }
+
+        public void ResetOriginPos()
+        {
+            if (storedCard == null) return;
+            const string keyword = "(Clone)";
+            if (RemoveWord.EndsWithWord(storedCard.name, keyword))
+            {
+                schManager.grpList.Remove(storedCard.transform);
+                Destroy(storedCard);
+            }
             storedCard = null;
         }
     }

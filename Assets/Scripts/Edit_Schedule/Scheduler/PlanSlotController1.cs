@@ -7,6 +7,8 @@ namespace Scheduler
 {
     public class PlanSlotController1 : MonoBehaviour
     {
+        [SerializeField] ScheduleManager1 schManager;
+        
         public GameObject passenger;
 
         //public bool inSlot;
@@ -20,7 +22,7 @@ namespace Scheduler
         private void Start()
         {
             passenger = null;
-            //inSlot = false;
+            schManager = FindObjectOfType<ScheduleManager1>();
             cube = gameObject.transform.Find("Cube");
             mesh = cube.GetComponent<MeshRenderer>();
         }
@@ -43,6 +45,7 @@ namespace Scheduler
             const string keyword = "(Clone)";
             if (RemoveWord.EndsWithWord(passenger.name, keyword))
             {
+                schManager.grpList.Remove(passenger.transform);
                 Destroy(passenger);
             }
             passenger = null;

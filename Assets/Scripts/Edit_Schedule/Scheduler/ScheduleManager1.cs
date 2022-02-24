@@ -25,8 +25,8 @@ namespace Scheduler
         public CollectData collectData;
         public AutoVoiceRecording voiceRecording;
         
-        private const float TimeLimit = 900; //시간 제한 사용 방향 기획 필요
-        private const float TimeLimitForFinish = 1200; //강제종료시간
+        private const float TimeLimit = 120; //시간 제한 사용 방향 기획 필요
+        private const float TimeLimitForFinish = 180; //강제종료시간
 
         public Transform mainUi;
         public Transform intro;
@@ -47,11 +47,13 @@ namespace Scheduler
 
         public Transform slot;
         public Transform grp;
+        public Transform originPos;
 
         public Text timerText;
 
         private List<Transform> slotList; 
-        [SerializeField] private List<Transform> grpList;
+        public List<Transform> grpList;
+        private List<Transform> oPosList;
 
         public float[] Scene2Arr { get; set; }
 
@@ -68,7 +70,7 @@ namespace Scheduler
 
         private float guide_Length = 25;
 
-        private int timerMin = 1;
+        private int timerMin = 2;
         private int timerSec = 30;
         
         private float totalElapsedTime = 0;         //수행한 시간 계산용
@@ -105,9 +107,11 @@ namespace Scheduler
 
             slotList = new List<Transform>();
             grpList = new List<Transform>();
+            oPosList = new List<Transform>();
 
             InitSlotList();
             InitGrpList();
+            InitOposList();
 
             collectData.AddTimeStamp("GUIDE START");
         }
@@ -220,6 +224,15 @@ namespace Scheduler
             return slotList;
         }
 
+        public List<Transform> InitOposList()
+        {
+            foreach (var oP in oPosList)
+            {
+                oPosList.Add(oP);
+            }
+            return oPosList;
+        }
+        
         public List<Transform> InitGrpList()
         {
             if (grpList == null) return grpList;
@@ -266,9 +279,12 @@ namespace Scheduler
 
         public void LockAllCollision(Transform obj)
         {
-            foreach (var go in grpList.Where(go => go != obj))
+            foreach (var go in grpList)
             {
-                go.GetComponent<PlanCubeController1>().enabled = false;
+                if (go != obj)
+                {
+                    go.GetComponent<PlanCubeController1>().enabled = false;
+                }
             }
         }
 
@@ -304,6 +320,15 @@ namespace Scheduler
         public void ReSetAll()
         {
             PlaySoundByTypes(ESoundType.Click);
+            foreach (var oP in oPosList)
+            {
+                oP.GetComponent<OriginPosController>().ResetOriginPos();
+            }
+            
+            foreach(var t in grpList)
+            {
+                StartCoroutine(t.GetComponent<PlanCubeController1>().ResetPlanCube(0.07f));
+            }
 
             if (CheckEmptySlot())
             {
@@ -314,10 +339,10 @@ namespace Scheduler
                     t.GetComponent<PlanSlotController1>().ResetPlanSlot();
                 }
                 
-                foreach(var t in grpList)
-                {
-                    StartCoroutine(t.GetComponent<PlanCubeController1>().resetPlanCube(0.07f));
-                }
+                // foreach(var t in grpList)
+                // {
+                //     StartCoroutine(t.GetComponent<PlanCubeController1>().resetPlanCube(0.07f));
+                // }
               
                 foreach (var t in slotList)
                 {
