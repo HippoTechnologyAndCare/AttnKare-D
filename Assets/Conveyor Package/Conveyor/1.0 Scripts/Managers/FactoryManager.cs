@@ -20,6 +20,8 @@ public class Debugger
     public int stage3Destroyed;
     public List<GameObject> m_grabbedList;
     public string gameState;
+    public int currentStage;
+    public float conveyorSpeed;
     public string stageColor;
 }
 // Debugging & Data Management
@@ -68,6 +70,9 @@ public class FactoryManager : MonoBehaviour
         m_debugger.stage1Destroyed = StageManager.currentGameState == GameState.Stage1 ? m_destroyCount : m_gameData.GetStage1DestroyCnt();
         m_debugger.stage2Destroyed = StageManager.currentGameState == GameState.Stage2 ? m_destroyCount : m_gameData.GetStage2DestroyCnt();
         m_debugger.stage3Destroyed = StageManager.currentGameState == GameState.Stage3 ? m_destroyCount : m_gameData.GetStage3DestroyCnt();
+
+        m_debugger.currentStage = StageManager.m_currentStage;
+        m_debugger.conveyorSpeed = Conveyor.speed;
     }
 
     // Start is called before the first frame update
@@ -79,8 +84,12 @@ public class FactoryManager : MonoBehaviour
 
         // Debugger
         m_debugger.stage1Score = new List<int>(); m_debugger.stage2Score = new List<int>(); m_debugger.stage3Score = new List<int>();
-        for (int i = 0; i < 5; i++) { m_debugger.stage1Score.Add(-1); }
-        for (int i = 0; i < 10; i++) { m_debugger.stage2Score.Add(-1); m_debugger.stage3Score.Add(-1); }
+        for (int i = 0; i < 5; i++) 
+        {
+            m_debugger.stage1Score.Add(-1);
+            m_debugger.stage2Score.Add(-1);
+            m_debugger.stage3Score.Add(-1);
+        }
     }
 
     private void Update() { DebugScore(); }
