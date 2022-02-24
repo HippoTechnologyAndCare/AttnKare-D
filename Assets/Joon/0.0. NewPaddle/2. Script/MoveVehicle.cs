@@ -16,7 +16,6 @@ public class MoveVehicle : MonoBehaviour
     float MovingTimerForLimit = 3;
 
     public float Distance = 0;
-    int a;
     void Start()
     {
         MovingTimer = 0;
