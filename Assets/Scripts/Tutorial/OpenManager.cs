@@ -216,7 +216,7 @@ public class OpenManager : MonoBehaviour
 
         //PlayerPrefs.SetString("State", "END");
 
-        SceneLoader.LoadScene("Tutorial");
+        SceneLoader.LoadScene(10);
 
 
         yield return new WaitForSeconds(1.0f);

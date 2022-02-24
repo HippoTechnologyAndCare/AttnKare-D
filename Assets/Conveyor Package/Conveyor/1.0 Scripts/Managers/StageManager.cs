@@ -23,7 +23,7 @@ public class StageManager : MonoBehaviour
     public static GameState currentGameState = GameState.Waiting;
     public static int m_currentStage = 1;
     public static BNG.Toy.ToyType m_currentColor;
-    public static int m_boxCount;
+    public static int m_boxCount = 5;
 
     [SerializeField] FactoryManager m_factoryManager;
     [SerializeField] UIManager      m_UIManager;
@@ -47,7 +47,6 @@ public class StageManager : MonoBehaviour
         {
             stage?.Invoke(1);
             GenerateColor();
-            m_boxCount = 5;
             currentGameState = GameState.Stage1;
         }
         if (currentGameState == GameState.Stage2Start)
@@ -55,7 +54,6 @@ public class StageManager : MonoBehaviour
             NextStage();
             stage?.Invoke(2);
             GenerateColor();
-            m_boxCount = 10;
             currentGameState = GameState.Stage2;
             FactoryManager.ResetDestroyCount(1);
         }
@@ -64,7 +62,6 @@ public class StageManager : MonoBehaviour
             NextStage();
             stage?.Invoke(3);
             GenerateColor();
-            m_boxCount = 10;
             currentGameState = GameState.Stage3;
             FactoryManager.ResetDestroyCount(2);
         }
@@ -104,7 +101,7 @@ public class StageManager : MonoBehaviour
 
     public static void ChangeGameState(GameState gameState) { currentGameState = gameState; }
     public static void BoxCountDec() { m_boxCount--; }
-    public static void NextStage()   { m_currentStage++; }
+    public static void NextStage()   { m_currentStage++; m_boxCount = 5; }
     public static void AudioEnd(int index)
     {
         switch (index)

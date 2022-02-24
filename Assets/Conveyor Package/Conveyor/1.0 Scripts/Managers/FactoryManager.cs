@@ -20,6 +20,8 @@ public class Debugger
     public int stage3Destroyed;
     public List<GameObject> m_grabbedList;
     public string gameState;
+    public int currentStage;
+    public float conveyorSpeed;
     public string stageColor;
 }
 // Debugging & Data Management
@@ -28,6 +30,7 @@ public class FactoryManager : MonoBehaviour
     [SerializeField] StageManager m_stageManager;
     [SerializeField] AudioManager m_audioManager;
     [SerializeField] UIManager m_UIManager;
+    [SerializeField] BNG.CollectData m_collectData;
     [SerializeField] PlayArea m_playArea;
 
     [SerializeField] Text m_debuggerUI;                               // Debugger UI
@@ -68,6 +71,9 @@ public class FactoryManager : MonoBehaviour
         m_debugger.stage1Destroyed = StageManager.currentGameState == GameState.Stage1 ? m_destroyCount : m_gameData.GetStage1DestroyCnt();
         m_debugger.stage2Destroyed = StageManager.currentGameState == GameState.Stage2 ? m_destroyCount : m_gameData.GetStage2DestroyCnt();
         m_debugger.stage3Destroyed = StageManager.currentGameState == GameState.Stage3 ? m_destroyCount : m_gameData.GetStage3DestroyCnt();
+
+        m_debugger.currentStage = StageManager.m_currentStage;
+        m_debugger.conveyorSpeed = Conveyor.speed;
     }
 
     // Start is called before the first frame update
@@ -79,13 +85,16 @@ public class FactoryManager : MonoBehaviour
 
         // Debugger
         m_debugger.stage1Score = new List<int>(); m_debugger.stage2Score = new List<int>(); m_debugger.stage3Score = new List<int>();
-        for (int i = 0; i < 5; i++) { m_debugger.stage1Score.Add(-1); }
-        for (int i = 0; i < 10; i++) { m_debugger.stage2Score.Add(-1); m_debugger.stage3Score.Add(-1); }
+        for (int i = 0; i < 5; i++) 
+        {
+            m_debugger.stage1Score.Add(-1);
+            m_debugger.stage2Score.Add(-1);
+            m_debugger.stage3Score.Add(-1);
+        }
     }
 
     private void Update() { DebugScore(); }
     private void OnApplicationQuit() { if(!m_gameData.IsDataSaved()) SaveGameData(); }
-
     public static void AddToGrabbedList(GameObject toy) { if (!m_grabbedList.Contains(toy)) m_grabbedList.Add(toy); }                                                    // Called in Toy.cs
     public static void RemoveFromGrabbedList(GameObject toy) { if (m_grabbedList.Contains(toy)) m_grabbedList.Remove(toy); }                                            // Called in Box.cs
     public static void CheckMissing() { foreach (GameObject toy in m_grabbedList) if (toy == null) Debug.Log("Missing Object: " + m_grabbedList.IndexOf(toy)); }        // Called in Box.cs
@@ -183,6 +192,8 @@ public class FactoryManager : MonoBehaviour
         FormatJson();
 
         ExportAsJson();
+
+        m_collectData.SaveBehaviorData();
 
         Debug.Log("Game Data has been Saved!");
     }
