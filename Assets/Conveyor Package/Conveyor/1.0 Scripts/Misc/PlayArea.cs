@@ -6,6 +6,8 @@ public class PlayArea : MonoBehaviour
 {
     /*[SerializeField] FactoryManager m_factoryManager;*/
 
+    [SerializeField] BNG.CollectData m_collectData;
+
     [SerializeField] Material m_playerActive;
     [SerializeField] Material m_playerInactive;
 
@@ -42,6 +44,6 @@ public class PlayArea : MonoBehaviour
             input.VibrateController(.3f, .1f, 5f, BNG.ControllerHand.Right);
         }
     }
-    private void OnTriggerEnter(Collider other) { ChangeColor(true);    m_outOfBounds = false; }
-    private void OnTriggerExit(Collider other)  { ChangeColor(false);  m_outOfBounds = true;  m_escapeCount++; }
+    private void OnTriggerEnter(Collider other) { ChangeColor(true);   m_collectData.AddTimeStamp("ESCAPE END");   m_outOfBounds = false; }
+    private void OnTriggerExit(Collider other)  { ChangeColor(false);  m_collectData.AddTimeStamp("ESCAPE START"); m_outOfBounds = true;  m_escapeCount++; }
 }

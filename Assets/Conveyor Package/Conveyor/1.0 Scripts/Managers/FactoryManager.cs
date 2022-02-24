@@ -30,6 +30,7 @@ public class FactoryManager : MonoBehaviour
     [SerializeField] StageManager m_stageManager;
     [SerializeField] AudioManager m_audioManager;
     [SerializeField] UIManager m_UIManager;
+    [SerializeField] BNG.CollectData m_collectData;
     [SerializeField] PlayArea m_playArea;
 
     [SerializeField] Text m_debuggerUI;                               // Debugger UI
@@ -191,6 +192,8 @@ public class FactoryManager : MonoBehaviour
         FormatJson();
 
         ExportAsJson();
+
+        m_collectData.SaveBehaviorData();
 
         Debug.Log("Game Data has been Saved!");
     }
