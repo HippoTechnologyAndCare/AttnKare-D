@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using BNG;
+
 public class UI_BP : MonoBehaviour
 {
     [Header("CANVAS")]
@@ -23,8 +25,10 @@ public class UI_BP : MonoBehaviour
     public TextAsset TEXT;
     List<string> list_txtIntro;
     [Header("MEMO")]
+    public GameObject ParticleSystem;
+    GameObject goParticle;
     public Image Memo;
-    public Sprite Stage2Memo;
+    public Sprite[] StageMemo;
     [Header("AUDIO SOUNDS")]
     public AudioSource Audio_Narration;
     public AudioClip[] Clips_Narration;
@@ -38,10 +42,13 @@ public class UI_BP : MonoBehaviour
     string line;
     bool timeChange = true;
     Object_BP Manager;
+    MemoCheck_BP MemoCheck;
+
     // Start is called before the first frame update
     void Start()
     {
         Manager = GameObject.Find("GameFlow_Manager").GetComponent<Object_BP>();
+        MemoCheck = GameObject.FindObjectOfType<MemoCheck_BP>();
         list_txtIntro = TextToList(TEXT);
         bEndUI = true;
     }
@@ -78,8 +85,15 @@ public class UI_BP : MonoBehaviour
         m_txtStartInfo.text = list_txtIntro[0];
         NarrationSound(0);
         yield return new WaitUntil(() => !Audio_Narration.isPlaying);
+        yield return new WaitUntil(() => MemoCheck.set == false);
+        MemoParticle();
+        EffectSound("STAR");
         m_txtStartInfo.text = list_txtIntro[1];
         NarrationSound(1);
+        yield return new WaitUntil(() => !Audio_Narration.isPlaying);
+        Destroy(goParticle);
+        m_txtStartInfo.text = list_txtIntro[2];
+        NarrationSound(2);
         yield return new WaitUntil(() => !Audio_Narration.isPlaying);
         Board_Start.DOFade(0, 3);
         yield return new WaitUntil(() => Board_Start.alpha == 0);
@@ -87,6 +101,11 @@ public class UI_BP : MonoBehaviour
         
     }
 
+    void MemoParticle()
+    {
+        goParticle = Instantiate(ParticleSystem, Memo.transform.parent.position, Quaternion.identity);
+        goParticle.GetComponent<ParticleSystem>().Play();
+    }
     void NarrationSound(int index)
     {
         Audio_Narration.clip = Clips_Narration[index];
@@ -136,9 +155,9 @@ public class UI_BP : MonoBehaviour
         Camera_Stage.gameObject.SetActive(false);
     }
 
-    public void ChangeMemo()
+    public void ChangeMemo(int index)
     {
-        Memo.sprite = Stage2Memo;
+        Memo.sprite = StageMemo[index];
     }
 
     public void EffectSound(string when)
@@ -180,8 +199,8 @@ public class UI_BP : MonoBehaviour
         int index = 0;
         switch (strStamp)
         {
-            case "TIME LIMIT": tmproTime.text = "조금만 서둘러볼까?"; index = 2; break;
-            case "TIME OUT": tmproTime.text = "여기까지 해볼게!"; index = 3; break;
+            case "TIME LIMIT": tmproTime.text = "조금만 서둘러볼까?"; index = 3; break;
+            case "TIME OUT": tmproTime.text = "여기까지 해볼게!"; index = 4; break;
             default: break;
         }
         Camera_Time.DOFade(1, 0.8f);

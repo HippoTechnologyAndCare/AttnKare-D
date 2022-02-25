@@ -9,14 +9,12 @@ public class GazedTime_BP : MonoBehaviour
     public GameObject goGazed;
     public Object_BP.GAZE_BP GazedObject;
 
-    public float m_fTimetable;
-    public float m_fTV;
-    public float m_fMemo;
+    public float m_fTimetable = 0;
+    public float m_fTV = 0;
     private void Update()
     {
         switch (GazedObject)
         {
-            case Object_BP.GAZE_BP.MEMO: Memo(); break;
             case Object_BP.GAZE_BP.TV: Television(); break;
             case Object_BP.GAZE_BP.TIMETABLE: TimeTable(); break;
             case Object_BP.GAZE_BP.NOTWATCHING: break;
@@ -28,12 +26,6 @@ public class GazedTime_BP : MonoBehaviour
         m_fTimetable += Time.deltaTime;
 
     }
-
-    private void Memo()
-    {
-        m_fMemo += Time.deltaTime;
-    }
-
     private void Television()
     {
         m_fTV += Time.deltaTime;

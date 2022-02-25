@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class Hud_Paddle : MonoBehaviour
     public TextMeshProUGUI txtDISTANCE;
     public TextMeshProUGUI txtERROR;
     public Canvas canvasFinish;
+    public Text TimeText;
     TextMeshProUGUI txtFinish;
     public AudioClip[] clipNarration;
     /*
@@ -35,6 +37,10 @@ public class Hud_Paddle : MonoBehaviour
     public bool bCoroutine;
     // Start is called before the first frame update
 
+    public bool bTimeStart = false;
+    float m_fTime;
+    TimeSpan m_TimeSpan;
+
     void Awake()
     {
         var audioSources = transform.GetComponents<AudioSource>();
@@ -50,7 +56,13 @@ public class Hud_Paddle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (bTimeStart)
+        {
+            m_fTime -= Time.deltaTime;
+            m_TimeSpan = TimeSpan.FromSeconds(m_fTime);
+            TimeText.text = m_TimeSpan.ToString(@"mm\:ss");
+            if (m_fTime < 0) bTimeStart = false;
+        }
     }
 
     public void SetDistance(int nStage)

@@ -14,6 +14,8 @@ public class BagPack_BP_Young : MonoBehaviour
     Object_BP Manager;
     public int unnecessary;
     public int necessary;
+    public float fStage1Try; // 1단계 물건을 여기 넣은 횟수
+    public float WrongPut; //이걸 왜 넣었냐... 위에 있는 두 변수는 나중에 혹시 필요하지 않을까 해서 일단 모아두는것
     public bool bStage2 = false;
     public HapticController_Joon HapticShake;
     int m_nPosIndex = 0;
@@ -73,14 +75,15 @@ public class BagPack_BP_Young : MonoBehaviour
     {
         if (!bStage2) // if stage 1, cannot put obj in bag
         {
+            fStage1Try += 1;
             ResetVariable(obj, 4); //add warning
             return;
         }
         switch (obj.tag)
         {
             case "Necessary": CheckCorrect(obj); break;
-            case "Necessary_Pencil": necessary++; ResetVariable(obj, 1); break;
-            case "Unnecessary": unnecessary++; ResetVariable(obj, 3); break;
+            case "Necessary_Pencil": necessary++; WrongPut += 1; ResetVariable(obj, 1); break;
+            case "Unnecessary": unnecessary++; WrongPut += 1; ResetVariable(obj, 3); break;
         }
         m_tCol = null;
     }

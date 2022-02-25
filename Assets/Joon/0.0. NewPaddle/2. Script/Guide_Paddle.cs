@@ -109,6 +109,7 @@ public class Guide_Paddle : MonoBehaviour
         foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = true;
         StartCoroutine(Hud.CountDown());
         FriendAnimation.Play("Intro");
+        Hud.bTimeStart = true;
         m_ePSTATE = PADDLE_STATE.START;
         Hud.BGMplay(true);
         BehaviorData.AddTimeStamp("MISSION START");

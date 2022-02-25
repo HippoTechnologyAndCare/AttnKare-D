@@ -10,7 +10,7 @@ public class GrabbedObject_BP : MonoBehaviour
     Grabber Grabber;
     Outlinable GrabbedOutlinable;
     public GameObject Grabbed;
-    string tag;
+    string m_sTag;
     Outlinable preChild;
     Object_BP Manager;
 
@@ -37,7 +37,7 @@ public class GrabbedObject_BP : MonoBehaviour
         if (Grabber.HeldGrabbable)
         {
             Grabbed = Grabber.HeldGrabbable.gameObject;
-            tag = Grabbed.tag;
+            m_sTag = Grabbed.tag;
             GrabbedOutlinable = Grabbed.GetComponent<Outlinable>();
             UnnCheck(true, GrabbedOutlinable);
             if (!nothing) //Stop IDLE in data log
@@ -45,7 +45,7 @@ public class GrabbedObject_BP : MonoBehaviour
                 delimiters.addIDLE(nothing);
                 nothing = true;
             }
-            switch (tag)
+            switch (m_sTag)
             {
                 case "Necessary": if (Manager.m_bStageChangeTime) Manager.m_bStageChangeTime = false; break;
                 case "Necessary_Book": if (Manager.m_bStageChangeTime) Manager.m_bStageChangeTime = false; break;

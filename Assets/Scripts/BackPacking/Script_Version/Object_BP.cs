@@ -80,6 +80,9 @@ public class Object_BP : MonoBehaviour
     BagPack_BP Bag;
     Pencilcase_BP Pencilcase;
     BagPack_BP_Young Bag_Young;
+    GazedTime_BP GazeTime;
+    GrabbedObject_BP Grabbed;
+    MemoCheck_BP MemoCheck;
   //  Pencilcase_BP_Young Pencilcase;
 
     public InputBridge XrRig;
@@ -105,21 +108,29 @@ public class Object_BP : MonoBehaviour
     bool bTimeLimit;
     bool bTimeDone;
 
-    bool m_bHudEnd = false; //wait for coroutine in hud to end (in total time)
- //   GameObject m_tPencilcase;
     GameObject m_goFade;
     GameObject m_tRightPointer;
     Grabber m_tGrabber;
 
+    float data_501 = 0; //TOTAL TIME
+    float data_502 = 0; //MEMO COUNT
+    float data_503 = 0; //TIMETABLE GAZE TIME
+    float data_504 = 0; // UNNECESSARY GRAB TIME
+    float data_505 = 0; //WRONMG PUT COUNT
+    float data_506 = 0;
+    float data_507 = 0;// STAGE 1 -> STAGE 2 TIME
+    float data_508 = 0; //DISTARCTED VIDEO TIME
+    float data_509 = 0; //SKIP
+    float data_510 = 0; //UNNECESSARY GRAB COUNT
     /*DATA NEEDED
-     * TOTAL TIME (501)
-     * MEMO GAZE TIME (502)
-     * TIMETABLE GAZE TIME (503)
-     * UNNECESSARY GRAB TIME (504) //방해요소와 필요한 학용품 구분
-     * WRONMG PUT COUNT(505)
+     *  (501)
+     *  (502)
+     *  (503)
+     * (504) //방해요소와 필요한 학용품 구분
+     * (505)
      * STAGE 2 GRAB IN STAGE 1 (506) //없애기
-     * STAGE 1 -> STAGE 2 TIME (507)
-     * DISTARCTED VIDEO TIME (508)
+     *  (507)
+     *  (508)
      * SKIP(509)
      * UNNECESSARY GRAB COUNT(509)
      */
@@ -137,9 +148,12 @@ public class Object_BP : MonoBehaviour
  //       m_tPencilcase = GameObject.Find("Pencilcase_complete");
         Hud = GameObject.Find("UI").GetComponent<UI_BP>();
         Pencilcase = GameObject.Find("Pencilcase_Collider").GetComponent<Pencilcase_BP>();
+        Grabbed = GameObject.FindObjectOfType<GrabbedObject_BP>();
         Bag_Young = GameObject.Find("Bag_Collider").GetComponent<BagPack_BP_Young>();
         Bag = GameObject.Find("Bag_Collider").GetComponent<BagPack_BP>();
         Delimiter = GameObject.Find("DataCheck_Manager").GetComponent<AddDelimiter>();
+        GazeTime = GameObject.Find("HighlightAtGaze").GetComponent<GazedTime_BP>();
+        MemoCheck = GameObject.FindObjectOfType<MemoCheck_BP>();
         m_tRightPointer = RightController.Find("RightHandPointer").gameObject;
         m_tGrabber = RightController.Find("Grabber").GetComponent<Grabber>();
         StartCoroutine(FadeIn());
@@ -171,8 +185,8 @@ public class Object_BP : MonoBehaviour
         if (m_bTotalTime)
         {
             m_fTotalTime += Time.deltaTime;
-            if (m_fTotalTime >= TimeLimit & !bTimeLimit) { TotalTime("TIME LIMIT"); bTimeLimit = true; }
-            if (m_fTotalTime >= TimeFin & !bTimeDone) {  TotalTime("TIME OUT"); StartCoroutine(GameDone()); bTimeDone = true; }
+            if (m_fTotalTime >= TimeLimit & !bTimeLimit) { TimeCheck("TIME LIMIT"); bTimeLimit = true; }
+            if (m_fTotalTime >= TimeFin & !bTimeDone) { TimeCheck("TIME OUT"); StartCoroutine(GameDone()); bTimeDone = true; }
         }
         if (m_bStageChangeTime) m_fStageChangeTime += Time.deltaTime;
 
@@ -183,6 +197,7 @@ public class Object_BP : MonoBehaviour
         DataCollect.AddTimeStamp("GUIDE END");
         DataCollect.AddTimeStamp("MISSION START");
         VideoPlayer.SetActive(true);
+        Hud.ChangeMemo(1);
         m_bTotalTime = true;
         StartCoroutine(Hud.StageNotification(1));
         m_tRightPointer.SetActive(true);
@@ -197,14 +212,37 @@ public class Object_BP : MonoBehaviour
         m_bStageChangeTime = true;
         if (YOUNG) Bag_Young.bStage2 = true; 
         if(!YOUNG) Bag.bStage2 = true;
-        Hud.ChangeMemo();
+        Hud.ChangeMemo(2);
         StartCoroutine(Hud.StageNotification(2));
     }
 
-    void TotalTime(string strTime) //Add timestamp (TIME LIMIT, TIME OVER) & Show Warning
+    void TimeCheck(string strTime) //Add timestamp (TIME LIMIT, TIME OVER) & Show Warning
     {
         DataCollect.AddTimeStamp(strTime);
         StartCoroutine(Hud.TimeCheck(strTime));
+    }
+
+    void DataGather()
+    {
+        data_501 = m_fTotalTime;
+        data_502 = MemoCheck.fNote;
+        data_503 = GazeTime.m_fTimetable;
+        data_504 = Grabbed.m_fbpUnpkT;
+        if (!YOUNG)
+        {
+            data_505 = Bag.WrongPut + Pencilcase.WrongPut;
+            data_506 = Bag.fStage1Try;
+        }
+        if (YOUNG)
+        {
+            data_505 = Bag_Young.WrongPut + Pencilcase.WrongPut;
+            data_506 = Bag_Young.fStage1Try;
+        }
+       
+        data_507 = m_fStageChangeTime;
+        data_508 = GazeTime.m_fTV;
+        //data_509 == skip
+        data_510 = Grabbed.m_fbpUnpC;
     }
     public IEnumerator GameDone()
     {
@@ -213,6 +251,11 @@ public class Object_BP : MonoBehaviour
         NextScene();
     }
 
+    public void Skip()
+    {
+        data_509 = 1;
+        NextScene();
+    }
   
     public void NextScene()
     {

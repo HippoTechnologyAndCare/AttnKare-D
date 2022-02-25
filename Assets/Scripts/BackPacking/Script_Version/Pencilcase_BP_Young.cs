@@ -14,8 +14,9 @@ public class Pencilcase_BP_Young : MonoBehaviour
     public GameObject CaseCover;
     Transform m_pencilParent;
     Transform m_tParent;
-    public int unnecessary;
-    public int necessary;
+    public int unnecessary; // 그냥 아예 틀린 물건
+    public int necessary; //펜이지만 틀린 물건
+    public float WrongPut; //이걸 왜 넣었냐... 위에 있는 두 변수는 나중에 혹시 필요하지 않을까 해서 일단 모아두는것
     UI_BP Hud;
     GameObject Manager;
     int m_nPosIndex = 1;
@@ -78,7 +79,7 @@ public class Pencilcase_BP_Young : MonoBehaviour
         {
             case "Necessary_Pencil": CheckCorrect(obj); break;
             case "Necessary": ResetVariables(obj.GetComponent<GrabObj_BP>()); break;
-            case "Unnecessary": unnecessary ++; ResetVariables(obj.GetComponent<GrabObj_BP>()); break;
+            case "Unnecessary": unnecessary ++; WrongPut += 1; ResetVariables(obj.GetComponent<GrabObj_BP>()); break;
         }
         m_tCol = null;
     }
@@ -124,7 +125,7 @@ public class Pencilcase_BP_Young : MonoBehaviour
             m_tChild.localScale = new Vector3(1, 1, 1);
             m_nPncilIndex++;
         }
-        else { necessary++; ResetVariables(m_GOBJ); }
+        else { necessary++; WrongPut += 1; ResetVariables(m_GOBJ); }
     }
 
     IEnumerator AllDone()

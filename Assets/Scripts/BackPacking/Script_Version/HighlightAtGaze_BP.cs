@@ -1,6 +1,5 @@
 using Tobii.G2OM;
 using UnityEngine;
-using HutongGames.PlayMaker;
 
 public class HighlightAtGaze_BP : MonoBehaviour, IGazeFocusable
 {
