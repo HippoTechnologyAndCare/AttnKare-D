@@ -120,10 +120,10 @@ public class Guide_NumCheck : MonoBehaviour
         arrBtn = new List<MoveButton>();
         for (int i = 0; i < int_buttonN; i++)
         {
+            bool color = i % 2 != 0;
             GameObject go = Instantiate(prefab_Button, new Vector3(0, 0, 0), Quaternion.identity, ButtonParent);
             MoveButton goTemp = go.GetComponent<MoveButton>();
             go.transform.localPosition = arrPos[i]; go.transform.SetSiblingIndex(i); //Set button's position and index in Hiearchy(if not above trigger, pointer cannot detect button)
-            bool color = (Random.value > 0.5f);
             goTemp.btnNum = (i + 1).ToString(); go.GetComponent<MoveButton>().SetBtnNum(color); //Set button Number
             goTemp.XrRig = this.XrRig;
             goTemp.RighthandPointer = this.RighthandPointer;

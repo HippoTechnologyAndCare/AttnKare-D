@@ -31,15 +31,17 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler //,IPointerUpHandle
     public bool bStage = false;
     Guide_NumCheck Guide;
     public Guide_NumCheck.INDEX m_eIndex;
+    int a;
     void Awake()
     {
         Guide = GameObject.Find("Guide").GetComponent<Guide_NumCheck>();
+        ColorUtility.TryParseHtmlString("#FF0900", out colorRed);
+        ColorUtility.TryParseHtmlString("#FF9B00", out colorYellow);
         Debug.Log(Guide.name);
     }
     void Start()
     {
-       // ColorUtility.TryParseHtmlString("#FF0900", out colorRed);
-      //  ColorUtility.TryParseHtmlString("#FF9B00", out colorYellow);
+
         parentCursor = RighthandPointer.GetComponent<UIPointer>()._cursor.transform;
         OrginPos = transform.position;
         originalParent = this.transform.parent;
