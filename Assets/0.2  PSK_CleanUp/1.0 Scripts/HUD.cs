@@ -161,7 +161,7 @@ public class HUD : MonoBehaviour
     public void PopUpCount(int nDone, bool bClean=false) {    
         m_goTextPopupFound.SetActive(!bClean);
         m_goTextPopupCleaned.SetActive(bClean);
-        m_textPopupValue.text = nDone.ToString() + " / " + Guide.ARRANGE_OBJECT.ToString();
+        m_textPopupValue.text = nDone.ToString() + " / " + Arrange.TOTAL_TOCLEAN.ToString();
         m_aniPopup.Play("Found_Popup");
         PlaySound(m_audSIntro,m_clipBell);
     }

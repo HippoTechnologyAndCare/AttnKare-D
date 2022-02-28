@@ -55,7 +55,7 @@ public class Target : MonoBehaviour {
         if (Time.time > next1SecUpdate)  { Do1SecTask();  next1SecUpdate  = Time.time + 1.0f; } //시간갱신       
     }
     
-    // 콜라이더와 접촉되면 갖다놓은것으로 처리합니다.
+    // 콜라이더와 접촉되면 감춤니다
     void OnTriggerEnter(Collider other) {
         if(other.gameObject.name == gameObject.name) gameObject.SetActive(false);
     }    

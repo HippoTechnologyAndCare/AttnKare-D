@@ -8,8 +8,7 @@ public class Guide : MonoBehaviour {
     /**************************************************************************
     // Global Constant / Parameter Definition
     ***************************************************************************/
-    public static  int      TOTAL_OBJECT    = 18;   //잡을 수 있는 물건수
-    public static  int      ARRANGE_OBJECT  = 9;    //정리해야할 물건수
+
     public static  float    TIMEOUT_ARRANGE = 120f; //방청소 시간제한 2분_Timer
     public static  float    TIMEOUT_SCENE   = 300f; //Scene의 시간제한 5분, 다음게임으로    
     public int              NEXT_SCENE      = 6;
@@ -36,14 +35,13 @@ public class Guide : MonoBehaviour {
         
     //Data for Evaluation
     bool    m_bTimeOutArrange; //방청소시간 초과 여부 / 총 2분중
-    bool    m_bTImeOutScene;   //Scene Play시간 초과여부  / 총 5분중 
-    int     m_nTotArranged;    //제위치에 정리된 갯수
+    bool    m_bTImeOutScene;   //Scene Play시간 초과여부  / 총 5분중     
     float   m_fTimeTaken;      //정리하는데 걸리는 시간 : 모두정리, 사용자가 중단, Timeout되어 중단되든 
 
     float   m_fTimeLookValid;  //Player가 필요한곳을 보는 시간 
     float   m_fTimeLookInvalid;//Player가 불필요한곳을 보는 시간  
     //int     m_nHearingReplay;  //Player가 다시듣기 재생횟수 : 재생횟수 : SpeechBubles 처리?-- 어떤상황에서 활성화?
-    int     m_nGrabCount;      //Player가 물건을 잡은 횟수
+    
     float   m_fMoveDistance;   //Player 총이동거리 
     int     m_nObstacleTouch;  //Player가 방해 물체를 건든 횟수        
     int     m_nFinBtnDown;     //Player가 Fin Button 클릿횟수        
@@ -56,17 +54,22 @@ public class Guide : MonoBehaviour {
         m_Hud.ShowStarParticle(fgo.transform);
         Make_Arrange();
     }
-    //정리할 물건을 제자리에 위치시킴 from Arrange.cs
-    public void SetArranged(Arrange.ARRANGE arranged, Transform dst) {
-        //정리할 물건일 경우 정리된 것으로 바꾸고 파티클 전시     
-        m_nTotArranged++;       
-        m_Hud.PopUpCount(m_nTotArranged,true);
-        m_Hud.ShowStarParticle(dst);
-        //정리한 물건 문자열 갱신       
-        GetArrangeStr(); 
-        m_Hud.NoteUpdateArrange(arrangedStr,arrangeableStr);
-        if (m_nTotArranged >= ARRANGE_OBJECT) m_Hud.PlayWellDone();        
+
+    //처음 정리할 물건일 경우 파티클 전시-called by Arragne.cs     
+    public void SetFirstArranged(Arrange.ARRANGE arranged, Transform dst) {   
+    Debug.Log("First Arrange="+arranged);
+        m_Hud.PopUpCount(Arrange.TOTAL_CLEANED,true);
+        m_Hud.ShowStarParticle(dst);        
+        GetArrangeStr();  //정리한 물건 문자열 갱신       
+        m_Hud.NoteUpdateArrange(arrangedStr,arrangeableStr);        
     }
+
+    // 매번 정리될때마다 호출-called by Arragne.cs     
+    public void SetPositioned(Arrange.ARRANGE arranged) {                        
+        Debug.Log("Set Postioned ="+ arranged + " Tot_Postioned= "+Arrange.TOTAL_POSITIONED + " Tot_Arrange= "+Arrange.TOTAL_ARRANGE);
+        if (Arrange.TOTAL_POSITIONED >= Arrange.TOTAL_ARRANGE) m_Hud.PlayWellDone();        
+    }
+
     //from Hud.cs
     public void HudReport(HUD_REPORT eHudReport) {
         switch(eHudReport) {
@@ -96,8 +99,7 @@ public class Guide : MonoBehaviour {
 
     //OnGrab Event처리 --> RightHand>Grabber에 Event에 할당   
     Grabber  m_RightGrabber;
-    public void OnGrabRight() { 
-        m_nGrabCount++;        
+    public void OnGrabRight() {         
         GameObject grab = m_RightGrabber.HeldGrabbable.gameObject; 
         Arrange arrange = grab.GetComponent<Arrange>();
         if(arrange) {
@@ -224,33 +226,36 @@ public class Guide : MonoBehaviour {
 
         //Summary 데이타 처리
         string eval = ""
-        +"m_bTimeOutArrange= " + m_bTimeOutArrange    +"\r\n"     //방청소시간 초과 여부 / 총 2분중
-        +"m_bTImeOutScene= "    + m_bTImeOutScene     +"\r\n"     //Scene Play시간 초과여부  / 총 5분중 
-        +"m_nTotArranged= "     + m_nTotArranged      +"\r\n"     //제위치에 정리된 갯수
-        +"m_fTimeTaken= "       + m_fTimeTaken        +"\r\n"     //정리하는데 걸리는 시간 : 모두정리, 사용자        
-        +"m_fTimeLookValid= "   + m_fTimeLookValid    +"\r\n"     //Player가 필요한곳을 보는 시간 
-        +"m_fTimeLookInvalid= " + m_fTimeLookInvalid  +"\r\n"      //Player가 불필요한곳을 보는 시간            
-        +"m_nGrabCount= "       + m_nGrabCount        +"\r\n"     //Player가 물건을 잡은 횟수
-        +"m_fMoveDistance= "    + m_fMoveDistance     +"\r\n"     //Player 총이동거리 
-        +"m_nObstacleTouch= "   + m_nObstacleTouch    +"\r\n"     //Player가 방해 물체를 건든 횟수        
-        +"m_nFinBtnDown= "      + m_nFinBtnDown       +"\r\n";     //Player가 Fin Button 클릿횟수        
+        +"m_nTotArrangeable= "  + Arrange.TOTAL_ARRANGE      +"\r\n" //Constant - 손으로 잡을수 있는 물건수
+        +"m_nTotCleanable= "    + Arrange.TOTAL_TOCLEAN      +"\r\n" //Constant - 처음부터 어질러놓은, 정리할 물건수, 나머지는 제자리에 있는 잡을수 있는 물건
+        +"m_nTotCleaned= "      + Arrange.TOTAL_CLEANED      +"\r\n" //정리할물건이 제위치에 정리된 갯수
+        +"m_nTotPositoned= "    + Arrange.TOTAL_POSITIONED   +"\r\n" //전체 손을로 잡을수 있는 물건중 최종적으로 제자리에 있는 물건수        
+        +"m_nTotGrabCount= "    + Arrange.TOTAL_GRAB_COUNT   +"\r\n" //Player가 물건을 잡은 총 횟수
+        +"m_nTotGrabTime= "     + Arrange.TOTAL_GRAB_TIME    +"\r\n" //Player가 물건을 잡은 총 시간
+        +"m_nTotPosiCount= "    + Arrange.TOTAL_POSI_COUNT   +"\r\n" //Player가 물건을 제자리에 갖다 놓으 횟수
+        +"m_bTimeOutArrange= "  + m_bTimeOutArrange    +"\r\n"       //방청소시간 초과 여부 / 총 2분중
+        +"m_bTImeOutScene= "    + m_bTImeOutScene     +"\r\n"        //Scene Play시간 초과여부  / 총 5분중         
+        +"m_fTimeTaken= "       + m_fTimeTaken        +"\r\n"        //정리하는데 걸리는 시간 : 모두정리, 사용자        
+        +"m_fTimeLookValid= "   + m_fTimeLookValid    +"\r\n"        //Player가 필요한곳을 보는 시간 
+        +"m_fTimeLookInvalid= " + m_fTimeLookInvalid  +"\r\n"        //Player가 불필요한곳을 보는 시간             
+        +"m_fMoveDistance= "    + m_fMoveDistance     +"\r\n"        //Player 총이동거리 
+        +"m_nObstacleTouch= "   + m_nObstacleTouch    +"\r\n"        //Player가 방해 물체를 건든 횟수        
+        +"m_nFinBtnDown= "      + m_nFinBtnDown       +"\r\n";       //Player가 Fin Button 클릿횟수        
         
         Debug.Log(eval);   // to console
         Util.ELOG(eval);   // to logfile .//Eval.txt
                  
          //각 물건별 개별(Arrange.CDB 데이타 처리        
-        foreach(Arrange arrange in m_aArranges) 
-        {
-            arrange.SaveResult();
+        for(int i=0; i < Arrange.TOTAL_ARRANGE; i++) {           
             eval = "" 
-               +"eArrange= "    + Arrange.CDB[(int)arrange.m_eArrange].eArrange    + ", "     //종류
-               +"Object_name= " + Arrange.CDB[(int)arrange.m_eArrange].Object_name + ", "     //나에게 와야할 GameObject Name 
-               +"bCleanable= "  + Arrange.CDB[(int)arrange.m_eArrange].bCleanable  + ", "     //청소대상여부
-               +"bPositioned= " + Arrange.CDB[(int)arrange.m_eArrange].bPositioned + ", "     //제위치여부
-               +"nGrabCount= "  + Arrange.CDB[(int)arrange.m_eArrange].nGrabCount  + ", "     //Player가 내 물건을 잡은 횟수
-               +"fGrabTime= "   + Arrange.CDB[(int)arrange.m_eArrange].fGrabTime   + ", "     //Player가 내 물건을 잡은 시간
-               +"nPosiCount = " + Arrange.CDB[(int)arrange.m_eArrange].nPosiCount  + ", "     //자기위치에 둔 횟수
-               +"kor_name= "    + Arrange.CDB[(int)arrange.m_eArrange].kor_name    + ", "     //한글명
+               +"eArrange= "    + Arrange.CDB[i].eArrange    + ", "     //종류
+               +"Object_name= " + Arrange.CDB[i].Object_name + ", "     //GameObject Name 
+               +"bCleanable= "  + Arrange.CDB[i].bCleanable  + ", "     //청소대상여부
+               +"bPositioned= " + Arrange.CDB[i].bPositioned + ", "     //제위치여부
+               +"nGrabCount= "  + Arrange.CDB[i].nGrabCount  + ", "     //Player가 내 물건을 잡은 횟수
+               +"fGrabTime= "   + Arrange.CDB[i].fGrabTime   + ", "     //Player가 내 물건을 잡은 시간
+               +"nPosiCount = " + Arrange.CDB[i].nPosiCount  + ", "     //자기위치에 둔 횟수
+               +"kor_name= "    + Arrange.CDB[i].kor_name    + ", "     //한글명
                +"\r\n";
             Debug.Log(eval);   // to console
             Util.ELOG(eval);   // to logfile .//Eval.txt
