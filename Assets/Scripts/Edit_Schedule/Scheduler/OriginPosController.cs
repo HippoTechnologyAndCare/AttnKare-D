@@ -43,6 +43,7 @@ namespace Scheduler
                 // cardB가 origin인지 체크
                 if (!RemoveWord.EndsWithWord(cardB.name, _word))
                 {
+                    
                     cardB.transform.localPosition = originPos.transform.localPosition;
                     if (storedCard != null)
                     {
