@@ -105,6 +105,14 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""MoveToScene_14"",
+                    ""type"": ""Button"",
+                    ""id"": ""49f05c05-bd4c-425e-b3c2-cd2f49fa3fdb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -349,6 +357,17 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
                     ""action"": ""MoveToScene_11"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3cb1a368-ce7e-4b0e-a8cf-dcbd1b11563c"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveToScene_14"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -391,6 +410,7 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
         m_SceneCotrolMap_MoveToScene_9 = m_SceneCotrolMap.FindAction("MoveToScene_9", throwIfNotFound: true);
         m_SceneCotrolMap_MoveToScene_10 = m_SceneCotrolMap.FindAction("MoveToScene_10", throwIfNotFound: true);
         m_SceneCotrolMap_MoveToScene_11 = m_SceneCotrolMap.FindAction("MoveToScene_11", throwIfNotFound: true);
+        m_SceneCotrolMap_MoveToScene_14 = m_SceneCotrolMap.FindAction("MoveToScene_14", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -451,6 +471,7 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
     private readonly InputAction m_SceneCotrolMap_MoveToScene_9;
     private readonly InputAction m_SceneCotrolMap_MoveToScene_10;
     private readonly InputAction m_SceneCotrolMap_MoveToScene_11;
+    private readonly InputAction m_SceneCotrolMap_MoveToScene_14;
     public struct SceneCotrolMapActions
     {
         private @InputMoveScene m_Wrapper;
@@ -466,6 +487,7 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
         public InputAction @MoveToScene_9 => m_Wrapper.m_SceneCotrolMap_MoveToScene_9;
         public InputAction @MoveToScene_10 => m_Wrapper.m_SceneCotrolMap_MoveToScene_10;
         public InputAction @MoveToScene_11 => m_Wrapper.m_SceneCotrolMap_MoveToScene_11;
+        public InputAction @MoveToScene_14 => m_Wrapper.m_SceneCotrolMap_MoveToScene_14;
         public InputActionMap Get() { return m_Wrapper.m_SceneCotrolMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -508,6 +530,9 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
                 @MoveToScene_11.started -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_11;
                 @MoveToScene_11.performed -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_11;
                 @MoveToScene_11.canceled -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_11;
+                @MoveToScene_14.started -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_14;
+                @MoveToScene_14.performed -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_14;
+                @MoveToScene_14.canceled -= m_Wrapper.m_SceneCotrolMapActionsCallbackInterface.OnMoveToScene_14;
             }
             m_Wrapper.m_SceneCotrolMapActionsCallbackInterface = instance;
             if (instance != null)
@@ -545,6 +570,9 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
                 @MoveToScene_11.started += instance.OnMoveToScene_11;
                 @MoveToScene_11.performed += instance.OnMoveToScene_11;
                 @MoveToScene_11.canceled += instance.OnMoveToScene_11;
+                @MoveToScene_14.started += instance.OnMoveToScene_14;
+                @MoveToScene_14.performed += instance.OnMoveToScene_14;
+                @MoveToScene_14.canceled += instance.OnMoveToScene_14;
             }
         }
     }
@@ -580,5 +608,6 @@ public class @InputMoveScene : IInputActionCollection, IDisposable
         void OnMoveToScene_9(InputAction.CallbackContext context);
         void OnMoveToScene_10(InputAction.CallbackContext context);
         void OnMoveToScene_11(InputAction.CallbackContext context);
+        void OnMoveToScene_14(InputAction.CallbackContext context);
     }
 }

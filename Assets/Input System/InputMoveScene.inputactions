@@ -92,6 +92,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "MoveToScene_14",
+                    "type": "Button",
+                    "id": "49f05c05-bd4c-425e-b3c2-cd2f49fa3fdb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -334,6 +342,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "MoveToScene_11",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3cb1a368-ce7e-4b0e-a8cf-dcbd1b11563c",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveToScene_14",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
