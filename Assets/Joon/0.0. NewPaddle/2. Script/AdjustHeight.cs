@@ -5,13 +5,14 @@ using UnityEngine;
 public class AdjustHeight : MonoBehaviour
 {
     public Transform floor;
-    public Transform CenterEye;
+    public float ApprxHeight;
     public Transform MidPoint;
     float m_fMid;
     float m_fFloor;
     public bool m_bHeight = true;
     // Start is called before the first frame update
     float height;
+    int a;
     private void Awake()
     {
        
@@ -19,12 +20,12 @@ public class AdjustHeight : MonoBehaviour
     void Start()
     {
         height = GetHeight.HEIGHT;
-        m_fFloor = MidPoint.position.y - floor.position.y;
-        float f = m_fFloor - height;
-        float y = height - m_fFloor;
-        if (height > m_fFloor) {floor.position = new Vector3(floor.position.x, floor.position.y - (height - m_fFloor), floor.position.z); return; }
-        if (height < m_fFloor) floor.position = new Vector3(floor.position.x, floor.position.y + (m_fFloor - height), floor.position.z);
-        Debug.Log(height + "  " + m_fFloor + "  " + f + "   " + y + "  ");
+        ApprxHeight = MidPoint.position.y - floor.position.y;
+        float m_fTaller = height - ApprxHeight;
+        float m_fSmaller = ApprxHeight - height;
+        if (height > ApprxHeight) {floor.position = new Vector3(floor.position.x, floor.position.y - (m_fTaller), floor.position.z); Debug.Log(height + "  " + ApprxHeight + "  " + m_fTaller + "   " + m_fSmaller + "  "); return; } //taller
+        if (height < ApprxHeight) floor.position = new Vector3(floor.position.x, floor.position.y + (m_fSmaller), floor.position.z);
+        Debug.Log(height + "  " + ApprxHeight + "  " + m_fTaller + "   " + m_fSmaller + "  ");
     }
 
     // Update is called once per frame

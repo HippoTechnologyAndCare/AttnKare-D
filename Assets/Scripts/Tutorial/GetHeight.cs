@@ -9,7 +9,7 @@ public class GetHeight : MonoBehaviour
     public Transform CENTEREYE;
     public Transform FLOOR;
     public static float HEIGHT;
-    void Start()
+public void Height()
     {
         HEIGHT = CENTEREYE.position.y - FLOOR.position.y;
         Debug.Log(HEIGHT + "  " + CENTEREYE.position.y + "  ");

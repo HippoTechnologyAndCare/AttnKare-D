@@ -58,6 +58,7 @@ public class KeyInput : MonoBehaviour
         inputMoveScene.SceneCotrolMap.MoveToScene_9.performed += GoToScene_9;
         inputMoveScene.SceneCotrolMap.MoveToScene_10.performed += GoToScene_10;
         inputMoveScene.SceneCotrolMap.MoveToScene_11.performed += GoToScene_11;
+        inputMoveScene.SceneCotrolMap.MoveToScene_14.performed += GoToScene_14;
         inputMoveScene.SceneCotrolMap.MoveToScene_1.Enable();
         inputMoveScene.SceneCotrolMap.MoveToScene_2.Enable();
         inputMoveScene.SceneCotrolMap.MoveToScene_3.Enable();
@@ -69,6 +70,7 @@ public class KeyInput : MonoBehaviour
         inputMoveScene.SceneCotrolMap.MoveToScene_9.Enable();
         inputMoveScene.SceneCotrolMap.MoveToScene_10.Enable();
         inputMoveScene.SceneCotrolMap.MoveToScene_11.Enable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_14.Enable();
     }
 
     private void OnDisable()
@@ -84,6 +86,7 @@ public class KeyInput : MonoBehaviour
         inputMoveScene.SceneCotrolMap.MoveToScene_9.Disable();
         inputMoveScene.SceneCotrolMap.MoveToScene_10.Disable();
         inputMoveScene.SceneCotrolMap.MoveToScene_11.Disable();
+        inputMoveScene.SceneCotrolMap.MoveToScene_14.Disable();
     }
 
     private void GoToScene_1(InputAction.CallbackContext obj)
@@ -144,6 +147,11 @@ public class KeyInput : MonoBehaviour
         UserData.DataManager.GetInstance().FilePath_Root = null;
         UserData.DataManager.GetInstance().FilePath_Folder = null;
         buildIndex = 0;
+        SceneLoader.LoadScene(buildIndex);
+    }
+    private void GoToScene_14(InputAction.CallbackContext obj)
+    {
+        buildIndex = 14;
         SceneLoader.LoadScene(buildIndex);
     }
 }

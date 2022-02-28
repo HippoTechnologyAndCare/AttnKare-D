@@ -36,9 +36,9 @@ public class Hud_Paddle : MonoBehaviour
     int m_nPERCENT;
     public bool bCoroutine;
     // Start is called before the first frame update
-
+    [SerializeField]
     public bool bTimeStart = false;
-    float m_fTime;
+    public float m_fTime;
     TimeSpan m_TimeSpan;
 
     void Awake()
