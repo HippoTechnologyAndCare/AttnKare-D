@@ -46,7 +46,7 @@ namespace Scheduler
         private UIPointer _uiPointer;
 
         private Vector3 _vec2Pos;
-        private Vector3 zPos;
+        private Vector3 _zPos;
 
         //[SerializeField] bool working;
         [SerializeField] private bool nowClicked = false;
@@ -66,7 +66,7 @@ namespace Scheduler
             cube = null;
             cardState =  CardState.Idle;
             cardPrb = gameObject;
-            zPos.z = 2.21874f;
+            _zPos.z = 2.21874f;
             startPos = transform.localPosition;
             _uiPointer = handCursor.GetComponent<BNG.UIPointer>();
         }
@@ -112,7 +112,7 @@ namespace Scheduler
             Vector2 a = transform.position;
             Vector2 b = _uiPointer._cursor.transform.position;
             _vec2Pos = Vector2.Lerp(a, b, t);
-            _vec2Pos.z = zPos.z;
+            _vec2Pos.z = _zPos.z;
             transform.position = _vec2Pos;
         }
 
@@ -267,13 +267,13 @@ namespace Scheduler
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.collider.tag == "SLOT")
+            if (collision.collider.CompareTag("SLOT"))
             {
                 intoSlot = collision.gameObject;
                 slots.Add(intoSlot);
             }
 
-            if (collision.collider.tag == "POINTER")
+            if (collision.collider.CompareTag("POINTER"))
             {
                 _pointerOnCube = true;
                 scheduleManager.PlaySoundByTypes(ESoundType.In);
@@ -283,7 +283,7 @@ namespace Scheduler
         private void OnCollisionStay(Collision collision)
         {
             // 슬롯에 들어왔고 들어온 슬롯 갯수가 딱 1개만인지 확인
-            if (collision.collider.tag != "SLOT") return;
+            if (!collision.collider.CompareTag("SLOT")) return;
             if (slots.Count != 1) return;
             workingSlot = collision.collider.gameObject;
             //isWorking = true;
@@ -337,7 +337,7 @@ namespace Scheduler
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.tag == "Birthplace" && !isHomeTW)
+            if (other.CompareTag("Birthplace") && !isHomeTW)
             {
                 isHomeTW = true;
                 if(prevActSlot != null) return;
@@ -347,7 +347,7 @@ namespace Scheduler
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.tag == "Birthplace" && isHomeTW)
+            if (other.CompareTag("Birthplace") && isHomeTW)
             {
                 isHomeTW = false;
             }
