@@ -20,31 +20,31 @@ public class SetPlayerData : MonoBehaviour
     public GameDataManager gameDataManager;      
     public PlayMakerFSM fsm;
 
-    public int _SceneFirstKey;
-    public int _CurrentScene;
-    public int _Row;
+    [SerializeField] private int sceneFirstKey;
+    [SerializeField] private int currentScene;
+    [SerializeField] private int row;
 
-    int key;    
-    int eachLastKey;
-    int eachFirstKey;
-    int keyLength;
+    private int _key;
+    private int _eachLastKey;
+    private int _eachFirstKey;
+    private int _keyLength;
 
     // 데이터의 인덱싱이 바뀔때 값을 바꿔야 하는 것들 -> TotalFirstKey에 대입값, sOd의 인자 2가지 값
-    const int TotalFirstKey = 101;  
-    SizeOfData sOd = new SizeOfData(7, 13);    
+    private const int TotalFirstKey = 101;
+    private readonly SizeOfData _sOd = new SizeOfData(7, 13);
 
-    public int Row { get => _Row; set => _Row = value; }
+    private int Row { get => row; set => row = value; }
 
-    public int CurrentScene { get => _CurrentScene; set => _CurrentScene = value; }
+    private int CurrentScene { get => currentScene; set => currentScene = value; }
 
-    public int SceneFirstKey { get => _SceneFirstKey; set => _SceneFirstKey = value; }  
+    private int SceneFirstKey { get => sceneFirstKey; set => sceneFirstKey = value; }
 
-    public void SetFirstKeyInScenes(int scene)
+    private void SetFirstKeyInScenes(int scene)
     {
        // 씬의 인덱싱이 바뀌면 스위치문의 대입값도 바뀌어야 한다.
         switch (scene)
         {
-            case 1: //doorlock
+            case 1: //door lock
                 Row = 0;
                 SceneFirstKey = 101;
                 CurrentScene = scene;                
@@ -95,43 +95,43 @@ public class SetPlayerData : MonoBehaviour
     // 진단 Scene의 개수가 바뀌면 아래의 함수 내용을 변경해야 한다.
     private int SetFirstKey(int currentKey)
     {
-        if (currentKey <= 199) eachFirstKey = 101;
-        else if (currentKey <= 299) eachFirstKey = 201;
-        else if (currentKey <= 399) eachFirstKey = 301;
-        else if (currentKey <= 499) eachFirstKey = 401;
-        else if (currentKey <= 599) eachFirstKey = 501;
-        else if (currentKey <= 699) eachFirstKey = 601;
-        else if (currentKey <= 799) eachFirstKey = 701;
-        return eachFirstKey;
+        if (currentKey <= 199) _eachFirstKey = 101;
+        else if (currentKey <= 299) _eachFirstKey = 201;
+        else if (currentKey <= 399) _eachFirstKey = 301;
+        else if (currentKey <= 499) _eachFirstKey = 401;
+        else if (currentKey <= 599) _eachFirstKey = 501;
+        else if (currentKey <= 699) _eachFirstKey = 601;
+        else if (currentKey <= 799) _eachFirstKey = 701;
+        return _eachFirstKey;
     }
 
     // 각 씬에서 추출하는 데이터의 수가 바뀌면 아래의 eachLastKey 변수를 해당 개수에 맞게 변경해야 한다.
     private int SetLastKey(int currentKey )
     {
-        if (currentKey <= 199) eachLastKey = 107;
-        else if (currentKey <= 299) eachLastKey = 208;
-        else if (currentKey <= 399) eachLastKey = 308;
-        else if (currentKey <= 499) eachLastKey = 413;
-        else if (currentKey <= 599) eachLastKey = 510;
-        else if (currentKey <= 699) eachLastKey = 611;
-        else if (currentKey <= 799) eachLastKey = 704;
-        return eachLastKey;
+        if (currentKey <= 199) _eachLastKey = 107;
+        else if (currentKey <= 299) _eachLastKey = 208;
+        else if (currentKey <= 399) _eachLastKey = 308;
+        else if (currentKey <= 499) _eachLastKey = 413;
+        else if (currentKey <= 599) _eachLastKey = 510;
+        else if (currentKey <= 699) _eachLastKey = 611;
+        else if (currentKey <= 799) _eachLastKey = 704;
+        return _eachLastKey;
     }
        
     // 2차원 배열에 모든 키를 셋팅하는 함수
     private int[,] SetEachFirstKey(int[,] arr2)
     {
-        int key = TotalFirstKey;                
+        var key = TotalFirstKey;                
 
-        for (int i = 0; i < sOd.userDataArr2.GetLength(0); i++)
+        for (var i = 0; i < _sOd.userDataArr2.GetLength(0); i++)
         {            
             SetLastKey(key);
 
-            for(int j = 0; j < sOd.userDataArr2.GetLength(1); j++)
+            for(var j = 0; j < _sOd.userDataArr2.GetLength(1); j++)
             {
-                sOd.userDataArr2[i, j] = key;
-                Debug.Log(sOd.userDataArr2[i, j]);
-                if (key == eachLastKey)
+                _sOd.userDataArr2[i, j] = key;
+                Debug.Log(_sOd.userDataArr2[i, j]);
+                if (key == _eachLastKey)
                 {
                     key -= j;
                     key += 100;
@@ -140,15 +140,15 @@ public class SetPlayerData : MonoBehaviour
                 key++;
             }            
         }
-        return sOd.userDataArr2;
+        return _sOd.userDataArr2;
     }
 
     private int GetKeyLength(int eachLastKey)
     {
-        string temp_s = eachLastKey.ToString();
-        temp_s =  temp_s.Remove(0, 1);
-        keyLength = int.Parse(temp_s);
-        return keyLength;
+        var tempS = eachLastKey.ToString();
+        tempS =  tempS.Remove(0, 1);
+        _keyLength = int.Parse(tempS);
+        return _keyLength;
     }
 
     public void ClearDataSetting()
@@ -161,21 +161,21 @@ public class SetPlayerData : MonoBehaviour
     {       
         float result = 0;
                 
-        key = TotalFirstKey;
+        _key = TotalFirstKey;
 
-        for (int i = 1; i <= sOd.userDataArr2.GetLength(0); i++)
+        for (var i = 1; i <= _sOd.userDataArr2.GetLength(0); i++)
         {                           
-            SetLastKey(key);
-            while (key <= eachLastKey)
+            SetLastKey(_key);
+            while (_key <= _eachLastKey)
             {
                 //Debug.Log(key);
-                DataManager.GetInstance().dataList.Add(key, new PlayerData("data_" + key, result));
-                key++;
+                DataManager.GetInstance().dataList.Add(_key, new PlayerData("data_" + _key, result));
+                _key++;
             }
-            key += 100;
+            _key += 100;
 
-            SetFirstKey(key);
-            key = eachFirstKey;
+            SetFirstKey(_key);
+            _key = _eachFirstKey;
         }               
     }
                             
@@ -184,7 +184,7 @@ public class SetPlayerData : MonoBehaviour
     {              
         CurrentScene = SceneManager.GetActiveScene().buildIndex;                        
         SetFirstKeyInScenes(CurrentScene);
-        SetEachFirstKey(sOd.userDataArr2);
+        SetEachFirstKey(_sOd.userDataArr2);
 
         // value check test
         {
@@ -194,16 +194,16 @@ public class SetPlayerData : MonoBehaviour
         }
 
         SetLastKey(SceneFirstKey);
-        GetKeyLength(eachLastKey);
-        Debug.Log("keyLength = " + keyLength);
+        GetKeyLength(_eachLastKey);
+        Debug.Log("keyLength = " + _keyLength);
 
         //mapName 선언
-        Dictionary<string, FsmFloat> mapName = new Dictionary<string, FsmFloat>();
-
-        for (int i = 0; i < keyLength; i++)
+        var mapName = new Dictionary<string, FsmFloat>();
+        
+        for (var i = 0; i < _keyLength; i++)
         {
-            int arg0 = sOd.userDataArr2[Row, i];
-            mapName.Add(key: string.Format("data_{0}", arg0), 
+            var arg0 = _sOd.userDataArr2[Row, i];
+            mapName.Add(key: $"data_{arg0}", 
                 value: fsm.FsmVariables.GetFsmFloat("data_" + arg0));
 
             Debug.Log("data_" + arg0 + " = " + mapName[string.Format("data_" + arg0)]);
@@ -217,7 +217,7 @@ public class SetPlayerData : MonoBehaviour
     {
         CurrentScene = SceneManager.GetActiveScene().buildIndex;
         SetFirstKeyInScenes(CurrentScene);
-        SetEachFirstKey(sOd.userDataArr2);
+        SetEachFirstKey(_sOd.userDataArr2);
 
         // value check test
         {
@@ -227,15 +227,15 @@ public class SetPlayerData : MonoBehaviour
         }
         
         SetLastKey(SceneFirstKey);
-        GetKeyLength(eachLastKey);
-        Debug.Log("keyLength = " + keyLength);
+        GetKeyLength(_eachLastKey);
+        Debug.Log("keyLength = " + _keyLength);
 
-        Dictionary<string, float> mapName = new Dictionary<string, float>();
+        var mapName = new Dictionary<string, float>();
 
-        for (int i = 0; i < keyLength; i++)
+        for (var i = 0; i < _keyLength; i++)
         {
-            int arg0 = sOd.userDataArr2[Row, i];
-            mapName.Add(key: string.Format("data_{0}", arg0), value: myVal[i]);
+            var arg0 = _sOd.userDataArr2[Row, i];
+            mapName.Add(key: $"data_{arg0}", value: myVal[i]);
 
             Debug.Log("data_" + arg0 + " = " + mapName[string.Format("data_" + arg0)]);
 

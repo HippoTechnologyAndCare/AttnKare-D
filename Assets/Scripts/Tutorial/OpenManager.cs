@@ -207,7 +207,8 @@ public class OpenManager : MonoBehaviour
         StartCoroutine(LerpDoor());
         desPos = new Vector3(0.031f, -0.519f, 6.885f);
         StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos, 0.5f));
-
+        GetHeight player = GetComponent<GetHeight>();
+        player.Height();
 
         yield return new WaitUntil(() => Ghost.transform.localPosition.z > 2.36f);
         TransitionOut.gameObject.SetActive(true);
