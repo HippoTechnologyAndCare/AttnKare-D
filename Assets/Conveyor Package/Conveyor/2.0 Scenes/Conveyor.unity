@@ -2141,6 +2141,36 @@ MonoBehaviour:
   m_boxPrefab: {fileID: 7291737773498274320}
   m_spawnPoint: {fileID: 1309266628}
   m_spawnables: {fileID: 379305505}
+--- !u!1 &1080330146
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1080330147}
+  m_Layer: 0
+  m_Name: Spawned Capsules
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1080330147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1080330146}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1869844338}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1105840866
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3971,6 +4001,7 @@ Transform:
   - {fileID: 904417606}
   - {fileID: 975680444}
   - {fileID: 1970572423}
+  - {fileID: 1080330147}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4070,6 +4101,7 @@ MonoBehaviour:
   capsuleClone3: {fileID: 6273441004610558294, guid: 51421452b67113947b122cdc4cb275fd,
     type: 3}
   spawnPoint: {fileID: 1878424209}
+  spawnablesParent: {fileID: 1080330147}
   isSpawning: 1
   spawnRate: 0
 --- !u!1 &1898927390
