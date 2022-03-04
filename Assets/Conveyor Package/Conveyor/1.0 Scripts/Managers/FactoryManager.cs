@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
 using UserData;
 
+#region DEBUGGER CLASS
 [Serializable]
 public class Debugger
 {
@@ -24,57 +25,34 @@ public class Debugger
     public float conveyorSpeed;
     public string stageColor;
 }
+#endregion
+
 // Debugging & Data Management
 public class FactoryManager : MonoBehaviour
 {
-    [SerializeField] StageManager m_stageManager;
-    [SerializeField] AudioManager m_audioManager;
-    [SerializeField] UIManager m_UIManager;
-    [SerializeField] BNG.CollectData m_collectData;
-    [SerializeField] PlayArea m_playArea;
+    [SerializeField] StageManager m_stageManager;                       // StageManager.cs
+    [SerializeField] AudioManager m_audioManager;                       // AudioManager.cs
+    [SerializeField] UIManager m_UIManager;                             // UIManager.cs
+    [SerializeField] BNG.CollectData m_collectData;                     // CollectData.cs
+    [SerializeField] PlayArea m_playArea;                               // PlayArea.cs
 
-    [SerializeField] Text m_debuggerUI;                               // Debugger UI
+    [SerializeField] Text m_debuggerUI;                                 // Debugger UI
 
+    [Header("BoxSpawner Manipulation")]
     [SerializeField] BoxSpawner m_plainBoxSpawner;
     [SerializeField] BoxSpawner m_openBoxSpawner;
     [SerializeField] BoxSpawner m_closedBoxSpawner;
 
-    /*[SerializeField] Conveyor m_mainConveyor;
-    [SerializeField] Transform m_spawnedToys;*/
+    public static CollectibleData m_gameData;                           // Data to export
+    public static List<GameObject> m_grabbedList;                       // number of toys(GameObject) grabbed by user
+    public static int m_destroyCount;                                   // Number of Robots destroyed (Not Grabbed)
+    static string m_json;                                               // json formatted string
 
+    [Header("Debugger")]
+    [SerializeField] Debugger m_debugger;
     [HideInInspector] public List<List<int>> m_stage1Score;
     [HideInInspector] public List<List<int>> m_stage2Score;
     [HideInInspector] public List<List<int>> m_stage3Score;
-
-    public static CollectibleData m_gameData;
-    public static List<GameObject> m_grabbedList;
-    public static int m_destroyCount;
-    static string m_json;
-
-    [SerializeField] Debugger m_debugger;
-
-    public static string GetJsonData() { return m_json; }
-
-    // Set Path for Json Export
-    public void ExportAsJson() { File.WriteAllText(DataManager.GetInstance().FilePath_Folder + "Conveyor.json", m_json); }
-
-    void DebugScore()
-    {
-        for (int i = 0; i < m_stage1Score.Count; i++) m_debugger.stage1Score[i] = m_stage1Score[i][0];
-        for (int i = 0; i < m_stage2Score.Count; i++) m_debugger.stage2Score[i] = m_stage2Score[i][0];
-        for (int i = 0; i < m_stage3Score.Count; i++) m_debugger.stage3Score[i] = m_stage3Score[i][0];
-
-        m_debugger.gameState = Enum.GetName(typeof(GameState), StageManager.currentGameState);
-        m_debugger.stageColor = StageManager.m_currentColor.ToString() + " / " + StageManager.m_currentColor + " / " + Enum.GetName(typeof(BNG.Toy.ToyType), StageManager.m_currentColor);
-        m_debugger.m_grabbedList = m_grabbedList;
-
-        m_debugger.stage1Destroyed = StageManager.currentGameState == GameState.Stage1 ? m_destroyCount : m_gameData.GetStage1DestroyCnt();
-        m_debugger.stage2Destroyed = StageManager.currentGameState == GameState.Stage2 ? m_destroyCount : m_gameData.GetStage2DestroyCnt();
-        m_debugger.stage3Destroyed = StageManager.currentGameState == GameState.Stage3 ? m_destroyCount : m_gameData.GetStage3DestroyCnt();
-
-        m_debugger.currentStage = StageManager.m_currentStage;
-        m_debugger.conveyorSpeed = Conveyor.speed;
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -93,13 +71,68 @@ public class FactoryManager : MonoBehaviour
         }
     }
 
+    // Update Debugger per frame
     private void Update() { DebugScore(); }
-    private void OnApplicationQuit() { if(!m_gameData.IsDataSaved()) SaveGameData(); }
-    public static void AddToGrabbedList(GameObject toy) { if (!m_grabbedList.Contains(toy)) m_grabbedList.Add(toy); }                                                    // Called in Toy.cs
+
+    // Save current state of CollectibleData on unexpected quit
+    private void OnApplicationQuit() { if (!m_gameData.IsDataSaved()) SaveGameData(); }
+
+    // Load Next Scene if:
+    //      (i)  User pressed skip button
+    //      (ii) User finished game
+    public static void LoadNextScene()
+    {
+        Debug.Log("Load Next Scene Function Called");
+        // Load Scene by Scene Index
+
+    }
+
+    // Update Debugger per frame
+    void DebugScore()
+    {
+        for (int i = 0; i < m_stage1Score.Count; i++) m_debugger.stage1Score[i] = m_stage1Score[i][0];
+        for (int i = 0; i < m_stage2Score.Count; i++) m_debugger.stage2Score[i] = m_stage2Score[i][0];
+        for (int i = 0; i < m_stage3Score.Count; i++) m_debugger.stage3Score[i] = m_stage3Score[i][0];
+
+        m_debugger.gameState = Enum.GetName(typeof(GameState), StageManager.currentGameState);
+        m_debugger.stageColor = StageManager.m_currentColor.ToString() + " / " + StageManager.m_currentColor + " / " + Enum.GetName(typeof(BNG.Toy.ToyType), StageManager.m_currentColor);
+        m_debugger.m_grabbedList = m_grabbedList;
+
+        m_debugger.stage1Destroyed = StageManager.currentGameState == GameState.Stage1 ? m_destroyCount : m_gameData.GetStage1DestroyCnt();
+        m_debugger.stage2Destroyed = StageManager.currentGameState == GameState.Stage2 ? m_destroyCount : m_gameData.GetStage2DestroyCnt();
+        m_debugger.stage3Destroyed = StageManager.currentGameState == GameState.Stage3 ? m_destroyCount : m_gameData.GetStage3DestroyCnt();
+
+        m_debugger.currentStage = StageManager.m_currentStage;
+        m_debugger.conveyorSpeed = Conveyor.speed;
+    }
+
+    // Update debug text canvas
+    void UpdateDebugText(List<int> scores)
+    {
+        string _isSuccessful = scores[0] == 1 ? "Yes" : "No";
+
+        UIManager.AddBoxDebuggerText(m_debuggerUI, "Is Successful? " + _isSuccessful);
+        UIManager.AddBoxDebuggerText(m_debuggerUI, "Excess", scores[1]);
+        UIManager.AddBoxDebuggerText(m_debuggerUI, "WrongColor", scores[2]);
+        UIManager.AddBoxDebuggerText(m_debuggerUI, "Total", scores[3]);
+        UIManager.AddBoxDebuggerText(m_debuggerUI, "");
+    }
+
+    #region REFERENCED METHODS
+    public static void AddToGrabbedList(GameObject toy) { if (!m_grabbedList.Contains(toy)) m_grabbedList.Add(toy); }                                                   // Called in Toy.cs
     public static void RemoveFromGrabbedList(GameObject toy) { if (m_grabbedList.Contains(toy)) m_grabbedList.Remove(toy); }                                            // Called in Box.cs
     public static void CheckMissing() { foreach (GameObject toy in m_grabbedList) if (toy == null) Debug.Log("Missing Object: " + m_grabbedList.IndexOf(toy)); }        // Called in Box.cs
-    public static void ResetDestroyCount(int stage) { SetDestroyCnt(stage); m_destroyCount = 0; }
+    
+    // If Box is in, make Box Spawner Spawn next Box
+    // Called in Box.cs
+    public void BoxIn(BoxType boxType)
+    {
+        if (boxType == BoxType.PlainBox) m_openBoxSpawner.SpawnNextBox();
+        if (boxType == BoxType.OpenBox) m_closedBoxSpawner.SpawnNextBox();
+    }
+    #endregion
 
+    // Save destroy count for stage
     static void SetDestroyCnt(int stage)
     {
         switch (stage)
@@ -111,35 +144,10 @@ public class FactoryManager : MonoBehaviour
         }
     }
 
-    /*public void RestartFactory()
-    {
-        m_mainConveyor.enabled = true;
+    // Reset destroy count on stage end
+    public static void ResetDestroyCount(int stage) { SetDestroyCnt(stage); m_destroyCount = 0; }
 
-        for (int i = 0; i < m_spawnedToys.childCount; i++)
-        {
-            m_spawnedToys.GetChild(i).GetComponent<BNG.Toy>().OnEnter();
-        }
-    }
-    public void StopFactory()
-    {
-        m_mainConveyor.enabled = false;
-
-        for(int i = 0; i < m_spawnedToys.childCount; i++)
-        {
-            m_spawnedToys.GetChild(i).GetComponent<BNG.Toy>().OnEscape();
-        }
-    }*/
-
-
-    // If Box is in, make Box Spawner Spawn next Box
-    // Called in Box.cs
-    public void BoxIn(BoxType boxType)
-    {
-        if (boxType == BoxType.PlainBox) m_openBoxSpawner.SpawnNextBox();
-        if (boxType == BoxType.OpenBox) m_closedBoxSpawner.SpawnNextBox();
-    }
-
-    // Get Score of Box Instance (Called in Box.cs)
+    // Receive Data from Box Instance (Called in Box.cs)
     public void GetScore(List<int> scores, int index)
     {
         switch (index)
@@ -156,7 +164,8 @@ public class FactoryManager : MonoBehaviour
         if (StageManager.m_boxCount > 0) StageManager.BoxCountDec();
     }
 
-    // Call this Function after Game Ends
+    #region DATA EXPORT METHODS
+    // Save CollectibleData data as json
     public void SaveGameData()
     {
         // Save Box Scores per Stage
@@ -198,6 +207,13 @@ public class FactoryManager : MonoBehaviour
         Debug.Log("Game Data has been Saved!");
     }
 
+    // Static Method to return json string
+    public static string GetJsonData() { return m_json; }
+
+    // Save json file to directory
+    public void ExportAsJson() { File.WriteAllText(DataManager.GetInstance().FilePath_Folder + "Conveyor.json", m_json); }
+
+    // Format Collectible to Json string
     void FormatJson()
     {
         m_json += "[\n";
@@ -210,6 +226,8 @@ public class FactoryManager : MonoBehaviour
         m_json = m_json.Remove(m_json.Length - 2, 1);
         m_json += "]";
     }
+
+    // Convert string to json format
     string ParseList(List<List<int>> listToParse)
     {
         string json = "";
@@ -230,24 +248,10 @@ public class FactoryManager : MonoBehaviour
 
         return json;
     }
-
-    public static void LoadNextScene()
-    {
-        Debug.Log("Load Next Scene Function Called");
-        // Load Scene by Scene Index
-    }
-    void UpdateDebugText(List<int> scores)
-    {
-        string _isSuccessful = scores[0] == 1 ? "Yes" : "No";
-
-        UIManager.AddBoxDebuggerText(m_debuggerUI, "Is Successful? " + _isSuccessful);
-        UIManager.AddBoxDebuggerText(m_debuggerUI, "Excess", scores[1]);
-        UIManager.AddBoxDebuggerText(m_debuggerUI, "WrongColor", scores[2]);
-        UIManager.AddBoxDebuggerText(m_debuggerUI, "Total", scores[3]);
-        UIManager.AddBoxDebuggerText(m_debuggerUI, "");
-    }
+    #endregion
 }
 
+#region JSONDATA COLLECTIBLE
 [Serializable]
 public class CollectibleData
 {
@@ -399,23 +403,31 @@ public class CollectibleData
         return jsonDataField;
     }
 }
+#endregion
 
+#region JSON_INT CLASS
 [Serializable]
 public class JsonDataInt
 {
     public int ID;
     public int Result;
 }
+#endregion
 
+#region JSON_FLOAT CLASS
 [Serializable]
 public class JsonDataFloat
 {
     public int ID;
     public float Result;
 }
+#endregion
+
+#region JSON_STRING CLASS
 [Serializable]
 public class JsonDataString
 {
     public int ID;
     public string Result;
 }
+#endregion
