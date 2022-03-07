@@ -13,8 +13,10 @@ public class HUDSchedule : MonoBehaviour
 {
     private enum Voice {HowTo, Start, HalfInfo, WellDone}
 
-    public DictionaryScript dicScript;
-    [SerializeField] DictionaryScriptableObject dicData;
+    public DictionaryScript dicScript01;
+    public DictionaryScript dicScript02;
+    [SerializeField] DictionaryScriptableObject dicData01;
+    [SerializeField] DictionaryScriptableObject dicData02;
 
     [SerializeField] private ScheduleManager1 schManager;
     /*************************************************************************
@@ -24,7 +26,8 @@ public class HUDSchedule : MonoBehaviour
     [SerializeField] private AudioClip[] audCIntro; // 안내 음성 클립
     [SerializeField] private DOTweenAnimation[] dotAnim; // 텍스트 애니메이션
 
-    [SerializeField] private Dictionary<string, float> txtNTimingDic;
+    [SerializeField] private Dictionary<string, float> txtNTimingDic01;
+    [SerializeField] private Dictionary<string, float> txtNTimingDic02;
     
     public Canvas infoCanvas;
 
@@ -35,10 +38,16 @@ public class HUDSchedule : MonoBehaviour
 
     private void Awake()
     {
-        txtNTimingDic = dicScript.TxtDictionary;
-        for (int i = 0; i < Mathf.Min(dicData.Keys.Count, dicData.Values.Count); i++)
+        txtNTimingDic01 = dicScript01.TxtDictionary;
+        for (int i = 0; i < Mathf.Min(dicData01.Keys.Count, dicData01.Values.Count); i++)
         {
-            txtNTimingDic.Add(dicData.Keys[i], dicData.Values[i]);
+            txtNTimingDic01.Add(dicData01.Keys[i], dicData01.Values[i]);
+        }
+        
+        txtNTimingDic02 = dicScript02.TxtDictionary;
+        for (int i = 0; i < Mathf.Min(dicData02.Keys.Count, dicData02.Values.Count); i++)
+        {
+            txtNTimingDic02.Add(dicData02.Keys[i], dicData02.Values[i]);
         }
     }
 
@@ -59,7 +68,7 @@ public class HUDSchedule : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         
-        foreach (var item in dicScript.TxtDictionary)
+        foreach (var item in dicScript01.TxtDictionary)
         {
             var index = 0;
             if (!_isFade)
@@ -67,20 +76,53 @@ public class HUDSchedule : MonoBehaviour
                 howToTMP.SetText(item.Key);
                 FadeInCanvas(infoCanvas, 1f); // Info Canvas fade In
                 _isFade = true;
-                index = dicScript.TxtDictionary.Values.ToList().IndexOf(item.Value);
+                index = dicScript01.TxtDictionary.Values.ToList().IndexOf(item.Value);
                 Debug.Log(index + " 번째값");
                 Debug.Log(item.Value);
                 yield return new WaitForSeconds(item.Value);
                 continue;
             }
 
-            index = dicScript.TxtDictionary.Values.ToList().IndexOf(item.Value);
+            index = dicScript01.TxtDictionary.Values.ToList().IndexOf(item.Value);
             Debug.Log(index + " 번째값");
             Debug.Log(item.Value);
             howToTMP.SetText(item.Key);
             yield return new WaitForSeconds(item.Value);
         }
+
+        _isFade = false;
+        FadeOutCanvas(infoCanvas, 1f);
+        yield return new WaitForSeconds(1f);
+        schManager.intro.gameObject.SetActive(true);
+    }
+
+    public IEnumerator HalfInfoSetUiTxt()
+    {
+        yield return new WaitForSeconds(2f);
         
+        foreach (var item in dicScript02.TxtDictionary)
+        {
+            var index = 0;
+            if (!_isFade)
+            {
+                howToTMP.SetText(item.Key);
+                FadeInCanvas(infoCanvas, 1f); // Info Canvas fade In
+                _isFade = true;
+                index = dicScript02.TxtDictionary.Values.ToList().IndexOf(item.Value);
+                Debug.Log(index + " 번째값");
+                Debug.Log(item.Value);
+                yield return new WaitForSeconds(item.Value);
+                continue;
+            }
+
+            index = dicScript02.TxtDictionary.Values.ToList().IndexOf(item.Value);
+            Debug.Log(index + " 번째값");
+            Debug.Log(item.Value);
+            howToTMP.SetText(item.Key);
+            yield return new WaitForSeconds(item.Value);
+        }
+
+        _isFade = false;
         FadeOutCanvas(infoCanvas, 1f);
         yield return new WaitForSeconds(1f);
         schManager.intro.gameObject.SetActive(true);

@@ -4785,7 +4785,7 @@ GameObject:
   m_Component:
   - component: {fileID: 398394510}
   m_Layer: 5
-  m_Name: Finish
+  m_Name: Finish Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7167,10 +7167,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collectData: {fileID: 267640740}
   voiceRecording: {fileID: 267640741}
+  hud: {fileID: 2138600943}
   mainUi: {fileID: 7428048669433816910}
   intro: {fileID: 275108586}
   board: {fileID: 1879618241}
-  finish: {fileID: 398394510}
+  finishPanel: {fileID: 398394510}
   wellDoneAndBye: {fileID: 95894952}
   finishCntDwn: {fileID: 743621968}
   bgmController: {fileID: 1275069353}
@@ -23515,6 +23516,7 @@ GameObject:
   - component: {fileID: 2138600943}
   - component: {fileID: 2138600945}
   - component: {fileID: 2138600944}
+  - component: {fileID: 2138600946}
   m_Layer: 0
   m_Name: HUD
   m_TagString: Untagged
@@ -23580,8 +23582,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 230ce749f5b9b2546a430115123177e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dicScript: {fileID: 2138600944}
-  dicData: {fileID: 11400000, guid: 5e2f7f801d6959c42a3085bd4c86d1be, type: 2}
+  dicScript01: {fileID: 2138600944}
+  dicScript02: {fileID: 2138600946}
+  dicData01: {fileID: 11400000, guid: 5e2f7f801d6959c42a3085bd4c86d1be, type: 2}
+  dicData02: {fileID: 11400000, guid: bfda00ab49d4adb4aa988645a01e3a0a, type: 2}
   schManager: {fileID: 597562634}
   audSIntro: {fileID: 0}
   audCIntro: []
@@ -23599,6 +23603,31 @@ MonoBehaviour:
   - "<color=#4EF848>\uD55C\uBC88 \uB354! \uB611\uAC19\uC774 \uACC4\uD68D\uD45C\uB97C
     \uCC44\uC6CC\uBD10!"
   - "<color=#4EF848>\uC790! \uC774\uC81C \uC2DC\uC791\uD574 \uBCFC\uAE4C?"
+--- !u!114 &2138600946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138600942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4215a192f5493fc4a9a48ce84eaf3ef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dictionaryData: {fileID: 11400000, guid: bfda00ab49d4adb4aa988645a01e3a0a, type: 2}
+  keys:
+  - "<color=#4EF848>\uC790! <br>\uC774\uC81C \uB450\uBC88\uC9F8 \uACC4\uD68D\uD45C\uB97C
+    \uB9CC\uB4E4\uAC70\uC57C"
+  - "<color=#4EF848>\uC774\uBC88\uC5D0\uB294 \uB178\uB780\uCE74\uB4DC\uB97C \uB418\uB3C4\uB85D\uC774\uBA74
+    \uC0AC\uC6A9\uD558\uC9C0\uB9D0\uACE0<br>\uB098\uBA38\uC9C0 \uCE74\uB4DC\uB97C
+    \uC774\uC6A9\uD574 \uACC4\uD68D\uD45C\uB97C \uB9CC\uB4E4\uC5B4 \uBD10"
+  - "<color=#4EF848>\uC774\uC81C \uC2DC\uC791\uD560\uAC8C!"
+  values:
+  - 2.5
+  - 4
+  - 1.5
+  modifyValues: 0
 --- !u!136 &1530192319777349
 CapsuleCollider:
   m_ObjectHideFlags: 0

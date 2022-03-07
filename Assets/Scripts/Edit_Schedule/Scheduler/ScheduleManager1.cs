@@ -30,10 +30,11 @@ namespace Scheduler
         private const float TimeLimit = 120; //시간 제한 사용 방향 기획 필요
         private const float TimeLimitForFinish = 180; //강제종료시간
 
+        [SerializeField] private Transform hud;
         public Transform mainUi;
         public Transform intro;
         public GameObject board;
-        public Transform finish;
+        public Transform finishPanel;
         public Transform wellDoneAndBye;
         public TextMeshProUGUI finishCntDwn;
 
@@ -425,13 +426,13 @@ namespace Scheduler
         public void ShowFinishPanel()
         {
             PlaySoundByTypes(ESoundType.Click);
-            finish.gameObject.SetActive(true);
+            finishPanel.gameObject.SetActive(true);
         }
 
         public void FinishPanel_No()
         {
             PlaySoundByTypes(ESoundType.Click);
-            finish.gameObject.SetActive(false);
+            finishPanel.gameObject.SetActive(false);
 
             selectNoCtn += 1;
         }
@@ -443,8 +444,8 @@ namespace Scheduler
                 // 두번째 안내 팝업이 필요
                 _completionCtn += 1;
                 board.gameObject.SetActive(false);
-                finish.gameObject.SetActive(false);
-                intro.gameObject.SetActive(true);
+                finishPanel.gameObject.SetActive(false);
+                StartCoroutine(hud.GetComponent<HUDSchedule>().HalfInfoSetUiTxt());
             }
             
             PlaySoundByTypes(ESoundType.Click);
@@ -454,7 +455,7 @@ namespace Scheduler
             float PlanData = 0;
 
             board.gameObject.SetActive(false);
-            finish.gameObject.SetActive(false);
+            finishPanel.gameObject.SetActive(false);
             wellDoneAndBye.gameObject.SetActive(true);
 
             voiceRecording.StopRecordingNBehavior();
