@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +8,7 @@ using TMPro;
 using KetosGames.SceneTransition;
 using BNG;
 using UnityEngine.Serialization;
+using Button = UnityEngine.UI.Button;
 
 public enum ESoundType
 {
@@ -70,6 +72,7 @@ namespace Scheduler
 
         private float guide_Length = 25;
 
+        [SerializeField] private int _completionCtn;
         private int timerMin = 2;
         private int timerSec = 30;
         
@@ -97,18 +100,22 @@ namespace Scheduler
         [FormerlySerializedAs("SetPlayerData")] public Transform setPlayerData;
         [FormerlySerializedAs("GameDataManager")] public Transform gameDataManager;
 
-        private void Start()
+        private void Awake()
         {
-            audioSource = this.GetComponent<AudioSource>();
+            _completionCtn = 0;
 
             pointerLock = false;
             beforeStart = true;
             isReset = false;
 
+            audioSource = this.GetComponent<AudioSource>();
             slotList = new List<Transform>();
             grpList = new List<Transform>();
             oPosList = new List<Transform>();
+        }
 
+        private void Start()
+        {
             InitSlotList();
             InitGrpList();
             InitOposList();
@@ -375,6 +382,10 @@ namespace Scheduler
         {
             PlaySoundByTypes(ESoundType.Click);
             StartCoroutine(StartCntDown());
+            if (_completionCtn >= 2)
+            {
+                this.gameObject.GetComponent<Button>().interactable = false;
+            }
         }
 
         IEnumerator StartCntDown()
@@ -427,6 +438,15 @@ namespace Scheduler
 
         public void FinishPanel_Yes(bool Skipped)
         {
+            if (_completionCtn < 2)
+            {
+                // 두번째 안내 팝업이 필요
+                _completionCtn += 1;
+                board.gameObject.SetActive(false);
+                finish.gameObject.SetActive(false);
+                intro.gameObject.SetActive(true);
+            }
+            
             PlaySoundByTypes(ESoundType.Click);
             collectData.AddTimeStamp("MISSION END");
 

@@ -1856,18 +1856,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 121447422}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Selectable, UnityEngine.UI
-        m_MethodName: set_interactable
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &121447423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7192,11 +7180,12 @@ MonoBehaviour:
   toShow: {fileID: 2127198986}
   slot: {fileID: 976793244}
   grp: {fileID: 157544900}
-  originPos: {fileID: 0}
+  originPos: {fileID: 769322187}
   timerText: {fileID: 886456585}
   grpList: []
   isReset: 0
   pointerLock: 0
+  _completionCtn: 0
   totalMovingCnt: 0
   resetCnt: 0
   soundCount: {fileID: 8300000, guid: f6ba2c16c86180148906c2b6840404ae, type: 3}
@@ -20356,7 +20345,7 @@ GameObject:
   - component: {fileID: 1792285209}
   - component: {fileID: 1792285208}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20369,16 +20358,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1792285206}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.09124994}
+  m_LocalScale: {x: 0.0022375002, y: 0.0022374997, z: 2.5705247}
   m_Children: []
-  m_Father: {fileID: 7428048669433816910}
-  m_RootOrder: 4
+  m_Father: {fileID: 3078815636370329757}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -694, y: -46}
+  m_AnchoredPosition: {x: 0.026550293, y: -1.0359635}
   m_SizeDelta: {x: 650, y: 940}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1792285208
@@ -51602,7 +51591,7 @@ GameObject:
   - component: {fileID: 3096402894867755477}
   - component: {fileID: 3073970402443905474}
   m_Layer: 0
-  m_Name: SM_Prop_StreetSign_07
+  m_Name: Card Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51741,6 +51730,7 @@ Transform:
   m_LocalScale: {x: 446.92734, y: 446.9274, z: 0.38902563}
   m_Children:
   - {fileID: 1288979924}
+  - {fileID: 1792285207}
   m_Father: {fileID: 1879618242}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -99132,7 +99122,6 @@ RectTransform:
   - {fileID: 1879618242}
   - {fileID: 398394510}
   - {fileID: 95894952}
-  - {fileID: 1792285207}
   m_Father: {fileID: 597562632}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
