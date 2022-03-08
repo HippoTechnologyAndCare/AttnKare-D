@@ -8,9 +8,11 @@ public class CheckData_NumCheck : MonoBehaviour
 
     public AutoButton AUTO;
     [Tooltip("If not in order")]
-    public float wrongorder=0;
+    public float wrongorder_stage1=0;
+    public float wrongorder_stage2 = 0;
     [Tooltip("If not in right blank")]
-    public float wrongTrigger = 0;
+    public float wrongTrigger_stage1 = 0;
+    public float wrongTrigger_stage2 = 0;
     public float TotalTime = 0;
     public float distractedBy = 0;
     public float wrongColor = 0; 
@@ -50,13 +52,6 @@ public class CheckData_NumCheck : MonoBehaviour
     public void Stage1()
     {
         data_702 = TotalTime;
-        data_704 = wrongorder;
-        data_705 = wrongTrigger;
-        data_706 = distractedBy;
-        data_707 = AUTO.m_fBothering;
-
-        Debug.Log("data");
-        wrongorder = wrongTrigger = 0;
     }
 
     public void Stage2()
@@ -64,12 +59,22 @@ public class CheckData_NumCheck : MonoBehaviour
         start = false;
         data_701 = TotalTime;
         data_703 = TotalTime - data_702;
-        data_708 = wrongorder;
-        data_709 = wrongTrigger;
+    }
+
+    public void GetAllData()
+    {
+        data_701 = TotalTime;
+        data_704 = wrongorder_stage1;
+        data_705 = wrongTrigger_stage1;
+        data_706 = distractedBy;
+        data_707 = AUTO.m_fBothering;
+        data_708 = wrongorder_stage2;
+        data_709 = wrongTrigger_stage2;
         data_710 = wrongColor;
 
+
         arrData = new float[] { data_701, data_702, data_703, data_704, data_705, data_706, data_707, data_708, data_709, data_710 };
-        for(int i =0; i < arrData.Length; i++)
+        for (int i = 0; i < arrData.Length; i++)
         {
             Debug.Log(arrData[i]);
         }

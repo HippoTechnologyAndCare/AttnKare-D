@@ -219,12 +219,12 @@ public class Guide_NumCheck : MonoBehaviour
         if(NCDB[(int)num.m_eIndex].nNum != m_current.nNum) //현재 버튼이 순서에 맞지 않음
         {
             if (!narration.coroutine) StartCoroutine(narration.BoardUI(0)); //wrong order warning and narration
-            dataCheck.wrongorder++;
+            dataCheck.wrongorder_stage1++;
         }
         if(NCDB[(int)num.m_eIndex].goTrig != trigger.gameObject) //현재 버튼이 올바른 칸에 있지 않음
         {
             if (!narration.coroutine) StartCoroutine(narration.BoardUI(1)); //wrong trigger warning text and narration
-            dataCheck.wrongTrigger++;
+            dataCheck.wrongTrigger_stage1++;
         }
         CanGrab();
         num.ResetButton();
@@ -242,7 +242,7 @@ public class Guide_NumCheck : MonoBehaviour
             active = false;
             if (cardNum >= arrTrig.Length)
             {
-                GameClear();
+                StageComplete();
                 return;
             }
             arrBtn.Remove(num);
@@ -254,12 +254,12 @@ public class Guide_NumCheck : MonoBehaviour
         if (NCDB2[(int)num.m_eIndex].nNum != m_current.nNum) //현재 버튼이 순서에 맞지 않음
         {
             if (!narration.coroutine) StartCoroutine(narration.BoardUI(0)); //wrong order warning and narration
-            dataCheck.wrongorder++;
+            dataCheck.wrongorder_stage2++;
         }
         if (NCDB2[(int)num.m_eIndex].goTrig != trigger.gameObject) //현재 버튼이 올바른 칸에 있지 않음
         {
             if (!narration.coroutine) StartCoroutine(narration.BoardUI(1)); //wrong trigger warning text and narration
-            dataCheck.wrongTrigger++;
+            dataCheck.wrongTrigger_stage2++;
         }
         if(NCDB2[(int)num.m_eIndex].bColor != num.bColor)
         { 
@@ -290,9 +290,6 @@ public class Guide_NumCheck : MonoBehaviour
     }
     private IEnumerator ClearCoroutine()
     {
-        dataCheck.Stage2();
-        DataCollection.StopRecordingNBehavior();
-        GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
         Ghost.GetComponent<Animator>().SetBool("isJump", true);
         yield return StartCoroutine(narration.BoardUI(5)); //Game clear narration
         dataFin.SendEvent("AllDone");
@@ -319,9 +316,19 @@ public class Guide_NumCheck : MonoBehaviour
         yield return StartCoroutine(narration.CharacterSpeak(4, 6));
         CanGrab();
     }
-    private void GameClear()
+
+    void StageComplete()
+    {
+        dataCheck.Stage2();
+        GameClear();
+    }
+    public void GameClear()
     {
         StopAllCoroutines();
+        auto.enabled = false;
+        dataCheck.GetAllData();
+        DataCollection.StopRecordingNBehavior();
+        GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
         StartCoroutine(ClearCoroutine());
     }
     //1단계에서 잘못된 순서, 트리거
