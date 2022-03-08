@@ -34,7 +34,7 @@ public class SkipButton : MonoBehaviour
         else if (m_pressCount == 2 && !FactoryManager.m_gameData.IsDataSaved())
         {
             // Save Data
-            FactoryManager.m_gameData.SetSkipped(true);
+            FactoryManager.m_gameData.m_isSkipped = true;
             StageManager.ChangeGameState(GameState.GameEnd);
 
             // Show Second UI
