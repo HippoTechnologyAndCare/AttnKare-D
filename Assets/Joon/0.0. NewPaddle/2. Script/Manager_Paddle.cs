@@ -38,20 +38,5 @@ public class Manager_Paddle : MonoBehaviour
         new STAGE_INFO(STAGE.THREE, 3.0f, null, "FORWARD", 5, 8)
 
     };
-        
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-   
+       
 }
