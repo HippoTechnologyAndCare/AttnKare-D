@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
 using UserData;
+using Newtonsoft.Json;
 
 #region DEBUGGER CLASS
 [Serializable]
@@ -34,6 +35,7 @@ public class FactoryManager : MonoBehaviour
     [SerializeField] AudioManager m_audioManager;                       // AudioManager.cs
     [SerializeField] UIManager m_UIManager;                             // UIManager.cs
     [SerializeField] BNG.CollectData m_collectData;                     // CollectData.cs
+    [SerializeField] bool m_dataIsDictionary;                           // Should json data be in dictionary format?
     [SerializeField] PlayArea m_playArea;                               // PlayArea.cs
 
     [SerializeField] Text m_debuggerUI;                                 // Debugger UI
@@ -47,6 +49,7 @@ public class FactoryManager : MonoBehaviour
     public static List<GameObject> m_grabbedList;                       // number of toys(GameObject) grabbed by user
     public static int m_destroyCount;                                   // Number of Robots destroyed (Not Grabbed)
     static string m_json;                                               // json formatted string
+    public Dictionary<int, string> collectibleData;
 
     [Header("Debugger")]
     [SerializeField] Debugger m_debugger;
@@ -98,9 +101,9 @@ public class FactoryManager : MonoBehaviour
         m_debugger.stageColor = StageManager.m_currentColor.ToString() + " / " + StageManager.m_currentColor + " / " + Enum.GetName(typeof(BNG.Toy.ToyType), StageManager.m_currentColor);
         m_debugger.m_grabbedList = m_grabbedList;
 
-        m_debugger.stage1Destroyed = StageManager.currentGameState == GameState.Stage1 ? m_destroyCount : m_gameData.GetStage1DestroyCnt();
-        m_debugger.stage2Destroyed = StageManager.currentGameState == GameState.Stage2 ? m_destroyCount : m_gameData.GetStage2DestroyCnt();
-        m_debugger.stage3Destroyed = StageManager.currentGameState == GameState.Stage3 ? m_destroyCount : m_gameData.GetStage3DestroyCnt();
+        m_debugger.stage1Destroyed = StageManager.currentGameState == GameState.Stage1 ? m_destroyCount : m_gameData.m_stage1DestroyCnt;
+        m_debugger.stage2Destroyed = StageManager.currentGameState == GameState.Stage2 ? m_destroyCount : m_gameData.m_stage2DestroyCnt;
+        m_debugger.stage3Destroyed = StageManager.currentGameState == GameState.Stage3 ? m_destroyCount : m_gameData.m_stage3DestroyCnt;
 
         m_debugger.currentStage = StageManager.m_currentStage;
         m_debugger.conveyorSpeed = Conveyor.speed;
@@ -137,9 +140,9 @@ public class FactoryManager : MonoBehaviour
     {
         switch (stage)
         {
-            case 1: m_gameData.SetStage1DestroyCnt(m_destroyCount); break;
-            case 2: m_gameData.SetStage2DestroyCnt(m_destroyCount); break;
-            case 3: m_gameData.SetStage3DestroyCnt(m_destroyCount); break;
+            case 1: m_gameData.m_stage1DestroyCnt = m_destroyCount; break;
+            case 2: m_gameData.m_stage2DestroyCnt = m_destroyCount; break;
+            case 3: m_gameData.m_stage3DestroyCnt = m_destroyCount; break;
             default: break;
         }
     }
@@ -173,32 +176,33 @@ public class FactoryManager : MonoBehaviour
         m_gameData.SetStage2Boxes(m_stage2Score);
         m_gameData.SetStage3Boxes(m_stage3Score);*/
 
-        m_gameData.SetStage1(ParseList(m_stage1Score));
-        m_gameData.SetStage2(ParseList(m_stage2Score));
-        m_gameData.SetStage3(ParseList(m_stage3Score));
+        m_gameData.m_stage1 = ParseList(m_stage1Score);
+        m_gameData.m_stage2 = ParseList(m_stage2Score);
+        m_gameData.m_stage3 = ParseList(m_stage3Score);
 
         // Save Successful Boxes per Stage
         int boxCount = 0;
         for (int i = 0; i < m_stage1Score.Count; i++) { if (m_stage1Score[i][0] == 1) boxCount++; }
-        m_gameData.SetStage1Success(boxCount); boxCount = 0;
+        m_gameData.m_stage1Success = boxCount; boxCount = 0;
         for (int i = 0; i < m_stage2Score.Count; i++) { if (m_stage2Score[i][0] == 1) boxCount++; }
-        m_gameData.SetStage2Success(boxCount); boxCount = 0;
+        m_gameData.m_stage2Success = boxCount; boxCount = 0;
         for (int i = 0; i < m_stage3Score.Count; i++) { if (m_stage3Score[i][0] == 1) boxCount++; }
-        m_gameData.SetStage3Success(boxCount);
+        m_gameData.m_stage3Success = boxCount;
 
         // Save Play Area Data
-        m_gameData.SetEscapeCount(m_playArea.GetEscapeCount());
-        m_gameData.SetEscapeTime(m_playArea.GetEscapeTime());
+        m_gameData.m_escapeCount = m_playArea.GetEscapeCount();
+        m_gameData.m_escapeTime  = m_playArea.GetEscapeTime();
 
         // Save Number of Toys on Floor
-        m_gameData.SetToysOnFloor(m_grabbedList.Count);
+        m_gameData.m_toysOnFloor = m_grabbedList.Count;
 
         // Save Game Skipped Boolean
 
         // Change Game Data State as Saved
         m_gameData.SetDataSaved(true);
-
+        
         FormatJson();
+        /*m_json = JsonConvert.SerializeObject(m_gameData, Formatting.Indented);*/
 
         ExportAsJson();
 
@@ -216,15 +220,26 @@ public class FactoryManager : MonoBehaviour
     // Format Collectible to Json string
     void FormatJson()
     {
-        m_json += "[\n";
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;          // Current Scene index
+
+#if UNITY_EDITOR
+        sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;
+#endif
 
         for (int i = 1; i < 14; i++)
         {
+            if(m_dataIsDictionary)
+                m_json += "\"" + (sceneIndex * 100 + i).ToString() + "\": ";
+
             m_json += m_gameData.GetMemberVariableJson(i) + ",\n";
         }
 
         m_json = m_json.Remove(m_json.Length - 2, 1);
-        m_json += "]";
+
+        if (m_dataIsDictionary)
+            m_json = "{\n" + m_json + "}";
+        else
+            m_json = "[\n" + m_json + "]";
     }
 
     // Convert string to json format
@@ -255,28 +270,28 @@ public class FactoryManager : MonoBehaviour
 [Serializable]
 public class CollectibleData
 {
-    int m_stage1Success;
-    int m_stage2Success;
-    int m_stage3Success;
+    public int m_stage1Success;
+    public int m_stage2Success;
+    public int m_stage3Success;
 
-    int m_stage1DestroyCnt;
-    int m_stage2DestroyCnt;
-    int m_stage3DestroyCnt;
+    public int m_stage1DestroyCnt;
+    public int m_stage2DestroyCnt;
+    public int m_stage3DestroyCnt;
 
-    string m_stage1;
-    string m_stage2;
-    string m_stage3;
+    public string m_stage1;
+    public string m_stage2;
+    public string m_stage3;
 
     /*public List<List<int>> m_stage1Score;
     public List<List<int>> m_stage2Score;
     public List<List<int>> m_stage3Score;*/
 
-    float m_escapeTime;
-    int m_escapeCount;
+    public float m_escapeTime;
+    public int m_escapeCount;
 
-    int m_toysOnFloor;
+    public int m_toysOnFloor;
 
-    bool m_isSkipped;
+    public bool m_isSkipped;
 
     // Bool to Check if Data is Saved
     bool m_dataSaved;
@@ -293,26 +308,26 @@ public class CollectibleData
     {
         switch (index)
         {
-            case 1:  return JsonUtility.ToJson(ToJsonDataInt(1, m_stage1Success), true);
-            case 2:  return JsonUtility.ToJson(ToJsonDataInt(2, m_stage2Success), true);
-            case 3:  return JsonUtility.ToJson(ToJsonDataInt(3, m_stage3Success), true);
-            case 4:  return JsonUtility.ToJson(ToJsonDataInt(4, m_stage1DestroyCnt), true);
-            case 5:  return JsonUtility.ToJson(ToJsonDataInt(5, m_stage2DestroyCnt), true);
-            case 6:  return JsonUtility.ToJson(ToJsonDataInt(6, m_stage3DestroyCnt), true);
-            case 7:  return JsonUtility.ToJson(ToJsonDataString(7, m_stage1), true);
-            case 8:  return JsonUtility.ToJson(ToJsonDataString(8, m_stage2), true);
-            case 9:  return JsonUtility.ToJson(ToJsonDataString(9, m_stage3), true);
-            case 10: return JsonUtility.ToJson(ToJsonDataFloat(10, m_escapeTime), true);
-            case 11: return JsonUtility.ToJson(ToJsonDataInt(11, m_escapeCount), true);
-            case 12: return JsonUtility.ToJson(ToJsonDataInt(12, m_toysOnFloor), true);
-            case 13: return JsonUtility.ToJson(ToJsonDataInt(13, m_isSkipped ? 1 : 0), true);
+            case 1:  return JsonConvert.SerializeObject(ToJsonDataInt(1, m_stage1Success), Formatting.Indented);
+            case 2:  return JsonConvert.SerializeObject(ToJsonDataInt(2, m_stage2Success), Formatting.Indented);
+            case 3:  return JsonConvert.SerializeObject(ToJsonDataInt(3, m_stage3Success), Formatting.Indented);
+            case 4:  return JsonConvert.SerializeObject(ToJsonDataInt(4, m_stage1DestroyCnt), Formatting.Indented);
+            case 5:  return JsonConvert.SerializeObject(ToJsonDataInt(5, m_stage2DestroyCnt), Formatting.Indented);
+            case 6:  return JsonConvert.SerializeObject(ToJsonDataInt(6, m_stage3DestroyCnt), Formatting.Indented);
+            case 7:  return JsonConvert.SerializeObject(ToJsonDataString(7, m_stage1), Formatting.Indented);
+            case 8:  return JsonConvert.SerializeObject(ToJsonDataString(8, m_stage2), Formatting.Indented);
+            case 9:  return JsonConvert.SerializeObject(ToJsonDataString(9, m_stage3), Formatting.Indented);
+            case 10: return JsonConvert.SerializeObject(ToJsonDataFloat(10, m_escapeTime), Formatting.Indented);
+            case 11: return JsonConvert.SerializeObject(ToJsonDataInt(11, m_escapeCount), Formatting.Indented);
+            case 12: return JsonConvert.SerializeObject(ToJsonDataInt(12, m_toysOnFloor), Formatting.Indented);
+            case 13: return JsonConvert.SerializeObject(ToJsonDataInt(13, m_isSkipped ? 1 : 0), Formatting.Indented);
             default: return "";
         }
     }
 
 
     // Getters
-    public int GetStage1Success() { return m_stage1Success; }
+    /*public int GetStage1Success() { return m_stage1Success; }
     public int GetStage2Success() { return m_stage2Success; }
     public int GetStage3Success() { return m_stage3Success; }
     public int GetStage1DestroyCnt() { return m_stage1DestroyCnt; }
@@ -321,17 +336,13 @@ public class CollectibleData
     public string GetStage1() { return m_stage1; }
     public string GetStage2() { return m_stage2; }
     public string GetStage3() { return m_stage3; }
-
-    /*public List<List<int>> GetStage1Boxes() { return m_stage1Score; }
-    public List<List<int>> GetStage2Boxes() { return m_stage2Score; }
-    public List<List<int>> GetStage3Boxes() { return m_stage3Score; }*/
     public float GetEscapeTime() { return m_escapeTime; }
     public int GetEscapeCount() { return m_escapeCount; }
     public int GetToysOnFloor() { return m_toysOnFloor; }
-    public bool GetSkipped() { return m_isSkipped; }
+    public bool GetSkipped() { return m_isSkipped; }*/
 
     // Setters
-    public void SetStage1Success(int val) { m_stage1Success = val; }
+    /*public void SetStage1Success(int val) { m_stage1Success = val; }
     public void SetStage2Success(int val) { m_stage2Success = val; }
     public void SetStage3Success(int val) { m_stage3Success = val; }
     public void SetStage1DestroyCnt(int val) { m_stage1DestroyCnt = val; }
@@ -340,14 +351,10 @@ public class CollectibleData
     public void SetStage1(string str) { m_stage1 = str; }
     public void SetStage2(string str) { m_stage2 = str; }
     public void SetStage3(string str) { m_stage3 = str; }
-
-    /*public void SetStage1Boxes(List<List<int>> dataPacket) { m_stage1Score = dataPacket; }
-    public void SetStage2Boxes(List<List<int>> dataPacket) { m_stage2Score = dataPacket; }
-    public void SetStage3Boxes(List<List<int>> dataPacket) { m_stage3Score = dataPacket; }*/
     public void SetEscapeTime(float val) { m_escapeTime = val; }
     public void SetEscapeCount(int val) { m_escapeCount = val; }
     public void SetToysOnFloor(int val) { m_toysOnFloor = val; }
-    public void SetSkipped(bool val) { m_isSkipped = val; }
+    public void SetSkipped(bool val) { m_isSkipped = val; }*/
 
     public bool IsDataSaved() { return m_dataSaved; }
     public void SetDataSaved(bool input) { m_dataSaved = input; }

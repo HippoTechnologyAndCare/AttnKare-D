@@ -157,9 +157,9 @@ public class Guide_Paddle : MonoBehaviour
         m_fStageTime = m_fTOTALTIME - m_fPrevTime;
         m_fPrevTime = m_fTOTALTIME;
         m_fStageTime = m_listSTAGE[intStage];
-        m_nWrongOrder = m_listOrder[intStage];
-        m_nWrongSpeed= m_listSpeed[intStage];
-        m_nWrongSpeed = m_nWrongOrder = 0;
+      //  m_nWrongOrder = m_listOrder[intStage];
+      //  m_nWrongSpeed= m_listSpeed[intStage];
+      //  m_nWrongSpeed = m_nWrongOrder = 0;  //요부분 바꿈 바로바로 저장되게
     }
     void NEXTSTAGE()
     {
@@ -175,7 +175,7 @@ public class Guide_Paddle : MonoBehaviour
     public void Check_Order() //write in hud and datacheck 
     {
         Hud.AudioController("wrong order");
-        m_nWrongOrder+=1;
+        m_listOrder[intStage] += 1;
         Debug.Log("CHECK_ORDER");
 
     }
@@ -184,7 +184,7 @@ public class Guide_Paddle : MonoBehaviour
     {
         Debug.Log("CHECK_SPEED");
         Hud.AudioController("wrong speed");
-        m_nWrongSpeed += 1;
+        m_listSpeed[intStage] += 1;
     }
 
     public void PaddleCheck(float time)
@@ -198,6 +198,7 @@ public class Guide_Paddle : MonoBehaviour
         Hud.SetDistance(intStage);
         if (Manager_Paddle.SDB[intStage].intCount == m_nComplete)
         {
+            Debug.Log(m_listOrder[intStage]);
             NEXTSTAGE();//다음 스테이지 넘어가기
             return;
         }
