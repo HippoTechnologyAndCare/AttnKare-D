@@ -9,6 +9,7 @@ using KetosGames.SceneTransition;
 using BNG;
 using UnityEngine.Serialization;
 using Button = UnityEngine.UI.Button;
+using SceneLoader = KetosGames.SceneTransition.SceneLoader;
 
 public enum ESoundType
 {
@@ -63,35 +64,39 @@ namespace Scheduler
         public bool isReset;
         public bool pointerLock;
 
-        private bool leGogo = false;
-        private bool beforeStart = false;
-        private bool firstSelect = false;
-        private bool beforeStartGuideCheck = false;
+        private bool leGogo;
+        private bool beforeStart;
+        private bool firstSelect;
+        private bool beforeStartGuideCheck;
 
-        private bool checkTimeLimit = false;
-        private bool checkTimeOut = false;
+        private bool checkTimeLimit;
+        private bool checkTimeOut;
 
         private float _planData01;
         private float _planData02;
         
         private float guide_Length = 25;
 
-        [SerializeField] private int _completionCtn;
+        [SerializeField] private int completionCtn;
         private int timerMin = 2;
         private int timerSec = 30;
         
-        private float totalElapsedTime = 0;         //수행한 시간 계산용
-        private float totalElapsedTimeForCalc = 0;  //수행한 시간 보여주기용
-        private float timerForBeforeStarted = 0;    //시작하기 누르기까지 시간
-        private float timerForFirstSelect = 0;      //시작하기 누르고 첫 선택까지 시간
+        private float totalElapsedTime;         //수행한 시간 계산용
+        private float totalElapsedTimeForCalc;  //수행한 시간 보여주기용
+        private float timerForBeforeStarted;    //시작하기 누르기까지 시간
+        private float timerForFirstSelect;      //시작하기 누르고 첫 선택까지 시간
+        private float data_210;
+        private float data_211;
+        private float data_212;
+        private float data_213;
 
         //float TotalScenePlayingTime = 0;    //컨텐츠 시작부터 끝까지 총 시간 TimerForBeforeStarted + TotalElapsedTimeForCalc
 
-        public int totalMovingCnt = 0;      //이동 횟수
-        public int resetCnt = 0;            //초기화 누른 횟수
-        private int selectNoCtn = 0;                 //아니오 누른 횟수
+        public int totalMovingCnt;      //이동 횟수
+        public int resetCnt;            //초기화 누른 횟수
+        private int selectNoCtn;                 //아니오 누른 횟수
 
-        private int skipYn = 0;
+        private int skipYn;
 
         //------------- SOUND    
         [FormerlySerializedAs("sound_Count")] public AudioClip soundCount;
@@ -106,7 +111,8 @@ namespace Scheduler
 
         private void Awake()
         {
-            _completionCtn = 0;
+            completionCtn = 0;
+            skipYn = 0;
 
             pointerLock = false;
             beforeStart = true;
@@ -215,7 +221,7 @@ namespace Scheduler
 
             yield return new WaitForSeconds(6);
 
-            FinishPanel_Yes();
+            FinishPanel_Yes(true);
         }
 
         private IEnumerator ResetDelay(float wait)
@@ -381,7 +387,7 @@ namespace Scheduler
         {
             PlaySoundByTypes(ESoundType.Click);
             StartCoroutine(StartCntDown());
-            if (_completionCtn >= 2)
+            if (completionCtn >= 2)
             {
                 this.gameObject.GetComponent<Button>().interactable = false;
             }
@@ -437,14 +443,19 @@ namespace Scheduler
             selectNoCtn += 1;
         }
 
-        public void FinishPanel_Yes()
+        public void FinishPanel_Yes(bool isSkip)
         {
+            // 완료한 계획표 횟수
+            completionCtn += 1;
+            
             PlaySoundByTypes(ESoundType.Click);
             
+            // n번째로 완성한 계획표 변수로 저장
+            SetPlanData(isSkip);
+            
             //몇번째 완료인지 체크 
-            if (_completionCtn < 1) // 첫번째 완료라면 아래의 프로세싱 후 재 시작
+            if (completionCtn == 1) // 첫번째 완료라면 아래의 프로세싱 후 재 시작
             {
-                _completionCtn += 1;
                 board.gameObject.SetActive(true);
                 mainUi.GetComponent<GraphicRaycaster>().enabled = false;
                 finishPanel.gameObject.SetActive(false);
@@ -484,14 +495,15 @@ namespace Scheduler
 
 
             // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
-            Scene2Arr = new[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, _planData01,_planData02, skipYn, timerForBeforeStarted, timerForFirstSelect };
+            Scene2Arr = new[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, _planData01,_planData02, 
+                                skipYn, timerForBeforeStarted, timerForFirstSelect, data_210, data_211, data_212, data_213 };
             gameDataManager.GetComponent<GameDataManager>().SaveCurrentData();
             StartCoroutine(GoToNextScene());
         }
 
-        public void SetPlanData(bool Skipped)
+        private void SetPlanData(bool isSkip)
         {
-            if (Skipped)
+            if (isSkip)
             {
                 skipYn = 1;
                 intro.gameObject.SetActive(false);
@@ -515,7 +527,7 @@ namespace Scheduler
                     }
                 }
 
-                switch (_completionCtn)
+                switch (completionCtn)
                 {
                     case 1 :
                         _planData01 = float.Parse(myScheduleForJson, System.Globalization.CultureInfo.InvariantCulture);
@@ -542,8 +554,7 @@ namespace Scheduler
 
             finishCntDwn.text = "1";
             yield return new WaitForSeconds(1);
-
-            KetosGames.SceneTransition.SceneLoader.LoadScene(3);
+            SceneLoader.LoadScene(3);
         }
 
         public void PlaySoundByTypes(ESoundType soundType)

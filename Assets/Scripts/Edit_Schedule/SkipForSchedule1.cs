@@ -51,8 +51,7 @@ public class SkipForSchedule1 : MonoBehaviour
         {
             if (bActive) // if hand is what touching button
             {
-                ScheduleManager1.GetComponent<Scheduler.ScheduleManager1>().FinishPanel_Yes();
-                ScheduleManager1.GetComponent<Scheduler.ScheduleManager1>().SetPlanData(true);
+                ScheduleManager1.GetComponent<Scheduler.ScheduleManager1>().FinishPanel_Yes(true);
                 coroutine = StartCoroutine(NextScene());
             }
         }

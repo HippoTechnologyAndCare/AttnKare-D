@@ -31,7 +31,7 @@ public class SetPlayerData : MonoBehaviour
 
     // 데이터의 인덱싱이 바뀔때 값을 바꿔야 하는 것들 -> TotalFirstKey에 대입값, sOd의 인자 2가지 값
     private const int TotalFirstKey = 101;
-    private readonly SizeOfData _sOd = new SizeOfData(7, 13);
+    private SizeOfData _sOd = new SizeOfData(7, 13);
 
     private int Row { get => row; set => row = value; }
 
@@ -54,7 +54,7 @@ public class SetPlayerData : MonoBehaviour
                 SceneFirstKey = 201;
                 CurrentScene = scene;
                 break;
-            case 3: //BP_L
+            case 3: //BagPacking L
                 Row = 4;
                 SceneFirstKey = 501;
                 CurrentScene = scene;
@@ -74,7 +74,7 @@ public class SetPlayerData : MonoBehaviour
                 SceneFirstKey = 401;
                 CurrentScene = scene;
                 break;
-            case 7: //bagpacking H
+            case 7: //BagPacking H
                 Row = 4;
                 SceneFirstKey = 501;
                 CurrentScene = scene;
@@ -109,7 +109,7 @@ public class SetPlayerData : MonoBehaviour
     private int SetLastKey(int currentKey )
     {
         if (currentKey <= 199) _eachLastKey = 107;
-        else if (currentKey <= 299) _eachLastKey = 208;
+        else if (currentKey <= 299) _eachLastKey = 213;
         else if (currentKey <= 399) _eachLastKey = 308;
         else if (currentKey <= 499) _eachLastKey = 413;
         else if (currentKey <= 599) _eachLastKey = 510;
@@ -159,7 +159,8 @@ public class SetPlayerData : MonoBehaviour
     // 프로그램 시작 후 임의의 진단 Scene이 로드되면 단 한번만 아래의 함수대로 초기화된다
     public void InitialDataSetting()
     {       
-        float result = 0;
+        // 모든 데이터 초기값 -1
+        float result = -1;
                 
         _key = TotalFirstKey;
 

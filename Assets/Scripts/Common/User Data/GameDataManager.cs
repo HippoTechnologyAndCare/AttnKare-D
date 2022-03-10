@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Scheduler;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UserData;
@@ -66,7 +67,7 @@ public class GameDataManager : MonoBehaviour
                 saveCurrentSceneData = SetData_pm;                            
                 break;
             case 2: //Schedule
-                objToFind = FindObjectOfType<ScheduleManager>().gameObject;
+                objToFind = FindObjectOfType<ScheduleManager1>().gameObject;
                 saveCurrentSceneData = SetData;                       
                 break;
             case 3: //BP L
