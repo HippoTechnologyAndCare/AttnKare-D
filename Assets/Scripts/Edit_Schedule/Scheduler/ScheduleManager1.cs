@@ -71,6 +71,9 @@ namespace Scheduler
         private bool checkTimeLimit = false;
         private bool checkTimeOut = false;
 
+        private float _planData01;
+        private float _planData02;
+        
         private float guide_Length = 25;
 
         [SerializeField] private int _completionCtn;
@@ -212,7 +215,7 @@ namespace Scheduler
 
             yield return new WaitForSeconds(6);
 
-            FinishPanel_Yes(true);
+            FinishPanel_Yes();
         }
 
         private IEnumerator ResetDelay(float wait)
@@ -346,12 +349,7 @@ namespace Scheduler
                 {
                     t.GetComponent<PlanSlotController1>().ResetPlanSlot();
                 }
-                
-                // foreach(var t in grpList)
-                // {
-                //     StartCoroutine(t.GetComponent<PlanCubeController1>().resetPlanCube(0.07f));
-                // }
-              
+
                 foreach (var t in slotList)
                 {
                     StartCoroutine(t.GetComponent<PlanSlotController1>().ResetSlotMesh(0.1f));
@@ -426,33 +424,38 @@ namespace Scheduler
         public void ShowFinishPanel()
         {
             PlaySoundByTypes(ESoundType.Click);
+            board.gameObject.SetActive(false);
             finishPanel.gameObject.SetActive(true);
         }
 
         public void FinishPanel_No()
         {
             PlaySoundByTypes(ESoundType.Click);
+            board.gameObject.SetActive(true);
             finishPanel.gameObject.SetActive(false);
 
             selectNoCtn += 1;
         }
 
-        public void FinishPanel_Yes(bool Skipped)
+        public void FinishPanel_Yes()
         {
-            if (_completionCtn < 2)
-            {
-                // 두번째 안내 팝업이 필요
-                _completionCtn += 1;
-                board.gameObject.SetActive(false);
-                finishPanel.gameObject.SetActive(false);
-                StartCoroutine(hud.GetComponent<HUDSchedule>().HalfInfoSetUiTxt());
-            }
-            
             PlaySoundByTypes(ESoundType.Click);
+            
+            //몇번째 완료인지 체크 
+            if (_completionCtn < 1) // 첫번째 완료라면 아래의 프로세싱 후 재 시작
+            {
+                _completionCtn += 1;
+                board.gameObject.SetActive(true);
+                mainUi.GetComponent<GraphicRaycaster>().enabled = false;
+                finishPanel.gameObject.SetActive(false);
+                ReSetAll();
+                StartCoroutine(hud.GetComponent<HUDSchedule>().HalfInfoSetUiTxt());
+                return;
+            }
+
             collectData.AddTimeStamp("MISSION END");
 
             leGogo = false;
-            float PlanData = 0;
 
             board.gameObject.SetActive(false);
             finishPanel.gameObject.SetActive(false);
@@ -460,6 +463,34 @@ namespace Scheduler
 
             voiceRecording.StopRecordingNBehavior();
 
+           
+
+
+            /*
+            Data_201 계획을 완료하는데 걸린 총 시간                               TotalElapsedTimeForCalc
+            Data_202 계획을 얼마나 바꾸는지(이동)                                 TotalMovingCnt
+            Data_203 계획 초기화(다시하기)를 누른 횟수                            ResetCnt
+            Data_204 완료 결정을 못하고 번복한 횟수                               ClickNoCnt
+            Data_205 첫번째로 완료된 계획 전송                                   PlanData01
+            Data_206 두번째로 완료된 계획 전송                                   PlanData02
+            Data_207 중도 포기(스킵)                                              SkipYn
+            Data_208 시작버튼 누르기 까지 걸린 시간                               TimerForBeforeStarted
+            Data_209 시작하기 누른 후 첫번째 계획 선택까지 걸린 시간              TimerForFirstSelect
+            Data_210 미션과 관계없는 생물을 건든 횟수
+            Data_211 첫번째 계획표 점수
+            Data_212 두번째 계획표 점수
+            Data_213 제한된 카드를 사용한 횟수
+            */
+
+
+            // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
+            Scene2Arr = new[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, _planData01,_planData02, skipYn, timerForBeforeStarted, timerForFirstSelect };
+            gameDataManager.GetComponent<GameDataManager>().SaveCurrentData();
+            StartCoroutine(GoToNextScene());
+        }
+
+        public void SetPlanData(bool Skipped)
+        {
             if (Skipped)
             {
                 skipYn = 1;
@@ -484,28 +515,21 @@ namespace Scheduler
                     }
                 }
 
-                PlanData = float.Parse(myScheduleForJson, System.Globalization.CultureInfo.InvariantCulture);
+                switch (_completionCtn)
+                {
+                    case 1 :
+                        _planData01 = float.Parse(myScheduleForJson, System.Globalization.CultureInfo.InvariantCulture);
+                        break;
+                    case 2 :
+                        _planData02 = float.Parse(myScheduleForJson, System.Globalization.CultureInfo.InvariantCulture);
+                        break;
+                    default:
+                        Debug.Log("계획표를 완료한 횟수가 유효하지 않습니다");
+                        break;
+                }
             }
-
-
-            /*
-            Data_201 계획을 완료하는데 걸린 총 시간                               TotalElapsedTimeForCalc
-            Data_202 계획을 얼마나 바꾸는지(이동)                                 TotalMovingCnt
-            Data_203 계획 초기화(다시하기)를 누른 횟수                            ResetCnt
-            Data_204 완료 결정을 못하고 번복한 횟수                               ClickNoCnt
-            Data_205 완료된 계획 전송                                             PlanData
-            Data_206 중도 포기(스킵)                                              SkipYn
-            Data_207 시작버튼 누르기 까지 걸린 시간                               TimerForBeforeStarted
-            Data_208 시작하기 누른 후 첫번째 계획 선택까지 걸린 시간              TimerForFirstSelect
-            */
-
-
-            // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
-            Scene2Arr = new[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, PlanData, skipYn, timerForBeforeStarted, timerForFirstSelect };
-            gameDataManager.GetComponent<GameDataManager>().SaveCurrentData();
-            StartCoroutine(GoToNextScene());
         }
-
+        
         private IEnumerator GoToNextScene()
         {
             yield return new WaitForSeconds(2);

@@ -96,6 +96,9 @@ public class GameDataManager : MonoBehaviour
                 objToFind = FindObjectOfType<CheckData_NumCheck>().gameObject;
                 saveCurrentSceneData = SetData;
                 break;
+            default:
+                Debug.Log("Scene Index가 유효하지 않습니다");
+                break;
         }        
     }
 
@@ -136,6 +139,9 @@ public class GameDataManager : MonoBehaviour
                 break;
             case 9: //NUMMATCH
                 setPlayerData.SetSceneData(objToFind.GetComponent<CheckData_NumCheck>().arrData);
+                break;
+            default:
+                Debug.Log("Scene Index가 유효하지 않습니다");
                 break;
         }      
     }
