@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BNG;
 using KetosGames.SceneTransition;
+using EPOOutline;
 
 public class Guide_Paddle : MonoBehaviour
 {
@@ -107,6 +108,7 @@ public class Guide_Paddle : MonoBehaviour
             BehaviorData.AddTimeStamp("GUIDE SKIP");
         }
         foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = true;
+        CableCar.GetComponent<Outlinable>().enabled = true;
         StartCoroutine(Hud.CountDown());
         FriendAnimation.Play("Intro");
         m_ePSTATE = PADDLE_STATE.START;
