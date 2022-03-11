@@ -55,7 +55,7 @@ namespace Scheduler
 
         public Text timerText;
 
-        private List<Transform> slotList; 
+        [SerializeField] private List<Transform> slotList; 
         public List<Transform> grpList;
         private List<Transform> oPosList;
 
@@ -451,7 +451,7 @@ namespace Scheduler
             PlaySoundByTypes(ESoundType.Click);
             
             // n번째로 완성한 계획표 변수로 저장
-            SetPlanData(isSkip);
+            //SetPlanData(isSkip);
             
             //몇번째 완료인지 체크 
             if (completionCtn == 1) // 첫번째 완료라면 아래의 프로세싱 후 재 시작
@@ -473,9 +473,37 @@ namespace Scheduler
             wellDoneAndBye.gameObject.SetActive(true);
 
             voiceRecording.StopRecordingNBehavior();
+            
+            if (isSkip)
+            {
+                skipYn = 1;
+                intro.gameObject.SetActive(false);
+                //Schedule.gameObject.SetActive(true);
+            }
+            else
+            {
+                skipYn = 0;
+                string MySchedule = "";
+                string MyScheduleforJson = "";
 
-           
+                foreach (Transform plan_Slot in slotList)
+                {
+                    Transform plan_Box = plan_Slot.GetComponent<PlanSlotController>().passenger.transform;
 
+                    if (plan_Box != null)
+                    {
+                        MySchedule += plan_Box.GetChild(0).GetComponent<Text>().text + " ";
+                        MyScheduleforJson += plan_Box.GetChild(1).name;
+                    }
+                    else
+                    {
+                        MySchedule += "0 ";
+                        MyScheduleforJson += "0";
+                    }
+                }
+
+                _planData01 = float.Parse(MyScheduleforJson, System.Globalization.CultureInfo.InvariantCulture);
+            }
 
             /*
             Data_201 계획을 완료하는데 걸린 총 시간                               TotalElapsedTimeForCalc
@@ -513,7 +541,7 @@ namespace Scheduler
             {
                 skipYn = 0;
                 var myScheduleForJson = "";
-
+                
                 foreach (var planBox in slotList.Select(planSlot => planSlot.GetComponent<PlanSlotController>().passenger.transform))
                 {
                     if (planBox != null)
