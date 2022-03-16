@@ -149,6 +149,9 @@ public class HUDSchedule : MonoBehaviour
         yield return new WaitForSeconds(2f);
     }
 
+    /*************************************************************************
+    //Canvas Fade
+    *************************************************************************/
     private void FadeInCanvas(Canvas canvas, float time)
     {
         if(!canvas) return;  // check valid canvas ?
@@ -174,6 +177,9 @@ public class HUDSchedule : MonoBehaviour
         }
     }
 
+    /*************************************************************************
+    //Control Sound Clip
+    *************************************************************************/
     private float PlaySound(AudioSource aSource, AudioClip aClip)
     {
         if(!aSource || !aClip) return 0f;        

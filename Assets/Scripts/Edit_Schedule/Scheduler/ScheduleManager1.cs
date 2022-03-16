@@ -2,13 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using KetosGames.SceneTransition;
 using BNG;
-using HutongGames.PlayMaker.Actions;
 using UnityEngine.Serialization;
 using Button = UnityEngine.UI.Button;
 using SceneLoader = KetosGames.SceneTransition.SceneLoader;
@@ -34,39 +32,39 @@ namespace Scheduler
         private const float TimeLimitForFinish = 180; //강제종료시간
 
         [SerializeField] private Transform hud;
-        public Transform mainUi;
-        public Transform subUi;
-        public GameObject board;
-        public Transform finishPanel;
-        public Transform startBtn;
-        public Transform wellDoneAndBye;
-        public TextMeshProUGUI finishCntDwn;
+        [SerializeField] private Transform mainUi;
+        [SerializeField] private Transform subUi;
+        [SerializeField] private GameObject board;
+        [SerializeField] private Transform finishPanel;
+        [SerializeField] private Transform startBtn;
+        [SerializeField] private Transform wellDoneAndBye;
+        [SerializeField] private TextMeshProUGUI finishCntDwn;
 
-        public Transform bgmController;
+        [SerializeField] private Transform bgmController;
 
-        public Text result;
+        [SerializeField] private Text result;
 
-        public Transform btnFinish;
+        [SerializeField] private Transform btnFinish;
 
-        public TextMeshProUGUI textTitle;
+        [SerializeField] private TextMeshProUGUI textTitle;
 
-        public Text toShow;
+        [SerializeField] private Text toShow;
 
         [SerializeField] private GameObject defCards;
-        public Transform slot;
-        public Transform grp;
-        public Transform originPos;
+        [SerializeField] private Transform slot;
+        [SerializeField] private Transform grp;
+        [SerializeField] private Transform originPos;
 
-        public Text timerText;
+        [SerializeField] private Text timerText;
 
         [SerializeField] private List<Transform> slotList; 
-        public List<Transform> grpList;
+        [SerializeField] private List<Transform> grpList;
         private List<Transform> oPosList;
 
         public float[] Scene2Arr { get; set; }
 
-        public bool isReset;
-        public bool pointerLock;
+        [SerializeField] private bool isReset;
+        [SerializeField] private bool pointerLock;
 
         private bool leGogo;
         private bool beforeStart;
@@ -96,11 +94,11 @@ namespace Scheduler
 
         //float TotalScenePlayingTime = 0;    //컨텐츠 시작부터 끝까지 총 시간 TimerForBeforeStarted + TotalElapsedTimeForCalc
 
-        public int totalMovingCnt;      //이동 횟수
-        public int resetCnt;            //초기화 누른 횟수
-        private int selectNoCtn;                 //아니오 누른 횟수
-
-        private int skipYn;
+        [Tooltip("Data Field")]
+        [SerializeField] private int totalMovingCnt;      //이동 횟수
+        [SerializeField] private int resetCnt;            //초기화 누른 횟수
+        [SerializeField] private int selectNoCtn;                 //아니오 누른 횟수
+        [SerializeField] private int skipYn;
 
         //------------- SOUND    
         [FormerlySerializedAs("sound_Count")] public AudioClip soundCount;
