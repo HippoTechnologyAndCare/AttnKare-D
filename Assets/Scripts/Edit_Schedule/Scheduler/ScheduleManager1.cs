@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using KetosGames.SceneTransition;
 using BNG;
+using HutongGames.PlayMaker.Actions;
 using UnityEngine.Serialization;
 using Button = UnityEngine.UI.Button;
 using SceneLoader = KetosGames.SceneTransition.SceneLoader;
@@ -33,9 +35,10 @@ namespace Scheduler
 
         [SerializeField] private Transform hud;
         public Transform mainUi;
-        public Transform intro;
+        public Transform subUi;
         public GameObject board;
         public Transform finishPanel;
+        public Transform startBtn;
         public Transform wellDoneAndBye;
         public TextMeshProUGUI finishCntDwn;
 
@@ -49,6 +52,7 @@ namespace Scheduler
 
         public Text toShow;
 
+        [SerializeField] private GameObject defCards;
         public Transform slot;
         public Transform grp;
         public Transform originPos;
@@ -413,7 +417,8 @@ namespace Scheduler
             yield return new WaitForSeconds(1f);
 
             mainUi.GetComponent<GraphicRaycaster>().enabled = true;
-            intro.gameObject.SetActive(false);
+            //subUi.gameObject.SetActive(false);
+            SetStartBtn(false);
             board.gameObject.SetActive(true);
             beforeStart = false;
             leGogo = true;
@@ -430,21 +435,27 @@ namespace Scheduler
         public void ShowFinishPanel()
         {
             PlaySoundByTypes(ESoundType.Click);
-            board.gameObject.SetActive(false);
-            finishPanel.gameObject.SetActive(true);
+            //board.gameObject.SetActive(false);
+            SetBoard(false);
+            //finishPanel.gameObject.SetActive(true);
+            SetFinishPanel(true);
         }
 
         public void FinishPanel_No()
         {
             PlaySoundByTypes(ESoundType.Click);
-            board.gameObject.SetActive(true);
-            finishPanel.gameObject.SetActive(false);
+            //board.gameObject.SetActive(true);
+            SetBoard(true);
+            //finishPanel.gameObject.SetActive(false);
+            SetFinishPanel(false);
 
             selectNoCtn += 1;
         }
 
         public void FinishPanel_Yes(bool isSkip)
         {
+            
+            Debug.Log("isSkip = " + isSkip);
             // 완료한 계획표 횟수
             completionCtn += 1;
             
@@ -456,9 +467,11 @@ namespace Scheduler
             //몇번째 완료인지 체크 
             if (completionCtn == 1) // 첫번째 완료라면 아래의 프로세싱 후 재 시작
             {
-                board.gameObject.SetActive(true);
+                //board.gameObject.SetActive(true);
+                SetBoard(true);
                 mainUi.GetComponent<GraphicRaycaster>().enabled = false;
-                finishPanel.gameObject.SetActive(false);
+                //finishPanel.gameObject.SetActive(false);
+                SetFinishPanel(false);
                 ReSetAll();
                 StartCoroutine(hud.GetComponent<HUDSchedule>().HalfInfoSetUiTxt());
                 return;
@@ -468,8 +481,9 @@ namespace Scheduler
 
             leGogo = false;
 
-            board.gameObject.SetActive(false);
-            finishPanel.gameObject.SetActive(false);
+            //board.gameObject.SetActive(false);
+            //finishPanel.gameObject.SetActive(false);
+            SetFinishPanel(false);
             wellDoneAndBye.gameObject.SetActive(true);
 
             voiceRecording.StopRecordingNBehavior();
@@ -477,7 +491,7 @@ namespace Scheduler
             if (isSkip)
             {
                 skipYn = 1;
-                intro.gameObject.SetActive(false);
+                subUi.gameObject.SetActive(false);
                 //Schedule.gameObject.SetActive(true);
             }
             else
@@ -485,26 +499,40 @@ namespace Scheduler
                 skipYn = 0;
                 string MySchedule = "";
                 string MyScheduleforJson = "";
+                Transform plan_Box;
 
                 foreach (Transform plan_Slot in slotList)
                 {
-                    Transform plan_Box = plan_Slot.GetComponent<PlanSlotController>().passenger.transform;
-
-                    if (plan_Box != null)
+                    if (plan_Slot.GetComponent<PlanSlotController1>().passenger.transform != null)
                     {
-                        MySchedule += plan_Box.GetChild(0).GetComponent<Text>().text + " ";
-                        MyScheduleforJson += plan_Box.GetChild(1).name;
+                        plan_Box = plan_Slot.GetComponent<PlanSlotController1>().passenger.transform;
+                        
+                        Debug.Log("passenger = " + plan_Box.name);
+                    
+                        if (plan_Box != null)
+                        {
+                            //MySchedule += plan_Box.GetChild(0).GetComponent<Text>().text + " ";
+                            //MyScheduleforJson += plan_Box.GetChild(1).name;
+                            //아래 코드 514,515는 디버깅용
+                            MySchedule = "3";
+                            MyScheduleforJson = "3";
+                        }
+                        else
+                        {
+                            MySchedule += "0 ";
+                            MyScheduleforJson += "0";
+                        }
                     }
+
                     else
                     {
-                        MySchedule += "0 ";
-                        MyScheduleforJson += "0";
+                        return;
                     }
                 }
-
+                
                 _planData01 = float.Parse(MyScheduleforJson, System.Globalization.CultureInfo.InvariantCulture);
             }
-
+            
             /*
             Data_201 계획을 완료하는데 걸린 총 시간                               TotalElapsedTimeForCalc
             Data_202 계획을 얼마나 바꾸는지(이동)                                 TotalMovingCnt
@@ -529,12 +557,74 @@ namespace Scheduler
             StartCoroutine(GoToNextScene());
         }
 
+        private void SetBoard(bool isOn)
+        {
+
+            if (isOn)
+            {
+                defCards.SetActive(true);
+                board.GetComponent<CanvasGroup>().alpha = 1;
+                board.GetComponent<CanvasGroup>().blocksRaycasts = true;
+
+                foreach (var currCard in grpList)
+                {
+                    //currCard = currCard.GetComponent<PlanSlotController1>().passenger.transform;
+                    currCard.GetChild(2).GetComponent<MeshRenderer>().enabled = true;
+                    //currCard.GetComponent<MeshRenderer>().enabled = true;
+                }
+            }
+            
+            else
+            {
+                defCards.SetActive(false);
+                board.GetComponent<CanvasGroup>().alpha = 0;
+                board.GetComponent<CanvasGroup>().blocksRaycasts = false;
+                
+                foreach (var currCard in grpList)
+                {
+                    //currCard = currCard.GetComponent<PlanSlotController1>().passenger.transform;
+                    currCard.GetChild(2).GetComponent<MeshRenderer>().enabled = false;
+                    //currCard.GetComponent<MeshRenderer>().enabled = false;
+                }
+            }
+        }
+        
+        private void SetFinishPanel(bool isOn)
+        {
+            if (isOn)
+            {
+                finishPanel.GetComponent<CanvasGroup>().alpha = 1;
+                finishPanel.GetComponent<CanvasGroup>().blocksRaycasts = true;
+            }
+            
+            else
+            {
+                finishPanel.GetComponent<CanvasGroup>().alpha = 0;
+                finishPanel.GetComponent<CanvasGroup>().blocksRaycasts = false;
+            }
+        }
+
+        public void SetStartBtn(bool isOn)
+        {
+            if (isOn)
+            {
+                startBtn.GetComponent<CanvasGroup>().alpha = 1;
+                startBtn.GetComponent<CanvasGroup>().blocksRaycasts = true;
+            }
+            
+            else
+            {
+                startBtn.GetComponent<CanvasGroup>().alpha = 0;
+                startBtn.GetComponent<CanvasGroup>().blocksRaycasts = false;
+            }
+        }
+        
         private void SetPlanData(bool isSkip)
         {
             if (isSkip)
             {
                 skipYn = 1;
-                intro.gameObject.SetActive(false);
+                subUi.gameObject.SetActive(false);
                 //Schedule.gameObject.SetActive(true);
             }
             else

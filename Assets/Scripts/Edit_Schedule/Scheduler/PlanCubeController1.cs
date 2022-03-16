@@ -387,8 +387,8 @@ namespace Scheduler
             intoSlot = null;
             workingSlot = null;
             slots.Clear();
-            yield return new WaitForSeconds(wait);
             transform.localPosition = startPos;
+            yield return new WaitForSeconds(wait);
         }
     }
 

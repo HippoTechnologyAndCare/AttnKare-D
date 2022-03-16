@@ -93,7 +93,8 @@ public class HUDSchedule : MonoBehaviour
         _isFade = false;
         FadeOutCanvas(infoCanvas, 1f);
         yield return new WaitForSeconds(1f);
-        schManager.intro.gameObject.SetActive(true);
+        //schManager.subUi.gameObject.SetActive(true);
+        schManager.SetStartBtn(true);
     }
 
     public IEnumerator HalfInfoSetUiTxt()
@@ -125,7 +126,8 @@ public class HUDSchedule : MonoBehaviour
         _isFade = false;
         FadeOutCanvas(infoCanvas, 1f);
         yield return new WaitForSeconds(1f);
-        schManager.intro.gameObject.SetActive(true);
+        //schManager.subUi.gameObject.SetActive(true);
+        schManager.SetStartBtn(true);
     }
     
     private IEnumerator HowToPlayVoiceText()

@@ -401,8 +401,7 @@ public class ScheduleManager : MonoBehaviour
         SceneLoader.LoadScene(3);
     }
 
-
-
+    
     public void PlaySoundByTypes(string Type)
     {
         audioSource.clip = null;
