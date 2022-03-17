@@ -43,6 +43,7 @@ public class UI_BP : MonoBehaviour
     bool timeChange = true;
     Object_BP Manager;
     MemoCheck_BP MemoCheck;
+    private bool b_firstMEMO = false;
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +65,10 @@ public class UI_BP : MonoBehaviour
             if (m_fTime <= 60 && timeChange == true) { StartCoroutine(TimeChange()); timeChange = false; }
             if (m_fTime < 0) bTimeStart = false;
         }
+        if (b_firstMEMO)
+        {
+            if(!MemoCheck.set) { StartCoroutine(MemoChecked()); b_firstMEMO = false; }
+        }
     }
     private List<string> TextToList(TextAsset txta_speech) //change textasset to list of string using divider
     {
@@ -84,8 +89,13 @@ public class UI_BP : MonoBehaviour
         m_txtStartInfo = child.transform.Find("Info1").GetComponent<TextMeshProUGUI>();
         m_txtStartInfo.text = list_txtIntro[0];
         NarrationSound(0);
+        b_firstMEMO = true;
         yield return new WaitUntil(() => !Audio_Narration.isPlaying);
-        yield return new WaitUntil(() => MemoCheck.set == false);
+    }
+
+    IEnumerator MemoChecked()
+    {
+        Audio_Narration.Stop();
         MemoParticle();
         EffectSound("STAR");
         m_txtStartInfo.text = list_txtIntro[1];
@@ -98,8 +108,8 @@ public class UI_BP : MonoBehaviour
         Board_Start.DOFade(0, 3);
         yield return new WaitUntil(() => Board_Start.alpha == 0);
         Manager.Stage1();
-        
     }
+   
 
     void MemoParticle()
     {
