@@ -627,15 +627,19 @@ namespace Scheduler
             }
             else
             {
+                Transform currCard;
                 skipYn = 0;
                 var myScheduleForJson = "";
                 
-                foreach (var planBox in slotList.Select(planSlot => planSlot.GetComponent<PlanSlotController>().passenger.transform))
+                foreach (var slot in slotList)
                 {
-                    if (planBox != null)
+                    if (slot.GetComponent<PlanSlotController1>().passenger == null) continue;
+                    currCard = slot.GetComponent<PlanSlotController1>().passenger.transform;
+                        
+                    if (slot != null)
                     {
-                        var text = planBox.GetChild(0).GetComponent<Text>().text + " ";
-                        myScheduleForJson += planBox.GetChild(1).name;
+                        var text = currCard.GetChild(0).GetComponent<Text>().text + " ";
+                        myScheduleForJson += currCard.GetChild(1).name;
                     }
                     else
                     {
