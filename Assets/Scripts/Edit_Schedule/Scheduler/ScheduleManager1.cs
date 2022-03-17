@@ -58,13 +58,13 @@ namespace Scheduler
         [SerializeField] private Text timerText;
 
         [SerializeField] private List<Transform> slotList; 
-        [SerializeField] private List<Transform> grpList;
+        public List<Transform> grpList;
         private List<Transform> oPosList;
 
         public float[] Scene2Arr { get; set; }
 
-        [SerializeField] private bool isReset;
-        [SerializeField] private bool pointerLock;
+        public bool isReset;
+        public bool pointerLock;
 
         private bool leGogo;
         private bool beforeStart;
@@ -94,7 +94,7 @@ namespace Scheduler
 
         //float TotalScenePlayingTime = 0;    //컨텐츠 시작부터 끝까지 총 시간 TimerForBeforeStarted + TotalElapsedTimeForCalc
 
-        [Tooltip("Data Field")]
+        [Header("Data Field")]
         [SerializeField] private int totalMovingCnt;      //이동 횟수
         [SerializeField] private int resetCnt;            //초기화 누른 횟수
         [SerializeField] private int selectNoCtn;                 //아니오 누른 횟수
