@@ -22,9 +22,9 @@ public class LaserPointer : MonoBehaviour
     public LayerMask    m_ValidLayers;
     public LineRenderer m_rendLine1;
     public LineRenderer m_rendLine2;
-    public GameObject   m_goCursor;    
+    //public GameObject   m_goCursor;    
     public GameObject   m_goLaserEnd;        
-    public Grabber      m_RightGrabber;
+    //public Grabber      m_RightGrabber;
 
     /**************************************************************************/
     /* Member Variable
@@ -69,7 +69,7 @@ public class LaserPointer : MonoBehaviour
        
         if(go.tag == Manager.saTag[(int)Manager.TAG.NECESSARY]) {
           Arrange arr = go.GetComponent<Arrange>();
-          if(arr) arr.SetRigidBody(true);
+          //if(arr) arr.SetRigidBody(true);
         }
 
         /*
@@ -94,7 +94,9 @@ public class LaserPointer : MonoBehaviour
         if (!m_bActive) return;
         m_rendLine1.enabled = true;
         RaycastHit hit;
+
         if (Physics.Raycast(transform.position, transform.forward, out hit, MAX_RANGE, m_ValidLayers, QueryTriggerInteraction.Ignore))  {
+            
             //Draw Render Line
             m_rendLine1.enabled = true;
             m_rendLine2.enabled = false;
@@ -103,12 +105,16 @@ public class LaserPointer : MonoBehaviour
             m_rendLine1.SetPosition(1, new Vector3(0, 0, Vector3.Distance(transform.position, hit.point) * LineDistanceModifier)); //³¡             
 
             // Add dot at line's end
+            
             m_goLaserEnd.transform.position = hit.point;
             m_goLaserEnd.transform.rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);
 
-            //Check Grabble Object
-            if(hit.transform.gameObject.layer == LAYER_GRABBABLE && InputBridge.Instance.RightTriggerDown  &&  !m_bPrevRTriggerDown  ) 
-               CheckGrabbable(hit.collider.gameObject);                                                                              
+
+                //Check Grabble Object
+
+                if (hit.transform.gameObject.layer == LAYER_GRABBABLE && InputBridge.Instance.RightTriggerDown && !m_bPrevRTriggerDown) ;
+            //CheckGrabbable(hit.collider.gameObject);
+            
         } else { // not hit
             m_rendLine1.enabled = false;
             m_rendLine2.enabled = true;
@@ -117,7 +123,7 @@ public class LaserPointer : MonoBehaviour
             m_goLaserEnd.transform.position = new Vector3(0, 0, MAX_RANGE);
             m_goLaserEnd.transform.rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);                                                        
         }
-        m_bPrevRTriggerDown = InputBridge.Instance.RightTriggerDown;
+        //m_bPrevRTriggerDown = InputBridge.Instance.RightTriggerDown;
     } 
    } 
 }

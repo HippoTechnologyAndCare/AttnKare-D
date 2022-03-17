@@ -9,7 +9,8 @@ public class Arrange : MonoBehaviour {
     public enum ARRANGE  { 
         //BOX, LAMP, GAME_PAD, GLOBE,  MOUTH_WASH, 
         TOY_HAMMER,  TOY_APPLE, TOY_CAR1, TOY_CAR2, TOY_GUN, 
-        TOY_BALL, TOY_BUNNY, BOOK1, BOOK2, BOOK3,  PANTS1 , PANTS2 , PANTS3 , NONE  
+        TOY_BALL, TOY_BUNNY, 
+        BOOK1, BOOK2, BOOK3,  PANTS1 , PANTS2 , PANTS3 , NONE  
     }        
     
     //최종적으로 각 물건에 대한 평가결과 저장
@@ -56,13 +57,15 @@ public class Arrange : MonoBehaviour {
         //new ARRANGE_INFO(ARRANGE.GAME_PAD,    "GamePad",   false, false, 0, 0.0f, 0, "게임패드" ),    
         //new ARRANGE_INFO(ARRANGE.GLOBE,       "Globe",     false, false, 0, 0.0f, 0, "지구본"  ),             
         //new ARRANGE_INFO(ARRANGE.MOUTH_WASH,  "MouthWash", false, false, 0, 0.0f, 0, "로션"   ),             
-  		new ARRANGE_INFO(ARRANGE.TOY_HAMMER,  "ToyHammer", false, false, 0, 0.0f, 0, "뽕망치"  ),                     
+  		
+        new ARRANGE_INFO(ARRANGE.TOY_HAMMER,  "ToyHammer", false, false, 0, 0.0f, 0, "뽕망치"  ),                     
         new ARRANGE_INFO(ARRANGE.TOY_APPLE,   "ToyApple",  false, false, 0, 0.0f, 0, "장난감사과"   ),             
         new ARRANGE_INFO(ARRANGE.TOY_CAR1,    "ToyCar1",   false, false, 0, 0.0f, 0, "장난감차" ),                     
         new ARRANGE_INFO(ARRANGE.TOY_CAR2,    "ToyCar2",   false, false, 0, 0.0f, 0, "자동차2" ),                     
         new ARRANGE_INFO(ARRANGE.TOY_GUN,     "ToyGun",    false, false, 0, 0.0f, 0, "장난감물총" ),                     
         new ARRANGE_INFO(ARRANGE.TOY_BALL,    "ToyBall",   false, false, 0, 0.0f, 0, "공"     ),                     
-        new ARRANGE_INFO(ARRANGE.TOY_BUNNY,   "ToyBunny",  false, false, 0, 0.0f, 0, "토끼"   ),                     
+        new ARRANGE_INFO(ARRANGE.TOY_BUNNY,   "ToyBunny",  false, false, 0, 0.0f, 0, "토끼"   ),   
+        
         new ARRANGE_INFO(ARRANGE.BOOK1,       "Book1",     false, false, 0, 0.0f, 0, "녹색책1"    ),             
         new ARRANGE_INFO(ARRANGE.BOOK2,       "Book2",     false, false, 0, 0.0f, 0, "노란책"    ),             
         new ARRANGE_INFO(ARRANGE.BOOK3,       "Book3",     false, false, 0, 0.0f, 0, "녹색책2"    ),                     
@@ -141,8 +144,8 @@ public class Arrange : MonoBehaviour {
             CDB[(int)m_eArrange].bPositioned = m_bPositioned = true; 
             m_Guide.SetFirstArranged(m_eArrange, m_Target.transform);  //정리한것을 Guide에게 알려줌  
         }
-        CDB[(int)m_eArrange].bPositioned = m_bPositioned = true; 
-        m_Guide.SetPositioned(m_eArrange);  
+        CDB[(int)m_eArrange].bPositioned = m_bPositioned = true;
+        m_Guide.SetPositioned(); // (m_eArrange);  
         CDB[(int)m_eArrange].nPosiCount++; // Eval            
     }
 

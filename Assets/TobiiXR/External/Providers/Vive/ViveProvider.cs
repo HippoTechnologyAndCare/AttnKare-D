@@ -113,7 +113,7 @@ public class HTCProvider : IEyeTrackingProvider
 #else
     public bool Initialize() 
     {
-        Debug.LogError(string.Format("Scripting define symbol \"{0}\" not set for {1}.", AssemblyUtils.GetProviderCompilerFlag(this), this.GetType().Name));
+        //Debug.LogError(string.Format("Scripting define symbol \"{0}\" not set for {1}.", AssemblyUtils.GetProviderCompilerFlag(this), this.GetType().Name));
         return false;
     }
     public void Tick() { }
