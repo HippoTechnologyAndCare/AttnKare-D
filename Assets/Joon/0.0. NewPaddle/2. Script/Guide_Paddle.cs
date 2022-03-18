@@ -229,6 +229,7 @@ public class Guide_Paddle : MonoBehaviour
         Hud.NextScene();
         Hud.bCoroutine = true;
         yield return new WaitUntil(() => Hud.bCoroutine == false);
+        Debug.Log("FIN");
         KetosGames.SceneTransition.SceneLoader.LoadScene(7);
 
     }
