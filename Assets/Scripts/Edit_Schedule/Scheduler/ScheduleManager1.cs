@@ -5,7 +5,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using KetosGames.SceneTransition;
 using BNG;
 using UnityEngine.Serialization;
 using Button = UnityEngine.UI.Button;
@@ -30,6 +29,7 @@ namespace Scheduler
         
         private const float TimeLimit = 120; //시간 제한 사용 방향 기획 필요
         private const float TimeLimitForFinish = 180; //강제종료시간
+        private const int TotalCardsCtn = 10;         // 총 카드 수
 
         [SerializeField] private Transform hud;
         [SerializeField] private Transform mainUi;
@@ -60,6 +60,7 @@ namespace Scheduler
         [SerializeField] private List<Transform> slotList; 
         public List<Transform> grpList;
         private List<Transform> oPosList;
+        private List<string> cardList = new List<string>();
 
         public float[] Scene2Arr { get; set; }
 
@@ -124,10 +125,21 @@ namespace Scheduler
             slotList = new List<Transform>();
             grpList = new List<Transform>();
             oPosList = new List<Transform>();
+
+            // CardList에 사용될 카드 이름을 전부 넣는다 // type : string
+            for (var i = 0; i < TotalCardsCtn; i++)
+            {
+                cardList.Add(Convert.ToChar(i + 65).ToString());
+            }
         }
 
         private void Start()
         {
+            foreach (var card in cardList)
+            {
+                Debug.Log("card name = " + card);
+            }
+            
             InitSlotList();
             InitGrpList();
             InitOposList();
@@ -384,7 +396,33 @@ namespace Scheduler
             }
         }
 
+        private void UsedCardsCtn(Transform passenger)
+        {
+            string keyword = "(Clone)";
+            string originName;
+            foreach (string cardName in cardList)
+            {
+                if(cardName != null)
+                {
+                    if (RemoveWord.EndsWithWord(passenger.name, keyword))
+                    {
+                        originName = passenger.name.Replace("(Clone)", "");
+                    }
 
+                    else
+                    {
+                        originName = passenger.name;
+                    }
+
+                    if (cardName == originName)
+                    {
+                        
+                    }
+
+                }                                              
+            }            
+        }
+        
         public void DoStartSchedule()
         {
             PlaySoundByTypes(ESoundType.Click);
@@ -485,51 +523,6 @@ namespace Scheduler
             wellDoneAndBye.gameObject.SetActive(true);
 
             voiceRecording.StopRecordingNBehavior();
-            
-            // if (isSkip)
-            // {
-            //     skipYn = 1;
-            //     subUi.gameObject.SetActive(false);
-            //     //Schedule.gameObject.SetActive(true);
-            // }
-            // else
-            // {
-            //     skipYn = 0;
-            //     string MySchedule = "";
-            //     string MyScheduleforJson = "";
-            //     Transform plan_Box;
-            //
-            //     foreach (Transform plan_Slot in slotList)
-            //     {
-            //         if (plan_Slot.GetComponent<PlanSlotController1>().passenger.transform != null)
-            //         {
-            //             plan_Box = plan_Slot.GetComponent<PlanSlotController1>().passenger.transform;
-            //             
-            //             Debug.Log("passenger = " + plan_Box.name);
-            //         
-            //             if (plan_Box != null)
-            //             {
-            //                 //MySchedule += plan_Box.GetChild(0).GetComponent<Text>().text + " ";
-            //                 //MyScheduleforJson += plan_Box.GetChild(1).name;
-            //                 //아래 코드 514,515는 디버깅용
-            //                 MySchedule = "3";
-            //                 MyScheduleforJson = "3";
-            //             }
-            //             else
-            //             {
-            //                 MySchedule += "0 ";
-            //                 MyScheduleforJson += "0";
-            //             }
-            //         }
-            //
-            //         else
-            //         {
-            //             return;
-            //         }
-            //     }
-            //     
-            //     _planData01 = float.Parse(MyScheduleforJson, System.Globalization.CultureInfo.InvariantCulture);
-            // }
             
             /*
             Data_201 계획을 완료하는데 걸린 총 시간                               TotalElapsedTimeForCalc
@@ -633,17 +626,19 @@ namespace Scheduler
                 
                 foreach (var slot in slotList)
                 {
-                    if (slot.GetComponent<PlanSlotController1>().passenger == null) continue;
-                    currCard = slot.GetComponent<PlanSlotController1>().passenger.transform;
+                    if (slot.GetComponent<PlanSlotController1>().passenger != null)
+                    {
+                        currCard = slot.GetComponent<PlanSlotController1>().passenger.transform;
                         
-                    if (slot != null)
-                    {
-                        var text = currCard.GetChild(0).GetComponent<Text>().text + " ";
-                        myScheduleForJson += currCard.GetChild(1).name;
-                    }
-                    else
-                    {
-                        myScheduleForJson += "0";
+                        if (slot != null)
+                        {
+                            var text = currCard.GetChild(0).GetComponent<Text>().text + " ";
+                            myScheduleForJson += currCard.GetChild(1).name;
+                        }
+                        else
+                        {
+                            myScheduleForJson += "0";
+                        }
                     }
                 }
 
