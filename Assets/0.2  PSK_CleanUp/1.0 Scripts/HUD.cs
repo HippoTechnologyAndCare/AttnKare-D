@@ -39,10 +39,12 @@ public class HUD : MonoBehaviour
     public Canvas m_canvasINFO;
 
     //전면안내-내방 정리하는 방법 5개 음성 및 Text Animation 전시
-    public void PlayHowTo() {                      
-        StartCoroutine("PlayHowToVoiceText");        
+    public void PlayHowTo() {
+            //PlayStart();
+            StartCoroutine("PlayHowToVoiceText");        
     }
-    IEnumerator PlayHowToVoiceText() {        
+    IEnumerator PlayHowToVoiceText() {    
+            
         CanvasFadeIn(m_canvasINFO,1f);  // INFO Canvas fade In
         yield return new WaitForSeconds(1f); //숨고르기
         float wait = PlaySound(m_audSIntro, m_audCIntro[(int)VOICE.HOWTO]);  
@@ -55,9 +57,25 @@ public class HUD : MonoBehaviour
         }
         CanvasFadeOut(m_canvasINFO,1f);  // Info Canvas fade In
         yield return new WaitForSeconds(2f); //숨고르기        
+        
         PlayStart();  //자 이제 시작해볼까 전시
     }
-
+        IEnumerator successMission()
+        {
+            CanvasFadeIn(m_canvasINFO, 1f);  // INFO Canvas fade In
+            yield return new WaitForSeconds(1f); //숨고르기
+            float wait = PlaySound(m_audSIntro, m_audCIntro[(int)VOICE.HOWTO]);
+            yield return new WaitForSeconds(wait);
+            for (int i = 0; i < 3; i++)
+            {
+                yield return new WaitForSeconds(1f); //숨고르기
+                wait = PlaySound(m_audSIntro, m_audCIntro[i]);
+                m_DotAnim[i].DOPlay();      // Start Text Animation 
+                yield return new WaitForSeconds(wait);
+            }
+            CanvasFadeOut(m_canvasINFO, 1f);  // Info Canvas fade In
+            yield return new WaitForSeconds(2f); //숨고르기   
+        }
     /**************************************************************************
     // HMD에 내용을 전시합니다.
     ***************************************************************************/
@@ -156,28 +174,55 @@ public class HUD : MonoBehaviour
     public Animator    m_aniPopup;
     public TextMeshPro m_textPopupValue;
     public AudioClip   m_clipBell;  //벨소리 Asset>Sound>Button>DM-CGS-45    
-    public GameObject  m_goTextPopupFound, m_goTextPopupCleaned;
+    public GameObject  m_goTextPopupFound, m_goTextPopupCleaned, m_goTextPopupTrash, m_goTextPopupBook;
     //popup 찾은(정리한)갯수-둘다 사용        
     public void PopUpCount(int nDone, bool bClean=false) {    
         m_goTextPopupFound.SetActive(!bClean);
         m_goTextPopupCleaned.SetActive(bClean);
+        m_goTextPopupTrash.SetActive(!bClean);
         m_textPopupValue.text = nDone.ToString() + " / " + Arrange.TOTAL_TOCLEAN.ToString();
         m_aniPopup.Play("Found_Popup");
         PlaySound(m_audSIntro,m_clipBell);
     }
-    
-    // 찾아진 Object 중심에서 Start 파티클이 전시된다
-    public GameObject m_goStarParicle; //Prefabs.BagPacking>VfxStarsThin 1 을 할당하세요
-    public void ShowStarParticle(Transform transform) {
+    public void PopUpCountTrash(int nDone, bool bClean = false)  {
+        m_goTextPopupFound.SetActive(!bClean);
+        m_goTextPopupCleaned.SetActive(!bClean);
+        m_goTextPopupTrash.SetActive(bClean);
+        m_goTextPopupBook.SetActive(!bClean);
+        m_textPopupValue.text = (Trash.TOTAL_TRASH-nDone).ToString();
+        m_aniPopup.Play("Found_Popup");
+        PlaySound(m_audSIntro, m_clipBell);
+    }
+    public void PopUpCountBooks(int nDone, bool bClean = false)
+    {
+        m_goTextPopupFound.SetActive(!bClean);
+        m_goTextPopupCleaned.SetActive(!bClean);
+        m_goTextPopupTrash.SetActive(!bClean);
+        m_goTextPopupBook.SetActive(bClean);
+        m_textPopupValue.text = (Books.TOTAL_BOOK - nDone).ToString();
+        m_aniPopup.Play("Found_Popup");
+        PlaySound(m_audSIntro, m_clipBell);
+    }
+
+        // 찾아진 Object 중심에서 Start 파티클이 전시된다
+        public GameObject m_goStarParicle; //Prefabs.BagPacking>VfxStarsThin 1 을 할당하세요
+        public GameObject m_goStarParicle2; //
+        public void ShowStarParticle(Transform transform) {
         GameObject go = Instantiate(m_goStarParicle,transform.position, Quaternion.identity);
         go.transform.GetComponent<ParticleSystem>().Play();
         Destroy(go, 3.0f);
     }
+    public void ShowStarParticle2(Vector3 positionV)
+    {
+            GameObject go = Instantiate(m_goStarParicle2,positionV, Quaternion.identity);
+            go.transform.GetComponent<ParticleSystem>().Play();
+               Destroy(go, 3.0f);
+    }
 
-    /*************************************************
-    // 물건을 찾기시작부터 비디오플레이
-    **************************************************/
-    public VideoPlayer  m_Video;
+        /*************************************************
+        // 물건을 찾기시작부터 비디오플레이
+        **************************************************/
+        public VideoPlayer  m_Video;
     public MeshRenderer m_VideoRenderer;
     public void PlayVideo(bool bOn)  {
         if(bOn)  m_Video.Play(); else m_Video.Stop();
@@ -341,9 +386,17 @@ public class HUD : MonoBehaviour
     ***************************************************************************/
     public Guide  m_Guide ;//for Report
 
-    //0.5sec주기로 업데이할 Task를 등록하세요
-    void Do05SecTask()  {   
-        
+    //0.2sec주기로 업데이할 Task를 등록하세요
+    void Do02SecTask()  {
+        if(Trash.TOTAL_POSITIONED >= Trash.TOTAL_TRASH && Books.TOTAL_POSITIONED >= Books.TOTAL_BOOK)
+            {
+                ShowStarParticle2(new Vector3(
+                    UnityEngine.Random.Range(-1.15f, 1.3f),
+                    UnityEngine.Random.Range(-0.86f, 1.45f), 
+                    UnityEngine.Random.Range(-1.25f, 1.45f)
+                    )
+                    );
+            }
     }
     //1sec주기로 업데이할 Task를 등록하세요
     void Do1SecTask()   {       
@@ -382,7 +435,7 @@ public class HUD : MonoBehaviour
     // Update is called once per frame
     void Update()  {
         //CheckGrabber();
-        if (Time.time > next05SecUpdate) { Do05SecTask(); next05SecUpdate = Time.time + 0.5f; } //시간갱신
+        if (Time.time > next05SecUpdate) { Do02SecTask(); next05SecUpdate = Time.time + 0.2f; } //시간갱신
         if (Time.time > next1SecUpdate) { Do1SecTask(); next1SecUpdate = Time.time + 1.0f; } //시간갱신
         if (Time.time > next5SecUpdate) { Do5SecTask(); next5SecUpdate = Time.time + 5.0f; } //시간갱신        
     }
