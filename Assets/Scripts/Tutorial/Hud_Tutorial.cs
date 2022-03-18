@@ -47,9 +47,12 @@ public class Hud_Tutorial : MonoBehaviour
     public IEnumerator CanvasStart()
     {
         //     StartCoroutine(TextNSpeech(Voice[0], Text[0], Text[1]));
-        SetAudio(Voice[0]);
+        yield return new WaitForSeconds(1f);
+        SetAudio(Voice[15]);
         yield return new WaitUntil(() => !m_Audio.isPlaying);
-        StartCoroutine(TextFade(Text[0]));
+        StartCoroutine(TextFade(Text[15]));
+        yield return new WaitUntil(() => !bCoroutine);
+        StartCoroutine(TextNSpeech(Voice[0], Text[0]));
         yield return new WaitUntil(() => !bCoroutine);
         model_Oculus.SetActive(true);
         StartCoroutine(TextNSpeech(Voice[1], Text[1]));

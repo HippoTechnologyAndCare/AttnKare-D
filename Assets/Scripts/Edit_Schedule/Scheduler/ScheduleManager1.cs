@@ -416,7 +416,7 @@ namespace Scheduler
 
             mainUi.GetComponent<GraphicRaycaster>().enabled = true;
             //subUi.gameObject.SetActive(false);
-            SetStartBtn(false);
+            VisibleStartBtn(false);
             board.gameObject.SetActive(true);
             beforeStart = false;
             leGogo = true;
@@ -434,18 +434,18 @@ namespace Scheduler
         {
             PlaySoundByTypes(ESoundType.Click);
             //board.gameObject.SetActive(false);
-            SetBoard(false);
+            VisibleBoard(false);
             //finishPanel.gameObject.SetActive(true);
-            SetFinishPanel(true);
+            VisibleFinPanel(true);
         }
 
         public void FinishPanel_No()
         {
             PlaySoundByTypes(ESoundType.Click);
             //board.gameObject.SetActive(true);
-            SetBoard(true);
+            VisibleBoard(true);
             //finishPanel.gameObject.SetActive(false);
-            SetFinishPanel(false);
+            VisibleFinPanel(false);
 
             selectNoCtn += 1;
         }
@@ -460,16 +460,16 @@ namespace Scheduler
             PlaySoundByTypes(ESoundType.Click);
             
             // n번째로 완성한 계획표 변수로 저장
-            //SetPlanData(isSkip);
+            SortedCardData(isSkip);
             
             //몇번째 완료인지 체크 
             if (completionCtn == 1) // 첫번째 완료라면 아래의 프로세싱 후 재 시작
             {
                 //board.gameObject.SetActive(true);
-                SetBoard(true);
+                VisibleBoard(true);
                 mainUi.GetComponent<GraphicRaycaster>().enabled = false;
                 //finishPanel.gameObject.SetActive(false);
-                SetFinishPanel(false);
+                VisibleFinPanel(false);
                 ReSetAll();
                 StartCoroutine(hud.GetComponent<HUDSchedule>().HalfInfoSetUiTxt());
                 return;
@@ -481,55 +481,55 @@ namespace Scheduler
 
             //board.gameObject.SetActive(false);
             //finishPanel.gameObject.SetActive(false);
-            SetFinishPanel(false);
+            VisibleFinPanel(false);
             wellDoneAndBye.gameObject.SetActive(true);
 
             voiceRecording.StopRecordingNBehavior();
             
-            if (isSkip)
-            {
-                skipYn = 1;
-                subUi.gameObject.SetActive(false);
-                //Schedule.gameObject.SetActive(true);
-            }
-            else
-            {
-                skipYn = 0;
-                string MySchedule = "";
-                string MyScheduleforJson = "";
-                Transform plan_Box;
-
-                foreach (Transform plan_Slot in slotList)
-                {
-                    if (plan_Slot.GetComponent<PlanSlotController1>().passenger.transform != null)
-                    {
-                        plan_Box = plan_Slot.GetComponent<PlanSlotController1>().passenger.transform;
-                        
-                        Debug.Log("passenger = " + plan_Box.name);
-                    
-                        if (plan_Box != null)
-                        {
-                            //MySchedule += plan_Box.GetChild(0).GetComponent<Text>().text + " ";
-                            //MyScheduleforJson += plan_Box.GetChild(1).name;
-                            //아래 코드 514,515는 디버깅용
-                            MySchedule = "3";
-                            MyScheduleforJson = "3";
-                        }
-                        else
-                        {
-                            MySchedule += "0 ";
-                            MyScheduleforJson += "0";
-                        }
-                    }
-
-                    else
-                    {
-                        return;
-                    }
-                }
-                
-                _planData01 = float.Parse(MyScheduleforJson, System.Globalization.CultureInfo.InvariantCulture);
-            }
+            // if (isSkip)
+            // {
+            //     skipYn = 1;
+            //     subUi.gameObject.SetActive(false);
+            //     //Schedule.gameObject.SetActive(true);
+            // }
+            // else
+            // {
+            //     skipYn = 0;
+            //     string MySchedule = "";
+            //     string MyScheduleforJson = "";
+            //     Transform plan_Box;
+            //
+            //     foreach (Transform plan_Slot in slotList)
+            //     {
+            //         if (plan_Slot.GetComponent<PlanSlotController1>().passenger.transform != null)
+            //         {
+            //             plan_Box = plan_Slot.GetComponent<PlanSlotController1>().passenger.transform;
+            //             
+            //             Debug.Log("passenger = " + plan_Box.name);
+            //         
+            //             if (plan_Box != null)
+            //             {
+            //                 //MySchedule += plan_Box.GetChild(0).GetComponent<Text>().text + " ";
+            //                 //MyScheduleforJson += plan_Box.GetChild(1).name;
+            //                 //아래 코드 514,515는 디버깅용
+            //                 MySchedule = "3";
+            //                 MyScheduleforJson = "3";
+            //             }
+            //             else
+            //             {
+            //                 MySchedule += "0 ";
+            //                 MyScheduleforJson += "0";
+            //             }
+            //         }
+            //
+            //         else
+            //         {
+            //             return;
+            //         }
+            //     }
+            //     
+            //     _planData01 = float.Parse(MyScheduleforJson, System.Globalization.CultureInfo.InvariantCulture);
+            // }
             
             /*
             Data_201 계획을 완료하는데 걸린 총 시간                               TotalElapsedTimeForCalc
@@ -555,7 +555,7 @@ namespace Scheduler
             StartCoroutine(GoToNextScene());
         }
 
-        private void SetBoard(bool isOn)
+        private void VisibleBoard(bool isOn)
         {
 
             if (isOn)
@@ -587,7 +587,7 @@ namespace Scheduler
             }
         }
         
-        private void SetFinishPanel(bool isOn)
+        private void VisibleFinPanel(bool isOn)
         {
             if (isOn)
             {
@@ -602,7 +602,7 @@ namespace Scheduler
             }
         }
 
-        public void SetStartBtn(bool isOn)
+        public void VisibleStartBtn(bool isOn)
         {
             if (isOn)
             {
@@ -617,7 +617,7 @@ namespace Scheduler
             }
         }
         
-        private void SetPlanData(bool isSkip)
+        private void SortedCardData(bool isSkip)
         {
             if (isSkip)
             {
@@ -627,15 +627,19 @@ namespace Scheduler
             }
             else
             {
+                Transform currCard;
                 skipYn = 0;
                 var myScheduleForJson = "";
                 
-                foreach (var planBox in slotList.Select(planSlot => planSlot.GetComponent<PlanSlotController>().passenger.transform))
+                foreach (var slot in slotList)
                 {
-                    if (planBox != null)
+                    if (slot.GetComponent<PlanSlotController1>().passenger == null) continue;
+                    currCard = slot.GetComponent<PlanSlotController1>().passenger.transform;
+                        
+                    if (slot != null)
                     {
-                        var text = planBox.GetChild(0).GetComponent<Text>().text + " ";
-                        myScheduleForJson += planBox.GetChild(1).name;
+                        var text = currCard.GetChild(0).GetComponent<Text>().text + " ";
+                        myScheduleForJson += currCard.GetChild(1).name;
                     }
                     else
                     {
