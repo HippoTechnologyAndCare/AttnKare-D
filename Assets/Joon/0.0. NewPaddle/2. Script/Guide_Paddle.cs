@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BNG;
+using UserData;
 using KetosGames.SceneTransition;
 using EPOOutline;
 
 public class Guide_Paddle : MonoBehaviour
 {
 
-    public static float TIMELIMIT_PADDLE = 150f;
-    public static float TIMEOUT_PADDLE = 200f;
+    public static float TIMELIMIT_PADDLE = 180f;
+    public static float TIMEOUT_PADDLE = 210f;
 
     public enum PADDLE_STATE
     {
@@ -20,14 +21,14 @@ public class Guide_Paddle : MonoBehaviour
     }
 
     public static PADDLE_STATE m_ePSTATE;
-    public int intStage;
-    public CollectData BehaviorData;
+    [HideInInspector]public int intStage;
+
     public MoveVehicle CableCar;
     private int m_nComplete;
     private string m_strOrder;
     public GrabPaddle GrabPaddle;
     public Animation FriendAnimation;
-    bool m_bStamp = true;
+    bool m_bStamp = false; //스탬프 1회씩만 박는용 bool
     float m_nWrongSpeed;
     float m_nWrongOrder;
 
@@ -35,30 +36,36 @@ public class Guide_Paddle : MonoBehaviour
     float m_fStageTime = 0;
     float m_fTOTALTIME =0;
     float m_fSTARTTIME;
-    float[] m_listSTAGE = new float[] { 0, 0, 0 };
-    float[] m_listOrder = new float[] { 0, 0, 0 };
-    float[] m_listSpeed = new float[] { 0, 0, 0 };
+    float[] m_listSTAGE = new float[] { 0, 0, 0, 0 };
+    float[] m_listOrder = new float[] { 0, 0, 0, 0 };
+    float[] m_listSpeed = new float[] { 0, 0, 0, 0 };
     List<PaddleCollider> m_listCOLLIDER;
 
     //DATA
     public GameDataManager DataManager;
+    public CollectData BehaviorData;
     float data_401; //시작버튼 누르는데까지 걸린 시간
     float data_402;//완료까지 걸린 총 시간
-    float data_403, data_404, data_405; //스테이지 별 걸린 시간
-    float data_406, data_407, data_408; //스테이지별 협동을 지키지 않은 횟수
-    float data_409, data_410, data_411; //스테이지별 방향을 맞추지 않은 횟수
-    float data_412; //친구의 페달을 건드린 횟수
-    float data_413; //아무 행동도 하지 않은 총시간
-    float data_414; //중도포기
-    float data_415; //친구 페달을 건드린 시간
-    float data_416; //페달에서 손을 땐 횟수
+    float data_403; //친구의 페달을 건드린 횟수
+    float data_404; //아무 행동도 하지 않은 총시간
+    float data_405 =0; //중도포기
+    float data_406; //친구 페달을 건드린 시간
+    float data_407; //페달에서 손을 땐 횟수
+    float data_408, data_409, data_410, data_411; //스테이지 별 걸린 시간
+    float data_412, data_413, data_414, data_415; //스테이지별 협동을 지키지 않은 횟수
+    float data_416, data_417, data_418, data_419; //스테이지별 방향을 맞추지 않은 횟수
+
+    DataManager m_dataManager;
+    private string gradeLH;
+    public int buildIndex;
+
     public float[] arrData;
     void TimeCheck_Stage()
     {
         m_fTOTALTIME += Time.deltaTime;
-        if (m_fTOTALTIME > TIMELIMIT_PADDLE) Hud.AudioController("time limit");
-        if (m_fTOTALTIME > TIMEOUT_PADDLE) Hud.AudioController("time over");
-    }
+        if (m_fTOTALTIME == TIMELIMIT_PADDLE && m_bStamp) { Hud.AudioController("time limit"); BehaviorData.AddTimeStamp("TIME LIMIT"); m_bStamp = false; }
+        if (m_fTOTALTIME == TIMEOUT_PADDLE&& !m_bStamp) { Hud.AudioController("time over"); BehaviorData.AddTimeStamp("TIME OUT"); m_bStamp = true; }
+        }
 
     void TimeCheck_Start()
     {
@@ -67,11 +74,17 @@ public class Guide_Paddle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameObject JasonManager = GameObject.Find("DataManager");
+        m_dataManager = JasonManager.GetComponent<DataManager>();
+        gradeLH = m_dataManager.userInfo.Grade;
+        if (gradeLH == "L") buildIndex = 4;
+        if (gradeLH == "H") buildIndex = 8;
+
         m_listCOLLIDER = new List<PaddleCollider>(FindObjectsOfType<PaddleCollider>());
         Hud = GameObject.Find("Hud_Paddle").GetComponent<Hud_Paddle>();
         Make_INTRO(); //시작하기까지 시간체크
     }
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -100,12 +113,13 @@ public class Guide_Paddle : MonoBehaviour
             if (m_bStamp) { Debug.Log("STAMP");  BehaviorData.AddTimeStamp("GUIDE END"); m_bStamp = false; }
         }
     }
-
     public void Make_START()
     {
+        m_bStamp = true;
         if (Hud.bCoroutine)
         {
             BehaviorData.AddTimeStamp("GUIDE SKIP");
+            Hud.bCoroutine = false;
         }
         foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = true;
         CableCar.GetComponent<Outlinable>().enabled = true;
@@ -113,8 +127,14 @@ public class Guide_Paddle : MonoBehaviour
         FriendAnimation.Play("Intro");
         m_ePSTATE = PADDLE_STATE.START;
         Hud.BGMplay(true);
-        BehaviorData.AddTimeStamp("MISSION START");
+        StartCoroutine(Wait_TimeStart());
+
+    }
+    IEnumerator Wait_TimeStart()
+    {
+        yield return new WaitForSeconds(4f);
         Hud.bTimeStart = true;
+        BehaviorData.AddTimeStamp("MISSION START");
     }
     
     void Run_START()
@@ -130,7 +150,6 @@ public class Guide_Paddle : MonoBehaviour
 
     void Make_STAGE()
     {
-        StageTimeAdd();
         AnimationStart();
         m_ePSTATE = PADDLE_STATE.STAGE;
     }
@@ -141,10 +160,7 @@ public class Guide_Paddle : MonoBehaviour
    
     void Make_ALLDONE()
     {
-        StageTimeAdd();
-        Debug.Log("COMPLETE");
-        foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = false; //paddle component 내부의 collider를 빼 더이상 체크 X
-        m_ePSTATE = PADDLE_STATE.ALLDONE;
+
         GameFinish();
     }
 
@@ -157,8 +173,10 @@ public class Guide_Paddle : MonoBehaviour
     void StageTimeAdd()
     {
         m_fStageTime = m_fTOTALTIME - m_fPrevTime;
+        Debug.Log("PREVTIME" + m_fPrevTime + m_fStageTime);
         m_fPrevTime = m_fTOTALTIME;
-        m_fStageTime = m_listSTAGE[intStage];
+        m_listSTAGE[intStage] = m_fStageTime;
+        Debug.Log("STAGE TIME" + m_fStageTime + "STAGE" + intStage +"TOTALTIME" + m_fTOTALTIME +"PREVTIME" +m_fPrevTime);
       //  m_nWrongOrder = m_listOrder[intStage];
       //  m_nWrongSpeed= m_listSpeed[intStage];
       //  m_nWrongSpeed = m_nWrongOrder = 0;  //요부분 바꿈 바로바로 저장되게
@@ -169,7 +187,8 @@ public class Guide_Paddle : MonoBehaviour
         Debug.Log("CHECK_STAGE");
         m_nComplete = 0;
         Debug.Log(intStage);
-        if (intStage >= 2) { Make_ALLDONE(); return; }
+        StageTimeAdd();
+        if (intStage >= 3) { Make_ALLDONE(); return; }
         Manager_Paddle.intStage++;
         intStage = Manager_Paddle.intStage;
         Make_STAGE();
@@ -210,6 +229,9 @@ public class Guide_Paddle : MonoBehaviour
 
     void GameFinish() // 게임 끝나면 어떻게 할지 여기에 추가
     {
+        Debug.Log("COMPLETE");
+        foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = false; //paddle component 내부의 collider를 빼 더이상 체크 X
+        m_ePSTATE = PADDLE_STATE.ALLDONE;
         BehaviorData.AddTimeStamp("MISSION END");
         Hud.AudioController("complete");
         GrabPaddle.AllFinish();
@@ -220,14 +242,13 @@ public class Guide_Paddle : MonoBehaviour
 
     public void Skip()
     {
-        data_413 = 1;
+        data_405 = 1;
         GameFinish();
     }
   
     IEnumerator NextScene()
     {
-        Hud.NextScene();
-        Hud.bCoroutine = true;
+        StartCoroutine(Hud.NextScene());
         yield return new WaitUntil(() => Hud.bCoroutine == false);
         Debug.Log("FIN");
         KetosGames.SceneTransition.SceneLoader.LoadScene(7);
@@ -240,8 +261,26 @@ public class Guide_Paddle : MonoBehaviour
 
         data_401 = m_fSTARTTIME;
         data_402 = m_fTOTALTIME;
+        data_403 = GrabPaddle.fDisturbCount;
+        data_404 = GrabPaddle.fIdleTime;
+        data_406 = GrabPaddle.fDisturbTime;
+        data_407 = GrabPaddle.fIdleCount;
+        data_408 = m_listSTAGE[0];
+        data_409 = m_listSTAGE[1];
+        data_410 = m_listSTAGE[2];
+        data_411 = m_listSTAGE[3];
+        data_412 = m_listSpeed[0];
+        data_413 = m_listSpeed[1];
+        data_414 = m_listSpeed[2];
+        data_415 = m_listSpeed[3];
+        data_416 = m_listOrder[0];
+        data_417 = m_listOrder[1];
+        data_418 = m_listOrder[2];
+        data_419 = m_listOrder[3];
+        /*
         data_403 = m_listSTAGE[0];
         data_404 = m_listSTAGE[1];
+        data_405 = m_listSTAGE[2];
         data_405 = m_listSTAGE[2];
         data_406 = m_listSpeed[0];
         data_407 = m_listSpeed[1];
@@ -253,13 +292,16 @@ public class Guide_Paddle : MonoBehaviour
         data_413 = GrabPaddle.fIdleTime;
         data_415 = GrabPaddle.fDisturbTime;
         data_416 = GrabPaddle.fIdleCount;
+        */
         Debug.Log("MID");
-        arrData = new float[] { data_401, data_402, data_403, data_404, data_405, data_406, data_407, data_408, data_409, data_410 , data_411 ,data_412 , data_413, data_414, data_415, data_416 };
+        arrData = new float[] { data_401, data_402, data_403, data_404, data_405, 
+            data_406, data_407, data_408, data_409, data_410 , data_411 ,data_412 , 
+            data_413, data_414, data_415, data_416,data_417, data_418, data_419 };
         for(int i = 0; i < arrData.Length; i++)
         {
            Debug.Log(arrData[i]);
         }
-        //    DataManager.SaveCurrentData();
+        DataManager.SaveCurrentData();
         StartCoroutine(NextScene());
     }
 

@@ -30,6 +30,7 @@ public class AreaLimitChecker : MonoBehaviour
     {
         if (collision.tag == "Player" && !Checker)
         {
+            Debug.Log("OUT");
             BehaviorMG.GetComponent<BNG.CollectData>().AddTimeStamp("ESCAPE START");
             Checker = true;
             if (!audioSource.isPlaying)

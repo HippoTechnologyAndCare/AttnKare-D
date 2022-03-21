@@ -32,7 +32,7 @@ public class MoveVehicle : MonoBehaviour
                 MovingTimer = 0;
                 MovingTimerForLimit -= 1;
 
-                if (MovingTimerForLimit == 0)
+                if (MovingTimerForLimit <= 0)
                 {
                     GottaGo = false;
                     moving = false;
@@ -55,7 +55,8 @@ public class MoveVehicle : MonoBehaviour
             moving = true;
         }
 
-        MovingTimerForLimit = 3;
+        MovingTimerForLimit = (25.23f * Manager_Paddle.SDB[Manager_Paddle.intStage].intPercent)/100;
+        Debug.Log(MovingTimerForLimit);
     }
 
     public void GameFinish()
