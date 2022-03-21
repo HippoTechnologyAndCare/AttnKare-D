@@ -43,16 +43,14 @@ namespace Scheduler
                 // cardB가 origin인지 체크
                 if (!RemoveWord.EndsWithWord(cardB.name, _word))
                 {
-                    
                     cardB.transform.localPosition = originPos.transform.localPosition;
                     if (storedCard != null)
                     {
                         Debug.Log("destroy originPos Card = " + storedCard);
                         schManager.grpList.Remove(storedCard.transform);
                         Destroy(storedCard);
-                        
                     }
-                    //cardB.GetComponent<PlanCubeController1>().activeSlot = null;
+                    
                     Debug.Log("storedCard =" + storedCard.name);
                     
                     //storedCard도 origin일 경우 체크
@@ -62,8 +60,7 @@ namespace Scheduler
                         schManager.grpList.Remove(cardB.transform);
                         Destroy(cardB);
                     }
-                    //Destroy(storedCard);
-                    //storedCard = cardB;
+                    
                     Debug.Log("cardB가 원본이라 origin pos로 옮겨짐");
                 }
                 

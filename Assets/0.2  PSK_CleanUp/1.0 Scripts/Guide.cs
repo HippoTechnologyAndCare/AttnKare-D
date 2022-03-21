@@ -297,22 +297,22 @@ public class Guide : MonoBehaviour {
     }
     void Run_Next() { }
 
-    float[] dataReportFloat = new float[10];// = new float[10];
+    public float[] m_dataReportFloat = new float[10];// = new float[10];
 
     void ReportData() {
 
             //Summary 데이타 처리
-            dataReportFloat[0] = m_fMoveDistance; // 총 이동 거리
-            dataReportFloat[1] = Trash.TOTAL_TRASH- Trash.TOTAL_POSITIONED; // 남은 쓰레기 수
-            dataReportFloat[2] = Books.TOTAL_BOOK - Books.TOTAL_POSITIONED; // 남은 책 수
-            dataReportFloat[3] = Trash.TOTAL_GRAB_COUNT + Books.TOTAL_GRAB_COUNT; //Player가 필요한 물건을 잡은 총 횟수
-            dataReportFloat[4] = Trash.TOTAL_GRAB_TIME + Books.TOTAL_GRAB_TIME; //Player가 필요한 물건을 잡은 총 시간
-            dataReportFloat[5] = m_fTimeLookVideo; //흥미로운 영상 시청시간
-            dataReportFloat[6] = m_nObstacleTouch; // 방해물체(오리)를 잡은 총 횟수
-            dataReportFloat[7] = m_nFinBtnDown; //Player가 Fin Button 클릭 횟수   
-            dataReportFloat[8] = 0;
-            dataReportFloat[9] = 0;
-            dataReportFloat[10] = 0;
+            m_dataReportFloat[0] = m_fMoveDistance; // 총 이동 거리
+            m_dataReportFloat[1] = Trash.TOTAL_TRASH- Trash.TOTAL_POSITIONED; // 남은 쓰레기 수
+            m_dataReportFloat[2] = Books.TOTAL_BOOK - Books.TOTAL_POSITIONED; // 남은 책 수
+            m_dataReportFloat[3] = Trash.TOTAL_GRAB_COUNT + Books.TOTAL_GRAB_COUNT; //Player가 필요한 물건을 잡은 총 횟수
+            m_dataReportFloat[4] = Trash.TOTAL_GRAB_TIME + Books.TOTAL_GRAB_TIME; //Player가 필요한 물건을 잡은 총 시간
+            m_dataReportFloat[5] = m_fTimeLookVideo; //흥미로운 영상 시청시간
+            m_dataReportFloat[6] = m_nObstacleTouch; // 방해물체(오리)를 잡은 총 횟수
+            m_dataReportFloat[7] = m_nFinBtnDown; //Player가 Fin Button 클릭 횟수   
+            m_dataReportFloat[8] = 0;
+            m_dataReportFloat[9] = 0;
+            
             
             string eval = ""
             + "numberOfTrash=" + Trash.TOTAL_TRASH + "\r\n" //Constant - 방에 존재하는 쓰레기 수

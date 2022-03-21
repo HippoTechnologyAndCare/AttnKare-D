@@ -18565,6 +18565,17 @@ MonoBehaviour:
   goBooks: {fileID: 1892865179}
   debugMod: {fileID: 1054128764}
   debugModOnoff: 0
+  m_dataReportFloat:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
 --- !u!1 &871082260
 GameObject:
   m_ObjectHideFlags: 0
@@ -23535,6 +23546,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3959265887069286462, guid: ddc80f7ff6855fc4a887ec564fb2ec56,
+        type: 3}
+      propertyPath: objToFind
+      value: 
+      objectReference: {fileID: 868416325}
     - target: {fileID: 3959265887069286463, guid: ddc80f7ff6855fc4a887ec564fb2ec56,
         type: 3}
       propertyPath: m_Name
@@ -23543,7 +23559,7 @@ PrefabInstance:
     - target: {fileID: 3959265887069286463, guid: ddc80f7ff6855fc4a887ec564fb2ec56,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddc80f7ff6855fc4a887ec564fb2ec56, type: 3}

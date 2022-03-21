@@ -148,7 +148,8 @@ public class GameDataManager : MonoBehaviour
     }
 
     private void SetData_pm(int sceneIndex)
-    {        
-        GameObject.Find("SetPlayerData").SendMessage("SetSceneData");
+    {
+        setPlayerData.SetSceneData(objToFind.GetComponent<CleanUp.Guide>().m_dataReportFloat);
+        //GameObject.Find("SetPlayerData").SendMessage("SetSceneData");
     }    
 }
