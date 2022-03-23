@@ -141,6 +141,7 @@ public class GameDataManager : MonoBehaviour
             case 9: //NUMMATCH
                 setPlayerData.SetSceneData(objToFind.GetComponent<CheckData_NumCheck>().arrData);
                 break;
+
             default:
                 Debug.Log("Scene Index가 유효하지 않습니다");
                 break;

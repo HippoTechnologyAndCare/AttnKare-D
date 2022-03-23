@@ -7,6 +7,7 @@ using TMPro;
 
 public class Hud_Paddle : MonoBehaviour
 {
+    public Button buttonStart;
     public Text txtButton;
     public Canvas canvasDistance;
     public TextMeshProUGUI txtDISTANCE;
@@ -38,7 +39,7 @@ public class Hud_Paddle : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField]
     public bool bTimeStart = false;
-    public float m_fTime;
+    public float m_Time;
     TimeSpan m_TimeSpan;
 
     void Awake()
@@ -58,10 +59,10 @@ public class Hud_Paddle : MonoBehaviour
     {
         if (bTimeStart)
         {
-            m_fTime -= Time.deltaTime;
-            m_TimeSpan = TimeSpan.FromSeconds(m_fTime);
+            m_Time -= Time.deltaTime;
+            m_TimeSpan = TimeSpan.FromSeconds(m_Time);
             TimeText.text = m_TimeSpan.ToString(@"mm\:ss");
-            if (m_fTime < 0) bTimeStart = false;
+            if (m_Time < 0) bTimeStart = false;
         }
     }
 
@@ -76,7 +77,7 @@ public class Hud_Paddle : MonoBehaviour
     {
         switch (text)
             {
-                case "guide"      : PlayNarration(clipNarration[0], false); break;
+                case "guide"      : StartCoroutine(PlayNarration(clipNarration[0], false)); break;
                 case "button"     : StartCoroutine(TextSpeechWarning(null, clipEffect[1])); break;
                 case "correct"    : StartCoroutine(TextSpeechWarning("잘했어!", clipEffect[2])); break;
                 case "wrong order": StartCoroutine(TextSpeechWarning("친구 방향에 맞춰 돌려야 해", clipEffect[3])); break;
@@ -95,6 +96,7 @@ public class Hud_Paddle : MonoBehaviour
     }
     public IEnumerator CountDown() {
         bCoroutine = true;
+        buttonStart.enabled = false;
         m_audioNarration.Stop();
         m_audioEffect.clip = clipEffect[0];
         m_audioEffect.Play();
@@ -126,12 +128,13 @@ public class Hud_Paddle : MonoBehaviour
         bCoroutine = false;
     }
 
-    public void PlayNarration(AudioClip audioClip, bool loop)
+    public IEnumerator PlayNarration(AudioClip audioClip, bool loop)
     {
         bCoroutine = true;
         m_audioNarration.clip = audioClip;
         m_audioNarration.Play();
         m_audioNarration.loop = loop;
+        yield return new WaitForSeconds(audioClip.length);
         bCoroutine = false;
 
     }
@@ -141,15 +144,15 @@ public class Hud_Paddle : MonoBehaviour
         bCoroutine = true;
         canvasFinish.gameObject.SetActive(true);
         canvasDistance.gameObject.SetActive(false);
-        txtFinish= canvasFinish.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        txtFinish= canvasFinish.transform.GetComponentInChildren<TextMeshProUGUI>();
         txtFinish.text = "이동합니다";
-        yield return new WaitForSeconds(0.9f);
+        yield return new WaitForSeconds(1f);
         txtFinish.text = "3";
         yield return new WaitForSeconds(0.9f);
         txtFinish.text = "2";
         yield return new WaitForSeconds(0.9f);
         txtFinish.text = "1";
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         bCoroutine = false;
     }
 }

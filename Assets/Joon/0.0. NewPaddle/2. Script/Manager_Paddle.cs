@@ -28,14 +28,19 @@ public class Manager_Paddle : MonoBehaviour
             this.strORDER = strORDER;
             this.intCount = intCount;
             this.intPercent = intPercent;
-
         }
     }
 
     public static STAGE_INFO[] SDB = new STAGE_INFO[]  {
+        new STAGE_INFO(STAGE.ONE, 4.0f, null, "FORWARD", 4, 6), // 6프로씩 6번 돌리기 (24)
+        new STAGE_INFO(STAGE.TWO, 3.0f, null, "BACKWARD", 5, 5 ), //25
+        new STAGE_INFO(STAGE.THREE, 2.0f, null, "BACKWARD", 3, 5), //15
+        new STAGE_INFO(STAGE.TWO, 4.0f, null, "FORWARD", 4, 9 ),//36
+        /*
         new STAGE_INFO(STAGE.ONE, 2.5f, null, "FORWARD", 6, 6), // 6프로씩 6번 돌리기
         new STAGE_INFO(STAGE.TWO, 4.0f, null, "BACKWARD", 3, 8 ),
         new STAGE_INFO(STAGE.THREE, 3.0f, null, "FORWARD", 5, 8)
+        */
 
     };
        

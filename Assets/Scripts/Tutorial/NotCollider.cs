@@ -12,23 +12,24 @@ public class NotCollider : MonoBehaviour
     private GameObject m_goGrabbed;
     private GameObject m_goClosestRemote;
     private GameObject m_goCloset;
-    CapsuleCollider m_collider;
+    Collider m_collider;
     void Start()
     {
-        m_collider = GetComponent<CapsuleCollider>();
+        int a;
+        m_collider = GetComponent<Collider>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        m_goCloset = ClosestGrabber.ClosestGrabbable.gameObject;
-        m_goClosestRemote = ClosestGrabber.ClosestRemoteGrabbable.gameObject;
-        m_goGrabbed = Grabber.HeldGrabbable.gameObject;
+        m_goCloset = ClosestGrabber.ClosestGrabbable ? ClosestGrabber.ClosestGrabbable.gameObject : null;
+        m_goClosestRemote = ClosestGrabber.ClosestRemoteGrabbable ? ClosestGrabber.ClosestRemoteGrabbable.gameObject : null;
+        m_goClosestRemote = Grabber.HeldGrabbable ? Grabber.HeldGrabbable.gameObject : null;
         if (m_goClosestRemote == BANANA || m_goCloset == BANANA)
         {
             m_collider.enabled = false;
         }
-        if(m_goClosestRemote != BANANA && m_goCloset != BANANA && m_goGrabbed != BANANA)
+        if(m_goClosestRemote == null && m_goCloset == null && m_goGrabbed != BANANA)
         {
             m_collider.enabled = true;
         }

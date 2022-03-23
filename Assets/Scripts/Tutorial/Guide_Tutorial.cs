@@ -53,6 +53,11 @@ public class Guide_Tutorial : MonoBehaviour
     void Start()
     {
         StartCoroutine(StartTutorial());
+        GameObject JasonManager = GameObject.Find("DataManager");
+        dataManager = JasonManager.GetComponent<DataManager>();
+        gradeLH = dataManager.userInfo.Grade;
+        if (gradeLH == "L") buildIndex = 3;
+        if (gradeLH == "H") buildIndex = 7;
     }
     private void Update()
     {

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using KetosGames.SceneTransition;
 using TMPro;
+using UnityEngine.Events;
 
 public class SkipForPaddle : MonoBehaviour
 {
@@ -15,9 +16,7 @@ public class SkipForPaddle : MonoBehaviour
     string debugstring;
     Transform Fin1;
     Transform Fin2;
-    public int buildindex;
-
-    public Transform PaddleManager;
+    public UnityEvent NextEvent;
 
 
     void Start()
@@ -46,20 +45,7 @@ public class SkipForPaddle : MonoBehaviour
         {
             StopCoroutine(coroutine);
         }
-
-        if (bFin) //if it is second press
-        {
-            if (bActive) // if hand is what touching button
-            {
-                PaddleManager.GetComponent<PaddleManager>().GameFinish(true);
-                coroutine = StartCoroutine(NextScene());
-            }
-        }
-
-        if(!bFin)
-        {
-            coroutine = StartCoroutine(PressedFirst());
-        }
+        coroutine = bFin ? bActive ? StartCoroutine(NextScene()) : null : StartCoroutine(PressedFirst());
     }
 
     IEnumerator PressedFirst()
@@ -92,18 +78,10 @@ public class SkipForPaddle : MonoBehaviour
 
     IEnumerator NextScene()
     {
-        FinishCanvas.alpha = 1f;
-        Fin1.gameObject.SetActive(false);
-        Fin2.gameObject.SetActive(true);
-       
-        yield return new WaitForSeconds(1.0f);
-        Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "3";
-        yield return new WaitForSeconds(1.0f);
-        Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "2";
-        yield return new WaitForSeconds(1.0f);
-        Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "1";
-        yield return new WaitForSeconds(1.0f);
-
-        SceneLoader.LoadScene(buildindex);
+        if (NextEvent != null)
+        {
+            NextEvent.Invoke();
+        }
+        yield return null;
     }
 }

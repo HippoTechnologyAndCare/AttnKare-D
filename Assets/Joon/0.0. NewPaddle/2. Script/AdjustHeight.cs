@@ -12,7 +12,6 @@ public class AdjustHeight : MonoBehaviour
     public bool m_bHeight = true;
     // Start is called before the first frame update
     float height;
-    int a;
     private void Awake()
     {
        
@@ -20,12 +19,15 @@ public class AdjustHeight : MonoBehaviour
     void Start()
     {
         height = GetHeight.HEIGHT;
-        ApprxHeight = MidPoint.position.y - floor.position.y;
-        float m_fTaller = height - ApprxHeight;
-        float m_fSmaller = ApprxHeight - height;
-        if (height > ApprxHeight) {floor.position = new Vector3(floor.position.x, floor.position.y - (m_fTaller), floor.position.z); Debug.Log(height + "  " + ApprxHeight + "  " + m_fTaller + "   " + m_fSmaller + "  "); return; } //taller
-        if (height < ApprxHeight) floor.position = new Vector3(floor.position.x, floor.position.y + (m_fSmaller), floor.position.z);
-        Debug.Log(height + "  " + ApprxHeight + "  " + m_fTaller + "   " + m_fSmaller + "  ");
+        if(height != 0)
+        {
+            ApprxHeight = MidPoint.position.y - floor.position.y;
+            float m_fTaller = height - ApprxHeight;
+            float m_fSmaller = ApprxHeight - height;
+            if (height > ApprxHeight) { floor.position = new Vector3(floor.position.x, floor.position.y - (m_fTaller), floor.position.z); Debug.Log(height + "  " + ApprxHeight + "  " + m_fTaller + "   " + m_fSmaller + "  "); return; } //taller
+            if (height < ApprxHeight) floor.position = new Vector3(floor.position.x, floor.position.y + (m_fSmaller), floor.position.z);
+            Debug.Log(height + "  " + ApprxHeight + "  " + m_fTaller + "   " + m_fSmaller + "  ");
+        }
     }
 
     // Update is called once per frame
