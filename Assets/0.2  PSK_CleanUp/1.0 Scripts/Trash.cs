@@ -13,7 +13,7 @@ public class Trash : MonoBehaviour {
         TRASH3,
         TRASH4,
         TRASH5, TRASH6, TRASH7, TRASH8, TRASH9,
-        //TRASH10,
+        TRASH10, TRASH11, TRASH12, TRASH13, TRASH14, TRASH15,
         NONE
         }        
     
@@ -71,7 +71,13 @@ public class Trash : MonoBehaviour {
         new TRASH_INFO(TRASH.TRASH6, false, 0, 0.0f, "쓰레기6"),
         new TRASH_INFO(TRASH.TRASH7, false, 0, 0.0f, "쓰레기7"),
         new TRASH_INFO(TRASH.TRASH8, false, 0, 0.0f, "쓰레기8"),
-        new TRASH_INFO(TRASH.TRASH9, false, 0, 0.0f, "쓰레기9")
+        new TRASH_INFO(TRASH.TRASH9, false, 0, 0.0f, "쓰레기9"),
+        new TRASH_INFO(TRASH.TRASH10, false, 0, 0.0f, "쓰레기10"),
+        new TRASH_INFO(TRASH.TRASH11, false, 0, 0.0f, "쓰레기11"),
+        new TRASH_INFO(TRASH.TRASH12, false, 0, 0.0f, "쓰레기12"),
+        new TRASH_INFO(TRASH.TRASH13, false, 0, 0.0f, "쓰레기13"),
+        new TRASH_INFO(TRASH.TRASH14, false, 0, 0.0f, "쓰레기14"),
+        new TRASH_INFO(TRASH.TRASH15, false, 0, 0.0f, "쓰레기15")
     };    
   
     /**************************************************************************/

@@ -84,13 +84,17 @@ public class Guide : MonoBehaviour {
     }
 
         // 매번 정리될때마다 호출-called by Arragne.cs     
-        public void SetPositioned(){    //(Arrange.ARRANGE arranged) {                        
-        //Debug.Log("Set Postioned ="+ arranged + " Tot_Postioned= "+Arrange.TOTAL_POSITIONED + " Tot_Arrange= "+Arrange.TOTAL_ARRANGE);
-        if (Trash.TOTAL_POSITIONED >= Trash.TOTAL_TRASH && Books.TOTAL_POSITIONED >= Books.TOTAL_BOOK) m_Hud.PlayWellDone();        
-    }
+        public void SetPositioned()
+        {    //(Arrange.ARRANGE arranged) {                        
+             //Debug.Log("Set Postioned ="+ arranged + " Tot_Postioned= "+Arrange.TOTAL_POSITIONED + " Tot_Arrange= "+Arrange.TOTAL_ARRANGE);
+            //m_Hud.m_endcondition = true;
+            if (Trash.TOTAL_POSITIONED >= Trash.TOTAL_TRASH && Books.TOTAL_POSITIONED >= Books.TOTAL_BOOK) m_Hud.m_endcondition = true;
 
-    //from Hud.cs
-    public void HudReport(HUD_REPORT eHudReport) {
+            //m_Hud.PlayWellDone();        
+        }
+
+        //from Hud.cs
+        public void HudReport(HUD_REPORT eHudReport) {
         switch(eHudReport) {
         case HUD_REPORT.PLAYED_HOWTO  : 
             m_Hud.DisplayLeftHint();
@@ -99,7 +103,9 @@ public class Guide : MonoBehaviour {
             Make_Arrange();      
             break;
         //case HUD_REPORT.PLAYED_INTRO_CLEAN  : Make_Clean();     break;
-        case HUD_REPORT.PLAYED_WELLDONE:Make_End();       break;
+        case HUD_REPORT.PLAYED_WELLDONE:
+                    //new WaitForSeconds(3f);
+                    Make_End();       break;
         case HUD_REPORT.PLAYED_TIMEOUT: Make_Next();      break;  // check more later
         case HUD_REPORT.PLAYED_MOVING : Make_Next();      break;
         }

@@ -375,6 +375,8 @@ public class HUD : MonoBehaviour
     public InputBridge m_InputBridge;   
     public GameObject  m_goLeftFindNote, m_goLeftCleanNote; //LeftController에 있는 노트를 할당하세요
     public GameObject  m_goRightNotGrabble; //RightController에 아직 잡을수 없어소
+    public bool m_endcondition = false;
+    bool m_endGZParticle = false;
     void CheckInputBridge() {                       
         //m_goLeftFindNote.SetActive ( (m_InputBridge.LeftTrigger>0.5f) && Guide.m_eState == Guide.STATE.FIND);
         m_goLeftCleanNote.SetActive( (m_InputBridge.LeftTrigger>0.5f) && Guide.m_eState == Guide.STATE.ARRANGE);       
@@ -388,7 +390,8 @@ public class HUD : MonoBehaviour
 
     //0.2sec주기로 업데이할 Task를 등록하세요
     void Do02SecTask()  {
-        if(Trash.TOTAL_POSITIONED >= Trash.TOTAL_TRASH && Books.TOTAL_POSITIONED >= Books.TOTAL_BOOK)
+        if(m_endGZParticle)
+                //Trash.TOTAL_POSITIONED >= Trash.TOTAL_TRASH && Books.TOTAL_POSITIONED >= Books.TOTAL_BOOK)
             {
                 ShowStarParticle2(new Vector3(
                     UnityEngine.Random.Range(-1.15f, 1.3f),
@@ -401,7 +404,13 @@ public class HUD : MonoBehaviour
     //1sec주기로 업데이할 Task를 등록하세요
     void Do1SecTask()   {       
        CheckInputBridge();
-    }
+            if(m_endcondition==true && Guide.m_eGrabbedTrash == Trash.TRASH.NONE && Guide.m_eGrabbedBooks == Books.BOOKS.NONE)
+            {
+            PlayWellDone();
+            m_endGZParticle = true;
+            m_endcondition = false;
+            }
+        }
     //5sec주기로 업데이할 Task를 등록하세요
     void Do5SecTask()   {
         
