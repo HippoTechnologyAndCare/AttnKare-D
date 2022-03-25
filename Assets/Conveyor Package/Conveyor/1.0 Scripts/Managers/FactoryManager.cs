@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if UNITY_EDITOR 
 using UnityEditor.SceneManagement;
+#endif
 using UserData;
 using Newtonsoft.Json;
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using BNG;
 using TMPro;
+using UserData;
 using UnityEngine.UI;
 using HutongGames.PlayMaker;
 using KetosGames.SceneTransition;
@@ -42,6 +43,8 @@ public class Guide_NumCheck : MonoBehaviour
     public static int Index = 0;
     AutoButton auto;
     List<GameObject> m_goAnswer;
+    int buildIndex;
+    string gradeLH;
 
     public enum INDEX { ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN }
     public struct NUMCHECK_LIST
@@ -97,6 +100,9 @@ public class Guide_NumCheck : MonoBehaviour
     }
     void Start()
     {
+        gradeLH = DataManager.GetInstance().userInfo.Grade;
+        if (gradeLH == "L") buildIndex = 4;
+        if (gradeLH == "H") buildIndex = 8;
         SetTrigger();
         auto = GetComponentInChildren<AutoButton>();
         StartCoroutine(GameStart());
@@ -296,7 +302,8 @@ public class Guide_NumCheck : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
         narration.EndUI("다음으로 넘어가는 중....");
         yield return new WaitForSeconds(2.0f);
-        KetosGames.SceneTransition.SceneLoader.LoadScene(13); //load play paddle scene
+
+        KetosGames.SceneTransition.SceneLoader.LoadScene(buildIndex); //load play paddle scene
     }
 
     private void Stage2()

@@ -383,7 +383,7 @@ public class TubeScoreboard : MonoBehaviour
             EditorSceneManager.GetActiveScene().buildIndex.ToString() + ".mp3"));
 #endif
 
-        SceneLoader.LoadScene(9);
+        SceneLoader.LoadScene(13);
     }
 
     // Debugging Tool 1
