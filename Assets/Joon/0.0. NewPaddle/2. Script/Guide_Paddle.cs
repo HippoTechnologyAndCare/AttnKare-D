@@ -125,10 +125,8 @@ public class Guide_Paddle : MonoBehaviour
         CableCar.GetComponent<Outlinable>().enabled = true;
         StartCoroutine(Hud.CountDown());
         FriendAnimation.Play("Intro");
-        
         Hud.BGMplay(true);
         StartCoroutine(Wait_TimeStart());
-
     }
     IEnumerator Wait_TimeStart()
     {

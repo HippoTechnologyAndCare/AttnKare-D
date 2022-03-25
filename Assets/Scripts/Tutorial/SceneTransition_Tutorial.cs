@@ -39,7 +39,7 @@ public class SceneTransition_Tutorial : MonoBehaviour
             if (watchBool)
             {
                 if (!eventStart)
-                { StartCoroutine(StayStill()); }
+                { StayStill(); }
             }
             if (!watchBool)
             {
@@ -65,10 +65,9 @@ public class SceneTransition_Tutorial : MonoBehaviour
         }
     }
  
-    IEnumerator StayStill()
+    void StayStill()
     {
         eventStart = true;
-        yield return new WaitForSeconds(1.5f);
         Guide.RunningCoroutione(Guide.SceneChange(true));
 
     }

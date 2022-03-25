@@ -60,22 +60,23 @@ public class SceneChange_Circle : MonoBehaviour
                 Debug.Log("IN");
                 TimeStamp.AddTimeStamp("ESCAPE END");
                 stayBool = false;
-            }
-            if (watchBool)
-            {
-                if(!eventStart)
-                { StayStill(); }
-            }
-            if(!watchBool)
-            {
-                if (eventStart)
+                if (watchBool)
                 {
-                    
-
-                    StillMoving();
+                    if (!eventStart)
+                    { StayStill(); }
                 }
-                    
+                if (!watchBool)
+                {
+                    if (eventStart)
+                    {
+
+
+                        StillMoving();
+                    }
+
+                }
             }
+            
         }
 
     }

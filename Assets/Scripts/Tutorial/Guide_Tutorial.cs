@@ -94,8 +94,7 @@ public class Guide_Tutorial : MonoBehaviour
     }
 
     // Update is called once per frame
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject ==Banana & m_tCol == false) {
             Debug.Log("INSIDE");
@@ -215,6 +214,8 @@ public class Guide_Tutorial : MonoBehaviour
     public IEnumerator SceneChange(bool stay)
     {
         HUD.bGuide = false;
+        yield return new WaitForSeconds(.8f);
+
         if (stay)
         {
             Debug.Log("STAY");
