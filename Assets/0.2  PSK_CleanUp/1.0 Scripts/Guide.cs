@@ -65,7 +65,7 @@ public class Guide : MonoBehaviour {
         m_Hud.PopUpCount(Arrange.TOTAL_CLEANED,true);
         m_Hud.ShowStarParticle(dst);        
         GetArrangeStr();  //정리한 물건 문자열 갱신       
-        m_Hud.NoteUpdateArrange(arrangedStr,arrangeableStr);        
+        //m_Hud.NoteUpdateArrange(arrangedStr,arrangeableStr);        
     }
     public void TrashCleaned(Trash.TRASH Cleaned, Transform dst){
             Debug.Log("Cleaned" + Cleaned);
@@ -97,7 +97,7 @@ public class Guide : MonoBehaviour {
         public void HudReport(HUD_REPORT eHudReport) {
         switch(eHudReport) {
         case HUD_REPORT.PLAYED_HOWTO  : 
-            m_Hud.DisplayLeftHint();
+            //m_Hud.DisplayLeftHint();
             m_Hud.PlayVideo(true);
             m_Hud.PlayDuck(true);  
             Make_Arrange();      

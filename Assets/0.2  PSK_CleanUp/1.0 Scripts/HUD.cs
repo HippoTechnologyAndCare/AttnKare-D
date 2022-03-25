@@ -156,7 +156,7 @@ public class HUD : MonoBehaviour
     *************************************************/
     public GameObject m_goLeftHint;
     public void DisplayLeftHint(){
-        StartCoroutine("DisplayLeftHintText");
+        //StartCoroutine("DisplayLeftHintText");
     }
     IEnumerator DisplayLeftHintText()  {
         yield return new WaitForSeconds(1f); //¼û°í¸£±â
@@ -379,7 +379,7 @@ public class HUD : MonoBehaviour
     bool m_endGZParticle = false;
     void CheckInputBridge() {                       
         //m_goLeftFindNote.SetActive ( (m_InputBridge.LeftTrigger>0.5f) && Guide.m_eState == Guide.STATE.FIND);
-        m_goLeftCleanNote.SetActive( (m_InputBridge.LeftTrigger>0.5f) && Guide.m_eState == Guide.STATE.ARRANGE);       
+        //m_goLeftCleanNote.SetActive( (m_InputBridge.LeftTrigger>0.5f) && Guide.m_eState == Guide.STATE.ARRANGE);       
         m_goRightNotGrabble.SetActive( (m_InputBridge.RightGrip>0.5f) && Guide.m_eState == Guide.STATE.INTRO);       
     }
     

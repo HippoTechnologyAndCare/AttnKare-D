@@ -19,6 +19,8 @@ public class HUDSchedule : MonoBehaviour
     [SerializeField] DictionaryScriptableObject dicData02;
 
     [SerializeField] private ScheduleManager1 schManager;
+    [SerializeField] private Transform QuestionPanel;
+    
     /*************************************************************************
     //처음 안내문구 음성과 문구을 전시합니다
     *************************************************************************/
@@ -149,6 +151,24 @@ public class HUDSchedule : MonoBehaviour
         yield return new WaitForSeconds(2f);
     }
 
+    public void PopupQuestion(bool isOn)
+    {
+        switch (isOn)
+        {
+             case true:
+                 QuestionPanel.GetComponent<CanvasGroup>().alpha = 1;
+                 QuestionPanel.GetComponent<CanvasGroup>().blocksRaycasts = true;
+                 break;
+             case false:
+                 QuestionPanel.GetComponent<CanvasGroup>().alpha = 0;
+                 QuestionPanel.GetComponent<CanvasGroup>().blocksRaycasts = false;
+                 break;
+             default:
+                 Debug.Log("마지막 질문 버튼 동작안함");
+                 break;
+        }
+    }
+    
     /*************************************************************************
     //Canvas Fade
     *************************************************************************/
