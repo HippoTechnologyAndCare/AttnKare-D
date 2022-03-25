@@ -26,9 +26,9 @@ public class SceneTransition_Tutorial : MonoBehaviour
         selfFSM = this.gameObject.GetComponent<PlayMakerFSM>();
 
     }
-    public void OnTriggerEnter(Collider other)
+    public void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.name == "HeadCollision")
+        if(other.gameObject.name == "HeadCollision")
         {
             if (stayBool) //if stay inside trigger
             {
@@ -50,9 +50,7 @@ public class SceneTransition_Tutorial : MonoBehaviour
 
             }
         }
-
     }
-
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.name == "HeadCollision")
@@ -64,10 +62,9 @@ public class SceneTransition_Tutorial : MonoBehaviour
                 stayBool = true;
             }
             StillMoving();
-
         }
     }
-
+ 
     IEnumerator StayStill()
     {
         eventStart = true;

@@ -84,7 +84,6 @@ public class UI_BP : MonoBehaviour
 
         public IEnumerator CanvasStart()
     {
-        yield return new WaitForSeconds(2.0f);
         var child = Board_Start.transform.GetChild(0);
         m_txtStartInfo = child.transform.Find("Info1").GetComponent<TextMeshProUGUI>();
         m_txtStartInfo.text = list_txtIntro[0];

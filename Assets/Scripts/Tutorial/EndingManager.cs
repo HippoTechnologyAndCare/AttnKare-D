@@ -175,6 +175,7 @@ using BNG;
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>아쉽지만\n이제 헤어질 \n시간이 됐어", audioIndex = 0, 2.5f));
         yield return new WaitForSeconds(3.0f);
         VoiceRecord.StartRecording();
+        /*
         if(DataManager.GetInstance().userInfo.Grade!=null)
         {
             
@@ -199,6 +200,9 @@ using BNG;
             StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>유저 정보 미입력", audioIndex = 0,3.0f));
             yield return new WaitForSeconds(3.0f);
         }
+        */
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.05>오늘 책가방 챙기기,\n바퀴 돌리기,\n숫자 맞추기,\n공 옮기기를 해봤는데", audioIndex = 1, 7.0f));
+        yield return new WaitForSeconds(7.0f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.052>제일 재미있었던\n미션은 뭐야?\n그리고 또 어느 미션이\n가장 어려웠어?", audioIndex = 3,7.0f));
         yield return new WaitForSeconds(7.0f);
 

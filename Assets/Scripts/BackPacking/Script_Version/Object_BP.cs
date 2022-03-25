@@ -23,8 +23,8 @@ public class Object_BP : MonoBehaviour
      * 방해물
      *  장난감 기차, 장난감 차, 폴더, 물감, 노트
      */
-    public enum OBJ_BP { DISTURB, PENCIL, PEN, ERASER, TXTBOOK, GLUE, PCAP, PCASE, CRAYON, WATERBOTTLE}
-    public enum TAG_BP {NECESSARY, UNNECESSARY, NECESSARY_PENCIL, NECESSARY_BOOK}
+    public enum OBJ_BP { DISTURB, PENCIL, PEN, ERASER, TXTBOOK, GLUE, PCAP, PCASE, CRAYON, WATERBOTTLE }
+    public enum TAG_BP { NECESSARY, UNNECESSARY, NECESSARY_PENCIL, NECESSARY_BOOK }
     public enum KIND_BP { NONE, GREEN, RED, BLUE, PURLPLE, BLACK, KOREAN, SCIENCE, ART, ENGLISH, SOCIALS, MATH, MUSIC, GYM, ETHICS, SCHOOL, TOY }
 
     public enum GAZE_BP { MEMO, TV, TIMETABLE, NOTWATCHING }
@@ -41,11 +41,11 @@ public class Object_BP : MonoBehaviour
             this.eObj = eObj;
             this.eKind = eKind;
             this.bCorrect = bCorrect;
-        } 
+        }
     }
     public static BP_INFO[] BP1DB = new BP_INFO[]
     {
-        
+
         new BP_INFO(OBJ_BP.PENCIL, KIND_BP.NONE, true ),
         new BP_INFO(OBJ_BP.PEN, KIND_BP.GREEN, true ),
         new BP_INFO(OBJ_BP.PEN, KIND_BP.RED, true ),
@@ -76,20 +76,23 @@ public class Object_BP : MonoBehaviour
     // Start is called before the first frame update
     public bool YOUNG;
 
-    UI_BP Hud;
-    BagPack_BP Bag;
-    Pencilcase_BP Pencilcase;
-    BagPack_BP_Young Bag_Young;
-    GazedTime_BP GazeTime;
-    GrabbedObject_BP Grabbed;
-    MemoCheck_BP MemoCheck;
-  //  Pencilcase_BP_Young Pencilcase;
+    [SerializeField] private UI_BP Hud;
+    [SerializeField] private AddDelimiter Delimiter;
+    [SerializeField] private BagPack_BP Bag;
+    [SerializeField] private BagPack_BP_Young Bag_Young;
+    [SerializeField] private Pencilcase_BP Pencilcase;
+    [SerializeField] private Pencilcase_BP_Young Pencilcase_Young;
+    [SerializeField] private GazedTime_BP GazeTime;
+    [SerializeField] private GrabbedObject_BP Grabbed;
+    [SerializeField] private MemoCheck_BP MemoCheck;
+    [SerializeField] private GameObject m_tRightPointer;
+    [SerializeField] private Grabber m_tGrabber;
+    //  Pencilcase_BP_Young Pencilcase;
 
     public InputBridge XrRig;
     public GameObject CenterEye;
     public GameObject prefabFadeIn;
     public GameObject prefabFadeOut;
-    public Transform RightController;
     public static bool bGrabbed;
     public GameObject[] arrStage2;
     public GameObject VideoPlayer;
@@ -100,7 +103,7 @@ public class Object_BP : MonoBehaviour
     //DATA
     public CollectData DataCollect;
     public AutoVoiceRecording BehaviorData;
-    AddDelimiter Delimiter;
+    
     bool m_bTotalTime = false; //총시간 확인
     public float m_fTotalTime;
     public bool m_bStageChangeTime = true; //1단계 완료 후 2단계 시작까지 걸리는 시간
@@ -109,8 +112,7 @@ public class Object_BP : MonoBehaviour
     bool bTimeDone;
 
     GameObject m_goFade;
-    GameObject m_tRightPointer;
-    Grabber m_tGrabber;
+
 
     float data_501 = 0; //TOTAL TIME
     float data_502 = 0; //MEMO COUNT
@@ -122,6 +124,7 @@ public class Object_BP : MonoBehaviour
     float data_508 = 0; //DISTARCTED VIDEO TIME
     float data_509 = 0; //SKIP
     float data_510 = 0; //UNNECESSARY GRAB COUNT
+    public float[] arrFloat;
     /*DATA NEEDED
      *  (501)
      *  (502)
@@ -145,17 +148,29 @@ public class Object_BP : MonoBehaviour
         {
             grab.enabled = false;
         }
- //       m_tPencilcase = GameObject.Find("Pencilcase_complete");
-        Hud = GameObject.Find("UI").GetComponent<UI_BP>();
-        Pencilcase = GameObject.Find("Pencilcase_Collider").GetComponent<Pencilcase_BP>();
-        Grabbed = GameObject.FindObjectOfType<GrabbedObject_BP>();
-        Bag_Young = GameObject.Find("Bag_Collider").GetComponent<BagPack_BP_Young>();
-        Bag = GameObject.Find("Bag_Collider").GetComponent<BagPack_BP>();
-        Delimiter = GameObject.Find("DataCheck_Manager").GetComponent<AddDelimiter>();
-        GazeTime = GameObject.Find("HighlightAtGaze").GetComponent<GazedTime_BP>();
-        MemoCheck = GameObject.FindObjectOfType<MemoCheck_BP>();
-        m_tRightPointer = RightController.Find("RightHandPointer").gameObject;
-        m_tGrabber = RightController.Find("Grabber").GetComponent<Grabber>();
+        //       m_tPencilcase = GameObject.Find("Pencilcase_complete");
+        /*
+               Hud = GameObject.Find("UI").GetComponent<UI_BP>();
+
+               Grabbed = GameObject.FindObjectOfType<GrabbedObject_BP>();
+               if (YOUNG)
+               {
+                   Pencilcase_Young = GameObject.Find("Pencilcase_Collider").GetComponent<Pencilcase_BP_Young>();
+                   Bag_Young = GameObject.Find("Bag_Collider").GetComponent<BagPack_BP_Young>();
+               }
+               if (!YOUNG)
+               {
+                   Bag = GameObject.Find("Bag_Collider").GetComponent<BagPack_BP>();
+                   Pencilcase = GameObject.Find("Pencilcase_Collider").GetComponent<Pencilcase_BP>();
+               }
+
+               Delimiter = GameObject.Find("DataCheck_Manager").GetComponent<AddDelimiter>();
+               GazeTime = GameObject.Find("HighlightAtGaze").GetComponent<GazedTime_BP>();
+               MemoCheck = GameObject.FindObjectOfType<MemoCheck_BP>();
+
+               m_tRightPointer = RightController.Find("RightHandPointer").gameObject;
+               m_tGrabber = RightController.Find("Grabber").GetComponent<Grabber>();
+         */
         StartCoroutine(FadeIn());
     }
 
@@ -235,7 +250,7 @@ public class Object_BP : MonoBehaviour
         }
         if (YOUNG)
         {
-            data_505 = Bag_Young.WrongPut + Pencilcase.WrongPut;
+            data_505 = Bag_Young.WrongPut + Pencilcase_Young.WrongPut;
             data_506 = Bag_Young.fStage1Try;
         }
        
@@ -243,6 +258,7 @@ public class Object_BP : MonoBehaviour
         data_508 = GazeTime.m_fTV;
         //data_509 == skip
         data_510 = Grabbed.m_fbpUnpC;
+        arrFloat = new float[] { data_501, data_502, data_503, data_504, data_505, data_506, data_507, data_508, data_509, data_510 };
     }
     public IEnumerator GameDone()
     {
@@ -259,6 +275,7 @@ public class Object_BP : MonoBehaviour
   
     public void NextScene()
     {
+        DataGather();
         Debug.Log("CALLED");
         m_bTotalTime = false;
         Delimiter.endEverything();

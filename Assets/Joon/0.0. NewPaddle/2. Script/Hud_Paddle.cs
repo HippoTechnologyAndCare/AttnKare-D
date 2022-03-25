@@ -82,8 +82,8 @@ public class Hud_Paddle : MonoBehaviour
                 case "correct"    : StartCoroutine(TextSpeechWarning("잘했어!", clipEffect[2])); break;
                 case "wrong order": StartCoroutine(TextSpeechWarning("친구 방향에 맞춰 돌려야 해", clipEffect[3])); break;
                 case "wrong speed": StartCoroutine(TextSpeechWarning("친구 페달의 속도에 맞춰 돌려줘", clipEffect[3])); break;
-                case "time limit" : PlayNarration(clipNarration[1], false); break;
-                case "time over"  : PlayNarration(clipNarration[2], false); break;
+                case "time limit" : StartCoroutine(PlayNarration(clipNarration[1], false)); break;
+                case "time over"  : StartCoroutine(PlayNarration(clipNarration[2], false)); break;
                 case "stage"      : StartCoroutine(TextSpeechWarning("속도와 방향이 바뀌었어!", clipEffect[4])); break;
                 case "complete"   : StartCoroutine(TextSpeechWarning("정말 잘했어!", clipEffect[5])); break;
             }
