@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
-  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
-  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
+  m_AmbientSkyColor: {r: 1, g: 1, b: 1, a: 1}
+  m_AmbientEquatorColor: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
+  m_AmbientGroundColor: {r: 1, g: 1, b: 1, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 3
+  m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 8a9dd7d65456d2143bb45b92da8d67b6, type: 2}
   m_HaloStrength: 0.5
@@ -2356,7 +2356,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 3400
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &90700870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10116,7 +10116,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\uC8FC\uBCC0\uC744 \uB458\uB7EC\uBCF4\uB2C8 \uBC29\uC774 \uB108\uBB34
-    \uC5B4\uC9C0\uB7EC\uC6B4 \uAC83 \uAC19\uC544.\n"
+    \uC9C0\uC800\uBD84\uD55C \uAC83 \uAC19\uC544.\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a3463df4df96cdd41b9928188d61bb1b, type: 2}
   m_sharedMaterial: {fileID: 2110336524713907302, guid: a3463df4df96cdd41b9928188d61bb1b,
@@ -19379,7 +19379,7 @@ MonoBehaviour:
   goTrashes: {fileID: 1564157213}
   goBooks: {fileID: 1892865179}
   debugMod: {fileID: 1054128764}
-  debugModOnoff: 1
+  debugModOnoff: 0
   m_dataReportFloat:
   - 0
   - 0
