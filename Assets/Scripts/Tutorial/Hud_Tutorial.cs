@@ -85,8 +85,6 @@ public class Hud_Tutorial : MonoBehaviour
         BananaNPlate.SetActive(true);
         SetAudio(clipEffect);
         BananaAppear();
-
-
     }
 
     public IEnumerator NoteCheck()
@@ -100,8 +98,6 @@ public class Hud_Tutorial : MonoBehaviour
         Text[8].DOFade(1, 0.7f);
         SetAudio(Voice[8]);
         bGuide = true;
-
-
     }
     public IEnumerator PutBanana()
     {
@@ -138,6 +134,8 @@ public class Hud_Tutorial : MonoBehaviour
         Arrow_Button.SetActive(false);
         yield return new WaitForSeconds(1.0f);
         ButtonBox.transform.DOMoveX(-0.754f, 3f);
+        yield return new WaitForSeconds(3f);
+        ButtonBox.SetActive(false);
         StartCoroutine(TextFade(Text[12]));
         yield return new WaitUntil(() => !bCoroutine);
         StartCoroutine(TextNSpeech(Voice[4], Text[4]));

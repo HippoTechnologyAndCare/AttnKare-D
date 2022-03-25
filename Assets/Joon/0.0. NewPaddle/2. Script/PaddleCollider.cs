@@ -63,9 +63,6 @@ public class PaddleCollider : MonoBehaviour
         float timeMinus = time - Manager_Paddle.SDB[nStage].fTime;
         Debug.Log(nStage + "+" +Manager_Paddle.SDB[nStage].fTime+"+"+ Manager_Paddle.SDB[nStage].strORDER);
         Guide.PaddleCheck(timeMinus);
-
-
-        //first check if speed is right
     }
 
 

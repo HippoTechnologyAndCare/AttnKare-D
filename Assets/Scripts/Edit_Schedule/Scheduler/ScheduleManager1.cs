@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using BNG;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 using Button = UnityEngine.UI.Button;
 using SceneLoader = KetosGames.SceneTransition.SceneLoader;
@@ -23,13 +24,14 @@ namespace Scheduler
     [RequireComponent(typeof(Transform))]
     public class ScheduleManager1 : MonoBehaviour
     {
-        
+        public Dictionary<string, int> CardCtnDic;
         public CollectData collectData;
         public AutoVoiceRecording voiceRecording;
         
         private const float TimeLimit = 120; //시간 제한 사용 방향 기획 필요
         private const float TimeLimitForFinish = 180; //강제종료시간
         private const int TotalCardsCtn = 10;         // 총 카드 수
+        private const int YelCardCtn = 2;             // 노란 카드의 총 개수
 
         [SerializeField] private Transform hud;
         [SerializeField] private Transform mainUi;
@@ -38,7 +40,10 @@ namespace Scheduler
         [SerializeField] private Transform finishPanel;
         [SerializeField] private Transform startBtn;
         [SerializeField] private Transform wellDoneAndBye;
+        
+        [Header("UI Reference")]
         [SerializeField] private TextMeshProUGUI finishCntDwn;
+        [SerializeField] private Material yellowMat;
 
         [SerializeField] private Transform bgmController;
 
@@ -60,7 +65,8 @@ namespace Scheduler
         [SerializeField] private List<Transform> slotList; 
         public List<Transform> grpList;
         private List<Transform> oPosList;
-        private List<string> cardList = new List<string>();
+        //private List<string> cardList = new List<string>();
+        [SerializeField] private string[] yelCardsArr = new string[YelCardCtn];
 
         public float[] Scene2Arr { get; set; }
 
@@ -86,12 +92,7 @@ namespace Scheduler
         
         private float totalElapsedTime;         //수행한 시간 계산용
         private float totalElapsedTimeForCalc;  //수행한 시간 보여주기용
-        private float timerForBeforeStarted;    //시작하기 누르기까지 시간
-        private float timerForFirstSelect;      //시작하기 누르고 첫 선택까지 시간
-        private float data_210;
-        private float data_211;
-        private float data_212;
-        private float data_213;
+        
 
         //float TotalScenePlayingTime = 0;    //컨텐츠 시작부터 끝까지 총 시간 TimerForBeforeStarted + TotalElapsedTimeForCalc
 
@@ -99,21 +100,34 @@ namespace Scheduler
         [SerializeField] private int totalMovingCnt;      //이동 횟수
         [SerializeField] private int resetCnt;            //초기화 누른 횟수
         [SerializeField] private int selectNoCtn;                 //아니오 누른 횟수
-        [SerializeField] private int skipYn;
+        [SerializeField] private int skipYn;              //스킵 여부
+        [SerializeField] private float timerForBeforeStarted;    //시작하기 누르기까지 시간
+        [SerializeField] private float timerForFirstSelect;      //시작하기 누르고 첫 선택까지 시간
+        [SerializeField] private float data210;
+        [SerializeField] private float data211;
+        [SerializeField] private float data212;
+        [SerializeField] private float data213;
+        [SerializeField] private float data214;
 
-        //------------- SOUND    
+        [Header("Audio Clips")] 
         [FormerlySerializedAs("sound_Count")] public AudioClip soundCount;
         [FormerlySerializedAs("sound_In")] public AudioClip soundIn;
         [FormerlySerializedAs("sound_Click")] public AudioClip soundClick;
         [FormerlySerializedAs("sound_Put")] public AudioClip soundPut;
         private AudioSource audioSource;
 
-        //------------- Manager
+        [Header("Managers")]
         [FormerlySerializedAs("SetPlayerData")] public Transform setPlayerData;
         [FormerlySerializedAs("GameDataManager")] public Transform gameDataManager;
 
         private void Awake()
         {
+            data210 = 0;
+            data211 = 0;
+            data212 = 0;
+            data213 = 0;
+            data214 = -1;
+            
             completionCtn = 0;
             skipYn = 0;
 
@@ -121,25 +135,24 @@ namespace Scheduler
             beforeStart = true;
             isReset = false;
 
+            CardCtnDic = new Dictionary<string, int>();
+            
             audioSource = this.GetComponent<AudioSource>();
             slotList = new List<Transform>();
             grpList = new List<Transform>();
             oPosList = new List<Transform>();
-
-            // CardList에 사용될 카드 이름을 전부 넣는다 // type : string
-            for (var i = 0; i < TotalCardsCtn; i++)
-            {
-                cardList.Add(Convert.ToChar(i + 65).ToString());
-            }
+            
         }
 
         private void Start()
         {
-            foreach (var card in cardList)
+            // CardDict 초기화
+            for (var i = 0; i < TotalCardsCtn; i++)
             {
-                Debug.Log("card name = " + card);
+                //cardList.Add(Convert.ToChar(i + 65).ToString());
+                CardCtnDic.Add(key:Convert.ToChar(i + 65).ToString(), value:0);
             }
-            
+
             InitSlotList();
             InitGrpList();
             InitOposList();
@@ -396,31 +409,88 @@ namespace Scheduler
             }
         }
 
+        // 들어온 매개변수와 서로 일치하는 CardCtnDic의 멤버(key)의 value를 수정해준다(count Up)
         private void UsedCardsCtn(Transform passenger)
         {
             string keyword = "(Clone)";
             string originName;
-            foreach (string cardName in cardList)
+
+            if (completionCtn <= 1)
             {
-                if(cardName != null)
+                foreach (var card in CardCtnDic.Keys.ToList())
                 {
-                    if (RemoveWord.EndsWithWord(passenger.name, keyword))
+                    if(passenger != null)
                     {
-                        originName = passenger.name.Replace("(Clone)", "");
-                    }
+                        if (RemoveWord.EndsWithWord(passenger.name, keyword))
+                        {
+                            originName = passenger.name.Replace("(Clone)", "");
+                        }
 
-                    else
+                        else
+                        {
+                            originName = passenger.name;
+                        }
+
+                        if (card == originName)
+                        {
+                            CardCtnDic[card] += 1;
+                            Debug.Log(card + " is " +   CardCtnDic[card]);
+                        }
+                    }                                              
+                }
+            }
+
+            else
+            {
+                foreach (var yelCard in yelCardsArr)
+                {
+                    if (passenger != null)
                     {
-                        originName = passenger.name;
-                    }
+                        if (RemoveWord.EndsWithWord(passenger.name, keyword))
+                        {
+                            originName = passenger.name.Replace("(Clone)", "");
+                        }
 
-                    if (cardName == originName)
+                        else
+                        {
+                            originName = passenger.name;
+                        }
+
+                        if (yelCard == originName)
+                        {
+                            data213 += 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void SetYellowForCards()
+        {
+            // Dict안에서 value가 큰 순서대로 내림차순 정렬
+            var sortedDict = from entry in CardCtnDic
+                orderby entry.Value descending select entry;
+                
+            CardCtnDic = sortedDict.ToDictionary<KeyValuePair<string, int>,
+                string, int>(pair => pair.Key, pair => pair.Value);
+            
+            // 제일 많이 사용한 카드 두장을 yelCardArr 배열에 넣는다
+            for (int i = 0; i < YelCardCtn; i++)
+            {
+                yelCardsArr[i] = CardCtnDic.Keys.ElementAt(i);
+            }
+
+            // yelCardArr 배열을 참고로 grpList안에 있는 2개의 카드의 색상을 변경
+            foreach (var orgCard in grpList)
+            {
+                foreach (var entry in yelCardsArr)
+                {
+                    if (orgCard.name == entry)
                     {
-                        
+                        orgCard.GetChild(2).GetComponent<MeshRenderer>().material = yellowMat;
                     }
-
-                }                                              
-            }            
+                }
+            }
         }
         
         public void DoStartSchedule()
@@ -499,7 +569,7 @@ namespace Scheduler
             
             // n번째로 완성한 계획표 변수로 저장
             SortedCardData(isSkip);
-            
+
             //몇번째 완료인지 체크 
             if (completionCtn == 1) // 첫번째 완료라면 아래의 프로세싱 후 재 시작
             {
@@ -509,6 +579,7 @@ namespace Scheduler
                 //finishPanel.gameObject.SetActive(false);
                 VisibleFinPanel(false);
                 ReSetAll();
+                SetYellowForCards();
                 StartCoroutine(hud.GetComponent<HUDSchedule>().HalfInfoSetUiTxt());
                 return;
             }
@@ -520,8 +591,28 @@ namespace Scheduler
             //board.gameObject.SetActive(false);
             //finishPanel.gameObject.SetActive(false);
             VisibleFinPanel(false);
-            wellDoneAndBye.gameObject.SetActive(true);
+            hud.GetComponent<HUDSchedule>().PopupQuestion(true);
+            //wellDoneAndBye.gameObject.SetActive(true);
+            //voiceRecording.StopRecordingNBehavior();
+        }
 
+        public void Yes_Question()
+        {
+            data214 = 1;
+            hud.GetComponent<HUDSchedule>().PopupQuestion(false);
+            EndScene();
+        }
+
+        public void No_Question()
+        {
+            data214 = 0;
+            hud.GetComponent<HUDSchedule>().PopupQuestion(false);
+            EndScene();
+        }
+
+        private void EndScene()
+        {
+            wellDoneAndBye.gameObject.SetActive(true);
             voiceRecording.StopRecordingNBehavior();
             
             /*
@@ -540,14 +631,13 @@ namespace Scheduler
             Data_213 제한된 카드를 사용한 횟수
             */
 
-
             // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
             Scene2Arr = new[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, _planData01,_planData02, 
-                                skipYn, timerForBeforeStarted, timerForFirstSelect, data_210, data_211, data_212, data_213 };
+                skipYn, timerForBeforeStarted, timerForFirstSelect, data210, data211, data212, data213, data214 };
             gameDataManager.GetComponent<GameDataManager>().SaveCurrentData();
             StartCoroutine(GoToNextScene());
         }
-
+        
         private void VisibleBoard(bool isOn)
         {
 
@@ -610,6 +700,7 @@ namespace Scheduler
             }
         }
         
+        // 카드를 정렬한 순서를 변수로 저장
         private void SortedCardData(bool isSkip)
         {
             if (isSkip)
@@ -630,6 +721,8 @@ namespace Scheduler
                     {
                         currCard = slot.GetComponent<PlanSlotController1>().passenger.transform;
                         
+                        UsedCardsCtn(currCard);
+
                         if (slot != null)
                         {
                             var text = currCard.GetChild(0).GetComponent<Text>().text + " ";
@@ -642,12 +735,17 @@ namespace Scheduler
                     }
                 }
 
+                for (int i = 0; i < YelCardCtn; i++)
+                {
+                    yelCardsArr[i] = CardCtnDic.Keys.ElementAt(i);
+                }
+
                 switch (completionCtn)
                 {
-                    case 1 :
+                    case 1:
                         _planData01 = float.Parse(myScheduleForJson, System.Globalization.CultureInfo.InvariantCulture);
                         break;
-                    case 2 :
+                    case 2:
                         _planData02 = float.Parse(myScheduleForJson, System.Globalization.CultureInfo.InvariantCulture);
                         break;
                     default:
@@ -656,7 +754,7 @@ namespace Scheduler
                 }
             }
         }
-        
+
         private IEnumerator GoToNextScene()
         {
             yield return new WaitForSeconds(2);
@@ -683,6 +781,17 @@ namespace Scheduler
                 _ => null
             };
             audioSource.Play();
+        }
+        
+        //Test Mode
+        
+        [ContextMenu("OutPut CartCtn")]
+        private void OutPutCardCtnDic()
+        {
+            foreach (var card in CardCtnDic)
+            {
+                Debug.Log("key : " + card.Key + " value : " + card.Value);
+            }
         }
     }
 }

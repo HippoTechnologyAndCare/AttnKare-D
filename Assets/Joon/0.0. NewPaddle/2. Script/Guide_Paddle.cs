@@ -10,7 +10,7 @@ public class Guide_Paddle : MonoBehaviour
 {
 
     public static float TIMELIMIT_PADDLE = 180f;
-    public static float TIMEOUT_PADDLE = 210f;
+    public static float TIMEOUT_PADDLE = 220f;
 
     public enum PADDLE_STATE
     {
@@ -28,7 +28,7 @@ public class Guide_Paddle : MonoBehaviour
     private string m_strOrder;
     public GrabPaddle GrabPaddle;
     public Animation FriendAnimation;
-    bool m_bStamp = false; //스탬프 1회씩만 박는용 bool
+    public bool m_bStamp = false; //스탬프 1회씩만 박는용 bool
     float m_nWrongSpeed;
     float m_nWrongOrder;
 
@@ -57,14 +57,14 @@ public class Guide_Paddle : MonoBehaviour
 
     DataManager m_dataManager;
     private string gradeLH;
-    public int buildIndex;
+    public int buildIndex = 9;
 
     public float[] arrData;
     void TimeCheck_Stage()
     {
         m_fTOTALTIME += Time.deltaTime;
-        if (m_fTOTALTIME == TIMELIMIT_PADDLE && m_bStamp) { Hud.AudioController("time limit"); BehaviorData.AddTimeStamp("TIME LIMIT"); m_bStamp = false; }
-        if (m_fTOTALTIME == TIMEOUT_PADDLE&& !m_bStamp) { Hud.AudioController("time over"); BehaviorData.AddTimeStamp("TIME OUT"); m_bStamp = true; }
+        if (m_fTOTALTIME >= TIMELIMIT_PADDLE && m_bStamp) { Debug.Log("TIME OVER"); Hud.AudioController("time limit"); BehaviorData.AddTimeStamp("TIME LIMIT"); m_bStamp = false; }
+        if (m_fTOTALTIME >= TIMEOUT_PADDLE&& !m_bStamp) { Debug.Log("TIME FIN"); Hud.AudioController("time over"); BehaviorData.AddTimeStamp("TIME OUT"); GameFinish(); m_bStamp = true; }
         }
 
     void TimeCheck_Start()
@@ -74,11 +74,11 @@ public class Guide_Paddle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject JasonManager = GameObject.Find("DataManager");
-        m_dataManager = JasonManager.GetComponent<DataManager>();
-        gradeLH = m_dataManager.userInfo.Grade;
-        if (gradeLH == "L") buildIndex = 4;
-        if (gradeLH == "H") buildIndex = 8;
+        /*  GameObject JasonManager = GameObject.Find("DataManager");
+          m_dataManager = JasonManager.GetComponent<DataManager>();
+          gradeLH = m_dataManager.userInfo.Grade;
+          if (gradeLH == "L") buildIndex = 4;
+           if (gradeLH == "H") buildIndex = 8;*/
 
         m_listCOLLIDER = new List<PaddleCollider>(FindObjectsOfType<PaddleCollider>());
         Hud = GameObject.Find("Hud_Paddle").GetComponent<Hud_Paddle>();
@@ -125,7 +125,7 @@ public class Guide_Paddle : MonoBehaviour
         CableCar.GetComponent<Outlinable>().enabled = true;
         StartCoroutine(Hud.CountDown());
         FriendAnimation.Play("Intro");
-        m_ePSTATE = PADDLE_STATE.START;
+        
         Hud.BGMplay(true);
         StartCoroutine(Wait_TimeStart());
 
@@ -134,6 +134,7 @@ public class Guide_Paddle : MonoBehaviour
     {
         yield return new WaitForSeconds(4f);
         Hud.bTimeStart = true;
+        m_ePSTATE = PADDLE_STATE.START;
         BehaviorData.AddTimeStamp("MISSION START");
     }
     
@@ -251,7 +252,8 @@ public class Guide_Paddle : MonoBehaviour
         StartCoroutine(Hud.NextScene());
         yield return new WaitUntil(() => Hud.bCoroutine == false);
         Debug.Log("FIN");
-        KetosGames.SceneTransition.SceneLoader.LoadScene(7);
+        yield return new WaitForSeconds(5);
+        KetosGames.SceneTransition.SceneLoader.LoadScene(9);
 
     }
 

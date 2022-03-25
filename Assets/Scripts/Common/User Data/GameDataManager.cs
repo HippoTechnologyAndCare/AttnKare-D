@@ -71,7 +71,7 @@ public class GameDataManager : MonoBehaviour
                 saveCurrentSceneData = SetData;                       
                 break;
             case 3: //BP L
-                objToFind = FindObjectOfType<TempScriptJason>().gameObject;
+                objToFind = FindObjectOfType<Object_BP>().gameObject;
                 saveCurrentSceneData = SetData;                      
                 break;
             case 4: //Scoop L
@@ -86,7 +86,7 @@ public class GameDataManager : MonoBehaviour
                 saveCurrentSceneData = SetData;                                
                 break;
             case 7: //Bagpacking H
-                objToFind = FindObjectOfType<TempScriptJason>().gameObject;
+                objToFind = FindObjectOfType<Object_BP>().gameObject;
                 saveCurrentSceneData = SetData;                               
                 break;
             case 8: //Scoop H
@@ -121,7 +121,7 @@ public class GameDataManager : MonoBehaviour
                 setPlayerData.SetSceneData(objToFind.GetComponent<Scheduler.ScheduleManager1>().Scene2Arr);
                 break;
             case 3: //BP L
-                setPlayerData.SetSceneData(objToFind.GetComponent<TempScriptJason>().arrFloat);
+                setPlayerData.SetSceneData(objToFind.GetComponent<Object_BP>().arrFloat);
                 break;
             case 4: //Scoop L
                 setPlayerData.SetSceneData(objToFind.GetComponent<EasyTubeScoreboard>().scene2arr);
@@ -133,7 +133,7 @@ public class GameDataManager : MonoBehaviour
                 setPlayerData.SetSceneData(objToFind.GetComponent<Guide_Paddle>().arrData);
                 break;
             case 7: //bagpacking H
-                setPlayerData.SetSceneData(objToFind.GetComponent<TempScriptJason>().arrFloat);
+                setPlayerData.SetSceneData(objToFind.GetComponent<Object_BP>().arrFloat);
                 break;
             case 8: //Scoop H
                 setPlayerData.SetSceneData(objToFind.GetComponent<TubeScoreboard>().scene2arr);                
