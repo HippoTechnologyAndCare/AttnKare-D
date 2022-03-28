@@ -5,16 +5,15 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    static UIManager instance;
+
     public Text DebuggerUI;
 
     // Main UI Components
+    [SerializeField] RectTransform MainUIRect;
     [SerializeField] Text MainUIText;
     [SerializeField] Image MainUIImage;
     [SerializeField] List<Sprite> m_robotIcons;
-
-    // Text UI Components
-    [SerializeField] GameObject TextUIObject;
-    [SerializeField] Text TextUIText;
     [SerializeField] List<string> AudioLine;
 
     // Skip Canvas Components
@@ -22,6 +21,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Text m_skipCanvasText;
 
     // Static Member Variables
+    public static RectTransform s_MainUIRect;
     public static Text s_MainUIText;
     public static Image s_MainUIImage;
     public static GameObject s_TextUIObject;
@@ -31,13 +31,14 @@ public class UIManager : MonoBehaviour
     public static GameObject s_skipCanvas;
     public static Text s_skipCanvasText;
 
+    void Awake() => instance = this;
+
     private void Start()
     {
+        s_MainUIRect = MainUIRect;
         s_MainUIText = MainUIText;
         s_MainUIImage = MainUIImage;
 
-        s_TextUIObject = TextUIObject;
-        s_TextUIText = TextUIText;
         s_AudioLine = new List<string>();
         for (int i = 0; i < AudioLine.Count; i++) s_AudioLine.Add(AudioLine[i]);
 
@@ -64,6 +65,25 @@ public class UIManager : MonoBehaviour
         }
     }
     public static void SetMainUIImage(int index) { s_MainUIImage.sprite = s_robotIcons[index]; }
+
+    public static void ScaleUI()
+    {
+        instance.StartCoroutine(instance.ScaleUIcr());
+    }
+
+    IEnumerator ScaleUIcr()
+    {
+        float height = s_MainUIRect.rect.height;
+
+        while(s_MainUIRect.rect.height >= 900)
+        {
+            height -= 4;
+            s_MainUIRect.sizeDelta = new Vector2(s_MainUIRect.rect.width, height);
+            yield return new WaitForSeconds(.001f);
+        }
+
+        yield break;
+    }
     public static void EnableMainUIImage()
     {
         s_MainUIImage.gameObject.SetActive(true);
