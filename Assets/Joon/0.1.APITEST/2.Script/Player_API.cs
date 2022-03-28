@@ -6,7 +6,6 @@ using DG.Tweening;
 using KetosGames.SceneTransition;
 
 
-
 public class Player_API : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -102,8 +101,7 @@ public class Player_API : MonoBehaviour
             case 99: Debug.Log(status); return;
             case 999: Debug.Log(status); return;
         }
-        SceneLoader.LoadScene(scene_index);          
-
+        SceneLoader.LoadScene(scene_index);
     }
 
 }

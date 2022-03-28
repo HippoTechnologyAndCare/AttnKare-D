@@ -24,7 +24,11 @@ public class UserInfo_API : MonoBehaviour
         return instance;
     }
 
+
+
+
     // Start is called before the first frame update
+
     private void Awake()
     {
         if (instance != null)

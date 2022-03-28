@@ -42,6 +42,7 @@ public class Guide_Paddle : MonoBehaviour
     List<PaddleCollider> m_listCOLLIDER;
 
     //DATA
+    public SceneData_Send DataSend;
     public GameDataManager DataManager;
     public CollectData BehaviorData;
     float data_401; //시작버튼 누르는데까지 걸린 시간
@@ -302,6 +303,7 @@ public class Guide_Paddle : MonoBehaviour
            Debug.Log(arrData[i]);
         }
         DataManager.SaveCurrentData();
+        DataSend.GetSceneData();
         StartCoroutine(NextScene());
     }
 

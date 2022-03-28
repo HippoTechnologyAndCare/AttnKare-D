@@ -56,7 +56,7 @@ public class HUD_API : MonoBehaviour
     public Text JOB_Grade;
     public GameObject JOB_Refresh;
     public List<Sprite> JobStatus;
-
+    public Toggle toggle_Testmode;
 
     public InputField job_Name;
     public InputField job_Place;

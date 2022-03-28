@@ -98,6 +98,7 @@ public class TubeScoreboard : MonoBehaviour
     [SerializeField] Material tubeBall3; // Turqoise Material
 
     [Header("Data")]
+    [SerializeField] SceneData_Send DataSend;
     [SerializeField] Transform setData_PlayerData;
     [SerializeField] Transform saveData_GameDataMG;
     BNG.CollectData _collectData;
@@ -941,6 +942,7 @@ public class TubeScoreboard : MonoBehaviour
         //setData_PlayerData.GetComponent<SetPlayerData>().GetSceneIndex8();
         //time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, gameFailed ? 1 : 0, isSkipped
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
+        DataSend.GetSceneData();
 
         // Data variables go here
         GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();

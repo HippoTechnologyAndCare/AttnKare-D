@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class SetDataManager : MonoBehaviour
 {
     // Start is called before the first frame update
+    public Toggle m_Toggle;
     private int m_nAge;
     private string m_sGrade;
     private string m_sGender;
@@ -47,6 +48,20 @@ public class SetDataManager : MonoBehaviour
         DataManager.GetInstance().SavePlayerDataToJson();
 
         GetComponent<NetworkManager>().DoSendToTextMsg();
+    }
+    public void TESTMODE_Toggle()
+    {
+        //Fetch the Toggle GameObject
+        //Add listener for when the state of the Toggle changes, to take action
+        m_Toggle.onValueChanged.AddListener(delegate {
+            ToggleValueChanged(m_Toggle);
+        });
+        
+    }
+    void ToggleValueChanged(bool test)
+    {
+        Debug.Log(test);
+        DataManager.GetInstance().isTest = test ? true : false;
     }
     private int SetAge()
     {

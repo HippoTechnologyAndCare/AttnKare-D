@@ -25,7 +25,7 @@ public class Guide_Tutorial : MonoBehaviour
     private Transform m_tCol;
     private bool m_bCol;
 
-
+    public SceneData_Send DataSend;
     DataManager dataManager;
     private InputBridge Controller;
     public GameObject XRRig;
@@ -232,6 +232,7 @@ public class Guide_Tutorial : MonoBehaviour
         SceneTransitionCircle.GetComponent<SceneTransition_Tutorial>().enabled = false;
         SceneTransitionCircle.GetComponent<BoxCollider>().enabled = false;
         yield return new WaitForSeconds(1);
+        DataSend.GetSceneData();
         DataCollect.StopRecordingNBehavior();
         Ghost.SetActive(false);
         StartCoroutine(FadeOut());
