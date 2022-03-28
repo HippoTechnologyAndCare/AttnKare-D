@@ -13,6 +13,7 @@ public class Guide : MonoBehaviour {
     public static  float    TIMEOUT_ARRANGE = 120f; //방청소 시간제한 2분_Timer
     public static  float    TIMEOUT_SCENE   = 300f; //Scene의 시간제한 5분, 다음게임으로    
     public int              NEXT_SCENE      = 6;
+    public bool BookFixed = true;
     public enum STATE { 
         INTRO,         
         ARRANGE,         
@@ -74,14 +75,20 @@ public class Guide : MonoBehaviour {
             //GetArrangeStr();  //정리한 물건 문자열 갱신       
             //m_Hud.NoteUpdateArrange(arrangedStr, arrangeableStr);
     }
-    public void BookPositioned(Books.BOOKS Cleaned, Transform dst)
+    public void BookPositioned(GameObject cleandBook ,Books.BOOKS Cleaned, Transform dst)
         {
             Debug.Log("Positioned" + Cleaned);
             m_Hud.PopUpCountBooks(Books.TOTAL_POSITIONED, true);
+            if(BookFixed == true)
+            {              
+                Books book = cleandBook.GetComponent<Books>();
+                book.makeBookFixed();
+            }
             m_Hud.ShowStarParticle(dst);
+            if (Trash.TOTAL_POSITIONED >= Trash.TOTAL_TRASH && Books.TOTAL_POSITIONED >= Books.TOTAL_BOOK) m_Hud.m_endcondition = true;
             //GetArrangeStr();  //정리한 물건 문자열 갱신       
             //m_Hud.NoteUpdateArrange(arrangedStr, arrangeableStr);
-    }
+        }
 
         // 매번 정리될때마다 호출-called by Arragne.cs     
         public void SetPositioned()
@@ -131,7 +138,8 @@ public class Guide : MonoBehaviour {
         Books books = grab.GetComponent<Books>();
             //Debug.Log(arrange);
             //Debug.Log(trash);
-        if(arrange) {
+        m_goRightHandPointer.SetActive(false);
+        if (arrange) {
             arrange.OnGrab();
             m_eGrabbedArrange = arrange.m_eArrange;
         }
@@ -155,6 +163,7 @@ public class Guide : MonoBehaviour {
         Arrange arrange = grab.GetComponent<Arrange>();
         Trash trash = grab.GetComponent<Trash>();
         Books books = grab.GetComponent<Books>();
+        m_goRightHandPointer.SetActive(true);
         if (arrange){
             arrange.OnGrabRelease();
             m_eGrabbedArrange = Arrange.ARRANGE.NONE;

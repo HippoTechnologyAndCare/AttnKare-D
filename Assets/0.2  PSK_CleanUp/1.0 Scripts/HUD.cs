@@ -443,7 +443,10 @@ public class HUD : MonoBehaviour
     
     // Update is called once per frame
     void Update()  {
-        //CheckGrabber();
+            //CheckGrabber();
+       
+           // if (Input.GetButton("XRI_Right_TriggerButton")) Debug.Log("wow!!");
+         
         if (Time.time > next05SecUpdate) { Do02SecTask(); next05SecUpdate = Time.time + 0.2f; } //시간갱신
         if (Time.time > next1SecUpdate) { Do1SecTask(); next1SecUpdate = Time.time + 1.0f; } //시간갱신
         if (Time.time > next5SecUpdate) { Do5SecTask(); next5SecUpdate = Time.time + 5.0f; } //시간갱신        

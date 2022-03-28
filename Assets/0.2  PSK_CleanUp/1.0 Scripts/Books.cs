@@ -51,9 +51,11 @@ public class Books : MonoBehaviour {
     public static  float   TOTAL_GRAB_TIME  { get { float time = 0; foreach(BOOKS_INFO ainfo in CDB) time += ainfo.fGrabTime;  return time;  }  }
         // 총 자기위치에 둔횟수
         //public static  float   TOTAL_POSI_COUNT { get { int nCount = 0; foreach(ARRANGE_INFO ainfo in CDB) nCount += ainfo.nPosiCount;  return nCount;  }  }
-
+    static int[] stackOfBook = new int[9];
+    static int[] limitOfBook = new int[9];
+    
         //책 추가 시 추가해야되는 부분
-    public static BOOKS_INFO[] CDB = new BOOKS_INFO[]  {        
+        public static BOOKS_INFO[] CDB = new BOOKS_INFO[]  {        
 		//new ARRANGE_INFO(ARRANGE.BOX,         "Box",       false, false, 0, 0.0f, 0, "박스"   ),             
         //new ARRANGE_INFO(ARRANGE.LAMP,        "Lamp",      false, false, 0, 0.0f, 0, "램프"   ),                     
         //new ARRANGE_INFO(ARRANGE.GAME_PAD,    "GamePad",   false, false, 0, 0.0f, 0, "게임패드" ),    
@@ -83,6 +85,8 @@ public class Books : MonoBehaviour {
     public bool       m_bGrabbed;                     //현재 잡혔는지
     //Private
     Rigidbody         m_RigidBody;
+    public GameObject m_BookShelf;
+    float[]             m_ObjectPosition = new float[3];
     
     /**************************************************************************
     // Method Start
@@ -124,7 +128,7 @@ public class Books : MonoBehaviour {
     // 내위치에 갖다놈
     // 원래 정리대상이 아닌데 다시 갖다 놓는경우, 정리대상을 갖다 놓는경우 구분할것
     void SetPositonedBooks()  {
-        m_Guide.BookPositioned(m_eBooks, gameObject.transform);
+        m_Guide.BookPositioned(gameObject, m_eBooks, gameObject.transform);
         //내위치를 Target의 위치에 둡니다
         //if(!m_bDroppable) SetRigidBody(false); 
         //DropAt(m_Target.transform);
@@ -137,7 +141,171 @@ public class Books : MonoBehaviour {
     void Detach() {
         CDB[(int)m_eBooks].bPositioned = m_bPositioned = false;    //CDB갱신
     }
+    public void makeBookFixed()
+        {
+            /*
+            Debug.Log(m_BookShelf.transform.position.x);
+            Debug.Log(m_BookShelf.transform.position.y);
+            Debug.Log(m_BookShelf.transform.position.z);
+            *************stackOfBook*************
+            0 1 2
+            3 4 5
+            6 7 8
 
+            */
+            //아래
+            if (gameObject.transform.position.y < -0.7 + m_BookShelf.transform.position.y + 0.16f + m_ObjectPosition[1])
+            {
+                //왼쪽
+                if (gameObject.transform.position.z < -1.94 + m_BookShelf.transform.position.z - 0.375f + m_ObjectPosition[2])
+                {
+                    if (stackOfBook[6] >= limitOfBook[6]) return;
+                    m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+                    gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
+                                                                -0.87f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
+                                                                stackOfBook[6] * 0.05f - 2.2f + m_ObjectPosition[2] + m_BookShelf.transform.position.z - 0.375f);
+
+                    gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    gameObject.GetComponent<Grabbable>().enabled = false;
+                    stackOfBook[6]++;
+
+                }
+                //오른쪽
+                else if (gameObject.transform.position.z > -1.629 + m_BookShelf.transform.position.z - 0.375f + m_ObjectPosition[2])
+                {
+                    if (stackOfBook[8] >= limitOfBook[8]) return;
+                    m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+                    gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
+                                                                -0.87f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
+                                                                stackOfBook[8] * 0.05f - 1.598f + m_ObjectPosition[2] + m_BookShelf.transform.position.z - 0.375f);
+
+                    gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    gameObject.GetComponent<Grabbable>().enabled = false;
+                    stackOfBook[8]++;
+                }
+                //중간
+                else
+                {
+                    if (stackOfBook[7] >= limitOfBook[7]) return;
+                    m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+                    gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
+                                                                -0.87f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
+                                                                stackOfBook[7] * 0.05f - 1.893f + m_ObjectPosition[2] + m_BookShelf.transform.position.z - 0.375f);
+
+                    gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    gameObject.GetComponent<Grabbable>().enabled = false;
+                    stackOfBook[7]++;
+                }
+
+               
+
+            }
+            //위
+            else if (gameObject.transform.position.y > -0.29 + m_BookShelf.transform.position.y + 0.16f + m_ObjectPosition[1])
+            {
+
+                if (gameObject.transform.position.z < -1.94 + m_BookShelf.transform.position.z - 0.375f + m_ObjectPosition[2])
+                {
+                    if (stackOfBook[0] >= limitOfBook[0]) return;
+                    m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+                    gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
+                                                                -0.195f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
+                                                                stackOfBook[0] * 0.05f - 2.2f + m_ObjectPosition[2] + m_BookShelf.transform.position.z - 0.375f);
+
+                    gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    gameObject.GetComponent<Grabbable>().enabled = false;
+                    stackOfBook[0]++;
+
+                }
+                //오른쪽
+                else if (gameObject.transform.position.z > -1.629 + m_BookShelf.transform.position.z - 0.375f + m_ObjectPosition[2])
+                {
+                    if (stackOfBook[2] >= limitOfBook[2]) return;
+                    m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+                    gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
+                                                                -0.195f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
+                                                                stackOfBook[2] * 0.05f - 1.377f + m_ObjectPosition[2] + m_BookShelf.transform.position.z - 0.375f);
+
+                    gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    gameObject.GetComponent<Grabbable>().enabled = false;
+                    stackOfBook[2]++;
+                }
+                //중간
+                else
+                {
+                    if (stackOfBook[1] >= limitOfBook[1]) return;
+                    m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+                    gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
+                                                                -0.195f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
+                                                                stackOfBook[1] * 0.05f - 1.893f + m_ObjectPosition[2] + m_BookShelf.transform.position.z - 0.375f);
+
+                    gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    gameObject.GetComponent<Grabbable>().enabled = false;
+                    stackOfBook[1]++;
+                }
+                /*
+                m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+                gameObject.transform.position = new Vector3(-0.46f - 0.5311635f + m_BookShelf.transform.position.x + 0.9937455f,
+                                                            -0.195f + 0.48f + m_BookShelf.transform.position.y + 0.16f,
+                                                            stackOfBook[1] * 0.05f - 2.2f + 2.16f + m_BookShelf.transform.position.z - 0.375f);
+                gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                gameObject.GetComponent<Grabbable>().enabled = false;
+                stackOfBook[1]++;
+                */
+            }
+            //중간
+            else
+            {
+                if (gameObject.transform.position.z < -1.94 + m_BookShelf.transform.position.z - 0.375f + m_ObjectPosition[2])
+                {
+                    if (stackOfBook[3] >= limitOfBook[3]) return;
+                    m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+                    gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
+                                                                -0.531f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
+                                                                stackOfBook[3] * 0.05f - 2.2f + m_ObjectPosition[2] + m_BookShelf.transform.position.z - 0.375f);
+
+                    gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    gameObject.GetComponent<Grabbable>().enabled = false;
+                    stackOfBook[3]++;
+
+                }
+                //오른쪽
+                else if (gameObject.transform.position.z > -1.629 + m_BookShelf.transform.position.z - 0.375f + m_ObjectPosition[2])
+                {
+                    if (stackOfBook[5] >= limitOfBook[5]) return;
+                    m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+                    gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
+                                                                -0.531f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
+                                                                stackOfBook[5] * 0.05f - 1.598f + m_ObjectPosition[2] + m_BookShelf.transform.position.z - 0.375f);
+
+                    gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    gameObject.GetComponent<Grabbable>().enabled = false;
+                    stackOfBook[5]++;
+                }
+                //중간
+                else
+                {
+                    if (stackOfBook[4] >= limitOfBook[4]) return;
+                    m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+                    gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
+                                                                -0.531f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
+                                                                stackOfBook[4] * 0.05f - 1.893f + m_ObjectPosition[2] + m_BookShelf.transform.position.z - 0.375f);
+
+                    gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    gameObject.GetComponent<Grabbable>().enabled = false;
+                    stackOfBook[4]++;
+                }
+                /*
+                m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+                gameObject.transform.position = new Vector3(-0.46f - 0.5311635f + m_BookShelf.transform.position.x + 0.9937455f,
+                                                            -0.53f + 0.48f + m_BookShelf.transform.position.y + 0.16f,
+                                                            stackOfBook[2] * 0.05f - 2.2f + 2.16f + m_BookShelf.transform.position.z - 0.375f);
+                gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                gameObject.GetComponent<Grabbable>().enabled = false;
+                stackOfBook[2]++;
+                */
+            }
+        }
     // 잡고있으면 계속 위치가 바뀌므로 놓을때까지 기다렸다가 다시 Target위치에 둠
     /*
     IEnumerator AdhereTarget()  {
@@ -184,17 +352,31 @@ public class Books : MonoBehaviour {
         oAngularDrag  = m_RigidBody.angularDrag; 
         oUseGravity   = m_RigidBody.useGravity; 
         oConstraints  = m_RigidBody.constraints;
-        
-        //CDB에 에디터에서 지정된값 저장
-        //CDB[(int)m_eBook].bCleanable  =  m_bCleanable;
-        //CDB[(int)m_eBook].tPositioned =  m_bPositioned; 
+        m_ObjectPosition[0] = -0.5311635f;
+        m_ObjectPosition[1] =  0.48f;
+        m_ObjectPosition[2] =  2.16f;
+        limitOfBook[0] = 5;
+        limitOfBook[1] = 1;
+        limitOfBook[2] = 1;
+        limitOfBook[3] = 5;
+        limitOfBook[4] = 1;
+        limitOfBook[5] = 1;
+        limitOfBook[6] = 4;
+        limitOfBook[7] = 5;
+        limitOfBook[8] = 1;
+        for (int i=0; i < 9; i++) stackOfBook[i] = 0 ;
 
-        //원래 제자리에 있는 물건이면 위치 고정
-        //if(m_bPositioned) {
+
+            //CDB에 에디터에서 지정된값 저장
+            //CDB[(int)m_eBook].bCleanable  =  m_bCleanable;
+            //CDB[(int)m_eBook].tPositioned =  m_bPositioned; 
+
+            //원래 제자리에 있는 물건이면 위치 고정
+            //if(m_bPositioned) {
             //DropAt(m_Target.transform);
             //if(!m_bDroppable) SetRigidBody(false); 
-        //}  
-    }
+            //}  
+        }
 
     // Update is called once per frame        
     
@@ -218,9 +400,20 @@ public class Books : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
             //정리안된상태에서 TriggerEnter는 Attach
         if (other.gameObject.tag == "Checker1"){
-            Debug.Log("Book Positioned in");
+                //끌려올때 인식 방지
+                if (m_bGrabbed == false && Input.GetButton("XRI_Right_TriggerButton"))
+                {
+                    Debug.Log("wow");
+                    return;
+                }
+                
+                Debug.Log("Book Positioned in");
             CDB[(int)m_eBooks].bPositioned = m_bPositioned = true;
-            m_Guide.SetPositioned();
+            if(m_bGrabbed == false)
+                {
+                    SetPositonedBooks();
+                }
+                
 
 
 
