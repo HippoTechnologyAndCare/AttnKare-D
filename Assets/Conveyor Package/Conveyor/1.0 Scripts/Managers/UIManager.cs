@@ -12,21 +12,35 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image MainUIImage;
     [SerializeField] List<Sprite> m_robotIcons;
 
+    // Text UI Components
+    [SerializeField] GameObject TextUIObject;
+    [SerializeField] Text TextUIText;
+    [SerializeField] List<string> AudioLine;
+
     // Skip Canvas Components
     [SerializeField] GameObject m_skipCanvas;
     [SerializeField] Text m_skipCanvasText;
 
     // Static Member Variables
-    static Text s_MainUIText;
-    static Image s_MainUIImage;
-    static List<Sprite> s_robotIcons;
-    static GameObject s_skipCanvas;
-    static Text s_skipCanvasText;
+    public static Text s_MainUIText;
+    public static Image s_MainUIImage;
+    public static GameObject s_TextUIObject;
+    public static Text s_TextUIText;
+    public static List<string> s_AudioLine;
+    public static List<Sprite> s_robotIcons;
+    public static GameObject s_skipCanvas;
+    public static Text s_skipCanvasText;
 
     private void Start()
     {
         s_MainUIText = MainUIText;
         s_MainUIImage = MainUIImage;
+
+        s_TextUIObject = TextUIObject;
+        s_TextUIText = TextUIText;
+        s_AudioLine = new List<string>();
+        for (int i = 0; i < AudioLine.Count; i++) s_AudioLine.Add(AudioLine[i]);
+
         s_robotIcons = m_robotIcons;
 
         s_skipCanvas = m_skipCanvas;
@@ -34,6 +48,8 @@ public class UIManager : MonoBehaviour
 
         SetMainUIImage(0);
     }
+
+    public static void SetUIText(Text textCmp, string text) => textCmp.text = text;
 
     #region MAIN UI FUNCTIONS
     public static void SetMainUIText(int generatedColor)
