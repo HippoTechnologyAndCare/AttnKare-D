@@ -100,6 +100,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     [SerializeField] Material tubeBall3; // Turqoise Material
 
     [Header("Data")]
+    [SerializeField] SceneData_Send DataSend;
     [SerializeField] Transform setData_PlayerData;
     [SerializeField] Transform saveData_GameDataMG;
     BNG.CollectData _collectData;
@@ -904,6 +905,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         scene2arr = new float[] { time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, wrongExcess, gameresultFailed, isSkipped};
         // Save Data to local 
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
+        DataSend.GetSceneData();
 
         // Data variables go here
         GetComponent<AutoVoiceRecording>().StopRecordingNBehavior();

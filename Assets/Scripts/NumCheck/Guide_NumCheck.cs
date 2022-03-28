@@ -27,6 +27,7 @@ public class Guide_NumCheck : MonoBehaviour
     public Sprite[] DistracImage;
 
     [Header("DATA COLLECTION")]
+    public SceneData_Send DataSend;
     public AutoVoiceRecording DataCollection;
     public CheckData_NumCheck dataCheck;
     public PlayMakerFSM dataFin;
@@ -335,6 +336,7 @@ public class Guide_NumCheck : MonoBehaviour
         auto.enabled = false;
         dataCheck.GetAllData();
         DataCollection.StopRecordingNBehavior();
+        DataSend.GetSceneData();
         GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
         StartCoroutine(ClearCoroutine());
     }

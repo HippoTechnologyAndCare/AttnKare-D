@@ -75,6 +75,7 @@ public class Object_BP : MonoBehaviour
     //PACK_DISTRACTION
     // Start is called before the first frame update
     public bool YOUNG;
+    public SceneData_Send DataSend;
 
     [SerializeField] private UI_BP Hud;
     [SerializeField] private AddDelimiter Delimiter;
@@ -282,6 +283,7 @@ public class Object_BP : MonoBehaviour
         DataCollect.AddTimeStamp("MISSION END");
         SaveData.SaveCurrentData();
         BehaviorData.StopRecordingNBehavior();
+        DataSend.GetSceneData();
         StartCoroutine(FadeOut());
     }
    

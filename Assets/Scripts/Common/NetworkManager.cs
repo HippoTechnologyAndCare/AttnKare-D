@@ -92,7 +92,7 @@ public class NetworkManager : MonoBehaviour
         formData.AddBinaryData("playpaddle_mp3", File.ReadAllBytes(resPath + "6" + AudioFormat), "playpaddle_mp3.mp3", "application/octet-stream");
 
        
-        formData.AddBinaryData("numbermatching_txt", File.ReadAllBytes(resPath + "9_Behavior.txt"), "numbermatching_txt", "application/octet-stream");
+        formData.AddBinaryData("numbermatching_txt", File.ReadAllBytes(resPath + "9_Behavior.txt"), "numbermatching_txt.txt", "application/octet-stream");
         formData.AddBinaryData("numbermatching_mp3", File.ReadAllBytes(resPath + "9" + AudioFormat), "numbermatching_mp3.mp3", "application/octet-stream");
 
         formData.AddBinaryData("ending_txt", File.ReadAllBytes(resPath + "13_Behavior.txt"), "ending_txt.txt", "application/octet-stream");
@@ -107,6 +107,7 @@ public class NetworkManager : MonoBehaviour
         if (webRequest.result != UnityWebRequest.Result.Success)
         {
             Debug.Log(webRequest.error);
+            Debug.Log(webRequest.downloadHandler.text);
         }
         else
         {

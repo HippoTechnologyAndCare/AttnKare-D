@@ -25,7 +25,7 @@ public class Guide_Tutorial : MonoBehaviour
     private Transform m_tCol;
     private bool m_bCol;
 
-
+    public SceneData_Send DataSend;
     DataManager dataManager;
     private InputBridge Controller;
     public GameObject XRRig;
@@ -94,8 +94,7 @@ public class Guide_Tutorial : MonoBehaviour
     }
 
     // Update is called once per frame
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject ==Banana & m_tCol == false) {
             Debug.Log("INSIDE");
@@ -215,6 +214,8 @@ public class Guide_Tutorial : MonoBehaviour
     public IEnumerator SceneChange(bool stay)
     {
         HUD.bGuide = false;
+        yield return new WaitForSeconds(.8f);
+
         if (stay)
         {
             Debug.Log("STAY");
@@ -231,6 +232,7 @@ public class Guide_Tutorial : MonoBehaviour
         SceneTransitionCircle.GetComponent<SceneTransition_Tutorial>().enabled = false;
         SceneTransitionCircle.GetComponent<BoxCollider>().enabled = false;
         yield return new WaitForSeconds(1);
+        DataSend.GetSceneData();
         DataCollect.StopRecordingNBehavior();
         Ghost.SetActive(false);
         StartCoroutine(FadeOut());
