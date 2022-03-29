@@ -12,6 +12,7 @@ namespace BNG
 
         Rigidbody m_rigidbody;
         Grabbable m_grabbable;
+
         private void Start()
         {
             m_rigidbody = GetComponent<Rigidbody>();
@@ -20,12 +21,19 @@ namespace BNG
 
         private void Update() => OnToyGrab();
 
+        public void RemoveConstraints()
+        {
+            m_rigidbody.constraints = RigidbodyConstraints.None;
+            m_rigidbody.mass = .01f;
+
+            m_grabbable.RemoteGrabbable = true;
+        }
+
         public void OnToyGrab()
         {
             if (m_grabbable.BeingHeld)
             {
-                m_rigidbody.constraints = RigidbodyConstraints.None;
-                m_rigidbody.mass = .01f;
+                RemoveConstraints();
 
                 FactoryManager.AddToGrabbedList(gameObject);
             }
