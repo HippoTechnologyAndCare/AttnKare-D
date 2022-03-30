@@ -78,6 +78,9 @@ public class StageManager : MonoBehaviour
             NextStage();
             FactoryManager.ResetDestroyCount(3);
             m_factoryManager.SaveGameData();
+
+            if (!FactoryManager.m_gameData.m_isSkipped)
+                FactoryManager.LoadNextScene();
         }
     }
 
