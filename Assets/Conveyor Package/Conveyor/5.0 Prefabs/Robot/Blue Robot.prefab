@@ -40,6 +40,7 @@ Transform:
   - {fileID: 7295724268796699449}
   - {fileID: 7295724267091720093}
   - {fileID: 7295724268501255803}
+  - {fileID: 4388777658513575158}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -89.98, y: 0, z: 0}
@@ -125,8 +126,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.0024258508, y: 0.0024673024, z: 0.0068087894}
-  m_Center: {x: 0.0000058509095, y: 0.00023004443, z: -0.000019429359}
+  m_Size: {x: 0.0024258508, y: 0.0024673024, z: 0.0073901885}
+  m_Center: {x: 0.0000058509095, y: 0.00023004445, z: -0.0003101369}
 --- !u!114 &845045746337285693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,8 +157,8 @@ MonoBehaviour:
   GrabButton: 1
   Grabtype: 0
   GrabPhysics: 4
-  GrabMechanic: 1
-  GrabSpeed: 15
+  GrabMechanic: 0
+  GrabSpeed: 10
   RemoteGrabbable: 0
   RemoteGrabMechanic: 0
   RemoteGrabDistance: 2
@@ -165,9 +166,9 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
-  ParentHandModel: 1
-  SnapHandModel: 1
+  ParentToHands: 1
+  ParentHandModel: 0
+  SnapHandModel: 0
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
@@ -205,10 +206,41 @@ MonoBehaviour:
   SecondaryLookOffset: {x: 0, y: 0, z: 0}
   SecondaryLookAtTransform: {fileID: 0}
   LocalOffsetTransform: {fileID: 0}
-  GrabPoints: []
+  GrabPoints:
+  - {fileID: 4388777658513575158}
   UseCustomInspector: 1
   lastFlickTime: 0
   FlickForce: 1
+--- !u!1 &3754462802108241395
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4388777658513575158}
+  m_Layer: 25
+  m_Name: GrabPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4388777658513575158
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3754462802108241395}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.001315, z: 0.0004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4476551514616357021}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &7295724267091720094
 GameObject:
   m_ObjectHideFlags: 0

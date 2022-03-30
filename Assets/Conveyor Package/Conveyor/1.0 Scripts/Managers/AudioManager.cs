@@ -80,6 +80,7 @@ public class AudioManager : MonoBehaviour
         for (int i = 0; i < m_introAudio.Count; i++)
         {
             m_audioSource.clip = m_introAudio[i];
+            UIManager.SetUIText(UIManager.s_MainUIText, UIManager.s_AudioLine[i]);
 
             if (i == 1 || i == 3) InvokeGuide(i);
             if (i == 2) CancelInvoke("InvokeBlink");
@@ -120,9 +121,16 @@ public class AudioManager : MonoBehaviour
     // Call StageManager.AudioEnd() after audio finishes playing
     public IEnumerator AudioEnd(int stage)
     {
-        yield return new WaitForSeconds(m_waitLength[stage]);
+        yield return new WaitForSeconds(m_waitLength[stage] + 1f);
 
         StageManager.AudioEnd(stage);
+
+        if (stage == 0)
+        {
+            yield return new WaitForSeconds(2f);
+            UIManager.s_MainUIText.enabled = false;
+            UIManager.ScaleUI();
+        }
 
         yield break;
     }

@@ -39,7 +39,7 @@ public class StageManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update() { TrackGameState(); }
+    void Update() => TrackGameState();
 
     void TrackGameState()
     {
@@ -78,6 +78,9 @@ public class StageManager : MonoBehaviour
             NextStage();
             FactoryManager.ResetDestroyCount(3);
             m_factoryManager.SaveGameData();
+
+            if (!FactoryManager.m_gameData.m_isSkipped)
+                FactoryManager.LoadNextScene();
         }
     }
 

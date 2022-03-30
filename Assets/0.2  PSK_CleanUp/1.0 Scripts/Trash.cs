@@ -134,8 +134,9 @@ public class Trash : MonoBehaviour {
          m_RigidBody.drag = (bOn ? oDrag : 0);
          m_RigidBody.angularDrag = (bOn ? oAngularDrag : 0);
          m_RigidBody.useGravity = (bOn ? oUseGravity : true);
-         m_RigidBody.constraints = (bOn ? oConstraints : RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ);
-         gameObject.layer = 0;
+            //m_RigidBody.constraints = (bOn ? oConstraints : RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ);
+         m_RigidBody.constraints = (bOn ? oConstraints : RigidbodyConstraints.FreezeAll);
+            //gameObject.layer = 0;
             //grabbable 해제
     }
 
@@ -230,17 +231,25 @@ public class Trash : MonoBehaviour {
         }
         */
     }
-    
-    // 트리거(Target)와 접촉되면 갖다놓은것으로 처리합니다.
+
+        // 트리거(Target)와 접촉되면 갖다놓은것으로 처리합니다.
+    IEnumerator forWaitFreeze(int num){
+            Debug.Log("before");
+        yield return new WaitForSeconds(1f);
+            Debug.Log("after");
+            SetRigidBody2(false);
+    }
     void OnTriggerEnter(Collider other) {        
         //정리안된상태에서 TriggerEnter는 Attach
         if(other.gameObject.tag == "Surface") {
             CDB[(int)m_eTrash].tPositioned = m_bPositioned = true;
-            SetRigidBody2(false);
+            
             gameObject.layer = 0;
+            gameObject.GetComponent<Grabbable>().enabled = false;
             SetPositonedTrash();//정리한 것으로 처리
             m_Guide.SetPositioned();
-            }
+            StartCoroutine(forWaitFreeze(0));
+        }
     }    
 }
 }

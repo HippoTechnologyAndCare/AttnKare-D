@@ -293,7 +293,7 @@ public class CollectibleData
 
     public int m_toysOnFloor;
 
-    public bool m_isSkipped;
+    public bool m_isSkipped = false;
 
     // Bool to Check if Data is Saved
     bool m_dataSaved;
