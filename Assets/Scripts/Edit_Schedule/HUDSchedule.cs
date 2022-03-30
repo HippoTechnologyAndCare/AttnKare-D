@@ -19,7 +19,7 @@ public class HUDSchedule : MonoBehaviour
     [SerializeField] DictionaryScriptableObject dicData02;
 
     [SerializeField] private ScheduleManager1 schManager;
-    [SerializeField] private Transform QuestionPanel;
+    [SerializeField] private Transform questionPanel;
     
     /*************************************************************************
     //처음 안내문구 음성과 문구을 전시합니다
@@ -156,12 +156,12 @@ public class HUDSchedule : MonoBehaviour
         switch (isOn)
         {
              case true:
-                 QuestionPanel.GetComponent<CanvasGroup>().alpha = 1;
-                 QuestionPanel.GetComponent<CanvasGroup>().blocksRaycasts = true;
+                 questionPanel.GetComponent<CanvasGroup>().alpha = 1;
+                 questionPanel.GetComponent<CanvasGroup>().blocksRaycasts = true;
                  break;
              case false:
-                 QuestionPanel.GetComponent<CanvasGroup>().alpha = 0;
-                 QuestionPanel.GetComponent<CanvasGroup>().blocksRaycasts = false;
+                 questionPanel.GetComponent<CanvasGroup>().alpha = 0;
+                 questionPanel.GetComponent<CanvasGroup>().blocksRaycasts = false;
                  break;
              default:
                  Debug.Log("마지막 질문 버튼 동작안함");
