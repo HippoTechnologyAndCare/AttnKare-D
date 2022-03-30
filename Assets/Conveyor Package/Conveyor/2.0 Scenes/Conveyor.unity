@@ -1913,6 +1913,7 @@ GameObject:
   - component: {fileID: 905862355}
   - component: {fileID: 905862357}
   - component: {fileID: 905862356}
+  - component: {fileID: 905862358}
   m_Layer: 0
   m_Name: Wall.02
   m_TagString: Untagged
@@ -1983,6 +1984,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 905862354}
   m_Mesh: {fileID: -8678823145569952518, guid: 818ad23725f3592459af0a1a7599ebe8, type: 3}
+--- !u!65 &905862358
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905862354}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.020000001, y: 0.02, z: 0.020000134}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &959292192
 GameObject:
   m_ObjectHideFlags: 0
@@ -14677,6 +14691,7 @@ GameObject:
   - component: {fileID: 5365112366753340533}
   - component: {fileID: 803323674635733098}
   - component: {fileID: 1354397518639371829}
+  - component: {fileID: 3733025638005368061}
   m_Layer: 0
   m_Name: Wall.03
   m_TagString: Untagged
@@ -14684,6 +14699,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
   m_IsActive: 1
+--- !u!64 &3733025638005368061
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3733025638005368060}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 504039998770095139, guid: 67889325ce9ba6f4eaa5fff02987dc64, type: 3}
 --- !u!1 &3733304186034744092
 GameObject:
   m_ObjectHideFlags: 0
@@ -15464,6 +15493,7 @@ GameObject:
   - component: {fileID: 5209996511740415945}
   - component: {fileID: 6010590758134158082}
   - component: {fileID: 5911983454818524503}
+  - component: {fileID: 4182970897410873433}
   m_Layer: 0
   m_Name: Wall.04
   m_TagString: Untagged
@@ -15471,6 +15501,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
   m_IsActive: 1
+--- !u!65 &4182970897410873433
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4182970897410873432}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.020000001, y: 0.02, z: 0.020000134}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &4188127931513908271
 Transform:
   m_ObjectHideFlags: 0
@@ -17248,6 +17291,7 @@ GameObject:
   - component: {fileID: 1985806665070141801}
   - component: {fileID: 2604032693467869398}
   - component: {fileID: 3710958111425216260}
+  - component: {fileID: 4990931469012252930}
   m_Layer: 0
   m_Name: Ceiling
   m_TagString: Untagged
@@ -17255,6 +17299,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
   m_IsActive: 1
+--- !u!65 &4990931469012252930
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4990931469012252929}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.018272901, y: 0.019999998, z: 0.019999996}
+  m_Center: {x: 0, y: -0.0000000027939675, z: 0}
 --- !u!23 &4994406130611689230
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -23737,6 +23794,7 @@ GameObject:
   - component: {fileID: 1061843391682828146}
   - component: {fileID: 9015044232336170165}
   - component: {fileID: 4466687625330957865}
+  - component: {fileID: 7343929775494657767}
   m_Layer: 0
   m_Name: Wall.01
   m_TagString: Untagged
@@ -23744,6 +23802,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
   m_IsActive: 1
+--- !u!64 &7343929775494657767
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7343929775494657766}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2470717229077939577, guid: 8f5caf7c14fe87b4f8ab337190285a0d, type: 3}
 --- !u!4 &7365325633316091293
 Transform:
   m_ObjectHideFlags: 0
