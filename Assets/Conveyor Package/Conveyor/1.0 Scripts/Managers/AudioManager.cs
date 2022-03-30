@@ -132,6 +132,9 @@ public class AudioManager : MonoBehaviour
             UIManager.ScaleUI();
         }
 
+        if(stage == 3)
+            FactoryManager.LoadNextScene();
+
         yield break;
     }
     void InvokeGuide(int index)

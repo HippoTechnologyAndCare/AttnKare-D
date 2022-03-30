@@ -39,7 +39,7 @@ public class StageManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update() { TrackGameState(); }
+    void Update() => TrackGameState();
 
     void TrackGameState()
     {
