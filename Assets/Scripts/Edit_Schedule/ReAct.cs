@@ -49,7 +49,12 @@ public class ReAct : MonoBehaviour
         }       
     }
 
-    IEnumerator ReAct01()
+    public void StartReAct()
+    {
+        StartCoroutine(ReAct01());
+    }
+    
+    private IEnumerator ReAct01()
     {
         frame.SetActive(true);
         yield return new WaitForSeconds(2f);

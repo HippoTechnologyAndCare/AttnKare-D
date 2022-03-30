@@ -27,6 +27,7 @@ namespace Scheduler
         public Dictionary<string, int> CardCtnDic;
         public CollectData collectData;
         public AutoVoiceRecording voiceRecording;
+        public ScheduleData scheduleData;
         
         private const float TimeLimit = 120; //시간 제한 사용 방향 기획 필요
         private const float TimeLimitForFinish = 180; //강제종료시간
