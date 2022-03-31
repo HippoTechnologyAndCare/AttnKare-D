@@ -37,9 +37,12 @@ public class HUD : MonoBehaviour
     public DOTweenAnimation[]   m_DotAnim;      //텍스트 애니메이션 할당(DOTWeen)
     enum   VOICE { ONE, TWO, THREE, FOUR, HOWTO, START, TIMEOUT, WELLDONE, MOVING }    
     public Canvas m_canvasINFO;
+    public buttonQA bqa;
+    
+    
 
-    //전면안내-내방 정리하는 방법 5개 음성 및 Text Animation 전시
-    public void PlayHowTo() {
+        //전면안내-내방 정리하는 방법 5개 음성 및 Text Animation 전시
+        public void PlayHowTo() {
             //PlayStart();
             StartCoroutine("PlayHowToVoiceText");        
     }
@@ -80,10 +83,12 @@ public class HUD : MonoBehaviour
     // HMD에 내용을 전시합니다.
     ***************************************************************************/
     public Canvas m_canvasHMD;
-    /*****************************************
-    //"자이제 시작해볼까 제한시간은 2분" 전시합니다.
-    ******************************************/
-    public TextMeshProUGUI m_textStartFind;
+    
+    
+        /*****************************************
+        //"자이제 시작해볼까 제한시간은 2분" 전시합니다.
+        ******************************************/
+        public TextMeshProUGUI m_textStartFind;
     void PlayStart() {               
         StartCoroutine(
             PlaySoundText(m_audSIntro,
@@ -91,8 +96,10 @@ public class HUD : MonoBehaviour
             m_textStartFind.gameObject,
             m_canvasHMD,
             Guide.HUD_REPORT.PLAYED_HOWTO
-        ));             
-    }    
+        ));
+        
+
+        }    
     /************************************************
     // HMD안내- "수고 했어  다음으로 가볼까... " 전시    - SCENE Timeout시 호출
     *************************************************/    
@@ -130,14 +137,40 @@ public class HUD : MonoBehaviour
             Guide.HUD_REPORT.PLAYED_MOVING)
         ); 
     }
+    /************************************************
+    // HMD안내- "설문조사 " 전시    
+    *************************************************/
+        
+        public void survey()
+        {
+            
+            PlaySound(m_audSIntro, m_audCIntro[8]);
+            /*
+            StartCoroutine(PlaySoundText(m_audSIntro, m_audCIntro[8], null, null, Guide.HUD_REPORT.NONE));
+            */
+            bqa.startSomthing();
+        }
+
+        
 
     /************************************************
     // FinHMD안내- "Fin 버튼 누룰시" 전시    
     *************************************************/
     //CenterEyeAnchor>FinCanvas>FIN_1("정말로.."), Fin2("이동합니다")
     public Canvas m_canvasFin;
-    public GameObject m_goReallyWant, m_goMoving; 
-    public void PlayWarning() {       
+    public GameObject m_goReallyWant, m_goMoving;
+    public void OnButtonDown()
+    {
+            /*
+        if (coroutine != null){
+            StopCoroutine(coroutine);
+        }
+        */
+            Debug.Log("hhhhhhhhhhhhhhhhhh");
+            m_Guide.HudReport(Guide.HUD_REPORT.PLAYED_TIMEOUT);
+            //coroutine = bFin ? bActive ? StartCoroutine(NextScene()) : null : StartCoroutine(PressedFirst());
+    }
+        public void PlayWarning() {       
         StartCoroutine(
             PlaySoundText(null, //음성없음
             null, //음성Clip없음
@@ -175,8 +208,12 @@ public class HUD : MonoBehaviour
     public TextMeshPro m_textPopupValue;
     public AudioClip   m_clipBell;  //벨소리 Asset>Sound>Button>DM-CGS-45    
     public GameObject  m_goTextPopupFound, m_goTextPopupCleaned, m_goTextPopupTrash, m_goTextPopupBook;
-    //popup 찾은(정리한)갯수-둘다 사용        
-    public void PopUpCount(int nDone, bool bClean=false) {    
+        //popup 찾은(정리한)갯수-둘다 사용        
+        public void playClipBell()
+        {
+            PlaySound(m_audSIntro, m_clipBell);
+    }
+        public void PopUpCount(int nDone, bool bClean=false) {    
         m_goTextPopupFound.SetActive(!bClean);
         m_goTextPopupCleaned.SetActive(bClean);
         m_goTextPopupTrash.SetActive(!bClean);
@@ -410,6 +447,7 @@ public class HUD : MonoBehaviour
             m_endGZParticle = true;
             m_endcondition = false;
             }
+            
         }
     //5sec주기로 업데이할 Task를 등록하세요
     void Do5SecTask()   {

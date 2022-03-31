@@ -49,7 +49,8 @@ public class Guide : MonoBehaviour {
     
     float   m_fMoveDistance;   //Player 총이동거리 
     int     m_nObstacleTouch;  //Player가 방해 물체를 건든 횟수        
-    int     m_nFinBtnDown;     //Player가 Fin Button 클릿횟수        
+    int     m_nFinBtnDown;     //Player가 Fin Button 클릿횟수
+    int     m_nSurveyResult;      //
     /**************************************************************************
     // Method Start
     ***************************************************************************/    
@@ -156,7 +157,7 @@ public class Guide : MonoBehaviour {
             m_Hud.PlayDuck(true,HUD.DUCK_ACTION.GRABBED);
         }        
     }
-
+    bool oneSurvey = false;
     //OnGrabRelease Event처리 --> RightHand>Grabber에 Event에 할당   
     public void OnGrabRightRelease() {
         GameObject grab = m_RightGrabber.HeldGrabbable.gameObject;
@@ -179,7 +180,13 @@ public class Guide : MonoBehaviour {
         
         if(grab.name == Manager.DDB[(int)Manager.DISTURB.DUCK].name){ //duck을 놓으면
             m_Hud.PlayDuck(true);
-        }        
+        }
+            
+        if (m_fTimeTaken > 30 && oneSurvey == false)
+            {
+                oneSurvey = true;
+                m_Hud.survey();
+            }
     }
 
     //Fin Button 처리    
@@ -293,7 +300,8 @@ public class Guide : MonoBehaviour {
         m_Hud.PlayDuck(false);
         m_Hud.PlayVideo(false);        
         MakeGrabbable(false);
-        //마지막에 해야할 평가작업등을 추가하십시요
+            //마지막에 해야할 평가작업등을 추가하십시요
+        m_nSurveyResult = buttonQA.m_nResult;
         ReportData();
         //이전상태가 TIMEOUT_SCENE상태에서 넘어오면 아쉬지만...표시
         if(m_bTImeOutScene) {
@@ -312,21 +320,25 @@ public class Guide : MonoBehaviour {
     }
     void Run_Next() { }
 
-    public float[] m_dataReportFloat = new float[10];// = new float[10];
+    public float[] m_dataReportFloat = new float[9];// = new float[10];
 
     void ReportData() {
 
             //Summary 데이타 처리
-            m_dataReportFloat[0] = m_fMoveDistance; // 총 이동 거리
-            m_dataReportFloat[1] = Trash.TOTAL_TRASH- Trash.TOTAL_POSITIONED; // 남은 쓰레기 수
-            m_dataReportFloat[2] = Books.TOTAL_BOOK - Books.TOTAL_POSITIONED; // 남은 책 수
+            m_dataReportFloat[0] = Trash.TOTAL_POSITIONED+Books.TOTAL_POSITIONED; // 바르게 수행한 횟수
+            m_dataReportFloat[1] = m_fTimeLookVideo; //흥미로운 영상 시청시간
+            m_dataReportFloat[2] = m_fTimeTaken; // 완료까지 걸린 시간
             m_dataReportFloat[3] = Trash.TOTAL_GRAB_COUNT + Books.TOTAL_GRAB_COUNT; //Player가 필요한 물건을 잡은 총 횟수
-            m_dataReportFloat[4] = Trash.TOTAL_GRAB_TIME + Books.TOTAL_GRAB_TIME; //Player가 필요한 물건을 잡은 총 시간
-            m_dataReportFloat[5] = m_fTimeLookVideo; //흥미로운 영상 시청시간
+            m_dataReportFloat[4] = m_fMoveDistance; // 총 이동 거리
+            m_dataReportFloat[5] = m_nFinBtnDown; //Player가 Fin Button 클릭 횟수   
             m_dataReportFloat[6] = m_nObstacleTouch; // 방해물체(오리)를 잡은 총 횟수
-            m_dataReportFloat[7] = m_nFinBtnDown; //Player가 Fin Button 클릭 횟수   
-            m_dataReportFloat[8] = 0;
-            m_dataReportFloat[9] = 0;
+            m_dataReportFloat[7] = Trash.TOTAL_TRASH- Trash.TOTAL_POSITIONED; // 남은 쓰레기 수
+            m_dataReportFloat[8] = Books.TOTAL_BOOK - Books.TOTAL_POSITIONED; // 남은 책 수
+            
+            
+            //m_dataReportFloat[4] = Trash.TOTAL_GRAB_TIME + Books.TOTAL_GRAB_TIME; //Player가 필요한 물건을 잡은 총 시간
+            //m_dataReportFloat[8] = 0;
+            //m_dataReportFloat[9] = 0;
             
             
             string eval = ""
@@ -347,7 +359,18 @@ public class Guide : MonoBehaviour {
             + "m_fTimeLookInvalid= " + m_fTimeLookInvalid + "\r\n"        //Player가 불필요한곳을 보는 시간             
             + "m_fMoveDistance= " + m_fMoveDistance + "\r\n"        //Player 총이동거리 
             + "m_nObstacleTouch= " + m_nObstacleTouch + "\r\n"        //Player가 방해 물체를 건든 횟수        
-            + "m_nFinBtnDown= " + m_nFinBtnDown + "\r\n";       //Player가 Fin Button 클릿횟수        
+            + "m_nFinBtnDown= " + m_nFinBtnDown + "\r\n"       //Player가 Fin Button 클릿횟수        
+
+            + (Trash.TOTAL_POSITIONED + Books.TOTAL_POSITIONED) + "\r\n" // 바르게 수행한 횟수
+            + m_fTimeLookVideo+ "\r\n"
+            + m_fTimeTaken + "\r\n"
+            + (Trash.TOTAL_GRAB_COUNT + Books.TOTAL_GRAB_COUNT) + "\r\n"
+            + m_fMoveDistance + "\r\n"
+            + m_nFinBtnDown + "\r\n"
+            + m_nObstacleTouch + "\r\n"
+            + (Trash.TOTAL_TRASH - Trash.TOTAL_POSITIONED) + "\r\n"
+            + (Books.TOTAL_BOOK - Books.TOTAL_POSITIONED) + "\r\n"
+            ;
             /*
             string eval = ""
             +"m_nTotArrangeable= "  + Arrange.TOTAL_ARRANGE      +"\r\n" //Constant - 손으로 잡을수 있는 물건수
@@ -365,32 +388,35 @@ public class Guide : MonoBehaviour {
             +"m_fMoveDistance= "    + m_fMoveDistance     +"\r\n"        //Player 총이동거리 
             +"m_nObstacleTouch= "   + m_nObstacleTouch    +"\r\n"        //Player가 방해 물체를 건든 횟수        
             +"m_nFinBtnDown= "      + m_nFinBtnDown       +"\r\n";       //Player가 Fin Button 클릿횟수        
-
-            Debug.Log(eval);   // to console
             */
-            Util.ELOG(eval);   // to logfile .//Eval.txt
-                 
-         //각 물건별 개별(Arrange.CDB 데이타 처리        
-        for(int i=0; i < Arrange.TOTAL_ARRANGE; i++) {           
-            eval = "" 
-               +"eArrange= "    + Arrange.CDB[i].eArrange    + ", "     //종류
-               +"Object_name= " + Arrange.CDB[i].Object_name + ", "     //GameObject Name 
-               +"bCleanable= "  + Arrange.CDB[i].bCleanable  + ", "     //청소대상여부
-               +"bPositioned= " + Arrange.CDB[i].bPositioned + ", "     //제위치여부
-               +"nGrabCount= "  + Arrange.CDB[i].nGrabCount  + ", "     //Player가 내 물건을 잡은 횟수
-               +"fGrabTime= "   + Arrange.CDB[i].fGrabTime   + ", "     //Player가 내 물건을 잡은 시간
-               +"nPosiCount = " + Arrange.CDB[i].nPosiCount  + ", "     //자기위치에 둔 횟수
-               +"kor_name= "    + Arrange.CDB[i].kor_name    + ", "     //한글명
-               +"\r\n";
-            //Debug.Log(eval);   // to console
-            //Util.ELOG(eval);   // to logfile .//Eval.txt
-         }
-    }
+            Debug.Log(eval);   // to console
 
-    /*****************************************************************************
-    // Helper & Utility
-    ******************************************************************************/
-    void MeasureTime() {
+            //Util.ELOG(eval);   // to logfile .//Eval.txt
+
+            //각 물건별 개별(Arrange.CDB 데이타 처리        
+            /*
+           for(int i=0; i < Arrange.TOTAL_ARRANGE; i++) {           
+               eval = "" 
+                  +"eArrange= "    + Arrange.CDB[i].eArrange    + ", "     //종류
+                  +"Object_name= " + Arrange.CDB[i].Object_name + ", "     //GameObject Name 
+                  +"bCleanable= "  + Arrange.CDB[i].bCleanable  + ", "     //청소대상여부
+                  +"bPositioned= " + Arrange.CDB[i].bPositioned + ", "     //제위치여부
+                  +"nGrabCount= "  + Arrange.CDB[i].nGrabCount  + ", "     //Player가 내 물건을 잡은 횟수
+                  +"fGrabTime= "   + Arrange.CDB[i].fGrabTime   + ", "     //Player가 내 물건을 잡은 시간
+                  +"nPosiCount = " + Arrange.CDB[i].nPosiCount  + ", "     //자기위치에 둔 횟수
+                  +"kor_name= "    + Arrange.CDB[i].kor_name    + ", "     //한글명
+                  +"\r\n";
+               //Debug.Log(eval);   // to console
+               //Util.ELOG(eval);   // to logfile .//Eval.txt
+
+            }
+               */
+        }
+
+        /*****************************************************************************
+        // Helper & Utility
+        ******************************************************************************/
+        void MeasureTime() {
         m_fTimeTaken += Time.deltaTime; 
         if(m_fTimeTaken > TIMEOUT_ARRANGE) m_bTimeOutArrange = true;
         if(m_fTimeTaken > TIMEOUT_SCENE)  m_bTImeOutScene = true;

@@ -127,7 +127,7 @@ public class GameDataManager : MonoBehaviour
                 setPlayerData.SetSceneData(objToFind.GetComponent<EasyTubeScoreboard>().scene2arr);
                 break;
             case 5: //CRUM
-                
+                //setPlayerData.SetSceneData(objToFind.GetComponent<CleanUp.Guide>().m_dataReportFloat);
                 break;
             case 6: //PlayPaddle
                 setPlayerData.SetSceneData(objToFind.GetComponent<Guide_Paddle>().arrData);
