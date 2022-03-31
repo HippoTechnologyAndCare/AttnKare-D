@@ -78,10 +78,4 @@ public class BGMcontroller : MonoBehaviour
         yield return new WaitForSeconds(13.14f);
         PlayBGMByTypes("BGM");
     }
-
-    public IEnumerator PlayQuestion()
-    {
-        yield return new WaitForSeconds(1f);
-        PlayBGMByTypes("Question");
-    }
 }

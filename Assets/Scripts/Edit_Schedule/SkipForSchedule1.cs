@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using KetosGames.SceneTransition;
+using Scheduler;
 using TMPro;
 
 public class SkipForSchedule1 : MonoBehaviour
@@ -17,7 +18,7 @@ public class SkipForSchedule1 : MonoBehaviour
     Transform Fin2;
     public int buildIndex;
 
-    public Transform ScheduleManager1;
+    public ScheduleManager1 scheManager;
 
 
     void Start()
@@ -51,7 +52,7 @@ public class SkipForSchedule1 : MonoBehaviour
         {
             if (bActive) // if hand is what touching button
             {
-                ScheduleManager1.GetComponent<Scheduler.ScheduleManager1>().FinishPanel_Yes(true);
+                scheManager.FinishPanel_Yes(true);
                 coroutine = StartCoroutine(NextScene());
             }
         }
