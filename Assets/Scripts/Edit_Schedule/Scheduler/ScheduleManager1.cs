@@ -28,6 +28,7 @@ namespace Scheduler
         public CollectData collectData;
         public AutoVoiceRecording voiceRecording;
         public DataChecker dataChecker;
+        public BGMcontroller audioCon;
         
         private const float TimeLimit = 150; //시간 제한 사용 방향 기획 필요
         private const float TimeLimitForFinish = 180; //강제종료시간
@@ -37,7 +38,7 @@ namespace Scheduler
         [SerializeField] private Transform hud;
         [SerializeField] private Transform mainUi;
         [SerializeField] private Transform subUi;
-        [SerializeField] private GameObject board;
+        [SerializeField] private Transform board;
         [SerializeField] private Transform finishPanel;
         [SerializeField] private Transform startBtn;
         [SerializeField] private Transform wellDoneAndBye;
@@ -596,6 +597,7 @@ namespace Scheduler
                 ReSetAll();
                 SetYellowForCards();
                 StartCoroutine(hud.GetComponent<HUDSchedule>().HalfInfoSetUiTxt());
+                StartCoroutine(audioCon.PlaySecInfo());
                 return;
             }
 
@@ -606,6 +608,8 @@ namespace Scheduler
             //board.gameObject.SetActive(false);
             //finishPanel.gameObject.SetActive(false);
             VisibleFinPanel(false);
+            StartCoroutine(audioCon.PlayQuestion());
+            StartCoroutine(WaitSec(4f));
             hud.GetComponent<HUDSchedule>().PopupQuestion(true);
             //wellDoneAndBye.gameObject.SetActive(true);
             //voiceRecording.StopRecordingNBehavior();
@@ -660,7 +664,8 @@ namespace Scheduler
             if (isOn)
             {
                 defCards.SetActive(true);
-                board.GetComponent<CanvasGroup>().alpha = 1;
+                hud.GetComponent<HUDSchedule>().FadeInPanel(board, 1f);
+                //board.GetComponent<CanvasGroup>().alpha = 1;
                 board.GetComponent<CanvasGroup>().blocksRaycasts = true;
 
                 foreach (var currCard in grpList)
@@ -674,7 +679,8 @@ namespace Scheduler
             else
             {
                 defCards.SetActive(false);
-                board.GetComponent<CanvasGroup>().alpha = 0;
+                hud.GetComponent<HUDSchedule>().FadeOutPanel(board, 1f);
+                //board.GetComponent<CanvasGroup>().alpha = 0;
                 board.GetComponent<CanvasGroup>().blocksRaycasts = false;
                 
                 foreach (var currCard in grpList)
@@ -808,6 +814,11 @@ namespace Scheduler
             {
                 Debug.Log("key : " + card.Key + " value : " + card.Value);
             }
+        }
+        
+        private IEnumerator WaitSec(float sec)
+        {
+            yield return new WaitForSeconds(sec);
         }
     }
 }

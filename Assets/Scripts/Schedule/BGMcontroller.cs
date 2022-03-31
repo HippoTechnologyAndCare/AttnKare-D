@@ -5,7 +5,11 @@ using UnityEngine;
 public class BGMcontroller : MonoBehaviour
 {
     AudioSource audioSource;
-    public AudioClip Intro;
+    public AudioClip[] firstInfoArr;
+    public AudioClip[] secInfoArr;
+    public AudioClip intro;
+    public AudioClip secInfo;
+    public AudioClip question;
     public AudioClip BGM;
     public AudioClip TimeLimit;
     public AudioClip TimeOut;
@@ -26,9 +30,22 @@ public class BGMcontroller : MonoBehaviour
         
         if (Type == "INTRO")
         {
-            audioSource.clip = Intro;
+            audioSource.clip = intro;
             audioSource.loop = false;
         }
+
+        else if (Type == "SecInfo")
+        {
+            audioSource.clip = secInfo;
+            audioSource.loop = false;
+        }
+        
+        else if (Type == "Question")
+        {
+            audioSource.clip = question;
+            audioSource.loop = false;
+        }
+        
         else if (Type == "BGM")
         {
             audioSource.clip = BGM;
@@ -52,5 +69,19 @@ public class BGMcontroller : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         PlayBGMByTypes("INTRO");
+    }
+
+    public IEnumerator PlaySecInfo()
+    {
+        yield return new WaitForSeconds(2f);
+        PlayBGMByTypes("SecInfo");
+        yield return new WaitForSeconds(13.14f);
+        PlayBGMByTypes("BGM");
+    }
+
+    public IEnumerator PlayQuestion()
+    {
+        yield return new WaitForSeconds(1f);
+        PlayBGMByTypes("Question");
     }
 }

@@ -692,7 +692,7 @@ In doubt, do not use this and get in touch with us to learn more before you work
 			Texture _youtubeTexture = editorSkin.FindStyle("YouTube Play Icon").normal.background as Texture;
 
 			_youtubeWatchVideoButtonGuiContent = new GUIContent(" Watch Video",_youtubeTexture);
-			_youtubeQuickIntroGUIContent = new GUIContent(" Quick Intro",_youtubeTexture);
+			_youtubeQuickIntroGUIContent = new GUIContent(" Quick firstInfoArr",_youtubeTexture);
 
 			// set up the Ecosystem skin if not done yet.
 			if (EcosystemSkin==null)

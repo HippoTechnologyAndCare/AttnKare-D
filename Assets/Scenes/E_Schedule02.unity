@@ -2487,7 +2487,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "<color=#03045A>\uACC4\uD68D\uD45C\uB97C \uC9E4\uB54C \uC9D1\uC911\uD558\uAE30
-    \uC5B4\uB824\uC6E0\uB2C8?"
+    \uC5B4\uB824\uC6E0\uC5B4?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d4145b80d4101fb43b29e9e55556c584, type: 2}
   m_sharedMaterial: {fileID: -8169137728636540412, guid: d4145b80d4101fb43b29e9e55556c584,
@@ -7083,10 +7083,11 @@ MonoBehaviour:
   collectData: {fileID: 267640740}
   voiceRecording: {fileID: 267640741}
   dataChecker: {fileID: 39687929}
+  audioCon: {fileID: 1275069355}
   hud: {fileID: 2138600943}
   mainUi: {fileID: 7428048669433816910}
   subUi: {fileID: 275108586}
-  board: {fileID: 1879618241}
+  board: {fileID: 1879618242}
   finishPanel: {fileID: 398394510}
   startBtn: {fileID: 1051352139}
   wellDoneAndBye: {fileID: 95894952}
@@ -13816,7 +13817,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3765873ac6bc1e245b6da5fa726f540e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Intro: {fileID: 8300000, guid: ff585a9a62941c64ba9e44ffb0be9742, type: 3}
+  firstInfoArr:
+  - {fileID: 8300000, guid: a84b83270bdbde24993b57ef15acf2e7, type: 3}
+  - {fileID: 8300000, guid: 3ef24558cd97b2b45bb378667e45e92c, type: 3}
+  - {fileID: 8300000, guid: 1d1c9d63c790f774faf9768aacaf19a7, type: 3}
+  - {fileID: 8300000, guid: c24133c42d88fe443a6866ff743d8224, type: 3}
+  - {fileID: 8300000, guid: bfe6cf6610713884a9f31796bb4039a8, type: 3}
+  - {fileID: 8300000, guid: c46378933b20e6245b6a2c8d2e9a37d8, type: 3}
+  - {fileID: 8300000, guid: a31a6a33028fe544b847c7ee57179efd, type: 3}
+  secInfoArr:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  intro: {fileID: 8300000, guid: 0f1a44f6d7ff1f245805b84a99423cbd, type: 3}
+  secInfo: {fileID: 8300000, guid: 2796aff2069b57b44bf45074b7781aaa, type: 3}
+  question: {fileID: 8300000, guid: 69be718975426494d9012f26b9e39eb1, type: 3}
   BGM: {fileID: 8300000, guid: 4bc76894268653149b64c6224443eb20, type: 3}
   TimeLimit: {fileID: 8300000, guid: b80e681dae5acf347b9e56d3d62da9e3, type: 3}
   TimeOut: {fileID: 8300000, guid: 1a8fa31483637f843a82e0af75d42d1b, type: 3}
@@ -23080,24 +23095,24 @@ MonoBehaviour:
   dictionaryData: {fileID: 11400000, guid: 5e2f7f801d6959c42a3085bd4c86d1be, type: 2}
   keys:
   - "<color=#4EF848>\uC0C1\uCF8C\uD55C \uC544\uCE68\uC774 \uBC1D\uC558\uC5B4"
-  - "<color=#4EF848>\uC624\uB298\uC758 \uBC29\uD559 \uACC4\uD68D\uD45C\uB97C \uB9CC\uB4E4\uC5B4\uBCF4\uC790!<br>\uACC4\uD68D\uD45C
-    \uC9DC\uAE30\uB97C \uCD1D 2\uBC88 \uD560\uAC70\uC57C"
-  - "<color=#4EF848>\uC67C\uCABD\uC5D0 \uBCF4\uC774\uB294 \uD560\uC77C\uCE74\uB4DC\uB97C
-    <br>\uC624\uB978\uCABD \uACC4\uD68D\uD45C\uC5D0 \uD55C\uCE78\uC529 \uC62E\uACA8\uBD10"
-  - "<color=#4EF848>\uACC4\uD68D\uD45C\uB97C \uB2E4 \uCC44\uC6B4\uB2E4\uC74C <br>\uC644\uB8CC
+  - "<color=#4EF848>\uC624\uB298\uC758 \uBC29\uD559 \uACC4\uD68D\uD45C\uB97C \uB9CC\uB4E4\uC5B4
+    \uBCF4\uC790!<br>\uACC4\uD68D\uD45C \uC9DC\uAE30\uB97C \uCD1D 2\uBC88 \uD560\uAC70\uC57C"
+  - "<color=#4EF848>\uC67C\uCABD\uC5D0 \uBCF4\uC774\uB294 \uD560 \uC77C \uCE74\uB4DC\uB97C
+    <br>\uC624\uB978\uCABD \uACC4\uD68D\uD45C\uC5D0 \uD55C \uCE78\uC529 \uC62E\uACA8\uBD10"
+  - "<color=#4EF848>\uACC4\uD68D\uD45C\uB97C \uB2E4 \uCC44\uC6B4 \uB2E4\uC74C <br>\uC644\uB8CC
     \uBC84\uD2BC\uC744 \uB204\uB974\uC790"
   - "<color=#4EF848>\uADF8\uB9AC\uACE0 \uD55C\uBC88 \uB354!<br>\uB0B4\uC77C \uACC4\uD68D\uD45C\uB97C
     \uCC44\uC6CC\uBD10!"
   - "<color=#4EF848>\uC790! \uC774\uC81C \uC2DC\uC791\uD574 \uBCFC\uAE4C?"
-  - "<color=#4EF848>\uC81C\uD55C \uC2DC\uAC04\uC740 2\uBD8430\uCD08\uC57C"
+  - "<color=#4EF848>\uC81C\uD55C \uC2DC\uAC04\uC740 2\uBD84\uC774\uC57C"
   values:
-  - 3
-  - 3.7
-  - 3.5
-  - 3.8
-  - 3.2
-  - 3.1
-  - 2
+  - 2.7
+  - 6.2
+  - 5.66
+  - 4.62
+  - 4.73
+  - 2.53
+  - 3.06
   modifyValues: 0
 --- !u!114 &2138600945
 MonoBehaviour:
@@ -23120,7 +23135,7 @@ MonoBehaviour:
   audSIntro: {fileID: 0}
   audCIntro: []
   dotAnim: []
-  infoCanvas: {fileID: 3322299606042306106}
+  infoPanel: {fileID: 3322299606679666104}
   howToTMP: {fileID: 3322299606715709604}
   howToScriptTxt:
   - "<color=#4EF848>\uBC29\uD559 \uACC4\uD68D\uD45C\uB97C \uB9CC\uB4E4\uC5B4\uBCF4\uC790!<br>\uACC4\uD68D\uD45C
@@ -23147,16 +23162,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dictionaryData: {fileID: 11400000, guid: bfda00ab49d4adb4aa988645a01e3a0a, type: 2}
   keys:
-  - "<color=#4EF848>\uC790! <br>\uC774\uC81C \uB0B4\uC77C \uACC4\uD68D\uD45C\uB97C
+  - "<color=#4EF848>\uC790! <br>\uC774\uC81C\uB294 \uB0B4\uC77C \uACC4\uD68D\uD45C\uB97C
     \uB9CC\uB4E4\uAC70\uC57C"
-  - "<color=#4EF848>\uC774\uBC88\uC5D0\uB294 \uB178\uB780\uCE74\uB4DC\uB97C \uB418\uB3C4\uB85D\uC774\uBA74
-    \uC0AC\uC6A9\uD558\uC9C0\uB9D0\uACE0<br>\uB098\uBA38\uC9C0 \uCE74\uB4DC\uB97C
+  - "<color=#4EF848>\uC774\uBC88\uC5D0\uB294 \uB178\uB780 \uCE74\uB4DC\uB97C \uB418\uB3C4\uB85D\uC774\uBA74
+    \uC0AC\uC6A9\uD558\uC9C0 \uB9D0\uACE0<br>\uB098\uBA38\uC9C0 \uCE74\uB4DC\uB97C
     \uC774\uC6A9\uD574 \uACC4\uD68D\uD45C\uB97C \uB9CC\uB4E4\uC5B4 \uBD10"
   - "<color=#4EF848>\uC774\uC81C \uC2DC\uC791\uD560\uAC8C!"
   values:
-  - 2.5
-  - 4
-  - 1.5
+  - 3.87
+  - 7.37
+  - 1.9
   modifyValues: 0
 --- !u!136 &1530192319777349
 CapsuleCollider:
@@ -55735,18 +55750,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!225 &3322299606042306105
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3322299606042306111}
-  m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 0
-  m_IgnoreParentGroups: 0
 --- !u!223 &3322299606042306106
 Canvas:
   m_ObjectHideFlags: 0
@@ -55823,7 +55826,6 @@ GameObject:
   - component: {fileID: 3322299606042306106}
   - component: {fileID: 3322299606042306107}
   - component: {fileID: 3322299606042306104}
-  - component: {fileID: 3322299606042306105}
   m_Layer: 5
   m_Name: HMD_Canvas
   m_TagString: Untagged
@@ -56900,6 +56902,7 @@ GameObject:
   - component: {fileID: 3322299606679666104}
   - component: {fileID: 3322299606679666100}
   - component: {fileID: 3322299606679666101}
+  - component: {fileID: 3322299606679666106}
   m_Layer: 5
   m_Name: Info_Panel
   m_TagString: Necessary
@@ -56907,6 +56910,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!225 &3322299606679666106
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3322299606679666105}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!114 &3322299606715709604
 MonoBehaviour:
   m_ObjectHideFlags: 0

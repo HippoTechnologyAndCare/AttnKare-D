@@ -2,6 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// public class FirstInfoDict
+// {
+//     public float Sec;
+//     public AudioClip Voice;
+//
+//     public FirstInfoDict(float sec, AudioClip voice)
+//     {
+//         this.Sec = sec;
+//         this.Voice = voice;
+//     }
+// }
+
 [CreateAssetMenu(fileName = "New Dictionary Storage", menuName = "Data Objects/Dictionary Storage Object")]
 public class DictionaryScriptableObject : ScriptableObject
 {
