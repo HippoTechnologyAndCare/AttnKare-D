@@ -27,9 +27,9 @@ namespace Scheduler
         public Dictionary<string, int> CardCtnDic;
         public CollectData collectData;
         public AutoVoiceRecording voiceRecording;
-        public ScheduleData scheduleData;
+        public DataChecker dataChecker;
         
-        private const float TimeLimit = 120; //시간 제한 사용 방향 기획 필요
+        private const float TimeLimit = 150; //시간 제한 사용 방향 기획 필요
         private const float TimeLimitForFinish = 180; //강제종료시간
         private const int TotalCardsCtn = 10;         // 총 카드 수
         private const int YelCardCtn = 2;             // 노란 카드의 총 개수
@@ -71,9 +71,10 @@ namespace Scheduler
 
         public float[] Scene2Arr { get; set; }
 
+        private bool clickedReset;
         public bool isReset;
         public bool pointerLock;
-
+        
         private bool leGogo;
         private bool beforeStart;
         private bool firstSelect;
@@ -132,6 +133,7 @@ namespace Scheduler
             completionCtn = 0;
             skipYn = 0;
 
+            clickedReset = false;
             pointerLock = false;
             beforeStart = true;
             isReset = false;
@@ -179,7 +181,7 @@ namespace Scheduler
                         if (timerSec < 0 && timerMin > 0)
                         {
                             timerSec = 59;
-                            timerMin = 0;
+                            timerMin -= 1;
                         }
 
                         string textSec = "";
@@ -362,6 +364,12 @@ namespace Scheduler
             return check;
         }
 
+        public void ClickedReset()
+        {
+            clickedReset = true;
+            ReSetAll();
+        }
+        
         public void ReSetAll()
         {
             PlaySoundByTypes(ESoundType.Click);
@@ -391,7 +399,13 @@ namespace Scheduler
                 ResetGrpList();
 
                 btnFinish.gameObject.SetActive(false);
-                resetCnt += 1;
+
+                if (clickedReset)
+                {
+                    resetCnt += 1;
+                    clickedReset = false;
+                }
+               
             }
         }
 
@@ -632,6 +646,7 @@ namespace Scheduler
             Data_213 제한된 카드를 사용한 횟수
             */
 
+            data210 = dataChecker.scheduleData.data210;
             // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
             Scene2Arr = new[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, _planData01,_planData02, 
                 skipYn, timerForBeforeStarted, timerForFirstSelect, data210, data211, data212, data213, data214 };
