@@ -16,7 +16,8 @@ public enum ESoundType
     In,
     Click,
     Cnt,
-    Put
+    Put,
+    Pop
 }
 
 namespace Scheduler
@@ -57,6 +58,7 @@ namespace Scheduler
         [SerializeField] private Transform btnFinish;
         [SerializeField] private Transform starParticle;
         [SerializeField] private Transform boomParticle;
+        [SerializeField] private Transform tesEmoji;
 
         [SerializeField] private TextMeshProUGUI textTitle;
 
@@ -122,6 +124,7 @@ namespace Scheduler
         [FormerlySerializedAs("sound_In")] public AudioClip soundIn;
         [FormerlySerializedAs("sound_Click")] public AudioClip soundClick;
         [FormerlySerializedAs("sound_Put")] public AudioClip soundPut;
+        [SerializeField] private AudioClip soundPop;
         private AudioSource audioSource;
 
         [Header("Managers")]
@@ -431,6 +434,7 @@ namespace Scheduler
             if (allDone)
             {
                 btnFinish.gameObject.SetActive(true);
+                PlaySoundByTypes(ESoundType.Pop);
                 starParticle.GetComponent<ParticleSystem>().Play();
             }
         }
@@ -582,6 +586,7 @@ namespace Scheduler
             VisibleBoard(true);
             VisibleFinPanel(false);
             btnFinish.gameObject.SetActive(true);
+            starParticle.GetComponent<ParticleSystem>().Play();
 
             selectNoCtn += 1;
         }
@@ -631,6 +636,7 @@ namespace Scheduler
         {
             yield return new WaitForSeconds(1f);
             audioCon.PlayBGMByTypes("Question");
+            tesEmoji.gameObject.SetActive(true);
             yield return new WaitForSeconds(4f);
             
             hud.GetComponent<HUDSchedule>().PopupQuestion(true);
@@ -640,6 +646,7 @@ namespace Scheduler
         {
             data214 = 1;
             hud.GetComponent<HUDSchedule>().PopupQuestion(false);
+            tesEmoji.gameObject.SetActive(false);
             EndScene();
         }
 
@@ -647,6 +654,7 @@ namespace Scheduler
         {
             data214 = 0;
             hud.GetComponent<HUDSchedule>().PopupQuestion(false);
+            tesEmoji.gameObject.SetActive(false);
             EndScene();
         }
 
@@ -835,6 +843,7 @@ namespace Scheduler
                 ESoundType.In => soundIn,
                 ESoundType.Cnt => soundCount,
                 ESoundType.Put => soundPut,
+                ESoundType.Pop => soundPop,
                 _ => null
             };
             audioSource.Play();
