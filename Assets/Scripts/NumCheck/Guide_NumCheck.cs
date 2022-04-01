@@ -100,10 +100,12 @@ public class Guide_NumCheck : MonoBehaviour
 
     }
     void Start()
-    {
+    {/*
         gradeLH = DataManager.GetInstance().userInfo.Grade;
         if (gradeLH == "L") buildIndex = 4;
         if (gradeLH == "H") buildIndex = 8;
+        */
+        buildIndex = 13;
         SetTrigger();
         auto = GetComponentInChildren<AutoButton>();
         StartCoroutine(GameStart());

@@ -53,7 +53,7 @@ public class SkipForSchedule1 : MonoBehaviour
             if (bActive) // if hand is what touching button
             {
                 scheManager.FinishPanel_Yes(true);
-                coroutine = StartCoroutine(NextScene());
+              //  coroutine = StartCoroutine(NextScene());
             }
         }
 

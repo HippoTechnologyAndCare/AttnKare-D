@@ -209,7 +209,7 @@ using BNG;
         yield return new WaitForSeconds(8.0f);
         // if 문으로 고학년 저학년 분리
         VoiceRecord.StopRecordingNBehavior();
-        DataSend.GetSceneData();
+       // DataSend.GetSceneData();
         desPos = new Vector3(-0.02f, -0.693f, 2.795f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>그랬구나~!", audioIndex = 4,3.0f));
         yield return new WaitForSeconds(3.0f);
