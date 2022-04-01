@@ -121,7 +121,7 @@ public class AudioManager : MonoBehaviour
     // Call StageManager.AudioEnd() after audio finishes playing
     public IEnumerator AudioEnd(int stage)
     {
-        yield return new WaitForSeconds(m_waitLength[stage]);
+        yield return new WaitForSeconds(m_waitLength[stage] + 1f);
 
         StageManager.AudioEnd(stage);
 

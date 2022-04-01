@@ -16,7 +16,8 @@ public enum ESoundType
     In,
     Click,
     Cnt,
-    Put
+    Put,
+    Pop
 }
 
 namespace Scheduler
@@ -27,17 +28,22 @@ namespace Scheduler
         public Dictionary<string, int> CardCtnDic;
         public CollectData collectData;
         public AutoVoiceRecording voiceRecording;
+        public DataChecker dataChecker;
+        public BGMcontroller audioCon;
         
-        private const float TimeLimit = 120; //시간 제한 사용 방향 기획 필요
+        private const float TimeLimit = 150; //시간 제한 사용 방향 기획 필요
         private const float TimeLimitForFinish = 180; //강제종료시간
         private const int TotalCardsCtn = 10;         // 총 카드 수
         private const int YelCardCtn = 2;             // 노란 카드의 총 개수
 
+        [SerializeField] private Transform rightPointer;
+
         [SerializeField] private Transform hud;
         [SerializeField] private Transform mainUi;
         [SerializeField] private Transform subUi;
-        [SerializeField] private GameObject board;
+        [SerializeField] private Transform board;
         [SerializeField] private Transform finishPanel;
+        [SerializeField] private Transform cardTitle;
         [SerializeField] private Transform startBtn;
         [SerializeField] private Transform wellDoneAndBye;
         
@@ -50,6 +56,9 @@ namespace Scheduler
         [SerializeField] private Text result;
 
         [SerializeField] private Transform btnFinish;
+        [SerializeField] private Transform starParticle;
+        [SerializeField] private Transform boomParticle;
+        [SerializeField] private Transform tesEmoji;
 
         [SerializeField] private TextMeshProUGUI textTitle;
 
@@ -65,14 +74,15 @@ namespace Scheduler
         [SerializeField] private List<Transform> slotList; 
         public List<Transform> grpList;
         private List<Transform> oPosList;
-        //private List<string> cardList = new List<string>();
+        
         [SerializeField] private string[] yelCardsArr = new string[YelCardCtn];
 
         public float[] Scene2Arr { get; set; }
 
+        private bool clickedReset;
         public bool isReset;
         public bool pointerLock;
-
+        
         private bool leGogo;
         private bool beforeStart;
         private bool firstSelect;
@@ -114,6 +124,7 @@ namespace Scheduler
         [FormerlySerializedAs("sound_In")] public AudioClip soundIn;
         [FormerlySerializedAs("sound_Click")] public AudioClip soundClick;
         [FormerlySerializedAs("sound_Put")] public AudioClip soundPut;
+        [SerializeField] private AudioClip soundPop;
         private AudioSource audioSource;
 
         [Header("Managers")]
@@ -131,6 +142,7 @@ namespace Scheduler
             completionCtn = 0;
             skipYn = 0;
 
+            clickedReset = false;
             pointerLock = false;
             beforeStart = true;
             isReset = false;
@@ -178,7 +190,7 @@ namespace Scheduler
                         if (timerSec < 0 && timerMin > 0)
                         {
                             timerSec = 59;
-                            timerMin = 0;
+                            timerMin -= 1;
                         }
 
                         string textSec = "";
@@ -233,11 +245,13 @@ namespace Scheduler
         {
             collectData.AddTimeStamp("TIME LIMIT");
             bgmController.GetComponent<BGMcontroller>().PlayBGMByTypes("LIMIT");
+            rightPointer.gameObject.SetActive(false);
 
             timerSec = 30;
 
             yield return new WaitForSeconds(6);
-
+            rightPointer.gameObject.SetActive(true);
+            
             bgmController.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
         }
 
@@ -245,8 +259,10 @@ namespace Scheduler
         {
             collectData.AddTimeStamp("TIME OUT");
             bgmController.GetComponent<BGMcontroller>().PlayBGMByTypes("OUT");
+            rightPointer.gameObject.SetActive(false);
 
             yield return new WaitForSeconds(6);
+            rightPointer.gameObject.SetActive(true);
 
             FinishPanel_Yes(true);
         }
@@ -361,6 +377,12 @@ namespace Scheduler
             return check;
         }
 
+        public void ClickedReset()
+        {
+            clickedReset = true;
+            ReSetAll();
+        }
+        
         public void ReSetAll()
         {
             PlaySoundByTypes(ESoundType.Click);
@@ -390,7 +412,13 @@ namespace Scheduler
                 ResetGrpList();
 
                 btnFinish.gameObject.SetActive(false);
-                resetCnt += 1;
+
+                if (clickedReset)
+                {
+                    resetCnt += 1;
+                    clickedReset = false;
+                }
+               
             }
         }
 
@@ -406,6 +434,8 @@ namespace Scheduler
             if (allDone)
             {
                 btnFinish.gameObject.SetActive(true);
+                PlaySoundByTypes(ESoundType.Pop);
+                starParticle.GetComponent<ParticleSystem>().Play();
             }
         }
 
@@ -522,10 +552,12 @@ namespace Scheduler
             textTitle.text = "<color=#FFFFFF>시작 !";
             yield return new WaitForSeconds(1f);
 
+            startBtn.GetChild(0).GetComponent<Button>().enabled = true;
             mainUi.GetComponent<GraphicRaycaster>().enabled = true;
-            //subUi.gameObject.SetActive(false);
+            
             VisibleStartBtn(false);
-            board.gameObject.SetActive(true);
+            //board.gameObject.SetActive(true);
+            board.GetComponent<CanvasGroup>().blocksRaycasts = true;
             beforeStart = false;
             leGogo = true;
             firstSelect = true;
@@ -541,19 +573,20 @@ namespace Scheduler
         public void ShowFinishPanel()
         {
             PlaySoundByTypes(ESoundType.Click);
-            //board.gameObject.SetActive(false);
+            
             VisibleBoard(false);
-            //finishPanel.gameObject.SetActive(true);
             VisibleFinPanel(true);
+            btnFinish.gameObject.SetActive(false);
         }
 
         public void FinishPanel_No()
         {
             PlaySoundByTypes(ESoundType.Click);
-            //board.gameObject.SetActive(true);
+         
             VisibleBoard(true);
-            //finishPanel.gameObject.SetActive(false);
             VisibleFinPanel(false);
+            btnFinish.gameObject.SetActive(true);
+            starParticle.GetComponent<ParticleSystem>().Play();
 
             selectNoCtn += 1;
         }
@@ -563,15 +596,18 @@ namespace Scheduler
             
             Debug.Log("isSkip = " + isSkip);
             // 완료한 계획표 횟수
-            completionCtn += 1;
-            
+            if (!isSkip)
+            {
+                completionCtn += 1;
+            }
+
             PlaySoundByTypes(ESoundType.Click);
             
             // n번째로 완성한 계획표 변수로 저장
             SortedCardData(isSkip);
 
             //몇번째 완료인지 체크 
-            if (completionCtn == 1) // 첫번째 완료라면 아래의 프로세싱 후 재 시작
+            if (completionCtn == 1 && !isSkip) // 첫번째 완료라면 아래의 프로세싱 후 재 시작
             {
                 //board.gameObject.SetActive(true);
                 VisibleBoard(true);
@@ -581,6 +617,7 @@ namespace Scheduler
                 ReSetAll();
                 SetYellowForCards();
                 StartCoroutine(hud.GetComponent<HUDSchedule>().HalfInfoSetUiTxt());
+                StartCoroutine(audioCon.PlaySecInfo());
                 return;
             }
 
@@ -588,18 +625,28 @@ namespace Scheduler
 
             leGogo = false;
 
-            //board.gameObject.SetActive(false);
-            //finishPanel.gameObject.SetActive(false);
+            slot.gameObject.SetActive(false);
+            grp.gameObject.SetActive(false);
             VisibleFinPanel(false);
-            hud.GetComponent<HUDSchedule>().PopupQuestion(true);
-            //wellDoneAndBye.gameObject.SetActive(true);
-            //voiceRecording.StopRecordingNBehavior();
+            
+            StartCoroutine(AskQuestion());
         }
 
+        private IEnumerator AskQuestion()
+        {
+            yield return new WaitForSeconds(1f);
+            audioCon.PlayBGMByTypes("Question");
+            tesEmoji.gameObject.SetActive(true);
+            yield return new WaitForSeconds(4f);
+            
+            hud.GetComponent<HUDSchedule>().PopupQuestion(true);
+        }
+        
         public void Yes_Question()
         {
             data214 = 1;
             hud.GetComponent<HUDSchedule>().PopupQuestion(false);
+            tesEmoji.gameObject.SetActive(false);
             EndScene();
         }
 
@@ -607,12 +654,14 @@ namespace Scheduler
         {
             data214 = 0;
             hud.GetComponent<HUDSchedule>().PopupQuestion(false);
+            tesEmoji.gameObject.SetActive(false);
             EndScene();
         }
 
         private void EndScene()
         {
             wellDoneAndBye.gameObject.SetActive(true);
+            boomParticle.GetComponent<ParticleSystem>().Play();
             voiceRecording.StopRecordingNBehavior();
             
             /*
@@ -631,6 +680,7 @@ namespace Scheduler
             Data_213 제한된 카드를 사용한 횟수
             */
 
+            data210 = dataChecker.scheduleData.data210;
             // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
             Scene2Arr = new[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, _planData01,_planData02, 
                 skipYn, timerForBeforeStarted, timerForFirstSelect, data210, data211, data212, data213, data214 };
@@ -644,7 +694,9 @@ namespace Scheduler
             if (isOn)
             {
                 defCards.SetActive(true);
-                board.GetComponent<CanvasGroup>().alpha = 1;
+                cardTitle.gameObject.SetActive(true);
+                hud.GetComponent<HUDSchedule>().FadeInPanel(board, 1f);
+                
                 board.GetComponent<CanvasGroup>().blocksRaycasts = true;
 
                 foreach (var currCard in grpList)
@@ -653,12 +705,19 @@ namespace Scheduler
                     currCard.GetChild(2).GetComponent<MeshRenderer>().enabled = true;
                     //currCard.GetComponent<MeshRenderer>().enabled = true;
                 }
+
+                foreach (var slot in slotList)
+                {
+                    slot.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+                }
             }
             
             else
             {
                 defCards.SetActive(false);
-                board.GetComponent<CanvasGroup>().alpha = 0;
+                cardTitle.gameObject.SetActive(false);
+                hud.GetComponent<HUDSchedule>().FadeOutPanel(board, 1f);
+                
                 board.GetComponent<CanvasGroup>().blocksRaycasts = false;
                 
                 foreach (var currCard in grpList)
@@ -666,6 +725,11 @@ namespace Scheduler
                     //currCard = currCard.GetComponent<PlanSlotController1>().passenger.transform;
                     currCard.GetChild(2).GetComponent<MeshRenderer>().enabled = false;
                     //currCard.GetComponent<MeshRenderer>().enabled = false;
+                }
+                
+                foreach (var slot in slotList)
+                {
+                    slot.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
                 }
             }
         }
@@ -706,8 +770,9 @@ namespace Scheduler
             if (isSkip)
             {
                 skipYn = 1;
-                subUi.gameObject.SetActive(false);
-                //Schedule.gameObject.SetActive(true);
+                VisibleBoard(false);
+                VisibleFinPanel(false);
+                VisibleStartBtn(false);
             }
             else
             {
@@ -778,6 +843,7 @@ namespace Scheduler
                 ESoundType.In => soundIn,
                 ESoundType.Cnt => soundCount,
                 ESoundType.Put => soundPut,
+                ESoundType.Pop => soundPop,
                 _ => null
             };
             audioSource.Play();
@@ -792,6 +858,11 @@ namespace Scheduler
             {
                 Debug.Log("key : " + card.Key + " value : " + card.Value);
             }
+        }
+        
+        private IEnumerator WaitSec(float sec)
+        {
+            yield return new WaitForSeconds(sec);
         }
     }
 }

@@ -19,7 +19,7 @@ public class HUDSchedule : MonoBehaviour
     [SerializeField] DictionaryScriptableObject dicData02;
 
     [SerializeField] private ScheduleManager1 schManager;
-    [SerializeField] private Transform QuestionPanel;
+    [SerializeField] private Transform questionPanel;
     
     /*************************************************************************
     //처음 안내문구 음성과 문구을 전시합니다
@@ -31,7 +31,7 @@ public class HUDSchedule : MonoBehaviour
     [SerializeField] private Dictionary<string, float> txtNTimingDic01;
     [SerializeField] private Dictionary<string, float> txtNTimingDic02;
     
-    public Canvas infoCanvas;
+    public Transform infoPanel;
 
     [SerializeField] private TextMeshProUGUI howToTMP;
     [SerializeField] private string[] howToScriptTxt;
@@ -76,7 +76,7 @@ public class HUDSchedule : MonoBehaviour
             if (!_isFade)
             {
                 howToTMP.SetText(item.Key);
-                FadeInCanvas(infoCanvas, 1f); // Info Canvas fade In
+                FadeInPanel(infoPanel, 1f); // Info Canvas fade In
                 _isFade = true;
                 index = dicScript01.TxtDictionary.Values.ToList().IndexOf(item.Value);
                 Debug.Log(index + " 번째값");
@@ -93,7 +93,7 @@ public class HUDSchedule : MonoBehaviour
         }
 
         _isFade = false;
-        FadeOutCanvas(infoCanvas, 1f);
+        FadeOutPanel(infoPanel, 1f);
         yield return new WaitForSeconds(1f);
         //schManager.subUi.gameObject.SetActive(true);
         schManager.VisibleStartBtn(true);
@@ -109,7 +109,7 @@ public class HUDSchedule : MonoBehaviour
             if (!_isFade)
             {
                 howToTMP.SetText(item.Key);
-                FadeInCanvas(infoCanvas, 1f); // Info Canvas fade In
+                FadeInPanel(infoPanel, 1f); // Info Canvas fade In
                 _isFade = true;
                 index = dicScript02.TxtDictionary.Values.ToList().IndexOf(item.Value);
                 Debug.Log(index + " 번째값");
@@ -126,7 +126,7 @@ public class HUDSchedule : MonoBehaviour
         }
 
         _isFade = false;
-        FadeOutCanvas(infoCanvas, 1f);
+        FadeOutPanel(infoPanel, 1f);
         yield return new WaitForSeconds(1f);
         //schManager.subUi.gameObject.SetActive(true);
         schManager.VisibleStartBtn(true);
@@ -147,7 +147,7 @@ public class HUDSchedule : MonoBehaviour
             yield return new WaitForSeconds(wait);
         }
 
-        FadeOutCanvas(infoCanvas, 1f); // Info Canvas fade Out
+        FadeOutPanel(infoPanel, 1f); // Info Canvas fade Out
         yield return new WaitForSeconds(2f);
     }
 
@@ -156,12 +156,13 @@ public class HUDSchedule : MonoBehaviour
         switch (isOn)
         {
              case true:
-                 QuestionPanel.GetComponent<CanvasGroup>().alpha = 1;
-                 QuestionPanel.GetComponent<CanvasGroup>().blocksRaycasts = true;
+                 FadeInPanel(questionPanel, 1f);
+                 questionPanel.GetComponent<CanvasGroup>().blocksRaycasts = true;
                  break;
              case false:
-                 QuestionPanel.GetComponent<CanvasGroup>().alpha = 0;
-                 QuestionPanel.GetComponent<CanvasGroup>().blocksRaycasts = false;
+                 FadeOutPanel(questionPanel, 0.5f);
+                 //questionPanel.GetComponent<CanvasGroup>().alpha = 0;
+                 questionPanel.GetComponent<CanvasGroup>().blocksRaycasts = false;
                  break;
              default:
                  Debug.Log("마지막 질문 버튼 동작안함");
@@ -172,21 +173,21 @@ public class HUDSchedule : MonoBehaviour
     /*************************************************************************
     //Canvas Fade
     *************************************************************************/
-    private void FadeInCanvas(Canvas canvas, float time)
+    public void FadeInPanel(Transform panel, float time)
     {
-        if(!canvas) return;  // check valid canvas ?
-        StartCoroutine(AnimAlpha(canvas, time,true));
+        if(!panel) return;  // check valid canvas ?
+        StartCoroutine(AnimAlpha(panel, time,true));
     }
 
-    private void FadeOutCanvas(Canvas canvas, float time)
+    public void FadeOutPanel(Transform panel, float time)
     {
-        if(!canvas) return;  // check valid canvas ?
-        StartCoroutine(AnimAlpha(canvas, time,false));
+        if(!panel) return;  // check valid canvas ?
+        StartCoroutine(AnimAlpha(panel, time,false));
     }
     
-    private IEnumerator AnimAlpha(Canvas canvas,float time, bool bIn)
+    private IEnumerator AnimAlpha(Transform panel,float time, bool bIn)
     {
-        var cg = canvas.GetComponent<CanvasGroup>();
+        var cg = panel.GetComponent<CanvasGroup>();
         cg.alpha = bIn ? 0 : 1f;
         var loop = (int)(time/0.05f);
         var fadeStep = 1f / loop;
@@ -206,6 +207,15 @@ public class HUDSchedule : MonoBehaviour
         aSource.clip  = aClip;
         aSource.Play();
         return aClip.length;  
+    }
+    
+    /*************************************************************************
+    //Wait
+    *************************************************************************/
+
+    private IEnumerator WaitSec(float sec)
+    {
+        yield return new WaitForSeconds(sec);
     }
 
 }

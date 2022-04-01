@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using BNG;
+using UnityEngine.UI;
+using Button = UnityEngine.UI.Button;
 
 // 이 스크립트는 Child 오브젝트에 붙여서 사용해야 합니다
 public class ReAct : MonoBehaviour
@@ -13,7 +15,9 @@ public class ReAct : MonoBehaviour
     [SerializeField] GameObject getParents;
 
     [Header("Find a reference and put it in")]
-    [SerializeField] GrabbablesInTrigger grInTrigger;    
+    [SerializeField] GrabbablesInTrigger grInTrigger;
+
+    [SerializeField] private GameObject btnG;
 
     Rigidbody p_Rigidbody;
     NavMeshAgent p_NavMeshAgent;
@@ -35,6 +39,7 @@ public class ReAct : MonoBehaviour
         Vector3 targetPosition = new Vector3(player.transform.position.x, transform.position.y,
                                                 player.transform.position.z);
         transform.LookAt(targetPosition);
+        btnG.transform.LookAt(targetPosition);
 
         // Nav Mesh Agent 작동 때문에 RigidbodyConstraints.FreezeAll 되어 있는 것을
         // 그랩할때 RigidbodyConstraints.None 해주는 코드 / None이 아니면 그랩불가
@@ -44,7 +49,12 @@ public class ReAct : MonoBehaviour
         }       
     }
 
-    IEnumerator ReAct01()
+    public void StartReAct()
+    {
+        StartCoroutine(ReAct01());
+    }
+    
+    private IEnumerator ReAct01()
     {
         frame.SetActive(true);
         yield return new WaitForSeconds(2f);
