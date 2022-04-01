@@ -16573,7 +16573,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 406cde0be9a40d54ebebbcdf88ea4003, type: 3}
     m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
@@ -25403,6 +25403,9 @@ GameObject:
   - component: {fileID: 7616480652570700678}
   - component: {fileID: 8265179249203415636}
   - component: {fileID: 8265179249203415637}
+  - component: {fileID: 8265179249203415640}
+  - component: {fileID: 8265179249203415639}
+  - component: {fileID: 8265179249203415638}
   m_Layer: 28
   m_Name: Robot_Skip
   m_TagString: Untagged
@@ -25439,6 +25442,45 @@ MonoBehaviour:
   Clicker: {fileID: 1775385756}
   m_buttonUpPos: 0
   m_buttonDownPos: 0
+--- !u!65 &8265179249203415638
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265179249203415635}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.002960809, y: 0.0037208896, z: 0.0027171222}
+  m_Center: {x: -0.00009433399, y: 0.0000011044741, z: -0.005010925}
+--- !u!65 &8265179249203415639
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265179249203415635}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0038071356, y: 0.0062167887, z: 0.0054247435}
+  m_Center: {x: 0.00008419643, y: 0.0000011088451, z: -0.00093835115}
+--- !u!65 &8265179249203415640
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265179249203415635}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0034176477, y: 0.004812848, z: 0.0037199475}
+  m_Center: {x: -0.000044192475, y: -0.000010034641, z: 0.0036133684}
 --- !u!33 &8270441692289885530
 MeshFilter:
   m_ObjectHideFlags: 0
