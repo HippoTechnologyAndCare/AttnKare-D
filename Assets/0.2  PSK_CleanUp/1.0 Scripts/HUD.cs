@@ -42,9 +42,9 @@ public class HUD : MonoBehaviour
     
 
         //전면안내-내방 정리하는 방법 5개 음성 및 Text Animation 전시
-        public void PlayHowTo() {
-            //PlayStart();
-            StartCoroutine("PlayHowToVoiceText");        
+    public void PlayHowTo() {
+        //PlayStart();
+        StartCoroutine("PlayHowToVoiceText");        
     }
     IEnumerator PlayHowToVoiceText() {    
             
