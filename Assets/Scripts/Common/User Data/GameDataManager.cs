@@ -79,7 +79,8 @@ public class GameDataManager : MonoBehaviour
                 saveCurrentSceneData = SetData;                            
                 break;
             case 5: //CRUM
-                saveCurrentSceneData = SetData_pm;                            
+                objToFind = FindObjectOfType<CleanUp.Guide>().gameObject;
+                saveCurrentSceneData = SetData;
                 break;
             case 6: //PlayPaddle
                 objToFind = FindObjectOfType<Guide_Paddle>().gameObject;
@@ -127,7 +128,7 @@ public class GameDataManager : MonoBehaviour
                 setPlayerData.SetSceneData(objToFind.GetComponent<EasyTubeScoreboard>().scene2arr);
                 break;
             case 5: //CRUM
-                //setPlayerData.SetSceneData(objToFind.GetComponent<CleanUp.Guide>().m_dataReportFloat);
+                setPlayerData.SetSceneData(objToFind.GetComponent<CleanUp.Guide>().m_dataReportFloat);
                 break;
             case 6: //PlayPaddle
                 setPlayerData.SetSceneData(objToFind.GetComponent<Guide_Paddle>().arrData);
@@ -150,7 +151,7 @@ public class GameDataManager : MonoBehaviour
 
     private void SetData_pm(int sceneIndex)
     {
-        setPlayerData.SetSceneData(objToFind.GetComponent<CleanUp.Guide>().m_dataReportFloat);
+        //setPlayerData.SetSceneData(objToFind.GetComponent<CleanUp.Guide>().m_dataReportFloat);
         //GameObject.Find("SetPlayerData").SendMessage("SetSceneData");
     }    
 }

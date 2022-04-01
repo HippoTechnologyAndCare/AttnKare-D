@@ -110,7 +110,7 @@ public class SetPlayerData : MonoBehaviour
     {
         if (currentKey <= 199) _eachLastKey = 107;
         else if (currentKey <= 299) _eachLastKey = 214;
-        else if (currentKey <= 399) _eachLastKey = 308;
+        else if (currentKey <= 399) _eachLastKey = 309;
         else if (currentKey <= 499) _eachLastKey = 419;
         else if (currentKey <= 599) _eachLastKey = 509;
         else if (currentKey <= 699) _eachLastKey = 611;
