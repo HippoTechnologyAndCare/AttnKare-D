@@ -74,7 +74,7 @@ public class skipButtonCR : MonoBehaviour
     IEnumerator PressedFirst()
     {
 
-        float lerpTime = 0f;
+        //float lerpTime = 0f;
         /*
         while (FinishCanvas.alpha < 1.0f) //fade in
         {
@@ -84,13 +84,13 @@ public class skipButtonCR : MonoBehaviour
         }
         */
         m_Hud.PlayWarning();
-        yield return new WaitForSeconds(0.8f);
+        //yield return new WaitForSeconds(0.8f);
 
         bFin = true;
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(7f);
 
 
-        lerpTime = 0f;
+        //lerpTime = 0f;
         /*
         while (FinishCanvas.alpha > 0f) //fade out
         {
@@ -100,7 +100,7 @@ public class skipButtonCR : MonoBehaviour
         }
         */
 
-        yield return new WaitForSeconds(4.0f);
+        //yield return new WaitForSeconds(4.0f);
 
         bFin = false; //if not pressed for 7 seconds turn off 
 

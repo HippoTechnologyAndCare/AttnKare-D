@@ -12,7 +12,7 @@ public class Guide : MonoBehaviour {
 
     public static  float    TIMEOUT_ARRANGE = 120f; //방청소 시간제한 2분_Timer
     public static  float    TIMEOUT_SCENE   = 300f; //Scene의 시간제한 5분, 다음게임으로    
-    public int              NEXT_SCENE      = 6;
+    public int              NEXT_SCENE      = 2;
     public bool BookFixed = true;
     public enum STATE { 
         INTRO,         
