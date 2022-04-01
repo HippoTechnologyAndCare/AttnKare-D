@@ -37,6 +37,7 @@ public class FactoryManager : MonoBehaviour
     [SerializeField] AudioManager m_audioManager;                       // AudioManager.cs
     [SerializeField] UIManager m_UIManager;                             // UIManager.cs
     [SerializeField] BNG.CollectData m_collectData;                     // CollectData.cs
+    [SerializeField] AutoVoiceRecording m_autoVoiceRecording;           // AutoVoiceRecording.cs
     [SerializeField] bool m_dataIsDictionary;                           // Should json data be in dictionary format?
     [SerializeField] PlayArea m_playArea;                               // PlayArea.cs
 
@@ -205,11 +206,12 @@ public class FactoryManager : MonoBehaviour
         m_gameData.SetDataSaved(true);
         
         FormatJson();
-        /*m_json = JsonConvert.SerializeObject(m_gameData, Formatting.Indented);*/
 
         ExportAsJson();
 
-        m_collectData.SaveBehaviorData();
+        /*m_collectData.SaveBehaviorData();*/
+
+        m_autoVoiceRecording.StopRecordingNBehavior();
 
         Debug.Log("Game Data has been Saved!");
     }
