@@ -130,7 +130,7 @@ public class skipButtonCR : MonoBehaviour
         */
         Debug.Log("finbuttono");
         m_Guide.OnFinButtonDown();
-        m_Hud.PlaySceneTimeOut();
+        //m_Hud.PlaySceneTimeOut();
         yield return new WaitForSeconds(1.0f);
 
 

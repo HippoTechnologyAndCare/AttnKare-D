@@ -403,7 +403,7 @@ public class Books : MonoBehaviour {
                 //끌려올때 인식 방지
                 if (m_bGrabbed == false && Input.GetButton("XRI_Right_TriggerButton"))
                 {
-                    Debug.Log("wow");
+                    //Debug.Log("wow");
                     return;
                 }
                 
