@@ -336,7 +336,7 @@ public class Guide_NumCheck : MonoBehaviour
         auto.enabled = false;
         dataCheck.GetAllData();
         DataCollection.StopRecordingNBehavior();
-        DataSend.GetSceneData();
+      //  DataSend.GetSceneData();
         GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
         StartCoroutine(ClearCoroutine());
     }
