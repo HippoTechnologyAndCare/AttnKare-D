@@ -309,6 +309,8 @@ public class Guide : MonoBehaviour {
         m_nSurveyResult = buttonQA.m_nResult;
         if (m_bTImeOutScene) m_nFinBtnDown = 3;
             ReportData();
+
+
         //이전상태가 TIMEOUT_SCENE상태에서 넘어오면 아쉬지만...표시
         if(m_bTImeOutScene) {
             m_Hud.PlayTimeOut();
@@ -327,6 +329,8 @@ public class Guide : MonoBehaviour {
     void Run_Next() { }
 
     public float[] m_dataReportFloat = new float[9];// = new float[10];
+        public GameDataManager saveJson_MG;
+        public AutoVoiceRecording saveVoice_MG;
 
     void ReportData() {
 
@@ -417,6 +421,8 @@ public class Guide : MonoBehaviour {
 
             }
                */
+            saveJson_MG.SaveCurrentData();
+            saveVoice_MG.StopRecordingNBehavior();
         }
 
         /*****************************************************************************

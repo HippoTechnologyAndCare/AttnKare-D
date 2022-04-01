@@ -48,16 +48,17 @@ public class Guide_Tutorial : MonoBehaviour
     public int trigInt;
 
     private string gradeLH;
-    public int buildIndex;
+    public int buildIndex = 5;
     Coroutine runningcoroutine = null;
     void Start()
     {
-        StartCoroutine(StartTutorial());
+        StartCoroutine(StartTutorial());/*
         GameObject JasonManager = GameObject.Find("DataManager");
         dataManager = JasonManager.GetComponent<DataManager>();
         gradeLH = dataManager.userInfo.Grade;
         if (gradeLH == "L") buildIndex = 3;
         if (gradeLH == "H") buildIndex = 7;
+        */
     }
     private void Update()
     {
@@ -150,7 +151,7 @@ public class Guide_Tutorial : MonoBehaviour
         m_goFade = Instantiate(prefabFadeOut, CenterEye.transform.position, Quaternion.identity);
         m_goFade.transform.SetParent(CenterEye.transform);
         yield return new WaitForSeconds(3f);
-        KetosGames.SceneTransition.SceneLoader.LoadScene(buildIndex);
+        KetosGames.SceneTransition.SceneLoader.LoadScene(5);
     }
 
     IEnumerator StartTutorial()
@@ -232,7 +233,7 @@ public class Guide_Tutorial : MonoBehaviour
         SceneTransitionCircle.GetComponent<SceneTransition_Tutorial>().enabled = false;
         SceneTransitionCircle.GetComponent<BoxCollider>().enabled = false;
         yield return new WaitForSeconds(1);
-        DataSend.GetSceneData();
+     //   DataSend.GetSceneData();
         DataCollect.StopRecordingNBehavior();
         Ghost.SetActive(false);
         StartCoroutine(FadeOut());

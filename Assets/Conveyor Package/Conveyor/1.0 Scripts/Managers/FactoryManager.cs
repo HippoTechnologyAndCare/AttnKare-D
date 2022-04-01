@@ -88,6 +88,7 @@ public class FactoryManager : MonoBehaviour
     public static void LoadNextScene()
     {
         Debug.Log("Load Next Scene Function Called");
+        SceneManager.LoadScene(9);
         // Load Scene by Scene Index
 
     }

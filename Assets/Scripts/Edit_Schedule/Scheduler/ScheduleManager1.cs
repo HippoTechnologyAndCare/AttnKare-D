@@ -832,7 +832,7 @@ namespace Scheduler
 
             finishCntDwn.text = "1";
             yield return new WaitForSeconds(1);
-            SceneLoader.LoadScene(3);
+            SceneLoader.LoadScene(4);
         }
 
         public void PlaySoundByTypes(ESoundType soundType)
