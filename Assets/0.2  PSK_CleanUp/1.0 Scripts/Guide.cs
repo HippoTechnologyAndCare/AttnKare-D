@@ -191,12 +191,17 @@ public class Guide : MonoBehaviour {
 
     //Fin Button 처리    
     public void OnFinButtonDown() {
+            /*
         m_nFinBtnDown++;
         if(m_nFinBtnDown<2) m_Hud.PlayWarning();
         if(m_nFinBtnDown==2) {
             m_Hud.ShowMoving();
             Make_End();
-        }       
+        }
+            */
+            m_nFinBtnDown = 2;
+            m_Hud.ShowMoving();
+            Make_End();
     }
     //평가관련 : 총이동거리를 계산합니다.
     public Transform  m_Character; //CenterEyeAnchor Transform할당
@@ -302,7 +307,8 @@ public class Guide : MonoBehaviour {
         MakeGrabbable(false);
             //마지막에 해야할 평가작업등을 추가하십시요
         m_nSurveyResult = buttonQA.m_nResult;
-        ReportData();
+        if (m_bTImeOutScene) m_nFinBtnDown = 3;
+            ReportData();
         //이전상태가 TIMEOUT_SCENE상태에서 넘어오면 아쉬지만...표시
         if(m_bTImeOutScene) {
             m_Hud.PlayTimeOut();
