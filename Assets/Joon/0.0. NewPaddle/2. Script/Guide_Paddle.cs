@@ -28,7 +28,7 @@ public class Guide_Paddle : MonoBehaviour
     private string m_strOrder;
     public GrabPaddle GrabPaddle;
     public Animation FriendAnimation;
-    public bool m_bStamp = false; //ìŠ¤íƒ¬í”„ 1íšŒì”©ë§Œ ë°•ëŠ”ìš© bool
+    public bool m_bStamp = false; //½ºÅÆÇÁ 1È¸¾¿¸¸ ¹Ú´Â¿ë bool
     float m_nWrongSpeed;
     float m_nWrongOrder;
 
@@ -42,19 +42,19 @@ public class Guide_Paddle : MonoBehaviour
     List<PaddleCollider> m_listCOLLIDER;
 
     //DATA
-    public SceneData_Send DataSend;
     public GameDataManager DataManager;
     public CollectData BehaviorData;
-    float data_401; //ì‹œì‘ë²„íŠ¼ ëˆ„ë¥´ëŠ”ë°ê¹Œì§€ ê±¸ë¦° ì‹œê°„
-    float data_402;//ì™„ë£Œê¹Œì§€ ê±¸ë¦° ì´ ì‹œê°„
-    float data_403; //ì¹œêµ¬ì˜ í˜ë‹¬ì„ ê±´ë“œë¦° íšŸìˆ˜
-    float data_404; //ì•„ë¬´ í–‰ë™ë„ í•˜ì§€ ì•Šì€ ì´ì‹œê°„
-    float data_405 =0; //ì¤‘ë„í¬ê¸°
-    float data_406; //ì¹œêµ¬ í˜ë‹¬ì„ ê±´ë“œë¦° ì‹œê°„
-    float data_407; //í˜ë‹¬ì—ì„œ ì†ì„ ë• íšŸìˆ˜
-    float data_408, data_409, data_410, data_411; //ìŠ¤í…Œì´ì§€ ë³„ ê±¸ë¦° ì‹œê°„
-    float data_412, data_413, data_414, data_415; //ìŠ¤í…Œì´ì§€ë³„ í˜‘ë™ì„ ì§€í‚¤ì§€ ì•Šì€ íšŸìˆ˜
-    float data_416, data_417, data_418, data_419; //ìŠ¤í…Œì´ì§€ë³„ ë°©í–¥ì„ ë§ì¶”ì§€ ì•Šì€ íšŸìˆ˜
+    float data_401; //½ÃÀÛ¹öÆ° ´©¸£´Âµ¥±îÁö °É¸° ½Ã°£
+    float data_402;//¿Ï·á±îÁö °É¸° ÃÑ ½Ã°£
+    float data_403; //Ä£±¸ÀÇ Æä´ŞÀ» °Çµå¸° È½¼ö
+    float data_404; //¾Æ¹« Çàµ¿µµ ÇÏÁö ¾ÊÀº ÃÑ½Ã°£
+    float data_405 =0; //ÁßµµÆ÷±â
+    float data_406; //Ä£±¸ Æä´ŞÀ» °Çµå¸° ½Ã°£
+    float data_407; //Æä´Ş¿¡¼­ ¼ÕÀ» ¶© È½¼ö
+    float data_408, data_409, data_410, data_411; //½ºÅ×ÀÌÁö º° °É¸° ½Ã°£
+    float data_412, data_413, data_414, data_415; //½ºÅ×ÀÌÁöº° Çùµ¿À» ÁöÅ°Áö ¾ÊÀº È½¼ö
+    float data_416, data_417, data_418, data_419;
+    float data_420 =0;//½ºÅ×ÀÌÁöº° ¹æÇâÀ» ¸ÂÃßÁö ¾ÊÀº È½¼ö
 
     DataManager m_dataManager;
     private string gradeLH;
@@ -83,7 +83,7 @@ public class Guide_Paddle : MonoBehaviour
 
         m_listCOLLIDER = new List<PaddleCollider>(FindObjectsOfType<PaddleCollider>());
         Hud = GameObject.Find("Hud_Paddle").GetComponent<Hud_Paddle>();
-        Make_INTRO(); //ì‹œì‘í•˜ê¸°ê¹Œì§€ ì‹œê°„ì²´í¬
+        Make_INTRO(); //½ÃÀÛÇÏ±â±îÁö ½Ã°£Ã¼Å©
     }
     
     // Update is called once per frame
@@ -125,7 +125,7 @@ public class Guide_Paddle : MonoBehaviour
         foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = true;
         CableCar.GetComponent<Outlinable>().enabled = true;
         StartCoroutine(Hud.CountDown());
-        FriendAnimation.Play("firstInfoArr");
+        FriendAnimation.Play("Intro");
         Hud.BGMplay(true);
         StartCoroutine(Wait_TimeStart());
     }
@@ -179,7 +179,7 @@ public class Guide_Paddle : MonoBehaviour
         Debug.Log("STAGE TIME" + m_fStageTime + "STAGE" + intStage +"TOTALTIME" + m_fTOTALTIME +"PREVTIME" +m_fPrevTime);
       //  m_nWrongOrder = m_listOrder[intStage];
       //  m_nWrongSpeed= m_listSpeed[intStage];
-      //  m_nWrongSpeed = m_nWrongOrder = 0;  //ìš”ë¶€ë¶„ ë°”ê¿ˆ ë°”ë¡œë°”ë¡œ ì €ì¥ë˜ê²Œ
+      //  m_nWrongSpeed = m_nWrongOrder = 0;  //¿äºÎºĞ ¹Ù²Ş ¹Ù·Î¹Ù·Î ÀúÀåµÇ°Ô
     }
     void NEXTSTAGE()
     {
@@ -211,7 +211,7 @@ public class Guide_Paddle : MonoBehaviour
     public void PaddleCheck(float time)
     {
         m_strOrder = Manager_Paddle.SDB[intStage].strHANDLE;
-        Manager_Paddle.SDB[intStage].strHANDLE = null; //í•œë°”í€´ ëŒë©´ strHANDELì„ null ì‹œí‚´
+        Manager_Paddle.SDB[intStage].strHANDLE = null; //ÇÑ¹ÙÄû µ¹¸é strHANDELÀ» null ½ÃÅ´
         if (m_strOrder != Manager_Paddle.SDB[intStage].strORDER) { Debug.Log(m_strOrder+ intStage); Check_Order(); return; }
         if (time > 0.4f || time < -0.4f) { Check_Speed(); return; }
         m_nComplete += 1;
@@ -220,30 +220,35 @@ public class Guide_Paddle : MonoBehaviour
         if (Manager_Paddle.SDB[intStage].intCount == m_nComplete)
         {
             Debug.Log(m_listOrder[intStage]);
-            NEXTSTAGE();//ë‹¤ìŒ ìŠ¤í…Œì´ì§€ ë„˜ì–´ê°€ê¸°
+            NEXTSTAGE();//´ÙÀ½ ½ºÅ×ÀÌÁö ³Ñ¾î°¡±â
             return;
         }
         Hud.AudioController("correct");
         Debug.Log("CHECK" + Manager_Paddle.SDB[intStage].fTime + "  ," + Manager_Paddle.SDB[intStage].intCount + " , " + m_nComplete);
     }
 
-    void GameFinish() // ê²Œì„ ëë‚˜ë©´ ì–´ë–»ê²Œ í• ì§€ ì—¬ê¸°ì— ì¶”ê°€
+    void GameFinish() // °ÔÀÓ ³¡³ª¸é ¾î¶»°Ô ÇÒÁö ¿©±â¿¡ Ãß°¡
     {
         Debug.Log("COMPLETE");
-        foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = false; //paddle component ë‚´ë¶€ì˜ colliderë¥¼ ë¹¼ ë”ì´ìƒ ì²´í¬ X
+        foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = false; //paddle component ³»ºÎÀÇ collider¸¦ »© ´õÀÌ»ó Ã¼Å© X
         m_ePSTATE = PADDLE_STATE.ALLDONE;
         BehaviorData.AddTimeStamp("MISSION END");
         Hud.AudioController("complete");
         GrabPaddle.AllFinish();
         CableCar.GameFinish();
         FriendAnimation.Play("Finish");
-        Datacollect();
+        Hud.AudioController("question");
     }
 
     public void Skip()
     {
         data_405 = 1;
         GameFinish();
+    }
+    public void Question(bool answer)
+    {
+        data_420 = answer ? 1 : 0;
+        Datacollect();
     }
   
     IEnumerator NextScene()
@@ -253,7 +258,6 @@ public class Guide_Paddle : MonoBehaviour
         Debug.Log("FIN");
         yield return new WaitForSeconds(5);
         KetosGames.SceneTransition.SceneLoader.LoadScene(9);
-
     }
 
     void Datacollect()
@@ -297,13 +301,12 @@ public class Guide_Paddle : MonoBehaviour
         Debug.Log("MID");
         arrData = new float[] { data_401, data_402, data_403, data_404, data_405, 
             data_406, data_407, data_408, data_409, data_410 , data_411 ,data_412 , 
-            data_413, data_414, data_415, data_416,data_417, data_418, data_419 };
+            data_413, data_414, data_415, data_416,data_417, data_418, data_419, data_420 };
         for(int i = 0; i < arrData.Length; i++)
         {
            Debug.Log(arrData[i]);
         }
         DataManager.SaveCurrentData();
-        DataSend.GetSceneData();
         StartCoroutine(NextScene());
     }
 
