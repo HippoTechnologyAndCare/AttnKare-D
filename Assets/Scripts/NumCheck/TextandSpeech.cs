@@ -17,6 +17,8 @@ public class TextandSpeech : MonoBehaviour
 
     [Header("BOARD")]
     public TextMeshProUGUI txt_BoardTxt;
+    [SerializeField] private GameObject txt_Question;
+    [SerializeField] private GameObject txt_Number;
     [SerializeField]
     private TextAsset txta_board;
     public AudioClip[] arrBoardNarr;
@@ -84,6 +86,7 @@ public class TextandSpeech : MonoBehaviour
 
     }
 
+    public void Question() { txt_Number.SetActive(false); txt_Question.SetActive(true); NarrPlay(arrNarr[6]); }
     public void EndUI(string txt)
     {
         txt_BoardTxt.text = txt;

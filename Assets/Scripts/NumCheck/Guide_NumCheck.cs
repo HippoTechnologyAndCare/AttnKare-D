@@ -330,15 +330,30 @@ public class Guide_NumCheck : MonoBehaviour
     void StageComplete()
     {
         dataCheck.Stage2();
-        GameClear();
+        Question();
     }
-    public void GameClear()
+     public void Skip()
+    {
+        dataCheck.Skip();
+        Question();
+    }
+    public void Question()
     {
         StopAllCoroutines();
         auto.enabled = false;
+        narration.Question();
+    }
+
+    public void Answer(bool answer)
+    {
+        dataCheck.Answer(answer);
+        SendData();
+    }
+     void SendData()
+    {
         dataCheck.GetAllData();
         DataCollection.StopRecordingNBehavior();
-      //  DataSend.GetSceneData();
+        //  DataSend.GetSceneData();
         GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
         StartCoroutine(ClearCoroutine());
     }
