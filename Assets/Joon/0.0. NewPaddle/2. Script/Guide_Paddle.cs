@@ -22,7 +22,7 @@ public class Guide_Paddle : MonoBehaviour
 
     public static PADDLE_STATE m_ePSTATE;
     [HideInInspector]public int intStage;
-
+    [SerializeField] Collider AreaCheck;
     public MoveVehicle CableCar;
     private int m_nComplete;
     private string m_strOrder;
@@ -126,6 +126,7 @@ public class Guide_Paddle : MonoBehaviour
         CableCar.GetComponent<Outlinable>().enabled = true;
         StartCoroutine(Hud.CountDown());
         FriendAnimation.Play("Intro");
+        AreaCheck.enabled = true;
         Hud.BGMplay(true);
         StartCoroutine(Wait_TimeStart());
     }
@@ -229,6 +230,7 @@ public class Guide_Paddle : MonoBehaviour
 
     void GameFinish() // 게임 끝나면 어떻게 할지 여기에 추가
     {
+        AreaCheck.enabled = false;
         Debug.Log("COMPLETE");
         foreach (PaddleCollider collider in m_listCOLLIDER) collider.GetComponent<Collider>().enabled = false; //paddle component 내부의 collider를 빼 더이상 체크 X
         m_ePSTATE = PADDLE_STATE.ALLDONE;
