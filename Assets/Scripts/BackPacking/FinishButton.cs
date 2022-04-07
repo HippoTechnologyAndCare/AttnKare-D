@@ -66,21 +66,14 @@ public class FinishButton : MonoBehaviour
 
     IEnumerator NextScene()
     {
-        FinishCanvas.alpha = 1f;
-        Fin1.gameObject.SetActive(false);
-        Fin2.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1.0f);
-        Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "3";
-        yield return new WaitForSeconds(1.0f);
-        Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "2";
-        yield return new WaitForSeconds(1.0f);
-        Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "1";
-        yield return new WaitForSeconds(1.0f);
+        FinishCanvas.gameObject.SetActive(false);
 
         if(NextEvent != null)
         {
+            GetComponent<BNG.Button>().enabled = false;
             NextEvent.Invoke();
         }
+        yield return null;
     }
   
 

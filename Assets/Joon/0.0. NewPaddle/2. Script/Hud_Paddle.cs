@@ -7,15 +7,17 @@ using TMPro;
 
 public class Hud_Paddle : MonoBehaviour
 {
-    public Button buttonStart;
-    public Text txtButton;
-    public Canvas canvasDistance;
-    public TextMeshProUGUI txtDISTANCE;
-    public TextMeshProUGUI txtERROR;
-    public Canvas canvasFinish;
-    public Text TimeText;
+    [SerializeField] Button buttonStart;
+    [SerializeField] Text txtButton;
+    [SerializeField] Canvas canvasGuide;
+    [SerializeField] Canvas canvasDistance;
+    [SerializeField] TextMeshProUGUI txtDISTANCE;
+    [SerializeField] TextMeshProUGUI txtERROR;
+    [SerializeField] Canvas canvasFinish;
+    [SerializeField] Canvas canvasQuestion;
+    [SerializeField] Text TimeText;
     TextMeshProUGUI txtFinish;
-    public AudioClip[] clipNarration;
+    [SerializeField] AudioClip[] clipNarration;
     /*
      * [0] : Guide
      * [1] : Time Limit
@@ -86,7 +88,8 @@ public class Hud_Paddle : MonoBehaviour
                 case "time over"  : StartCoroutine(PlayNarration(clipNarration[2], false)); break;
                 case "stage"      : StartCoroutine(TextSpeechWarning("속도와 방향이 바뀌었어!", clipEffect[4])); break;
                 case "complete"   : StartCoroutine(TextSpeechWarning("정말 잘했어!", clipEffect[5])); break;
-            }
+                case "question"   : StartCoroutine(Question()); break;
+        }
     }
    
     public void BGMplay(bool play)
@@ -108,12 +111,10 @@ public class Hud_Paddle : MonoBehaviour
         m_audioEffect.Play();
         txtButton.text = "1";
         yield return new WaitForSeconds(.9f);
-        txtButton.transform.parent.parent.gameObject.SetActive(false);
+        canvasGuide.gameObject.SetActive(false);
         yield return new WaitForSeconds(2f);
         canvasDistance.gameObject.SetActive(true);
         bCoroutine = false;
-
-
     }
     IEnumerator TextSpeechWarning(string text,AudioClip audioClip )
     {
@@ -139,14 +140,24 @@ public class Hud_Paddle : MonoBehaviour
 
     }
 
+    IEnumerator Question()
+    {
+        yield return new WaitForSeconds(2.5f);
+        m_audioNarration.Stop();
+        canvasGuide.gameObject.SetActive(false);
+        canvasDistance.gameObject.SetActive(false);
+        canvasQuestion.gameObject.SetActive(true);
+        StartCoroutine(PlayNarration(clipNarration[4], false));
+    }
     public IEnumerator NextScene()
     {
         bCoroutine = true;
+        canvasQuestion.gameObject.SetActive(false);
         canvasFinish.gameObject.SetActive(true);
-        canvasDistance.gameObject.SetActive(false);
-        txtFinish= canvasFinish.transform.GetComponentInChildren<TextMeshProUGUI>();
+        yield return StartCoroutine(PlayNarration(clipNarration[5], false));
+        txtFinish = canvasFinish.transform.GetComponentInChildren<TextMeshProUGUI>();
         txtFinish.text = "이동합니다";
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         txtFinish.text = "3";
         yield return new WaitForSeconds(0.9f);
         txtFinish.text = "2";

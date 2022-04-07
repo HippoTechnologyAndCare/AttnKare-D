@@ -78,9 +78,11 @@ public class SkipForPaddle : MonoBehaviour
 
     IEnumerator NextScene()
     {
+        FinishCanvas.gameObject.SetActive(false);
         if (NextEvent != null)
         {
             NextEvent.Invoke();
+            GetComponent<BNG.Button>().enabled = false;
         }
         yield return null;
     }

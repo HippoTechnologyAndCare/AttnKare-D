@@ -3361,6 +3361,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_stageManager: {fileID: 77513666}
   m_audioManager: {fileID: 1802068749}
+  m_autoVoiceRecording: {fileID: 1817445321}
   m_UIManager: {fileID: 204329883}
   m_collectData: {fileID: 1817445320}
   m_dataIsDictionary: 1
@@ -14937,16 +14938,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9166498489350037466}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bd2fd7429a30714ca570a60a988ab32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultLocomotion: 1
-  LoadLocomotionFromPrefs: 1
-  locomotionToggleInput: 00000000
-  LocomotionToggleAction: {fileID: 3512515067727415170, guid: e39f4b35a6db18348b41eb0262520e69,
-    type: 3}
+  LoadLocomotionFromPrefs: 0
+  locomotionToggleInput: 
+  LocomotionToggleAction: {fileID: 0}
 --- !u!4 &3901434289350229656
 Transform:
   m_ObjectHideFlags: 0
@@ -16574,7 +16574,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 406cde0be9a40d54ebebbcdf88ea4003, type: 3}
     m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
@@ -20045,7 +20045,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9166498489350037466}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c7abe05ae0fe07459d7ae7afed8b792, type: 3}
   m_Name: 
@@ -20066,7 +20066,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9166498489350037466}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97dc4c75aa9c7ac4496efd08a068c08c, type: 3}
   m_Name: 
@@ -25404,6 +25404,9 @@ GameObject:
   - component: {fileID: 7616480652570700678}
   - component: {fileID: 8265179249203415636}
   - component: {fileID: 8265179249203415637}
+  - component: {fileID: 8265179249203415640}
+  - component: {fileID: 8265179249203415639}
+  - component: {fileID: 8265179249203415638}
   m_Layer: 28
   m_Name: Robot_Skip
   m_TagString: Untagged
@@ -25440,6 +25443,45 @@ MonoBehaviour:
   Clicker: {fileID: 1775385756}
   m_buttonUpPos: 0
   m_buttonDownPos: 0
+--- !u!65 &8265179249203415638
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265179249203415635}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.002960809, y: 0.0037208896, z: 0.0027171222}
+  m_Center: {x: -0.00009433399, y: 0.0000011044741, z: -0.005010925}
+--- !u!65 &8265179249203415639
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265179249203415635}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0038071356, y: 0.0062167887, z: 0.0054247435}
+  m_Center: {x: 0.00008419643, y: 0.0000011088451, z: -0.00093835115}
+--- !u!65 &8265179249203415640
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265179249203415635}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0034176477, y: 0.004812848, z: 0.0037199475}
+  m_Center: {x: -0.000044192475, y: -0.000010034641, z: 0.0036133684}
 --- !u!33 &8270441692289885530
 MeshFilter:
   m_ObjectHideFlags: 0

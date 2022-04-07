@@ -201,7 +201,7 @@ using BNG;
             yield return new WaitForSeconds(3.0f);
         }
         */
-        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.05>오늘 책가방 챙기기,\n바퀴 돌리기,\n숫자 맞추기,\n공 옮기기를 해봤는데", audioIndex = 1, 7.0f));
+        StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.05>오늘 방청소하기,\n계획표짜기,\n선물 포장하기,\n숫자 맞추기를 해봤는데", audioIndex = 1, 7.0f));
         yield return new WaitForSeconds(7.0f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.052>제일 재미있었던\n미션은 뭐야?\n그리고 또 어느 미션이\n가장 어려웠어?", audioIndex = 3,7.0f));
         yield return new WaitForSeconds(7.0f);
@@ -209,7 +209,7 @@ using BNG;
         yield return new WaitForSeconds(8.0f);
         // if 문으로 고학년 저학년 분리
         VoiceRecord.StopRecordingNBehavior();
-        DataSend.GetSceneData();
+       // DataSend.GetSceneData();
         desPos = new Vector3(-0.02f, -0.693f, 2.795f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>그랬구나~!", audioIndex = 4,3.0f));
         yield return new WaitForSeconds(3.0f);

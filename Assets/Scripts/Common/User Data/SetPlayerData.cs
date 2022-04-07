@@ -31,7 +31,7 @@ public class SetPlayerData : MonoBehaviour
 
     // 데이터의 인덱싱이 바뀔때 값을 바꿔야 하는 것들 -> TotalFirstKey에 대입값, sOd의 인자 2가지 값
     private const int TotalFirstKey = 101;
-    private SizeOfData _sOd = new SizeOfData(7, 19);
+    private SizeOfData _sOd = new SizeOfData(7, 20);
 
     private int Row { get => row; set => row = value; }
 
@@ -111,10 +111,10 @@ public class SetPlayerData : MonoBehaviour
         if (currentKey <= 199) _eachLastKey = 107;
         else if (currentKey <= 299) _eachLastKey = 214;
         else if (currentKey <= 399) _eachLastKey = 309;
-        else if (currentKey <= 499) _eachLastKey = 419;
+        else if (currentKey <= 499) _eachLastKey = 420;
         else if (currentKey <= 599) _eachLastKey = 509;
         else if (currentKey <= 699) _eachLastKey = 611;
-        else if (currentKey <= 799) _eachLastKey = 704;
+        else if (currentKey <= 799) _eachLastKey = 712;
         return _eachLastKey;
     }
        

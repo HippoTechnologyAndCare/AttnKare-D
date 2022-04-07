@@ -8,7 +8,8 @@ using UserData;
 public class NetworkManager : MonoBehaviour
 {
     string ServerURL_feedback = "http://jdi.bitzflex.com:4005/feedback";   //feedback
-    string ServerURL_upload = "http://jdi.bitzflex.com:4005/upload_all_files_v1_withloca";   //upload
+  //  string ServerURL_upload = "http://jdi.bitzflex.com:4005/upload_all_files_v1_withloca";   //upload
+    string ServerURL_V22 = "http://jdi.bitzflex.com:4005/upload_all_files_v22_withloca";
 
     string AudioFormat = "";
 
@@ -73,6 +74,15 @@ public class NetworkManager : MonoBehaviour
 */
         formData.AddBinaryData("tutorial_txt", File.ReadAllBytes(resPath + "10_Behavior.txt"), "tutorial_txt.txt", "application/octet-stream");
         formData.AddBinaryData("tutorial_mp3", File.ReadAllBytes(resPath + "10" + AudioFormat), "tutorial_mp3.mp3", "application/octet-stream");
+        formData.AddBinaryData("cleanupmyroom_txt", File.ReadAllBytes(resPath + "5_Behavior.txt"), "cleanupmyroom_txt.txt", "application/octet-stream");
+        formData.AddBinaryData("cleanupmyroom_mp3", File.ReadAllBytes(resPath + "5" + AudioFormat), "cleanupmyroom_mp3.mp3", "application/octet-stream");
+        formData.AddBinaryData("schedule_txt", File.ReadAllBytes(resPath + "2_Behavior.txt"), "schedule_txt.txt", "application/octet-stream");
+        formData.AddBinaryData("schedule_mp3", File.ReadAllBytes(resPath + "2" + AudioFormat), "schedule_mp3.mp3", "application/octet-stream");
+        formData.AddBinaryData("conveyor_txt", File.ReadAllBytes(resPath + "1_Behavior.txt"), "conveyor_txt.txt", "application/octet-stream");
+        formData.AddBinaryData("conveyor_mp3", File.ReadAllBytes(resPath + "1" + AudioFormat), "conveyor_mp3.mp3", "application/octet-stream");
+        formData.AddBinaryData("conveyor_json", File.ReadAllBytes(resPath + "Conveyor.json"), "conveyor_json.json", "application/octet-stream");
+
+        /*
         if (DataManager.GetInstance().userInfo.Grade == "L")
         {
             formData.AddBinaryData("bagpacking_txt", File.ReadAllBytes(resPath + "3_Behavior.txt"), "bagpacking_txt.txt", "application/octet-stream");
@@ -90,15 +100,15 @@ public class NetworkManager : MonoBehaviour
 
         formData.AddBinaryData("playpaddle_txt", File.ReadAllBytes(resPath + "6_Behavior.txt"), "playpaddle_txt.txt", "application/octet-stream");
         formData.AddBinaryData("playpaddle_mp3", File.ReadAllBytes(resPath + "6" + AudioFormat), "playpaddle_mp3.mp3", "application/octet-stream");
+        */
 
-       
         formData.AddBinaryData("numbermatching_txt", File.ReadAllBytes(resPath + "9_Behavior.txt"), "numbermatching_txt.txt", "application/octet-stream");
         formData.AddBinaryData("numbermatching_mp3", File.ReadAllBytes(resPath + "9" + AudioFormat), "numbermatching_mp3.mp3", "application/octet-stream");
 
         formData.AddBinaryData("ending_txt", File.ReadAllBytes(resPath + "13_Behavior.txt"), "ending_txt.txt", "application/octet-stream");
         formData.AddBinaryData("ending_mp3", File.ReadAllBytes(resPath + "13" + AudioFormat), "ending_mp3.wav", "application/octet-stream");
 
-        UnityWebRequest webRequest = UnityWebRequest.Post(ServerURL_upload, formData);
+        UnityWebRequest webRequest = UnityWebRequest.Post(ServerURL_V22, formData);
 
         webRequest.downloadHandler = new DownloadHandlerBuffer();
 
