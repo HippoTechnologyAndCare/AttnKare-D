@@ -30,7 +30,7 @@ public class ScoreCalculator : MonoBehaviour
     [SerializeField] private string[] tier2Arr;
     [SerializeField] private string[] tier3Arr;
     [SerializeField] private string[] tier4Arr;
-
+    
     private void Awake()
     {
         bCardArr = new [] {"A", "C", "E", "G", "I" };
@@ -41,6 +41,13 @@ public class ScoreCalculator : MonoBehaviour
         tier3Arr = new[] {"H", "j"};
         tier4Arr = new[] {"B", "F", "D"};
     }
+
+    private void Scorer()
+    {
+        scManager.OutPutCardCtnDic();
+        
+    }
+    
     
     
 }
