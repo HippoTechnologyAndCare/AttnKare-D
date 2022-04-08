@@ -244,7 +244,7 @@ public class Trash : MonoBehaviour {
         if(other.gameObject.tag == "Surface") {
             CDB[(int)m_eTrash].tPositioned = m_bPositioned = true;
             
-            //gameObject.layer = 0;
+            gameObject.layer = 6;
             gameObject.GetComponent<Grabbable>().enabled = false;
             SetPositonedTrash();//정리한 것으로 처리
             m_Guide.SetPositioned();
