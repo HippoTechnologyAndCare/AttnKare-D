@@ -451,16 +451,18 @@ namespace Scheduler
                 {
                     if(passenger != null)
                     {
+                        // 클론 카드인지 확인하고 클론이면 오브젝트명에서 clone부분 삭제
                         if (RemoveWord.EndsWithWord(passenger.name, keyword))
                         {
                             originName = passenger.name.Replace("(Clone)", "");
                         }
-
+                        
+                        // 오리지널 카드일 경우
                         else
                         {
                             originName = passenger.name;
                         }
-
+                        
                         if (card == originName)
                         {
                             CardCtnDic[card] += 1;
@@ -606,13 +608,12 @@ namespace Scheduler
             // n번째로 완성한 계획표 변수로 저장
             SortedCardData(isSkip);
 
-            //몇번째 완료인지 체크 
+            // 몇번째 완료인지 체크 
+               // 첫번째 계획표를 마쳤는지에 대한 조건문
             if (completionCtn == 1 && !isSkip) // 첫번째 완료라면 아래의 프로세싱 후 재 시작
             {
-                //board.gameObject.SetActive(true);
                 VisibleBoard(true);
                 mainUi.GetComponent<GraphicRaycaster>().enabled = false;
-                //finishPanel.gameObject.SetActive(false);
                 VisibleFinPanel(false);
                 ReSetAll();
                 SetYellowForCards();
@@ -621,6 +622,7 @@ namespace Scheduler
                 return;
             }
 
+               // 두번째 계획표를 마쳤을때의 로직
             collectData.AddTimeStamp("MISSION END");
 
             leGogo = false;
@@ -642,6 +644,7 @@ namespace Scheduler
             hud.GetComponent<HUDSchedule>().PopupQuestion(true);
         }
         
+        // 마지막 질문에 대한 대답이 Yes일때의 함수
         public void Yes_Question()
         {
             data214 = 1;
@@ -650,6 +653,7 @@ namespace Scheduler
             EndScene();
         }
 
+        // 마지막 질문에 대한 대답이 No일때의 함수
         public void No_Question()
         {
             data214 = 0;
@@ -679,7 +683,7 @@ namespace Scheduler
             Data_212 두번째 계획표 점수
             Data_213 제한된 카드를 사용한 횟수
             */
-
+            
             data210 = dataChecker.scheduleData.data210;
             // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
             Scene2Arr = new[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, _planData01,_planData02, 
@@ -690,7 +694,7 @@ namespace Scheduler
         
         private void VisibleBoard(bool isOn)
         {
-
+            
             if (isOn)
             {
                 defCards.SetActive(true);
@@ -780,19 +784,23 @@ namespace Scheduler
                 skipYn = 0;
                 var myScheduleForJson = "";
                 
+                // 슬롯 리스트에 들어있는 카드를 확인해 타임라인 순서대로 나열해 변수로 저장
                 foreach (var slot in slotList)
                 {
                     if (slot.GetComponent<PlanSlotController1>().passenger != null)
                     {
                         currCard = slot.GetComponent<PlanSlotController1>().passenger.transform;
                         
+                        // 사용된 카드가 각 몇장인지 데이터화 시키는 함수 실행
                         UsedCardsCtn(currCard);
 
                         if (slot != null)
                         {
+                            // string 변수에 카드 순서를 writing 하는 곳 
                             var text = currCard.GetChild(0).GetComponent<Text>().text + " ";
                             myScheduleForJson += currCard.GetChild(1).name;
                         }
+                        // 오류로 슬롯이 비어 있다면 0을 추가
                         else
                         {
                             myScheduleForJson += "0";
@@ -852,7 +860,7 @@ namespace Scheduler
         //Test Mode
         
         [ContextMenu("OutPut CartCtn")]
-        private void OutPutCardCtnDic()
+        public void OutPutCardCtnDic()
         {
             foreach (var card in CardCtnDic)
             {
