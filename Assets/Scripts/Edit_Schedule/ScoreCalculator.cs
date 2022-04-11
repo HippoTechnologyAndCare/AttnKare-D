@@ -44,8 +44,13 @@ public class ScoreCalculator : MonoBehaviour
 
     private void Scorer()
     {
-        scManager.OutPutCardCtnDic();
-        
+        // 스케줄을 완료하면서 카드 사용 정보가 모아진 CardCtnDic 사전을 활용해 점수 계산을 해야 한다
+        // 
+        foreach (var card in scManager.CardCtnDic)
+        {
+            
+        }
+
     }
     
     
