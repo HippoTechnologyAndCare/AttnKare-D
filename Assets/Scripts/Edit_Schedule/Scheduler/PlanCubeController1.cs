@@ -292,7 +292,8 @@ namespace Scheduler
             {
                 cardState = CardState.Enter;
                 cube = workingSlot.gameObject.transform.Find("Cube");
-                cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.7f);
+                cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0.9f, 0.4f, 0.5f);
+                //cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.7f);
                 Debug.Log("색을 진하게 바꿉니다");
             }
                     
@@ -318,7 +319,8 @@ namespace Scheduler
                     prevSlot = collision.gameObject;
                     slots.Remove(prevSlot);
                     cube = prevSlot.gameObject.transform.Find("Cube");
-                    cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.12f); 
+                    cube.GetComponent<MeshRenderer>().material.color = new Color(1f, 0.9568627f, 0.9019608f, 0.5f);
+                    //cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.12f);
                     Debug.Log("색을 연하게 바꿉니다");
                     cardState = CardState.Move;
                     if (slots.Count == 0)
@@ -362,7 +364,8 @@ namespace Scheduler
         private void MeshRendererOff(GameObject actSlot)
         {
             cube = actSlot.gameObject.transform.Find("Cube");
-            cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.12f);
+            cube.GetComponent<MeshRenderer>().material.color = new Color(1f, 0.9568627f, 0.9019608f, 0.5f);
+            //cube.GetComponent<MeshRenderer>().material.color = new Color(0.67f, 0, 0.545f, 0.12f);
             cube.GetComponent<MeshRenderer>().enabled = false;
         }
 
