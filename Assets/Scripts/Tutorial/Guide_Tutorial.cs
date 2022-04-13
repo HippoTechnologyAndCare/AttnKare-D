@@ -48,7 +48,7 @@ public class Guide_Tutorial : MonoBehaviour
     public int trigInt;
 
     private string gradeLH;
-    public int buildIndex = 5;
+    public int buildIndex;
     Coroutine runningcoroutine = null;
     void Start()
     {
@@ -148,7 +148,7 @@ public class Guide_Tutorial : MonoBehaviour
         m_goFade = Instantiate(prefabFadeOut, CenterEye.transform.position, Quaternion.identity);
         m_goFade.transform.SetParent(CenterEye.transform);
         yield return new WaitForSeconds(3f);
-        KetosGames.SceneTransition.SceneLoader.LoadScene(5);
+        KetosGames.SceneTransition.SceneLoader.LoadScene(buildIndex);
     }
 
     IEnumerator StartTutorial()

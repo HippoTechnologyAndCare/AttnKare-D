@@ -20,7 +20,7 @@ public class OpenManager : MonoBehaviour
     public Transform TransitionOut;
 
     public NetworkManager NetworkManager;
-
+    public SceneData_Send Datasend;
 
 
     public float speed;
@@ -216,8 +216,8 @@ public class OpenManager : MonoBehaviour
         yield return new WaitForSeconds(1.8f);
 
         //PlayerPrefs.SetString("State", "END");
-
-        SceneLoader.LoadScene(10);
+        Datasend.GetSceneData();
+        SceneLoader.LoadScene(8);
 
 
         yield return new WaitForSeconds(1.0f);
