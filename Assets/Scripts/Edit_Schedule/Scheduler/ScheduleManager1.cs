@@ -132,6 +132,7 @@ namespace Scheduler
         [Header("Managers")]
         [FormerlySerializedAs("SetPlayerData")] public Transform setPlayerData;
         [FormerlySerializedAs("GameDataManager")] public Transform gameDataManager;
+        [SerializeField] private SceneData_Send DataSend;
 
         private void Awake()
         {
@@ -691,6 +692,7 @@ namespace Scheduler
             Scene2Arr = new[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, _planData01,_planData02, 
                 skipYn, timerForBeforeStarted, timerForFirstSelect, data210, data211, data212, data213, data214 };
             gameDataManager.GetComponent<GameDataManager>().SaveCurrentData();
+            DataSend.GetSceneData();
             StartCoroutine(GoToNextScene());
         }
         

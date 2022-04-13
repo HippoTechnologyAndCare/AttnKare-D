@@ -497,7 +497,7 @@ public class DATA_API : MonoBehaviour
         JobExecutionInner JsonDataInner = new JobExecutionInner
         {
             job_id = UserInfo_API.GetInstance().jobInfo.id,
-            service_id = 3,
+            service_id = UserInfo_API.GetInstance().jobInfo.service_id,
             body = JsonCmd
         };
         JobExecution JsonData = new JobExecution

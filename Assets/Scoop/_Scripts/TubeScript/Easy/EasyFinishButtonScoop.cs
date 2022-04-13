@@ -15,7 +15,7 @@ public class EasyFinishButtonScoop : MonoBehaviour
     string debugstring;
     Transform Fin1;
     Transform Fin2;
-    public int buildindex = 12;
+    public int buildindex = 3;
     [SerializeField] Transform scoreboard;
 
     // Start is called before the first frame update

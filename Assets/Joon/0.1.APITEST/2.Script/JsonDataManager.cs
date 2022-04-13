@@ -42,7 +42,7 @@ public class JsonDataManager : MonoBehaviour
                 saveCurrentSceneData = SetData;
                 break;
             case 3: //Nummatch
-                objToFind = FindObjectOfType<Guide_Paddle>().gameObject;
+                objToFind = FindObjectOfType<CheckData_NumCheck>().gameObject;
                 saveCurrentSceneData = SetData;
                 break;
             case 4: //Cleanup
