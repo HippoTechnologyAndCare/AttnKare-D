@@ -331,6 +331,7 @@ public class Guide : MonoBehaviour {
     public float[] m_dataReportFloat = new float[9];// = new float[10];
         public GameDataManager saveJson_MG;
         public AutoVoiceRecording saveVoice_MG;
+        public SceneData_Send DataSend;
 
     void ReportData() {
 
@@ -423,6 +424,7 @@ public class Guide : MonoBehaviour {
                */
             saveJson_MG.SaveCurrentData();
             saveVoice_MG.StopRecordingNBehavior();
+            DataSend.GetSceneData();
         }
 
         /*****************************************************************************
