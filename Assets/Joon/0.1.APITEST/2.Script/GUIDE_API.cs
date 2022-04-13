@@ -423,7 +423,7 @@ public class GUIDE_API : MonoBehaviour
     public IEnumerator GoBacktoJoblist()
     {
         DATA = null;
-        yield return new WaitUntil(() => SceneManager.GetActiveScene().buildIndex == 15);
+        yield return new WaitUntil(() => SceneManager.GetActiveScene().buildIndex == 0);
         DATA = FindObjectOfType<DATA_API>();
         Debug.Log(DATA.gameObject.name);
         Debug.Log("!!!!!!!!!!!!!!!!JOB LIST");

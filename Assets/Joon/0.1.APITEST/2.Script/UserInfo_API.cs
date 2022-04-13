@@ -7,6 +7,7 @@ public class UserInfo_API : MonoBehaviour
     public string Authorization;
     public DATA_API.USERINNER userInfo;
     public DATA_API.PlayerInner playerInfo;
+    public int service_id;
     public DATA_API.JobData jobInfo;
     private UserInfo_API() { }
     private static UserInfo_API instance = null;

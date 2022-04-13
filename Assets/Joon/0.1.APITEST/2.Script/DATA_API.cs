@@ -136,6 +136,7 @@ public class DATA_API : MonoBehaviour
             if (userdata.data.services[i].device_id == 1 && userdata.data.services[i].farm_id == 1) //일단 device 1, farm 1로 고정
             {
                 userData_id = userdata.data.services[i].id;
+                UserInfo_API.GetInstance().service_id = userData_id;
                 Debug.Log(userdata.data.services[i].id);
                 return true;
             }
@@ -497,7 +498,7 @@ public class DATA_API : MonoBehaviour
         JobExecutionInner JsonDataInner = new JobExecutionInner
         {
             job_id = UserInfo_API.GetInstance().jobInfo.id,
-            service_id = UserInfo_API.GetInstance().jobInfo.service_id,
+            service_id = UserInfo_API.GetInstance().service_id,
             body = JsonCmd
         };
         JobExecution JsonData = new JobExecution
