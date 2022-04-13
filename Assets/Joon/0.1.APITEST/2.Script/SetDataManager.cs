@@ -61,7 +61,7 @@ public class SetDataManager : MonoBehaviour
     void ToggleValueChanged(bool test)
     {
         Debug.Log(test);
-        DataManager.GetInstance().isTest = test ? true : false;
+        DataManager.GetInstance().isTest = test;
     }
     private int SetAge()
     {

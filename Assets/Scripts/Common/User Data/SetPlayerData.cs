@@ -44,51 +44,83 @@ public class SetPlayerData : MonoBehaviour
        // 씬의 인덱싱이 바뀌면 스위치문의 대입값도 바뀌어야 한다.
         switch (scene)
         {
-            case 1: //door lock
-                Row = 0;
-                SceneFirstKey = 101;
-                CurrentScene = scene;                
-                break;
-            case 2: //schedule
-                Row = 1;
-                SceneFirstKey = 201;
-                CurrentScene = scene;
-                break;
-            case 3: //BagPacking L
+            case 1: //bagpacking
                 Row = 4;
                 SceneFirstKey = 501;
                 CurrentScene = scene;
                 break;
-            case 4: //Scoop L
+            case 2: //scoop
                 Row = 5;
                 SceneFirstKey = 601;
                 CurrentScene = scene;
                 break;
-            case 5: //CRUM
-                Row = 2;
-                SceneFirstKey = 301;
-                CurrentScene = scene;
-                break;
-            case 6: //PlayPaddle
-                Row = 3;
-                SceneFirstKey = 401;
-                CurrentScene = scene;
-                break;
-            case 7: //BagPacking H
-                Row = 4;
-                SceneFirstKey = 501;
-                CurrentScene = scene;
-                break;
-            case 8: //Scoop H
-                Row = 5;
-                SceneFirstKey = 601;
-                CurrentScene = scene;
-                break;
-            case 9:
+            case 3: //Nummatch
                 Row = 6;
                 SceneFirstKey = 701;
                 CurrentScene = scene;
                 break;
+            case 4: //CRUM
+                Row = 2;
+                SceneFirstKey = 301;
+                CurrentScene = scene;
+                break;
+            case 5: //CRUM
+                Row = 1;
+                SceneFirstKey = 201;
+                CurrentScene = scene;
+                break;
+            case 6: //PlayPaddle 
+                Row = 3;
+                SceneFirstKey = 401;
+                CurrentScene = scene;
+                break;
+                /*
+                case 1: //door lock
+                    Row = 0;
+                    SceneFirstKey = 101;
+                    CurrentScene = scene;                
+                    break;
+                case 2: //schedule
+                    Row = 1;
+                    SceneFirstKey = 201;
+                    CurrentScene = scene;
+                    break;
+                case 3: //BagPacking L
+                    Row = 4;
+                    SceneFirstKey = 501;
+                    CurrentScene = scene;
+                    break;
+                case 4: //Scoop L
+                    Row = 5;
+                    SceneFirstKey = 601;
+                    CurrentScene = scene;
+                    break;
+                case 5: //CRUM
+                    Row = 2;
+                    SceneFirstKey = 301;
+                    CurrentScene = scene;
+                    break;
+                case 6: //PlayPaddle
+                    Row = 3;
+                    SceneFirstKey = 401;
+                    CurrentScene = scene;
+                    break;
+                case 7: //BagPacking H
+                    Row = 4;
+                    SceneFirstKey = 501;
+                    CurrentScene = scene;
+                    break;
+                case 8: //Scoop H
+                    Row = 5;
+                    SceneFirstKey = 601;
+                    CurrentScene = scene;
+                    break;
+                case 9:
+                    Row = 6;
+                    SceneFirstKey = 701;
+                    CurrentScene = scene;
+                    break;
+                */
         }     
     }
 

@@ -19,7 +19,7 @@ public class SceneData_Send : MonoBehaviour
     {
         buildindex = SceneManager.GetActiveScene().buildIndex;
         APICONNECT = FindObjectOfType<GUIDE_API>();
-        if(buildindex != 11 && buildindex != 13)
+        if(buildindex != 9 && buildindex != 11)
         {
             BehaviorDataCollection = FindObjectOfType<PlayerMovementData>();
             JsonDataCollection = FindObjectOfType<JsonDataManager>();
@@ -30,15 +30,16 @@ public class SceneData_Send : MonoBehaviour
     {
         switch (buildindex)
         {
-            case 11: scene_id = 1070; StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //오프닝
-            case 10: scene_id = 1080; GetBehaviorData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //튜토리얼
-            case 3: scene_id = 1001; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //책가방
-            case 7: scene_id = 1001; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //책가방
+            case 9: scene_id = 1070; StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //오프닝
+            case 8: scene_id = 1080; GetBehaviorData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //튜토리얼
+            case 1: scene_id = 1001; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //책가방
+            case 5: scene_id = 1001; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //스케줄
+            case 2: scene_id = 1002; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //공옮기기
             case 6: scene_id = 1002; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //페달
-            case 4: scene_id = 1003; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //공옮기기
-            case 8: scene_id = 1003; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //공옮기기
-            case 9: scene_id = 1004; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //숫자맞추기
-            case 13: scene_id = 999; StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //엔딩
+            case 3: scene_id = 1003; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //숫자맞추기
+            case 4: scene_id = 1004; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //방청소
+            case 7: scene_id = 1004; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //컨베이어
+            case 11: scene_id = 999; StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //엔딩
         }
 
     }
