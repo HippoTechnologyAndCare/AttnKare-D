@@ -52,13 +52,10 @@ public class Guide_Tutorial : MonoBehaviour
     Coroutine runningcoroutine = null;
     void Start()
     {
-        StartCoroutine(StartTutorial());/*
-        GameObject JasonManager = GameObject.Find("DataManager");
-        dataManager = JasonManager.GetComponent<DataManager>();
-        gradeLH = dataManager.userInfo.Grade;
-        if (gradeLH == "L") buildIndex = 3;
-        if (gradeLH == "H") buildIndex = 7;
-        */
+        StartCoroutine(StartTutorial());
+        int grade = UserInfo_API.GetInstance().playerInfo.grade; 
+        if (grade > 3) buildIndex = 5;// 고학년은 계획표로
+        if (grade <4) buildIndex = 1; //저학년은 책가방으로
     }
     private void Update()
     {
@@ -168,7 +165,6 @@ public class Guide_Tutorial : MonoBehaviour
         HUD.bGuide = false;
         b_TriggerPressed = false;
         HUD.RunCoroutine(HUD.GrabBanana());
-       // StartCoroutine(HUD.GrabBanana());
         RightHandPointer.SetActive(true);
         RightHandPointer.GetComponent<LineRenderer>().enabled = true;
         yield return new WaitUntil(() => HUD.bGuide == true);
@@ -180,7 +176,6 @@ public class Guide_Tutorial : MonoBehaviour
     {
         HUD.bGuide = false;
         HUD.RunCoroutine(HUD.NoteCheck());
-        //StartCoroutine(HUD.NoteCheck());
         yield return new WaitUntil(() => HUD.bGuide == true);
         b_NoteCheck = true;
     }
@@ -188,7 +183,6 @@ public class Guide_Tutorial : MonoBehaviour
     {
         HUD.bGuide = false;
         HUD.RunCoroutine(HUD.PutBanana());
-        // StartCoroutine(HUD.PutBanana());
         yield return new WaitUntil(() => HUD.bGuide == true);
         GetComponent<BoxCollider>().enabled = true;
     }
@@ -199,12 +193,10 @@ public class Guide_Tutorial : MonoBehaviour
         GetComponent<BoxCollider>().enabled = false;
         HUD.bGuide = false;
         HUD.RunCoroutine(HUD.PressButton());
-        // StartCoroutine(HUD.PressButton());
         yield return new WaitUntil(() => HUD.bGuide == true);
         yield return new WaitUntil(() => b_ButtonPressed == true);
         HUD.bGuide = false;
         HUD.RunCoroutine(HUD.AllFinished());
-        //  StartCoroutine(HUD.AllFinished());
         yield return new WaitUntil(() => HUD.bGuide == true);
         SceneTransitionCircle.SetActive(true);
     }
@@ -233,7 +225,7 @@ public class Guide_Tutorial : MonoBehaviour
         SceneTransitionCircle.GetComponent<SceneTransition_Tutorial>().enabled = false;
         SceneTransitionCircle.GetComponent<BoxCollider>().enabled = false;
         yield return new WaitForSeconds(1);
-     //   DataSend.GetSceneData();
+        DataSend.GetSceneData();
         DataCollect.StopRecordingNBehavior();
         Ghost.SetActive(false);
         StartCoroutine(FadeOut());

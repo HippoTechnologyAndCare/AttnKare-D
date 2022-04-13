@@ -47,7 +47,7 @@ public class SetDataType : MonoBehaviour
     // 데이터의 인덱싱이 바뀔때 값을 바꿔야 하는 것들 -> TotalFirstKey에 대입값, sOd의 인자 2가지 값
     const int TotalFirstKey = 101;
     public JsonDataManager JsonData;
-    DataSize sOd = new DataSize(7, 16);
+    DataSize sOd = new DataSize(7, 20);
 
     public int Row { get => _Row; set => _Row = value; }
 
@@ -64,29 +64,29 @@ public class SetDataType : MonoBehaviour
         // 씬의 인덱싱이 바뀌면 스위치문의 대입값도 바뀌어야 한다.
         switch (scene)
         {
-            case 1: //doorlock
-                Row = 0;
-                SceneFirstKey = 101;
-                CurrentScene = scene;
-                break;
-            case 2: //schedule
-                Row = 1;
-                SceneFirstKey = 201;
-                CurrentScene = scene;
-                break;
-            case 3: //BP_L
+            case 1: //bagpacking
                 Row = 4;
                 SceneFirstKey = 501;
                 CurrentScene = scene;
                 break;
-            case 4: //Scoop L
+            case 2: //scoop
                 Row = 5;
                 SceneFirstKey = 601;
                 CurrentScene = scene;
                 break;
-            case 5: //CRUM
+             case 3: //Nummatch
+                Row = 6;
+                SceneFirstKey = 701;
+                CurrentScene = scene;
+                break;
+            case 4: //CRUM
                 Row = 2;
                 SceneFirstKey = 301;
+                CurrentScene = scene;
+                break;
+            case 5: //CRUM
+                Row = 1;
+                SceneFirstKey = 201;
                 CurrentScene = scene;
                 break;
             case 6: //PlayPaddle 
@@ -94,26 +94,7 @@ public class SetDataType : MonoBehaviour
                 SceneFirstKey = 401;
                 CurrentScene = scene;
                 break;
-            case 7: //bagpacking H
-                Row = 4;
-                SceneFirstKey = 501;
-                CurrentScene = scene;
-                break;
-            case 8: //Scoop H
-                Row = 5;
-                SceneFirstKey = 601;
-                CurrentScene = scene;
-                break;
-            case 9:
-                Row = 6;
-                SceneFirstKey = 701;
-                CurrentScene = scene;
-                break;
-            case 14:
-                Row = 3;
-                SceneFirstKey = 401;
-                CurrentScene = scene;
-                break;
+           
         }
     }
 

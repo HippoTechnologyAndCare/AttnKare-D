@@ -58,7 +58,7 @@ public class Guide_Paddle : MonoBehaviour
 
     DataManager m_dataManager;
     private string gradeLH;
-    public int buildIndex = 9;
+    public int buildIndex = 3;
 
     public float[] arrData;
     void TimeCheck_Stage()
