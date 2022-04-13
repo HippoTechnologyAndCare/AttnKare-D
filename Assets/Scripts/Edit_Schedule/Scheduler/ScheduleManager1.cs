@@ -46,6 +46,8 @@ namespace Scheduler
         [SerializeField] private Transform cardTitle;
         [SerializeField] private Transform startBtn;
         [SerializeField] private Transform wellDoneAndBye;
+        [SerializeField] private Transform arrows;
+        [SerializeField] private Transform title;
         
         [Header("UI Reference")]
         [SerializeField] private TextMeshProUGUI finishCntDwn;
@@ -698,6 +700,8 @@ namespace Scheduler
             if (isOn)
             {
                 defCards.SetActive(true);
+                title.gameObject.SetActive(true);
+                arrows.gameObject.SetActive(true);
                 cardTitle.gameObject.SetActive(true);
                 hud.GetComponent<HUDSchedule>().FadeInPanel(board, 1f);
                 
@@ -712,13 +716,18 @@ namespace Scheduler
 
                 foreach (var slot in slotList)
                 {
-                    slot.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+                    if (slot.GetComponent<PlanSlotController1>().passenger == null)
+                    {
+                        slot.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+                    }
                 }
             }
             
             else
             {
                 defCards.SetActive(false);
+                title.gameObject.SetActive(false);
+                arrows.gameObject.SetActive(false);
                 cardTitle.gameObject.SetActive(false);
                 hud.GetComponent<HUDSchedule>().FadeOutPanel(board, 1f);
                 
@@ -840,7 +849,7 @@ namespace Scheduler
 
             finishCntDwn.text = "1";
             yield return new WaitForSeconds(1);
-            SceneLoader.LoadScene(1);
+            SceneLoader.LoadScene(6);
         }
 
         public void PlaySoundByTypes(ESoundType soundType)

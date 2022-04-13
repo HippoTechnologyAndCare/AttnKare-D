@@ -55,7 +55,7 @@ namespace Scheduler
         public IEnumerator ResetSlotMesh(float wait)
         {
             yield return new WaitForSeconds(wait);
-            mesh.material.color = new Color(0.67f, 0, 0.545f, 0.12f);
+            mesh.material.color = new Color(1f, 0.9568627f, 0.9019608f, 1f);
             mesh.enabled = true;
         }
     }
