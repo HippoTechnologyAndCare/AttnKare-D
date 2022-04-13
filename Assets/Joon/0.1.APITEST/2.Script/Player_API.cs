@@ -97,13 +97,13 @@ public class Player_API : MonoBehaviour
         int scene_index = 0;
         switch (status)
         {
-            case 0: scene_index = 11; break;
-            case 1070: scene_index = 10; break;
-            case 1080: scene_index = 3; break;
-            case 1001: scene_index = 14; break;
-            case 1002: scene_index = 4; break;
-            case 1003: scene_index = 9; break;
-            case 1004: scene_index = 13; break;
+            case 0: scene_index = 9; break;
+            case 1070: scene_index = 8; break;
+            case 1080: scene_index = 1; break;
+            case 1001: scene_index = 2; break;
+            case 1002: scene_index = 3; break;
+            case 1003: scene_index = 4; break;
+            case 1004: scene_index = 11; break;
             case 98: Debug.Log(status); return;
             case 99: Debug.Log(status); return;
             case 999: Debug.Log(status); return;
@@ -115,13 +115,13 @@ public class Player_API : MonoBehaviour
         int scene_index = 0;
         switch (status)
         {
-            case 0: scene_index = 11; break;
-            case 1070: scene_index = 10; break;
-            case 1080: scene_index = 3; break;
-            case 1001: scene_index = 14; break;
-            case 1002: scene_index = 4; break;
-            case 1003: scene_index = 9; break;
-            case 1004: scene_index = 13; break;
+            case 0: scene_index = 9; break;
+            case 1070: scene_index = 8; break;
+            case 1080: scene_index = 5; break;
+            case 1001: scene_index = 6; break;
+            case 1002: scene_index = 2; break;
+            case 1003: scene_index = 7; break;
+            case 1004: scene_index = 11; break;
             case 98: Debug.Log(status); return;
             case 99: Debug.Log(status); return;
             case 999: Debug.Log(status); return;
