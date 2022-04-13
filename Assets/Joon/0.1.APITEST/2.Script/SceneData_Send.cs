@@ -38,10 +38,16 @@ public class SceneData_Send : MonoBehaviour
             case 6: scene_id = 1002; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //페달
             case 3: scene_id = 1003; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //숫자맞추기
             case 4: scene_id = 1004; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //방청소
-            case 7: scene_id = 1004; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //컨베이어
             case 11: scene_id = 999; StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //엔딩
         }
 
+    }
+    public void ConveyorDataSend(string json)
+    {
+        scene_id = 1004;
+        StartCoroutine(APICONNECT.POST_NQTT(1, scene_id, json));
+        GetBehaviorData();
+        StartCoroutine(GetVoiceData());
     }
     void GetBehaviorData()
     {

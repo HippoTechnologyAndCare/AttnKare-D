@@ -38,6 +38,7 @@ public class FactoryManager : MonoBehaviour
     [SerializeField] UIManager m_UIManager;                             // UIManager.cs
     [SerializeField] BNG.CollectData m_collectData;                     // CollectData.cs
     [SerializeField] AutoVoiceRecording m_autoVoiceRecording;           // AutoVoiceRecording.cs
+    [SerializeField] SceneData_Send DataSend;
     [SerializeField] bool m_dataIsDictionary;                           // Should json data be in dictionary format?
     [SerializeField] PlayArea m_playArea;                               // PlayArea.cs
 
@@ -208,7 +209,7 @@ public class FactoryManager : MonoBehaviour
         FormatJson();
 
         ExportAsJson();
-
+        DataSend.ConveyorDataSend(m_json);
         /*m_collectData.SaveBehaviorData();*/
 
         m_autoVoiceRecording.StopRecordingNBehavior();
