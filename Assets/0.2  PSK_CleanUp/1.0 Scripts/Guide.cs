@@ -65,14 +65,14 @@ public class Guide : MonoBehaviour {
 
     //처음 정리할 물건일 경우 파티클 전시-called by Arragne.cs     
     public void SetFirstArranged(Arrange.ARRANGE arranged, Transform dst) {   
-    Debug.Log("First Arrange="+arranged);
+    //Debug.Log("First Arrange="+arranged);
         m_Hud.PopUpCount(Arrange.TOTAL_CLEANED,true);
         m_Hud.ShowStarParticle(dst);        
         GetArrangeStr();  //정리한 물건 문자열 갱신       
         //m_Hud.NoteUpdateArrange(arrangedStr,arrangeableStr);        
     }
     public void TrashCleaned(Trash.TRASH Cleaned, Transform dst){
-            Debug.Log("Cleaned" + Cleaned);
+            //Debug.Log("Cleaned" + Cleaned);
             m_Hud.PopUpCountTrash(Trash.TOTAL_POSITIONED, true);
             m_Hud.ShowStarParticle(dst);
             //GetArrangeStr();  //정리한 물건 문자열 갱신       
@@ -80,7 +80,7 @@ public class Guide : MonoBehaviour {
     }
     public void BookPositioned(GameObject cleandBook ,Books.BOOKS Cleaned, Transform dst)
         {
-            Debug.Log("Positioned" + Cleaned);
+            //Debug.Log("Positioned" + Cleaned);
             m_Hud.PopUpCountBooks(Books.TOTAL_POSITIONED, true);
             if(BookFixed == true)
             {              
@@ -203,6 +203,7 @@ public class Guide : MonoBehaviour {
         }
             */
             m_nFinBtnDown = 2;
+            oneSurvey = true;
             m_Hud.ShowMoving();
             Make_End();
     }
@@ -422,7 +423,7 @@ public class Guide : MonoBehaviour {
             +"m_nObstacleTouch= "   + m_nObstacleTouch    +"\r\n"        //Player가 방해 물체를 건든 횟수        
             +"m_nFinBtnDown= "      + m_nFinBtnDown       +"\r\n";       //Player가 Fin Button 클릿횟수        
             */
-            Debug.Log(eval);   // to console
+            //Debug.Log(eval);   // to console
 
             //Util.ELOG(eval);   // to logfile .//Eval.txt
 

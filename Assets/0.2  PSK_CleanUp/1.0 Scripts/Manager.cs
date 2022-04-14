@@ -89,7 +89,7 @@ public class Manager : MonoBehaviour{
     void Start()   {        
         //HMI같은 App에서는 FrameRate을 60이상필요없음
         //Canvas UI는 Expensive한 리소스임, Frame Rate을 디폴트로두면(60~)그렇지 않으면 CPU를 30~50%점유함)
-        Application.targetFrameRate = 30; 
+        //Application.targetFrameRate = 30; 
         SetDefault();
         CommandLine();      // 실행환경 파라메터 처리
         ReadSetting();

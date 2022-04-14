@@ -166,7 +166,7 @@ public class HUD : MonoBehaviour
             StopCoroutine(coroutine);
         }
         */
-            Debug.Log("hhhhhhhhhhhhhhhhhh");
+            //Debug.Log("hhhhhhhhhhhhhhhhhh");
             m_Guide.HudReport(Guide.HUD_REPORT.PLAYED_TIMEOUT);
             //coroutine = bFin ? bActive ? StartCoroutine(NextScene()) : null : StartCoroutine(PressedFirst());
     }
