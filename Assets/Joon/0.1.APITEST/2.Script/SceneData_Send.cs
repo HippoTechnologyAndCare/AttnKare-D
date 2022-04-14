@@ -45,7 +45,8 @@ public class SceneData_Send : MonoBehaviour
     public void ConveyorDataSend(string json)
     {
         scene_id = 1004;
-        StartCoroutine(APICONNECT.POST_NQTT(1, scene_id, json));
+        Debug.Log(json);
+        StartCoroutine(APICONNECT.POST_NQTT(2, scene_id, json));
         GetBehaviorData();
         StartCoroutine(GetVoiceData());
     }

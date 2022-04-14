@@ -434,13 +434,17 @@ public class GUIDE_API : MonoBehaviour
 
     public IEnumerator GoBacktoJoblist()
     {
+        DATA_API.USERINNER user = UserInfo_API.GetInstance().userInfo;
       //  DATA = null;
         yield return new WaitUntil(() => SceneManager.GetActiveScene().buildIndex == 0);
     //    DATA = FindObjectOfType<DATA_API>();
-        Debug.Log(DATA.gameObject.name);
         Debug.Log("!!!!!!!!!!!!!!!!JOB LIST");
+        UserInfo_API.GetInstance().userInfo = user;
         yield return StartCoroutine(GET_Playerlist(1));
+        UserInfo_API.GetInstance().userInfo = user;
+        Debug.Log(UserInfo_API.GetInstance().userInfo.uid);
         StartCoroutine(GET_Joblist(UserInfo_API.GetInstance().playerInfo.id, 1));
+        Debug.Log(UserInfo_API.GetInstance().userInfo.uid);
     }
 
     /*public void Nullify()
