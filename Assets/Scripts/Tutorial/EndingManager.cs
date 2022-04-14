@@ -209,7 +209,7 @@ using BNG;
             }
             if (UserInfo_API.GetInstance().playerInfo.grade >3)
             {
-                StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.045>오늘 계획표 짜기,\n바퀴 돌리기,\n숫자맞추기,\n선물 포장하를 해봤는데", audioIndex = 2, 7.0f));
+                StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.045>오늘 계획표 짜기,\n바퀴 돌리기,\n숫자맞추기,\n선물 포장하기를 해봤는데", audioIndex = 2, 7.0f));
             }
         }
         yield return new WaitForSeconds(7.0f);
