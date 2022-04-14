@@ -17,7 +17,7 @@ public class GUIDE_API : MonoBehaviour
 //    HUD_API UI_Hud;
     DATA_API DATA;
     UserInfo_API Userinfo;
-    string BASE_URL = "http://jdi.bitzflex.com:4007";
+    string BASE_URL = "https://adhd.hippotnc.kr:444";
     string LoginURL = "/api/v1/session";
     string RegistrationURL = "/api/v1/operator/services";
     string PlayerRegister = "/api/v1/operator/players";
@@ -52,14 +52,26 @@ public class GUIDE_API : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
     }
-    public void Start()
+    private void Start()
     {
 
         SetURL();
         Authorization = "";
-  //      UI_Hud = GameObject.Find("UI").GetComponent<HUD_API>();
-        DATA = FindObjectOfType<DATA_API>();
-        Userinfo = FindObjectOfType<UserInfo_API>();
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        Debug.Log("SCENE LOADED");
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.buildIndex == 0)
+        {
+            DATA = FindObjectOfType<DATA_API>();
+            Userinfo = FindObjectOfType<UserInfo_API>();
+        }
     }
 
     void SetURL()
@@ -422,9 +434,9 @@ public class GUIDE_API : MonoBehaviour
 
     public IEnumerator GoBacktoJoblist()
     {
-        DATA = null;
+      //  DATA = null;
         yield return new WaitUntil(() => SceneManager.GetActiveScene().buildIndex == 0);
-        DATA = FindObjectOfType<DATA_API>();
+    //    DATA = FindObjectOfType<DATA_API>();
         Debug.Log(DATA.gameObject.name);
         Debug.Log("!!!!!!!!!!!!!!!!JOB LIST");
         yield return StartCoroutine(GET_Playerlist(1));

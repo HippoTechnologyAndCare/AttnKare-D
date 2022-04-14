@@ -12,7 +12,7 @@ using BNG;
 
 public class DATA_API : MonoBehaviour
 {
-    public HUD_API UI_Hud;
+    HUD_API UI_Hud;
     public UserInfo_API UserInfoInput;
     private int perPage = 5;
     private void Awake()
@@ -21,6 +21,7 @@ public class DATA_API : MonoBehaviour
     private void Start()
     {
         UserInfoInput = FindObjectOfType<UserInfo_API>();
+        UI_Hud = FindObjectOfType<HUD_API>();
 
     }
     /// <summary>

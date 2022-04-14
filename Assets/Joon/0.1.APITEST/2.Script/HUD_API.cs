@@ -128,7 +128,7 @@ public class HUD_API : MonoBehaviour
             case "PLAYER": parentTransform = PlayerContent; break;
             case "JOB": parentTransform = JobContent; break;
         }
-
+        Debug.Log(parentTransform);
         foreach (Transform child in parentTransform)
         {
             Destroy(child.gameObject);
