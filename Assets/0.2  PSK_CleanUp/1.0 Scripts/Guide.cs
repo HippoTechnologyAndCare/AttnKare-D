@@ -51,9 +51,11 @@ public class Guide : MonoBehaviour {
     int     m_nObstacleTouch;  //Player가 방해 물체를 건든 횟수        
     int     m_nFinBtnDown;     //Player가 Fin Button 클릿횟수
     int     m_nSurveyResult;      //
-    /**************************************************************************
-    // Method Start
-    ***************************************************************************/    
+
+        /**************************************************************************
+        // Method Start
+        ***************************************************************************/
+       
 
     //정리할 물건을 잡음 Grabbed시에 체크
     public void GrabArrangeable(GameObject fgo) {                
@@ -181,12 +183,13 @@ public class Guide : MonoBehaviour {
         if(grab.name == Manager.DDB[(int)Manager.DISTURB.DUCK].name){ //duck을 놓으면
             m_Hud.PlayDuck(true);
         }
-            
+         /*   
         if (m_fTimeTaken > 30 && oneSurvey == false)
             {
                 oneSurvey = true;
                 m_Hud.survey();
             }
+         */
     }
 
     //Fin Button 처리    
@@ -301,32 +304,51 @@ public class Guide : MonoBehaviour {
         if(m_bTImeOutScene) Make_End();
     }
 
-    void Make_End() {
-        m_Hud.PlayDuck(false);
-        m_Hud.PlayVideo(false);        
-        MakeGrabbable(false);
-            //마지막에 해야할 평가작업등을 추가하십시요
-        m_nSurveyResult = buttonQA.m_nResult;
-        if (m_bTImeOutScene) m_nFinBtnDown = 3;
-            ReportData();
+    public void Make_End() {
+            if (oneSurvey == false)
+            {
+                oneSurvey = true;
+                m_Hud.survey();
+            }    
+            else
+            {
+
+                m_Hud.PlayDuck(false);
+                m_Hud.PlayVideo(false);
+                MakeGrabbable(false);
+                //마지막에 해야할 평가작업등을 추가하십시요
+                m_nSurveyResult = buttonQA.m_nResult;
+                if (m_bTImeOutScene) m_nFinBtnDown = 3;
+                ReportData();
 
 
-        //이전상태가 TIMEOUT_SCENE상태에서 넘어오면 아쉬지만...표시
-        if(m_bTImeOutScene) {
-            m_Hud.PlayTimeOut();
-        } else m_Hud.PlayMoving();                       
+                //이전상태가 TIMEOUT_SCENE상태에서 넘어오면 아쉬지만...표시
+                if (m_bTImeOutScene)
+                {
+                    m_Hud.PlayTimeOut();
+                }
+                else m_Hud.PlayMoving();
 
-        m_eState = STATE.END;
+                m_eState = STATE.END;
+            }
     }
     void Run_End() { 
 
     }
 
-    void Make_Next() {      
-        Load_Next_Scene();
-        m_eState = STATE.NEXT;
+    /*
+        void Make_Next() {
+            
+        
     }
-    void Run_Next() { }
+    */
+    public void Make_Next()
+        {
+          
+            Load_Next_Scene();
+            m_eState = STATE.NEXT;
+        }
+        void Run_Next() { }
 
     public float[] m_dataReportFloat = new float[9];// = new float[10];
         public GameDataManager saveJson_MG;

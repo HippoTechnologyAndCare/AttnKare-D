@@ -51,8 +51,10 @@ public class SceneData_Send : MonoBehaviour
     }
     void GetBehaviorData()
     {
+        
         string behavior = BehaviorDataCollection.GetBehaviorData();
         StartCoroutine(APICONNECT.POST_NQTT(1, scene_id, behavior));
+        
     }
     void GetJsonData()
     {

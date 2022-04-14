@@ -10,6 +10,7 @@ public class buttonQA : MonoBehaviour
 
     // Start is called before the first frame update
     public CleanUp.HUD  m_Hud;
+    public CleanUp.Guide m_Guide;
     public Canvas       QACanvas;
     [HideInInspector] public static bool onlyFirstTime = false;
     [HideInInspector] public static int m_nResult = 0;
@@ -40,6 +41,7 @@ public class buttonQA : MonoBehaviour
     {
         m_Hud.playClipBell();
         CanvasFadeOut(QACanvas, 1f);
+        m_Guide.Make_End();
     }
     public void startSomthing()
     {

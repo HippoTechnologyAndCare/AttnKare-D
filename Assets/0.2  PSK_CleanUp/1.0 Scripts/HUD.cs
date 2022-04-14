@@ -144,7 +144,7 @@ public class HUD : MonoBehaviour
         public void survey()
         {
             
-            PlaySound(m_audSIntro, m_audCIntro[8]);
+            //PlaySound(m_audSIntro, m_audCIntro[8]);
             /*
             StartCoroutine(PlaySoundText(m_audSIntro, m_audCIntro[8], null, null, Guide.HUD_REPORT.NONE));
             */
