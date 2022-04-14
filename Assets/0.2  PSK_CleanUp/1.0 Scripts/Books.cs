@@ -342,6 +342,7 @@ public class Books : MonoBehaviour {
     // Start is called before the first frame update
     //Original RigidBody Properties Backup
     float oMass, oDrag, oAngularDrag;  bool  oUseGravity ;  RigidbodyConstraints oConstraints;
+    new Vector3 oPosition;
 
     void Start() { 
         m_Guide       = GameObject.Find("Guide").GetComponent<Guide>();
@@ -352,6 +353,7 @@ public class Books : MonoBehaviour {
         oAngularDrag  = m_RigidBody.angularDrag; 
         oUseGravity   = m_RigidBody.useGravity; 
         oConstraints  = m_RigidBody.constraints;
+        oPosition = gameObject.transform.position + new Vector3(0, 0.3f, 0);
         m_ObjectPosition[0] = -0.5311635f;
         m_ObjectPosition[1] =  0.48f;
         m_ObjectPosition[2] =  2.16f;
@@ -419,16 +421,21 @@ public class Books : MonoBehaviour {
 
 
             }
-        /*
-        if(other.gameObject.tag == "Surface") {
-                CDB[(int)m_eBook].tPositioned = m_bPositioned = true;
-                SetRigidBody(false);
-            Debug.Log("cleaned");
-                //SetPositoned();//정리한 것으로 처리
-        }
+            else if (other.gameObject.tag == "WallCollider")
+            {
+                gameObject.transform.position = oPosition;
+                m_RigidBody.velocity = new Vector3(0, 0, 0);
+            }
+            /*
+            if(other.gameObject.tag == "Surface") {
+                    CDB[(int)m_eBook].tPositioned = m_bPositioned = true;
+                    SetRigidBody(false);
+                Debug.Log("cleaned");
+                    //SetPositoned();//정리한 것으로 처리
+            }
 
-        */
-    }
+            */
+        }
     void OnTriggerExit(Collider other)
     {
         //정리안된상태에서 TriggerEnter는 Attach
@@ -438,6 +445,11 @@ public class Books : MonoBehaviour {
 
 
         }
+        else if (other.gameObject.tag == "WallCollider")
+            {
+                gameObject.transform.position = oPosition;
+                m_RigidBody.velocity = new Vector3(0, 0, 0);
+            }
         /*
         if(other.gameObject.tag == "Surface") {
                 CDB[(int)m_eBook].tPositioned = m_bPositioned = true;
