@@ -15,5 +15,4 @@ public class DictionaryScriptEditor : Editor
           ((DictionaryScript)target).DeserializeDictionary();
       }
   }
-    
 }

@@ -8596,6 +8596,7 @@ MonoBehaviour:
   voiceRecording: {fileID: 267640741}
   dataChecker: {fileID: 39687929}
   audioCon: {fileID: 1275069355}
+  scoreManager: {fileID: 1574161646}
   rightPointer: {fileID: 1405856165229722246}
   hud: {fileID: 2138600943}
   mainUi: {fileID: 7428048669433816910}
@@ -21252,7 +21253,7 @@ GameObject:
   - component: {fileID: 1574161645}
   - component: {fileID: 1574161646}
   m_Layer: 0
-  m_Name: Score Calculator
+  m_Name: Score Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21287,6 +21288,10 @@ MonoBehaviour:
   scManager: {fileID: 597562634}
   bCardCtn: 0
   rCardCtn: 0
+  tier1Ctn: 0
+  tier2Ctn: 0
+  tier3Ctn: 0
+  tier4Ctn: 0
   bCardArr: []
   rCardArr: []
   tier1Arr: []
