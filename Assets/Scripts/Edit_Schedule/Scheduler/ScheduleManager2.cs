@@ -11,7 +11,7 @@ using UnityEngine.Serialization;
 using Button = UnityEngine.UI.Button;
 using SceneLoader = KetosGames.SceneTransition.SceneLoader;
 
-public enum ESoundType01
+public enum ESoundType02
 {
     In,
     Click,
@@ -23,7 +23,7 @@ public enum ESoundType01
 namespace Scheduler
 {
     [RequireComponent(typeof(Transform))]
-    public class ScheduleManager1 : MonoBehaviour
+    public class ScheduleManager2 : MonoBehaviour
     {
         public Dictionary<string, int> CardCtnDic;
         public CollectData collectData;
@@ -384,7 +384,7 @@ namespace Scheduler
         
         public void ReSetAll()
         {
-            PlaySoundByTypes(ESoundType01.Click);
+            PlaySoundByTypes(ESoundType02.Click);
             foreach (var oP in oPosList)
             {
                 oP.GetComponent<OriginPosController>().ResetOriginPos();
@@ -433,7 +433,7 @@ namespace Scheduler
             if (allDone)
             {
                 btnFinish.gameObject.SetActive(true);
-                PlaySoundByTypes(ESoundType01.Pop);
+                PlaySoundByTypes(ESoundType02.Pop);
                 starParticle.GetComponent<ParticleSystem>().Play();
             }
         }
@@ -536,7 +536,7 @@ namespace Scheduler
         
         public void DoStartSchedule()
         {
-            PlaySoundByTypes(ESoundType01.Click);
+            PlaySoundByTypes(ESoundType02.Click);
             StartCoroutine(StartCntDown());
             if (completionCtn >= 2)
             {
@@ -551,13 +551,13 @@ namespace Scheduler
             textTitle.text = "<color=#FFFFFF>준비 ~";
 
             yield return new WaitForSeconds(1f);
-            PlaySoundByTypes(ESoundType01.Cnt);
+            PlaySoundByTypes(ESoundType02.Cnt);
             textTitle.text = "<color=#FFFFFF>3";
             yield return new WaitForSeconds(1);
-            PlaySoundByTypes(ESoundType01.Cnt);
+            PlaySoundByTypes(ESoundType02.Cnt);
             textTitle.text = "<color=#FFFFFF>2";
             yield return new WaitForSeconds(1);
-            PlaySoundByTypes(ESoundType01.Cnt);
+            PlaySoundByTypes(ESoundType02.Cnt);
             textTitle.text = "<color=#FFFFFF>1";
             yield return new WaitForSeconds(1);
             textTitle.text = "<color=#FFFFFF>시작 !";
@@ -583,7 +583,7 @@ namespace Scheduler
 
         public void ShowFinishPanel()
         {
-            PlaySoundByTypes(ESoundType01.Click);
+            PlaySoundByTypes(ESoundType02.Click);
             
             VisibleBoard(false);
             VisibleFinPanel(true);
@@ -592,7 +592,7 @@ namespace Scheduler
 
         public void FinishPanel_No()
         {
-            PlaySoundByTypes(ESoundType01.Click);
+            PlaySoundByTypes(ESoundType02.Click);
          
             VisibleBoard(true);
             VisibleFinPanel(false);
@@ -612,7 +612,7 @@ namespace Scheduler
                 completionCtn += 1;
             }
 
-            PlaySoundByTypes(ESoundType01.Click);
+            PlaySoundByTypes(ESoundType02.Click);
 
             if (completionCtn >= 2)
             {
@@ -869,15 +869,15 @@ namespace Scheduler
             SceneLoader.LoadScene(6);
         }
 
-        public void PlaySoundByTypes(ESoundType01 soundType)
+        public void PlaySoundByTypes(ESoundType02 soundType)
         {
             audioSource.clip = soundType switch
             {
-                ESoundType01.Click => soundClick,
-                ESoundType01.In => soundIn,
-                ESoundType01.Cnt => soundCount,
-                ESoundType01.Put => soundPut,
-                ESoundType01.Pop => soundPop,
+                ESoundType02.Click => soundClick,
+                ESoundType02.In => soundIn,
+                ESoundType02.Cnt => soundCount,
+                ESoundType02.Put => soundPut,
+                ESoundType02.Pop => soundPop,
                 _ => null
             };
             audioSource.Play();

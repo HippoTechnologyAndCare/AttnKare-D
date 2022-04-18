@@ -7,10 +7,10 @@ using UnityEngine.Serialization;
 
 namespace Scheduler
 {
-    public class PlanCubeController1 : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+    public class PlanCubeController2 : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
 
-        public ScheduleManager1 scheduleManager;
+        public ScheduleManager2 scheduleManager;
 
         public enum CardState { Idle, Move, Enter, Done }
         
@@ -89,7 +89,7 @@ namespace Scheduler
             if (_pointerOnCube || handController.PointAmount != 1) return;
             transform.SetParent(grp);
             //scheduleManager.ReleaseAllCollision(); 기존 자리
-            scheduleManager.PlaySoundByTypes(ESoundType01.Put);
+            scheduleManager.PlaySoundByTypes(ESoundType02.Put);
 
             nowClicked = false;
             intoSlot = null;
@@ -139,7 +139,7 @@ namespace Scheduler
             scheduleManager.pointerLock = false;
             transform.SetParent(grp);
             //scheduleManager.ReleaseAllCollision(); // 262번 줄로 이동함
-            scheduleManager.PlaySoundByTypes(ESoundType01.Put);
+            scheduleManager.PlaySoundByTypes(ESoundType02.Put);
             
             if (workingSlot != null) //슬롯에 들어온 경우
             {
@@ -151,11 +151,11 @@ namespace Scheduler
                 }
 
                 // 슬롯에 큐브가 들어가는 조건 탐색
-                if (workingSlot.GetComponent<PlanSlotController1>().passenger == null) //새로운 슬롯이 비어있는 경우
+                if (workingSlot.GetComponent<PlanSlotController2>().passenger == null) //새로운 슬롯이 비어있는 경우
                 {
                     if (activeSlot != null)
                     {
-                        activeSlot.GetComponent<PlanSlotController1>().passenger = null;
+                        activeSlot.GetComponent<PlanSlotController2>().passenger = null;
                     }
 
                     if (!isHomeTW && !originPosController.isStored)
@@ -168,7 +168,7 @@ namespace Scheduler
 
                     activeSlot = workingSlot;
                     transform.localPosition = activeSlot.transform.localPosition;                    
-                    activeSlot.GetComponent<PlanSlotController1>().passenger = this.gameObject;
+                    activeSlot.GetComponent<PlanSlotController2>().passenger = this.gameObject;
                     //activeSlot.GetComponent<PlanSlotController1>().inSlot = true;
                     MeshRendererOff(activeSlot);
                     cardState = CardState.Done;
@@ -179,8 +179,8 @@ namespace Scheduler
                     if (activeSlot == null /*&& workingSlot.GetComponent<PlanSlotController1>().passenger == null*/) //현재 할당된 슬롯이 없는 경우
                     {
                         // 새로운 슬롯에 있던 카드 먼저 처리 프로세스
-                        var cardB = workingSlot.GetComponent<PlanSlotController1>().passenger;
-                        cardB.GetComponent<PlanCubeController1>().originPosController.CardDestroyer(cardB);
+                        var cardB = workingSlot.GetComponent<PlanSlotController2>().passenger;
+                        cardB.GetComponent<PlanCubeController2>().originPosController.CardDestroyer(cardB);
                         //cardB.GetComponent<PlanCubeController1>().activeSlot = null;
                         activeSlot = workingSlot;
                         //workingSlot.GetComponent<PlanSlotController1>().passenger.GetComponent<PlanCubeController1>().resetPlanCube(0.07f);
@@ -196,8 +196,8 @@ namespace Scheduler
                     //현재 할당된 슬롯이 있어서 바꿔치기 하는 경우 // A큐브가 -> B슬롯으로 옮김, B큐브가 -> A슬롯으로 옮겨짐
                     else if (activeSlot != null)
                     {
-                        if (activeSlot.GetComponent<PlanSlotController1>().passenger !=
-                            workingSlot.GetComponent<PlanSlotController1>().passenger)
+                        if (activeSlot.GetComponent<PlanSlotController2>().passenger !=
+                            workingSlot.GetComponent<PlanSlotController2>().passenger)
                         {
                             // 내 큐브를 tempCardA에 복사
                             var tempCardA = gameObject;
@@ -208,18 +208,18 @@ namespace Scheduler
                                 prevActSlot = activeSlot;
                             }
                             // B슬롯에 있는 passenger(B큐브)를 tempCard에 임시로 복사
-                            var tempCardB = workingSlot.GetComponent<PlanSlotController1>().passenger;
+                            var tempCardB = workingSlot.GetComponent<PlanSlotController2>().passenger;
                             // B큐브에 있는 activeSlot(B슬롯)을 tempSlot에 임시로 복사
-                            var tempSlotB = tempCardB.GetComponent<PlanCubeController1>().activeSlot;
+                            var tempSlotB = tempCardB.GetComponent<PlanCubeController2>().activeSlot;
                             //이전 슬롯인 prevSlot의 포지션으로 B큐브를 옮김
                             tempCardB.transform.localPosition = tempSlotA.transform.localPosition;
                             // A가 원래 가지고 있던 activeSlot을 B에게 복사 밀어넣음 (내 activeSlot을 B로 아직 바꾸지 않음)
-                            tempCardB.GetComponent<PlanCubeController1>().activeSlot = tempSlotA;
+                            tempCardB.GetComponent<PlanCubeController2>().activeSlot = tempSlotA;
                             // A slot에 B카드를 넣음
-                            tempSlotA.GetComponent<PlanSlotController1>().passenger = tempCardB;
+                            tempSlotA.GetComponent<PlanSlotController2>().passenger = tempCardB;
                             // B card의 상태를 Done으로 변경 + intoSlot = null // B card 이동 완료
-                            tempCardB.GetComponent<PlanCubeController1>().cardState = CardState.Done;
-                            tempCardB.GetComponent<PlanCubeController1>().intoSlot = null;
+                            tempCardB.GetComponent<PlanCubeController2>().cardState = CardState.Done;
+                            tempCardB.GetComponent<PlanCubeController2>().intoSlot = null;
                             // B카드 관련 후속 처리 
                             MeshRendererOff(tempSlotA);
                         
@@ -233,7 +233,7 @@ namespace Scheduler
                     // A card(this)의 위치를 actSlot(B slot)의 위치로 옮기고
                     transform.localPosition = activeSlot.transform.localPosition;
                     // actSlot(B slot)의 passenger에 A card(this)를 넣는다. 
-                    activeSlot.GetComponent<PlanSlotController1>().passenger = gameObject;
+                    activeSlot.GetComponent<PlanSlotController2>().passenger = gameObject;
                     // A card(this) 상태 변경해주고 이동 마무리
                     cardState = CardState.Done;
                     MeshRendererOff(activeSlot);
@@ -276,7 +276,7 @@ namespace Scheduler
             if (collision.collider.CompareTag("POINTER"))
             {
                 _pointerOnCube = true;
-                scheduleManager.PlaySoundByTypes(ESoundType01.In);
+                scheduleManager.PlaySoundByTypes(ESoundType02.In);
             }
         }
 
@@ -373,7 +373,7 @@ namespace Scheduler
         {
             var cloneCard = Instantiate(thisG);
             scheduleManager.grpList.Add(cloneCard.transform);
-            cloneCard.GetComponent<PlanCubeController1>().activeSlot = null;
+            cloneCard.GetComponent<PlanCubeController2>().activeSlot = null;
             cloneCard.transform.SetParent(grp);
             cloneCard.transform.localPosition = startPos;
             cloneCard.transform.localScale = new Vector3(1, 1, 1);
