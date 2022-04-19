@@ -11,7 +11,7 @@ public class Guide_Paddle : MonoBehaviour
 
     public static float TIMELIMIT_PADDLE = 180f;
     public static float TIMEOUT_PADDLE = 220f;
-
+    int a;
     public enum PADDLE_STATE
     {
         INTRO,
