@@ -13,6 +13,10 @@ public class testscript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(transform.rotation.eulerAngles.z);
+        Debug.Log("Z ROTATION:"+transform.rotation.eulerAngles.z);
+        /*
+        Debug.Log("X ROTATION:" + transform.rotation.eulerAngles.x);
+        Debug.Log("Y ROTATION:" + transform.rotation.eulerAngles.y);
+        */
     }
 }

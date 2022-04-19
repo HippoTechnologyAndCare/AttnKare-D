@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BNG;
-public class SteeringWheel : MonoBehaviour
+public class PaddleWheel: MonoBehaviour
 {
-    public Transform Handle; //grabbable handle
+   // public Transform Handle; //grabbable handle
 
     Grabbable grab;
-    public GameObject Vehicle;
-    public Rigidbody VehicleRigidbody;
 
     [SerializeField] private Transform LeftHandModel;
     private bool m_bLeftHand;
@@ -16,7 +14,6 @@ public class SteeringWheel : MonoBehaviour
     private bool m_bRightHand;
 
     public float CurrentWheelRotation =0;
-    public Transform directionalObject;
 
     private float turnDampening; //if higher, ship will perfectly follow steering at a 1:1 ratio
                                  //if lower, lag down a little bit(smoother)
@@ -27,7 +24,6 @@ public class SteeringWheel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        VehicleRigidbody = Vehicle.GetComponent<Rigidbody>();
         grab = GetComponent<Grabbable>();
     }
 
@@ -47,11 +43,22 @@ public class SteeringWheel : MonoBehaviour
             m_bLeftHand = LeftHandModel.childCount > 0;
             m_bRightHand = RighthandModel.childCount > 0;
         }
+        if(grab== null || !grab.BeingHeld)
+        {
+            m_bLeftHand = m_bRightHand = false;
+        }
     }
     void ConverthandRotationToStreeringWheelRotation()
     {
-        if (m_bLeftHand) {  }//Quaternion newRot= Quaternion.Euler(0,0,}
-        if (m_bRightHand) { }
+        if (m_bLeftHand) { Quaternion newRot = Quaternion.Euler(0, 0, LeftHandModel.transform.rotation.eulerAngles.z);
+            Directionalobject.rotation = newRot;
+            transform.parent = Directionalobject;
+        }//Quaternion newRot= Quaternion.Euler(0,0,}
+        if (m_bRightHand) {
+            Quaternion newRot = Quaternion.Euler(0, 0, RighthandModel.transform.rotation.eulerAngles.z);
+            Directionalobject.rotation = newRot;
+            transform.parent = Directionalobject;
+        }
     }
     void TurnVehicle()
     {
@@ -59,13 +66,6 @@ public class SteeringWheel : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        
-    }
-    private void OnCollisionStay(Collision collision)
-    {
-        if(collision.transform.tag == "Grabber")
-        {
-            Grabbed = true;
-        }
+
     }
 }
