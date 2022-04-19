@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Scheduler
 {
-    public class OriginPosController : MonoBehaviour
+    public class OriginPosController01 : MonoBehaviour
     {
         public bool isStored;
         public GameObject storedCard;

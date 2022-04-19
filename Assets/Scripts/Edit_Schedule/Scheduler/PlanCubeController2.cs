@@ -30,7 +30,7 @@ namespace Scheduler
         public float t;
         public bool isHomeTW;
 
-        [FormerlySerializedAs("cardCreator")] [SerializeField] OriginPosController originPosController;
+        [FormerlySerializedAs("cardCreator")] [SerializeField] OriginPosController02 originPosController;
 
         [FormerlySerializedAs("originPos_P")] [SerializeField] GameObject originPosP;
 
@@ -102,7 +102,7 @@ namespace Scheduler
         {
             originPosP = GameObject.Find("Origin Pos");
             var myName = name.Replace("(Clone)", "");
-            originPosController = originPosP.transform.Find(myName).GetComponent<OriginPosController>();            
+            originPosController = originPosP.transform.Find(myName).GetComponent<OriginPosController02>();            
         }
 
         private void MoveCard()

@@ -387,7 +387,7 @@ namespace Scheduler
             PlaySoundByTypes(ESoundType01.Click);
             foreach (var oP in oPosList)
             {
-                oP.GetComponent<OriginPosController>().ResetOriginPos();
+                oP.GetComponent<OriginPosController01>().ResetOriginPos();
             }
             
             foreach(var t in grpList)
@@ -632,7 +632,7 @@ namespace Scheduler
                 VisibleFinPanel(false);
                 ReSetAll();
                 SetYellowForCards();
-                StartCoroutine(hud.GetComponent<HUDSchedule>().HalfInfoSetUiTxt());
+                StartCoroutine(hud.GetComponent<HUDSchedule01>().HalfInfoSetUiTxt());
                 StartCoroutine(audioCon.PlaySecInfo());
                 scoreManager.ScorerCalculator();
                 return;
@@ -659,14 +659,14 @@ namespace Scheduler
             tesEmoji.gameObject.SetActive(true);
             yield return new WaitForSeconds(4f);
             
-            hud.GetComponent<HUDSchedule>().PopupQuestion(true);
+            hud.GetComponent<HUDSchedule01>().PopupQuestion(true);
         }
         
         // 마지막 질문에 대한 대답이 Yes일때의 함수
         public void Yes_Question()
         {
             data214 = 1;
-            hud.GetComponent<HUDSchedule>().PopupQuestion(false);
+            hud.GetComponent<HUDSchedule01>().PopupQuestion(false);
             tesEmoji.gameObject.SetActive(false);
             EndScene();
         }
@@ -675,7 +675,7 @@ namespace Scheduler
         public void No_Question()
         {
             data214 = 0;
-            hud.GetComponent<HUDSchedule>().PopupQuestion(false);
+            hud.GetComponent<HUDSchedule01>().PopupQuestion(false);
             tesEmoji.gameObject.SetActive(false);
             EndScene();
         }
@@ -720,7 +720,7 @@ namespace Scheduler
                 title.gameObject.SetActive(true);
                 arrows.gameObject.SetActive(true);
                 cardTitle.gameObject.SetActive(true);
-                hud.GetComponent<HUDSchedule>().FadeInPanel(board, 1f);
+                hud.GetComponent<HUDSchedule01>().FadeInPanel(board, 1f);
                 
                 board.GetComponent<CanvasGroup>().blocksRaycasts = true;
 
@@ -746,7 +746,7 @@ namespace Scheduler
                 title.gameObject.SetActive(false);
                 arrows.gameObject.SetActive(false);
                 cardTitle.gameObject.SetActive(false);
-                hud.GetComponent<HUDSchedule>().FadeOutPanel(board, 1f);
+                hud.GetComponent<HUDSchedule01>().FadeOutPanel(board, 1f);
                 
                 board.GetComponent<CanvasGroup>().blocksRaycasts = false;
                 

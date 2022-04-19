@@ -30,7 +30,7 @@ namespace Scheduler
         public float t;
         public bool isHomeTW;
 
-        [FormerlySerializedAs("cardCreator")] [SerializeField] OriginPosController originPosController;
+        [FormerlySerializedAs("cardCreator")] [SerializeField] OriginPosController01 originPosController01;
 
         [FormerlySerializedAs("originPos_P")] [SerializeField] GameObject originPosP;
 
@@ -102,7 +102,7 @@ namespace Scheduler
         {
             originPosP = GameObject.Find("Origin Pos");
             var myName = name.Replace("(Clone)", "");
-            originPosController = originPosP.transform.Find(myName).GetComponent<OriginPosController>();            
+            originPosController01 = originPosP.transform.Find(myName).GetComponent<OriginPosController01>();            
         }
 
         private void MoveCard()
@@ -158,7 +158,7 @@ namespace Scheduler
                         activeSlot.GetComponent<PlanSlotController1>().passenger = null;
                     }
 
-                    if (!isHomeTW && !originPosController.isStored)
+                    if (!isHomeTW && !originPosController01.isStored)
                     {
                         if(!scheduleManager.isReset)
                         {
@@ -180,11 +180,11 @@ namespace Scheduler
                     {
                         // 새로운 슬롯에 있던 카드 먼저 처리 프로세스
                         var cardB = workingSlot.GetComponent<PlanSlotController1>().passenger;
-                        cardB.GetComponent<PlanCubeController1>().originPosController.CardDestroyer(cardB);
+                        cardB.GetComponent<PlanCubeController1>().originPosController01.CardDestroyer(cardB);
                         //cardB.GetComponent<PlanCubeController1>().activeSlot = null;
                         activeSlot = workingSlot;
                         //workingSlot.GetComponent<PlanSlotController1>().passenger.GetComponent<PlanCubeController1>().resetPlanCube(0.07f);
-                        if (!isHomeTW && originPosController.storedCard == null)
+                        if (!isHomeTW && originPosController01.storedCard == null)
                         {
                             if(!scheduleManager.isReset)
                             {

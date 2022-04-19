@@ -342,7 +342,7 @@ namespace Scheduler
             {
                 if (go != obj)
                 {
-                    go.GetComponent<PlanCubeController1>().enabled = false;
+                    go.GetComponent<PlanCubeController2>().enabled = false;
                 }
             }
         }
@@ -351,7 +351,7 @@ namespace Scheduler
         {
             foreach (Transform go in grpList)
             {
-                go.GetComponent<PlanCubeController1>().enabled = true;
+                go.GetComponent<PlanCubeController2>().enabled = true;
             }
         }
 
@@ -367,7 +367,7 @@ namespace Scheduler
 
             foreach (var s in slotList)
             {
-                if (s.GetComponent<PlanSlotController1>().passenger != null)
+                if (s.GetComponent<PlanSlotController2>().passenger != null)
                 {
                     check = true;
                 }
@@ -387,12 +387,12 @@ namespace Scheduler
             PlaySoundByTypes(ESoundType02.Click);
             foreach (var oP in oPosList)
             {
-                oP.GetComponent<OriginPosController>().ResetOriginPos();
+                oP.GetComponent<OriginPosController01>().ResetOriginPos();
             }
             
             foreach(var t in grpList)
             {
-                StartCoroutine(t.GetComponent<PlanCubeController1>().ResetPlanCube(0.07f));
+                StartCoroutine(t.GetComponent<PlanCubeController2>().ResetPlanCube(0.07f));
             }
 
             if (CheckEmptySlot())
@@ -401,12 +401,12 @@ namespace Scheduler
 
                 foreach (var t in slotList)
                 {
-                    t.GetComponent<PlanSlotController1>().ResetPlanSlot();
+                    t.GetComponent<PlanSlotController2>().ResetPlanSlot();
                 }
 
                 foreach (var t in slotList)
                 {
-                    StartCoroutine(t.GetComponent<PlanSlotController1>().ResetSlotMesh(0.1f));
+                    StartCoroutine(t.GetComponent<PlanSlotController2>().ResetSlotMesh(0.1f));
                 }
                 ResetGrpList();
 
@@ -425,7 +425,7 @@ namespace Scheduler
         {
             var allDone = true;
 
-            foreach (var aSlot in slotList.Where(aSlot => aSlot.GetComponent<PlanSlotController1>().passenger == null))
+            foreach (var aSlot in slotList.Where(aSlot => aSlot.GetComponent<PlanSlotController2>().passenger == null))
             {
                 allDone = false;
             }
@@ -632,7 +632,7 @@ namespace Scheduler
                 VisibleFinPanel(false);
                 ReSetAll();
                 SetYellowForCards();
-                StartCoroutine(hud.GetComponent<HUDSchedule>().HalfInfoSetUiTxt());
+                StartCoroutine(hud.GetComponent<HUDSchedule01>().HalfInfoSetUiTxt());
                 StartCoroutine(audioCon.PlaySecInfo());
                 scoreManager.ScorerCalculator();
                 return;
@@ -659,14 +659,14 @@ namespace Scheduler
             tesEmoji.gameObject.SetActive(true);
             yield return new WaitForSeconds(4f);
             
-            hud.GetComponent<HUDSchedule>().PopupQuestion(true);
+            hud.GetComponent<HUDSchedule01>().PopupQuestion(true);
         }
         
         // 마지막 질문에 대한 대답이 Yes일때의 함수
         public void Yes_Question()
         {
             data214 = 1;
-            hud.GetComponent<HUDSchedule>().PopupQuestion(false);
+            hud.GetComponent<HUDSchedule01>().PopupQuestion(false);
             tesEmoji.gameObject.SetActive(false);
             EndScene();
         }
@@ -675,7 +675,7 @@ namespace Scheduler
         public void No_Question()
         {
             data214 = 0;
-            hud.GetComponent<HUDSchedule>().PopupQuestion(false);
+            hud.GetComponent<HUDSchedule01>().PopupQuestion(false);
             tesEmoji.gameObject.SetActive(false);
             EndScene();
         }
@@ -720,7 +720,7 @@ namespace Scheduler
                 title.gameObject.SetActive(true);
                 arrows.gameObject.SetActive(true);
                 cardTitle.gameObject.SetActive(true);
-                hud.GetComponent<HUDSchedule>().FadeInPanel(board, 1f);
+                hud.GetComponent<HUDSchedule01>().FadeInPanel(board, 1f);
                 
                 board.GetComponent<CanvasGroup>().blocksRaycasts = true;
 
@@ -733,7 +733,7 @@ namespace Scheduler
 
                 foreach (var slot in slotList)
                 {
-                    if (slot.GetComponent<PlanSlotController1>().passenger == null)
+                    if (slot.GetComponent<PlanSlotController2>().passenger == null)
                     {
                         slot.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
                     }
@@ -746,7 +746,7 @@ namespace Scheduler
                 title.gameObject.SetActive(false);
                 arrows.gameObject.SetActive(false);
                 cardTitle.gameObject.SetActive(false);
-                hud.GetComponent<HUDSchedule>().FadeOutPanel(board, 1f);
+                hud.GetComponent<HUDSchedule01>().FadeOutPanel(board, 1f);
                 
                 board.GetComponent<CanvasGroup>().blocksRaycasts = false;
                 
@@ -813,9 +813,9 @@ namespace Scheduler
                 // 슬롯 리스트에 들어있는 카드를 확인해 타임라인 순서대로 나열해 변수로 저장
                 foreach (var slot in slotList)
                 {
-                    if (slot.GetComponent<PlanSlotController1>().passenger != null)
+                    if (slot.GetComponent<PlanSlotController2>().passenger != null)
                     {
-                        currCard = slot.GetComponent<PlanSlotController1>().passenger.transform;
+                        currCard = slot.GetComponent<PlanSlotController2>().passenger.transform;
                         
                         // 사용된 카드가 각 몇장인지 데이터화 시키는 함수 실행
                         UsedCardsCtn(currCard);
