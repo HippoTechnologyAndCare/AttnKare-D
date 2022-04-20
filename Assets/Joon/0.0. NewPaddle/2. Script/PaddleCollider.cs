@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BNG;
 
 public class PaddleCollider : MonoBehaviour
 {
+    public Grabbable CurrentGrabbable;
     public enum HANDLE { UP, RIGHT, LEFT }
     public HANDLE e_HANDLE;
     private float timePassed; //한 바퀴 돌리는 동안 걸린 시간 체크용
@@ -28,7 +30,7 @@ public class PaddleCollider : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         nStage = Manager_Paddle.intStage;
-        if (collision.collider.tag == "HANDLE_MY" && GrabPaddle.HOLDING)
+        if (collision.collider.tag == "HANDLE_MY" && CurrentGrabbable.BeingHeld)
         {
             if (e_HANDLE == HANDLE.UP)
             {

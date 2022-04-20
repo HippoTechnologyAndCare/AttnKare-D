@@ -5,7 +5,7 @@ using UnityEngine;
 public class GrabPaddle : MonoBehaviour
 {
     // Start is called before the first frame update
-    public static bool HOLDING;
+    public BNG.Grabbable grabbable;
     public Transform MyWheel;
     public Transform FriendWheel;
 
@@ -30,9 +30,8 @@ public class GrabPaddle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (MyWheel.childCount != 0) //idle end
+        if (grabbable.BeingHeld) //idle end
         {
-            HOLDING = true;
             if (!nothing) //Stop IDLE in data log
             {
                 idleT = false;
@@ -40,9 +39,8 @@ public class GrabPaddle : MonoBehaviour
                 nothing = true;
             }
         }
-        if(MyWheel.childCount == 0) //idle start
+        if(!grabbable.BeingHeld) //idle start
         {
-            HOLDING = false;
             if (nothing) //START IDLE in data log
             {
                 idleT = true;
