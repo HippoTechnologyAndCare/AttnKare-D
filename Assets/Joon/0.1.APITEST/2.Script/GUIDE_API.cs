@@ -17,7 +17,23 @@ public class GUIDE_API : MonoBehaviour
 //    HUD_API UI_Hud;
     DATA_API DATA;
     UserInfo_API Userinfo;
-    string BASE_URL = "https://adhd.hippotnc.kr:444";
+    // string BASE_URL = "https://adhd.hippotnc.kr:444";
+    string BASE_URL = "http://jdi.bitzflex.com:4007";
+    string SigninURL = "/api/v2/users"; //계정 생성(POST) + 상세조회(GET)
+    string LoginURL = "/api/v2/session";
+    string ServicesURL = "/api/v2/services?type=2761"; //서비스 목록 조회
+    string ServicesSubsURL = "/api/v2/subscriptions"; //사용자 구독 서비스 목록 조회(GET) + 사용자 서비스 구독(POST)
+    string JobURL ="" ; //servicesubsurl + subs_id + joburl
+    string JobBottomURL = "/jobs?sort_order=desc&sort_by=inserted_at&page=1&per_page=5";
+    string AddJobURL = "";
+    string AddJobBottomURL = "/jobs"; //servicessubsurl + subid + joburl
+    string DataSendURL = "/api/v2/data/up";
+    string MP3URL = "/api/v1/operator/jobs/";
+    string JobExecutionURL = "/eval"; //servicessuburl + sub_id + /jobs/jobid_eval
+    string PdfListURL = "/api/v1/operator/jobs/";
+    string PdfListURL_jobid = "/uploads?sort_by=version_number&sort_order=desc";
+    string PdfFileURl = "/api/v1/operator/jobs/";
+    /*
     string LoginURL = "/api/v1/session";
     string RegistrationURL = "/api/v1/operator/services";
     string PlayerRegister = "/api/v1/operator/players";
@@ -33,6 +49,7 @@ public class GUIDE_API : MonoBehaviour
     string PdfListURL = "/api/v1/operator/jobs/";
     string PdfListURL_jobid= "/uploads?sort_by=version_number&sort_order=desc";
     string PdfFileURl = "/api/v1/operator/jobs/";
+    */
 
     // Start is called before the first frame update
 
@@ -76,13 +93,14 @@ public class GUIDE_API : MonoBehaviour
 
     void SetURL()
     {
+        SigninURL = BASE_URL + SigninURL;
         LoginURL = BASE_URL + LoginURL;
-        RegistrationURL = BASE_URL + RegistrationURL;
-        PlayerRegister = BASE_URL + PlayerRegister;
-        PlayerURL = BASE_URL + PlayerURL;
-        SearchPlayerURL = BASE_URL + SearchPlayerURL;
-        JobURL = BASE_URL + JobURL;
-        AddJobURL = BASE_URL + AddJobURL;
+        ServicesSubsURL = BASE_URL + ServicesSubsURL;
+        JobURL = ServicesSubsURL + "/";
+        AddJobURL = ServicesSubsURL+"/";
+
+
+
         DataSendURL = BASE_URL + DataSendURL;
         JobExecutionURL = BASE_URL + JobExecutionURL;
         MP3URL = BASE_URL + MP3URL;
@@ -95,7 +113,31 @@ public class GUIDE_API : MonoBehaviour
     {
         StartCoroutine(coroutine);
     }
-
+    
+    public IEnumerator POST_Signin()
+    {
+        string UserJsonString = DATA.POST_Signin();
+        Debug.Log("SEE");
+        yield return new WaitUntil(() => UserJsonString != null);
+        Debug.Log("SEE3");
+        UnityWebRequest webRequest = UnityWebRequest.Post(SigninURL, UserJsonString);
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(UserJsonString);
+        webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
+        webRequest.downloadHandler = new DownloadHandlerBuffer();
+        webRequest.SetRequestHeader("Content-Type", "application/json");
+        yield return webRequest.SendWebRequest();
+        if (webRequest.isNetworkError || webRequest.isHttpError)
+        {
+            Debug.Log(webRequest.error);
+            Debug.Log(webRequest.downloadHandler.text);
+            //예외처리 추가하기
+        }
+        else
+        {
+            Debug.Log("SIGNIN COMPLETE");
+            Authorization = DATA.GET_Token(webRequest.downloadHandler.text);
+        }
+    }
     public IEnumerator POST_Login() //로그인
     {
         string UserJsonString = DATA.POST_Login();
@@ -117,16 +159,15 @@ public class GUIDE_API : MonoBehaviour
         else
         {
             Debug.Log("LOGIN COMPLETE");
-            Authorization = DATA.GET_Login(webRequest.downloadHandler.text);
-            StartCoroutine(GET_Registration());
+            Authorization = DATA.GET_Token(webRequest.downloadHandler.text);
+            StartCoroutine(GET_UserInfo());
         }
 
     }
 
-    IEnumerator GET_Registration() //서비스 가입 목록 조회
+    public IEnumerator GET_UserInfo()
     {
-        UnityWebRequest webRequest = UnityWebRequest.Get(RegistrationURL);
-
+        UnityWebRequest webRequest = UnityWebRequest.Get(SigninURL);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
         webRequest.SetRequestHeader("Authorization", Authorization);
@@ -139,21 +180,95 @@ public class GUIDE_API : MonoBehaviour
             if (m_nError == 404) //list is empty error (just show empty list)
             {
                 Debug.Log("error");
-                StartCoroutine(POST_Signin());
+                //StartCoroutine(POST_Signin());
             }
         }
         else
         {
-            Debug.Log("Registration COMPLETE");
+            Debug.Log("USER LOGGED IN");
             Debug.Log(webRequest.downloadHandler.text);
-            bool complete = DATA.GET_Registration(webRequest.downloadHandler.text);
-            StartCoroutine(GET_Playerlist(1));
+            DATA.GET_UserInfo(webRequest.downloadHandler.text);
+            StartCoroutine(GET_ServicesSubs());
+        }
+    }
+
+    IEnumerator GET_ServicesSubs()
+    {
+        UnityWebRequest webRequest = UnityWebRequest.Get(ServicesSubsURL);
+        webRequest.downloadHandler = new DownloadHandlerBuffer();
+        webRequest.SetRequestHeader("Content-Type", "application/json");
+        webRequest.SetRequestHeader("Authorization", Authorization);
+        Debug.Log(Authorization);
+        yield return webRequest.SendWebRequest();
+        if (webRequest.isNetworkError || webRequest.isHttpError)
+        {
+            Debug.Log("if");
+            int m_nError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
+            if (m_nError == 404) //list is empty error (just show empty list)
+            {
+                Debug.Log("error");
+                StartCoroutine(GET_Services());
+            }
+        }
+        else
+        {
+            Debug.Log("USER LOGGED IN");
+            Debug.Log(webRequest.downloadHandler.text);
+            DATA.GET_ServicesSubs(webRequest.downloadHandler.text);
+            StartCoroutine(GET_Joblist());
+        }
+    }
+    IEnumerator POST_ServicesSubs() //서비스 구독
+    {
+        string UserJsonString = DATA.POST_ServicesSubs();
+        UnityWebRequest webRequest = UnityWebRequest.Post(ServicesSubsURL, UserJsonString);
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(UserJsonString);
+        webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
+        webRequest.downloadHandler = new DownloadHandlerBuffer();
+        webRequest.SetRequestHeader("Content-Type", "application/json");
+        webRequest.SetRequestHeader("Authorization", Authorization);
+        yield return webRequest.SendWebRequest();
+        if (webRequest.isNetworkError || webRequest.isHttpError)
+        {
+            Debug.Log(webRequest.error);
+        }
+        else
+        {
+            Debug.Log("Signin COMPLETE");
+            DATA.GET_SubsID(webRequest.downloadHandler.text);
+            StartCoroutine(GET_ServicesSubs());
+
 
         }
     }
-    
+    IEnumerator GET_Services()
+    {
+        UnityWebRequest webRequest = UnityWebRequest.Get(ServicesURL);
+        webRequest.downloadHandler = new DownloadHandlerBuffer();
+        webRequest.SetRequestHeader("Content-Type", "application/json");
+        webRequest.SetRequestHeader("Authorization", Authorization);
+        Debug.Log(Authorization);
+        yield return webRequest.SendWebRequest();
+        if (webRequest.isNetworkError || webRequest.isHttpError)
+        {
+            Debug.Log("ERROR");
+        }
+        else
+        {
+            Debug.Log("Services Listed");
+            Debug.Log(webRequest.downloadHandler.text);
+           DATA.GET_Services(webRequest.downloadHandler.text);
+            StartCoroutine(POST_ServicesSubs());
+
+        }
+    }
 
 
+
+
+
+
+    /*
     IEnumerator POST_Signin() //서비스 가입
     {
         string UserJsonString = DATA.POST_Signin();
@@ -177,137 +292,40 @@ public class GUIDE_API : MonoBehaviour
         }
     }
 
+    */
 
-    public IEnumerator GET_Playerlist(int page)
+    string JOBFinalURL;
+    public IEnumerator GET_Joblist()
     {
-        string FinalPlayerURL = PlayerURL + page + PlayerURL_perPage;
-        Debug.Log(FinalPlayerURL);
-        UnityWebRequest webRequest = UnityWebRequest.Get(FinalPlayerURL);
+        JOBFinalURL = JobURL + UserInfo_API.GetInstance().UserTotalInfo.id + JobBottomURL;
+        Debug.Log(JOBFinalURL);
+        UnityWebRequest webRequest = UnityWebRequest.Get(JOBFinalURL);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
         webRequest.SetRequestHeader("Authorization", Authorization);
         Debug.Log(Authorization);
-        yield return webRequest.SendWebRequest();
-        if (webRequest.isNetworkError || webRequest.isHttpError)
-        {
-            int m_nError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
-            if (m_nError == 404) DATA.GET_Playerlist(webRequest.downloadHandler.text,false);
-        }
-        else
-        {
-            Debug.Log("Get Playerlist COMPLETE");
-            Debug.Log(webRequest.downloadHandler.text);
-            DATA.GET_Playerlist(webRequest.downloadHandler.text,true);
-
-        }
-    }
-  
-    public IEnumerator POST_AddPlayer()
-    {
-        string UserJsonString = DATA.POST_AddPlayer();
-        yield return new WaitUntil(() => UserJsonString != null);
-        Debug.Log(UserJsonString);
-        UnityWebRequest webRequest = UnityWebRequest.Post(PlayerURL, UserJsonString);
-        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(UserJsonString);
-        webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
-        webRequest.downloadHandler = new DownloadHandlerBuffer();
-        webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
             Debug.Log(webRequest.error);
-        }
-        else
-        {
-            Debug.Log("Add Player COMPLETE");
-            StartCoroutine(POST_RegisterPlayer(webRequest.downloadHandler.text));
-        }
-
-    }
-
-    int m_playerIndex = 0;
-    string RegisterPlayerURL;
-    IEnumerator POST_RegisterPlayer(string webResult)
-    {
-        m_playerIndex = DATA.RegisterPlayer(webResult);
-        yield return new WaitUntil(() => m_playerIndex != 0);
-        Debug.Log(m_playerIndex);
-        RegisterPlayerURL = PlayerRegister + "/" + m_playerIndex + "/choose";
-        Debug.Log(PlayerURL);
-        UnityWebRequest webRequest = UnityWebRequest.Post(RegisterPlayerURL, webResult);
-        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(webResult);
-        webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
-        webRequest.downloadHandler = new DownloadHandlerBuffer();
-        webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
-        yield return webRequest.SendWebRequest();
-        if (webRequest.isNetworkError || webRequest.isHttpError)
-        {
-            Debug.Log(webRequest.error);
-        }
-        else
-        {
-            Debug.Log("Post Playerlist COMPLETE");
-            StartCoroutine(GET_Playerlist(1));
-        }
-    }
-
-    string SearchPlayerURL_final;
-    public IEnumerator GET_SearchPlayer(string name)
-    {
-        SearchPlayerURL_final = SearchPlayerURL + name;
-        Debug.Log(SearchPlayerURL_final);
-        UnityWebRequest webRequest = UnityWebRequest.Get(SearchPlayerURL_final);
-        webRequest.downloadHandler = new DownloadHandlerBuffer();
-        webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
-        Debug.Log(Authorization);
-        yield return webRequest.SendWebRequest();
-        if (webRequest.isNetworkError || webRequest.isHttpError)
-        {
-            int m_nError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
-            if (m_nError == 404) DATA.GET_Playerlist(webRequest.downloadHandler.text, false);
-        }
-        else
-        {
-            Debug.Log("Get Playerlist COMPLETE");
             Debug.Log(webRequest.downloadHandler.text);
-            DATA.GET_Playerlist(webRequest.downloadHandler.text, false);
-        }
-
-    }
-    
-    string JobFinalURL;
-    public IEnumerator GET_Joblist(int id,int page)
-    {
-        JobFinalURL = JobURL +page + JobURL_perPage + id;
-        Debug.Log(JobFinalURL);
-        UnityWebRequest webRequest = UnityWebRequest.Get(JobFinalURL);
-
-        webRequest.downloadHandler = new DownloadHandlerBuffer();
-        webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
-        Debug.Log(Authorization);
-        yield return webRequest.SendWebRequest();
-        if (webRequest.isNetworkError || webRequest.isHttpError)
-        {
             int m_nError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
-            if (m_nError == 404) DATA.GET_Joblist(webRequest.downloadHandler.text, id);
+            if (m_nError == 404) DATA.GET_Joblist(webRequest.downloadHandler.text);
         }
         else
         {
             Debug.Log("Get Joblist COMPLETE");
-            Debug.Log("!!URL" + JobFinalURL);
-            DATA.GET_Joblist(webRequest.downloadHandler.text, id);
+            DATA.GET_Joblist(webRequest.downloadHandler.text);
         }
     }
+
 
     public IEnumerator POST_Addjob(int id, int page)
     {
         string UserJsonString = DATA.POST_AddJob(id);
         yield return new WaitUntil(() => UserJsonString != null);
         Debug.Log(UserJsonString);
+        string AddJobFinalURL = AddJobURL + UserInfo_API.GetInstance().UserTotalInfo.id + AddJobBottomURL;
         UnityWebRequest webRequest = UnityWebRequest.Post(AddJobURL, UserJsonString); ;
         byte[] jsonToSend = new UTF8Encoding().GetBytes(UserJsonString);
         webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
@@ -323,10 +341,10 @@ public class GUIDE_API : MonoBehaviour
         else
         {
             Debug.Log("Add Job COMPLETE");
-            StartCoroutine(GET_Joblist(id, page));
+            StartCoroutine(GET_Joblist());
         }
     }
-
+    /*
     public IEnumerator POST_NQTT(int datatype, int scene_id, string data)
     {
         Debug.Log("DATA SENDING");
@@ -407,7 +425,7 @@ public class GUIDE_API : MonoBehaviour
             }
         }
     }
-
+    /*
     IEnumerator POST_JobExecution()
     {
         Debug.Log("DATA POSTING");
@@ -428,10 +446,10 @@ public class GUIDE_API : MonoBehaviour
         else
         {
             Debug.Log("Data Post COMPLETE");
-            StartCoroutine(GoBacktoJoblist());
+     //       StartCoroutine(GoBacktoJoblist());
         }
     }
-
+/*
     public IEnumerator GoBacktoJoblist()
     {
         DATA_API.USERINNER user = UserInfo_API.GetInstance().userInfo;
@@ -454,7 +472,7 @@ public class GUIDE_API : MonoBehaviour
         userinfo_instance = UserInfo_API.GetInstance();
         DATA = FindObjectOfType<DATA_API>();
     }
-    */
+
     string PdfListURL_final;
     public IEnumerator GET_PDFList(string jobid)
     {
@@ -503,5 +521,6 @@ public class GUIDE_API : MonoBehaviour
             DATA.POPUP();
         }
     }
+    */
 }
 

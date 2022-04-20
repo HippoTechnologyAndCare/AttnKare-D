@@ -28,31 +28,76 @@ public class DATA_API : MonoBehaviour
     /// 
     /// </summary>
     /// 
-
-    public class LoginInfo {
-
-        public LoginInfoInner data;
+    [Serializable]
+    public class SigninInfo
+    {
+        public SigninInner user;
     }
     [Serializable]
-    public class LoginInfoInner
+    public class SigninInner
+    {
+        public string name;
+        public string uid;
+        public string password;
+        public string password_confirmation;
+        public int type; //patient = 3
+        public string phonenum;
+        public int gender; //1: male /2:female
+                           //  public int hospital_code;
+        public string birth;
+    }
+
+    public string POST_Signin()
+    {
+        Dictionary<string, string> player = UI_Hud.AddNewPlayer();
+        if (player != null)
+        {
+            SigninInner JsonPlayerInner = new SigninInner
+            {
+                name = (string)player["player_name"],
+                uid = (string)player["uid"],
+                password = (string)player["password"],
+                password_confirmation = (string)player["password_confirmation"],
+                type = 3,
+                phonenum = (string)player["phonenum"],
+                gender = int.Parse(player["gender"]),
+                birth = (string)player["birth"]
+            };
+            SigninInfo JsonNewPlayer = new SigninInfo
+            {
+                user = JsonPlayerInner
+            };
+            Debug.Log(JsonNewPlayer.user.name + " " + JsonNewPlayer.user.birth);
+            string UserJsonString = JsonUtility.ToJson(JsonNewPlayer);
+            Debug.Log(UserJsonString);
+            return UserJsonString;
+        }
+        else return " ";
+    }
+    public class AccessToken {
+
+        public AccessTokenInner data;
+    }
+    [Serializable]
+    public class AccessTokenInner
     {
         public string access_token;
         public string renewal_token;
     }
-    public string GET_Login(string webResult)
+    public string GET_Token(string webResult)
     {
-        LoginInfo userData = JsonConvert.DeserializeObject<LoginInfo>(webResult);
+        AccessToken userData = JsonConvert.DeserializeObject<AccessToken>(webResult);
         Debug.Log(userData.data.access_token);
         UserInfo_API.GetInstance().Authorization = userData.data.access_token;
         return userData.data.access_token;
     }
-    public class USERINFO
+    public class LoginInfo
     {
-        public USERINNER user;
+        public LoginInner user;
     }
 
     [Serializable]
-    public class USERINNER
+    public class LoginInner
     {
         public string uid;
         public string password;
@@ -96,20 +141,20 @@ public class DATA_API : MonoBehaviour
     }
 
 
-    USERINNER userinfo;
+    LoginInner userinfo;
     public string POST_Login() //로그인
     {
 
         Dictionary<string, object> user = UI_Hud.UserLogin();
         if (user != null)
         {
-            USERINNER JsonUserClass = new USERINNER
+            LoginInner JsonUserClass = new LoginInner
             {
                 uid = (string)user["uid"],
                 password = (string)user["password"]
             };
 
-            USERINFO JsonLogInClass = new USERINFO
+            LoginInfo JsonLogInClass = new LoginInfo
             {
                 user = JsonUserClass
             };
@@ -123,12 +168,163 @@ public class DATA_API : MonoBehaviour
     }
 
     public int userData_id;
+
+    public class User
+    {
+        public UserInfo data;
+    }
+    public class UserInfo
+    {
+        public UserInner user;
+    }
+    [Serializable]
+    public class UserInner
+    {
+        public int id;
+        public string name;
+        public string uid;
+        public int type;
+        public string phonenum;
+        public string birth;
+      //  public int hospital_code;
+        public int gender;
+        public string inserted_at;
+        public string updated_at;
+    }
+    public void GET_UserInfo(string webResult)
+    {
+        Debug.Log(webResult);
+        User userData = JsonConvert.DeserializeObject<User>(webResult);
+        UserInfo_API.GetInstance().UserID = userData.data.user.id;
+
+    }
     public bool GET_Registration(string webResult)
     {
         DataInfo userData = JsonConvert.DeserializeObject<DataInfo>(webResult);
         return CompareInfo(userData);
 
     }
+    public class Service
+    {
+        public Services data;
+    }
+    public class Services
+    {
+        public ServicesInfo services;
+    }
+    [Serializable]
+    public class ServicesInfo
+    {
+        public int id;
+        public string addr;
+        public string service_name;
+        public int service_type;
+        public string description;
+        public string inserted_at;
+        public string updated_at;
+    }
+
+    public void GET_Services(string webResult)
+    {
+        Service service = JsonConvert.DeserializeObject<Service>(webResult);
+        UserInfo_API.GetInstance().ServiceID = service.data.services.id;
+        // UserInfo_API.GetInstance().serviceInfo = service.data.services;
+    }
+
+    public class SubsList
+    {
+        public SubslistInner subscription;
+    }
+    [Serializable]
+    public class SubslistInner
+    {
+        public int user_id;
+        public int service_id;
+    }
+
+    public string POST_ServicesSubs()
+    {
+        SubslistInner JsonUserClass = new SubslistInner
+        {
+            user_id = UserInfo_API.GetInstance().UserID,
+            service_id = UserInfo_API.GetInstance().service_id
+        };
+
+        SubsList JsonLogInClass = new SubsList
+        {
+            subscription = JsonUserClass
+        };
+        string UserJsonString = JsonUtility.ToJson(JsonLogInClass);
+        Debug.Log(UserJsonString);
+        return UserJsonString;
+    }
+
+    public class Subs
+    {
+        public SubsID data;
+    }
+    [Serializable]
+    public class SubsID
+    {
+        public int subscription_id;
+    }
+    public void GET_SubsID(string webResult)
+    {
+        Subs service = JsonConvert.DeserializeObject<Subs>(webResult);
+    }
+
+    public class UserSubs
+    {
+        public UserSubsData data;
+    }
+    public class UserSubsData
+    {
+        public List<UserSubsInner> subscriptions;
+    }
+    [Serializable]
+    public class UserSubsInner
+    {
+        public int id;
+        public UserInner user;
+        public ServicesInfo service;
+        public string inserted_at;
+        public string udpated_at;
+    }
+
+    public void GET_ServicesSubs(string webResult)
+    {
+        UserSubs service = JsonConvert.DeserializeObject<UserSubs>(webResult);
+        UserInfo_API.GetInstance().UserTotalInfo = service.data.subscriptions[0];
+    }
+
+
+    [Serializable]
+    public class Job
+    {
+        public int count;
+        public Jobdata data;
+    }
+    public class Jobdata
+    {
+        public List<Jobjobs> jobs;
+    }
+    [Serializable]
+    public class Jobjobs
+    {
+        public string id;
+        public string name;
+        public int status;
+        public List<ResultList> result;
+        public string place;
+        public string updated_at;
+        public string inserted_at;
+    }
+
+    public void GET_JOBS()
+    {
+
+    }
+
 
     bool CompareInfo(DataInfo userdata) //가입여부 확인 --> device id와 farm id가 1 인지 확인
     {
@@ -146,7 +342,8 @@ public class DATA_API : MonoBehaviour
         return false;
     }
 
-    public class ServiceSignIn
+    /*
+public class ServiceSignIn
     {
         public SignInInner service;
     }
@@ -171,6 +368,7 @@ public class DATA_API : MonoBehaviour
         string UserJsonString = JsonUtility.ToJson(JsonSignInClass);
         return UserJsonString;
     }
+    */
     /// <summary>
     /// 
     /// </summary>
@@ -206,7 +404,6 @@ public class DATA_API : MonoBehaviour
         UI_Hud.ResetList("PLAYER");
         PlayersData = JsonConvert.DeserializeObject<PlayerView>(webResult);
         Debug.Log("!!!!!총인원수" + PlayersData.count);
-        UserInfo_API.GetInstance().userInfo = userinfo; //사용자 정보를 저장
         if (PlayersData.data == null) { UI_Hud.ShowPlayerList(); return; }
         for (int i = 0; i < PlayersData.data.players.Count; i++)
         {
@@ -222,7 +419,7 @@ public class DATA_API : MonoBehaviour
     {
         int division = TotalCnt / perPage;
         int remainder = TotalCnt % perPage;
-        if(division == 0) { return 1; }
+        if (division == 0) { return 1; }
         if (division >= 1)
         {
             if (remainder == 0)
@@ -306,7 +503,7 @@ public class DATA_API : MonoBehaviour
     [Serializable]
     public class JobView
     {
-        public int count;
+     //  public int count;
         public JobList data;
     }
     public class JobList
@@ -318,7 +515,6 @@ public class DATA_API : MonoBehaviour
     {
         public string id;
         public string name;
-        public string service_id;
         public int status;
         public List<ResultList> result;
         public string place;
@@ -332,16 +528,16 @@ public class DATA_API : MonoBehaviour
     }
     JobView JobsData;
     List<JobData> AllJobsList = new List<JobData>();
-    public void GET_Joblist(string webResult, int player_id)
+    public void GET_Joblist(string webResult)
     {
         UI_Hud.ResetList("JOB");
         AllJobsList.Clear();
-        PlayerInner SelectedPlayer = AllPlayersList.Find(x => x.id == player_id);
-        UserInfo_API.GetInstance().playerInfo = SelectedPlayer; //사용자 정보를 저장
-        UI_Hud.job_button.name = player_id.ToString();
+      //  PlayerInner SelectedPlayer = AllPlayersList.Find(x => x.id == player_id);
+     //   UserInfo_API.GetInstance().playerInfo = SelectedPlayer; //사용자 정보를 저장
+      //  UI_Hud.job_button.name = player_id.ToString();
         JobsData = JsonConvert.DeserializeObject<JobView>(webResult);
-        UI_Hud.GET_JOBLIST(SelectedPlayer);
-        Debug.Log("@@@PLAYER ID" + SelectedPlayer.id);
+        UI_Hud.GET_JOBLIST();
+      //  Debug.Log("@@@PLAYER ID" + SelectedPlayer.id);
         if (JobsData.data == null) { UI_Hud.ShowJobList(); return; }
         for (int i = 0; i < JobsData.data.jobs.Count; i++)
         {
@@ -352,7 +548,7 @@ public class DATA_API : MonoBehaviour
 
             //  UI_Hud.CreateList(playerinfo.id, playerinfo.player_name, playerinfo.birth, playerinfo.phonenum, "GOING");
         }
-        UI_Hud.JobPage(CreatePage(JobsData.count));
+       // UI_Hud.JobPage(CreatePage(JobsData.count));
         UI_Hud.ShowJobList();
     }
 
@@ -451,7 +647,8 @@ public class DATA_API : MonoBehaviour
         public int player_id;
         public string data; //행동 데이터
     }
-
+}
+/*
     public string SendData(int data_type, int scene_id, string sentdata)
     {
         string m_stopic = "UP." + UserInfo_API.GetInstance().userInfo.uid + "|dtx|" + UserInfo_API.GetInstance().jobInfo.service_id + "|1";
@@ -548,3 +745,4 @@ public class DATA_API : MonoBehaviour
 
 
 }
+*/

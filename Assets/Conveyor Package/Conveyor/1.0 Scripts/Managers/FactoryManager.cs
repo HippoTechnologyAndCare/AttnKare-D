@@ -209,7 +209,7 @@ public class FactoryManager : MonoBehaviour
         FormatJson();
 
         ExportAsJson();
-        DataSend.ConveyorDataSend(m_json);
+     //   DataSend.ConveyorDataSend(m_json);
         /*m_collectData.SaveBehaviorData();*/
 
         m_autoVoiceRecording.StopRecordingNBehavior();

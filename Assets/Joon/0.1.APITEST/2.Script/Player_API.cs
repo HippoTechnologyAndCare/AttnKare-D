@@ -29,21 +29,22 @@ public class Player_API : MonoBehaviour
         switch (POST_case)
         {
             
-            case "GET_Joblist":     playerID = int.Parse(transform.name); 
-                                    StartCoroutine(APIMANAGER.GET_Joblist(int.Parse(transform.name), UI_HUD.nCrntPg_Job)); break;
-            case "GET_JobRefresh":  playerID = int.Parse(transform.name);
+            case "GET_Joblist":     playerID = int.Parse(transform.name); break;
+                                 //   StartCoroutine(APIMANAGER.GET_Joblist(int.Parse(transform.name), UI_HUD.nCrntPg_Job)); break;
+            case "GET_JobRefresh":  playerID = int.Parse(transform.name); break;
                                     StartCoroutine(UI_HUD.PopUP("Joblist"));
-                                    StartCoroutine(APIMANAGER.GET_Joblist(int.Parse(transform.name), UI_HUD.nCrntPg_Job)); break;
-            case "POST_AddJob":     StartCoroutine(APIMANAGER.POST_Addjob(int.Parse(transform.name), UI_HUD.nCrntPg_Job)); break;
+                                  //  StartCoroutine(APIMANAGER.GET_Joblist(int.Parse(transform.name), UI_HUD.nCrntPg_Job)); break;
+            case "POST_AddJob":   //  StartCoroutine(APIMANAGER.POST_Addjob(int.Parse(transform.name), UI_HUD.nCrntPg_Job)); break;
             case "FIND_JOB":        APIDATA.FindPlayerJob(transform.name); break;
             case "POST_Login":      APIMANAGER.CoroutineStart(POST_case); break;
-            case "GET_Playerlist":  StartCoroutine(APIMANAGER.GET_Playerlist(UI_HUD.nCrntPgeN)); break;
-            case "POST_AddPlayer":  APIMANAGER.CoroutineStart(POST_case); break;
-            case "GET_SearchPlayer":StartCoroutine(APIMANAGER.GET_SearchPlayer(APIDATA.SpecificPlayer())); break;
-            case "GET_Refreshplayer":StartCoroutine(UI_HUD.PopUP("Playerlist"));
-                                     StartCoroutine((APIMANAGER.GET_Playerlist(UI_HUD.nCrntPgeN))); break;
+            case "POST_Signin": APIMANAGER.CoroutineStart(POST_case); break;
+            case "GET_Playerlist": // StartCoroutine(APIMANAGER.GET_Playerlist(UI_HUD.nCrntPgeN)); break;
+            case "POST_AddPlayer":  APIMANAGER.CoroutineStart("POST_Signin"); break;
+            case "GET_SearchPlayer"://StartCoroutine(APIMANAGER.GET_SearchPlayer(APIDATA.SpecificPlayer())); break;
+            case "GET_Refreshplayer": //StartCoroutine(UI_HUD.PopUP("Playerlist"));
+                                    // StartCoroutine((APIMANAGER.GET_Playerlist(UI_HUD.nCrntPgeN))); break;
             case "ResetPlayerlist":  UI_HUD.ResetSearchbyName(); APIMANAGER.CoroutineStart("GET_Playerlist"); break;
-            case "GET_PDFList":     StartCoroutine(APIMANAGER.GET_PDFList(transform.parent.name)); break;
+            case "GET_PDFList": break; // StartCoroutine(APIMANAGER.GET_PDFList(transform.parent.name)); 
         }
     }
 
@@ -53,7 +54,7 @@ public class Player_API : MonoBehaviour
         {
             UI_HUD.nCrntPgeN += 1;
             Debug.Log(UI_HUD.nCrntPgeN);
-            StartCoroutine(APIMANAGER.GET_Playerlist(UI_HUD.nCrntPgeN));
+           // StartCoroutine(APIMANAGER.GET_Playerlist(UI_HUD.nCrntPgeN));
         }
     }
     public void PlayerListPageDOWN()
@@ -62,7 +63,7 @@ public class Player_API : MonoBehaviour
         {
             UI_HUD.nCrntPgeN -= 1;
             Debug.Log(UI_HUD.nCrntPgeN);
-            StartCoroutine(APIMANAGER.GET_Playerlist(UI_HUD.nCrntPgeN));
+          //  StartCoroutine(APIMANAGER.GET_Playerlist(UI_HUD.nCrntPgeN));
         }
     }
     public void JobListPageUP()
@@ -71,7 +72,7 @@ public class Player_API : MonoBehaviour
         {
             UI_HUD.nCrntPg_Job += 1;
             Debug.Log(UI_HUD.nCrntPg_Job);
-            StartCoroutine(APIMANAGER.GET_Joblist(int.Parse(UI_HUD.JOB_Refresh.name), UI_HUD.nCrntPg_Job));
+            StartCoroutine(APIMANAGER.GET_Joblist());
         }
     }
     public void JobListPageDOWN()
@@ -80,7 +81,7 @@ public class Player_API : MonoBehaviour
         {
             UI_HUD.nCrntPg_Job -= 1;
             Debug.Log(UI_HUD.nCrntPg_Job);
-            StartCoroutine(APIMANAGER.GET_Joblist(int.Parse(UI_HUD.JOB_Refresh.name), UI_HUD.nCrntPg_Job));
+            StartCoroutine(APIMANAGER.GET_Joblist());
         }
     }
 

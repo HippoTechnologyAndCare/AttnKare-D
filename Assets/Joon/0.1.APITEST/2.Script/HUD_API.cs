@@ -26,9 +26,13 @@ public class HUD_API : MonoBehaviour
     public int nTtlPgeN;
     public Text player_birth;
     public InputField player_phone;
-    public InputField player_email;
-    public InputField player_EmailDomain;
-    public InputField player_guardian;
+    public InputField player_uid;
+ //   public InputField player_email;
+    public InputField player_uidDomain;
+    //   public InputField player_EmailDomain;
+    public InputField player_PWD;
+    public InputField player_PWDConfirm;
+    //  public InputField player_guardian;
     public Toggle player_Male;
     public Toggle player_Female;
     string player_Gender;
@@ -225,16 +229,24 @@ public class HUD_API : MonoBehaviour
     }
     */
 
-    public void GET_JOBLIST(DATA_API.PlayerInner playerinfo)//create detailed user info in job list screen
+    public void GET_JOBLIST()//create detailed user info in job list screen
     {
+        DATA_API.UserInner playerinfo = UserInfo_API.GetInstance().UserTotalInfo.user;
         Debug.Log("+++HUD" + JOB_Name.gameObject.name + "::::" + playerinfo.id);
-        JOB_Name.text= playerinfo.player_name;
+        JOB_Name.text= playerinfo.name;
         JOB_Birth.text = playerinfo.birth;
         JOB_Phone.text = playerinfo.phonenum;
-        JOB_Email.text = playerinfo.email;
-        JOB_Guardian.text = playerinfo.guardian_name;
-        JOB_Gender.text = playerinfo.gender;
-        JOB_Grade.text = playerinfo.grade.ToString();
+        JOB_Email.text = playerinfo.uid;
+
+        JOB_Gender.text = playerinfo.gender == 1 ? "M" : "F";
+        var birthYear = playerinfo.birth.Split("-"[0]);
+        Debug.Log(birthYear[0]);
+        string currentYear = System.DateTime.Now.ToString("yyyy");
+        int grade = int.Parse(currentYear)- int.Parse(birthYear[0]);
+        string grade_s = "NO";
+        if (grade > 6 && grade < 10) grade_s = "L";
+        if (grade > 9 && grade < 13) grade_s = "H";
+        JOB_Grade.text = grade_s;
         JOB_Refresh.name = playerinfo.id.ToString();
 
     }
@@ -292,6 +304,15 @@ public class HUD_API : MonoBehaviour
     {
         APIConnet.CoroutineStart("GET_Joblist");
     }
+    public void ShowLogin()
+    {
+        Canvas_LOGIN.SetActive(true);
+        Canvas_Player.SetActive(false);
+        Canvas_NewPlayer.SetActive(false);
+        Canvas_Joblist.SetActive(false);
+        Canvas_AddJob.SetActive(false);
+        Canvas_JobLIst.SetActive(false);
+    }
     public void ShowPlayerList()
     {
         Canvas_LOGIN.SetActive(false);
@@ -300,7 +321,6 @@ public class HUD_API : MonoBehaviour
         Canvas_Joblist.SetActive(false);
 
     }
-
     public void ShowAddPlayer()
     {
         Canvas_LOGIN.SetActive(false);
@@ -321,6 +341,22 @@ public class HUD_API : MonoBehaviour
     }
     public Dictionary<string, string> AddNewPlayer()
     {
+        if (player_Female != null || player_Male != null)
+        {
+            player_Gender = player_Female ? "1" : "0"; //남아면 1 여아면 2
+        }
+        Dictionary<string, string> NewPlayer = new Dictionary<string, string>();
+        NewPlayer.Add("player_name", player_name.text);
+        NewPlayer.Add("birth", player_birth.text);
+        NewPlayer.Add("phonenum", player_phone.text);
+        string uid = player_uid.text + "@" + player_uidDomain.text;
+        NewPlayer.Add("uid", uid);
+        NewPlayer.Add("password", player_PWD.text);
+        NewPlayer.Add("password_confirmation", player_PWDConfirm.text);
+        NewPlayer.Add("gender", player_Gender);
+        NewPlayer.Add("grade", player_Grade.text);
+        return NewPlayer;
+        /*
         Error_NameOverlap.SetActive(false);
         if (player_Female != null || player_Male != null)
         {
@@ -337,6 +373,7 @@ public class HUD_API : MonoBehaviour
         NewPlayer.Add("gender", player_Gender);
         NewPlayer.Add("grade", player_Grade.text);
         return NewPlayer;
+        */
 
     }
     public Dictionary<string, string> AddNewJob()

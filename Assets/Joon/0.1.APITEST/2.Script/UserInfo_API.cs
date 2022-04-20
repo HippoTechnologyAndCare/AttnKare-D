@@ -5,7 +5,12 @@ using UnityEngine;
 public class UserInfo_API : MonoBehaviour
 {
     public string Authorization;
-    public DATA_API.USERINNER userInfo;
+    public int UserID;
+    public int ServiceID;
+    public DATA_API.UserSubsInner UserTotalInfo;
+    //  public DATA_API.UserInner userInfo;
+    //  public DATA_API.ServicesInfo serviceInfo;
+    public int Subscription_ID;
     public DATA_API.PlayerInner playerInfo;
     public int service_id;
     public DATA_API.JobData jobInfo;
