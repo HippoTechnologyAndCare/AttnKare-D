@@ -162,7 +162,7 @@ namespace Scheduler
                     {
                         if(!scheduleManager.isReset)
                         {
-                            InstantiateCard(cardPrb);
+                            //InstantiateCard(cardPrb);
                         }                        
                     }
 
@@ -188,7 +188,7 @@ namespace Scheduler
                         {
                             if(!scheduleManager.isReset)
                             {
-                                InstantiateCard(cardPrb);
+                                //InstantiateCard(cardPrb);
                             }                        
                         }
                     }
