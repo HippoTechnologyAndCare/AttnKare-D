@@ -214,7 +214,7 @@ public class Guide_Paddle : MonoBehaviour
         m_strOrder = Manager_Paddle.SDB[intStage].strHANDLE;
         Manager_Paddle.SDB[intStage].strHANDLE = null; //ÇÑ¹ÙÄû µ¹¸é strHANDELÀ» null ½ÃÅ´
         if (m_strOrder != Manager_Paddle.SDB[intStage].strORDER) { Debug.Log(m_strOrder+ intStage); Check_Order(); return; }
-        if (time > 0.4f || time < -0.4f) { Check_Speed(); return; }
+        if (time > 0.8f || time < -0.8f) { Check_Speed(); return; }
         m_nComplete += 1;
         CableCar.PlusDistance();
         Hud.SetDistance(intStage);
