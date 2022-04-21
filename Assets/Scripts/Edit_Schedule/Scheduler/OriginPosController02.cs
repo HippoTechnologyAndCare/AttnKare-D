@@ -50,8 +50,8 @@ namespace Scheduler
                         schManager.grpList.Remove(storedCard.transform);
                         Destroy(storedCard);
                     }
-                    
-                    Debug.Log("storedCard =" + storedCard.name);
+
+                    Debug.Log("storedCard =" + storedCard);
                     
                     //storedCard도 origin일 경우 체크
                     if (!RemoveWord.EndsWithWord(storedCard.name, _word))

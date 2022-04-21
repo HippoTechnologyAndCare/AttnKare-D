@@ -120,7 +120,6 @@ namespace Scheduler
         [SerializeField] private float data211;
         [SerializeField] private float data212;
         [SerializeField] private float data213;
-        [SerializeField] private float data214;
 
         [Header("Audio Clips")] 
         [FormerlySerializedAs("sound_Count")] public AudioClip soundCount;
@@ -140,9 +139,8 @@ namespace Scheduler
             data210 = 0;
             data211 = 0;
             data212 = 0;
-            data213 = 0;
-            data214 = -1;
-            
+            data213 = -1;
+
             completionCtn = 0;
             skipYn = 0;
 
@@ -499,7 +497,7 @@ namespace Scheduler
 
                         if (yelCard == originName)
                         {
-                            data213 += 1;
+                            // yellow 카드를 사용한 횟수 데이터를 +1 시켜야 한다
                         }
                     }
                 }
@@ -665,7 +663,7 @@ namespace Scheduler
         // 마지막 질문에 대한 대답이 Yes일때의 함수
         public void Yes_Question()
         {
-            data214 = 1;
+            data213 = 1;
             hud.GetComponent<HUDSchedule02>().PopupQuestion(false);
             tesEmoji.gameObject.SetActive(false);
             EndScene();
@@ -674,7 +672,7 @@ namespace Scheduler
         // 마지막 질문에 대한 대답이 No일때의 함수
         public void No_Question()
         {
-            data214 = 0;
+            data213 = 0;
             hud.GetComponent<HUDSchedule02>().PopupQuestion(false);
             tesEmoji.gameObject.SetActive(false);
             EndScene();
@@ -705,7 +703,7 @@ namespace Scheduler
             data210 = dataChecker.scheduleData.data210;
             // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
             Scene2Arr = new[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, _planData01,_planData02, 
-                skipYn, timerForBeforeStarted, timerForFirstSelect, data210, data211, data212, data213, data214 };
+                skipYn, timerForBeforeStarted, timerForFirstSelect, data210, data211, data212, data213 };
             gameDataManager.GetComponent<GameDataManager>().SaveCurrentData();
             DataSend.GetSceneData();
             StartCoroutine(GoToNextScene());

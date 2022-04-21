@@ -526,7 +526,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 756900581}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &39687929
 MonoBehaviour:
@@ -4337,7 +4337,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 597562632}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &267640739
 AudioSource:
@@ -4589,7 +4589,7 @@ RectTransform:
   - {fileID: 1851203554}
   - {fileID: 829761020}
   m_Father: {fileID: 597562632}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -9721,7 +9721,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7428048669433816910}
-  - {fileID: 1275069353}
   - {fileID: 267640738}
   - {fileID: 275108586}
   m_Father: {fileID: 0}
@@ -11901,6 +11900,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1275069353}
   - {fileID: 2138600943}
   - {fileID: 1574161645}
   - {fileID: 39687928}
@@ -19491,12 +19491,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1275069352}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.163, z: 2.323}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 597562632}
-  m_RootOrder: 1
+  m_Father: {fileID: 756900581}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1275069354
 AudioSource:
@@ -19607,19 +19607,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstInfoArr:
-  - {fileID: 8300000, guid: a84b83270bdbde24993b57ef15acf2e7, type: 3}
-  - {fileID: 8300000, guid: 3ef24558cd97b2b45bb378667e45e92c, type: 3}
-  - {fileID: 8300000, guid: 1d1c9d63c790f774faf9768aacaf19a7, type: 3}
-  - {fileID: 8300000, guid: c24133c42d88fe443a6866ff743d8224, type: 3}
-  - {fileID: 8300000, guid: bfe6cf6610713884a9f31796bb4039a8, type: 3}
-  - {fileID: 8300000, guid: c46378933b20e6245b6a2c8d2e9a37d8, type: 3}
-  - {fileID: 8300000, guid: a31a6a33028fe544b847c7ee57179efd, type: 3}
+  - {fileID: 8300000, guid: 00da6b37398844142800779775f3f6d9, type: 3}
+  - {fileID: 8300000, guid: fe5eb592ae76f894cb6686d45bc55615, type: 3}
+  - {fileID: 8300000, guid: 46b767eebe277914a9d20ead7c20928f, type: 3}
+  - {fileID: 8300000, guid: cce191998a251df48b4985fad593b61a, type: 3}
+  - {fileID: 8300000, guid: bc0cdbc4422011e449d598a6c6a48d7a, type: 3}
+  - {fileID: 8300000, guid: 6a97b1adc463b854eab4c7ef81cb0138, type: 3}
+  - {fileID: 8300000, guid: 0e2dc3655c3ad9348a850b95e764cea8, type: 3}
   secInfoArr:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  intro: {fileID: 8300000, guid: 0f1a44f6d7ff1f245805b84a99423cbd, type: 3}
-  secInfo: {fileID: 8300000, guid: 2796aff2069b57b44bf45074b7781aaa, type: 3}
+  - {fileID: 8300000, guid: c042693bc2621fb43a2ce587e834327f, type: 3}
+  - {fileID: 8300000, guid: db3d12d51f688f84388faa8f90b17adc, type: 3}
+  intro: {fileID: 8300000, guid: 4781aaeebf9bcd246b6fe29bbe17f0a0, type: 3}
+  secInfo: {fileID: 8300000, guid: 046c7a4cb571b794db431cd11b3b265d, type: 3}
   question: {fileID: 8300000, guid: 69be718975426494d9012f26b9e39eb1, type: 3}
   BGM: {fileID: 8300000, guid: 4bc76894268653149b64c6224443eb20, type: 3}
   TimeLimit: {fileID: 8300000, guid: b80e681dae5acf347b9e56d3d62da9e3, type: 3}
@@ -24073,7 +24072,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 756900581}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1574161646
 MonoBehaviour:
@@ -32348,7 +32347,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 756900581}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2138600944
 MonoBehaviour:
@@ -32362,16 +32361,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4215a192f5493fc4a9a48ce84eaf3ef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dictionaryData: {fileID: 11400000, guid: ad7063d43c86924478a41a0369dd9f5e, type: 2}
+  dictionaryData: {fileID: 11400000, guid: a4fdacca9fe5378479baa2fdf68ae388, type: 2}
   keys:
   - "<color=#4EF848>\uC0C1\uCF8C\uD55C \uC544\uCE68\uC774 \uBC1D\uC558\uC5B4 "
-  - "<color=#4EF848>\uC624\uB298\uC758 \uBC29\uD559 \uACC4\uD68D\uD45C\uB97C \uB9CC\uB4E4\uC5B4\uBCF4\uC790!<br>\uACC4\uD68D\uD45C
+  - "<color=#4EF848>\uC624\uB298\uC758 \uACC4\uD68D\uD45C\uB97C \uB9CC\uB4E4\uC5B4\uBCF4\uC790!<br>\uACC4\uD68D\uD45C
     \uC9DC\uAE30\uB97C \uCD1D 2\uBC88 \uD560\uAC70\uC57C "
   - "<color=#4EF848>\uC67C\uCABD\uC5D0 \uBCF4\uC774\uB294 \uD560 \uC77C \uCE74\uB4DC\uB97C
     <br>\uC624\uB978\uCABD \uACC4\uD68D\uD45C\uC5D0 \uD55C \uCE78\uC529 \uC62E\uACA8\uBD10 "
   - "<color=#4EF848>\uACC4\uD68D\uD45C\uB97C \uB2E4 \uCC44\uC6B4 \uB2E4\uC74C <br>\uC644\uB8CC
     \uBC84\uD2BC\uC744 \uB204\uB974\uC790 "
-  - "<color=#4EF848>\uADF8\uB9AC\uACE0 \uD55C\uBC88 \uB354!<br>\uB0B4\uC77C \uACC4\uD68D\uD45C\uB97C
+  - "<color=#4EF848>\uADF8\uB9AC\uACE0 \uD55C\uBC88 \uB354!<br>\uACC4\uD68D\uD45C\uB97C
     \uCC44\uC6CC\uBD10! "
   - "<color=#4EF848>\uC790! \uC774\uC81C \uC2DC\uC791\uD574 \uBCFC\uAE4C? "
   - "<color=#4EF848>\uC81C\uD55C \uC2DC\uAC04\uC740 2\uBD84 30\uCD08\uC57C "
@@ -32398,8 +32397,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dicScript01: {fileID: 2138600944}
   dicScript02: {fileID: 2138600946}
-  dicData01: {fileID: 11400000, guid: ad7063d43c86924478a41a0369dd9f5e, type: 2}
-  dicData02: {fileID: 11400000, guid: 511fbab0e59ee774ba367a4db8958db2, type: 2}
+  dicData01: {fileID: 11400000, guid: a4fdacca9fe5378479baa2fdf68ae388, type: 2}
+  dicData02: {fileID: 11400000, guid: d06895bd61853d74784d38aaf951f682, type: 2}
   schManager: {fileID: 597562633}
   questionPanel: {fileID: 1851203554}
   audSIntro: {fileID: 0}
@@ -32420,17 +32419,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4215a192f5493fc4a9a48ce84eaf3ef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dictionaryData: {fileID: 11400000, guid: 511fbab0e59ee774ba367a4db8958db2, type: 2}
+  dictionaryData: {fileID: 11400000, guid: d06895bd61853d74784d38aaf951f682, type: 2}
   keys:
-  - "<color=#4EF848>\uC790! <br>\uC774\uC81C\uB294 \uB0B4\uC77C \uACC4\uD68D\uD45C\uB97C
-    \uB9CC\uB4E4\uAC70\uC57C "
-  - "<color=#4EF848>\uC774\uBC88\uC5D0\uB294 \uB178\uB780 \uCE74\uB4DC\uB97C \uB418\uB3C4\uB85D\uC774\uBA74
-    \uC0AC\uC6A9\uD558\uC9C0 \uB9D0\uACE0<br>\uB098\uBA38\uC9C0 \uCE74\uB4DC\uB97C
-    \uC774\uC6A9\uD574 \uACC4\uD68D\uD45C\uB97C \uB9CC\uB4E4\uC5B4 \uBD10 "
-  - "<color=#4EF848>\uC774\uC81C \uC2DC\uC791\uD560\uAC8C! "
+  - "<color=#4EF848>\uC798\uD588\uC5B4! <br>\uC774\uC81C \uB2E4\uC2DC \uD55C\uBC88
+    \uB611\uAC19\uC774 \uACC4\uD68D\uD45C\uB97C \uC9DC\uBCF4\uC790 "
+  - "<color=#4EF848>\uC9C0\uAE08 \uC2DC\uC791\uD560\uAC8C! "
   values:
-  - 3.87
-  - 7.37
+  - 4.2
   - 1.9
   modifyValues: 0
 --- !u!1 &2143208766
