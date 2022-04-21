@@ -20,7 +20,7 @@ using BNG;
     public Transform Logo;
     public Transform TransitionIN;
     public Transform TransitionOut;
-
+    public GameObject Canvas_Recording;
     public NetworkManager NetworkManager;
     public AutoVoiceRecording_Ending VoiceRecord;
 
@@ -214,12 +214,14 @@ using BNG;
         }
         yield return new WaitForSeconds(7.0f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.052>제일 재미있었던\n미션은 뭐야?\n그리고 또 어느 미션이\n가장 어려웠어?", audioIndex = 3,7.0f));
-        yield return new WaitForSeconds(7.0f);
-
+        
+         yield return new WaitForSeconds(7.0f);
+        Canvas_Recording.SetActive(true);
         yield return new WaitForSeconds(8.0f);
         // if 문으로 고학년 저학년 분리
         VoiceRecord.StopRecordingNBehavior();
-        DataSend.GetSceneData();
+     //   DataSend.GetSceneData();
+        Canvas_Recording.SetActive(false);
         desPos = new Vector3(-0.02f, -0.693f, 2.795f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>그랬구나~!", audioIndex = 4,3.0f));
         yield return new WaitForSeconds(3.0f);
