@@ -368,15 +368,17 @@ public class CollectibleData
     public JsonDataInt ToJsonDataInt(int dataNum, int var)
     {
         JsonDataInt jsonDataField = new JsonDataInt();
-
+        int buildIndex;
+        /*
         int sceneIndex;
 
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
 #if UNITY_EDITOR
         sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;
 #endif
-
-        jsonDataField.ID = sceneIndex * 100 + dataNum;
+        */
+        buildIndex = 8;
+        jsonDataField.ID = buildIndex * 100 + dataNum;
         jsonDataField.Result = var;
 
         return jsonDataField;
@@ -386,14 +388,19 @@ public class CollectibleData
     {
         JsonDataFloat jsonDataField = new JsonDataFloat();
 
-        int sceneIndex;
-
+        int dataIndex;
+        /*
+         * int sceneIndex;
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
 #if UNITY_EDITOR
         sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;
 #endif
+        */
 
-        jsonDataField.ID = sceneIndex * 100 + dataNum;
+        //씬 index로 데이터를 설정하면 씬 순서 바뀔때마다 수정해야함
+
+        dataIndex = 8;
+        jsonDataField.ID = dataIndex * 100 + dataNum;
         jsonDataField.Result = var;
 
         return jsonDataField;
@@ -402,15 +409,17 @@ public class CollectibleData
     public JsonDataString ToJsonDataString(int dataNum, string var)
     {
         JsonDataString jsonDataField = new JsonDataString();
-
+        int buildIndex;
+        /*
         int sceneIndex;
 
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
 #if UNITY_EDITOR
         sceneIndex = EditorSceneManager.GetActiveScene().buildIndex;
 #endif
-
-        jsonDataField.ID = sceneIndex * 100 + dataNum;
+        */
+        buildIndex = 8;
+        jsonDataField.ID = buildIndex * 100 + dataNum;
         jsonDataField.Result = var;
 
         return jsonDataField;
