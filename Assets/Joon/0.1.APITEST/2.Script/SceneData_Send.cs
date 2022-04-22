@@ -34,9 +34,9 @@ public class SceneData_Send : MonoBehaviour
             case 9: scene_id = 1070; StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //오프닝
             case 8: scene_id = 1080; GetBehaviorData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //튜토리얼
             case 1: scene_id = 1001; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //책가방
-            case 5: scene_id = 1001; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //스케줄
+            case 5: scene_id = 1005; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //스케줄
             case 2: scene_id = 1002; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //공옮기기
-            case 6: scene_id = 1002; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //페달
+            case 6: scene_id = 1006; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //페달
             case 3: scene_id = 1003; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //숫자맞추기
             case 4: scene_id = 1004; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //방청소
             case 11: scene_id = 999; StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //엔딩
@@ -45,7 +45,7 @@ public class SceneData_Send : MonoBehaviour
     }
     public void ConveyorDataSend(string json)
     {
-        scene_id = 1004;
+        scene_id = 1007;
         Debug.Log(json);
         StartCoroutine(APICONNECT.POST_NQTT(2, scene_id, json));
         GetBehaviorData();
