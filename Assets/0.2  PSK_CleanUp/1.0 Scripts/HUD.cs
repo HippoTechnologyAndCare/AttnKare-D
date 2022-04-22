@@ -381,7 +381,7 @@ public class HUD : MonoBehaviour
     //FadeIn시 Canvas를 Enable시켜줍니다
     void CanvasFadeIn(Canvas canvas, float time){
         if(!canvas) return;  // check valid canvas ?
-        //canvas.gameObject.SetActive(true);  
+        canvas.gameObject.SetActive(true);  
         StartCoroutine(AnimAlpah(canvas, time,true));
     }
 
@@ -401,7 +401,7 @@ public class HUD : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
             cg.alpha += bIn ? fadeStep : (-1f)*fadeStep;
         }
-        //if(!bIn) canvas.gameObject.SetActive(false);
+        if(!bIn) canvas.gameObject.SetActive(false);
     }
 
     //사용자가 왼쪽, 오른쪽 Grabber Trigger를 누름    
