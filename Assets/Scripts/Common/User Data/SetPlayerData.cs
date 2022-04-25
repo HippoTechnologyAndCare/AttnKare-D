@@ -141,10 +141,10 @@ public class SetPlayerData : MonoBehaviour
     private int SetLastKey(int currentKey )
     {
         if (currentKey <= 199) _eachLastKey = 107;
-        else if (currentKey <= 299) _eachLastKey = 214;
-        else if (currentKey <= 399) _eachLastKey = 309;
+        else if (currentKey <= 299) _eachLastKey = 213;
+        else if (currentKey <= 399) _eachLastKey = 310;
         else if (currentKey <= 499) _eachLastKey = 420;
-        else if (currentKey <= 599) _eachLastKey = 509;
+        else if (currentKey <= 599) _eachLastKey = 510;
         else if (currentKey <= 699) _eachLastKey = 611;
         else if (currentKey <= 799) _eachLastKey = 712;
         return _eachLastKey;
