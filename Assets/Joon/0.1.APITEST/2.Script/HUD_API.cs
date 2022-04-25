@@ -381,7 +381,7 @@ public class HUD_API : MonoBehaviour
         Dictionary<string, string> NewJob = new Dictionary<string, string>();
         NewJob.Add("name", job_Name.text);
         //»ï¼º¿ë
-        if (job_Place.text == "") { job_Place.text = "»ï¼ºº´¿ø"; }
+        if (job_Place.text == "") { job_Place.text = "¿õÁø ÇÃ·¹ÀÌµµ½Ã"; }
         NewJob.Add("place", job_Place.text);
         NewJob.Add("player_id", job_button.name);
         return NewJob;

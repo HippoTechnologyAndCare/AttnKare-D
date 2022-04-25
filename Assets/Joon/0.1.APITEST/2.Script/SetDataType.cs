@@ -115,12 +115,12 @@ public class SetDataType : MonoBehaviour
     private int SetLastKey(int currentKey)
     {
         if (currentKey <= 199) eachLastKey = 107;
-        else if (currentKey <= 299) eachLastKey = 208;
-        else if (currentKey <= 399) eachLastKey = 308;
-        else if (currentKey <= 499) eachLastKey = 416;
+        else if (currentKey <= 299) eachLastKey = 213;
+        else if (currentKey <= 399) eachLastKey = 310;
+        else if (currentKey <= 499) eachLastKey = 420;
         else if (currentKey <= 599) eachLastKey = 510;
         else if (currentKey <= 699) eachLastKey = 611;
-        else if (currentKey <= 799) eachLastKey = 710;
+        else if (currentKey <= 799) eachLastKey = 712;
         return eachLastKey;
     }
 

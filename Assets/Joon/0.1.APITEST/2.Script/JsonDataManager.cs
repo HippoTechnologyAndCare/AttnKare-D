@@ -50,7 +50,7 @@ public class JsonDataManager : MonoBehaviour
                 saveCurrentSceneData = SetData;
                 break;
             case 5: //Ω∫ƒ…¡Ÿ
-                objToFind = FindObjectOfType<Scheduler.ScheduleManager1>().gameObject;
+                objToFind = FindObjectOfType<Scheduler.ScheduleManager2>().gameObject;
                 saveCurrentSceneData = SetData;
                 break;
             case 6: //PlayPaddle
@@ -133,7 +133,7 @@ public class JsonDataManager : MonoBehaviour
                 setPlayerData.SetSceneData(objToFind.GetComponent<CleanUp.Guide>().m_dataReportFloat);
                 break;
             case 5: //Scehedule
-                setPlayerData.SetSceneData(objToFind.GetComponent<Scheduler.ScheduleManager1>().Scene2Arr);
+                setPlayerData.SetSceneData(objToFind.GetComponent<Scheduler.ScheduleManager2>().Scene2Arr);
                 break;
             case 6: //PlayPaddle
                 setPlayerData.SetSceneData(objToFind.GetComponent<Guide_Paddle>().arrData);
