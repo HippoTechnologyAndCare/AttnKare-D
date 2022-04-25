@@ -83,7 +83,8 @@ public class Guide_Paddle : MonoBehaviour
 
         m_listCOLLIDER = new List<PaddleCollider>(FindObjectsOfType<PaddleCollider>());
         Hud = GameObject.Find("Hud_Paddle").GetComponent<Hud_Paddle>();
-        Make_INTRO(); //시작하기까지 시간체크
+        //  Make_INTRO(); //시작하기까지 시간체크
+        Make_START();
     }
     
     // Update is called once per frame

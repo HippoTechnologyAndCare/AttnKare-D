@@ -125,15 +125,9 @@ namespace BNG {
             UpdatePreviousAngle(targetAngle);
         }
 
-        int interval = 1;
-        float nextTime = 0;
+
         public virtual void ResetAngle()
         {
-            if (Time.time >= nextTime)
-            {
-                Debug.Log(targetAngle);
-                nextTime += interval;
-            }
                 if (Angle > 359.8 || Angle<-359.8) { RotatorObject.localEulerAngles = new Vector3(0, 0, 0);  targetAngle = 0; }
 
         }
