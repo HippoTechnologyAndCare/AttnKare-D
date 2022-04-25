@@ -349,6 +349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 150714004}
+  - component: {fileID: 150714005}
   m_Layer: 0
   m_Name: Center Shutter
   m_TagString: Untagged
@@ -367,8 +368,8 @@ Transform:
   m_LocalPosition: {x: -0.2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4347379103987736115}
   - {fileID: 8465702332811167760}
+  - {fileID: 4347379103987736115}
   - {fileID: 53085583613020441}
   - {fileID: 8932615809439416911}
   - {fileID: 5158090255936327631}
@@ -377,6 +378,23 @@ Transform:
   m_Father: {fileID: 2115390850}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &150714005
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150714003}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 06ee4d19071795e4191d0ebba4aff5b8, type: 2}
+  - {fileID: 7400000, guid: 62ccf8d92eccd904fa2c95b243c987fa, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &155672688
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,7 +437,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 170235877}
-  m_Layer: 0
+  - component: {fileID: 170235878}
+  - component: {fileID: 170235880}
+  - component: {fileID: 170235879}
+  m_Layer: 30
   m_Name: Out
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -447,6 +468,49 @@ Transform:
   m_Father: {fileID: 2027041890}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &170235878
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170235876}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 06ee4d19071795e4191d0ebba4aff5b8, type: 2}
+  - {fileID: 7400000, guid: 62ccf8d92eccd904fa2c95b243c987fa, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &170235879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170235876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539b0309ff2a2414eab31fd1408a1608, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxType: 2
+--- !u!65 &170235880
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170235876}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.5428483, y: 1.8424572, z: 1.0978118}
+  m_Center: {x: -4.3661284, y: 1.1493385, z: -13.969076}
 --- !u!1 &204329881
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,6 +644,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 230850790}
+  - component: {fileID: 230850791}
   m_Layer: 0
   m_Name: Left Shutter
   m_TagString: Untagged
@@ -598,8 +663,8 @@ Transform:
   m_LocalPosition: {x: -0.2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4567676785205817989}
   - {fileID: 1989100839920349785}
+  - {fileID: 4567676785205817989}
   - {fileID: 6785879837680074878}
   - {fileID: 2208611326392351703}
   - {fileID: 1745146769999696657}
@@ -608,6 +673,23 @@ Transform:
   m_Father: {fileID: 1932680727}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &230850791
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230850789}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 06ee4d19071795e4191d0ebba4aff5b8, type: 2}
+  - {fileID: 7400000, guid: 62ccf8d92eccd904fa2c95b243c987fa, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &235556993
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,6 +852,7 @@ Transform:
   - {fileID: 6098117416471999241}
   - {fileID: 484182482}
   - {fileID: 714716415}
+  - {fileID: 1339150880}
   m_Father: {fileID: 1753198561}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1148,7 +1231,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 484182482}
-  m_Layer: 0
+  - component: {fileID: 484182483}
+  - component: {fileID: 484182485}
+  - component: {fileID: 484182484}
+  m_Layer: 30
   m_Name: In
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1176,6 +1262,49 @@ Transform:
   m_Father: {fileID: 242981765}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &484182483
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484182481}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 06ee4d19071795e4191d0ebba4aff5b8, type: 2}
+  - {fileID: 7400000, guid: 62ccf8d92eccd904fa2c95b243c987fa, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &484182484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484182481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539b0309ff2a2414eab31fd1408a1608, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxType: 0
+--- !u!65 &484182485
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484182481}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.4174354, y: 2.41612, z: 1.1350133}
+  m_Center: {x: -4.086745, y: 1.4910346, z: 2.619218}
 --- !u!1 &532550526
 GameObject:
   m_ObjectHideFlags: 0
@@ -1298,8 +1427,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 564832951}
   m_LocalRotation: {x: -0.49991274, y: -0.49991274, z: -0.50008726, w: 0.50008726}
-  m_LocalPosition: {x: -0.40275, y: -7.26, z: -15.27}
-  m_LocalScale: {x: 89.46219, y: 199.2275, z: 25.22074}
+  m_LocalPosition: {x: -0.40275, y: -7.12, z: -15.13}
+  m_LocalScale: {x: 113.60219, y: 199.2275, z: 25.22074}
   m_Children: []
   m_Father: {fileID: 739510613}
   m_RootOrder: 7
@@ -1330,7 +1459,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 0.05
+  m_ScaleInLightmap: 0.06
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -1362,7 +1491,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 633467836}
-  m_Layer: 0
+  - component: {fileID: 633467837}
+  - component: {fileID: 633467839}
+  - component: {fileID: 633467838}
+  m_Layer: 30
   m_Name: Out
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1390,6 +1522,49 @@ Transform:
   m_Father: {fileID: 1066967402}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &633467837
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633467835}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 06ee4d19071795e4191d0ebba4aff5b8, type: 2}
+  - {fileID: 7400000, guid: 62ccf8d92eccd904fa2c95b243c987fa, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &633467838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633467835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539b0309ff2a2414eab31fd1408a1608, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxType: 0
+--- !u!65 &633467839
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633467835}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.23913, y: 1.7569861, z: 1.110519}
+  m_Center: {x: -4.664305, y: 1.228223, z: -3.5309412}
 --- !u!1001 &665450292
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2442,7 +2617,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1066967401}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.06}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1309266628}
@@ -2975,6 +3150,7 @@ MonoBehaviour:
   m_spawnedToys: {fileID: 904417606}
   m_grabbableToy: {fileID: 3130526325166050803, guid: b8daab46e69ea1f40bcb21c2cc0c1c60,
     type: 3}
+  Shutter_Anim: {fileID: 2016106176}
 --- !u!1 &1309266627
 GameObject:
   m_ObjectHideFlags: 0
@@ -3041,6 +3217,50 @@ Transform:
   m_Father: {fileID: 1678552758}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1339150879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1339150880}
+  - component: {fileID: 1339150881}
+  m_Layer: 30
+  m_Name: Shutter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1339150880
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339150879}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.533972, y: 1.9184744, z: -14.17}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 242981765}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1339150881
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339150879}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.59989, y: 1.4972473, z: 2.3703377}
+  m_Center: {x: 0.7999447, y: -0.24862343, z: 0.8336202}
 --- !u!1001 &1397658123
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3232,7 +3452,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!65 &1562863775
 BoxCollider:
@@ -4106,7 +4326,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1810549452}
-  m_Layer: 0
+  - component: {fileID: 1810549453}
+  - component: {fileID: 1810549455}
+  - component: {fileID: 1810549454}
+  m_Layer: 30
   m_Name: In
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4134,6 +4357,49 @@ Transform:
   m_Father: {fileID: 294412129}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &1810549453
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1810549451}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 06ee4d19071795e4191d0ebba4aff5b8, type: 2}
+  - {fileID: 7400000, guid: 62ccf8d92eccd904fa2c95b243c987fa, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &1810549454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1810549451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539b0309ff2a2414eab31fd1408a1608, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxType: 1
+--- !u!65 &1810549455
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1810549451}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.1356924, y: 1.7879556, z: 0.6218556}
+  m_Center: {x: -4.339289, y: 1.1751059, z: 13.491168}
 --- !u!1 &1817445318
 GameObject:
   m_ObjectHideFlags: 0
@@ -4718,6 +4984,7 @@ MonoBehaviour:
   m_spawnedToys: {fileID: 904417606}
   m_grabbableToy: {fileID: 3130526325166050803, guid: 4dbf013e893a8f64aa48592514351c02,
     type: 3}
+  Shutter_Anim: {fileID: 230850791}
 --- !u!1 &1937091683
 GameObject:
   m_ObjectHideFlags: 0
@@ -4855,7 +5122,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1990106352}
-  m_Layer: 0
+  - component: {fileID: 1990106353}
+  - component: {fileID: 1990106355}
+  - component: {fileID: 1990106354}
+  m_Layer: 26
   m_Name: Shutter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4883,6 +5153,49 @@ Transform:
   m_Father: {fileID: 1991079576}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &1990106353
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990106351}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 06ee4d19071795e4191d0ebba4aff5b8, type: 2}
+  - {fileID: 7400000, guid: 62ccf8d92eccd904fa2c95b243c987fa, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &1990106354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990106351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539b0309ff2a2414eab31fd1408a1608, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxType: 3
+--- !u!65 &1990106355
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990106351}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.2631066, y: 2.2214077, z: 7.1110783}
+  m_Center: {x: 3.877617, y: 0.6107035, z: -14.77202}
 --- !u!1 &1991079575
 GameObject:
   m_ObjectHideFlags: 0
@@ -4926,6 +5239,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2016106175}
+  - component: {fileID: 2016106176}
   m_Layer: 0
   m_Name: Right Shutter
   m_TagString: Untagged
@@ -4944,8 +5258,8 @@ Transform:
   m_LocalPosition: {x: -0.2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7524821591091952805}
   - {fileID: 3626704437287378550}
+  - {fileID: 7524821591091952805}
   - {fileID: 3216872834420887094}
   - {fileID: 5602629455973333888}
   - {fileID: 3046217641655742731}
@@ -4954,6 +5268,23 @@ Transform:
   m_Father: {fileID: 1273747693}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &2016106176
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016106174}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 06ee4d19071795e4191d0ebba4aff5b8, type: 2}
+  - {fileID: 7400000, guid: 62ccf8d92eccd904fa2c95b243c987fa, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &2027041889
 GameObject:
   m_ObjectHideFlags: 0
@@ -5245,6 +5576,7 @@ MonoBehaviour:
   m_spawnedToys: {fileID: 904417606}
   m_grabbableToy: {fileID: 3130526325166050803, guid: 240f588f4fc07144da0e8b968fc89894,
     type: 3}
+  Shutter_Anim: {fileID: 150714005}
 --- !u!1 &2130194676
 GameObject:
   m_ObjectHideFlags: 0
@@ -5845,7 +6177,7 @@ GameObject:
   - component: {fileID: 3447542865103093479}
   - component: {fileID: 37218120522936283}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_19
+  m_Name: Shutters5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6759,7 +7091,7 @@ GameObject:
   - component: {fileID: 7190913250975750781}
   - component: {fileID: 8455784927629478221}
   m_Layer: 0
-  m_Name: shutter_28
+  m_Name: Shutters7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6845,7 +7177,7 @@ GameObject:
   - component: {fileID: 5867990883635013702}
   - component: {fileID: 4451107906375475732}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_04
+  m_Name: Shutters4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7066,7 +7398,7 @@ GameObject:
   - component: {fileID: 6007934007152883152}
   - component: {fileID: 2928197213927421509}
   m_Layer: 0
-  m_Name: shutter_27
+  m_Name: Shutters6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7352,7 +7684,7 @@ GameObject:
   - component: {fileID: 853149082430009205}
   - component: {fileID: 2104582416554327393}
   m_Layer: 0
-  m_Name: shutter_40
+  m_Name: Shutters5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7446,7 +7778,7 @@ GameObject:
   - component: {fileID: 7714298693527252577}
   - component: {fileID: 1200274778779574075}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_09
+  m_Name: Shutters1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7528,7 +7860,7 @@ GameObject:
   - component: {fileID: 4439414508771662302}
   - component: {fileID: 5992821761417767717}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_15
+  m_Name: Shutters2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7560,7 +7892,7 @@ GameObject:
   - component: {fileID: 7658877561800339245}
   - component: {fileID: 2085743891279020337}
   m_Layer: 0
-  m_Name: shutter_01
+  m_Name: Shutters1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8512,7 +8844,7 @@ GameObject:
   - component: {fileID: 7284340920340571610}
   - component: {fileID: 8224757716058914255}
   m_Layer: 0
-  m_Name: shutter_05
+  m_Name: Shutters5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9516,7 +9848,7 @@ GameObject:
   - component: {fileID: 3452178427586858292}
   - component: {fileID: 7208315566909350380}
   m_Layer: 0
-  m_Name: shutter_38.001
+  m_Name: Shutters3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9553,7 +9885,7 @@ GameObject:
   - component: {fileID: 7320573031338098819}
   - component: {fileID: 3655670868816059700}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_12
+  m_Name: Shutters5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9672,7 +10004,7 @@ Light:
   m_BounceIntensity: 3
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 4.85e-43, y: 7.1e-44, z: 0, w: 0.0000000040524064}
+  m_BoundingSphereOverride: {x: 2.611069e+20, y: 1.5274592e+28, z: 7.036672e+22, w: 1.6258945e+25}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -9872,7 +10204,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4990931469012252929}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.000000060297, y: 17.9, z: 0}
+  m_LocalPosition: {x: 0.000000060297, y: 21.87, z: 0}
   m_LocalScale: {x: 2186.7842, y: 1500, z: 10}
   m_Children: []
   m_Father: {fileID: 739510613}
@@ -9890,7 +10222,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 230850790}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1989916896235712257
 MonoBehaviour:
@@ -10026,7 +10358,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5589928075402306873, guid: 67889325ce9ba6f4eaa5fff02987dc64, type: 3}
+  - {fileID: 2100000, guid: 0fb11f9aec178704ebb03246d16853af, type: 2}
   - {fileID: -574866802456817628, guid: 67889325ce9ba6f4eaa5fff02987dc64, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -10523,7 +10855,7 @@ GameObject:
   - component: {fileID: 4549601345126604915}
   - component: {fileID: 1878983542882198635}
   m_Layer: 0
-  m_Name: shutter_07
+  m_Name: Shutters7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10661,7 +10993,7 @@ GameObject:
   - component: {fileID: 759846689174981409}
   - component: {fileID: 2984155972307111593}
   m_Layer: 0
-  m_Name: shutter_41.001
+  m_Name: Shutters6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10953,7 +11285,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880801}
-  m_LocalRotation: {x: -2.3087672e-16, y: 1.8780014e-17, z: -0.05959589, w: 0.9982226}
+  m_LocalRotation: {x: 0.0000000059910072, y: 0.000000004429332, z: -0.68594366, w: 0.72765464}
   m_LocalPosition: {x: 0.022152938, y: -0.00000022278307, z: -0.000000035388048}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -10984,7 +11316,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880805}
-  m_LocalRotation: {x: 0.010945054, y: 0.7329414, z: 0.66095215, w: 0.16068448}
+  m_LocalRotation: {x: -0.38039955, y: 0.5999948, z: 0.57784235, w: 0.40174705}
   m_LocalPosition: {x: -0.08707797, y: 0.035099972, z: 0.0068147103}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11000,7 +11332,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880807}
-  m_LocalRotation: {x: -1.393853e-17, y: 7.083917e-17, z: -0.18624677, w: 0.982503}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7993452, w: 0.6008721}
   m_LocalPosition: {x: 0.04157489, y: -0.0000002622628, z: -0.00000038978715}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11073,8 +11405,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880815}
-  m_LocalRotation: {x: 0.5672878, y: -0.052217443, z: 0.76577413, w: -0.29840896}
-  m_LocalPosition: {x: -0.074412085, y: 0.017376663, z: -0.019983636}
+  m_LocalRotation: {x: 0.57018894, y: 0.016357053, z: 0.8065085, w: -0.15543854}
+  m_LocalPosition: {x: -0.07351066, y: 0.013962139, z: -0.023953618}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2541935562897648329}
@@ -11087,7 +11419,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880817}
-  m_LocalRotation: {x: -1.8710287e-16, y: -1.09476964e-16, z: -0.16458225, w: 0.98636335}
+  m_LocalRotation: {x: -6.1387006e-17, y: 5.7948416e-17, z: -0.8302406, w: 0.5574052}
   m_LocalPosition: {x: 0.033355847, y: 0.0000004193135, z: 0.00000030447453}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11103,7 +11435,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880819}
-  m_LocalRotation: {x: -2.1919061e-16, y: 6.5884585e-17, z: -0.04699399, w: 0.9988952}
+  m_LocalRotation: {x: -5.7417875e-17, y: 7.849287e-17, z: -0.6276803, w: 0.77847123}
   m_LocalPosition: {x: 0.017418418, y: -0.00000049037294, z: -0.00000080218643}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11119,7 +11451,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880821}
-  m_LocalRotation: {x: -0.46932158, y: -0.083111495, z: 0.08672836, w: 0.8748188}
+  m_LocalRotation: {x: -0.47129497, y: -0.061776705, z: 0.07527019, w: 0.8765838}
   m_LocalPosition: {x: -0.031274725, y: -0.019069267, z: -0.011509167}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11135,7 +11467,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880823}
-  m_LocalRotation: {x: -0.018903391, y: 0.0067427186, z: 0.9928664, w: 0.117531024}
+  m_LocalRotation: {x: -0.12996045, y: -0.034797445, z: 0.63273835, w: 0.7625888}
   m_LocalPosition: {x: -0.05356621, y: -0.0024395068, z: 0.0014644878}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11151,8 +11483,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880825}
-  m_LocalRotation: {x: -2.5930024e-16, y: -1.3589434e-16, z: -0.06577556, w: 0.99783444}
-  m_LocalPosition: {x: 0.029590234, y: -0.00000017799226, z: -0.000000063619794}
+  m_LocalRotation: {x: 0.0000000057617187, y: 0.000000004723743, z: -0.73003554, w: 0.68340915}
+  m_LocalPosition: {x: 0.029590234, y: -0.00000017799228, z: -0.000000063619794}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2541935562897648347}
@@ -11181,7 +11513,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880829}
-  m_LocalRotation: {x: -0.03365181, y: 0.6480088, z: 0.75659454, w: 0.08072687}
+  m_LocalRotation: {x: -0.46309757, y: 0.4423077, z: 0.5944858, w: 0.4863037}
   m_LocalPosition: {x: -0.09142202, y: 0.009532635, z: 0.010838787}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11197,7 +11529,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880831}
-  m_LocalRotation: {x: -2.7996165e-16, y: 8.214367e-17, z: -0.23558192, w: 0.9718545}
+  m_LocalRotation: {x: 1.3664302e-16, y: -1.4592805e-16, z: -0.83622795, w: 0.54838204}
   m_LocalPosition: {x: 0.04596702, y: -6.4383804e-10, z: -0.00000003982895}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11213,7 +11545,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880705}
-  m_LocalRotation: {x: -3.463288e-16, y: 7.784826e-17, z: -0.14235, w: 0.9898164}
+  m_LocalRotation: {x: 0.008710267, y: -0.09637455, z: -0.2674301, w: 0.958706}
   m_LocalPosition: {x: 0.03258561, y: 0.0000027154815, z: -0.00000027681938}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11229,7 +11561,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880707}
-  m_LocalRotation: {x: -1.7924457e-16, y: -8.4833096e-17, z: 0.008720745, w: 0.999962}
+  m_LocalRotation: {x: -7.142846e-17, y: 9.388225e-17, z: -0.59853864, w: 0.80109394}
   m_LocalPosition: {x: 0.026375083, y: -0.00000313834, z: 0.00000024626075}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11259,8 +11591,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880711}
-  m_LocalRotation: {x: 0.2459623, y: 0.945037, z: -0.031994287, w: 0.21303521}
-  m_LocalPosition: {x: -0.026297215, y: 0.041471086, z: -0.020563869}
+  m_LocalRotation: {x: 0.19986433, y: 0.9526429, z: -0.06260051, w: 0.22046989}
+  m_LocalPosition: {x: -0.030877931, y: 0.04147109, z: -0.020563869}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2541935562897648353}
@@ -11275,7 +11607,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880713}
-  m_LocalRotation: {x: -2.8072e-16, y: -5.5211398e-17, z: -0.20290461, w: 0.9791985}
+  m_LocalRotation: {x: 0, y: 0, z: -0.84457046, w: 0.5354444}
   m_LocalPosition: {x: 0.03857198, y: 0.000000019344908, z: -0.00000011757956}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11291,8 +11623,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880715}
-  m_LocalRotation: {x: -2.5590821e-16, y: -6.2003705e-17, z: -0.08394361, w: 0.9964705}
-  m_LocalPosition: {x: 0.025775367, y: 0.00000023005762, z: 0.00000026507695}
+  m_LocalRotation: {x: 1.888226e-17, y: -2.0476797e-17, z: -0.7372225, w: 0.67565006}
+  m_LocalPosition: {x: 0.025775367, y: 0.00000023005764, z: 0.00000026507698}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2541935562897648357}
@@ -11321,7 +11653,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541935562897880719}
-  m_LocalRotation: {x: -0.10180098, y: 0.5692992, z: 0.8152097, w: 0.031114789}
+  m_LocalRotation: {x: -0.45886546, y: 0.36775163, z: 0.6192545, w: 0.5203125}
   m_LocalPosition: {x: -0.089531094, y: -0.012713966, z: 0.0018533061}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -12062,7 +12394,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5251036362413044695}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0.40278745, y: 9.88, z: -15.503314}
+  m_LocalPosition: {x: 0.02, y: 9.95, z: -15.341}
   m_LocalScale: {x: 101.161514, y: 101.161514, z: 101.161514}
   m_Children: []
   m_Father: {fileID: 739510613}
@@ -12216,7 +12548,7 @@ GameObject:
   - component: {fileID: 4197106299732964788}
   - component: {fileID: 979141158291211494}
   m_Layer: 0
-  m_Name: shutter_37
+  m_Name: Shutters2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12234,7 +12566,7 @@ GameObject:
   - component: {fileID: 6587299967426378529}
   - component: {fileID: 1264619119485735936}
   m_Layer: 0
-  m_Name: shutter_18
+  m_Name: Shutters4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12358,7 +12690,7 @@ GameObject:
   - component: {fileID: 1067181050088457097}
   - component: {fileID: 2744325661664882945}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_14
+  m_Name: Shutters7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12629,7 +12961,7 @@ GameObject:
   - component: {fileID: 5682905907766939842}
   - component: {fileID: 5068504328399369573}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_13
+  m_Name: Shutters6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13335,7 +13667,7 @@ GameObject:
   - component: {fileID: 8936530169763483100}
   - component: {fileID: 6426167644762890687}
   m_Layer: 0
-  m_Name: shutter_38
+  m_Name: Shutters3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13713,7 +14045,7 @@ GameObject:
   - component: {fileID: 8635587936262282309}
   - component: {fileID: 2071575885248095466}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_11
+  m_Name: Shutters4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13918,7 +14250,7 @@ GameObject:
   - component: {fileID: 4534873291567397387}
   - component: {fileID: 612110135174267555}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_02
+  m_Name: Shutters1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13936,7 +14268,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 2016106175}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &3631506063032850094
 Transform:
@@ -15174,7 +15506,7 @@ GameObject:
   - component: {fileID: 2378359464786043217}
   - component: {fileID: 8270578450718788221}
   m_Layer: 0
-  m_Name: shutter_36.001
+  m_Name: Shutters1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15968,7 +16300,7 @@ GameObject:
   - component: {fileID: 5609648030173135997}
   - component: {fileID: 8423812881668330341}
   m_Layer: 0
-  m_Name: shutter_39
+  m_Name: Shutters4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16200,7 +16532,7 @@ GameObject:
   - component: {fileID: 8937000547539367188}
   - component: {fileID: 8474622882894518035}
   m_Layer: 0
-  m_Name: shutter_16
+  m_Name: Shutters2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16304,7 +16636,7 @@ GameObject:
   - component: {fileID: 8073597359699062575}
   - component: {fileID: 2303575029771836054}
   m_Layer: 0
-  m_Name: shutter_26
+  m_Name: Shutters5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16330,7 +16662,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 150714004}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4354806004988151201
 MeshFilter:
@@ -16352,7 +16684,7 @@ GameObject:
   - component: {fileID: 6717274310493719785}
   - component: {fileID: 7307618931189856122}
   m_Layer: 0
-  m_Name: shutter_39.001
+  m_Name: Shutters4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16469,7 +16801,7 @@ GameObject:
   - component: {fileID: 2353602171064384063}
   - component: {fileID: 4059031937378580661}
   m_Layer: 0
-  m_Name: shutter_15
+  m_Name: Shutters1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16656,7 +16988,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 230850790}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4581576932347667952
 GameObject:
@@ -17056,7 +17388,7 @@ GameObject:
   - component: {fileID: 484108941088320181}
   - component: {fileID: 4438152405204133936}
   m_Layer: 0
-  m_Name: shutter_06
+  m_Name: Shutters6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17616,7 +17948,7 @@ GameObject:
   - component: {fileID: 7582879125381804094}
   - component: {fileID: 5989179309220368350}
   m_Layer: 0
-  m_Name: shutter_20
+  m_Name: Shutters6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17774,7 +18106,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4429502606272916734}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -8.34, y: 11.39, z: -6.96}
+  m_LocalPosition: {x: -8.34, y: 7.42, z: -6.96}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 155672689}
@@ -17800,7 +18132,7 @@ GameObject:
   - component: {fileID: 4740018660683001750}
   - component: {fileID: 6366123657870993839}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_06
+  m_Name: Shutters6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18057,7 +18389,7 @@ GameObject:
   - component: {fileID: 259500514846446652}
   - component: {fileID: 7832910209663713075}
   m_Layer: 0
-  m_Name: shutter_04
+  m_Name: Shutters4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18356,7 +18688,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5589928075402306873, guid: 67889325ce9ba6f4eaa5fff02987dc64, type: 3}
+  - {fileID: 2100000, guid: 0fb11f9aec178704ebb03246d16853af, type: 2}
   - {fileID: -574866802456817628, guid: 67889325ce9ba6f4eaa5fff02987dc64, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -19196,7 +19528,7 @@ GameObject:
   - component: {fileID: 9137896285060027307}
   - component: {fileID: 5106601012230631945}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_03
+  m_Name: Shutters3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19707,7 +20039,7 @@ GameObject:
   - component: {fileID: 6554650660482126715}
   - component: {fileID: 2585597903688135617}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_18
+  m_Name: Shutters4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20321,7 +20653,7 @@ GameObject:
   - component: {fileID: 5568986079280563803}
   - component: {fileID: 7421715079514195449}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_08
+  m_Name: Shutters2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20390,7 +20722,7 @@ GameObject:
   - component: {fileID: 3518806476233027943}
   - component: {fileID: 4732360796987401661}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_07
+  m_Name: Shutters7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20990,7 +21322,7 @@ GameObject:
   - component: {fileID: 4124625275135653016}
   - component: {fileID: 3513950525413954914}
   m_Layer: 0
-  m_Name: shutter_42
+  m_Name: Shutters7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21059,7 +21391,7 @@ GameObject:
   - component: {fileID: 42354777057296505}
   - component: {fileID: 4463250164761481594}
   m_Layer: 0
-  m_Name: shutter_42.001
+  m_Name: Shutters7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21494,8 +21826,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6152878661833613929}
-  m_LocalRotation: {x: 0.5672878, y: -0.052217443, z: 0.76577413, w: -0.29840896}
-  m_LocalPosition: {x: -0.074412085, y: 0.017376663, z: -0.019983636}
+  m_LocalRotation: {x: 0.57018894, y: 0.016357053, z: 0.8065085, w: -0.15543854}
+  m_LocalPosition: {x: -0.07351066, y: 0.013962139, z: -0.023953618}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6152878661833588303}
@@ -22489,7 +22821,7 @@ GameObject:
   - component: {fileID: 7298391510926824479}
   - component: {fileID: 1291614717667373652}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_21
+  m_Name: Shutters7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22894,7 +23226,7 @@ GameObject:
   - component: {fileID: 9086875062213329360}
   - component: {fileID: 7735292168005401583}
   m_Layer: 0
-  m_Name: shutter_03
+  m_Name: Shutters3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23146,7 +23478,7 @@ GameObject:
   - component: {fileID: 1189141428743965344}
   - component: {fileID: 5563895180871701087}
   m_Layer: 0
-  m_Name: shutter_17
+  m_Name: Shutters3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23346,7 +23678,7 @@ GameObject:
   - component: {fileID: 5699026996206281417}
   - component: {fileID: 1119946993855254995}
   m_Layer: 0
-  m_Name: shutter_22
+  m_Name: Shutters1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23498,7 +23830,7 @@ GameObject:
   - component: {fileID: 4018499016008752519}
   - component: {fileID: 3909727464450547977}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_10
+  m_Name: Shutters3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23676,7 +24008,7 @@ GameObject:
   - component: {fileID: 7065808583100128887}
   - component: {fileID: 4994406130611689230}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_17
+  m_Name: Shutters3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23694,7 +24026,7 @@ GameObject:
   - component: {fileID: 4339583228502784897}
   - component: {fileID: 4619150910614269732}
   m_Layer: 0
-  m_Name: shutter_25
+  m_Name: Shutters4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24235,7 +24567,7 @@ GameObject:
   - component: {fileID: 8854320465713723937}
   - component: {fileID: 811799411321602223}
   m_Layer: 0
-  m_Name: shutter_36
+  m_Name: Shutters1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24469,7 +24801,7 @@ GameObject:
   - component: {fileID: 8749397604374869029}
   - component: {fileID: 6821234761063729344}
   m_Layer: 0
-  m_Name: shutter_23
+  m_Name: Shutters2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24495,7 +24827,7 @@ GameObject:
   - component: {fileID: 7934157716305508535}
   - component: {fileID: 544064153148346145}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_20
+  m_Name: Shutters6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24538,7 +24870,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 2016106175}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7536453364329905829
 GameObject:
@@ -24552,7 +24884,7 @@ GameObject:
   - component: {fileID: 1586062165120677402}
   - component: {fileID: 5799181983025091467}
   m_Layer: 0
-  m_Name: shutter_02
+  m_Name: Shutters2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24771,7 +25103,7 @@ GameObject:
   - component: {fileID: 2584142437943687075}
   - component: {fileID: 4597126978558221653}
   m_Layer: 0
-  m_Name: shutter_19
+  m_Name: Shutters5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24821,7 +25153,7 @@ GameObject:
   - component: {fileID: 5595729311268286244}
   - component: {fileID: 3078445228613880786}
   m_Layer: 0
-  m_Name: shutter_37.001
+  m_Name: Shutters2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24984,7 +25316,7 @@ GameObject:
   - component: {fileID: 8425106449577200915}
   - component: {fileID: 4143847716934283023}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_16
+  m_Name: Shutters1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25994,7 +26326,7 @@ GameObject:
   - component: {fileID: 7372372051894775118}
   - component: {fileID: 830445529414259896}
   m_Layer: 0
-  m_Name: shutter_40.001
+  m_Name: Shutters5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26264,7 +26596,7 @@ GameObject:
   - component: {fileID: 6426738798561484803}
   - component: {fileID: 8041550686354006946}
   m_Layer: 0
-  m_Name: shutter_21
+  m_Name: Shutters7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26581,7 +26913,7 @@ GameObject:
   - component: {fileID: 6620239666251262158}
   - component: {fileID: 8087208739422481165}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_01
+  m_Name: Shutters2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26673,7 +27005,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 150714004}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &8474622882894518035
 MeshRenderer:
@@ -26923,7 +27255,7 @@ GameObject:
   - component: {fileID: 1123637615742515162}
   - component: {fileID: 5353814915289315072}
   m_Layer: 0
-  m_Name: toy_spawner_shutter_05
+  m_Name: Shutters5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27101,7 +27433,7 @@ GameObject:
   - component: {fileID: 5209335833966776587}
   - component: {fileID: 171238000399590637}
   m_Layer: 0
-  m_Name: shutter_24
+  m_Name: Shutters3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27133,7 +27465,7 @@ GameObject:
   - component: {fileID: 6303554948542445932}
   - component: {fileID: 2529399712490503250}
   m_Layer: 0
-  m_Name: shutter_41
+  m_Name: Shutters6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -11,5 +11,5 @@ public class Conveyor : MonoBehaviour
     private void OnDisable()                    { StageManager.stage -= SetConveyorSpeed; }
     private void OnCollisionEnter(Collision collision) { if (collision.gameObject.tag == "Spawnable") collision.gameObject.SetActive(false); }
     private void OnTriggerStay(Collider other)  { other.gameObject.GetComponent<Rigidbody>().velocity = speed * direction * Time.deltaTime; }
-    public void SetConveyorSpeed(int stage)     { speed = 10 + (StageManager.m_currentStage - 1) * 2.5f; }
+    public void SetConveyorSpeed(int stage)     { speed = 10 + (StageManager.m_currentStage - 1) * 3.4f; }
 }
