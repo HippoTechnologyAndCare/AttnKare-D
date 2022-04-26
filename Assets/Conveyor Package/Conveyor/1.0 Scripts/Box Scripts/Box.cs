@@ -12,8 +12,8 @@ public enum BoxType
 
 public class Box : MonoBehaviour
 {
+    private ParticleSystem ParticleEffect;
     [SerializeField] BoxType m_boxType;
-
     [SerializeField] FactoryManager m_factoryManager;                           // Factory Manager Object
     [SerializeField] StageManager   m_stageManager;                             // Stage Manager Object
 
@@ -29,22 +29,26 @@ public class Box : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ParticleEffect = GetComponent<ParticleSystem>();
         m_toyObjectsInBox = new List<BNG.Toy>();
         m_boxScore   = new BoxScore();
+        m_boxScore.ParticleEffect = GetComponent<ParticleSystem>();
         m_toysToFill = new List<int>();
         m_toysInBox  = new List<int>();
         m_scoreDiff  = new List<int>();
         for (int i = 0; i < 3; i++) { m_toysToFill.Add(0); m_toysInBox.Add(0); m_scoreDiff.Add(0); }
         m_boxCollider = GetComponent<Collider>();
     }
-
     private void OnTriggerEnter(Collider other)
     {
         // Destroy Box and Send Score to Factory Manager
         if (other.gameObject.name == "Collider (Open Box In)") CalculateScore();
     }
 
-    public void AddToy(BNG.Toy toy)    { if (!m_toyObjectsInBox.Contains(toy))   m_toyObjectsInBox.Add(toy); }
+    public void AddToy(BNG.Toy toy)    { 
+        if (!m_toyObjectsInBox.Contains(toy))   m_toyObjectsInBox.Add(toy);
+        if (toy.GetToyType() == StageManager.m_currentColor) ParticleEffect.Play();
+    }
     public void RemoveToy(BNG.Toy toy) { if (m_toyObjectsInBox.Contains(toy))    m_toyObjectsInBox.Remove(toy); }
 
     // For Debugging
@@ -92,15 +96,15 @@ public class Box : MonoBehaviour
     }
 }
 
-class BoxScore
+class BoxScore :MonoBehaviour
 {
+    public ParticleSystem ParticleEffect;
     int m_isSuccessful = 0;       // Is the first toy the right color?
     int m_excess = 0;             // Number of Excess Toys with Correct Color
     int m_wrongColor = 0;         // Number of Excess Toys with Wrong Color
     int m_total = 0;
 
-    List<int> m_dataPacket;// 0: m_isSuccessful, 1: m_excess, 2: m_wrongColor
-
+    List<int> m_dataPacket;// 0: m_isSuccessful, 1: m_excess, 2: m_wrongColor}
     public BoxScore() 
     {
         m_dataPacket = new List<int>();
@@ -129,17 +133,18 @@ class BoxScore
             return;
         }
 
-        if (toyList[0].GetToyType() == StageManager.m_currentColor && toyList.Count == 1) m_isSuccessful = 1;
+        if (toyList[0].GetToyType() == StageManager.m_currentColor && toyList.Count == 1)  m_isSuccessful = 1;   
 
-        m_dataPacket[0] = m_isSuccessful;
+         m_dataPacket[0] = m_isSuccessful;
         m_dataPacket[3] = m_total;
+
     }
 
     public void CheckWrong(List<BNG.Toy> toyList)
     {
         foreach(BNG.Toy toy in toyList)
         {
-            if (toy.GetToyType() == StageManager.m_currentColor) m_excess++;
+            if (toy.GetToyType() == StageManager.m_currentColor) m_excess++;  
             else m_wrongColor++;
         }
 
