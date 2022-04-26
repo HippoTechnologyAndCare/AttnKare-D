@@ -23,6 +23,7 @@ using BNG;
     public GameObject Canvas_Recording;
     public NetworkManager NetworkManager;
     public AutoVoiceRecording_Ending VoiceRecord;
+    private VoiceRecording RecordVoice;
 
 
 
@@ -51,7 +52,7 @@ using BNG;
     void Start()
     {
 
-
+        RecordVoice = FindObjectOfType<VoiceRecording>();
         globalVolume = global.sharedProfile;
         globalVolume.TryGet<ColorAdjustments>(out _coloradjustment);
 
