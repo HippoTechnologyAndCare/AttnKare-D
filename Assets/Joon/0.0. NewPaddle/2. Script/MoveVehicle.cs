@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
 public class MoveVehicle : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -41,7 +40,7 @@ public class MoveVehicle : MonoBehaviour
             }
 
             if (moving)
-            {
+            { 
                 transform.position = Vector3.MoveTowards(transform.position, EndPos, .00038f);
             }
         }

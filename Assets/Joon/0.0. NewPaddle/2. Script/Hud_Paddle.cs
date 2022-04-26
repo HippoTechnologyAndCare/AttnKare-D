@@ -10,8 +10,9 @@ public class Hud_Paddle : MonoBehaviour
     [SerializeField] Button buttonStart;
     [SerializeField] Text txtButton;
     [SerializeField] Canvas canvasGuide;
-    [SerializeField] Canvas canvasDistance;
+    [SerializeField] GameObject canvasDistance;
     [SerializeField] TextMeshProUGUI txtDISTANCE;
+    [SerializeField] Slider image_CableCar;
     [SerializeField] TextMeshProUGUI txtERROR;
     [SerializeField] Canvas canvasFinish;
     [SerializeField] Canvas canvasQuestion;
@@ -72,6 +73,8 @@ public class Hud_Paddle : MonoBehaviour
     { 
         m_nPERCENT = Manager_Paddle.SDB[nStage].intPercent;
         m_nDISTANCE += m_nPERCENT;
+        image_CableCar.value = (float)m_nDISTANCE / 100;
+        Debug.Log(m_nDISTANCE +"SSSSS"+ image_CableCar.value);
         txtDISTANCE.text = m_nDISTANCE.ToString();
     }
 
@@ -113,7 +116,7 @@ public class Hud_Paddle : MonoBehaviour
         yield return new WaitForSeconds(.9f);
         canvasGuide.gameObject.SetActive(false);
         yield return new WaitForSeconds(2f);
-        canvasDistance.gameObject.SetActive(true);
+        canvasDistance.SetActive(true);
         bCoroutine = false;
     }
     IEnumerator TextSpeechWarning(string text,AudioClip audioClip )
@@ -145,10 +148,11 @@ public class Hud_Paddle : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
         m_audioNarration.Stop();
         canvasGuide.gameObject.SetActive(false);
-        canvasDistance.gameObject.SetActive(false);
+        canvasDistance.SetActive(false);
         canvasQuestion.gameObject.SetActive(true);
         StartCoroutine(PlayNarration(clipNarration[4], false));
     }
+    int a;
     public IEnumerator NextScene()
     {
         bCoroutine = true;

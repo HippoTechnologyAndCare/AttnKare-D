@@ -42,6 +42,7 @@ public class Guide_Paddle : MonoBehaviour
     List<PaddleCollider> m_listCOLLIDER;
 
     //DATA
+    public SceneData_Send DataSend;
     public GameDataManager DataManager;
     public CollectData BehaviorData;
     float data_401; //시작버튼 누르는데까지 걸린 시간
@@ -214,7 +215,7 @@ public class Guide_Paddle : MonoBehaviour
         m_strOrder = Manager_Paddle.SDB[intStage].strHANDLE;
         Manager_Paddle.SDB[intStage].strHANDLE = null; //한바퀴 돌면 strHANDEL을 null 시킴
         if (m_strOrder != Manager_Paddle.SDB[intStage].strORDER) { Debug.Log(m_strOrder+ intStage); Check_Order(); return; }
-        if (time > 0.8f || time < -0.8f) { Check_Speed(); return; }
+        if (time > Manager_Paddle.SDB[intStage].fExtraTime || time < -Manager_Paddle.SDB[intStage].fExtraTime) { Check_Speed(); return; }
         m_nComplete += 1;
         CableCar.PlusDistance();
         Hud.SetDistance(intStage);
@@ -308,6 +309,7 @@ public class Guide_Paddle : MonoBehaviour
         {
            Debug.Log(arrData[i]);
         }
+        DataSend.GetSceneData();
         DataManager.SaveCurrentData();
         StartCoroutine(NextScene());
     }

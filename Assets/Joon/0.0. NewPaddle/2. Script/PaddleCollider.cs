@@ -27,11 +27,11 @@ public class PaddleCollider : MonoBehaviour
         timePassed += Time.deltaTime;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
 
         nStage = Manager_Paddle.intStage;
-        if (collision.collider.tag == "HANDLE_MY" && CurrentGrabbable.BeingHeld)
+        if (collision.tag == "HANDLE_MY" && CurrentGrabbable.BeingHeld)
         {
             if (e_HANDLE == HANDLE.UP)
             {
@@ -42,9 +42,9 @@ public class PaddleCollider : MonoBehaviour
             { Manager_Paddle.SDB[nStage].strHANDLE = "FORWARD"; }
             if (e_HANDLE == HANDLE.LEFT &&Manager_Paddle.SDB[nStage].strHANDLE == null)
                 Manager_Paddle.SDB[nStage].strHANDLE = "BACKWARD";
-            Debug.Log("COLLIDED===" + collision.collider.gameObject.name+"????"+this.gameObject.name);
+            Debug.Log("COLLIDED===" + collision.gameObject.name+"????"+this.gameObject.name);
         }
-        if(collision.collider.tag == "HANDLE_AUTO")
+        if(collision.tag == "HANDLE_AUTO")
         {
             if (e_HANDLE == HANDLE.UP)
             {
