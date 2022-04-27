@@ -11,8 +11,7 @@ public class SceneData_Send : MonoBehaviour
     PlayerMovementData BehaviorDataCollection;
     JsonDataManager JsonDataCollection;
     VoiceRecording VoiceRecording;
-    public void GetSceneData() { }
-    /*
+
     // Start is called before the first frame update
     int buildindex;
     int scene_id;
@@ -20,7 +19,7 @@ public class SceneData_Send : MonoBehaviour
     {
         buildindex = SceneManager.GetActiveScene().buildIndex;
         APICONNECT = FindObjectOfType<GUIDE_API>();
-        if(buildindex != 9 && buildindex != 11)
+        if(buildindex != 9)
         {
             BehaviorDataCollection = FindObjectOfType<PlayerMovementData>();
             JsonDataCollection = FindObjectOfType<JsonDataManager>();
@@ -69,5 +68,5 @@ public class SceneData_Send : MonoBehaviour
         yield return new WaitUntil(() => VoiceRecording.fin == true);
         StartCoroutine(APICONNECT.POST_MP3(scene_id));
     }
-    */
+
 }

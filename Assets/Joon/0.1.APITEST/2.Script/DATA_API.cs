@@ -67,6 +67,7 @@ public class DATA_API : MonoBehaviour
             {
                 user = JsonPlayerInner
             };
+            UserInfo_API.GetInstance().grade = int.Parse(player["grade"]);
             Debug.Log(JsonNewPlayer.user.name + " " + JsonNewPlayer.user.birth);
             string UserJsonString = JsonUtility.ToJson(JsonNewPlayer);
             Debug.Log(UserJsonString);
@@ -210,7 +211,7 @@ public class DATA_API : MonoBehaviour
     }
     public class Services
     {
-        public ServicesInfo services;
+        public List<ServicesInfo> services;
     }
     [Serializable]
     public class ServicesInfo
@@ -227,7 +228,8 @@ public class DATA_API : MonoBehaviour
     public void GET_Services(string webResult)
     {
         Service service = JsonConvert.DeserializeObject<Service>(webResult);
-        UserInfo_API.GetInstance().ServiceID = service.data.services.id;
+        foreach(ServicesInfo findservice in service.data.services) { if (findservice.service_type == 2761) UserInfo_API.GetInstance().service_id = findservice.id; }
+            
         // UserInfo_API.GetInstance().serviceInfo = service.data.services;
     }
 
@@ -271,6 +273,8 @@ public class DATA_API : MonoBehaviour
     public void GET_SubsID(string webResult)
     {
         Subs service = JsonConvert.DeserializeObject<Subs>(webResult);
+        UserInfo_API.GetInstance().Subscription_ID = service.data.subscription_id;
+        
     }
 
     public class UserSubs
@@ -291,10 +295,15 @@ public class DATA_API : MonoBehaviour
         public string udpated_at;
     }
 
-    public void GET_ServicesSubs(string webResult)
+    public bool GET_ServicesSubs(string webResult)
     {
         UserSubs service = JsonConvert.DeserializeObject<UserSubs>(webResult);
-        UserInfo_API.GetInstance().UserTotalInfo = service.data.subscriptions[0];
+        List<UserSubsInner> subs = service.data.subscriptions;
+        foreach (UserSubsInner subsInfo in subs)
+        {
+            if (subsInfo.service.service_type == 2761) { UserInfo_API.GetInstance().UserTotalInfo = subsInfo; return true; }
+        }
+        return false;
     }
 
 
@@ -566,11 +575,9 @@ public class ServiceSignIn
     public class NewJobInner
     {
         public string name;
-        public int player_id;
-        public int service_id;
         public string place;
     }
-    public string POST_AddJob(int id)
+    public string POST_AddJob()
     {
         Dictionary<string, string> job = UI_Hud.AddNewJob();
         if (job != null)
@@ -578,8 +585,6 @@ public class ServiceSignIn
             NewJobInner JsonJobInner = new NewJobInner
             {
                 name = (string)job["name"],
-                player_id = id,
-                service_id = 1,
                 place = (string)job["place"]
             };
             NewJob JsonNewJob = new NewJob
@@ -608,6 +613,22 @@ public class ServiceSignIn
     {
         errorMessage = JsonConvert.DeserializeObject<ERROR>(webResult);
         return errorMessage.error.code;
+    }
+    public void PlayerError(string webResult)
+    {
+        Debug.Log(webResult);
+        List<string> Errors = JsonConvert.DeserializeObject<List<string>>(webResult);
+        foreach (string error in Errors) {
+            Debug.Log(error);
+            string[] SplitError = error.Split(char.Parse(" ")); //첫번째 띄어쓰기로 구분하기
+            UI_Hud.PlayerError(SplitError[0]);
+            Debug.Log(SplitError[0]);
+        }
+        Debug.Log(Errors[0]);
+    }
+    public void SignInComplete()
+    {
+        UI_Hud.SignInComplete();
     }
     public class Status
     {
@@ -642,12 +663,75 @@ public class ServiceSignIn
     public class SceneDataInner
     {
         public int type;
+        public int subscription_id;
         public string job_id;
         public int scene_id;
-        public int player_id;
         public string data; //행동 데이터
     }
+    public string SendData(int data_type, int scene_id, string sentdata)
+    {
+        string m_stopic = "UP." + UserInfo_API.GetInstance().UserTotalInfo.user.uid+ "|dtx|" + UserInfo_API.GetInstance().UserTotalInfo.user.id + "|2761";
+        SceneDataInner JsonDataInner = new SceneDataInner
+        {
+            type = data_type,
+            subscription_id = UserInfo_API.GetInstance().UserTotalInfo.user.id,
+            job_id = UserInfo_API.GetInstance().jobInfo.id,
+            scene_id = scene_id,
+            data = sentdata
+        };
+        SceneData JsonData = new SceneData
+        {
+            topic = m_stopic,
+            payload = JsonDataInner
+
+        };
+        string UserJsonString = JsonUtility.ToJson(JsonData);
+        return UserJsonString;
+    }
+
+    [Serializable]
+    public class JobExecution
+    {
+        public JobExecutionInner job;
+    }
+    [Serializable]
+    public class JobExecutionInner
+    {
+        public int service_type;
+        public JobExecutionCmd body;
+    }
+    [Serializable]
+    public class JobExecutionCmd
+    {
+        public string cmd;
+    }
+    public string POST_JobExecution()
+    {
+        JobExecutionCmd JsonCmd = new JobExecutionCmd
+        {
+            cmd = "echo $PATH"
+        };
+        JobExecutionInner JsonDataInner = new JobExecutionInner
+        {
+            service_type = UserInfo_API.GetInstance().UserTotalInfo.service.service_type,
+            body = JsonCmd
+        };
+        JobExecution JsonData = new JobExecution
+        {
+            job = JsonDataInner
+        };
+        string UserJsonString = JsonUtility.ToJson(JsonData);
+        Debug.Log(UserJsonString);
+        return UserJsonString;
+
+
+    }
 }
+
+
+
+
+
 /*
     public string SendData(int data_type, int scene_id, string sentdata)
     {

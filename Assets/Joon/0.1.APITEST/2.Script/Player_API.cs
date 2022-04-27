@@ -34,16 +34,11 @@ public class Player_API : MonoBehaviour
             case "GET_JobRefresh":  playerID = int.Parse(transform.name); break;
                                     StartCoroutine(UI_HUD.PopUP("Joblist"));
                                   //  StartCoroutine(APIMANAGER.GET_Joblist(int.Parse(transform.name), UI_HUD.nCrntPg_Job)); break;
-            case "POST_AddJob":   //  StartCoroutine(APIMANAGER.POST_Addjob(int.Parse(transform.name), UI_HUD.nCrntPg_Job)); break;
+            case "POST_AddJob":   StartCoroutine(APIMANAGER.POST_Addjob()); break;//, UI_HUD.nCrntPg_Job)); break;
             case "FIND_JOB":        APIDATA.FindPlayerJob(transform.name); break;
             case "POST_Login":      APIMANAGER.CoroutineStart(POST_case); break;
             case "POST_Signin": APIMANAGER.CoroutineStart(POST_case); break;
-            case "GET_Playerlist": // StartCoroutine(APIMANAGER.GET_Playerlist(UI_HUD.nCrntPgeN)); break;
             case "POST_AddPlayer":  APIMANAGER.CoroutineStart("POST_Signin"); break;
-            case "GET_SearchPlayer"://StartCoroutine(APIMANAGER.GET_SearchPlayer(APIDATA.SpecificPlayer())); break;
-            case "GET_Refreshplayer": //StartCoroutine(UI_HUD.PopUP("Playerlist"));
-                                    // StartCoroutine((APIMANAGER.GET_Playerlist(UI_HUD.nCrntPgeN))); break;
-            case "ResetPlayerlist":  UI_HUD.ResetSearchbyName(); APIMANAGER.CoroutineStart("GET_Playerlist"); break;
             case "GET_PDFList": break; // StartCoroutine(APIMANAGER.GET_PDFList(transform.parent.name)); 
         }
     }
@@ -87,7 +82,7 @@ public class Player_API : MonoBehaviour
 
     public void Confirm_n_DataExistenceCheck()
     {
-        int grade = UserInfo_API.GetInstance().playerInfo.grade;
+        int grade = UserInfo_API.GetInstance().grade;
         if (grade > 3) { StatusHigh(); }
         if(grade < 4) { StatusLow(); }
     }

@@ -26,12 +26,16 @@ public class HUD_API : MonoBehaviour
     public int nTtlPgeN;
     public Text player_birth;
     public InputField player_phone;
+    public GameObject player_phoneError;
     public InputField player_uid;
- //   public InputField player_email;
+    public GameObject player_uidError;
+    //   public InputField player_email;
     public InputField player_uidDomain;
     //   public InputField player_EmailDomain;
     public InputField player_PWD;
+    public GameObject player_PWDError;
     public InputField player_PWDConfirm;
+    public GameObject player_PWDConfirmError;
     //  public InputField player_guardian;
     public Toggle player_Male;
     public Toggle player_Female;
@@ -108,6 +112,23 @@ public class HUD_API : MonoBehaviour
         }
     }
 
+    public void PlayerError(string error)
+    {
+        switch (error)
+        {
+            case "[password]": player_PWDError.SetActive(true); break;
+            case "[phonenum]": player_phoneError.SetActive(true); break;
+            case "[password_confirmation]": player_PWDConfirmError.SetActive(true); break;
+            case "[uid]":  player_uidError.SetActive(true); break;
+        }
+    }
+    public void SignInComplete()
+    {
+        PopUP("PlayerAdd");
+        ShowLogin();
+
+
+    }
     public void OverlapPlayer()
     {
         Error_NameOverlap.SetActive(true);
@@ -411,6 +432,7 @@ public class HUD_API : MonoBehaviour
             case "PDF": m_sPopup = "PDF가 생성되었습니다."; break;
             case "Playerlist": m_sPopup = "아동 목록을 불러왔습니다."; break;
             case "Joblist": m_sPopup = "진단 내역을 불러왔습니다."; break;
+            case "PlayerAdd": m_sPopup = "아동이 등록되었습니다"; break;
         }
         go_PopUp.GetComponentInChildren<Text>().text = m_sPopup;
         go_PopUp.SetActive(true);

@@ -11052,7 +11052,6 @@ GameObject:
   - component: {fileID: 1007759084}
   - component: {fileID: 1007759083}
   - component: {fileID: 1007759082}
-  - component: {fileID: 1007759085}
   m_Layer: 15
   m_Name: paddle_handle_01
   m_TagString: HANDLE_MY
@@ -11139,19 +11138,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1007759080}
   m_Mesh: {fileID: 8317165305291541944, guid: 6fbccd369c039ff47b0e68e3e0d90a7c, type: 3}
---- !u!114 &1007759085
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1007759080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77b77c31983ae9b4990286653921ceea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Prefab: {fileID: 0}
 --- !u!1 &1009133522
 GameObject:
   m_ObjectHideFlags: 0
