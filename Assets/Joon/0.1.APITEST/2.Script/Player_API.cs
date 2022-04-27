@@ -39,7 +39,7 @@ public class Player_API : MonoBehaviour
             case "POST_Login":      APIMANAGER.CoroutineStart(POST_case); break;
             case "POST_Signin": APIMANAGER.CoroutineStart(POST_case); break;
             case "POST_AddPlayer":  APIMANAGER.CoroutineStart("POST_Signin"); break;
-            case "GET_PDFList": break; // StartCoroutine(APIMANAGER.GET_PDFList(transform.parent.name)); 
+            case "GET_PDFList":   StartCoroutine(APIMANAGER.GET_PDFList()); break;
         }
     }
 

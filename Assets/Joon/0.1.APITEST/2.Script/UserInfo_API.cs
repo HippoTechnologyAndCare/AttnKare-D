@@ -7,6 +7,7 @@ public class UserInfo_API : MonoBehaviour
     public string Authorization;
     public int UserID;
     public DATA_API.UserSubsInner UserTotalInfo;
+    public DATA_API.LoginInner LoginInfo;
     public int grade;
     //  public DATA_API.UserInner userInfo;
     //  public DATA_API.ServicesInfo serviceInfo;

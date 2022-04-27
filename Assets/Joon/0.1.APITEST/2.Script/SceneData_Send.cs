@@ -7,6 +7,7 @@ using UserData;
 using BNG;
 public class SceneData_Send : MonoBehaviour
 {
+    public GameObject KeyInput;
     GUIDE_API APICONNECT;
     PlayerMovementData BehaviorDataCollection;
     JsonDataManager JsonDataCollection;
@@ -24,6 +25,10 @@ public class SceneData_Send : MonoBehaviour
             BehaviorDataCollection = FindObjectOfType<PlayerMovementData>();
             JsonDataCollection = FindObjectOfType<JsonDataManager>();
             VoiceRecording = FindObjectOfType<VoiceRecording>();
+        }
+        if (!FindObjectOfType<KeyInput>())
+        {
+            Instantiate(KeyInput);
         }
     }
     public void GetSceneData()

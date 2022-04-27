@@ -101,7 +101,6 @@ public class JsonDataManager : MonoBehaviour
 
     public string SaveCurrentData()
     {
-
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
         saveCurrentSceneData(sceneIndex);
        // string jsonData = JsonConvert.SerializeObject(dataList, Formatting.Indented);

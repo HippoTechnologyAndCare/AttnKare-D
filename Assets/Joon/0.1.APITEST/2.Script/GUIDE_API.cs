@@ -14,7 +14,7 @@ public class GUIDE_API : MonoBehaviour
     public static string RecordingPath;
     public static GUIDE_API Guide_instance;
     private string Authorization;
-//    HUD_API UI_Hud;
+    //    HUD_API UI_Hud;
     DATA_API DATA;
     UserInfo_API Userinfo;
     // string BASE_URL = "https://adhd.hippotnc.kr:444";
@@ -23,7 +23,7 @@ public class GUIDE_API : MonoBehaviour
     string LoginURL = "/api/v2/session";
     string ServicesURL = "/api/v2/services?type=2761"; //서비스 목록 조회
     string ServicesSubsURL = "/api/v2/subscriptions"; //사용자 구독 서비스 목록 조회(GET) + 사용자 서비스 구독(POST)
-    string JobURL ="" ; //servicesubsurl + subs_id + joburl
+    string JobURL = ""; //servicesubsurl + subs_id + joburl
     string JobBottomURL = "/jobs?sort_order=desc&sort_by=inserted_at&page=1&per_page=5";
     string AddJobURL = "";
     string AddJobBottomURL = "/jobs"; //servicessubsurl + subid + joburl
@@ -31,7 +31,7 @@ public class GUIDE_API : MonoBehaviour
     string DataSendURL = "/api/v2/data/up";
     string MP3URL = "";
     string JobExecutionURL = "/eval"; //servicessuburl + sub_id + /jobs/jobid_eval
-    string PdfListURL = "/api/v1/operator/jobs/";
+    string PdfListURL = "/attn/uploads?sort_order=desc&sort_by=inserted_at&page=1&per_page=10";
     string PdfListURL_jobid = "/uploads?sort_by=version_number&sort_order=desc";
     string PdfFileURl = "";
     /*
@@ -59,7 +59,7 @@ public class GUIDE_API : MonoBehaviour
     {
         GUIDE_API.RecordingPath = Application.persistentDataPath + "/" + DateTime.Now.ToString("yyyyMMdd") + "/" + "VOICE";
 
-        if (Guide_instance== null)
+        if (Guide_instance == null)
         {
             Guide_instance = this;
         }
@@ -99,20 +99,17 @@ public class GUIDE_API : MonoBehaviour
         ServicesURL = BASE_URL + ServicesURL;
         ServicesSubsURL = BASE_URL + ServicesSubsURL;
         JobURL = ServicesSubsURL + "/";
-        AddJobURL = ServicesSubsURL+"/";
+        AddJobURL = ServicesSubsURL + "/";
         DataSendURL = BASE_URL + DataSendURL;
 
-        MP3URL = BASE_URL + MP3URL;
-        PdfListURL = BASE_URL + PdfListURL;
-        PdfFileURl = BASE_URL + PdfFileURl;
-
+     
 
     }
     public void CoroutineStart(string coroutine)
     {
         StartCoroutine(coroutine);
     }
-    
+
     public IEnumerator POST_Signin()
     {
         string UserJsonString = DATA.POST_Signin();
@@ -215,7 +212,7 @@ public class GUIDE_API : MonoBehaviour
             Debug.Log("USER LOGGED IN");
             Debug.Log(webRequest.downloadHandler.text);
             bool subscribed = DATA.GET_ServicesSubs(webRequest.downloadHandler.text);
-            if(subscribed) StartCoroutine(GET_Joblist());
+            if (subscribed) StartCoroutine(GET_Joblist());
             if (!subscribed) StartCoroutine(GET_Services());
 
         }
@@ -267,7 +264,7 @@ public class GUIDE_API : MonoBehaviour
 
         }
     }
-   
+
 
 
 
@@ -377,7 +374,7 @@ public class GUIDE_API : MonoBehaviour
     public IEnumerator POST_MP3(int scene_id)
     {
         WWWForm formData = new WWWForm();
-        MP3URL = AddJobFinalURL + UserInfo_API.GetInstance().jobInfo.id + "/audio-uploads";
+        MP3URL = AddJobFinalURL + UserInfo_API.GetInstance().jobInfo.id + "/attn/audio-uploads";
         Debug.Log(MP3URL);
         formData.AddBinaryData("upload", File.ReadAllBytes(GUIDE_API.RecordingPath + ".mp3"), "VOICE.mp3", "audio/mpeg");
         Debug.Log(GUIDE_API.RecordingPath + ".mp3");
@@ -442,7 +439,8 @@ public class GUIDE_API : MonoBehaviour
         string UserJsonString = DATA.POST_JobExecution();
         yield return new WaitUntil(() => UserJsonString != null);
         FinalJobExecution = AddJobURL + UserInfo_API.GetInstance().UserTotalInfo.id + AddJobBottomURL + "/" + UserInfo_API.GetInstance().jobInfo.id + JobExecutionURL;
-        UnityWebRequest webRequest = UnityWebRequest.Post(JobExecutionURL, UserJsonString); ;
+        Debug.Log(FinalJobExecution);
+        UnityWebRequest webRequest = UnityWebRequest.Post(FinalJobExecution, UserJsonString); ;
         byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(UserJsonString);
         webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
@@ -457,7 +455,80 @@ public class GUIDE_API : MonoBehaviour
         else
         {
             Debug.Log("Data Post COMPLETE");
-            //       StartCoroutine(GoBacktoJoblist());
+            StartCoroutine(GoBacktoJoblist());
+        }
+    }
+
+    public IEnumerator GoBacktoJoblist()
+    {
+        DATA_API.LoginInner user = UserInfo_API.GetInstance().LoginInfo;
+        //  DATA = null;
+        yield return new WaitUntil(() => SceneManager.GetActiveScene().buildIndex == 0);
+        //    DATA = FindObjectOfType<DATA_API>();
+        Debug.Log("!!!!!!!!!!!!!!!!JOB LIST");
+        UserInfo_API.GetInstance().LoginInfo = user;
+        yield return StartCoroutine(GET_Joblist());
+        UserInfo_API.GetInstance().LoginInfo = user;
+        Debug.Log(UserInfo_API.GetInstance().LoginInfo.uid);
+        StartCoroutine(GET_Joblist());
+    }
+    /*
+   public void Nullify()
+    {
+        DATA = null;
+        userinfo_instance = null;
+        userinfo_instance = UserInfo_API.GetInstance();
+        DATA = FindObjectOfType<DATA_API>();
+    }
+    */
+
+
+    string PdfListURL_final;
+    public IEnumerator GET_PDFList()
+    {
+        PdfListURL_final = JobURL + UserInfo_API.GetInstance().UserTotalInfo.id +"/" +UserInfo_API.GetInstance().jobInfo.id + PdfListURL;
+        Debug.Log(PdfListURL_final +"///"+ UserInfo_API.GetInstance().UserTotalInfo.id);
+        UnityWebRequest webRequest = UnityWebRequest.Get(PdfListURL_final);
+        webRequest.downloadHandler = new DownloadHandlerBuffer();
+        webRequest.SetRequestHeader("Content-Type", "application/json");
+        webRequest.SetRequestHeader("Authorization", Authorization);
+        Debug.Log(Authorization);
+        yield return webRequest.SendWebRequest();
+        if (webRequest.isNetworkError || webRequest.isHttpError)
+        {
+            int m_nError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
+            if (m_nError == 404) DATA.GET_PDFList(webRequest.downloadHandler.text);
+        }
+        else
+        {
+            Debug.Log(webRequest.downloadHandler.text);
+            int pdf_id = DATA.GET_PDFList(webRequest.downloadHandler.text);
+            StartCoroutine(GET_PDFFile(pdf_id));
+        }
+    }
+    string PDFFileURL_final;
+    public IEnumerator GET_PDFFile(int id)
+    {
+        PDFFileURL_final = JobURL + "/" + UserInfo_API.GetInstance().UserTotalInfo.id + UserInfo_API.GetInstance().jobInfo.id + "/uploads/" +id;
+        Debug.Log(PDFFileURL_final);
+        UnityWebRequest webRequest = UnityWebRequest.Get(PDFFileURL_final);
+        webRequest.downloadHandler = new DownloadHandlerBuffer();
+        webRequest.SetRequestHeader("Content-Type", "application/json");
+        webRequest.SetRequestHeader("Authorization", Authorization);
+        Debug.Log(Authorization);
+        yield return webRequest.SendWebRequest();
+        if (webRequest.isNetworkError || webRequest.isHttpError)
+        {
+            int m_nError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
+            if (m_nError == 404) Debug.Log("EMPTY");
+        }
+        else
+        {
+            Debug.Log("Get Joblist COMPLETE");
+            Debug.Log("!!URL" + PDFFileURL_final);
+            File.WriteAllBytes(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/" + id + ".pdf", webRequest.downloadHandler.data);
+            yield return new WaitUntil(() => File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/" + id + ".pdf"));
+            DATA.POPUP();
         }
     }
     /*

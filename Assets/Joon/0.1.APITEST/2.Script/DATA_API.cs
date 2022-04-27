@@ -43,7 +43,7 @@ public class DATA_API : MonoBehaviour
         public int type; //patient = 3
         public string phonenum;
         public int gender; //1: male /2:female
-                           //  public int hospital_code;
+        public int grade;                   //  public int hospital_code;
         public string birth;
     }
 
@@ -59,6 +59,7 @@ public class DATA_API : MonoBehaviour
                 password = (string)player["password"],
                 password_confirmation = (string)player["password_confirmation"],
                 type = 3,
+                grade = int.Parse(player["grade"]),
                 phonenum = (string)player["phonenum"],
                 gender = int.Parse(player["gender"]),
                 birth = (string)player["birth"]
@@ -75,7 +76,8 @@ public class DATA_API : MonoBehaviour
         }
         else return " ";
     }
-    public class AccessToken {
+    public class AccessToken
+    {
 
         public AccessTokenInner data;
     }
@@ -162,6 +164,7 @@ public class DATA_API : MonoBehaviour
             string UserJsonString = JsonUtility.ToJson(JsonLogInClass);
             Debug.Log(UserJsonString);
             userinfo = JsonUserClass;
+            UserInfo_API.GetInstance().LoginInfo = JsonUserClass;
             return UserJsonString;
         }
         else return " ";
@@ -187,7 +190,7 @@ public class DATA_API : MonoBehaviour
         public int type;
         public string phonenum;
         public string birth;
-      //  public int hospital_code;
+        //  public int hospital_code;
         public int gender;
         public string inserted_at;
         public string updated_at;
@@ -228,8 +231,8 @@ public class DATA_API : MonoBehaviour
     public void GET_Services(string webResult)
     {
         Service service = JsonConvert.DeserializeObject<Service>(webResult);
-        foreach(ServicesInfo findservice in service.data.services) { if (findservice.service_type == 2761) UserInfo_API.GetInstance().service_id = findservice.id; }
-            
+        foreach (ServicesInfo findservice in service.data.services) { if (findservice.service_type == 2761) UserInfo_API.GetInstance().service_id = findservice.id; }
+
         // UserInfo_API.GetInstance().serviceInfo = service.data.services;
     }
 
@@ -274,7 +277,7 @@ public class DATA_API : MonoBehaviour
     {
         Subs service = JsonConvert.DeserializeObject<Subs>(webResult);
         UserInfo_API.GetInstance().Subscription_ID = service.data.subscription_id;
-        
+
     }
 
     public class UserSubs
@@ -512,7 +515,7 @@ public class ServiceSignIn
     [Serializable]
     public class JobView
     {
-     //  public int count;
+        //  public int count;
         public JobList data;
     }
     public class JobList
@@ -541,12 +544,12 @@ public class ServiceSignIn
     {
         UI_Hud.ResetList("JOB");
         AllJobsList.Clear();
-      //  PlayerInner SelectedPlayer = AllPlayersList.Find(x => x.id == player_id);
-     //   UserInfo_API.GetInstance().playerInfo = SelectedPlayer; //사용자 정보를 저장
-      //  UI_Hud.job_button.name = player_id.ToString();
+        //  PlayerInner SelectedPlayer = AllPlayersList.Find(x => x.id == player_id);
+        //   UserInfo_API.GetInstance().playerInfo = SelectedPlayer; //사용자 정보를 저장
+        //  UI_Hud.job_button.name = player_id.ToString();
         JobsData = JsonConvert.DeserializeObject<JobView>(webResult);
         UI_Hud.GET_JOBLIST();
-      //  Debug.Log("@@@PLAYER ID" + SelectedPlayer.id);
+        //  Debug.Log("@@@PLAYER ID" + SelectedPlayer.id);
         if (JobsData.data == null) { UI_Hud.ShowJobList(); return; }
         for (int i = 0; i < JobsData.data.jobs.Count; i++)
         {
@@ -557,7 +560,7 @@ public class ServiceSignIn
 
             //  UI_Hud.CreateList(playerinfo.id, playerinfo.player_name, playerinfo.birth, playerinfo.phonenum, "GOING");
         }
-       // UI_Hud.JobPage(CreatePage(JobsData.count));
+        // UI_Hud.JobPage(CreatePage(JobsData.count));
         UI_Hud.ShowJobList();
     }
 
@@ -618,7 +621,8 @@ public class ServiceSignIn
     {
         Debug.Log(webResult);
         List<string> Errors = JsonConvert.DeserializeObject<List<string>>(webResult);
-        foreach (string error in Errors) {
+        foreach (string error in Errors)
+        {
             Debug.Log(error);
             string[] SplitError = error.Split(char.Parse(" ")); //첫번째 띄어쓰기로 구분하기
             UI_Hud.PlayerError(SplitError[0]);
@@ -670,7 +674,7 @@ public class ServiceSignIn
     }
     public string SendData(int data_type, int scene_id, string sentdata)
     {
-        string m_stopic = "UP." + UserInfo_API.GetInstance().UserTotalInfo.user.uid+ "|dtx|" + UserInfo_API.GetInstance().UserTotalInfo.user.id + "|2761";
+        string m_stopic = "UP." + UserInfo_API.GetInstance().UserTotalInfo.user.uid + "|dtx|" + UserInfo_API.GetInstance().UserTotalInfo.user.id + "|2761";
         SceneDataInner JsonDataInner = new SceneDataInner
         {
             type = data_type,
@@ -709,7 +713,9 @@ public class ServiceSignIn
     {
         JobExecutionCmd JsonCmd = new JobExecutionCmd
         {
-            cmd = "echo $PATH"
+            //  cmd = "echo $PATH"
+            cmd = "ls -al"
+           
         };
         JobExecutionInner JsonDataInner = new JobExecutionInner
         {
@@ -726,6 +732,41 @@ public class ServiceSignIn
 
 
     }
+    [Serializable]
+    public class PDFList
+    {
+        public PDFListInner data;
+    }
+    [Serializable]
+    public class PDFListInner
+    {
+        public List<PDFs> uploads;
+    }
+    [Serializable]
+    public class PDFs
+    {
+        public int id;
+        public string content_type;
+        public string filename;
+        public string hash;
+        public int size;
+        public string inserted_at;
+        public string updated_at;
+    }
+    PDFList Pdfs_id;
+    public int GET_PDFList(string webResult)
+    {
+        Pdfs_id = JsonConvert.DeserializeObject<PDFList>(webResult);
+        Debug.Log(Pdfs_id.data.uploads[0].id);
+        int id_pdf = Pdfs_id.data.uploads[0].id;
+        return id_pdf;
+    }
+    public void POPUP()
+    {
+        StartCoroutine(UI_Hud.PopUP("PDF"));
+    }
+
+
 }
 
 
