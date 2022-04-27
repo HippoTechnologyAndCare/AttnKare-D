@@ -134,7 +134,8 @@ public class HUD : MonoBehaviour
             null, //Clip¾øÀ½
             m_textMoving.gameObject,
             m_canvasHMD,
-            Guide.HUD_REPORT.PLAYED_MOVING)
+            Guide.HUD_REPORT.PLAYED_MOVING
+            )
         ); 
     }
     /************************************************
@@ -180,7 +181,7 @@ public class HUD : MonoBehaviour
         );                 
     }    
     public void ShowMoving() {   
-        CanvasFadeIn(m_canvasFin,1f); 
+        CanvasFadeIn(m_canvasFin,1f);
         m_goMoving.SetActive(true);
     }
 
@@ -307,7 +308,8 @@ public class HUD : MonoBehaviour
     public GameObject m_goTimeOutF,m_goTimeOutL,m_goTimeOutR,m_goTimeOutB,m_goTimeOutFText, m_goHowTo;
     public enum LOOK_DIR { FORWARD, LEFT, RIGHT, BACK, INVALID}
     LOOK_DIR m_eLookDir;
-    public void PlayTimeOut() {                      
+    public void PlayTimeOut() {   
+        
         StartCoroutine("PlayTimeOutText"); 
         StartCoroutine("StopTimeOutText");
     }

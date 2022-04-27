@@ -12,6 +12,7 @@ public class buttonQA : MonoBehaviour
     public CleanUp.HUD  m_Hud;
     public CleanUp.Guide m_Guide;
     public Canvas       QACanvas;
+    public GameObject reticle;
     [HideInInspector] public static bool onlyFirstTime = false;
     [HideInInspector] public static int m_nResult = 0;
     public enum m_Value
@@ -59,6 +60,7 @@ public class buttonQA : MonoBehaviour
     {
         if (!canvas) return;  // check valid canvas ?                
         StartCoroutine(AnimAlpah(canvas, time, false));
+        reticle.SetActive(false);
     }
     IEnumerator AnimAlpah(Canvas canvas, float time, bool bIn)
     {
@@ -73,6 +75,7 @@ public class buttonQA : MonoBehaviour
         }
         returnSelected();
         if (!bIn) canvas.gameObject.SetActive(false);
+        
     }
     void returnSelected()
     {
