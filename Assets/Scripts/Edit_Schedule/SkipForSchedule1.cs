@@ -18,7 +18,7 @@ public class SkipForSchedule1 : MonoBehaviour
     Transform Fin2;
     public int buildIndex;
 
-    public ScheduleManager1 scheManager;
+    public ScheduleManager2 scheManager;
 
 
     void Start()
