@@ -9742,7 +9742,7 @@ MonoBehaviour:
   voiceRecording: {fileID: 267640741}
   dataChecker: {fileID: 39687929}
   audioCon: {fileID: 1275069355}
-  scoreManager: {fileID: 1574161646}
+  scoreManager: {fileID: 1574161647}
   rightPointer: {fileID: 1405856165229722246}
   hud: {fileID: 2138600943}
   mainUi: {fileID: 7428048669433816910}
@@ -24052,6 +24052,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1574161645}
   - component: {fileID: 1574161646}
+  - component: {fileID: 1574161647}
   m_Layer: 0
   m_Name: Score Manager
   m_TagString: Untagged
@@ -24086,6 +24087,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scManager: {fileID: 0}
+  bCardCtn: 0
+  rCardCtn: 0
+  tier1Ctn: 0
+  tier2Ctn: 0
+  tier3Ctn: 0
+  tier4Ctn: 0
+  bCardArr: []
+  rCardArr: []
+  tier1Arr: []
+  tier2Arr: []
+  tier3Arr: []
+  tier4Arr: []
+--- !u!114 &1574161647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574161644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c817cba15d32d20479fdcd14097e37e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scManager: {fileID: 597562633}
   bCardCtn: 0
   rCardCtn: 0
   tier1Ctn: 0

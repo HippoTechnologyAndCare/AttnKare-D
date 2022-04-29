@@ -26,16 +26,17 @@ namespace Scheduler
     public class ScheduleManager2 : MonoBehaviour
     {
         public Dictionary<string, int> CardCtnDic;
+        public Dictionary<int, string> SchedulerDict;
         public CollectData collectData;
         public AutoVoiceRecording voiceRecording;
         public DataChecker dataChecker;
         public BGMcontroller audioCon;
-        public ScoreManager scoreManager;
+        public ScoreManager02 scoreManager;
         
         private const float TimeLimit = 150; //시간 제한 사용 방향 기획 필요
         private const float TimeLimitForFinish = 180; //강제종료시간
-        private const int TotalCardsCtn = 10;         // 총 카드 수
-        private const int YelCardCtn = 2;             // 노란 카드의 총 개수
+        private const int TotalCardsCtn = 6;         // 총 카드 수
+        //private const int YelCardCtn = 2;             // 노란 카드의 총 개수
 
         [SerializeField] private Transform rightPointer;
 
@@ -78,7 +79,7 @@ namespace Scheduler
         public List<Transform> grpList;
         private List<Transform> oPosList;
         
-        [SerializeField] private string[] yelCardsArr = new string[YelCardCtn];
+        //[SerializeField] private string[] yelCardsArr = new string[YelCardCtn];
 
         public float[] Scene2Arr { get; set; }
 
@@ -150,6 +151,7 @@ namespace Scheduler
             isReset = false;
 
             CardCtnDic = new Dictionary<string, int>();
+            SchedulerDict = new Dictionary<int, string>();
             
             audioSource = this.GetComponent<AudioSource>();
             slotList = new List<Transform>();
@@ -160,7 +162,7 @@ namespace Scheduler
 
         private void Start()
         {
-            InitTotalCardCtnDict();
+            //InitTotalCardCtnDict();
 
             InitSlotList();
             InitGrpList();
@@ -436,6 +438,14 @@ namespace Scheduler
             }
         }
 
+        private void InitSchedulerDict()
+        {
+            for (var i = 1; i <= TotalCardsCtn; i++)
+            {
+                SchedulerDict.Add(key:i + 1, value: "");
+            }
+        }
+        
         // CardDict를 0으로 초기화하는 함수
         private void InitTotalCardCtnDict()
         {
@@ -446,91 +456,91 @@ namespace Scheduler
             }
         }
         
-        // 들어온 매개변수와 서로 일치하는 CardCtnDic의 멤버(key)의 value를 수정해준다(count Up)
-        private void UsedCardsCtn(Transform passenger)
-        {
-            string keyword = "(Clone)";
-            string originName;
+        // // 들어온 매개변수와 서로 일치하는 CardCtnDic의 멤버(key)의 value를 수정해준다(count Up)
+        // private void UsedCardsCtn(Transform passenger)
+        // {
+        //     string keyword = "(Clone)";
+        //     string originName;
+        //
+        //     if (completionCtn <= 1)
+        //     {
+        //         foreach (var card in CardCtnDic.Keys.ToList())
+        //         {
+        //             if(passenger != null)
+        //             {
+        //                 // 클론 카드인지 확인하고 클론이면 오브젝트명에서 clone부분 삭제
+        //                 if (RemoveWord.EndsWithWord(passenger.name, keyword))
+        //                 {
+        //                     originName = passenger.name.Replace("(Clone)", "");
+        //                 }
+        //                 
+        //                 // 오리지널 카드일 경우
+        //                 else
+        //                 {
+        //                     originName = passenger.name;
+        //                 }
+        //                 
+        //                 if (card == originName)
+        //                 {
+        //                     CardCtnDic[card] += 1;
+        //                     Debug.Log(card + " is " +   CardCtnDic[card]);
+        //                 }
+        //             }                                              
+        //         }
+        //     }
+        //
+        //     else
+        //     {
+        //         foreach (var yelCard in yelCardsArr)
+        //         {
+        //             if (passenger != null)
+        //             {
+        //                 if (RemoveWord.EndsWithWord(passenger.name, keyword))
+        //                 {
+        //                     originName = passenger.name.Replace("(Clone)", "");
+        //                 }
+        //
+        //                 else
+        //                 {
+        //                     originName = passenger.name;
+        //                 }
+        //
+        //                 if (yelCard == originName)
+        //                 {
+        //                     // yellow 카드를 사용한 횟수 데이터를 +1 시켜야 한다
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
-            if (completionCtn <= 1)
-            {
-                foreach (var card in CardCtnDic.Keys.ToList())
-                {
-                    if(passenger != null)
-                    {
-                        // 클론 카드인지 확인하고 클론이면 오브젝트명에서 clone부분 삭제
-                        if (RemoveWord.EndsWithWord(passenger.name, keyword))
-                        {
-                            originName = passenger.name.Replace("(Clone)", "");
-                        }
-                        
-                        // 오리지널 카드일 경우
-                        else
-                        {
-                            originName = passenger.name;
-                        }
-                        
-                        if (card == originName)
-                        {
-                            CardCtnDic[card] += 1;
-                            Debug.Log(card + " is " +   CardCtnDic[card]);
-                        }
-                    }                                              
-                }
-            }
-
-            else
-            {
-                foreach (var yelCard in yelCardsArr)
-                {
-                    if (passenger != null)
-                    {
-                        if (RemoveWord.EndsWithWord(passenger.name, keyword))
-                        {
-                            originName = passenger.name.Replace("(Clone)", "");
-                        }
-
-                        else
-                        {
-                            originName = passenger.name;
-                        }
-
-                        if (yelCard == originName)
-                        {
-                            // yellow 카드를 사용한 횟수 데이터를 +1 시켜야 한다
-                        }
-                    }
-                }
-            }
-        }
-
-        private void SetYellowForCards()
-        {
-            // Dict안에서 value가 큰 순서대로 내림차순 정렬
-            var sortedDict = from entry in CardCtnDic
-                orderby entry.Value descending select entry;
-                
-            CardCtnDic = sortedDict.ToDictionary<KeyValuePair<string, int>,
-                string, int>(pair => pair.Key, pair => pair.Value);
-            
-            // 제일 많이 사용한 카드 두장을 yelCardArr 배열에 넣는다
-            for (int i = 0; i < YelCardCtn; i++)
-            {
-                yelCardsArr[i] = CardCtnDic.Keys.ElementAt(i);
-            }
-
-            // yelCardArr 배열을 참고로 grpList안에 있는 2개의 카드의 색상을 변경
-            foreach (var orgCard in grpList)
-            {
-                foreach (var entry in yelCardsArr)
-                {
-                    if (orgCard.name == entry)
-                    {
-                        orgCard.GetChild(2).GetComponent<MeshRenderer>().material = yellowMat;
-                    }
-                }
-            }
-        }
+        // private void SetYellowForCards()
+        // {
+        //     // Dict안에서 value가 큰 순서대로 내림차순 정렬
+        //     var sortedDict = from entry in CardCtnDic
+        //         orderby entry.Value descending select entry;
+        //         
+        //     CardCtnDic = sortedDict.ToDictionary<KeyValuePair<string, int>,
+        //         string, int>(pair => pair.Key, pair => pair.Value);
+        //     
+        //     // 제일 많이 사용한 카드 두장을 yelCardArr 배열에 넣는다
+        //     for (int i = 0; i < YelCardCtn; i++)
+        //     {
+        //         yelCardsArr[i] = CardCtnDic.Keys.ElementAt(i);
+        //     }
+        //
+        //     // yelCardArr 배열을 참고로 grpList안에 있는 2개의 카드의 색상을 변경
+        //     foreach (var orgCard in grpList)
+        //     {
+        //         foreach (var entry in yelCardsArr)
+        //         {
+        //             if (orgCard.name == entry)
+        //             {
+        //                 orgCard.GetChild(2).GetComponent<MeshRenderer>().material = yellowMat;
+        //             }
+        //         }
+        //     }
+        // }
         
         public void DoStartSchedule()
         {
@@ -614,8 +624,10 @@ namespace Scheduler
 
             if (completionCtn >= 2)
             {
-                CardCtnDic.Clear();
-                InitTotalCardCtnDict();
+                //CardCtnDic.Clear();
+                //InitTotalCardCtnDict();
+                SchedulerDict.Clear();
+                InitSchedulerDict();
             }
             
             // n번째로 완성한 계획표 변수로 저장
@@ -816,7 +828,7 @@ namespace Scheduler
                         currCard = slot.GetComponent<PlanSlotController2>().passenger.transform;
                         
                         // 사용된 카드가 각 몇장인지 데이터화 시키는 함수 실행
-                        UsedCardsCtn(currCard);
+                        //UsedCardsCtn(currCard);
 
                         if (slot != null)
                         {
@@ -832,10 +844,10 @@ namespace Scheduler
                     }
                 }
 
-                for (int i = 0; i < YelCardCtn; i++)
-                {
-                    yelCardsArr[i] = CardCtnDic.Keys.ElementAt(i);
-                }
+                // for (int i = 0; i < YelCardCtn; i++)
+                // {
+                //     yelCardsArr[i] = CardCtnDic.Keys.ElementAt(i);
+                // }
 
                 switch (completionCtn)
                 {

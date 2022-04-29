@@ -7,7 +7,7 @@ using Scheduler;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager01 : MonoBehaviour
 {
     private const int rCardLimit = 3;
     private const int tier2Limit = 3;

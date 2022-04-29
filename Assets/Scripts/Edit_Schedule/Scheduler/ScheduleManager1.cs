@@ -30,7 +30,7 @@ namespace Scheduler
         public AutoVoiceRecording voiceRecording;
         public DataChecker dataChecker;
         public BGMcontroller audioCon;
-        public ScoreManager scoreManager;
+        public ScoreManager01 scoreManager01;
         
         private const float TimeLimit = 150; //시간 제한 사용 방향 기획 필요
         private const float TimeLimitForFinish = 180; //강제종료시간
@@ -634,7 +634,7 @@ namespace Scheduler
                 SetYellowForCards();
                 StartCoroutine(hud.GetComponent<HUDSchedule01>().HalfInfoSetUiTxt());
                 StartCoroutine(audioCon.PlaySecInfo());
-                scoreManager.ScorerCalculator();
+                scoreManager01.ScorerCalculator();
                 return;
             }
 
@@ -647,7 +647,7 @@ namespace Scheduler
             grp.gameObject.SetActive(false);
             VisibleFinPanel(false);
             
-            scoreManager.ScorerCalculator();
+            scoreManager01.ScorerCalculator();
             
             StartCoroutine(AskQuestion());
         }
