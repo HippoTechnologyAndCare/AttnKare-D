@@ -10,7 +10,8 @@ public class Timer : MonoBehaviour
     [HideInInspector] public float secondsCount = 0;
     [HideInInspector] public int minuteCount;
     [HideInInspector] public int hourCount;
-
+    private int TimeLimit = 5; //5분 시간제한
+    private int ExtraTime = 7; //추가로 2분 더 부여
     public GameObject voice;            // Sounds/Voice
     public GameObject scoreboard;       // ScoopGame/Room/Scoreboard
 
@@ -87,7 +88,7 @@ public class Timer : MonoBehaviour
             // Play Time Limit Audio
             if(scoreboard.GetComponent<EasyTubeScoreboard>() != null && !scoreboard.GetComponent<EasyTubeScoreboard>().movingToLobby)
             {
-                if (minuteCount == 10 && !voice.GetComponent<AudioSource>().isPlaying)
+                if (minuteCount == TimeLimit && !voice.GetComponent<AudioSource>().isPlaying)
                 {
                     // Lo
                     GetComponent<AudioSource>().clip = timeLimitAudio;
@@ -121,7 +122,7 @@ public class Timer : MonoBehaviour
             // Play Time Out Audio
             if (scoreboard.GetComponent<EasyTubeScoreboard>() != null && !scoreboard.GetComponent<EasyTubeScoreboard>().movingToLobby)
             {
-                if (minuteCount == 11 && !voice.GetComponent<AudioSource>().isPlaying)
+                if (minuteCount == ExtraTime && !voice.GetComponent<AudioSource>().isPlaying)
                 {
                     // Lo
                     GetComponent<AudioSource>().clip = timeOutAudio;

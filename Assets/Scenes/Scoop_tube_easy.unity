@@ -492,7 +492,7 @@ MonoBehaviour:
     \uACF5\uC744 \uC62E\uAE38 \uC218 \uC788\uB294 \uB3C4\uAD6C\uB97C \uC7A1\uC744
     \uC218 \uC788\uC5B4\n\n\uC6D0\uD558\uB294 \uB3C4\uAD6C\uB97C \uACE8\uB77C \uACF5\uACFC
     \uAC19\uC740 \uC0C9\uAE54 \uD1B5\uC5D0 \uACF5\uC744 1\uAC1C\uC529 \uB123\uC5B4\uC918\n\n\uC81C\uD55C\uC2DC\uAC04\uC740
-    10\uBD84\uC774\uC57C\n\n\uC790 \uADF8\uB7FC \uC2DC\uC791\uD574\uBCF4\uC790~"
+    5\uBD84\uC774\uC57C\n\n\uC790 \uADF8\uB7FC \uC2DC\uC791\uD574\uBCF4\uC790~"
 --- !u!222 &36021695
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8155,7 +8155,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 65fa7ca18eee09e408d4cd1bbad2058f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 23568ada3f898c84597400b76dadfd58, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -11465,8 +11465,8 @@ MonoBehaviour:
   hourCount: 0
   voice: {fileID: 1531810225}
   scoreboard: {fileID: 914906266}
-  timeLimitAudio: {fileID: 8300000, guid: fbecbda39e145f64280c73357069b23a, type: 3}
-  timeOutAudio: {fileID: 8300000, guid: 24714ad6d39da8e46ab4e8c6adf30de1, type: 3}
+  timeLimitAudio: {fileID: 8300000, guid: dcb7c1dac8c5035499c81155927304df, type: 3}
+  timeOutAudio: {fileID: 8300000, guid: 4e3a102c3f1603a4a8b81c61324a9ec0, type: 3}
 --- !u!1 &811170718 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7049046636460687828, guid: a6e68b9fe240a5845928cc22a4c06a1c,
@@ -17169,6 +17169,61 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1664515990293085030, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.15652174
+      objectReference: {fileID: 0}
+    - target: {fileID: 1664515990293085030, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.15652174
+      objectReference: {fileID: 0}
+    - target: {fileID: 1664515990293085030, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.15652174
+      objectReference: {fileID: 0}
+    - target: {fileID: 1664515990293085030, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1664515990293085030, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1664515990293085030, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1664515990293085030, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.16386199
+      objectReference: {fileID: 0}
+    - target: {fileID: 1664515990293085030, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.98648334
+      objectReference: {fileID: 0}
+    - target: {fileID: 1664515990293085030, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.000000104308114
+      objectReference: {fileID: 0}
+    - target: {fileID: 1664515990293085030, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.00000049173826
+      objectReference: {fileID: 0}
+    - target: {fileID: 1664515990293085030, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 198.862
       objectReference: {fileID: 0}
     - target: {fileID: 1664515990310484969, guid: b9ffca821d7fb2640ae22a124dadf085,
         type: 3}
@@ -36403,7 +36458,7 @@ MonoBehaviour:
   timer: {fileID: 811103846}
   stage1FinishAudio: {fileID: 8300000, guid: 7b8769edf74799f40894dcfb558b1992, type: 3}
   stage2FinishAudio: {fileID: 8300000, guid: eff9a13934e657f4dae17839bab0f63f, type: 3}
-  stage3FinishAudio: {fileID: 8300000, guid: fefa1d417aaebdb4e8dc8ef0063de36b, type: 3}
+  stage3FinishAudio: {fileID: 8300000, guid: 01ffedd27741cff41902cbd8c669918e, type: 3}
 --- !u!82 &1531810227
 AudioSource:
   m_ObjectHideFlags: 0
