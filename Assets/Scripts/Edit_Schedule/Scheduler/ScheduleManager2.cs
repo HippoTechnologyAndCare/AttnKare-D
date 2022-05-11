@@ -624,8 +624,6 @@ namespace Scheduler
 
             if (completionCtn >= 2)
             {
-                //CardCtnDic.Clear();
-                //InitTotalCardCtnDict();
                 SchedulerDict.Clear();
                 InitSchedulerDict();
             }
@@ -816,6 +814,7 @@ namespace Scheduler
             }
             else
             {
+                int currKey;
                 Transform currCard;
                 skipYn = 0;
                 var myScheduleForJson = "";
@@ -827,9 +826,19 @@ namespace Scheduler
                     {
                         currCard = slot.GetComponent<PlanSlotController2>().passenger.transform;
                         
-                        // 사용된 카드가 각 몇장인지 데이터화 시키는 함수 실행
-                        //UsedCardsCtn(currCard);
+                        // slot이름과 일치하는 ScheDict Key일때 passenger이름을 Value에 넣는다
+                        int.TryParse(slot.ToString(),out currKey);
 
+                        
+                        
+                        foreach (var result in SchedulerDict)
+                        {
+                            if (result.Key == currKey)
+                            {
+                                //result.Value = currCard.name;
+                            }
+                        }
+                        
                         if (slot != null)
                         {
                             // string 변수에 카드 순서를 writing 하는 곳 
@@ -843,7 +852,6 @@ namespace Scheduler
                         }
                     }
                 }
-
                 // for (int i = 0; i < YelCardCtn; i++)
                 // {
                 //     yelCardsArr[i] = CardCtnDic.Keys.ElementAt(i);
