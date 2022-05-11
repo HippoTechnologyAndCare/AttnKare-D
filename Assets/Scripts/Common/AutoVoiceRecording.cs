@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using System.Threading;
 using NAudio.Lame;
 using NAudio.Wave.WZT;
 /*using System.Diagnostics;*/
@@ -17,7 +17,7 @@ public class AutoVoiceRecording : MonoBehaviour
 
     float timer = 0f;
 
-    bool NowRecording = false;    
+    bool NowRecording = false;
 
     AudioClip recording;
     AudioSource audioSource;
@@ -32,7 +32,57 @@ public class AutoVoiceRecording : MonoBehaviour
 
         StartRecording();
         NowRecording = true;
+
+        
+
+
     }
+    public void work() {
+        //ExeStopRecording();
+
+
+        //wav파일로 저장
+
+
+        //%%%%~
+        /*
+        SavWav.Save(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV, recording);
+        //저장된 wav파일 mp3로 변환
+        WaveToMP3(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV,
+        UserData.DataManager.GetInstance().FilePath_Folder + FileName + fMP3);
+        */
+        //%%%%
+
+        // //%%%%표시가 되어있는 두 부분에서 연산 시간이 많은 것으로 확인되어 쓰레드 처리 했습니다. 
+        
+    }
+
+    public IEnumerator StopRecording()
+    {
+
+        Microphone.End("");
+        AudioClip recordingNew = AudioClip.Create(recording.name, (int)((Time.time - startRecordingTime) * recording.frequency), recording.channels, recording.frequency, false);
+        float[] data = new float[(int)((Time.time - startRecordingTime) * recording.frequency)];
+        recording.GetData(data, 0);
+        recordingNew.SetData(data, 0);
+        recording = recordingNew;
+        audioSource.clip = recording;
+        SavWav.Save(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV, recording);
+        //저장된 wav파일 mp3로 변환
+        WaveToMP3(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV,
+        UserData.DataManager.GetInstance().FilePath_Folder + FileName + fMP3);
+        yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fMP3));
+        File.Delete(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV);
+        Debug.Log("This is executed from the main thread");
+        yield return null;
+    }
+
+    public void ExeStopRecording()
+    {
+        //UnityMainThreadDispatcher.Instance().Enqueue(StopRecording());
+    }
+
+
 
     void Update()
     {
@@ -67,14 +117,19 @@ public class AutoVoiceRecording : MonoBehaviour
         /*string callingFuncName = new StackFrame(1).GetMethod().Name;
         UnityEngine.Debug.Log("called by: " + callingFuncName);*/
         NowRecording = false;
-        transform.GetComponent<BNG.CollectData>().SaveBehaviorData();
+        //transform.GetComponent<BNG.CollectData>().SaveBehaviorData(); 
         StartCoroutine(FinishAndMakeClip());
     }
 
     IEnumerator FinishAndMakeClip()
     {
-        Microphone.End("");
-
+        /*
+        ThreadStart th = new ThreadStart(work);
+        Thread t = new Thread(th);
+        t.Start();
+        */
+        
+        Microphone.End(""); //%%%%
         AudioClip recordingNew = AudioClip.Create(recording.name, (int)((Time.time - startRecordingTime) * recording.frequency), recording.channels, recording.frequency, false);
 
         float[] data = new float[(int)((Time.time - startRecordingTime) * recording.frequency)];
@@ -82,18 +137,17 @@ public class AutoVoiceRecording : MonoBehaviour
         recordingNew.SetData(data, 0);
         recording = recordingNew;
         audioSource.clip = recording;
-
-        //wav파일로 저장
-        SavWav.Save(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV, recording);
         
+        
+        SavWav.Save(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV, recording);
         //저장된 wav파일 mp3로 변환
         WaveToMP3(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV,
         UserData.DataManager.GetInstance().FilePath_Folder + FileName + fMP3);
+        
 
-        //파일 저장 완료까지 대기
-        yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fMP3));  
-
+        yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fMP3));
         File.Delete(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV);
+                
     }
 
 
