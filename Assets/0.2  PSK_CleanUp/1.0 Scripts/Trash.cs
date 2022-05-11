@@ -259,10 +259,9 @@ namespace CleanUp
         void OnTriggerEnter(Collider other)
         {
             //정리안된상태에서 TriggerEnter는 Attach
-            if (other.gameObject.tag == "Surface")
+            if (other.gameObject.tag == "Surface" && gameObject.layer == 10)
             {
                 CDB[(int)m_eTrash].tPositioned = m_bPositioned = true;
-
                 gameObject.layer = 6;
                 gameObject.GetComponent<Grabbable>().enabled = false;
                 SetPositonedTrash();//정리한 것으로 처리

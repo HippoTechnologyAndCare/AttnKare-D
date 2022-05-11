@@ -10,8 +10,8 @@ public class Guide : MonoBehaviour {
     // Global Constant / Parameter Definition
     ***************************************************************************/
 
-    public static  float    TIMEOUT_ARRANGE = 120f; //방청소 시간제한 2분_Timer
-    public static  float    TIMEOUT_SCENE   = 300f; //Scene의 시간제한 5분, 다음게임으로    
+    public static  float    TIMEOUT_ARRANGE = 120f; //방청소 시간제한 2분_Timer 120f
+    public static  float    TIMEOUT_SCENE   = 180f; //Scene의 시간제한 3분, 다음게임으로 300f    
     public int              NEXT_SCENE      = 2;
     public bool BookFixed = true;
     public enum STATE { 
@@ -32,7 +32,7 @@ public class Guide : MonoBehaviour {
     /* Member Variable
     /**************************************************************************/
     public static STATE   m_eState;        
-    public static Arrange.ARRANGE       m_eGrabbedArrange;
+    //public static Arrange.ARRANGE       m_eGrabbedArrange;
     public static Trash.TRASH           m_eGrabbedTrash;    //잡은물건     
     public static Books.BOOKS           m_eGrabbedBooks;    //잡은물건     
     bool    m_bGrabbable;      //Player가 잡을 수 있는지 여부
@@ -45,8 +45,9 @@ public class Guide : MonoBehaviour {
     float   m_fTimeLookValid;  //Player가 필요한곳을 보는 시간 
     float   m_fTimeLookVideo;  //Player가 불필요한 비디오를 보는 시간
     float   m_fTimeLookInvalid;//Player가 불필요한곳을 보는 시간  
+    float   m_fTimeLookWindow;
     //int     m_nHearingReplay;  //Player가 다시듣기 재생횟수 : 재생횟수 : SpeechBubles 처리?-- 어떤상황에서 활성화?
-    
+
     float   m_fMoveDistance;   //Player 총이동거리 
     int     m_nObstacleTouch;  //Player가 방해 물체를 건든 횟수        
     int     m_nFinBtnDown;     //Player가 Fin Button 클릿횟수
@@ -64,13 +65,15 @@ public class Guide : MonoBehaviour {
     }
 
     //처음 정리할 물건일 경우 파티클 전시-called by Arragne.cs     
+    /*
     public void SetFirstArranged(Arrange.ARRANGE arranged, Transform dst) {   
     //Debug.Log("First Arrange="+arranged);
         m_Hud.PopUpCount(Arrange.TOTAL_CLEANED,true);
         m_Hud.ShowStarParticle(dst);        
-        GetArrangeStr();  //정리한 물건 문자열 갱신       
+        //GetArrangeStr();  //정리한 물건 문자열 갱신       
         //m_Hud.NoteUpdateArrange(arrangedStr,arrangeableStr);        
     }
+    */
     public void TrashCleaned(Trash.TRASH Cleaned, Transform dst){
             //Debug.Log("Cleaned" + Cleaned);
             m_Hud.PopUpCountTrash(Trash.TOTAL_POSITIONED, true);
@@ -136,16 +139,18 @@ public class Guide : MonoBehaviour {
     Grabber  m_RightGrabber;
     public void OnGrabRight() {         
         GameObject grab = m_RightGrabber.HeldGrabbable.gameObject; 
-        Arrange arrange = grab.GetComponent<Arrange>();
+        //Arrange arrange = grab.GetComponent<Arrange>();
         Trash trash = grab.GetComponent<Trash>();
         Books books = grab.GetComponent<Books>();
             //Debug.Log(arrange);
             //Debug.Log(trash);
         m_goRightHandPointer.SetActive(false);
+            /*
         if (arrange) {
             arrange.OnGrab();
             m_eGrabbedArrange = arrange.m_eArrange;
         }
+            */
         if(trash){
             trash.OnGrab();
             m_eGrabbedTrash = trash.m_eTrash;
@@ -167,10 +172,12 @@ public class Guide : MonoBehaviour {
         Trash trash = grab.GetComponent<Trash>();
         Books books = grab.GetComponent<Books>();
         m_goRightHandPointer.SetActive(true);
+            /*
         if (arrange){
             arrange.OnGrabRelease();
             m_eGrabbedArrange = Arrange.ARRANGE.NONE;
         }
+        */
         if (trash){
             trash.OnGrabRelease();
             m_eGrabbedTrash = Trash.TRASH.NONE;
@@ -203,8 +210,8 @@ public class Guide : MonoBehaviour {
         }
             */
             m_nFinBtnDown = 2;
-            oneSurvey = true;
-            m_Hud.ShowMoving();
+            //oneSurvey = true;
+            //m_Hud.ShowMoving();
             Make_End();
     }
     //평가관련 : 총이동거리를 계산합니다.
@@ -219,10 +226,11 @@ public class Guide : MonoBehaviour {
     void CalculateLookTime() {
          RaycastHit hit;
         if (Physics.Raycast(m_Character.position, m_Character.forward, out hit))  {
-            if(hit.transform.gameObject.tag == Manager.saTag[(int)Manager.TAG.NECESSARY]) 
-                m_fTimeLookValid += Time.deltaTime;
-            else if (hit.transform.gameObject.tag == Manager.saTag[(int)Manager.TAG.UNNECESSARY]) 
-                    m_fTimeLookVideo += Time.deltaTime;
+                //if(hit.transform.gameObject.tag == Manager.saTag[(int)Manager.TAG.NECESSARY]) m_fTimeLookValid += Time.deltaTime; else
+            if (hit.transform.gameObject.tag == Manager.saTag[(int)Manager.TAG.UNNECESSARY]) 
+                m_fTimeLookVideo += Time.deltaTime;
+            else if (hit.transform.gameObject.tag == Manager.saTag[(int)Manager.TAG.WINDOW])
+                m_fTimeLookWindow += Time.deltaTime;
             else m_fTimeLookInvalid += Time.deltaTime;
         } 
         else  m_fTimeLookInvalid += Time.deltaTime;                
@@ -232,16 +240,17 @@ public class Guide : MonoBehaviour {
     // Monobehavier Start
     ***************************************************************************/
     public HUD    m_Hud;
-    public GameObject goArranges, goTrashes;
+    public GameObject goTrashes;
+    //public GameObject goArranges;
     public GameObject goBooks;
-    Arrange[] m_aArranges; //정리할 정보를 갖고 있음
+    //Arrange[] m_aArranges; //정리할 정보를 갖고 있음
     Trash[] m_aTrashes; //정리할 정보를 갖고 있음
     Books[] m_aBooks; //정리할 정보를 갖고 있음
 
         // Start is called before the first frame update
         void Start() {        
         m_RightGrabber  = m_goRightGrabber.GetComponent<Grabber>();
-        m_aArranges     = goArranges.GetComponentsInChildren<Arrange>(true);
+        //m_aArranges     = goArranges.GetComponentsInChildren<Arrange>(true);
         m_aTrashes      = goTrashes.GetComponentsInChildren<Trash>(true);
         m_aBooks        = goBooks.GetComponentsInChildren<Books>(true);
             Make_Intro();         
@@ -269,6 +278,7 @@ public class Guide : MonoBehaviour {
             + "m_fTimeLookValid= " + m_fTimeLookValid + "\r\n"        //Player가 필요한곳을 보는 시간 
             + "m_fTimeLookVideo= " + m_fTimeLookVideo+ "\r\n"        //Player가 불필요한곳을 보는 시간             
             + "m_fTimeLookInvalid= " + m_fTimeLookInvalid + "\r\n"        //Player가 불필요한곳을 보는 시간             
+            + "m_fTimeLookWindow= " + m_fTimeLookWindow + "\r\n"        //Player가 창문을 보는 시간             
             + "m_fMoveDistance= " + m_fMoveDistance + "\r\n"        //Player 총이동거리 
             + "m_nObstacleTouch= " + m_nObstacleTouch + "\r\n"        //Player가 방해 물체를 건든 횟수        
             + "m_nFinBtnDown= " + m_nFinBtnDown + "\r\n";       //Player가 Fin Button 클릿횟수
@@ -302,10 +312,11 @@ public class Guide : MonoBehaviour {
     void Run_Arrange() { 
         MeasureTime();
         CalculateLookTime();
-        if(m_bTImeOutScene) Make_End();
+        if(m_bTImeOutScene && oneSurvey == false) Make_End();
     }
 
     public void Make_End() {
+
             if (oneSurvey == false)
             {
                 oneSurvey = true;
@@ -324,10 +335,8 @@ public class Guide : MonoBehaviour {
 
 
                 //이전상태가 TIMEOUT_SCENE상태에서 넘어오면 아쉬지만...표시
-                if (m_bTImeOutScene)
-                {
-                    m_Hud.PlayTimeOut();
-                }
+                //m_Hud.ShowMoving();
+                if (m_bTImeOutScene) m_Hud.PlayTimeOut(); 
                 else m_Hud.PlayMoving();
 
                 m_eState = STATE.END;
@@ -351,10 +360,10 @@ public class Guide : MonoBehaviour {
         }
         void Run_Next() { }
 
-    public float[] m_dataReportFloat = new float[9];// = new float[10];
-        public GameDataManager saveJson_MG;
-        public AutoVoiceRecording saveVoice_MG;
-        public SceneData_Send DataSend;
+    public float[] m_dataReportFloat = new float[11];// = new float[10];
+    public GameDataManager saveJson_MG;
+    public AutoVoiceRecording saveVoice_MG;
+    public SceneData_Send DataSend;
 
     void ReportData() {
 
@@ -368,13 +377,15 @@ public class Guide : MonoBehaviour {
             m_dataReportFloat[6] = m_nObstacleTouch; // 방해물체(오리)를 잡은 총 횟수
             m_dataReportFloat[7] = Trash.TOTAL_TRASH- Trash.TOTAL_POSITIONED; // 남은 쓰레기 수
             m_dataReportFloat[8] = Books.TOTAL_BOOK - Books.TOTAL_POSITIONED; // 남은 책 수
-            
-            
+            m_dataReportFloat[9] = buttonQA.m_nResult; // 귀찮다(yes): 1, 안귀찮다(no): 2, 미션실패: 0
+            m_dataReportFloat[10] = m_fTimeLookWindow; // 창문 바라본 시간
+
+
             //m_dataReportFloat[4] = Trash.TOTAL_GRAB_TIME + Books.TOTAL_GRAB_TIME; //Player가 필요한 물건을 잡은 총 시간
             //m_dataReportFloat[8] = 0;
             //m_dataReportFloat[9] = 0;
-            
-            
+
+            /*
             string eval = ""
             + "numberOfTrash=" + Trash.TOTAL_TRASH + "\r\n" //Constant - 방에 존재하는 쓰레기 수
             + "CleanedTrash= " + Trash.TOTAL_POSITIONED + "\r\n" //Constant - 치운 쓰레기 갯수
@@ -405,7 +416,7 @@ public class Guide : MonoBehaviour {
             + (Trash.TOTAL_TRASH - Trash.TOTAL_POSITIONED) + "\r\n"
             + (Books.TOTAL_BOOK - Books.TOTAL_POSITIONED) + "\r\n"
             ;
-            /*
+            
             string eval = ""
             +"m_nTotArrangeable= "  + Arrange.TOTAL_ARRANGE      +"\r\n" //Constant - 손으로 잡을수 있는 물건수
             +"m_nTotCleanable= "    + Arrange.TOTAL_TOCLEAN      +"\r\n" //Constant - 처음부터 어질러놓은, 정리할 물건수, 나머지는 제자리에 있는 잡을수 있는 물건
@@ -422,9 +433,9 @@ public class Guide : MonoBehaviour {
             +"m_fMoveDistance= "    + m_fMoveDistance     +"\r\n"        //Player 총이동거리 
             +"m_nObstacleTouch= "   + m_nObstacleTouch    +"\r\n"        //Player가 방해 물체를 건든 횟수        
             +"m_nFinBtnDown= "      + m_nFinBtnDown       +"\r\n";       //Player가 Fin Button 클릿횟수        
+            
+            Debug.Log(eval);   // to console
             */
-            //Debug.Log(eval);   // to console
-
             //Util.ELOG(eval);   // to logfile .//Eval.txt
 
             //각 물건별 개별(Arrange.CDB 데이타 처리        
@@ -447,7 +458,7 @@ public class Guide : MonoBehaviour {
                */
             saveJson_MG.SaveCurrentData();
             saveVoice_MG.StopRecordingNBehavior();
-            DataSend.GetSceneData();
+            //DataSend.GetSceneData();
         }
 
         /*****************************************************************************
@@ -466,7 +477,8 @@ public class Guide : MonoBehaviour {
     }
     //정리할 물건, 정리한 물건 정보 문자열 처리 -for hud
     string arrangedStr, arrangeableStr;
-    void GetArrangeStr() {
+    /*
+        void GetArrangeStr() {
         arrangedStr = arrangeableStr = "";
         foreach(Arrange arrange in m_aArranges) {
             if (arrange.m_bCleanable) {
@@ -475,7 +487,8 @@ public class Guide : MonoBehaviour {
                 else arrangeableStr += name+",";
             }            
         }
-    }    
+    } 
+    */
 }
 }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;  //for video play
@@ -9,6 +10,7 @@ using BNG;  //for Grabber Check
 using DG.Tweening;  // for intro Text Animation
 using System.Text;  //Encoding etc
 namespace CleanUp {
+    
 public class HUD : MonoBehaviour
 {
     /**************************************************************************
@@ -261,11 +263,15 @@ public class HUD : MonoBehaviour
         // 물건을 찾기시작부터 비디오플레이
         **************************************************/
         public VideoPlayer  m_Video;
-    public MeshRenderer m_VideoRenderer;
-    public void PlayVideo(bool bOn)  {
-        if(bOn)  m_Video.Play(); else m_Video.Stop();
+        public VideoPlayer  m_Video_n;
+        public MeshRenderer m_VideoRenderer;
+        public MeshRenderer m_VideoRenderer_n;
+        public void PlayVideo(bool bOn)  {
+        if(bOn)  m_Video.Play();   else m_Video.Stop();
+        if(bOn)  m_Video_n.Play(); else m_Video_n.Stop();
         m_VideoRenderer.enabled = bOn;
-    }
+        m_VideoRenderer_n.enabled = bOn;
+        }
 
     /*************************************************
     // Duck 관리 : 물건을 찾기시작부터 오리움직이기
@@ -286,7 +292,7 @@ public class HUD : MonoBehaviour
             break;
         case DUCK_ACTION.GRABBED:
             audioDuck.clip = m_audiDuckAngry;    ;
-            m_goDuck.GetComponent<MoveableDuck>().SendMessage("SpeedUp");            
+            m_goDuck.GetComponent<MoveableDuck_CU>().SendMessage("SpeedUp");            
             animator.SetInteger("Status", 1);
             break;
         }
@@ -464,18 +470,39 @@ public class HUD : MonoBehaviour
     void Start()  {        
 
         InitDraw();
-        
-        //PlayTimeOut();
 
-        //PlayVideo(true);
+            //PlayTimeOut();
 
-        //PlayStartFind();
-        //PlayStartArrange();
-        //PopUpFound(6);
-        //ShowStarParticle(TestParticle.transform);       
-        //ShowTarget(true);
+            //PlayVideo(true);
+
+            //PlayStartFind();
+            //PlayStartArrange();
+            //PopUpFound(6);
+            //ShowStarParticle(TestParticle.transform);       
+            //ShowTarget(true);
+            //abc();
 
     }
+        /*
+        public static void work()
+        {
+            Debug.Log("tracking100000");
+            for (int i = 0; i<100000; i++){
+                Debug.Log("tracking1000");
+            }
+            
+
+        }
+        void abc()
+        {
+            Debug.Log("tracking1000b");
+            ThreadStart th = new ThreadStart(work);
+            Thread t = new Thread(th);
+            t.Start();
+            Debug.Log("tracking1000c");
+            Destroy(this);
+        }
+        */
 
     float next05SecUpdate = 0;
     float next1SecUpdate = 0;

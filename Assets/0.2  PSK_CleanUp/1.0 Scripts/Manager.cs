@@ -12,7 +12,7 @@ public class Manager : MonoBehaviour{
     // Global Constant / Parameter Definition
     ***************************************************************************/
     public static string INSTALL_PATH   = ".\\";                    //프로그램 설치경로 - 현재위치    
-    public static string BUILD_DATE = "Build Date: 20211210";		//인트로 화면 빌드날짜 표시
+    public static string BUILD_DATE = "Build Date: 20220511";		//인트로 화면 빌드날짜 표시
     public static byte   SW_VER = 0x01;                               //  S/W버젼
     public static bool   bDEBUG = false; //true;                       // 개발시 Debug 모드
 
@@ -20,8 +20,8 @@ public class Manager : MonoBehaviour{
     // Database structure Definition
     ***************************************************************************/
     // GLOBAL VARIABLES
-    public enum             TAG { NECESSARY, UNNECESSARY };
-    public static string [] saTag = { "Necessary", "Unnecessary"};
+    public enum             TAG { NECESSARY, UNNECESSARY, WINDOW };
+    public static string [] saTag = { "Necessary", "Unnecessary", "Checker1"};
 
    
     /**************************************************************************
