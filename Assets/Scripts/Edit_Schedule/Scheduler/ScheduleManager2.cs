@@ -167,6 +167,7 @@ namespace Scheduler
             InitSlotList();
             InitGrpList();
             InitOposList();
+            InitSchedulerDict();
 
             collectData.AddTimeStamp("GUIDE START");
         }
@@ -440,7 +441,7 @@ namespace Scheduler
 
         private void InitSchedulerDict()
         {
-            for (var i = 1; i <= TotalCardsCtn; i++)
+            for (var i = 1; i < TotalCardsCtn; i++)
             {
                 SchedulerDict.Add(key:i + 1, value: "");
             }
@@ -629,6 +630,7 @@ namespace Scheduler
             }
             
             // n번째로 완성한 계획표 변수로 저장
+            Debug.Log("SortedCardData 함수 시작");
             SortedCardData(isSkip);
 
             // 몇번째 완료인지 체크 
@@ -639,7 +641,7 @@ namespace Scheduler
                 mainUi.GetComponent<GraphicRaycaster>().enabled = false;
                 VisibleFinPanel(false);
                 ReSetAll();
-                //SetYellowForCards();
+                
                 StartCoroutine(hud.GetComponent<HUDSchedule02>().HalfInfoSetUiTxt());
                 StartCoroutine(audioCon.PlaySecInfo());
                 //scoreManager.ScorerCalculator();
@@ -818,7 +820,7 @@ namespace Scheduler
                 Transform currCard;
                 skipYn = 0;
                 var myScheduleForJson = "";
-                
+
                 // 슬롯 리스트에 들어있는 카드를 확인해 타임라인 순서대로 나열해 변수로 저장
                 foreach (var slot in slotList)
                 {
@@ -827,18 +829,13 @@ namespace Scheduler
                         currCard = slot.GetComponent<PlanSlotController2>().passenger.transform;
                         
                         // slot이름과 일치하는 ScheDict Key일때 passenger이름을 Value에 넣는다
-                        int.TryParse(slot.ToString(),out currKey);
-
+                        int.TryParse(slot.name, out currKey);
                         
-                        
-                        foreach (var result in SchedulerDict)
+                        if (SchedulerDict.ContainsKey(currKey))
                         {
-                            if (result.Key == currKey)
-                            {
-                                //result.Value = currCard.name;
-                            }
+                            SchedulerDict[currKey] = currCard.name;
                         }
-                        
+
                         if (slot != null)
                         {
                             // string 변수에 카드 순서를 writing 하는 곳 
@@ -852,10 +849,12 @@ namespace Scheduler
                         }
                     }
                 }
-                // for (int i = 0; i < YelCardCtn; i++)
-                // {
-                //     yelCardsArr[i] = CardCtnDic.Keys.ElementAt(i);
-                // }
+                
+                // ScheDict에 키 밸류 페어가 맞게 되었는지 Test  
+                foreach (var result in SchedulerDict)
+                {
+                    Debug.Log(result.Key + " in " + result.Value);
+                }
 
                 switch (completionCtn)
                 {
