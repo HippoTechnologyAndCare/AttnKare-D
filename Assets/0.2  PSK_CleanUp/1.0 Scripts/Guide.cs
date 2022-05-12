@@ -45,7 +45,7 @@ public class Guide : MonoBehaviour {
     float   m_fTimeLookValid;  //Player가 필요한곳을 보는 시간 
     float   m_fTimeLookVideo;  //Player가 불필요한 비디오를 보는 시간
     float   m_fTimeLookInvalid;//Player가 불필요한곳을 보는 시간  
-    float   m_fTimeLookWindow;
+    float   m_fTimeLookWindow=0;
     //int     m_nHearingReplay;  //Player가 다시듣기 재생횟수 : 재생횟수 : SpeechBubles 처리?-- 어떤상황에서 활성화?
 
     float   m_fMoveDistance;   //Player 총이동거리 
