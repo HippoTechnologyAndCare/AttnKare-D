@@ -361,7 +361,8 @@ public class Guide : MonoBehaviour {
         void Run_Next() { }
 
     public float[] m_dataReportFloat = new float[11];// = new float[10];
-    public GameDataManager saveJson_MG;
+    //public float[] m_dataReportFloat2 = new float[10];// = new float[10];
+        public GameDataManager saveJson_MG;
     public AutoVoiceRecording saveVoice_MG;
     public SceneData_Send DataSend;
 
