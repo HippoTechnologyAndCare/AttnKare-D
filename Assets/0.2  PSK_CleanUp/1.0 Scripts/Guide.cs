@@ -459,7 +459,7 @@ public class Guide : MonoBehaviour {
                */
             saveJson_MG.SaveCurrentData();
             saveVoice_MG.StopRecordingNBehavior();
-            //DataSend.GetSceneData();
+            DataSend.GetSceneData();
         }
 
         /*****************************************************************************
