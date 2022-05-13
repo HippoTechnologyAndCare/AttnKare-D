@@ -94,6 +94,20 @@ public class Scoop : MonoBehaviour
             Debug.Log("Hit Boundary");
         }
     }
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("SLOT") && !GetComponent<BNG.Grabbable>().BeingHeld) {StartCoroutine(ThreeSeconds()); }
+        
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("SLOT") || GetComponent<BNG.Grabbable>().BeingHeld) { StopAllCoroutines();}
+    }
+    IEnumerator ThreeSeconds() //3초만 기다렸다가 원래자리로 돌아가게
+    {
+        yield return new WaitForSeconds(3.2f);
+        ResetScoop();
+    }
 
     private void ResetScoop()
     {
