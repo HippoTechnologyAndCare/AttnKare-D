@@ -221,7 +221,12 @@ namespace CleanUp
             oConstraints = m_RigidBody.constraints;
             oVelocity = m_RigidBody.velocity;
             oPosition = gameObject.transform.position + new Vector3(0, 0.3f, 0);
-
+            for (int i = 0; i < CDB.Length; i++)
+            {
+                CDB[i].tPositioned = false;
+                CDB[i].nGrabCount = 0;
+                CDB[i].fGrabTime = 0.0f;
+            }
             //CDB에 에디터에서 지정된값 저장
             //CDB[(int)m_eTrash].bCleanable  =  m_bCleanable;
             //CDB[(int)m_eTrash].tPositioned =  m_bPositioned; 

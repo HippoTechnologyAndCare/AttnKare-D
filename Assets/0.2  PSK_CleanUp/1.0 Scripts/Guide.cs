@@ -199,8 +199,9 @@ public class Guide : MonoBehaviour {
          */
     }
 
-    //Fin Button 처리    
-    public void OnFinButtonDown() {
+        //Fin Button 처리    
+        public void OnFinButtonDown()
+        {
             /*
         m_nFinBtnDown++;
         if(m_nFinBtnDown<2) m_Hud.PlayWarning();
@@ -209,10 +210,12 @@ public class Guide : MonoBehaviour {
             Make_End();
         }
             */
+            if (oneSurvey == false) {
             m_nFinBtnDown = 2;
             //oneSurvey = true;
             //m_Hud.ShowMoving();
             Make_End();
+        }
     }
     //평가관련 : 총이동거리를 계산합니다.
     public Transform  m_Character; //CenterEyeAnchor Transform할당
@@ -311,7 +314,7 @@ public class Guide : MonoBehaviour {
 
     void Run_Arrange() { 
         MeasureTime();
-        CalculateLookTime();
+        if (oneSurvey == false) CalculateLookTime();
         if(m_bTImeOutScene && oneSurvey == false) Make_End();
     }
 

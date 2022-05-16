@@ -367,6 +367,12 @@ public class Books : MonoBehaviour {
         limitOfBook[7] = 5;
         limitOfBook[8] = 1;
         for (int i=0; i < 9; i++) stackOfBook[i] = 0 ;
+        for (int i = 0; i < CDB.Length; i++)
+        {
+                CDB[i].bPositioned = false;
+                CDB[i].nGrabCount = 0;
+                CDB[i].fGrabTime = 0.0f;
+            }
 
 
             //CDB에 에디터에서 지정된값 저장
