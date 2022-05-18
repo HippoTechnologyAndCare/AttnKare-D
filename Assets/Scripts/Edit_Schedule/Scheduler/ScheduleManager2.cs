@@ -162,8 +162,6 @@ namespace Scheduler
 
         private void Start()
         {
-            //InitTotalCardCtnDict();
-
             InitSlotList();
             InitGrpList();
             InitOposList();
@@ -441,7 +439,7 @@ namespace Scheduler
 
         private void InitSchedulerDict()
         {
-            for (var i = 1; i < TotalCardsCtn; i++)
+            for (var i = 0; i < TotalCardsCtn; i++)
             {
                 SchedulerDict.Add(key:i + 1, value: "");
             }
@@ -630,7 +628,6 @@ namespace Scheduler
             }
             
             // n번째로 완성한 계획표 변수로 저장
-            Debug.Log("SortedCardData 함수 시작");
             SortedCardData(isSkip);
 
             // 몇번째 완료인지 체크 
@@ -644,7 +641,7 @@ namespace Scheduler
                 
                 StartCoroutine(hud.GetComponent<HUDSchedule02>().HalfInfoSetUiTxt());
                 StartCoroutine(audioCon.PlaySecInfo());
-                //scoreManager.ScorerCalculator();
+                scoreManager.ScorerCalculator();
                 return;
             }
 
@@ -831,7 +828,7 @@ namespace Scheduler
                         // slot이름과 일치하는 ScheDict Key일때 passenger이름을 Value에 넣는다
                         int.TryParse(slot.name, out currKey);
                         
-                        if (SchedulerDict.ContainsKey(currKey))
+                        if (SchedulerDict.ContainsKey(currKey))             
                         {
                             SchedulerDict[currKey] = currCard.name;
                         }

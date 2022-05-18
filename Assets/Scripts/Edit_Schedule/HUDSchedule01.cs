@@ -9,7 +9,7 @@ using DG.Tweening;
 using Scheduler;
 using UnityEngine.EventSystems;
 
-public class HUDSchedule02 : MonoBehaviour
+public class HUDSchedule01 : MonoBehaviour
 {
     private enum Voice {HowTo, Start, HalfInfo, WellDone}
 
@@ -18,7 +18,7 @@ public class HUDSchedule02 : MonoBehaviour
     [SerializeField] DictionaryScriptableObject dicData01;
     [SerializeField] DictionaryScriptableObject dicData02;
 
-    [SerializeField] private ScheduleManager2 schManager;
+    [SerializeField] private ScheduleManager1 schManager;
     [SerializeField] private Transform questionPanel;
     
     /*************************************************************************
