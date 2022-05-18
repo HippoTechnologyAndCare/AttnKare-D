@@ -247,19 +247,19 @@ public class PaddleManager : MonoBehaviour
 
     IEnumerator TimeLimitAndKeepGoing()
     {
-        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("LIMIT");
+        BGM_Controller.GetComponent<BGMcontroller01>().PlayBGMByTypes("LIMIT");
         Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
 
         Timer_Sec = 30; //30
 
         yield return new WaitForSeconds(6.2f);
 
-        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
+        BGM_Controller.GetComponent<BGMcontroller01>().PlayBGMByTypes("BGM");
     }
 
     IEnumerator TimeOutAndFinish()
     {
-        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("OUT");
+        BGM_Controller.GetComponent<BGMcontroller01>().PlayBGMByTypes("OUT");
         Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
 
         yield return new WaitForSeconds(6);
@@ -283,7 +283,7 @@ public class PaddleManager : MonoBehaviour
 
     IEnumerator StartPaddle()
     {
-        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
+        BGM_Controller.GetComponent<BGMcontroller01>().PlayBGMByTypes("BGM");
         Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("MISSION START");
 
         ShowIntroText.text = "준비 ~";

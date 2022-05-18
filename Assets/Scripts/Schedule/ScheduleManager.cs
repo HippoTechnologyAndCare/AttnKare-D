@@ -169,19 +169,19 @@ public class ScheduleManager : MonoBehaviour
     IEnumerator TimeLimitAndKeepGoing()
     {
         Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME LIMIT");
-        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("LIMIT");
+        BGM_Controller.GetComponent<BGMcontroller01>().PlayBGMByTypes("LIMIT");
 
         Timer_Sec = 30;
 
         yield return new WaitForSeconds(6);
 
-        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
+        BGM_Controller.GetComponent<BGMcontroller01>().PlayBGMByTypes("BGM");
     }
 
     IEnumerator TimeOutAndFinish()
     {
         Behavior.GetComponent<BNG.CollectData>().AddTimeStamp("TIME OUT");
-        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("OUT");
+        BGM_Controller.GetComponent<BGMcontroller01>().PlayBGMByTypes("OUT");
 
         yield return new WaitForSeconds(6);
 
@@ -276,7 +276,7 @@ public class ScheduleManager : MonoBehaviour
 
     IEnumerator StartCntDown()
     {
-        BGM_Controller.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
+        BGM_Controller.GetComponent<BGMcontroller01>().PlayBGMByTypes("BGM");
 
         TextTitle.text = "준비 ~";
 

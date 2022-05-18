@@ -9824,7 +9824,7 @@ MonoBehaviour:
   collectData: {fileID: 267640740}
   voiceRecording: {fileID: 267640741}
   dataChecker: {fileID: 39687929}
-  audioCon: {fileID: 1275069355}
+  audioCon: {fileID: 1275069356}
   scoreManager: {fileID: 1574161647}
   rightPointer: {fileID: 1405856165229722246}
   hud: {fileID: 2138600943}
@@ -9854,6 +9854,7 @@ MonoBehaviour:
   timerText: {fileID: 886456585}
   slotList: []
   grpList: []
+  is1stInfoSkip: 1
   isReset: 0
   pointerLock: 0
   completionCtn: 0
@@ -19555,7 +19556,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1275069353}
   - component: {fileID: 1275069354}
-  - component: {fileID: 1275069355}
+  - component: {fileID: 1275069356}
   m_Layer: 0
   m_Name: BGMplayer
   m_TagString: Untagged
@@ -19673,7 +19674,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1275069355
+--- !u!114 &1275069356
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19682,9 +19683,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1275069352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3765873ac6bc1e245b6da5fa726f540e, type: 3}
+  m_Script: {fileID: 11500000, guid: b12c04d0c7c1ce54c96cb542bfe311a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scheManager: {fileID: 597562633}
   firstInfoArr:
   - {fileID: 8300000, guid: 00da6b37398844142800779775f3f6d9, type: 3}
   - {fileID: 8300000, guid: fe5eb592ae76f894cb6686d45bc55615, type: 3}
@@ -32400,7 +32402,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2138600943}
   - component: {fileID: 2138600947}
-  - component: {fileID: 2138600945}
   - component: {fileID: 2138600944}
   - component: {fileID: 2138600946}
   m_Layer: 0
@@ -32458,30 +32459,6 @@ MonoBehaviour:
   - 2.53
   - 3.06
   modifyValues: 0
---- !u!114 &2138600945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2138600942}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ec6fca72c33f1d4ea3f7283c2594de4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dicScript01: {fileID: 2138600944}
-  dicScript02: {fileID: 2138600946}
-  dicData01: {fileID: 11400000, guid: a4fdacca9fe5378479baa2fdf68ae388, type: 2}
-  dicData02: {fileID: 11400000, guid: d06895bd61853d74784d38aaf951f682, type: 2}
-  schManager: {fileID: 0}
-  questionPanel: {fileID: 1851203554}
-  audSIntro: {fileID: 0}
-  audCIntro: []
-  dotAnim: []
-  infoPanel: {fileID: 3322299606679666104}
-  howToTMP: {fileID: 3322299606715709604}
-  howToScriptTxt: []
 --- !u!114 &2138600946
 MonoBehaviour:
   m_ObjectHideFlags: 0

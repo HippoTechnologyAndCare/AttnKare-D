@@ -29,7 +29,7 @@ namespace Scheduler
         public CollectData collectData;
         public AutoVoiceRecording voiceRecording;
         public DataChecker dataChecker;
-        public BGMcontroller audioCon;
+        public BGMcontroller01 audioCon;
         public ScoreManager01 scoreManager01;
         
         private const float TimeLimit = 150; //시간 제한 사용 방향 기획 필요
@@ -243,7 +243,7 @@ namespace Scheduler
         IEnumerator TimeLimitAndKeepGoing()
         {
             collectData.AddTimeStamp("TIME LIMIT");
-            bgmController.GetComponent<BGMcontroller>().PlayBGMByTypes("LIMIT");
+            bgmController.GetComponent<BGMcontroller01>().PlayBGMByTypes("LIMIT");
             rightPointer.gameObject.SetActive(false);
 
             timerSec = 30;
@@ -251,13 +251,13 @@ namespace Scheduler
             yield return new WaitForSeconds(6);
             rightPointer.gameObject.SetActive(true);
             
-            bgmController.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
+            bgmController.GetComponent<BGMcontroller01>().PlayBGMByTypes("BGM");
         }
 
         private IEnumerator TimeOutAndFinish()
         {
             collectData.AddTimeStamp("TIME OUT");
-            bgmController.GetComponent<BGMcontroller>().PlayBGMByTypes("OUT");
+            bgmController.GetComponent<BGMcontroller01>().PlayBGMByTypes("OUT");
             rightPointer.gameObject.SetActive(false);
 
             yield return new WaitForSeconds(6);
@@ -546,7 +546,7 @@ namespace Scheduler
 
         IEnumerator StartCntDown()
         {
-            bgmController.GetComponent<BGMcontroller>().PlayBGMByTypes("BGM");
+            bgmController.GetComponent<BGMcontroller01>().PlayBGMByTypes("BGM");
 
             textTitle.text = "<color=#FFFFFF>준비 ~";
 

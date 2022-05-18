@@ -68,34 +68,37 @@ public class HUDSchedule02 : MonoBehaviour
     
     private IEnumerator HowToPlaySetUiTxt()
     {
-        yield return new WaitForSeconds(2f);
-        
-        foreach (var item in dicScript01.TxtDictionary)
+        if (!schManager.is1stInfoSkip)
         {
-            var index = 0;
-            if (!_isFade)
+            yield return new WaitForSeconds(2f);
+        
+            foreach (var item in dicScript01.TxtDictionary)
             {
-                howToTMP.SetText(item.Key);
-                FadeInPanel(infoPanel, 1f); // Info Canvas fade In
-                _isFade = true;
+                var index = 0;
+                if (!_isFade)
+                {
+                    howToTMP.SetText(item.Key);
+                    FadeInPanel(infoPanel, 1f); // Info Canvas fade In
+                    _isFade = true;
+                    index = dicScript01.TxtDictionary.Values.ToList().IndexOf(item.Value);
+                    Debug.Log(index + " 번째값");
+                    Debug.Log(item.Value);
+                    yield return new WaitForSeconds(item.Value);
+                    continue;
+                }
+
                 index = dicScript01.TxtDictionary.Values.ToList().IndexOf(item.Value);
                 Debug.Log(index + " 번째값");
                 Debug.Log(item.Value);
+                howToTMP.SetText(item.Key);
                 yield return new WaitForSeconds(item.Value);
-                continue;
             }
 
-            index = dicScript01.TxtDictionary.Values.ToList().IndexOf(item.Value);
-            Debug.Log(index + " 번째값");
-            Debug.Log(item.Value);
-            howToTMP.SetText(item.Key);
-            yield return new WaitForSeconds(item.Value);
+            _isFade = false;
+            FadeOutPanel(infoPanel, 1f);
+            yield return new WaitForSeconds(1f);
         }
-
-        _isFade = false;
-        FadeOutPanel(infoPanel, 1f);
-        yield return new WaitForSeconds(1f);
-        //schManager.subUi.gameObject.SetActive(true);
+        
         schManager.VisibleStartBtn(true);
     }
 
