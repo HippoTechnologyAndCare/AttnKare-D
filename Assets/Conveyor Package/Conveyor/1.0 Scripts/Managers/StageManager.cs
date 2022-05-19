@@ -23,7 +23,7 @@ public class StageManager : MonoBehaviour
     public static GameState currentGameState = GameState.Waiting;
     public static int m_currentStage = 1;
     public static BNG.Toy.ToyType m_currentColor;
-    public static int m_boxCount = 5;
+    public static int m_boxCount = 3;
 
     [SerializeField] FactoryManager m_factoryManager;
     [SerializeField] UIManager      m_UIManager;
@@ -107,7 +107,7 @@ public class StageManager : MonoBehaviour
 
     public static void ChangeGameState(GameState gameState) { currentGameState = gameState; }
     public static void BoxCountDec() { m_boxCount--; }
-    public static void NextStage()   { m_currentStage++; m_boxCount = 5; }
+    public static void NextStage()   { m_currentStage++; m_boxCount = 3; }
     public static void AudioEnd(int index)
     {
         switch (index)

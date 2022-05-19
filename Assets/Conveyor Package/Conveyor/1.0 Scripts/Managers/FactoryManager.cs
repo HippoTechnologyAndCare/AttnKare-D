@@ -70,7 +70,7 @@ public class FactoryManager : MonoBehaviour
 
         // Debugger
         m_debugger.stage1Score = new List<int>(); m_debugger.stage2Score = new List<int>(); m_debugger.stage3Score = new List<int>();
-        for (int i = 0; i < 5; i++) 
+        for (int i = 0; i < 3; i++) 
         {
             m_debugger.stage1Score.Add(-1);
             m_debugger.stage2Score.Add(-1);

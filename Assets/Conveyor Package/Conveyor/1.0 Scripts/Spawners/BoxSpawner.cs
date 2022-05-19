@@ -46,7 +46,7 @@ public class BoxSpawner : MonoBehaviour
     {
         float waitTime = 400 / (20 + (StageManager.m_currentStage - 1) * 5);
         
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 3; i++)
         {
             Invoke("Spawn", waitTime * i);
         }
