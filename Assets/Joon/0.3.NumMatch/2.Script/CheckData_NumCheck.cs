@@ -15,7 +15,8 @@ public class CheckData_NumCheck : MonoBehaviour
     public float wrongTrigger_stage2 = 0;
     public float TotalTime = 0;
     public float distractedBy = 0;
-    public float wrongColor = 0; 
+    public float wrongColor = 0;
+    public float time_Window = 0;
 
     [HideInInspector]
     public bool start = false;
@@ -34,6 +35,7 @@ public class CheckData_NumCheck : MonoBehaviour
     float data_710;//stage 2 wrong color
     float data_711; // skip
     float data_712; // question
+    float data_713;
 
     public float[] arrData;
 
@@ -81,9 +83,10 @@ public class CheckData_NumCheck : MonoBehaviour
         data_708 = wrongorder_stage2;
         data_709 = wrongTrigger_stage2;
         data_710 = wrongColor;
+        data_713 = time_Window;
 
 
-        arrData = new float[] { data_701, data_702, data_703, data_704, data_705, data_706, data_707, data_708, data_709, data_710, data_711, data_712 };
+        arrData = new float[] { data_701, data_702, data_703, data_704, data_705, data_706, data_707, data_708, data_709, data_710, data_711, data_712 , data_713};
         for (int i = 0; i < arrData.Length; i++)
         {
             Debug.Log(arrData[i]);

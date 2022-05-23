@@ -25,6 +25,9 @@ public class Guide_NumCheck : MonoBehaviour
     public GameObject[] arrTrig;
     [Tooltip("Images for disctraction")]
     public Sprite[] DistracImage;
+    [Header("WINDOW")]
+    public Transform HeadCamera;
+    public float time_Window = 0;
 
     [Header("DATA COLLECTION")]
     public SceneData_Send DataSend;
@@ -108,7 +111,10 @@ public class Guide_NumCheck : MonoBehaviour
         auto = GetComponentInChildren<AutoButton>();
         StartCoroutine(GameStart());
     }
-   
+    private void Update()
+    {
+        CheckWindowWatch();
+    }
     private void SetPosition() //creat list of position of number buttons on board(total 30)
     {
         for (float i = -0.8f; i <= 0.95f; i += 0.25f)
@@ -122,6 +128,19 @@ public class Guide_NumCheck : MonoBehaviour
             }
         Shuffle.ShuffleList(arrPos);
     }
+
+    void CheckWindowWatch()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(HeadCamera.position, HeadCamera.forward, out hit))
+        {
+            //if(hit.transform.gameObject.tag == Manager.saTag[(int)Manager.TAG.NECESSARY]) m_fTimeLookValid += Time.deltaTime; else
+            if (hit.transform.gameObject.tag == "SLOT")
+                time_Window += Time.deltaTime;
+
+        }
+    }
+
     private void CreateButton()
     {
         arrBtn = new List<MoveButton>();
@@ -349,6 +368,7 @@ public class Guide_NumCheck : MonoBehaviour
     }
      void SendData()
     {
+        dataCheck.time_Window = time_Window;
         dataCheck.GetAllData();
         DataCollection.StopRecordingNBehavior();
         DataSend.GetSceneData();
