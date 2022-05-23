@@ -27,7 +27,7 @@ public class Object_BP : MonoBehaviour
     public enum TAG_BP { NECESSARY, UNNECESSARY, NECESSARY_PENCIL, NECESSARY_BOOK }
     public enum KIND_BP { NONE, GREEN, RED, BLUE, PURLPLE, BLACK, KOREAN, SCIENCE, ART, ENGLISH, SOCIALS, MATH, MUSIC, GYM, ETHICS, SCHOOL, TOY }
 
-    public enum GAZE_BP { MEMO, TV, TIMETABLE, NOTWATCHING }
+    public enum GAZE_BP { MEMO, TV, TIMETABLE,  WINDOW, NOTWATCHING }
     public enum CASE_BP { INCORRECT, CORRECT, COMPLETE, STAR, BEEP, APPEAR, PENCILCASE }
     public enum STATE { ENTER, EXIT }
     public struct BP_INFO
@@ -125,6 +125,7 @@ public class Object_BP : MonoBehaviour
     float data_508 = 0; //DISTARCTED VIDEO TIME
     float data_509 = 0; //SKIP
     float data_510 = 0; //UNNECESSARY GRAB COUNT
+    float data_511 = 0;
     public float[] arrFloat;
     /*DATA NEEDED
      *  (501)
@@ -259,7 +260,8 @@ public class Object_BP : MonoBehaviour
         data_508 = GazeTime.m_fTV;
         //data_509 == skip
         data_510 = Grabbed.m_fbpUnpC;
-        arrFloat = new float[] { data_501, data_502, data_503, data_504, data_505, data_506, data_507, data_508, data_509, data_510 };
+        data_511 = GazeTime.m_fWindow;
+        arrFloat = new float[] { data_501, data_502, data_503, data_504, data_505, data_506, data_507, data_508, data_509, data_510, data_511 };
     }
     public IEnumerator GameDone()
     {

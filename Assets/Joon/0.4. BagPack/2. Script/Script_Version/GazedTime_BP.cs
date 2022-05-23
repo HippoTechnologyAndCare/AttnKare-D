@@ -11,16 +11,21 @@ public class GazedTime_BP : MonoBehaviour
 
     public float m_fTimetable = 0;
     public float m_fTV = 0;
+    public float m_fWindow = 0;
     private void Update()
     {
         switch (GazedObject)
         {
             case Object_BP.GAZE_BP.TV: Television(); break;
             case Object_BP.GAZE_BP.TIMETABLE: TimeTable(); break;
+            case Object_BP.GAZE_BP.WINDOW:
             case Object_BP.GAZE_BP.NOTWATCHING: break;
         }
     }
-
+    private void Window()
+    {
+        m_fWindow += Time.deltaTime;
+    }
     private void TimeTable()
     {
         m_fTimetable += Time.deltaTime;
