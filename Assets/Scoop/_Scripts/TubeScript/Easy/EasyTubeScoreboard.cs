@@ -42,6 +42,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     [HideInInspector] public int score1 = 0; // Yellow Ball
     [HideInInspector] public int score2 = 0; // Light Purple Ball
     [HideInInspector] public int score3 = 0; // Turqoise Ball
+    public float time_Window = 0;
     private int stageCounter = 1; // Stage number
     [HideInInspector] public float excessBalls = 0; // Number of Excess Balls put into tube
     [HideInInspector] public float wrongColor = 0; // Number of Balls that do not match tube color
@@ -68,6 +69,8 @@ public class EasyTubeScoreboard : MonoBehaviour
     public GameObject audioTrigger; // Audio Trigger
     public GameObject popups; // popup manager object
 
+    [Header("HEADS")]
+    public Transform HeadCamera;
     [Header("Hands")]
     [Tooltip("RightController")]
     public GameObject rightHand;
@@ -179,7 +182,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         {
             Debug.Log("Object Grabbed by Left Hand: " + leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable);
         }*/
-
+        CheckWindowWatch();
         // Check if User is Grabbing Something
         if (rightHand.GetComponent<BNG.HandController>().grabber != null && leftHand.GetComponent<BNG.HandController>().grabber != null)
         {
@@ -353,6 +356,18 @@ public class EasyTubeScoreboard : MonoBehaviour
                 AddBreakPoint("Too many balls lost");                
                 dataRecorded = true;
             }
+        }
+    }
+
+    void CheckWindowWatch()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(HeadCamera.position, HeadCamera.forward, out hit))
+        {
+            //if(hit.transform.gameObject.tag == Manager.saTag[(int)Manager.TAG.NECESSARY]) m_fTimeLookValid += Time.deltaTime; else
+            if (hit.transform.gameObject.tag == "SLOT")
+                time_Window += Time.deltaTime;
+
         }
     }
 
@@ -902,7 +917,7 @@ public class EasyTubeScoreboard : MonoBehaviour
 
         fsm.SendEvent("GameClear");
 
-        scene2arr = new float[] { time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, wrongExcess, gameresultFailed, isSkipped};
+        scene2arr = new float[] { time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, wrongExcess, gameresultFailed, isSkipped, time_Window};
         // Save Data to local 
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
         DataSend.GetSceneData();
