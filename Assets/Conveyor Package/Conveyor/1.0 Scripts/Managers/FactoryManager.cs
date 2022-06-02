@@ -82,7 +82,12 @@ public class FactoryManager : MonoBehaviour
     private void Update() { DebugScore(); }
 
     // Save current state of CollectibleData on unexpected quit
-    private void OnApplicationQuit() { if (!m_gameData.IsDataSaved()) SaveGameData(); }
+    private void OnApplicationQuit()
+    {
+        Debug.Log("현재 스테이지 상태"+StageManager.currentGameState);
+        Debug.Log("현재 스테이지 INT" + StageManager.m_currentStage);
+
+        if (!m_gameData.IsDataSaved()) SaveGameData(); }
 
     // Load Next Scene if:
     //      (i)  User pressed skip button
