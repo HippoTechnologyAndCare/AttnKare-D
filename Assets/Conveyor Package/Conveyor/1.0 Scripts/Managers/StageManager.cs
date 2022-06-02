@@ -36,6 +36,9 @@ public class StageManager : MonoBehaviour
     private void Start()
     {
         m_stageColors = new List<int>();
+        currentGameState = GameState.Waiting;
+        m_currentStage = 1;
+        m_boxCount = 3;
     }
 
     // Update is called once per frame
