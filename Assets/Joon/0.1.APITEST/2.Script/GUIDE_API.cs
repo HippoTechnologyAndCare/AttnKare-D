@@ -18,10 +18,15 @@ public class GUIDE_API : MonoBehaviour
     DATA_API DATA;
     UserInfo_API Userinfo;
     // string BASE_URL = "https://adhd.hippotnc.kr:444";
+    public static int service_type = 5944; 
+    /*
+     * 웅진 : 2761
+     * 삼성 : 5944
+     */
     string BASE_URL = "http://jdi.bitzflex.com:4007";
     string SigninURL = "/api/v2/users"; //계정 생성(POST) + 상세조회(GET)
     string LoginURL = "/api/v2/session";
-    string ServicesURL = "/api/v2/services?type=2761"; //서비스 목록 조회
+    string ServicesURL = "/api/v2/services?type="; //서비스 목록 조회
     string ServicesSubsURL = "/api/v2/subscriptions"; //사용자 구독 서비스 목록 조회(GET) + 사용자 서비스 구독(POST)
     string JobURL = ""; //servicesubsurl + subs_id + joburl
     string JobBottomURL = "/jobs?sort_order=desc&sort_by=inserted_at&page=1&per_page=5";
@@ -96,7 +101,7 @@ public class GUIDE_API : MonoBehaviour
     {
         SigninURL = BASE_URL + SigninURL;
         LoginURL = BASE_URL + LoginURL;
-        ServicesURL = BASE_URL + ServicesURL;
+        ServicesURL = BASE_URL + ServicesURL + service_type;
         ServicesSubsURL = BASE_URL + ServicesSubsURL;
         JobURL = ServicesSubsURL + "/";
         AddJobURL = ServicesSubsURL + "/";

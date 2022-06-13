@@ -231,7 +231,7 @@ public class DATA_API : MonoBehaviour
     public void GET_Services(string webResult)
     {
         Service service = JsonConvert.DeserializeObject<Service>(webResult);
-        foreach (ServicesInfo findservice in service.data.services) { if (findservice.service_type == 2761) UserInfo_API.GetInstance().service_id = findservice.id; }
+        foreach (ServicesInfo findservice in service.data.services) { if (findservice.service_type == GUIDE_API.service_type) UserInfo_API.GetInstance().service_id = findservice.id; }
 
         // UserInfo_API.GetInstance().serviceInfo = service.data.services;
     }
@@ -304,7 +304,7 @@ public class DATA_API : MonoBehaviour
         List<UserSubsInner> subs = service.data.subscriptions;
         foreach (UserSubsInner subsInfo in subs)
         {
-            if (subsInfo.service.service_type == 2761) { UserInfo_API.GetInstance().UserTotalInfo = subsInfo; return true; }
+            if (subsInfo.service.service_type == GUIDE_API.service_type) { UserInfo_API.GetInstance().UserTotalInfo = subsInfo; return true; }
         }
         return false;
     }
