@@ -68,7 +68,9 @@ public class DATA_API : MonoBehaviour
             {
                 user = JsonPlayerInner
             };
-            UserInfo_API.GetInstance().grade = int.Parse(player["grade"]);
+            int age = AgeCalCulate(JsonPlayerInner.birth);
+            Debug.Log("BIRTH YEAR==="+ age);
+            UserInfo_API.GetInstance().age = age;
             Debug.Log(JsonNewPlayer.user.name + " " + JsonNewPlayer.user.birth);
             string UserJsonString = JsonUtility.ToJson(JsonNewPlayer);
             Debug.Log(UserJsonString);
@@ -199,7 +201,19 @@ public class DATA_API : MonoBehaviour
     {
         Debug.Log(webResult);
         User userData = JsonConvert.DeserializeObject<User>(webResult);
+        int age = AgeCalCulate(userData.data.user.birth);
+        Debug.Log("BIRTH YEAR===" + age);
+        UserInfo_API.GetInstance().age = age;
         UserInfo_API.GetInstance().UserID = userData.data.user.id;
+
+    }
+    int AgeCalCulate(string birth)
+    {
+        string[] arr_birth = birth.Split('-');
+        int m_nKidBirth = int.Parse(arr_birth[0]);
+        int m_nNowYear = int.Parse(DateTime.Now.ToString("yyyy"));
+        int m_nAge = m_nNowYear - m_nKidBirth;
+        return m_nAge;
 
     }
     public bool GET_Registration(string webResult)

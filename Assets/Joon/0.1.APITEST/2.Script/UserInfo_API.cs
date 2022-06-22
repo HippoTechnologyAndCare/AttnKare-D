@@ -8,7 +8,7 @@ public class UserInfo_API : MonoBehaviour
     public int UserID;
     public DATA_API.UserSubsInner UserTotalInfo;
     public DATA_API.LoginInner LoginInfo;
-    public int grade;
+    public int age;
     //  public DATA_API.UserInner userInfo;
     //  public DATA_API.ServicesInfo serviceInfo;
     public int Subscription_ID;

@@ -317,8 +317,14 @@ public class GUIDE_API : MonoBehaviour
         {
             Debug.Log(webRequest.error);
             Debug.Log(webRequest.downloadHandler.text);
-            int m_nError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
-            if (m_nError == 404) DATA.GET_Joblist(webRequest.downloadHandler.text);
+       //     int m_nError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
+            Dictionary<string, string> m_dictError = JsonConvert.DeserializeObject<Dictionary<string, string>>(webRequest.downloadHandler.text);
+            string error_code = m_dictError["code"];
+            Debug.Log("ERROR CODE++" + error_code);
+            /*
+             * 여기 list 비어있으면  not_found 코드로 감
+             */
+            if (error_code == "not_found") DATA.GET_Joblist(webRequest.downloadHandler.text);
         }
         else
         {

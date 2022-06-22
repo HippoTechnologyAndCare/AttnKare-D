@@ -82,9 +82,9 @@ public class Player_API : MonoBehaviour
 
     public void Confirm_n_DataExistenceCheck()
     {
-        int grade = UserInfo_API.GetInstance().grade;
-        if (grade > 3) { StatusHigh(); }
-        if(grade < 4) { StatusLow(); }
+        int age = UserInfo_API.GetInstance().age;
+        if (age > 9) { StatusHigh(); }
+        if(age < 10) { StatusLow(); }
     }
        
     void StatusLow()
