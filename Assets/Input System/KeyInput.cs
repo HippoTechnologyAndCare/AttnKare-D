@@ -151,7 +151,7 @@ public class KeyInput : MonoBehaviour
     }
     private void GoToScene_14(InputAction.CallbackContext obj)
     {
-        buildIndex = 14;
+        buildIndex = 11;
         SceneLoader.LoadScene(buildIndex);
     }
 }
