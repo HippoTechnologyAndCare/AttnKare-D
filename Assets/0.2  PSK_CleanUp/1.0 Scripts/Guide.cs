@@ -324,8 +324,8 @@ public class Guide : MonoBehaviour {
     }
 
     void Run_Arrange() { 
-        if(!m_Hud.m_endGZParticle) MeasureTime();
-        if(!m_Hud.m_endGZParticle) CalculateLookTime();
+        if(!m_Hud.m_isPlayingGZParticle) MeasureTime();
+        if(!m_Hud.m_isPlayingGZParticle) CalculateLookTime();
         if(m_bTImeOutScene && oneSurvey == false) Make_Survey();
     }
     public void Make_Survey()
