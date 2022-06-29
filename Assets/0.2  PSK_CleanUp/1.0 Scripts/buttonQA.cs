@@ -10,17 +10,20 @@ public class buttonQA : MonoBehaviour
 
     // Start is called before the first frame update
     public CleanUp.HUD  m_Hud;
-    public CleanUp.Guide m_Guide;
     public Canvas       QACanvas;
     public GameObject reticle;
-    [HideInInspector] public static bool onlyFirstTime = false;
+    public bool targeted;
+    //bool onceExe = false;
+    bool isTimeover = false;
+    //bool deciedSomething = false;
+    [HideInInspector] public static bool isFirstTime = false;
     [HideInInspector] public static int m_nResult = 0;
     public enum m_Value
     {
         NONE,
-        apple,
-        orange,
-        grape,
+        YES,
+        NOPE,
+        NOTPUT,
         banana
         
     }
@@ -29,20 +32,35 @@ public class buttonQA : MonoBehaviour
 
     void Start()
     {
-        
-    }
+        isFirstTime = false;
+        m_nResult = 0;
+}
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (targeted == true)
+        {
+            if (Input.GetButtonDown("XRI_Right_TriggerButton"))
+            {
+                if (isFirstTime == false)
+                {
+                    buttonQA.isFirstTime = true;
+                    selectSomthing();
+                }
+                
+            }
+            else targeted = false;
+        }
     }
 
     public void selectSomthing()
     {
         m_Hud.playClipBell();
+        //isFirstTime = true;
+        //deciedSomething = true;
         CanvasFadeOut(QACanvas, 1f);
-        m_Guide.Make_End();
+        m_Hud.PlayMakeEnd();
     }
     public void startSomthing()
     {
@@ -64,6 +82,10 @@ public class buttonQA : MonoBehaviour
     }
     IEnumerator AnimAlpah(Canvas canvas, float time, bool bIn)
     {
+        if (isFirstTime) {
+            if (isTimeover == true) m_nResult = 0; // 설문 시간 제한 종료 시
+            else m_nResult = (int)m_RV; // 설문 완료 시
+        }
         CanvasGroup cg = canvas.GetComponent<CanvasGroup>();
         cg.alpha = bIn ? 0 : 1f;
         int loop = (int)(time / 0.05f);
@@ -73,7 +95,6 @@ public class buttonQA : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
             cg.alpha += bIn ? fadeStep : (-1f) * fadeStep;
         }
-        returnSelected();
         if (!bIn) canvas.gameObject.SetActive(false);
         
     }
@@ -82,6 +103,18 @@ public class buttonQA : MonoBehaviour
         //Debug.Log("result" + (int)m_RV);
         m_nResult = (int)m_RV;
         //return (int)m_RV;
+    }
+    public void timeover()
+    {
+        if (isFirstTime == false) {       
+            //deciedSomething = true;
+            buttonQA.isFirstTime = true;
+            isTimeover = true;
+            m_Hud.playClipBell();
+            CanvasFadeOut(QACanvas, 1f);
+            m_Hud.PlayMakeEnd();
+        }
+        
     }
     
 }

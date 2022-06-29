@@ -10,13 +10,15 @@ public class Guide : MonoBehaviour {
     // Global Constant / Parameter Definition
     ***************************************************************************/
 
-    public static  float    TIMEOUT_ARRANGE = 120f; //방청소 시간제한 2분_Timer 120f
-    public static  float    TIMEOUT_SCENE   = 180f; //Scene의 시간제한 3분, 다음게임으로 300f    
-    public int              NEXT_SCENE      = 2;
+    public static  float    TIMEOUT_ARRANGE     = 150f; //방청소 시간제한 2분 30초_Timer 150f
+    public static  float    TIMEOUT_SCENE       = 180f; //Scene의 총 시간제한 3분, 못하면 30초 더 줌. 다음게임으로 180f    
+    public float            m_surveyLimitTime;
+    public int              NEXT_SCENE          = 2;
     public bool BookFixed = true;
     public enum STATE { 
         INTRO,         
-        ARRANGE,         
+        ARRANGE,
+        SURVEY,
         END,  
         NEXT 
      }
@@ -25,6 +27,7 @@ public class Guide : MonoBehaviour {
         PLAYED_WELLDONE,
         PLAYED_TIMEOUT,
         PLAYED_MOVING,
+        PLAYED_MAKEEND,
         NONE,
     }
  
@@ -40,7 +43,10 @@ public class Guide : MonoBehaviour {
     //Data for Evaluation
     bool    m_bTimeOutArrange; //방청소시간 초과 여부 / 총 2분중
     bool    m_bTImeOutScene;   //Scene Play시간 초과여부  / 총 5분중     
+    bool    m_bTimeOutSurvey;
     float   m_fTimeTaken;      //정리하는데 걸리는 시간 : 모두정리, 사용자가 중단, Timeout되어 중단되든 
+    float   m_fTimeTakenSurvey;//설문하는데 걸리는 시간
+    
 
     float   m_fTimeLookValid;  //Player가 필요한곳을 보는 시간 
     float   m_fTimeLookVideo;  //Player가 불필요한 비디오를 보는 시간
@@ -91,7 +97,7 @@ public class Guide : MonoBehaviour {
                 book.makeBookFixed();
             }
             m_Hud.ShowStarParticle(dst);
-            if (Trash.TOTAL_POSITIONED >= Trash.TOTAL_TRASH && Books.TOTAL_POSITIONED >= Books.TOTAL_BOOK) m_Hud.m_endcondition = true;
+            if (Trash.TOTAL_POSITIONED >= Trash.TOTAL_TRASH && Books.TOTAL_POSITIONED >= Books.TOTAL_BOOK) m_Hud.m_isEndcondition = true;
             //GetArrangeStr();  //정리한 물건 문자열 갱신       
             //m_Hud.NoteUpdateArrange(arrangedStr, arrangeableStr);
         }
@@ -101,7 +107,7 @@ public class Guide : MonoBehaviour {
         {    //(Arrange.ARRANGE arranged) {                        
              //Debug.Log("Set Postioned ="+ arranged + " Tot_Postioned= "+Arrange.TOTAL_POSITIONED + " Tot_Arrange= "+Arrange.TOTAL_ARRANGE);
             //m_Hud.m_endcondition = true;
-            if (Trash.TOTAL_POSITIONED >= Trash.TOTAL_TRASH && Books.TOTAL_POSITIONED >= Books.TOTAL_BOOK) m_Hud.m_endcondition = true;
+            if (Trash.TOTAL_POSITIONED >= Trash.TOTAL_TRASH && Books.TOTAL_POSITIONED >= Books.TOTAL_BOOK) m_Hud.m_isEndcondition = true;
 
             //m_Hud.PlayWellDone();        
         }
@@ -116,10 +122,9 @@ public class Guide : MonoBehaviour {
             Make_Arrange();      
             break;
         //case HUD_REPORT.PLAYED_INTRO_CLEAN  : Make_Clean();     break;
-        case HUD_REPORT.PLAYED_WELLDONE:
-                    //new WaitForSeconds(3f);
-                    Make_End();       break;
-        case HUD_REPORT.PLAYED_TIMEOUT: Make_Next();      break;  // check more later
+        case HUD_REPORT.PLAYED_WELLDONE: Make_Survey(); break;        //new WaitForSeconds(3f);
+        case HUD_REPORT.PLAYED_TIMEOUT: Make_Survey();      break;  // check more later
+        case HUD_REPORT.PLAYED_MAKEEND: Make_End(); break;
         case HUD_REPORT.PLAYED_MOVING : Make_Next();      break;
         }
     }
@@ -134,7 +139,7 @@ public class Guide : MonoBehaviour {
         m_goRightHandPointer.SetActive(m_bGrabbable);
         //Debug.Log("MakeGrabble="+m_goRightGrabber.GetComponent<GrabbablesInTrigger>().enabled);
     }
-
+    
     //OnGrab Event처리 --> RightHand>Grabber에 Event에 할당   
     Grabber  m_RightGrabber;
     public void OnGrabRight() {         
@@ -212,9 +217,8 @@ public class Guide : MonoBehaviour {
             */
             if (oneSurvey == false) {
             m_nFinBtnDown = 2;
-            //oneSurvey = true;
             //m_Hud.ShowMoving();
-            Make_End();
+            Make_Survey();
         }
     }
     //평가관련 : 총이동거리를 계산합니다.
@@ -243,6 +247,7 @@ public class Guide : MonoBehaviour {
     // Monobehavier Start
     ***************************************************************************/
     public HUD    m_Hud;
+    public buttonQA m_QA;
     public GameObject goTrashes;
     //public GameObject goArranges;
     public GameObject goBooks;
@@ -284,12 +289,18 @@ public class Guide : MonoBehaviour {
             + "m_fTimeLookWindow= " + m_fTimeLookWindow + "\r\n"        //Player가 창문을 보는 시간             
             + "m_fMoveDistance= " + m_fMoveDistance + "\r\n"        //Player 총이동거리 
             + "m_nObstacleTouch= " + m_nObstacleTouch + "\r\n"        //Player가 방해 물체를 건든 횟수        
-            + "m_nFinBtnDown= " + m_nFinBtnDown + "\r\n";       //Player가 Fin Button 클릿횟수
+            + "m_nFinBtnDown= " + m_nFinBtnDown + "\r\n"       //Player가 Fin Button 클릿횟수
+            +"m_nSurveyResult=" + m_nSurveyResult + "\r\n" // 투표 결과
+            + "m_fTimeTakenSurvey=" + m_fTimeTakenSurvey + "\r\n"
+            + "m_surveyLimitTime=" + m_surveyLimitTime + "\r\n"
+            + "state=" + m_eState + "\r\n"
+            ;
             }
             
         switch (m_eState){
         case STATE.INTRO  :         Run_Intro();          break;        
-        case STATE.ARRANGE:         Run_Arrange();        break;        
+        case STATE.ARRANGE:         Run_Arrange();        break;
+        case STATE.SURVEY :         Run_Survey();         break;
         case STATE.END    :         Run_End();            break;
         case STATE.NEXT   :         Run_Next();           break;
         }        
@@ -313,61 +324,76 @@ public class Guide : MonoBehaviour {
     }
 
     void Run_Arrange() { 
-        MeasureTime();
-        if (oneSurvey == false) CalculateLookTime();
-        if(m_bTImeOutScene && oneSurvey == false) Make_End();
+        if(!m_Hud.m_endGZParticle) MeasureTime();
+        if(!m_Hud.m_endGZParticle) CalculateLookTime();
+        if(m_bTImeOutScene && oneSurvey == false) Make_Survey();
     }
-
+    public void Make_Survey()
+    {
+        disableGrabThings();
+        m_Hud.PlayVideo(false);
+        m_Hud.PlayDuck(false);
+        m_eState = STATE.SURVEY;
+    }
+    bool oneTimeOver = false;
+    void Run_Survey()
+    {
+        //MeasureTime();
+        MeasureTimeSurvey();
+        if (m_bTimeOutSurvey && !oneTimeOver) {
+                m_QA.timeover();
+                oneTimeOver = true;
+        }
+                
+        //if(m_bTImeOutScene && oneSurvey == false) Make_End();
+        if (oneSurvey == false)
+        {
+            oneSurvey = true;
+            m_Hud.survey();
+        }
+    }
     public void Make_End() {
 
-            if (oneSurvey == false)
-            {
-                oneSurvey = true;
-                m_Hud.survey();
-            }    
-            else
-            {
+        //MakeGrabbable(false);
+        //마지막에 해야할 평가작업등을 추가하십시요
+        MakeGrabbable(false);
+        m_nSurveyResult = buttonQA.m_nResult;
+        if (m_bTImeOutScene) m_nFinBtnDown = 3;
+        ReportData();
+        //이전상태가 TIMEOUT_SCENE상태에서 넘어오면 아쉬지만...표시
+        //m_Hud.ShowMoving();
+        m_Hud.PlayMoving();
+        //if (m_bTImeOutScene) m_Hud.PlayTimeOut(); 
+        //else m_Hud.PlayMoving();
 
-                m_Hud.PlayDuck(false);
-                m_Hud.PlayVideo(false);
-                MakeGrabbable(false);
-                //마지막에 해야할 평가작업등을 추가하십시요
-                m_nSurveyResult = buttonQA.m_nResult;
-                if (m_bTImeOutScene) m_nFinBtnDown = 3;
-                ReportData();
-
-
-                //이전상태가 TIMEOUT_SCENE상태에서 넘어오면 아쉬지만...표시
-                //m_Hud.ShowMoving();
-                if (m_bTImeOutScene) m_Hud.PlayTimeOut(); 
-                else m_Hud.PlayMoving();
-
-                m_eState = STATE.END;
-            }
+        m_eState = STATE.END;
+        
     }
     void Run_End() { 
 
     }
 
-    /*
-        void Make_Next() {
-            
-        
-    }
-    */
-    public void Make_Next()
-        {
-          
-            Load_Next_Scene();
-            m_eState = STATE.NEXT;
+        /*
+            void Make_Next() {
+
+
         }
-        void Run_Next() { }
+        */
+
+    public void Make_Next()
+    {
+            Debug.Log("final:"+ m_nSurveyResult);
+        Load_Next_Scene();
+        m_eState = STATE.NEXT;
+    }
+    void Run_Next() { }
 
     public float[] m_dataReportFloat = new float[11];// = new float[10];
     //public float[] m_dataReportFloat2 = new float[10];// = new float[10];
         public GameDataManager saveJson_MG;
     public AutoVoiceRecording saveVoice_MG;
     public SceneData_Send DataSend;
+        
 
     void ReportData() {
 
@@ -381,7 +407,7 @@ public class Guide : MonoBehaviour {
             m_dataReportFloat[6] = m_nObstacleTouch; // 방해물체(오리)를 잡은 총 횟수
             m_dataReportFloat[7] = Trash.TOTAL_TRASH- Trash.TOTAL_POSITIONED; // 남은 쓰레기 수
             m_dataReportFloat[8] = Books.TOTAL_BOOK - Books.TOTAL_POSITIONED; // 남은 책 수
-            m_dataReportFloat[9] = buttonQA.m_nResult; // 귀찮다(yes): 1, 안귀찮다(no): 2, 미션실패: 0
+            m_dataReportFloat[9] = m_nSurveyResult; // 귀찮다(yes): 1, 안귀찮다(no): 2, 무응답: 0
             m_dataReportFloat[10] = m_fTimeLookWindow; // 창문 바라본 시간
 
 
@@ -468,31 +494,54 @@ public class Guide : MonoBehaviour {
         /*****************************************************************************
         // Helper & Utility
         ******************************************************************************/
-        void MeasureTime() {
-        m_fTimeTaken += Time.deltaTime; 
-        if(m_fTimeTaken > TIMEOUT_ARRANGE) m_bTimeOutArrange = true;
-        if(m_fTimeTaken > TIMEOUT_SCENE)  m_bTImeOutScene = true;
-        if(!m_bTimeOutArrange) m_Hud.DrawTimeTaken(TIMEOUT_ARRANGE - m_fTimeTaken); 
+    void MeasureTime() {
+    m_fTimeTaken += Time.deltaTime; 
+    if(m_fTimeTaken > TIMEOUT_ARRANGE) m_bTimeOutArrange = true;
+    if(m_fTimeTaken > TIMEOUT_SCENE)  m_bTImeOutScene = true;
+    if(!m_bTimeOutArrange) m_Hud.DrawTimeTaken(TIMEOUT_ARRANGE - m_fTimeTaken); 
     }
-    // 다음 Scene으로 넘어가는 코드를 추가하세요
-    void Load_Next_Scene()  {
+    void MeasureTimeSurvey(){
+        m_fTimeTakenSurvey += Time.deltaTime;
+        if (m_fTimeTakenSurvey > m_surveyLimitTime) m_bTimeOutSurvey = true;
+    }
+    
+
+        // 다음 Scene으로 넘어가는 코드를 추가하세요
+        void Load_Next_Scene()  {
         KetosGames.SceneTransition.SceneLoader.LoadScene(NEXT_SCENE);
         Debug.Log("다음신을 로드합니다");
     }
     //정리할 물건, 정리한 물건 정보 문자열 처리 -for hud
     string arrangedStr, arrangeableStr;
-    /*
-        void GetArrangeStr() {
-        arrangedStr = arrangeableStr = "";
-        foreach(Arrange arrange in m_aArranges) {
-            if (arrange.m_bCleanable) {
-                string name = Arrange.CDB[(int)arrange.m_eArrange].kor_name;
-                if(arrange.m_bPositioned) arrangedStr += name+",";
-                else arrangeableStr += name+",";
-            }            
+        /*
+            void GetArrangeStr() {
+            arrangedStr = arrangeableStr = "";
+            foreach(Arrange arrange in m_aArranges) {
+                if (arrange.m_bCleanable) {
+                    string name = Arrange.CDB[(int)arrange.m_eArrange].kor_name;
+                    if(arrange.m_bPositioned) arrangedStr += name+",";
+                    else arrangeableStr += name+",";
+                }            
+            }
+        } 
+        */
+        public GameObject m_trashs;
+        public GameObject m_Books;
+        int trashnum = Trash.TOTAL_TRASH;
+        int booknum = Books.TOTAL_BOOK;
+        void disableGrabThings()
+        {
+            for(int i=0; i<trashnum; i++)
+            {
+                m_trashs.transform.GetChild(i).gameObject.layer = 6;
+            }
+            for (int i = 0; i < booknum; i++)
+            {
+                m_Books.transform.GetChild(i).gameObject.layer = 6;
+            }
+
+
         }
-    } 
-    */
-}
+    }
 }
 

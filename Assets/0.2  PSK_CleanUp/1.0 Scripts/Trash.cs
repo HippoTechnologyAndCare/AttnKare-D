@@ -280,5 +280,10 @@ namespace CleanUp
                 m_RigidBody.velocity = new Vector3(0, 0, 0);
             }
         }
+        public void disableGrabThings()
+        {
+            gameObject.layer = 6;
+        }
+
     }
 }

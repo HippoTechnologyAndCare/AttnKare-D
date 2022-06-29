@@ -40,13 +40,16 @@ public class HUD : MonoBehaviour
     enum   VOICE { ONE, TWO, THREE, FOUR, HOWTO, START, TIMEOUT, WELLDONE, MOVING }    
     public Canvas m_canvasINFO;
     public buttonQA bqa;
+    public bool SkipTutorial = false;
     
     
 
         //전면안내-내방 정리하는 방법 5개 음성 및 Text Animation 전시
     public void PlayHowTo() {
-        //PlayStart();
-        StartCoroutine("PlayHowToVoiceText");        
+        if (SkipTutorial == true)
+            PlayStart();
+        else
+            StartCoroutine("PlayHowToVoiceText");       
     }
     IEnumerator PlayHowToVoiceText() {    
             
@@ -117,7 +120,8 @@ public class HUD : MonoBehaviour
     /************************************************
     // HMD안내- "아주 잘했어  다음으로 가볼까... " 전시    
     *************************************************/    
-    public void PlayWellDone() {       
+    public void PlayWellDone() {
+
         StartCoroutine(
             PlaySoundText(m_audSIntro,
             m_audCIntro[(int)VOICE.WELLDONE],
@@ -130,15 +134,28 @@ public class HUD : MonoBehaviour
     // HMD안내- "이동합니다 " 전시    
     *************************************************/
     public TextMeshProUGUI m_textMoving; //HMD_Canvas>Finish_TMP
-    public void PlayMoving() {       
-        StartCoroutine(
+    public void PlayMoving(){
+    StartCoroutine(
             PlaySoundText(null, //음성없음
             null, //Clip없음
             m_textMoving.gameObject,
             m_canvasHMD,
             Guide.HUD_REPORT.PLAYED_MOVING
-            )
-        ); 
+        )
+    );
+    }
+    public void PlayMakeEnd(){       
+            
+    StartCoroutine(
+        noneTimePlaySoundText(null, //음성없음
+        null, //Clip없음
+        null,
+        null,
+        Guide.HUD_REPORT.PLAYED_MAKEEND
+        )
+    );
+            
+    //m_Guide.HudReport(Guide.HUD_REPORT.PLAYED_MAKEEND);
     }
     /************************************************
     // HMD안내- "설문조사 " 전시    
@@ -376,9 +393,25 @@ public class HUD : MonoBehaviour
         if(canvas) yield return new WaitForSeconds(1f); // Canvas가 사라질때까지 기다렸다가
         if(eReport != Guide.HUD_REPORT.NONE)  m_Guide.HudReport(eReport); // Guide에게 Report할게 있으면 Report
     }
+    IEnumerator noneTimePlaySoundText(AudioSource audioSource, AudioClip audioClip, GameObject goText, Canvas canvas, Guide.HUD_REPORT eReport)
+    {
+        if (goText) goText.SetActive(true);              // Text Gameobject를 보여주고
+        if (canvas) CanvasFadeIn(canvas, 0f);             // Canvas를 보여주고
+        if (canvas) yield return new WaitForSeconds(0f); // Canvas가 나타날때까지 기다렸다가
+        if (audioSource && audioClip)
+        {
+            float wait = PlaySound(audioSource, audioClip);   //Sound를 Play            
+            yield return new WaitForSeconds(wait);          // Sound만큼 기다리고       
+        }
+        else yield return new WaitForSeconds(1f);       // 음성없을시는 텍스트를 5초보여주고
+        if (goText) goText.SetActive(false);             // Text Gameobject를 감추고
+        if (canvas) CanvasFadeOut(canvas, 0f);            // Canvas를 감추고
+        if (canvas) yield return new WaitForSeconds(0f); // Canvas가 사라질때까지 기다렸다가
+        if (eReport != Guide.HUD_REPORT.NONE) m_Guide.HudReport(eReport); // Guide에게 Report할게 있으면 Report
+    }
 
-    //Sound를출력합니다 : 지정된 AudioSource에 지정된 AudioClip을 Play하고 시간을 리턴합니다
-    float PlaySound(AudioSource audioSource, AudioClip clip) {
+        //Sound를출력합니다 : 지정된 AudioSource에 지정된 AudioClip을 Play하고 시간을 리턴합니다
+        float PlaySound(AudioSource audioSource, AudioClip clip) {
         if(!audioSource || !clip) return 0f;        
         audioSource.clip  = clip;
         audioSource.Play();
@@ -420,8 +453,8 @@ public class HUD : MonoBehaviour
     public InputBridge m_InputBridge;   
     public GameObject  m_goLeftFindNote, m_goLeftCleanNote; //LeftController에 있는 노트를 할당하세요
     public GameObject  m_goRightNotGrabble; //RightController에 아직 잡을수 없어소
-    public bool m_endcondition = false;
-    bool m_endGZParticle = false;
+    public bool m_isEndcondition = false;
+    public bool m_endGZParticle = false;
     void CheckInputBridge() {                       
         //m_goLeftFindNote.SetActive ( (m_InputBridge.LeftTrigger>0.5f) && Guide.m_eState == Guide.STATE.FIND);
         //m_goLeftCleanNote.SetActive( (m_InputBridge.LeftTrigger>0.5f) && Guide.m_eState == Guide.STATE.ARRANGE);       
@@ -448,13 +481,13 @@ public class HUD : MonoBehaviour
     }
     //1sec주기로 업데이할 Task를 등록하세요
     void Do1SecTask()   {       
-       CheckInputBridge();
-            if(m_endcondition==true && Guide.m_eGrabbedTrash == Trash.TRASH.NONE && Guide.m_eGrabbedBooks == Books.BOOKS.NONE)
-            {
+        CheckInputBridge();
+        if(m_isEndcondition && Guide.m_eGrabbedTrash == Trash.TRASH.NONE && Guide.m_eGrabbedBooks == Books.BOOKS.NONE)
+        {
             PlayWellDone();
             m_endGZParticle = true;
-            m_endcondition = false;
-            }
+            m_isEndcondition = false;
+        }
             
         }
     //5sec주기로 업데이할 Task를 등록하세요
@@ -512,8 +545,15 @@ public class HUD : MonoBehaviour
     void Update()  {
             //CheckGrabber();
        
-           // if (Input.GetButton("XRI_Right_TriggerButton")) Debug.Log("wow!!");
-         
+        /* if (Input.GetButton("XRI_Right_TriggerButton")) Debug.Log("wow!!");
+        if(Input.GetKeyDown("c") || Input.GetButtonDown("XRI_Right_GripButton"))
+            {
+                PlayWellDone();
+                m_endGZParticle = true;
+                m_isEndcondition = false;
+            }
+
+        */
         if (Time.time > next05SecUpdate) { Do02SecTask(); next05SecUpdate = Time.time + 0.2f; } //시간갱신
         if (Time.time > next1SecUpdate) { Do1SecTask(); next1SecUpdate = Time.time + 1.0f; } //시간갱신
         if (Time.time > next5SecUpdate) { Do5SecTask(); next5SecUpdate = Time.time + 5.0f; } //시간갱신        

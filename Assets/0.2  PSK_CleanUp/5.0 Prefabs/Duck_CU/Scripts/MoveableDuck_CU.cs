@@ -114,12 +114,13 @@ namespace CleanUp
             }
         }
 
+        
         void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.tag == "Wall" && grabber.HeldGrabbable == null)
             {
-                m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-                agent.enabled = true;
+                //m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+                //agent.enabled = true;
             }
         }
 
@@ -127,9 +128,10 @@ namespace CleanUp
         {
             if (other.gameObject.tag == "Wall" && grabber.HeldGrabbable == null)
             {
-                m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-                agent.enabled = true;
+                //m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+                //agent.enabled = true;
             }
         }
+        
     }
 }

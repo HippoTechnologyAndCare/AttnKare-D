@@ -89,25 +89,26 @@ public class LaserPointer : MonoBehaviour
         }
         */
     }
+    
+    public GameObject WhatisHit;
 
     void LateUpdate() {
-        if (!m_bActive) return;
-        m_rendLine1.enabled = true;
-        RaycastHit hit;
+    if (!m_bActive) return;
+    m_rendLine1.enabled = true;
+    RaycastHit hit;
+        
 
         if (Physics.Raycast(transform.position, transform.forward, out hit, MAX_RANGE, m_ValidLayers, QueryTriggerInteraction.Ignore))  {
 
                 //Draw Render Line
             buttonQA bqa;
             bqa = hit.collider.GetComponent<buttonQA>();
-                if (bqa && !buttonQA.onlyFirstTime)
-                {
-                    if (Input.GetButtonDown("XRI_Right_TriggerButton"))
-                    {
-                        buttonQA.onlyFirstTime = true;
-                        bqa.selectSomthing();
-                    }
-                }
+            if (bqa) {
+                bqa.targeted = true;
+            }
+
+            //WhatisHit = hit.collider.gameObject;
+            //    if(WhatisHit )
             m_rendLine1.enabled = true;
             m_rendLine2.enabled = false;
             m_rendLine1.useWorldSpace = false;
