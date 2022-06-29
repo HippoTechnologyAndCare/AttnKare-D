@@ -621,12 +621,12 @@ public class ServiceSignIn
     }
     public class ERRORMSG
     {
-        public int code;
+        public string code;
         public string message;
     }
 
     ERROR errorMessage;
-    public int ERROR_CONTROLLER(string webResult)
+    public string ERROR_CONTROLLER(string webResult)
     {
         errorMessage = JsonConvert.DeserializeObject<ERROR>(webResult);
         return errorMessage.error.code;

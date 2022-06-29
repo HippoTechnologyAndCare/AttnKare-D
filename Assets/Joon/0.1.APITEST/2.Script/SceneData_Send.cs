@@ -33,6 +33,7 @@ public class SceneData_Send : MonoBehaviour
     }
     public void GetSceneData()
     {
+        Debug.Log("SCENE DATA SEND");
         switch (buildindex)
         {
             case 9: scene_id = 1070; StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //¿ÀÇÁ´×

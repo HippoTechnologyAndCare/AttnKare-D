@@ -178,8 +178,8 @@ public class GUIDE_API : MonoBehaviour
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
             Debug.Log("if");
-            int m_nError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
-            if (m_nError == 404) //list is empty error (just show empty list)
+            string m_sError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
+            if (m_sError == "not_found") //list is empty error (just show empty list)
             {
                 Debug.Log("error");
                 //StartCoroutine(POST_Signin());
@@ -193,7 +193,7 @@ public class GUIDE_API : MonoBehaviour
             StartCoroutine(GET_ServicesSubs());
         }
     }
-
+    int a;
     IEnumerator GET_ServicesSubs()
     {
         UnityWebRequest webRequest = UnityWebRequest.Get(ServicesSubsURL);
@@ -204,9 +204,10 @@ public class GUIDE_API : MonoBehaviour
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
-            Debug.Log("if");
-            int m_nError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
-            if (m_nError == 404) //list is empty error (just show empty list)
+            Debug.Log("SERVICE SUB ERROR" + webRequest.downloadHandler.text);
+            Debug.Log("SERVICE SUB ERROR2" + webRequest.error);
+            string m_sError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
+            if (m_sError == "not_found") //list is empty error (just show empty list)
             {
                 Debug.Log("error");
                 StartCoroutine(GET_Services());
@@ -507,8 +508,8 @@ public class GUIDE_API : MonoBehaviour
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
-            int m_nError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
-            if (m_nError == 404) DATA.GET_PDFList(webRequest.downloadHandler.text);
+            string m_sError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
+            if (m_sError == "not_found") DATA.GET_PDFList(webRequest.downloadHandler.text);
         }
         else
         {
@@ -530,8 +531,8 @@ public class GUIDE_API : MonoBehaviour
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
-            int m_nError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
-            if (m_nError == 404) Debug.Log("EMPTY");
+            string m_sError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
+            if (m_sError == "not_found") Debug.Log("EMPTY");
         }
         else
         {
