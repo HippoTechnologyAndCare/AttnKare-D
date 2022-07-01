@@ -22,7 +22,7 @@ public class ReAct2 : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("PlayerController");
-        frame = transform.Find("Frame").gameObject;
+        //frame = transform.Find("Frame").gameObject;
         getParents = transform.parent.gameObject;
         p_Rigidbody = getParents.GetComponent<Rigidbody>();
         p_NavMeshAgent = getParents.GetComponent<NavMeshAgent>();
@@ -46,9 +46,10 @@ public class ReAct2 : MonoBehaviour
 
     IEnumerator ReAct01()
     {
-        frame.SetActive(true);
-        yield return new WaitForSeconds(2f);
-        frame.SetActive(false);
+        //frame.SetActive(true);
+        yield return new WaitForSeconds(0);
+        //frame.SetActive(false);
+        //말풍선 임시제거
     }    
 
     IEnumerator RemoteConstraints()

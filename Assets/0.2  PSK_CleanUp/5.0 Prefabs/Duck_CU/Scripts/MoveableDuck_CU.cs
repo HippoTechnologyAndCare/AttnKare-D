@@ -30,6 +30,7 @@ namespace CleanUp
         [SerializeField] Grabber grabber;
 
         public float Speed { get => speed; set => speed = value; }
+        //public GameObject warningNotTrash;
 
         Rigidbody m_Rigidbody;
         //NavMeshAgent agent;
@@ -126,7 +127,8 @@ namespace CleanUp
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.tag == "Wall" && grabber.HeldGrabbable == null)
+            
+            if (other.gameObject.tag == "Surface" && grabber.HeldGrabbable == null)
             {
                 //m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
                 //agent.enabled = true;
