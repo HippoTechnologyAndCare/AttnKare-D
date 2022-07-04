@@ -105,7 +105,7 @@ public class EasyFinishButtonScoop : MonoBehaviour
         Fin1.gameObject.SetActive(false);
         Fin2.gameObject.SetActive(true);
 
-       
+        scoreboard.GetComponent<EasyTubeScoreboard>().SaveAndFinish(true);
         yield return new WaitForSeconds(1.0f);
         Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "3";
         yield return new WaitForSeconds(1.0f);
@@ -114,7 +114,7 @@ public class EasyFinishButtonScoop : MonoBehaviour
         Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "1";
         yield return new WaitForSeconds(1.0f);
 
-        scoreboard.GetComponent<EasyTubeScoreboard>().SaveAndFinish(true);
+
 
         SceneLoader.LoadScene(buildindex);
 

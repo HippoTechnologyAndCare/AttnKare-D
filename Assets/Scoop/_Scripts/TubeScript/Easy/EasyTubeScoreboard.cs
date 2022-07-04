@@ -359,7 +359,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     IEnumerator GoToLobby(bool isSkipped)
     {
         yield return new WaitForSeconds(7);
-
+        SaveAndFinish(isSkipped);
         scoreText.GetComponent<Text>().enabled = false;
 
         sceneText.GetComponent<Text>().text = "이동합니다";
@@ -374,7 +374,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         sceneText.GetComponent<Text>().text = "1";
         yield return new WaitForSeconds(1);
 
-        SaveAndFinish(isSkipped);
+
 
         yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + SceneManager.GetActiveScene().buildIndex.ToString() + ".mp3"));
 #if UNITY_EDITOR
