@@ -61,7 +61,7 @@ public class HUDSchedule02 : MonoBehaviour
     
     public void HowToPlay()
     {
-        //StartCoroutine(HowToPlayVoiceText());
+        StartCoroutine(HowToPlayVoiceText());
         StartCoroutine(HowToPlaySetUiTxt());
     }
 
