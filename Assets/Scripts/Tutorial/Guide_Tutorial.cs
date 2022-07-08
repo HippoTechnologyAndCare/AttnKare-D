@@ -20,6 +20,7 @@ public class Guide_Tutorial : MonoBehaviour
     [SerializeField] private GameObject Ghost;
 
     [SerializeField] private GameObject SceneTransitionCircle;
+    [SerializeField] private GameObject ButtonCircle;
 
     public GameObject Banana;
     private Transform m_tCol;
@@ -193,9 +194,11 @@ public class Guide_Tutorial : MonoBehaviour
         GetComponent<BoxCollider>().enabled = false;
         HUD.bGuide = false;
         HUD.RunCoroutine(HUD.PressButton());
+        ButtonCircle.SetActive(true);
         yield return new WaitUntil(() => HUD.bGuide == true);
         yield return new WaitUntil(() => b_ButtonPressed == true);
         HUD.bGuide = false;
+        ButtonCircle.SetActive(false);
         HUD.RunCoroutine(HUD.AllFinished());
         yield return new WaitUntil(() => HUD.bGuide == true);
         SceneTransitionCircle.SetActive(true);

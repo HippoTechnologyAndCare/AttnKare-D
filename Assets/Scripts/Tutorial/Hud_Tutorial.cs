@@ -121,7 +121,7 @@ public class Hud_Tutorial : MonoBehaviour
         SetAudio(Voice[11]);
         ButtonBox.transform.DOMoveX(-0.058f, 1.5f);
         Arrow_Button.SetActive(true);
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(7.2f);
         yield return StartCoroutine(TextFade(Text[11]));
         Text[12].DOFade(1, 0.7f);
         SetAudio(Voice[12]);
