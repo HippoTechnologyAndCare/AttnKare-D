@@ -55,7 +55,7 @@ public class MoveVehicle : MonoBehaviour
         }
 
         MovingTimerForLimit = (25.23f * Manager_Paddle.SDB[Manager_Paddle.intStage].intPercent)/100;
-        Debug.Log(MovingTimerForLimit);
+        Debug.Log("Move Vehicle " +MovingTimerForLimit);
     }
 
     public void GameFinish()

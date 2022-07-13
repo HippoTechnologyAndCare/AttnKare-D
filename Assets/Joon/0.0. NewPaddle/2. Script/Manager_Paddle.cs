@@ -45,5 +45,14 @@ public class Manager_Paddle : MonoBehaviour
         */
 
     };
-       
+
+    private void Start()
+    {
+        //initialize setting
+        intStage = 0;
+        for(int i = 0; i <4; i++)
+        {
+            SDB[i].strHANDLE = null;
+        }
+    }
 }
