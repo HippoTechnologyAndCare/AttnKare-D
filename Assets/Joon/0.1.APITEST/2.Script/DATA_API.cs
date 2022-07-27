@@ -615,21 +615,18 @@ public class ServiceSignIn
         }
         else return " ";
     }
-    public class ERROR
-    {
-        public ERRORMSG error;
-    }
+
     public class ERRORMSG
     {
         public string code;
         public string message;
     }
 
-    ERROR errorMessage;
+    ERRORMSG errorMessage;
     public string ERROR_CONTROLLER(string webResult)
     {
-        errorMessage = JsonConvert.DeserializeObject<ERROR>(webResult);
-        return errorMessage.error.code;
+        errorMessage = JsonConvert.DeserializeObject<ERRORMSG>(webResult);
+        return errorMessage.code;
     }
     public void PlayerError(string webResult)
     {

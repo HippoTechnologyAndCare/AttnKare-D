@@ -118,9 +118,7 @@ public class GUIDE_API : MonoBehaviour
     public IEnumerator POST_Signin()
     {
         string UserJsonString = DATA.POST_Signin();
-        Debug.Log("SEE");
         yield return new WaitUntil(() => UserJsonString != null);
-        Debug.Log("SEE3");
         UnityWebRequest webRequest = UnityWebRequest.Post(SigninURL, UserJsonString);
         byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(UserJsonString);
         webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
@@ -135,7 +133,7 @@ public class GUIDE_API : MonoBehaviour
         }
         else
         {
-            Debug.Log("SIGNIN COMPLETE");
+            Debug.Log("POST_Signin COMPLETE");
             DATA.SignInComplete();
             Authorization = DATA.GET_Token(webRequest.downloadHandler.text);
         }
@@ -160,7 +158,7 @@ public class GUIDE_API : MonoBehaviour
         }
         else
         {
-            Debug.Log("LOGIN COMPLETE");
+            Debug.Log("POST_Login COMPLETE");
             Authorization = DATA.GET_Token(webRequest.downloadHandler.text);
             StartCoroutine(GET_UserInfo());
         }
@@ -187,7 +185,7 @@ public class GUIDE_API : MonoBehaviour
         }
         else
         {
-            Debug.Log("USER LOGGED IN");
+            Debug.Log("GET_UserInfo COMPLETE");
             Debug.Log(webRequest.downloadHandler.text);
             DATA.GET_UserInfo(webRequest.downloadHandler.text);
             StartCoroutine(GET_ServicesSubs());
@@ -215,7 +213,7 @@ public class GUIDE_API : MonoBehaviour
         }
         else
         {
-            Debug.Log("USER LOGGED IN");
+            Debug.Log("GET_ServiceSubs COMPLETE");
             Debug.Log(webRequest.downloadHandler.text);
             bool subscribed = DATA.GET_ServicesSubs(webRequest.downloadHandler.text);
             if (subscribed) StartCoroutine(GET_Joblist());
@@ -240,7 +238,7 @@ public class GUIDE_API : MonoBehaviour
         }
         else
         {
-            Debug.Log("Services Listed");
+            Debug.Log("GET_Services COMPLETE");
             Debug.Log(webRequest.downloadHandler.text);
             DATA.GET_Services(webRequest.downloadHandler.text);
             StartCoroutine(POST_ServicesSubs());
@@ -263,7 +261,7 @@ public class GUIDE_API : MonoBehaviour
         }
         else
         {
-            Debug.Log("Signin COMPLETE");
+            Debug.Log("POST_ServiceSubs COMPLETE");
             DATA.GET_SubsID(webRequest.downloadHandler.text);
             StartCoroutine(GET_ServicesSubs());
 
@@ -271,37 +269,6 @@ public class GUIDE_API : MonoBehaviour
         }
     }
 
-
-
-
-
-
-
-    /*
-    IEnumerator POST_Signin() //서비스 가입
-    {
-        string UserJsonString = DATA.POST_Signin();
-        UnityWebRequest webRequest = UnityWebRequest.Post(RegistrationURL, UserJsonString);
-        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(UserJsonString);
-        webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
-        webRequest.downloadHandler = new DownloadHandlerBuffer();
-        webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
-        yield return webRequest.SendWebRequest();
-        if (webRequest.isNetworkError || webRequest.isHttpError)
-        {
-            Debug.Log(webRequest.error);
-        }
-        else
-        {
-            Debug.Log("Signin COMPLETE");
-            Debug.Log(webRequest.downloadHandler.text);
-            StartCoroutine(GET_Playerlist(1));
-
-        }
-    }
-
-    */
 
     string JOBFinalURL;
     public IEnumerator GET_Joblist()
