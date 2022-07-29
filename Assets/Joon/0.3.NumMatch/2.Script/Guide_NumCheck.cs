@@ -6,7 +6,6 @@ using BNG;
 using TMPro;
 using UserData;
 using UnityEngine.UI;
-using HutongGames.PlayMaker;
 using KetosGames.SceneTransition;
 using TooltipAttribute = UnityEngine.TooltipAttribute;
 
@@ -27,7 +26,7 @@ public class Guide_NumCheck : MonoBehaviour
     public Sprite[] DistracImage;
     [Header("WINDOW")]
     public Transform HeadCamera;
-    public float time_Window = 0;
+   // public float time_Window = 0;
 
     [Header("DATA COLLECTION")]
     public SceneData_Send DataSend;
@@ -46,7 +45,6 @@ public class Guide_NumCheck : MonoBehaviour
     int m_nPos = 0;
     public static int Index = 0;
     AutoButton auto;
-    List<GameObject> m_goAnswer;
     int buildIndex;
     string gradeLH;
 
@@ -135,8 +133,8 @@ public class Guide_NumCheck : MonoBehaviour
         if (Physics.Raycast(HeadCamera.position, HeadCamera.forward, out hit))
         {
             //if(hit.transform.gameObject.tag == Manager.saTag[(int)Manager.TAG.NECESSARY]) m_fTimeLookValid += Time.deltaTime; else
-            if (hit.transform.gameObject.tag == "SLOT")
-                time_Window += Time.deltaTime;
+            if (hit.transform.gameObject.tag == "SLOT") dataCheck.time_Window += Time.deltaTime;
+            if (hit.transform.gameObject.tag == "PLAN") dataCheck.time_Disctracted += Time.deltaTime;
 
         }
     }
@@ -188,7 +186,6 @@ public class Guide_NumCheck : MonoBehaviour
         {
             Debug.Log(NCDB2[i].goNum + " " + NCDB2[i].bColor);
         }
-
     }
 
     void SetTrigger()
@@ -236,9 +233,10 @@ public class Guide_NumCheck : MonoBehaviour
                 return;
             }
             arrBtn.Remove(num);
-            GameObject go = num.gameObject;
             Destroy(num);
             Index++;
+            arrBtn.Remove(Guide_NumCheck.NCDB[Guide_NumCheck.Index].goNum.GetComponent<MoveButton>());
+            Destroy(Guide_NumCheck.NCDB[Guide_NumCheck.Index].goNum.GetComponent<MoveButton>());
             auto.AutoMove();
             return;
         }
@@ -368,7 +366,7 @@ public class Guide_NumCheck : MonoBehaviour
     }
      void SendData()
     {
-        dataCheck.time_Window = time_Window;
+    //    dataCheck.time_Window = time_Window;
         dataCheck.GetAllData();
         DataCollection.StopRecordingNBehavior();
         DataSend.GetSceneData();

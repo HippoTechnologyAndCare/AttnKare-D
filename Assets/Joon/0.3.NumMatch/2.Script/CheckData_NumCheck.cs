@@ -17,6 +17,10 @@ public class CheckData_NumCheck : MonoBehaviour
     public float distractedBy = 0;
     public float wrongColor = 0;
     public float time_Window = 0;
+    public float time_Behind = 0;
+    public float time_Disctracted = 0; //µýµ¥ º» ½Ã°£
+    public int hitCharacter = 0;
+    public List<float> hitSpeed;
 
     [HideInInspector]
     public bool start = false;
@@ -35,9 +39,13 @@ public class CheckData_NumCheck : MonoBehaviour
     float data_710;//stage 2 wrong color
     float data_711; // skip
     float data_712; // question
-    float data_713;
+    float data_713; // window
+    float data_714; //behind
+    float data_715; //watching screen
+    int data_716; //hit character
+    List<float> data_717; //hit per time
 
-    public float[] arrData;
+    public object[] arrData;
 
     Guide_NumCheck Guide; 
  
@@ -84,9 +92,12 @@ public class CheckData_NumCheck : MonoBehaviour
         data_709 = wrongTrigger_stage2;
         data_710 = wrongColor;
         data_713 = time_Window;
+        data_714 = time_Behind;
+        data_715 = time_Disctracted;
+        data_716 = hitCharacter;
+        data_717 = hitSpeed;
 
-
-        arrData = new float[] { data_701, data_702, data_703, data_704, data_705, data_706, data_707, data_708, data_709, data_710, data_711, data_712 , data_713};
+        arrData = new object[] { data_701, data_702, data_703, data_704, data_705, data_706, data_707, data_708, data_709, data_710, data_711, data_712 , data_713, data_714, data_715, data_716, data_717 };
         for (int i = 0; i < arrData.Length; i++)
         {
             Debug.Log(arrData[i]);
