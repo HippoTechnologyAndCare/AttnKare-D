@@ -18,8 +18,8 @@ public class GazedTime_BP : MonoBehaviour
         {
             case Object_BP.GAZE_BP.TV: Television(); break;
             case Object_BP.GAZE_BP.TIMETABLE: TimeTable(); break;
-            case Object_BP.GAZE_BP.WINDOW:
-            case Object_BP.GAZE_BP.NOTWATCHING: break;
+            case Object_BP.GAZE_BP.WINDOW: Window(); break;
+            case Object_BP.GAZE_BP.NOTWATCHING: NotWatching(); break;
         }
     }
     private void Window()

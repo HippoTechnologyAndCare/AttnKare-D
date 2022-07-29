@@ -22,8 +22,9 @@ namespace BNG {
         {
             set = false;
             Note.SetActive(true);
+            yield return new WaitForSeconds(0.7f);
             fNote += 1;
-            yield return new WaitForSeconds(3.2f);
+            yield return new WaitForSeconds(1.7f);
             Note.SetActive(false);
 
         }

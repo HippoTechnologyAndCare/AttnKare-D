@@ -258,7 +258,6 @@ public class Object_BP : MonoBehaviour
        
         data_507 = m_fStageChangeTime;
         data_508 = GazeTime.m_fTV;
-        //data_509 == skip
         data_510 = Grabbed.m_fbpUnpC;
         data_511 = GazeTime.m_fWindow;
         arrFloat = new float[] { data_501, data_502, data_503, data_504, data_505, data_506, data_507, data_508, data_509, data_510, data_511 };
