@@ -42,7 +42,6 @@ public class EasyTubeScoreboard : MonoBehaviour
     [HideInInspector] public int score1 = 0; // Yellow Ball
     [HideInInspector] public int score2 = 0; // Light Purple Ball
     [HideInInspector] public int score3 = 0; // Turqoise Ball
-    public float time_Window = 0;
     private int stageCounter = 1; // Stage number
     [HideInInspector] public float excessBalls = 0; // Number of Excess Balls put into tube
     [HideInInspector] public float wrongColor = 0; // Number of Balls that do not match tube color
@@ -68,9 +67,14 @@ public class EasyTubeScoreboard : MonoBehaviour
     public List<GameObject> toolList = new List<GameObject>(); // List of Tools
     public GameObject audioTrigger; // Audio Trigger
     public GameObject popups; // popup manager object
+    
+    public GameObject ScoopA;
+    public GameObject ScoopB;
+    public GameObject ScoopC;
+    Rigidbody ScoopARb;
+    Rigidbody ScoopBRb;
+    Rigidbody ScoopCRb;
 
-    [Header("HEADS")]
-    public Transform HeadCamera;
     [Header("Hands")]
     [Tooltip("RightController")]
     public GameObject rightHand;
@@ -124,7 +128,8 @@ public class EasyTubeScoreboard : MonoBehaviour
     [HideInInspector] public float timeLimit = 0; // DATA
     [HideInInspector] public bool timeOutCheck = false;
     [HideInInspector] public float timeOut = 0;      // DATA
-
+    bool m_bRightdown;
+    bool m_bLeftdown;
     // Boolean to Load Data (Only Used Once after Start Function)
     bool isChecked = false;
 
@@ -132,6 +137,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     void Start()
     {
         _collectData = GetComponent<BNG.CollectData>();
+
         /*Debug.Log("Child Count: " + pileOfBalls.transform.childCount);*/
 
         // Add active balls to list
@@ -149,7 +155,9 @@ public class EasyTubeScoreboard : MonoBehaviour
             }
             
         }
-
+        ScoopARb = ScoopA.GetComponent<Rigidbody>();
+        ScoopBRb = ScoopB.GetComponent<Rigidbody>();
+        ScoopCRb = ScoopC.GetComponent<Rigidbody>();
         // Initialize In Game Debugger
         InGameDebugger();
 
@@ -182,7 +190,15 @@ public class EasyTubeScoreboard : MonoBehaviour
         {
             Debug.Log("Object Grabbed by Left Hand: " + leftHand.GetComponent<BNG.HandController>().grabber.HeldGrabbable);
         }*/
-        CheckWindowWatch();
+        if (Input.GetButtonDown("XRI_Right_TriggerButton")) m_bRightdown = true;
+        if (Input.GetButtonUp("XRI_Right_TriggerButton")) m_bRightdown = false;
+        if (Input.GetButtonDown("XRI_Left_TriggerButton")) m_bLeftdown = true;
+        if (Input.GetButtonUp("XRI_Left_TriggerButton")) m_bLeftdown = false;
+
+        countDropBallsAtOneTime(); // 공 한번에 많이 떨어뜨리는 지 확인
+        countThrowingScoopA();
+        countThrowingScoopB();
+        countThrowingScoopC();// 삽 
         // Check if User is Grabbing Something
         if (rightHand.GetComponent<BNG.HandController>().grabber != null && leftHand.GetComponent<BNG.HandController>().grabber != null)
         {
@@ -359,22 +375,10 @@ public class EasyTubeScoreboard : MonoBehaviour
         }
     }
 
-    void CheckWindowWatch()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(HeadCamera.position, HeadCamera.forward, out hit))
-        {
-            //if(hit.transform.gameObject.tag == Manager.saTag[(int)Manager.TAG.NECESSARY]) m_fTimeLookValid += Time.deltaTime; else
-            if (hit.transform.gameObject.tag == "SLOT")
-                time_Window += Time.deltaTime;
-
-        }
-    }
-
     IEnumerator GoToLobby(bool isSkipped)
     {
         yield return new WaitForSeconds(7);
-        SaveAndFinish(isSkipped);
+
         scoreText.GetComponent<Text>().enabled = false;
 
         sceneText.GetComponent<Text>().text = "이동합니다";
@@ -389,7 +393,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         sceneText.GetComponent<Text>().text = "1";
         yield return new WaitForSeconds(1);
 
-
+        SaveAndFinish(isSkipped);
 
         yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + SceneManager.GetActiveScene().buildIndex.ToString() + ".mp3"));
 #if UNITY_EDITOR
@@ -504,6 +508,87 @@ public class EasyTubeScoreboard : MonoBehaviour
                         break;
                 }
             }
+    }
+    float m_fTimeForCount;
+    int m_nDropBallAtOneTimeTemp;
+    int m_nDropBallAtOneTime;
+    public bool isDropping;
+    void countDropBallsAtOneTime()
+    {
+        m_fTimeForCount += Time.deltaTime;
+        if (isDropping)
+        {
+            m_fTimeForCount = 0;
+            m_nDropBallAtOneTimeTemp++;
+            isDropping = false;
+        }
+        if (m_fTimeForCount > 1f) {
+            m_fTimeForCount = 0;
+            if(m_nDropBallAtOneTime < m_nDropBallAtOneTimeTemp)
+                m_nDropBallAtOneTime = m_nDropBallAtOneTimeTemp;
+            m_nDropBallAtOneTimeTemp = 0;
+        }
+        Debug.Log(m_nDropBallAtOneTime);
+
+
+
+    }
+    
+    int m_nThrowScoopCount;
+    bool m_bCheckScoopVelocityA;
+    bool m_bCheckScoopVelocityB;
+    bool m_bCheckScoopVelocityC;
+    bool m_isGrabbingScoop;
+    void countThrowingScoopA()
+    {
+        
+        Debug.Log("throw: "+ m_nThrowScoopCount);
+        if (Mathf.Abs(ScoopARb.velocity.x) < 0.1 &&
+            Mathf.Abs(ScoopARb.velocity.z) < 0.1 &&
+            Mathf.Abs(ScoopARb.velocity.y) < 0.1 &&
+            m_bCheckScoopVelocityA == true)
+        {
+            m_bCheckScoopVelocityA = false;
+            if (!m_bRightdown && !m_bLeftdown) m_nThrowScoopCount += 1;
+        }
+        if (Mathf.Abs(ScoopARb.velocity.x) > 1f || Mathf.Abs(ScoopARb.velocity.z) > 1f || ScoopARb.velocity.y > 1.5f)
+            m_bCheckScoopVelocityA = true;
+        
+       
+    }
+    void countThrowingScoopB()
+    {
+
+        if (Mathf.Abs(ScoopBRb.velocity.x) < 0.1 &&
+            Mathf.Abs(ScoopBRb.velocity.z) < 0.1 &&
+            Mathf.Abs(ScoopBRb.velocity.y) < 0.1 &&
+            m_bCheckScoopVelocityB == true)
+        {
+            m_bCheckScoopVelocityB = false;
+            if (!m_bRightdown && !m_bLeftdown) m_nThrowScoopCount += 1;
+        }
+        if (Mathf.Abs(ScoopBRb.velocity.x) > 1f || Mathf.Abs(ScoopBRb.velocity.z) > 1f || ScoopBRb.velocity.y > 1.5f)
+            m_bCheckScoopVelocityB = true;
+
+
+    }
+    void countThrowingScoopC()
+    {
+
+        if (Mathf.Abs(ScoopCRb.velocity.x) < 0.1 &&
+            Mathf.Abs(ScoopCRb.velocity.z) < 0.1 &&
+            Mathf.Abs(ScoopCRb.velocity.y) < 0.1 &&
+            m_bCheckScoopVelocityC == true)
+        {
+            m_bCheckScoopVelocityC = false;
+            if (!m_bRightdown && !m_bLeftdown) m_nThrowScoopCount += 1;
+        }
+        if (Mathf.Abs(ScoopCRb.velocity.x) > 1f || 
+            Mathf.Abs(ScoopCRb.velocity.z) > 1f || 
+                      ScoopCRb.velocity.y > 1.5f)
+            m_bCheckScoopVelocityC = true;
+
+
     }
 
     // Updates score on each ball collision
@@ -917,7 +1002,7 @@ public class EasyTubeScoreboard : MonoBehaviour
 
         fsm.SendEvent("GameClear");
 
-        scene2arr = new float[] { time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, wrongExcess, gameresultFailed, isSkipped, time_Window};
+        scene2arr = new float[] { time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, wrongExcess, gameresultFailed, isSkipped, m_nDropBallAtOneTime};
         // Save Data to local 
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
         DataSend.GetSceneData();

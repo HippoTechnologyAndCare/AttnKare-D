@@ -73,7 +73,7 @@ public class EasyTubeBall : MonoBehaviour
         if(collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Terrain" || collision.gameObject.tag == "Boundary")
         {
             // When Ball Hits anything other than the start container return ball to start container and increment drop count
-
+            gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().isDropping = true;
             gameObject.transform.parent.GetComponentInParent<EasyTubeScoreboard>().totalDrops++;
             resetBall();
             /*Debug.Log("Ball out");*/
