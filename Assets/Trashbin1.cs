@@ -6,6 +6,9 @@ public class Trashbin1 : MonoBehaviour
 {
     public GameObject warningNotTrash;
     // Start is called before the first frame update
+    public bool m_isDuckinTrash = false;
+    
+    
     void Start()
     {
         
@@ -18,13 +21,17 @@ public class Trashbin1 : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Unnecessary") 
-            warningNotTrash.SetActive(true) ;
+        if (other.tag == "Unnecessary")
+        {
+            m_isDuckinTrash = true;
+            warningNotTrash.SetActive(true);
+        }
             
     }
     void OnTriggerExit(Collider other)
     {
         if (other.tag == "Unnecessary")
+            m_isDuckinTrash = false;
             warningNotTrash.SetActive(false);
 
     }

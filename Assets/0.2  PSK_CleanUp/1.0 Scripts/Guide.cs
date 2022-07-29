@@ -59,6 +59,11 @@ public class Guide : MonoBehaviour {
     int     m_nFinBtnDown;     //Player가 Fin Button 클릿횟수
     int     m_nSurveyResult;      //
 
+    int     m_nThrowDuckCount;
+    float   m_fTimePutDuckInTrashbox;
+
+
+
         /**************************************************************************
         // Method Start
         ***************************************************************************/
@@ -87,16 +92,26 @@ public class Guide : MonoBehaviour {
             //GetArrangeStr();  //정리한 물건 문자열 갱신       
             //m_Hud.NoteUpdateArrange(arrangedStr, arrangeableStr);
     }
+    int m_nOverFlowBook;
     public void BookPositioned(GameObject cleandBook ,Books.BOOKS Cleaned, Transform dst)
         {
             //Debug.Log("Positioned" + Cleaned);
-            m_Hud.PopUpCountBooks(Books.TOTAL_POSITIONED, true);
+            
             if(BookFixed == true)
             {              
                 Books book = cleandBook.GetComponent<Books>();
-                book.makeBookFixed();
+                m_nOverFlowBook = book.makeBookFixed();
+                if (m_nOverFlowBook == 0) { 
+                m_Hud.PopUpCountBooks(Books.TOTAL_POSITIONED, true);
+                m_Hud.ShowStarParticle(dst);
+                }
             }
-            m_Hud.ShowStarParticle(dst);
+            else
+            {
+                m_Hud.PopUpCountBooks(Books.TOTAL_POSITIONED, true);
+                m_Hud.ShowStarParticle(dst);
+            }
+            
             if (Trash.TOTAL_POSITIONED >= Trash.TOTAL_TRASH && Books.TOTAL_POSITIONED >= Books.TOTAL_BOOK) m_Hud.m_isEndcondition = true;
             //GetArrangeStr();  //정리한 물건 문자열 갱신       
             //m_Hud.NoteUpdateArrange(arrangedStr, arrangeableStr);
@@ -142,6 +157,7 @@ public class Guide : MonoBehaviour {
     
     //OnGrab Event처리 --> RightHand>Grabber에 Event에 할당   
     Grabber  m_RightGrabber;
+    bool m_isGrabbingDuck;
     public void OnGrabRight() {         
         GameObject grab = m_RightGrabber.HeldGrabbable.gameObject; 
         //Arrange arrange = grab.GetComponent<Arrange>();
@@ -167,6 +183,7 @@ public class Guide : MonoBehaviour {
         if (grab.tag != Manager.saTag[(int)Manager.TAG.NECESSARY])m_nObstacleTouch++; 
         if(grab.name == Manager.DDB[(int)Manager.DISTURB.DUCK].name){ //duck을 잡으면
             m_Hud.PlayDuck(true,HUD.DUCK_ACTION.GRABBED);
+                m_isGrabbingDuck = true;
         }        
     }
     bool oneSurvey = false;
@@ -193,7 +210,8 @@ public class Guide : MonoBehaviour {
         }
         
         if(grab.name == Manager.DDB[(int)Manager.DISTURB.DUCK].name){ //duck을 놓으면
-            m_Hud.PlayDuck(true);
+                m_isGrabbingDuck = false;
+                m_Hud.PlayDuck(true);
         }
          /*   
         if (m_fTimeTaken > 30 && oneSurvey == false)
@@ -240,14 +258,19 @@ public class Guide : MonoBehaviour {
                 m_fTimeLookWindow += Time.deltaTime;
             else m_fTimeLookInvalid += Time.deltaTime;
         } 
-        else  m_fTimeLookInvalid += Time.deltaTime;                
-    }
+        else  m_fTimeLookInvalid += Time.deltaTime;
+        if (m_Tb1.m_isDuckinTrash == true) m_fTimePutDuckInTrashbox += Time.deltaTime;
+
+
+        }
 
     /**************************************************************************
     // Monobehavier Start
     ***************************************************************************/
     public HUD    m_Hud;
     public buttonQA m_QA;
+    public Trashbin1 m_Tb1; // 쓰레기통에 넣은 오리 체크할때
+    public GameObject m_duck; //오리
     public GameObject goTrashes;
     //public GameObject goArranges;
     public GameObject goBooks;
@@ -261,6 +284,7 @@ public class Guide : MonoBehaviour {
         //m_aArranges     = goArranges.GetComponentsInChildren<Arrange>(true);
         m_aTrashes      = goTrashes.GetComponentsInChildren<Trash>(true);
         m_aBooks        = goBooks.GetComponentsInChildren<Books>(true);
+        m_duckRb        = m_duck.GetComponent<Rigidbody>();
             Make_Intro();         
     }
 
@@ -293,6 +317,8 @@ public class Guide : MonoBehaviour {
             +"m_nSurveyResult=" + m_nSurveyResult + "\r\n" // 투표 결과
             + "m_fTimeTakenSurvey=" + m_fTimeTakenSurvey + "\r\n"
             + "m_surveyLimitTime=" + m_surveyLimitTime + "\r\n"
+            + "m_fTimePutDuckInTrashbox=" + m_fTimePutDuckInTrashbox + "\r\n" //오리 쓰레기 통에 넣은 시간
+            + "m_nThrowDuckCount=" + m_nThrowDuckCount+ "\r\n" //오리 던진 횟수
             + "state=" + m_eState + "\r\n"
             ;
             }
@@ -326,7 +352,9 @@ public class Guide : MonoBehaviour {
     void Run_Arrange() { 
         if(!m_Hud.m_isPlayingGZParticle) MeasureTime();
         if(!m_Hud.m_isPlayingGZParticle) CalculateLookTime();
+        
         if(m_bTImeOutScene && oneSurvey == false) Make_Survey();
+        countThrowingDuck();
     }
     public void Make_Survey()
     {
@@ -388,7 +416,7 @@ public class Guide : MonoBehaviour {
     }
     void Run_Next() { }
 
-    public float[] m_dataReportFloat = new float[11];// = new float[10];
+    public float[] m_dataReportFloat = new float[13];// = new float[10];
     //public float[] m_dataReportFloat2 = new float[10];// = new float[10];
         public GameDataManager saveJson_MG;
     public AutoVoiceRecording saveVoice_MG;
@@ -409,6 +437,9 @@ public class Guide : MonoBehaviour {
             m_dataReportFloat[8] = Books.TOTAL_BOOK - Books.TOTAL_POSITIONED; // 남은 책 수
             m_dataReportFloat[9] = m_nSurveyResult; // 귀찮다(yes): 1, 안귀찮다(no): 2, 무응답: 0
             m_dataReportFloat[10] = m_fTimeLookWindow; // 창문 바라본 시간
+            m_dataReportFloat[11] = m_fTimePutDuckInTrashbox; // 오리를 쓰레기통에 넣은 시간
+            m_dataReportFloat[12] = m_nThrowDuckCount; // 오리를 던진 횟수
+            m_dataReportFloat[13] = 0;
 
 
             //m_dataReportFloat[4] = Trash.TOTAL_GRAB_TIME + Books.TOTAL_GRAB_TIME; //Player가 필요한 물건을 잡은 총 시간
@@ -511,6 +542,23 @@ public class Guide : MonoBehaviour {
         KetosGames.SceneTransition.SceneLoader.LoadScene(NEXT_SCENE);
         Debug.Log("다음신을 로드합니다");
     }
+    bool m_bCheckDuckVelocity = false;
+    Rigidbody m_duckRb;
+    void countThrowingDuck(){
+            //Debug.Log(Mathf.Abs(m_duckRb.velocity.x));
+            if (Mathf.Abs(m_duckRb.velocity.x) < 0.1 &&
+                Mathf.Abs(m_duckRb.velocity.z) < 0.1 &&
+                Mathf.Abs(m_duckRb.velocity.y) < 0.1 &&
+                m_bCheckDuckVelocity == true)
+            {
+                m_bCheckDuckVelocity = false;
+                if(!m_isGrabbingDuck) m_nThrowDuckCount += 1;
+            }
+            if (Mathf.Abs(m_duckRb.velocity.x) > 1.5f || Mathf.Abs(m_duckRb.velocity.z) > 1.5f || m_duckRb.velocity.y > 2 )
+                m_bCheckDuckVelocity = true;
+            
+
+        }
     //정리할 물건, 정리한 물건 정보 문자열 처리 -for hud
     string arrangedStr, arrangeableStr;
         /*

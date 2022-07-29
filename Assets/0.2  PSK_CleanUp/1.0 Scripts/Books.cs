@@ -102,9 +102,9 @@ namespace CleanUp {
         //Release 되었을 때 Action을 정의합니다 called by Guide
         public void OnGrabRelease() {
             m_bGrabbed = false;
-            if (CDB[(int)m_eBooks].bPositioned == true) {
-                SetPositonedBooks();
-            }
+            //if (CDB[(int)m_eBooks].bPositioned == true) {
+            if(isInBookShelf) SetPositonedBooks();
+         
 
             //if (m_Target.gameObject.activeSelf) m_Target.DeActivate();
         }
@@ -141,7 +141,7 @@ namespace CleanUp {
         void Detach() {
             CDB[(int)m_eBooks].bPositioned = m_bPositioned = false;    //CDB갱신
         }
-        public void makeBookFixed()
+        public int makeBookFixed()
         {
             /*
             Debug.Log(m_BookShelf.transform.position.x);
@@ -159,7 +159,7 @@ namespace CleanUp {
                 //왼쪽
                 if (gameObject.transform.position.z < -1.94 + m_BookShelf.transform.position.z - 0.375f + m_ObjectPosition[2])
                 {
-                    if (stackOfBook[6] >= limitOfBook[6]) return;
+                    if (stackOfBook[6] >= limitOfBook[6]) return 1;
                     m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
                     gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
                                                                 -0.87f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
@@ -167,13 +167,14 @@ namespace CleanUp {
 
                     gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
                     gameObject.GetComponent<Grabbable>().enabled = false;
+                    CDB[(int)m_eBooks].bPositioned = m_bPositioned = true;
                     stackOfBook[6]++;
 
                 }
                 //오른쪽
                 else if (gameObject.transform.position.z > -1.629 + m_BookShelf.transform.position.z - 0.375f + m_ObjectPosition[2])
                 {
-                    if (stackOfBook[8] >= limitOfBook[8]) return;
+                    if (stackOfBook[8] >= limitOfBook[8]) return 1;
                     m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
                     gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
                                                                 -0.87f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
@@ -181,12 +182,13 @@ namespace CleanUp {
 
                     gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
                     gameObject.GetComponent<Grabbable>().enabled = false;
+                    CDB[(int)m_eBooks].bPositioned = m_bPositioned = true;
                     stackOfBook[8]++;
                 }
                 //중간
                 else
                 {
-                    if (stackOfBook[7] >= limitOfBook[7]) return;
+                    if (stackOfBook[7] >= limitOfBook[7]) return 1;
                     m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
                     gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
                                                                 -0.87f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
@@ -194,6 +196,7 @@ namespace CleanUp {
 
                     gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
                     gameObject.GetComponent<Grabbable>().enabled = false;
+                    CDB[(int)m_eBooks].bPositioned = m_bPositioned = true;
                     stackOfBook[7]++;
                 }
 
@@ -206,7 +209,7 @@ namespace CleanUp {
 
                 if (gameObject.transform.position.z < -1.94 + m_BookShelf.transform.position.z - 0.375f + m_ObjectPosition[2])
                 {
-                    if (stackOfBook[0] >= limitOfBook[0]) return;
+                    if (stackOfBook[0] >= limitOfBook[0]) return 1;
                     m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
                     gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
                                                                 -0.195f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
@@ -214,13 +217,14 @@ namespace CleanUp {
 
                     gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
                     gameObject.GetComponent<Grabbable>().enabled = false;
+                    CDB[(int)m_eBooks].bPositioned = m_bPositioned = true;
                     stackOfBook[0]++;
 
                 }
                 //오른쪽
                 else if (gameObject.transform.position.z > -1.629 + m_BookShelf.transform.position.z - 0.375f + m_ObjectPosition[2])
                 {
-                    if (stackOfBook[2] >= limitOfBook[2]) return;
+                    if (stackOfBook[2] >= limitOfBook[2]) return 1;
                     m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
                     gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
                                                                 -0.195f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
@@ -228,12 +232,13 @@ namespace CleanUp {
 
                     gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
                     gameObject.GetComponent<Grabbable>().enabled = false;
+                    CDB[(int)m_eBooks].bPositioned = m_bPositioned = true;
                     stackOfBook[2]++;
                 }
                 //중간
                 else
                 {
-                    if (stackOfBook[1] >= limitOfBook[1]) return;
+                    if (stackOfBook[1] >= limitOfBook[1]) return 1;
                     m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
                     gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
                                                                 -0.195f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
@@ -241,6 +246,7 @@ namespace CleanUp {
 
                     gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
                     gameObject.GetComponent<Grabbable>().enabled = false;
+                    CDB[(int)m_eBooks].bPositioned = m_bPositioned = true;
                     stackOfBook[1]++;
                 }
                 /*
@@ -258,7 +264,7 @@ namespace CleanUp {
             {
                 if (gameObject.transform.position.z < -1.94 + m_BookShelf.transform.position.z - 0.375f + m_ObjectPosition[2])
                 {
-                    if (stackOfBook[3] >= limitOfBook[3]) return;
+                    if (stackOfBook[3] >= limitOfBook[3]) return 1;
                     m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
                     gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
                                                                 -0.531f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
@@ -266,13 +272,14 @@ namespace CleanUp {
 
                     gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
                     gameObject.GetComponent<Grabbable>().enabled = false;
+                    CDB[(int)m_eBooks].bPositioned = m_bPositioned = true;
                     stackOfBook[3]++;
 
                 }
                 //오른쪽
                 else if (gameObject.transform.position.z > -1.629 + m_BookShelf.transform.position.z - 0.375f + m_ObjectPosition[2])
                 {
-                    if (stackOfBook[5] >= limitOfBook[5]) return;
+                    if (stackOfBook[5] >= limitOfBook[5]) return 1;
                     m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
                     gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
                                                                 -0.531f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
@@ -280,12 +287,13 @@ namespace CleanUp {
 
                     gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
                     gameObject.GetComponent<Grabbable>().enabled = false;
+                    CDB[(int)m_eBooks].bPositioned = m_bPositioned = true;
                     stackOfBook[5]++;
                 }
                 //중간
                 else
                 {
-                    if (stackOfBook[4] >= limitOfBook[4]) return;
+                    if (stackOfBook[4] >= limitOfBook[4]) return 1;
                     m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
                     gameObject.transform.position = new Vector3(-0.46f + m_ObjectPosition[0] + m_BookShelf.transform.position.x + 0.9937455f,
                                                                 -0.531f + m_ObjectPosition[1] + m_BookShelf.transform.position.y + 0.16f,
@@ -293,6 +301,7 @@ namespace CleanUp {
 
                     gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
                     gameObject.GetComponent<Grabbable>().enabled = false;
+                    CDB[(int)m_eBooks].bPositioned = m_bPositioned = true;
                     stackOfBook[4]++;
                 }
                 /*
@@ -305,6 +314,7 @@ namespace CleanUp {
                 stackOfBook[2]++;
                 */
             }
+            return 0;
         }
         // 잡고있으면 계속 위치가 바뀌므로 놓을때까지 기다렸다가 다시 Target위치에 둠
         /*
@@ -404,7 +414,7 @@ namespace CleanUp {
         }
 
         // 트리거(Target)와 접촉되면 갖다놓은것으로 처리합니다.
-
+        bool isInBookShelf;
         void OnTriggerEnter(Collider other) {
             //정리안된상태에서 TriggerEnter는 Attach
             if (other.gameObject.tag == "Checker1") {
@@ -415,8 +425,9 @@ namespace CleanUp {
                     return;
                 }
 
-                Debug.Log("Book Positioned in");
-                CDB[(int)m_eBooks].bPositioned = m_bPositioned = true;
+                //Debug.Log("Book Positioned in");
+                isInBookShelf = true;
+                if (!m_Guide.BookFixed) CDB[(int)m_eBooks].bPositioned = m_bPositioned = true;
                 if (m_bGrabbed == false)
                 {
                     SetPositonedBooks();
@@ -448,7 +459,7 @@ namespace CleanUp {
             if (other.gameObject.tag == "Checker1") {
                 Debug.Log("Book Positioned out");
                 CDB[(int)m_eBooks].bPositioned = m_bPositioned = false;
-
+                isInBookShelf = false;
 
             }
             else if (other.gameObject.tag == "WallCollider")
@@ -467,6 +478,8 @@ namespace CleanUp {
             */
         }
         
+
+
 
     } //namespace
 }
