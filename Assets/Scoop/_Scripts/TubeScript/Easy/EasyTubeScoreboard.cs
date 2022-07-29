@@ -1002,7 +1002,7 @@ public class EasyTubeScoreboard : MonoBehaviour
 
         fsm.SendEvent("GameClear");
 
-        scene2arr = new float[] { time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, wrongExcess, gameresultFailed, isSkipped, m_nDropBallAtOneTime};
+        scene2arr = new float[] { time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, wrongExcess, gameresultFailed, isSkipped, m_nDropBallAtOneTime, m_nThrowScoopCount};
         // Save Data to local 
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
         DataSend.GetSceneData();
