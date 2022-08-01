@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     // Skip Canvas Components
     [SerializeField] GameObject m_skipCanvas;
     [SerializeField] Text m_skipCanvasText;
-
+    [SerializeField] GameObject prefab_exitCanvas;
     // Static Member Variables
     public static RectTransform s_MainUIRect;
     public static Text s_MainUIText;
@@ -30,7 +30,8 @@ public class UIManager : MonoBehaviour
     public static List<Sprite> s_robotIcons;
     public static GameObject s_skipCanvas;
     public static Text s_skipCanvasText;
-
+    private static GameObject s_prefab_exitCanvas;
+    private static GameObject m_exitCanvas;
     void Awake() => instance = this;
 
     private void Start()
@@ -46,7 +47,7 @@ public class UIManager : MonoBehaviour
 
         s_skipCanvas = m_skipCanvas;
         s_skipCanvasText = m_skipCanvasText;
-
+        s_prefab_exitCanvas = prefab_exitCanvas;
         SetMainUIImage(0);
     }
 
@@ -101,6 +102,11 @@ public class UIManager : MonoBehaviour
     #region SKIP CANVAS FUNCTIONS
     public static void ShowSkipCanvas() { s_skipCanvas.SetActive(true); }
     public static void HideSkipCanvas() { s_skipCanvas.SetActive(false); }
+    public static void ShowWarningCanvas() { m_exitCanvas = Instantiate(s_prefab_exitCanvas); 
+                                             m_exitCanvas.transform.parent = FindObjectOfType<Camera>().transform;
+                                             m_exitCanvas.transform.localPosition = new Vector3(0, 0, 0.712f);
+    }
+    public static void DestroyWarningCanvas() { Destroy(m_exitCanvas); }
     public static IEnumerator CountSecondsOnCanvas()
     {
         s_skipCanvasText.text = "3";
