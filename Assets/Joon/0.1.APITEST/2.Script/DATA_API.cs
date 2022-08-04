@@ -24,10 +24,7 @@ public class DATA_API : MonoBehaviour
         UI_Hud = FindObjectOfType<HUD_API>();
 
     }
-    /// <summary>
-    /// 
-    /// </summary>
-    /// 
+
     [Serializable]
     public class SigninInfo
     {
@@ -425,22 +422,7 @@ public class ServiceSignIn
     }
     PlayerView PlayersData;
     List<PlayerInner> AllPlayersList = new List<PlayerInner>();
-    public void GET_Playerlist(string webResult, bool all)
-    {
-        UI_Hud.ResetList("PLAYER");
-        PlayersData = JsonConvert.DeserializeObject<PlayerView>(webResult);
-        Debug.Log("!!!!!총인원수" + PlayersData.count);
-        if (PlayersData.data == null) { UI_Hud.ShowPlayerList(); return; }
-        for (int i = 0; i < PlayersData.data.players.Count; i++)
-        {
-            PlayerInner playerinfo = PlayersData.data.players[i];
-            if (all) AllPlayersList.Add(playerinfo);
-            Debug.Log(playerinfo.player_name);
-            UI_Hud.CreateList(playerinfo, "GOING");
-        }
-        UI_Hud.ShowPlayerList();
-        UI_Hud.PlayerPage(CreatePage(PlayersData.count));
-    }
+  
     public int CreatePage(int TotalCnt)
     {
         int division = TotalCnt / perPage;
@@ -455,15 +437,6 @@ public class ServiceSignIn
             else { return division + 1; }
         }
         else return 0;
-    }
-    public string SpecificPlayer()
-    {
-        string childname = "";
-        childname = UI_Hud.SearchbyName();
-        Debug.Log(childname);
-        return childname;
-
-
     }
 
     /// <summary>
@@ -521,6 +494,50 @@ public class ServiceSignIn
         Debug.Log(id);
         return id;
 
+    }
+    public class EditPlayer
+    {
+        public EditPlayerInner user;
+    }
+    [Serializable] //요거 안하니까 에러남
+    public class EditPlayerInner
+    {
+        public string name;
+        public string uid;
+        public string current_password;
+        public string password;
+        public string password_confirmation;
+        public string phonenum;
+        public int gender; //1: male /2:female
+        public int hospital_code;                   //  public int hospital_code;
+        public string birth;
+    }
+    public string PUT_UserInfo()
+    {
+        Dictionary<string, string> player = UI_Hud.EditPlayer();
+        if (player != null)
+        {
+            EditPlayerInner JsonEditPlayerInner = new EditPlayerInner
+            {
+                name = (string)player["player_name"],
+                uid = (string)player["uid"],
+                current_password = (string)player["current_password"],
+                password = (string)player["password"],
+                password_confirmation = (string)player["password_confirmation"],
+                phonenum = (string)player["phonenum"],
+                gender = int.Parse(player["gender"]),
+                birth = (string)player["birth"]
+            };
+            EditPlayer JsonEditPlayer = new EditPlayer
+            {
+                user = JsonEditPlayerInner
+            };
+            Debug.Log(JsonEditPlayer.user.name + " " + JsonEditPlayer.user.birth);
+            string UserJsonString = JsonUtility.ToJson(JsonEditPlayer);
+            Debug.Log(UserJsonString);
+            return UserJsonString;
+        }
+        else return " ";
     }
 
     /// <summary>
@@ -628,18 +645,20 @@ public class ServiceSignIn
         errorMessage = JsonConvert.DeserializeObject<ERRORMSG>(webResult);
         return errorMessage.code;
     }
-    public void PlayerError(string webResult)
+    public class ERROR
+    {
+        public Dictionary<string, List<string>> errors;
+    }
+    public void PlayerError(string webResult, bool NewOrEdit)
     {
         Debug.Log(webResult);
-        List<string> Errors = JsonConvert.DeserializeObject<List<string>>(webResult);
-        foreach (string error in Errors)
-        {
-            Debug.Log(error);
-            string[] SplitError = error.Split(char.Parse(" ")); //첫번째 띄어쓰기로 구분하기
-            UI_Hud.PlayerError(SplitError[0]);
-            Debug.Log(SplitError[0]);
-        }
-        Debug.Log(Errors[0]);
+      //  Dictionary<string, List<string>> errors = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(webResult);
+        Dictionary<string, List<string>> errors = JsonConvert.DeserializeObject<ERROR>(webResult).errors;
+        if (NewOrEdit){ foreach (KeyValuePair<string, List<string>> pair in errors)
+            { UI_Hud.PlayerError(pair.Key, pair.Value);}}
+        if (!NewOrEdit){ foreach (KeyValuePair<string, List<string>> pair in errors)
+            { UI_Hud.EditPlayerError(pair.Key, pair.Value); } }
+
     }
     public void SignInComplete()
     {

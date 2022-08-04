@@ -129,7 +129,7 @@ public class GUIDE_API : MonoBehaviour
         {
             Debug.Log(webRequest.error);
             Debug.Log(webRequest.downloadHandler.text);
-            DATA.PlayerError(webRequest.downloadHandler.text);
+            DATA.PlayerError(webRequest.downloadHandler.text, true);
         }
         else
         {
@@ -151,6 +151,7 @@ public class GUIDE_API : MonoBehaviour
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
             Debug.Log(webRequest.error);
+            Debug.Log(webRequest.downloadHandler.text);
             if (webRequest.error == "HTTP/1.1 500 Internal Server Error")
             {
                 //Warning.text = "Sorry, Could not find your account";
@@ -191,7 +192,45 @@ public class GUIDE_API : MonoBehaviour
             StartCoroutine(GET_ServicesSubs());
         }
     }
-    int a;
+    public IEnumerator PUT_UserInfo()
+    {
+        string UserJsonString = DATA.PUT_UserInfo();
+        yield return new WaitUntil(() => UserJsonString != "");
+        UnityWebRequest webRequest = UnityWebRequest.Put(SigninURL, UserJsonString);
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(UserJsonString);
+        webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
+        webRequest.downloadHandler = new DownloadHandlerBuffer();
+        webRequest.SetRequestHeader("Content-Type", "application/json");
+        webRequest.SetRequestHeader("Authorization", Authorization);
+        yield return webRequest.SendWebRequest();
+        if (webRequest.isNetworkError || webRequest.isHttpError)
+        {
+            Debug.Log(webRequest.downloadHandler.text);
+            DATA.PlayerError(webRequest.downloadHandler.text, false);
+        }
+        else
+        {
+            StartCoroutine(GET_UserInfo());
+        }
+    }
+    public IEnumerator DEL_UserInfo()
+    {
+        UnityWebRequest webRequest = UnityWebRequest.Delete(SigninURL);
+        webRequest.downloadHandler = new DownloadHandlerBuffer();
+        webRequest.SetRequestHeader("Content-Type", "application/json");
+        webRequest.SetRequestHeader("Authorization", Authorization);
+        yield return webRequest.SendWebRequest();
+        if (webRequest.isNetworkError || webRequest.isHttpError)
+        {
+            Debug.Log(webRequest.downloadHandler.text);
+        }
+        else
+        {
+            Debug.Log("DELETED");
+            
+        }
+    }
+
     IEnumerator GET_ServicesSubs()
     {
         UnityWebRequest webRequest = UnityWebRequest.Get(ServicesSubsURL);

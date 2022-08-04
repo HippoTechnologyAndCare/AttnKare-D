@@ -38,44 +38,29 @@ public class Player_API : MonoBehaviour
             case "FIND_JOB":        APIDATA.FindPlayerJob(transform.name); break;
             case "POST_Login":      APIMANAGER.CoroutineStart(POST_case); break;
             case "POST_Signin": APIMANAGER.CoroutineStart(POST_case); break;
+            case "DEL_UserInfo": APIMANAGER.CoroutineStart(POST_case); break;
             case "POST_AddPlayer":  APIMANAGER.CoroutineStart("POST_Signin"); break;
+            case "PUT_EditPlayer": APIMANAGER.CoroutineStart("PUT_UserInfo"); break;
             case "GET_PDFList":   StartCoroutine(APIMANAGER.GET_PDFList()); break;
         }
     }
 
-    public void PlayerListPageUP()
-    {
-        if(UI_HUD.nCrntPgeN != UI_HUD.nTtlPgeN)
-        {
-            UI_HUD.nCrntPgeN += 1;
-            Debug.Log(UI_HUD.nCrntPgeN);
-           // StartCoroutine(APIMANAGER.GET_Playerlist(UI_HUD.nCrntPgeN));
-        }
-    }
-    public void PlayerListPageDOWN()
-    {
-        if (UI_HUD.nCrntPgeN != 1)
-        {
-            UI_HUD.nCrntPgeN -= 1;
-            Debug.Log(UI_HUD.nCrntPgeN);
-          //  StartCoroutine(APIMANAGER.GET_Playerlist(UI_HUD.nCrntPgeN));
-        }
-    }
+   
     public void JobListPageUP()
     {
-        if (UI_HUD.nCrntPg_Job != UI_HUD.nTtlPg_Job)
+        if (UI_HUD.job_pack.nCrntPg_Job != UI_HUD.job_pack.nTtlPg_Job)
         {
-            UI_HUD.nCrntPg_Job += 1;
-            Debug.Log(UI_HUD.nCrntPg_Job);
+            UI_HUD.job_pack.nCrntPg_Job += 1;
+            Debug.Log(UI_HUD.job_pack.nCrntPg_Job);
             StartCoroutine(APIMANAGER.GET_Joblist());
         }
     }
     public void JobListPageDOWN()
     {
-        if (UI_HUD.nCrntPg_Job != 1)
+        if (UI_HUD.job_pack.nCrntPg_Job != 1)
         {
-            UI_HUD.nCrntPg_Job -= 1;
-            Debug.Log(UI_HUD.nCrntPg_Job);
+            UI_HUD.job_pack.nCrntPg_Job -= 1;
+            Debug.Log(UI_HUD.job_pack.nCrntPg_Job);
             StartCoroutine(APIMANAGER.GET_Joblist());
         }
     }
