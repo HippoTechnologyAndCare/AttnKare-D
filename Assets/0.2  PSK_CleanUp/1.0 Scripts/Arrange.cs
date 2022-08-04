@@ -134,37 +134,38 @@ public class Arrange : MonoBehaviour {
     void Detach() {
         CDB[(int)m_eArrange].bPositioned = m_bPositioned = false;    //CDB갱신
     }
+        /*
+            // 잡고있으면 계속 위치가 바뀌므로 놓을때까지 기다렸다가 다시 Target위치에 둠
+            IEnumerator AdhereTarget()  {
+                while(Guide.m_eGrabbedArrange != ARRANGE.NONE) yield return new WaitForSeconds(0.1f);
+                DropAt(m_Target.transform);
+                //정리할 물건일 경우 처음 정리된 것일때 파티클 전시 
+                if(!CDB[(int)m_eArrange].bPositioned && m_bCleanable) {  
+                    CDB[(int)m_eArrange].bPositioned = m_bPositioned = true; 
+                    m_Guide.SetFirstArranged(m_eArrange, m_Target.transform);  //정리한것을 Guide에게 알려줌  
+                }
+                CDB[(int)m_eArrange].bPositioned = m_bPositioned = true;
+                m_Guide.SetPositioned(); // (m_eArrange);  
+                CDB[(int)m_eArrange].nPosiCount++; // Eval            
+            }
 
-    // 잡고있으면 계속 위치가 바뀌므로 놓을때까지 기다렸다가 다시 Target위치에 둠
-    IEnumerator AdhereTarget()  {
-        while(Guide.m_eGrabbedArrange != ARRANGE.NONE) yield return new WaitForSeconds(0.1f);
-        DropAt(m_Target.transform);
-        //정리할 물건일 경우 처음 정리된 것일때 파티클 전시 
-        if(!CDB[(int)m_eArrange].bPositioned && m_bCleanable) {  
-            CDB[(int)m_eArrange].bPositioned = m_bPositioned = true; 
-            m_Guide.SetFirstArranged(m_eArrange, m_Target.transform);  //정리한것을 Guide에게 알려줌  
-        }
-        CDB[(int)m_eArrange].bPositioned = m_bPositioned = true;
-        m_Guide.SetPositioned(); // (m_eArrange);  
-        CDB[(int)m_eArrange].nPosiCount++; // Eval            
-    }
+            //정리했을때 Outline 흰색을 점멸후 제거
+        */
+            IEnumerator OulineBlinkOut(Outlinable outline) {
+                if(!outline) yield break;
+                outline.OutlineParameters.Color = HUD.COLOR_OUTLINE_WHITE; //흰색으로 변경
+                yield return new WaitForSeconds(1f);
+                for(int i=0; i < 6; i++) {
+                    outline.enabled = !outline.enabled;
+                    yield return new WaitForSeconds(0.3f);
+                }
+                outline.enabled = false;
+            }
 
-    //정리했을때 Outline 흰색을 점멸후 제거
-    IEnumerator OulineBlinkOut(Outlinable outline) {
-        if(!outline) yield break;
-        outline.OutlineParameters.Color = HUD.COLOR_OUTLINE_WHITE; //흰색으로 변경
-        yield return new WaitForSeconds(1f);
-        for(int i=0; i < 6; i++) {
-            outline.enabled = !outline.enabled;
-            yield return new WaitForSeconds(0.3f);
-        }
-        outline.enabled = false;
-    }
-
-    /**************************************************************************
-    // Monobehavier Start
-    ***************************************************************************/
-    Guide            m_Guide;   
+            /**************************************************************************
+            // Monobehavier Start
+            ***************************************************************************/
+        Guide m_Guide;   
     Target           m_Target;
     
     // Start is called before the first frame update
