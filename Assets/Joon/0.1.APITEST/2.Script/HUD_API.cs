@@ -388,6 +388,20 @@ public class HUD_API : MonoBehaviour
         return NewPlayer;
 
     }
+    public void EdtiPlayerOpen()
+    {
+        DATA_API.UserInner user = UserInfo_API.GetInstance().UserTotalInfo.user;
+        editPlayer_pack.player_name.text = user.name;
+        editPlayer_pack.player_birth.text = user.birth;
+        editPlayer_pack.player_phone.text = user.phonenum;
+        editPlayer_pack.player_uid.text = user.uid;
+        editPlayer_pack.player_currentPWD.text = "";
+        editPlayer_pack.player_PWD.text = "";
+        editPlayer_pack.player_PWDConfirm.text = "";
+        editPlayer_pack.player_HospitalCode.text = "";
+
+
+    }
     
     public Dictionary<string, string> EditPlayer()
     {

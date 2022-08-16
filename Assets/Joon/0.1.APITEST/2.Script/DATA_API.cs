@@ -35,6 +35,8 @@ public class DATA_API : MonoBehaviour
     {
         public string name;
         public string uid;
+        public string aggrement;
+        public string email;
         public string password;
         public string password_confirmation;
         public int type; //patient = 3
@@ -53,6 +55,7 @@ public class DATA_API : MonoBehaviour
             {
                 name = (string)player["player_name"],
                 uid = (string)player["uid"],
+                aggrement = "all",
                 password = (string)player["password"],
                 password_confirmation = (string)player["password_confirmation"],
                 type = 3,
@@ -526,7 +529,9 @@ public class ServiceSignIn
                 password_confirmation = (string)player["password_confirmation"],
                 phonenum = (string)player["phonenum"],
                 gender = int.Parse(player["gender"]),
-                birth = (string)player["birth"]
+                birth = (string)player["birth"],
+                hospital_code = int.Parse(player["hospital_code"])
+                
             };
             EditPlayer JsonEditPlayer = new EditPlayer
             {

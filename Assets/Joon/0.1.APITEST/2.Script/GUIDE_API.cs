@@ -210,7 +210,7 @@ public class GUIDE_API : MonoBehaviour
         }
         else
         {
-            StartCoroutine(GET_UserInfo());
+            Debug.Log("EDIT DONE");
         }
     }
     public IEnumerator DEL_UserInfo()
@@ -308,11 +308,10 @@ public class GUIDE_API : MonoBehaviour
         }
     }
 
-
-    string JOBFinalURL;
+ 
     public IEnumerator GET_Joblist()
     {
-        JOBFinalURL = JobURL + UserInfo_API.GetInstance().UserTotalInfo.id + JobBottomURL;
+        string JOBFinalURL = JobURL + UserInfo_API.GetInstance().UserTotalInfo.id + JobBottomURL;
         Debug.Log(JOBFinalURL);
         UnityWebRequest webRequest = UnityWebRequest.Get(JOBFinalURL);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
@@ -388,6 +387,36 @@ public class GUIDE_API : MonoBehaviour
         }
 
 
+    }
+
+    public IEnumerator DEL_Joblist()
+    {
+        string JOBDelURL = JobURL + UserInfo_API.GetInstance().UserTotalInfo.id + "/jobs/" + UserInfo_API.GetInstance().jobInfo.id;
+        Debug.Log(JOBDelURL);
+        UnityWebRequest webRequest = UnityWebRequest.Delete(JOBDelURL);
+        webRequest.downloadHandler = new DownloadHandlerBuffer();
+        webRequest.SetRequestHeader("Content-Type", "application/json");
+        webRequest.SetRequestHeader("Authorization", Authorization);
+        Debug.Log(Authorization);
+        yield return webRequest.SendWebRequest();
+        if (webRequest.isNetworkError || webRequest.isHttpError)
+        {
+            Debug.Log(webRequest.error);
+            Debug.Log(webRequest.downloadHandler.text);
+            //     int m_nError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
+            Dictionary<string, string> m_dictError = JsonConvert.DeserializeObject<Dictionary<string, string>>(webRequest.downloadHandler.text);
+            string error_code = m_dictError["code"];
+            Debug.Log("ERROR CODE++" + error_code);
+            /*
+             * 여기 list 비어있으면  not_found 코드로 감
+             */
+            if (error_code == "not_found") DATA.GET_Joblist(webRequest.downloadHandler.text);
+        }
+        else
+        {
+            Debug.Log("Get Joblist COMPLETE");
+            DATA.GET_Joblist(webRequest.downloadHandler.text);
+        }
     }
     public IEnumerator POST_MP3(int scene_id)
     {
