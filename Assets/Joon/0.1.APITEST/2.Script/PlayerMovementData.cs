@@ -24,6 +24,7 @@ namespace BNG{
         [SerializeField] [Tooltip("CenterEyeAnchor goes here")] Transform Camera;
         [SerializeField] [Tooltip("LeftControllerAnchor goes here")] Transform LHand;
         [SerializeField] [Tooltip("RightControllerAnchor goes here")] Transform RHand;
+        public Vector3 LEFTHAND;
 
         private Stats database; // All data is stored in this object
         private InputBridge _inputBridge; // XR Rig Input Bridge (C# Script)
@@ -54,12 +55,9 @@ namespace BNG{
         StreamWriter InputDataWriter;
 
         string FileName;
-        string FolderName;
-        string FilePath_Root;
-        string FilePath_Folder;
 
         // Data per Frame
-        public List<string> dataPerFrame = new List<string>();
+       [SerializeField] List<List<object>> dataPerFrame = new List<List<object>>();
         List<string> plotPerFrame = new List<string>();
 
         // Velocity
@@ -111,7 +109,7 @@ namespace BNG{
             public int BClicks = 0;
             public int XClicks = 0;
             public int YClicks = 0;
-            public string controllerInput;
+            public List<object> controllerInput = new List<object> ();
 
             // Final Output
             public string output;
@@ -146,7 +144,7 @@ namespace BNG{
             DeviceSavePath = DataManager.GetInstance().FilePath_Folder + FileName + "_Behavior.txt";
 
             ShowDataOnInspector();
-            /*dataPerFrame.Add("Time, A, B, X, Y, LTr, RTr, LGr, RGr, HPosX, HPosY, HPosZ, HAngX, HAngY, HAngZ, LHPosX, LHPosY, LHPosZ, RHPosX, RHPosY, RHPosZ");*/
+            //dataPerFrame.Add("Time, A, B, X, Y, LTr, RTr, LGr, RGr, HPosX, HPosY, HPosZ, HAngX, HAngY, HAngZ, LHPosX, LHPosY, LHPosZ, RHPosX, RHPosY, RHPosZ");*/
             prevPosHead = database.HeadPosition;
             prevPosLHand = database.LHandPosition;
             prevPosRHand = database.RHandPosition;
@@ -157,7 +155,7 @@ namespace BNG{
             Timer += Time.deltaTime;
             dt += Time.deltaTime;
             frame++;
-
+            LEFTHAND = database.LHandPosition;
             if (frame > 3)
             {
                 SaveDeviceData();
@@ -171,18 +169,19 @@ namespace BNG{
 
         // 30
         // Time, A, B, X, Y, LTr, RTr, LGr, RGr, HPosX, HPosY, HPosZ, HAngX, HAngY, HAngZ, LHPosX, LHPosY, LHPosZ, RHPosX, RHPosY, RHPosZ, HeadVelX, HeadVelY, HeadVelZ, LHandVelX, LHandVelY, LHandVelZ, RHandVelX, RHandVelY, RHandVelZ
-        public void SaveBehaviorData()     //<<< ------------------------------- 각자 종료할때 호출해서 저장
+        /*public void SaveBehaviorData()     //<<< ------------------------------- 각자 종료할때 호출해서 저장
         {
             database.controllerInput = "Left Trigger Clicks: " + database.LTriggerClicks.ToString() + "\nRight Trigger Clicks: " + database.RTriggerClicks.ToString()
                 + "\nLeft Grip Clicks: " + database.LGripClicks.ToString() + "\nRight Grip Clicks: " + database.RGripClicks.ToString()
                 + "\nA Button Pressed: " + database.AClicks.ToString() + "\nB Button Pressed: " + database.BClicks.ToString()
                 + "\nX Button Pressed: " + database.XClicks.ToString() + "\nY Button Pressed: " + database.YClicks.ToString();
-
+          
             // Add Number of Clicks to Data List
             dataPerFrame.Add(database.controllerInput);
 
             DeviceDataInfo = new FileStream(DeviceSavePath, FileMode.Append, FileAccess.Write);
             DeviceDataWriter = new StreamWriter(DeviceDataInfo, System.Text.Encoding.Unicode);
+            
             foreach (string data in dataPerFrame)
             {
                 DeviceDataWriter.WriteLine(data);
@@ -201,23 +200,31 @@ namespace BNG{
             // Delete if unnecessary
             // SaveInputData(database.controllerInput);
         }
-        public string GetBehaviorData()
+*/
+        public List<List<object>> GetBehaviorData()
         {
             Debug.Log("GET DATA");
+            /*
             database.controllerInput = "Left Trigger Clicks: " + database.LTriggerClicks.ToString() + "Right Trigger Clicks: " + database.RTriggerClicks.ToString()
                 + "Left Grip Clicks: " + database.LGripClicks.ToString() + "Right Grip Clicks: " + database.RGripClicks.ToString()
                 + "A Button Pressed: " + database.AClicks.ToString() + "B Button Pressed: " + database.BClicks.ToString()
                 + "X Button Pressed: " + database.XClicks.ToString() + "Y Button Pressed: " + database.YClicks.ToString();
-
+             */
+            database.controllerInput.Add(database.LTriggerClicks); database.controllerInput.Add(database.RTriggerClicks);
+            database.controllerInput.Add(database.LGripClicks); database.controllerInput.Add(database.RGripClicks);
+            database.controllerInput.Add(database.AClicks); database.controllerInput.Add(database.BClicks);
+            database.controllerInput.Add(database.XClicks); database.controllerInput.Add(database.YClicks);
+           
             // Add Number of Clicks to Data List
             dataPerFrame.Add(database.controllerInput);
+            Debug.Log(dataPerFrame[2]);
             string datalist = "";
             for (int i = 0; i < dataPerFrame.Count; i++)
             {
                 datalist += dataPerFrame[i];
                 datalist += "/";
             }
-            return datalist;
+            return dataPerFrame;
         }
 
         void ShowDataOnInspector()
@@ -288,7 +295,13 @@ namespace BNG{
         public void SaveDeviceData()
         {
             //                    Time            Controller Buttons    Device Position      Device Velocity
-            dataPerFrame.Add(Timer.ToString() + ", " + Buttons() + ", " + Positions() + ", " + Velocity());
+          //  dataPerFrame.Add(Timer.ToString() + ", " + Buttons() + ", " + Positions() + ", " + Velocity());
+            List<object> dataPerLine = new List<object>();
+            dataPerLine.Add(Timer);
+            dataPerLine.AddRange(Buttons());
+            dataPerLine.AddRange(Positions());
+           dataPerLine.AddRange(Velocity());
+            dataPerFrame.Add(dataPerLine);
         }
 
         public void Plot(float time)
@@ -297,10 +310,11 @@ namespace BNG{
             plotPerFrame.Add(plot);
         }
 
-        public string Velocity()
+        public List<object> Velocity()
         {
             // Return Value
             string result = "";
+            List<object> listResult = new List<object>();
 
             // Update Current Position
             curPosHead = database.HeadPosition;
@@ -327,29 +341,51 @@ namespace BNG{
             prevPosRHand = curPosRHand;
 
             // Save to Return Value
-            result += velocityXHead.ToString() + ", " + velocityYHead.ToString() + ", " + velocityZHead.ToString() + ", ";
-            result += velocityXLHand.ToString() + ", " + velocityYLHand.ToString() + ", " + velocityZLHand.ToString() + ", ";
-            result += velocityXRHand.ToString() + ", " + velocityYRHand.ToString() + ", " + velocityZRHand.ToString();
+            listResult.Add(velocityXHead); listResult.Add(velocityYHead); listResult.Add(velocityZHead); 
+            listResult.Add(velocityXLHand); listResult.Add(velocityYLHand); listResult.Add(velocityZLHand);
+            listResult.Add(velocityXRHand); listResult.Add(velocityYRHand); listResult.Add(velocityZRHand);
+            //  result += velocityXHead.ToString() + ", " + velocityYHead.ToString() + ", " + velocityZHead.ToString() + ", ";
+            //  result += velocityXLHand.ToString() + ", " + velocityYLHand.ToString() + ", " + velocityZLHand.ToString() + ", ";
+            //  result += velocityXRHand.ToString() + ", " + velocityYRHand.ToString() + ", " + velocityZRHand.ToString();
 
             // Return Velocity
-            return result;
+            return listResult;
+            //return result;
         }
 
-        public string Positions()
+        public List<object> Positions()
         {
-            return database.HeadPosition.x.ToString() + ", " + database.HeadPosition.y.ToString() + ", " + database.HeadPosition.z.ToString() +
-                ", " + database.HeadAngle.x.ToString() + ", " + database.HeadAngle.y.ToString() + ", " + database.HeadAngle.z.ToString() +
-                ", " + database.LHandPosition.x.ToString() + ", " + database.LHandPosition.y.ToString() + ", " + database.LHandPosition.z.ToString() +
-                ", " + database.RHandPosition.x.ToString() + ", " + database.RHandPosition.y.ToString() + ", " + database.RHandPosition.z.ToString();
+            List<object> listResult = new List<object>();
+            listResult.Add(database.HeadPosition.x); listResult.Add(database.HeadPosition.y); listResult.Add(database.HeadPosition.z);
+            listResult.Add(database.HeadAngle.x); listResult.Add(database.HeadAngle.y); listResult.Add(database.HeadAngle.z);
+            listResult.Add(database.LHandPosition.x); listResult.Add(database.LHandPosition.y); listResult.Add(database.LHandPosition.z);
+            listResult.Add(database.RHandPosition.x); listResult.Add(database.RHandPosition.y); listResult.Add(database.RHandPosition.z);
+          return listResult;
+
+            /*  return database.HeadPosition.x.ToString() + ", " + database.HeadPosition.y.ToString() + ", " + database.HeadPosition.z.ToString() +
+                   ", " + database.HeadAngle.x.ToString() + ", " + database.HeadAngle.y.ToString() + ", " + database.HeadAngle.z.ToString() +
+                   ", " + database.LHandPosition.x.ToString() + ", " + database.LHandPosition.y.ToString() + ", " + database.LHandPosition.z.ToString() +
+                   ", " + database.RHandPosition.x.ToString() + ", " + database.RHandPosition.y.ToString() + ", " + database.RHandPosition.z.ToString();
+
+             */
         }
 
-        public string Buttons()
+        public List<object> Buttons()
         {
+            List<object> listResult = new List<object>();
+            listResult.Add(_inputBridge.AButtonDown || _inputBridge.AButton || _inputBridge.AButtonUp ? 1 : 0); 
+            listResult.Add(_inputBridge.BButtonDown || _inputBridge.BButton || _inputBridge.BButtonUp ? 1 : 0);
+            listResult.Add(_inputBridge.XButtonDown || _inputBridge.XButton || _inputBridge.XButtonUp ? 1 : 0);
+            listResult.Add(_inputBridge.YButtonDown || _inputBridge.YButton || _inputBridge.YButtonUp ? 1 : 0);
+            listResult.Add(_LTrigger); listResult.Add(_RTrigger); listResult.Add(_LGrip); listResult.Add(_RGrip);
+            return listResult;
+            /*
             return (_inputBridge.AButtonDown || _inputBridge.AButton || _inputBridge.AButtonUp ? 1 : 0).ToString() +
                 ", " + (_inputBridge.BButtonDown || _inputBridge.BButton || _inputBridge.BButtonUp ? 1 : 0).ToString() +
                 ", " + (_inputBridge.XButtonDown || _inputBridge.XButton || _inputBridge.XButtonUp ? 1 : 0).ToString() +
                 ", " + (_inputBridge.YButtonDown || _inputBridge.YButton || _inputBridge.YButtonUp ? 1 : 0).ToString() +
                 ", " + _LTrigger.ToString() + ", " + _RTrigger.ToString() + ", " + _LGrip.ToString() + ", " + _RGrip.ToString();
+            */
         }
 
         public void SaveInputData(string myData)
@@ -363,7 +399,10 @@ namespace BNG{
         public void AddTimeStamp(string delimiter)
         {
             string _delimiter = delimiter;
-            dataPerFrame.Add(_delimiter);
+            List<object> addDeli = new List<object>();
+            addDeli.Add(_delimiter);
+            dataPerFrame.Add(addDeli);
+          //  dataPerFrame.Add(_delimiter);
         }
     }
 }

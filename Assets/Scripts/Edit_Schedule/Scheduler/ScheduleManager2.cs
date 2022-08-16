@@ -81,7 +81,7 @@ namespace Scheduler
         
         //[SerializeField] private string[] yelCardsArr = new string[YelCardCtn];
 
-        public float[] Scene2Arr { get; set; }
+        public object[] Scene2Arr { get; set; }
 
         public bool is1stInfoSkip;
         public bool isReset;
@@ -108,7 +108,8 @@ namespace Scheduler
         
         private float totalElapsedTime;         //수행한 시간 계산용
         private float totalElapsedTimeForCalc;  //수행한 시간 보여주기용
-        
+
+        public bool m_bClickOneTime = false;
 
         //float TotalScenePlayingTime = 0;    //컨텐츠 시작부터 끝까지 총 시간 TimerForBeforeStarted + TotalElapsedTimeForCalc
 
@@ -140,8 +141,8 @@ namespace Scheduler
         private void Awake()
         {
             data210 = 0;
-            data211 = 0;
-            data212 = 0;
+            data211 = -1;
+            data212 = -1;
             data213 = -1;
 
             completionCtn = 0;
@@ -210,6 +211,7 @@ namespace Scheduler
 
                     if (!checkTimeLimit && totalElapsedTimeForCalc >= TimeLimit)
                     {
+                        Debug.Log("TIME LIMIT");
                         //시간제한
                         checkTimeLimit = true;
                         StartCoroutine(TimeLimitAndKeepGoing());
@@ -217,6 +219,7 @@ namespace Scheduler
 
                     if (!checkTimeOut && totalElapsedTimeForCalc >= TimeLimitForFinish)
                     {
+                        Debug.Log("TIME OUT");
                         //강제종료
                         checkTimeOut = true;
                         StartCoroutine(TimeOutAndFinish());
@@ -254,7 +257,7 @@ namespace Scheduler
             
             bgmController.GetComponent<BGMcontroller02>().PlayBGMByTypes("BGM");
         }
-
+        
         private IEnumerator TimeOutAndFinish()
         {
             collectData.AddTimeStamp("TIME OUT");
@@ -420,13 +423,14 @@ namespace Scheduler
                 }
                
             }
+            m_bClickOneTime = false;
         }
 
         public void CheckAllScheduleOnSlot()
         {
             var allDone = true;
 
-            foreach (var aSlot in slotList.Where(aSlot => aSlot.GetComponent<PlanSlotController2>().passenger == null))
+            foreach (var aSlot in slotList.Where((aSlot => aSlot.GetComponent<PlanSlotController2>().passenger == null)))
             {
                 allDone = false;
             }
@@ -437,6 +441,7 @@ namespace Scheduler
                 PlaySoundByTypes(ESoundType02.Pop);
                 starParticle.GetComponent<ParticleSystem>().Play();
             }
+            else btnFinish.gameObject.SetActive(false);
         }
 
         private void InitSchedulerDict()
@@ -552,7 +557,7 @@ namespace Scheduler
                 this.gameObject.GetComponent<Button>().interactable = false;
             }
         }
-
+        
         IEnumerator StartCntDown()
         {
             bgmController.GetComponent<BGMcontroller02>().PlayBGMByTypes("BGM");
@@ -589,7 +594,7 @@ namespace Scheduler
 
             collectData.AddTimeStamp("MISSION START");
         }
-
+        
         public void ShowFinishPanel()
         {
             PlaySoundByTypes(ESoundType02.Click);
@@ -598,7 +603,7 @@ namespace Scheduler
             VisibleFinPanel(true);
             btnFinish.gameObject.SetActive(false);
         }
-
+        
         public void FinishPanel_No()
         {
             PlaySoundByTypes(ESoundType02.Click);
@@ -613,6 +618,10 @@ namespace Scheduler
 
         public void FinishPanel_Yes(bool isSkip)
         {
+            if (!m_bClickOneTime)
+            {
+                m_bClickOneTime = true;
+
             
             Debug.Log("isSkip = " + isSkip);
             // 완료한 계획표 횟수
@@ -628,39 +637,82 @@ namespace Scheduler
                 SchedulerDict.Clear();
                 InitSchedulerDict();
             }
-            
+
             // n번째로 완성한 계획표 변수로 저장
             SortedCardData(isSkip);
 
-            // 몇번째 완료인지 체크 
-               // 첫번째 계획표를 마쳤는지에 대한 조건문
-            if (completionCtn == 1 && !isSkip) // 첫번째 완료라면 아래의 프로세싱 후 재 시작
-            {
-                VisibleBoard(true);
-                mainUi.GetComponent<GraphicRaycaster>().enabled = false;
-                VisibleFinPanel(false);
-                ReSetAll();
-                
-                StartCoroutine(hud.GetComponent<HUDSchedule02>().HalfInfoSetUiTxt());
-                StartCoroutine(audioCon.PlaySecInfo());
-                scoreManager.ScorerCalculator();
-                return;
+            scoreManager.ScoreCalculator();
+
+            StartCoroutine(hud.GetComponent<HUDSchedule02>().SetReadyShowScore());
+            StartCoroutine(hud.GetComponent<HUDSchedule02>().ShowScore());
             }
-
-               // 두번째 계획표를 마쳤을때의 로직
-            collectData.AddTimeStamp("MISSION END");
-
-            leGogo = false;
-
-            slot.gameObject.SetActive(false);
-            grp.gameObject.SetActive(false);
-            VisibleFinPanel(false);
-            
-            //scoreManager.ScorerCalculator();
-            
-            StartCoroutine(AskQuestion());
+            // // 몇번째 완료인지 체크 
+            //    // 첫번째 계획표를 마쳤는지에 대한 조건문
+            // if (completionCtn == 1 && !isSkip) // 첫번째 완료라면 아래의 프로세싱 후 재 시작
+            // {
+            //     VisibleBoard(true);
+            //     mainUi.GetComponent<GraphicRaycaster>().enabled = false;
+            //     VisibleFinPanel(false);
+            //     ReSetAll();
+            //     
+            //     StartCoroutine(hud.GetComponent<HUDSchedule02>().HalfInfoSetUiTxt());
+            //     StartCoroutine(audioCon.PlaySecInfo());
+            //     return;
+            // }
+            //
+            //    // 두번째 계획표를 마쳤을때의 로직
+            // collectData.AddTimeStamp("MISSION END");
+            //
+            // leGogo = false;
+            //
+            // slot.gameObject.SetActive(false);
+            // grp.gameObject.SetActive(false);
+            // VisibleFinPanel(false);
+            //
+            // //scoreManager.ScoreCalculator();
+            // StartCoroutine(AskQuestion());
+            if(checkTimeOut) StartCoroutine(AskQuestion());
+            Debug.Log("NEXT");
         }
 
+        public void ClickConfirmBtn()
+        {
+            if(!m_bClickOneTime){
+                m_bClickOneTime = true;
+                PlaySoundByTypes(ESoundType02.Click);
+
+
+                // 몇번째 완료인지 체크 
+                // 첫번째 계획표를 마쳤는지에 대한 조건문
+                if (completionCtn == 1) // 첫번째 완료라면 아래의 프로세싱 후 재 시작
+                {
+                    dataChecker.SetScoreD211();
+                    VisibleBoard(true);
+                    mainUi.GetComponent<GraphicRaycaster>().enabled = false;
+                    VisibleFinPanel(false);
+                    ReSetAll();
+
+                    StartCoroutine(hud.GetComponent<HUDSchedule02>().HalfInfoSetUiTxt());
+                    StartCoroutine(audioCon.PlaySecInfo());
+                    return;
+                }
+
+                // 두번째 계획표를 마쳤을때의 로직
+                dataChecker.SetScoreD212();
+                collectData.AddTimeStamp("MISSION END");
+
+                leGogo = false;
+
+                slot.gameObject.SetActive(false);
+                grp.gameObject.SetActive(false);
+                VisibleFinPanel(false);
+
+                //scoreManager.ScoreCalculator();
+
+                StartCoroutine(AskQuestion());
+            }
+        }
+        
         private IEnumerator AskQuestion()
         {
             yield return new WaitForSeconds(1f);
@@ -708,12 +760,14 @@ namespace Scheduler
             Data_210 미션과 관계없는 생물을 건든 횟수
             Data_211 첫번째 계획표 점수
             Data_212 두번째 계획표 점수
-            Data_213 제한된 카드를 사용한 횟수
+            Data_213 질문 : 계획표 작성에 집중하기 어려웠니?
             */
             
             data210 = dataChecker.scheduleData.data210;
+            data211 = dataChecker.scheduleData.data211;
+            data212 = dataChecker.scheduleData.data212;
             // 흩어져 있는 데이터들을 배열에 넣어 전달할 준비
-            Scene2Arr = new[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, _planData01,_planData02, 
+            Scene2Arr = new object[] { totalElapsedTimeForCalc, totalMovingCnt, resetCnt, selectNoCtn, _planData01,_planData02, 
                 skipYn, timerForBeforeStarted, timerForFirstSelect, data210, data211, data212, data213 };
             gameDataManager.GetComponent<GameDataManager>().SaveCurrentData();
             DataSend.GetSceneData();
@@ -773,7 +827,7 @@ namespace Scheduler
             }
         }
         
-        private void VisibleFinPanel(bool isOn)
+        public void VisibleFinPanel(bool isOn)
         {
             if (isOn)
             {

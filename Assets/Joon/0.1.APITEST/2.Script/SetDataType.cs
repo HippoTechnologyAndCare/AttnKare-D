@@ -15,6 +15,173 @@ class DataSize
         this.userDataArr2 = new int[x, y];
     }
 }
+public class PlayerJsonData // List<T>에 들어갈 클래스 생성
+{
+    // PlayerData를 다룰 리스트에 들어가 매개변수로 사용될 것들을 미리 변수로 선언해 둔다        
+    public string DataName;
+    public object Result;
+
+    // 생성자 생성됨
+    public PlayerJsonData(string dataName, object result)
+    {
+        this.DataName = dataName;
+        this.Result = result;
+    }
+}
+
+public class SetDataType : MonoBehaviour
+{
+    public PlayMakerFSM fsm;
+
+    public int _SceneFirstKey;
+    public int _CurrentScene;
+    public int _Row;
+
+    int key;
+    string m_skey;
+    int FirstKey;
+    int m_nFirstKey;
+    int m_nLastKey;
+    int eachLastKey;
+    int eachFirstKey;
+    int keyLength;
+
+    // 데이터의 인덱싱이 바뀔때 값을 바꿔야 하는 것들 -> TotalFirstKey에 대입값, sOd의 인자 2가지 값
+    const int TotalFirstKey = 101;
+    public JsonDataManager JsonData;
+    DataSize sOd = new DataSize(9, 21);
+
+    public int Row { get => _Row; set => _Row = value; }
+
+    public int CurrentScene { get => _CurrentScene; set => _CurrentScene = value; }
+
+    public int SceneFirstKey { get => _SceneFirstKey; set => _SceneFirstKey = value; }
+
+    private void Start()
+    {
+
+    }
+
+    // 진단 Scene의 개수가 바뀌면 아래의 함수 내용을 변경해야 한다.
+
+    // 2차원 배열에 모든 키를 셋팅하는 함수
+    private int[,] SetEachFirstKey()
+    {
+        key = m_nFirstKey;
+        for (int j = 0; j < sOd.userDataArr2.GetLength(1); j++)
+        {
+            sOd.userDataArr2[Row, j] = key;
+            Debug.Log(sOd.userDataArr2[Row, j]);
+            if (key == m_nLastKey)
+            {
+                break;
+            }
+            key++;
+        }
+        return sOd.userDataArr2;
+    }
+    // 프로그램 시작 후 임의의 진단 Scene이 로드되면 단 한번만 아래의 함수대로 초기화된다
+    public void InitialDataSetting()
+    {
+        float result = 0;
+        Debug.Log("INIT");
+        CurrentScene = SceneManager.GetActiveScene().buildIndex;
+        SetKey();
+        key = m_nFirstKey;
+        Debug.Log(key);
+        while (key <= m_nLastKey)
+        {
+            m_skey = key.ToString();
+            Debug.Log("INITIAL DATA SETTING" + key); JsonData.dataList.Add(m_skey, new PlayerJsonData("data_" + key, result));
+            key++;
+        }
+
+    }
+    public void SetSceneData(params object[] myVal)
+    {
+        // value check test
+        {
+            Debug.Log("sceneIndex = " + CurrentScene.ToString());
+            Debug.Log("sceneFirstKey = " + SceneFirstKey.ToString());
+        }
+        keyLength = (m_nLastKey - m_nFirstKey) + 1;
+        SetEachFirstKey();
+        Debug.Log("keyLength = " + keyLength);
+        Dictionary<string, object> mapName = new Dictionary<string, object>();
+
+        for (int i = 0; i < keyLength; i++)
+        {
+            Debug.Log("ROW=" +Row);
+            Debug.Log("USERDATA NULL = " + sOd.userDataArr2);
+            int arg0 = sOd.userDataArr2[Row, i];
+            string dataname = "data_" + arg0.ToString();
+            Debug.Log("DATA" + i);
+            Debug.Log("DATA"+i+"=" + dataname + "/" + myVal[i]);
+            mapName.Add(key:
+                dataname,
+                value: myVal[i]);
+            Debug.Log("DATA NAME + " + dataname);
+            Debug.Log("data_" + arg0 + " = " + mapName[dataname]);
+            Debug.Log(mapName["data_" + arg0]);
+            object result = mapName[dataname];
+            Debug.Log(result + "   " + arg0);
+            JsonData.dataList[arg0.ToString()].Result = result;
+        }
+    }
+
+    private int SetKey()//여기서 첫번째 키와 마지막 키를 설정
+    {
+        int buildindex = SceneManager.GetActiveScene().buildIndex;
+        switch (buildindex)
+        {
+            case 1: //bagpacking
+                m_nFirstKey = 501;
+                Row = 1;
+                m_nLastKey = 511;
+                break;
+            case 2: //scoop
+                m_nFirstKey = 601;
+                Row = 2;
+                m_nLastKey = 613;
+                break;
+            case 3: //Nummatch
+                m_nFirstKey = 701;
+                Row = 3;
+                m_nLastKey = 717;
+                break;
+            case 4: //CRUM
+                m_nFirstKey = 301;
+                Row = 4;
+                m_nLastKey = 313;
+                break;
+            case 5: //Schedule
+                m_nFirstKey = 201;
+                Row = 5;
+                m_nLastKey = 213;
+                break;
+            case 6: //PlayPaddle 
+                m_nFirstKey = 401;
+                Row = 6;
+                m_nLastKey = 420;
+                break;
+            case 7: //Conveyor
+                m_nFirstKey = 801;
+                Row = 7;
+                m_nLastKey = 813;
+                break;
+            case 8:
+                m_nFirstKey = 101;
+                Row = 8;
+                m_nLastKey = 104;
+                break;
+
+        }
+
+        return m_nFirstKey;
+    }
+}
+
+/*
 [System.Serializable]
 public class PlayerJsonData // List<T>에 들어갈 클래스 생성
 {
@@ -116,11 +283,11 @@ public class SetDataType : MonoBehaviour
     {
         if (currentKey <= 199) eachLastKey = 107;
         else if (currentKey <= 299) eachLastKey = 213;
-        else if (currentKey <= 399) eachLastKey = 310;
+        else if (currentKey <= 399) eachLastKey = 311;
         else if (currentKey <= 499) eachLastKey = 420;
-        else if (currentKey <= 599) eachLastKey = 510;
-        else if (currentKey <= 699) eachLastKey = 611;
-        else if (currentKey <= 799) eachLastKey = 712;
+        else if (currentKey <= 599) eachLastKey = 511;
+        else if (currentKey <= 699) eachLastKey = 612;
+        else if (currentKey <= 799) eachLastKey = 713;
         return eachLastKey;
     }
 
@@ -240,5 +407,7 @@ public class SetDataType : MonoBehaviour
             JsonData.dataList[arg0].Result = result;
         }
     }
+
 }
+*/
 

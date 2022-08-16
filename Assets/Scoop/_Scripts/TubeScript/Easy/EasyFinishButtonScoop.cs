@@ -33,7 +33,7 @@ public class EasyFinishButtonScoop : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 0.25f);
         foreach(Collider hit in hitColliders)
         {
-            if(hit.name == "RaycastCollider") //have to hit with hand
+            if(hit.name == "RaycastCollider") 
             {
                 bActive = true;
             }
@@ -54,7 +54,7 @@ public class EasyFinishButtonScoop : MonoBehaviour
 
             if (bActive) // if hand is what touching button
             {
-                coroutine = StartCoroutine(NextScene());                
+                coroutine = StartCoroutine(NextScene());
             }
 
         }
@@ -100,24 +100,14 @@ public class EasyFinishButtonScoop : MonoBehaviour
     IEnumerator NextScene()
     {
 
-
+        Debug.Log("NEXT SCENE SEND");
+        GetComponent<BNG.Button>().enabled = false;
         FinishCanvas.alpha = 1f;
         Fin1.gameObject.SetActive(false);
         Fin2.gameObject.SetActive(true);
 
-        scoreboard.GetComponent<EasyTubeScoreboard>().SaveAndFinish(true);
-        yield return new WaitForSeconds(1.0f);
-        Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "3";
-        yield return new WaitForSeconds(1.0f);
-        Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "2";
-        yield return new WaitForSeconds(1.0f);
-        Fin2.GetComponentInChildren<TextMeshProUGUI>().text = "1";
-        yield return new WaitForSeconds(1.0f);
-
-
-
-        SceneLoader.LoadScene(buildindex);
-
+        StartCoroutine( scoreboard.GetComponent<EasyTubeScoreboard>().GoToLobby(true));
+        yield return null;
 
 
 

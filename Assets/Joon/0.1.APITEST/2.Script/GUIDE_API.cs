@@ -166,6 +166,23 @@ public class GUIDE_API : MonoBehaviour
 
     }
 
+    public IEnumerator DEL_Login()
+    {
+        UnityWebRequest webRequest = UnityWebRequest.Delete(LoginURL);
+        webRequest.downloadHandler = new DownloadHandlerBuffer();
+        webRequest.SetRequestHeader("Content-Type", "application/json");
+        webRequest.SetRequestHeader("Authorization", Authorization);
+        yield return webRequest.SendWebRequest();
+        if (webRequest.isNetworkError || webRequest.isHttpError)
+        {
+            Debug.Log(webRequest.downloadHandler.text);
+        }
+        else
+        {
+            Debug.Log("Log_out");
+        }
+    }
+
     public IEnumerator GET_UserInfo()
     {
         UnityWebRequest webRequest = UnityWebRequest.Get(SigninURL);

@@ -18,6 +18,7 @@ namespace BNG
         public GameObject _cursor;
         public GameObject LaserEnd;
         public GameObject hitObject;
+        public bool b_UI;
  
 
 
@@ -26,10 +27,7 @@ namespace BNG
     //    public PlayMakerFSM GoFsm;
         public Grabber graber;
 
-        private int lineEndPosition;
-        private FsmObject fsmObject;
-        private FsmBool fsmBool;
-        private FsmGameObject fsmG_Obj;
+
 
         /// <summary>
         /// 0.5 = Line Goes Half Way. 1 = Line reaches end.
@@ -41,7 +39,6 @@ namespace BNG
 
         private void Awake()
         {
-          //  GoFsm.gameObject.GetComponent<PlayMakerFSM>();
 
             if (cursor)
             {
@@ -77,22 +74,6 @@ namespace BNG
                     // Add dot at line's end
                     LaserEnd.transform.position = hit.point;
                     LaserEnd.transform.rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);
-
-                    if (hit.transform.gameObject.tag == "Necessary" || hit.transform.gameObject.tag == "Necessary_Book" || hit.transform.gameObject.tag == "Necessary_Pencil")
-                    {                     
-  /*                Doesn't Need Anymore(Outlinable parameters가 pointer가 들어갔다 나갈 때 마다 변경되어야 하기 때문)   
-                    hitObject = hit.collider.gameObject;
-
-                        if (hitObject.GetComponent<Outlinable>().enabled != true)w
-                        {
-                            hitObject.GetComponent<Outlinable>().enabled = true;
-
-                            SendEvent("Enter");
-                            fsmG_Obj.Value = hitObject;
-                        }
-                    }
-*/
-                    }
                 }
 
                 // Set position of the cursor
@@ -133,6 +114,7 @@ namespace BNG
                             line2.enabled = true;
                             line2.SetPosition(0, Vector3.zero);
                             line2.SetPosition(1, new Vector3(0, 0, MaxRange));
+
                             LaserEnd.transform.position = new Vector3(0, 0, MaxRange);
                             LaserEnd.transform.rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);                            
                             //Debug.Log("no hit");   

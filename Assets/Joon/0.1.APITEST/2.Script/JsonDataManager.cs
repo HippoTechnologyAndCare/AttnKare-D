@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Newtonsoft.Json;
+using System.IO;
 using UserData;
 
 public class JsonDataManager : MonoBehaviour
@@ -12,6 +13,130 @@ public class JsonDataManager : MonoBehaviour
     public int sceneIndex;
     [FormerlySerializedAs("key_rowIndex")] public int keyRowIndex;
     public GameObject objToFind;
+
+    public SetDataType setPlayerData;
+    public Dictionary<string, PlayerJsonData> dataList = new Dictionary<string, PlayerJsonData>();
+
+
+    private void Start()
+    {
+        Debug.Log("DICTIONARY SIZE" + dataList.Count);
+        setPlayerData.InitialDataSetting();
+        CheckSaveDataTypes();
+    }
+
+    private void CheckSaveDataTypes()
+    {
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        switch (sceneIndex)
+        {
+            case 1: // BagPacking
+                objToFind = FindObjectOfType<Object_BP>().gameObject;
+                break;
+            case 2: //Scoop
+                objToFind = FindObjectOfType<EasyTubeScoreboard>().gameObject;
+                break;
+            case 3: //Nummatch
+                objToFind = FindObjectOfType<CheckData_NumCheck>().gameObject;
+                break;
+            case 4: //Cleanup
+                objToFind = FindObjectOfType<CleanUp.Guide>().gameObject;
+                break;
+            case 5: //스케줄
+                objToFind = FindObjectOfType<Scheduler.ScheduleManager2>().gameObject;
+                break;
+            case 6: //PlayPaddle
+                objToFind = FindObjectOfType<Guide_Paddle>().gameObject;
+                break;
+            case 7: //Conveyor
+                objToFind = FindObjectOfType<FactoryManager>().gameObject;
+                break;
+            case 8: //Tutorial
+                objToFind = FindObjectOfType<Tutorial.InsertPassword>().gameObject;
+                break;
+            default:
+                Debug.Log("Scene Index가 유효하지 않습니다");
+                break;
+        }
+        Debug.Log("OBJ TO FIND" + objToFind.gameObject.name);
+
+    }
+
+    public Dictionary<string, PlayerJsonData> SaveCurrentData()
+    {
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log(sceneIndex);
+        SetData(sceneIndex);
+        Debug.Log("DATA LIST = " + dataList);
+        WriteTxt(dataList);
+        return dataList;
+    }
+
+    void WriteTxt(Dictionary<string, PlayerJsonData> message)
+    {
+        string path = "Assets/Resources/CONVEYOR.txt";
+        DirectoryInfo directoryInfo = new DirectoryInfo(Path.GetDirectoryName(path));
+
+        if (!directoryInfo.Exists)
+        {
+            directoryInfo.Create();
+        }
+
+        FileStream fileStream
+        = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
+        StreamWriter writer = new StreamWriter(fileStream, System.Text.Encoding.Unicode);
+
+        writer.WriteLine(message);
+        writer.Close();
+    }
+
+
+    private void SetData(int sceneIndex)
+    {
+        switch (sceneIndex)
+        {
+            case 1: //방청소하기
+                setPlayerData.SetSceneData(objToFind.GetComponent<Object_BP>().arrFloat);
+                break;
+
+            case 2: //Scoop
+                setPlayerData.SetSceneData(objToFind.GetComponent<EasyTubeScoreboard>().scene2arr);
+                break;
+            case 3: //NumMatch
+                setPlayerData.SetSceneData(objToFind.GetComponent<CheckData_NumCheck>().arrData);
+                break;
+            case 4: //CleanUp
+                setPlayerData.SetSceneData(objToFind.GetComponent<CleanUp.Guide>().m_dataReportFloat);
+                break;
+            case 5: //Scehedule
+                setPlayerData.SetSceneData(objToFind.GetComponent<Scheduler.ScheduleManager2>().Scene2Arr);
+                break;
+            case 6: //PlayPaddle
+                setPlayerData.SetSceneData(objToFind.GetComponent<Guide_Paddle>().arrData);
+                break;
+            case 7: //Conveyor
+                setPlayerData.SetSceneData(objToFind.GetComponent<FactoryManager>().arrJson);
+                break;
+            case 8:
+                setPlayerData.SetSceneData(objToFind.GetComponent<Tutorial.InsertPassword>().arrData);
+                break;
+            default:
+                Debug.Log("Scene Index가 유효하지 않습니다");
+                break;
+               
+
+        }
+    }
+}
+/*
+public class JsonDataManager : MonoBehaviour
+{
+
+    public int sceneIndex;
+    [FormerlySerializedAs("key_rowIndex")] public int keyRowIndex;
+    public GameObject objToFind;
+
+
 
     public SetDataType setPlayerData;
 
@@ -95,12 +220,13 @@ public class JsonDataManager : MonoBehaviour
                     objToFind = FindObjectOfType<Guide_Paddle>().gameObject;
                     saveCurrentSceneData = SetData;
                     break;
-                */
+                
         }
     }
 
     public string SaveCurrentData()
     {
+
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
         saveCurrentSceneData(sceneIndex);
        // string jsonData = JsonConvert.SerializeObject(dataList, Formatting.Indented);
@@ -169,9 +295,10 @@ public class JsonDataManager : MonoBehaviour
                 case 9: //NUMMATCH
                     setPlayerData.SetSceneData(objToFind.GetComponent<CheckData_NumCheck>().arrData);
                     break;
-                */
+                
 
         }
     }
 }
+*/
 

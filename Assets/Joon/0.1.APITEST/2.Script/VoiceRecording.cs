@@ -31,9 +31,9 @@ public class VoiceRecording : MonoBehaviour
     {
         FileName = SceneManager.GetActiveScene().buildIndex.ToString(); // SceneManager.GetActiveScene().buildIndex.ToString();
         audioSource = GetComponent<AudioSource>();
-
         StartRecording();
-        NowRecording = true;
+
+      //  NowRecording = true;
     }
 
     void Update()
@@ -68,7 +68,7 @@ public class VoiceRecording : MonoBehaviour
     {
         /*string callingFuncName = new StackFrame(1).GetMethod().Name;
         UnityEngine.Debug.Log("called by: " + callingFuncName);*/
-        NowRecording = false;
+    //    NowRecording = false;
         StartCoroutine(FinishAndMakeClip());
 
     }

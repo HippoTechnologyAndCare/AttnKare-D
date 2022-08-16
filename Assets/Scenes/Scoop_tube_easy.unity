@@ -14281,6 +14281,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.0971
       objectReference: {fileID: 0}
+    - target: {fileID: 1194356617673179828, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1194356617983242399, guid: b9ffca821d7fb2640ae22a124dadf085,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -14315,6 +14320,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -50.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 1194356618613380965, guid: b9ffca821d7fb2640ae22a124dadf085,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1194356618642668236, guid: b9ffca821d7fb2640ae22a124dadf085,
         type: 3}
@@ -28360,7 +28370,6 @@ MonoBehaviour:
   DataSend: {fileID: 865317300}
   setData_PlayerData: {fileID: 1711913115}
   saveData_GameDataMG: {fileID: 604075474}
-  scene2arr: []
   endOfGame: 0
   gameresultFailed: 0
   dataRecorded: 0
@@ -28732,18 +28741,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0000002, y: 1, z: 6.123235e-17}
   m_Center: {x: 0.000000059604645, y: 0.000000059604645, z: 0}
---- !u!4 &914906294 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3613342863697080216, guid: b9ffca821d7fb2640ae22a124dadf085,
-    type: 3}
-  m_PrefabInstance: {fileID: 914906259}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &914906295 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3613342863697084406, guid: b9ffca821d7fb2640ae22a124dadf085,
-    type: 3}
-  m_PrefabInstance: {fileID: 914906259}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &918011436
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29265,7 +29262,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 47da0f87cab2504448d7acd89c5e082e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 47da0f87cab2504448d7acd89c5e082e,
         type: 3}
@@ -38182,12 +38179,12 @@ PrefabInstance:
         type: 3}
       propertyPath: LHand
       value: 
-      objectReference: {fileID: 914906295}
+      objectReference: {fileID: 1598583179}
     - target: {fileID: 887497733914596736, guid: 62fc62a49ac7c1b49b4c048b28a95fbe,
         type: 3}
       propertyPath: RHand
       value: 
-      objectReference: {fileID: 914906294}
+      objectReference: {fileID: 1705618524}
     - target: {fileID: 887497733914596736, guid: 62fc62a49ac7c1b49b4c048b28a95fbe,
         type: 3}
       propertyPath: XRRig
@@ -43506,7 +43503,8 @@ GameObject:
   - component: {fileID: 2052239330}
   - component: {fileID: 2052239329}
   - component: {fileID: 2052239328}
-  m_Layer: 12
+  - component: {fileID: 2052239331}
+  m_Layer: 26
   m_Name: Cube
   m_TagString: SLOT
   m_Icon: {fileID: 0}
@@ -43589,6 +43587,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2052239326}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &2052239331
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052239326}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &2056645907
 GameObject:
   m_ObjectHideFlags: 0

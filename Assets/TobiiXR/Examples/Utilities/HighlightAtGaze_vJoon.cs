@@ -3,6 +3,7 @@
 using Tobii.G2OM;
 using UnityEngine;
 using HutongGames.PlayMaker;
+using Tutorial;
 
 namespace Tobii.XR.Examples
 {

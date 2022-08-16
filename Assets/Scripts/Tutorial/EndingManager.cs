@@ -227,7 +227,7 @@ using BNG;
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>그랬구나~!", audioIndex = 4,3.0f));
         yield return new WaitForSeconds(3.0f);
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.05>나는 오늘 너와 함께해서 \n너무 너무 즐거웠어", audioIndex = 5,3.0f));
-        NetworkManager.DoSendToFinishData();
+      //  NetworkManager.DoSendToFinishData();
         yield return new WaitForSeconds(4.0f);
         StartCoroutine(Ghost.GetComponent<Actor>().MoveGhost(desPos, 0.2f));
         yield return new WaitForSeconds(1.8f);

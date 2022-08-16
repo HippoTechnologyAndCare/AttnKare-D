@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using HutongGames.PlayMaker.Actions;
 using Scheduler;
 using UnityEngine.EventSystems;
 
@@ -19,11 +20,10 @@ public class HUDSchedule02 : MonoBehaviour
     [SerializeField] DictionaryScriptableObject dicData02;
 
     [SerializeField] private ScheduleManager2 schManager;
+    [SerializeField] private ScoreManager02 scoreManager;
+    
     [SerializeField] private Transform questionPanel;
     
-    /*************************************************************************
-    //처음 안내문구 음성과 문구을 전시합니다
-    *************************************************************************/
     [SerializeField] private AudioSource audSIntro; //안내 오디오 소스
     [SerializeField] private AudioClip[] audCIntro; // 안내 음성 클립
     [SerializeField] private DOTweenAnimation[] dotAnim; // 텍스트 애니메이션
@@ -35,6 +35,14 @@ public class HUDSchedule02 : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI howToTMP;
     [SerializeField] private string[] howToScriptTxt;
+    [SerializeField] private TextMeshProUGUI finPanelTxt;
+    [SerializeField] private Transform finYnNbtns;
+    [SerializeField] private GameObject confirmBtn;
+
+    [SerializeField] private TextMeshProUGUI finHeadTxt;
+    [SerializeField] private TextMeshProUGUI scoreTxt01;
+    [SerializeField] private TextMeshProUGUI scoreTxt02;
+    [SerializeField] private TextMeshProUGUI scoreTxt03;
 
     private bool _isFade;
 
@@ -61,10 +69,13 @@ public class HUDSchedule02 : MonoBehaviour
     
     public void HowToPlay()
     {
-        StartCoroutine(HowToPlayVoiceText());
+        //StartCoroutine(HowToPlayVoiceText());
         StartCoroutine(HowToPlaySetUiTxt());
     }
 
+    /*************************************************************************
+    //처음 안내문구 음성과 문구을 전시합니다
+    *************************************************************************/
     
     private IEnumerator HowToPlaySetUiTxt()
     {
@@ -171,6 +182,75 @@ public class HUDSchedule02 : MonoBehaviour
                  Debug.Log("마지막 질문 버튼 동작안함");
                  break;
         }
+    }
+    /*************************************************************************
+    //Fin Panel에 Score Anim을 output 하는 과정
+    *************************************************************************/
+    public IEnumerator ShowScore()
+    {
+        int length = scoreManager.scoreS.Length;
+        yield return new WaitForSeconds(2f);
+        
+        if (length > 2)
+        {
+            var first = "1";
+            var second = "00";
+
+            scoreTxt02.DOText(second, 4, scrambleMode: ScrambleMode.Custom,
+                scrambleChars: "0123456789").SetDelay(2).SetRelative(true);
+            scoreTxt01.DOText(first, 1, scrambleMode: ScrambleMode.Custom,
+                scrambleChars: "0123456789").SetDelay(4.5f).SetRelative(true);
+            scoreTxt03.DOText("점", 0).SetDelay(5f);
+
+            yield return new WaitForSeconds(5f);
+            confirmBtn.SetActive(true);
+        }
+
+        else
+        {
+            var charArr = scoreManager.scoreS.ToCharArray();
+            var firstCh = charArr[0];
+            var secondCh = charArr[1];
+
+            var first = firstCh.ToString();
+            var second = secondCh.ToString();
+            
+            scoreTxt02.DOText(second, 1.5f, scrambleMode: ScrambleMode.Custom,
+                scrambleChars: "0123456789").SetDelay(2).SetRelative(true);
+            scoreTxt01.DOText(first, 6, scrambleMode: ScrambleMode.Custom,
+                scrambleChars: "0123456789").SetDelay(2).SetRelative(true);
+            scoreTxt03.DOText("점", 0).SetDelay(4f);
+            
+            yield return new WaitForSeconds(4f);
+            confirmBtn.SetActive(true);
+        }
+    }
+
+    public IEnumerator SetReadyShowScore()
+    {
+        finHeadTxt.DOFade(0, 1f);
+        FadeOutPanel(finYnNbtns, 1f);
+        yield return new WaitForSeconds(1f);
+        
+        finYnNbtns.gameObject.SetActive(false);
+        finHeadTxt.text = "<color=#03045A>나의 계획표 점수는 몇점일까?";
+        finHeadTxt.DOFade(1, 1f);
+        schManager.m_bClickOneTime = false;
+        //yield return new WaitForSeconds(1f);
+    }
+    
+    /*************************************************************************
+    //Fin Panel 초기화
+    *************************************************************************/
+    public void InitFinPanel()
+    {
+        scoreTxt01.text = "";
+        scoreTxt02.text = "";
+        scoreTxt03.text = "";
+        finHeadTxt.text = "<color=#03045A>계획표가 마음에 드니 ?<br>그럼 이제 저장하고 종료할까 ?";
+        confirmBtn.SetActive(false);
+        finYnNbtns.GetComponent<CanvasGroup>().alpha = 1;
+        finYnNbtns.gameObject.SetActive(true);
     }
     
     /*************************************************************************

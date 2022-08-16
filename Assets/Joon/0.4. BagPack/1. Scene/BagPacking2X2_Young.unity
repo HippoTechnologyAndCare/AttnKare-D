@@ -1079,12 +1079,12 @@ PrefabInstance:
         type: 3}
       propertyPath: LHand
       value: 
-      objectReference: {fileID: 122421566001799556}
+      objectReference: {fileID: 124988714727628130}
     - target: {fileID: 887497733914596736, guid: 62fc62a49ac7c1b49b4c048b28a95fbe,
         type: 3}
       propertyPath: RHand
       value: 
-      objectReference: {fileID: 122421566001803754}
+      objectReference: {fileID: 125273048915768108}
     - target: {fileID: 887497733914596736, guid: 62fc62a49ac7c1b49b4c048b28a95fbe,
         type: 3}
       propertyPath: XRRig
@@ -2292,7 +2292,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -5702,7 +5702,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -14465,7 +14465,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -14481,7 +14481,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -23532,7 +23532,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -26182,6 +26182,7 @@ MonoBehaviour:
   BehaviorData: {fileID: 1761622482}
   m_fTotalTime: 0
   m_bStageChangeTime: 0
+  arrFloat: []
   listGrabbable:
   - {fileID: 643593953}
   - {fileID: 1232425093}
@@ -28028,6 +28029,7 @@ MonoBehaviour:
   GazedObject: 0
   m_fTimetable: 0
   m_fTV: 0
+  m_fWindow: 0
 --- !u!1 &1579833259
 GameObject:
   m_ObjectHideFlags: 0
@@ -35911,7 +35913,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -48927,13 +48929,44 @@ GameObject:
   - component: {fileID: 7006412589837077070}
   - component: {fileID: 1451761662559859433}
   - component: {fileID: 2609208981026555982}
+  - component: {fileID: 1040707951939068907}
+  - component: {fileID: 1040707951939068906}
   m_Layer: 0
-  m_Name: Window_right_frame
+  m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
+--- !u!114 &1040707951939068906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040707951939068905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 384dfde2d078c0647bfd05ec559a832a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HighlightColor: {r: 1, g: 0, b: 0, a: 1}
+  AnimationTime: 0.1
+  watchCheck: 0
+  MyName: 3
+--- !u!65 &1040707951939068907
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040707951939068905}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0045157187, y: 0.019065475, z: 0.012649711}
+  m_Center: {x: 0.00048656986, y: -0.000045340745, z: 0.0016225064}
 --- !u!114 &1043688350919636180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98512,7 +98545,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5

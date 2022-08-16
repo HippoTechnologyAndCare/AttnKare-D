@@ -34,7 +34,6 @@ public class Scoop : MonoBehaviour
             }
             timer = 0;
         }
-
         /*if (GetComponent<BNG.Grabbable>().BeingHeld)
         {
             Debug.Log("You are grabbing " + gameObject.name);
@@ -96,7 +95,7 @@ public class Scoop : MonoBehaviour
     }
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("SLOT") && !GetComponent<BNG.Grabbable>().BeingHeld) {StartCoroutine(ThreeSeconds()); }
+        if (collision.gameObject.CompareTag("SLOT") && !GetComponent<BNG.Grabbable>().BeingHeld) { StartCoroutine(ThreeSeconds()); }
         
     }
     private void OnCollisionExit(Collision collision)

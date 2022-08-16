@@ -7,7 +7,8 @@ using DG.Tweening;
 public class Hud_Tutorial : MonoBehaviour
 {
     public bool bGuide = false;
-
+    [SerializeField] GameObject Canvas;
+    [SerializeField] GameObject Canvas_Password;
     [SerializeField] List<TextMeshProUGUI> Text;
     [SerializeField] List<AudioClip> Voice;
     [SerializeField] AudioClip clipEffect;
@@ -127,6 +128,33 @@ public class Hud_Tutorial : MonoBehaviour
         SetAudio(Voice[12]);
         bGuide = true;
     }
+    public IEnumerator Password()
+    {
+        m_Audio.Stop();
+        StartCoroutine(TextFade(Text[14]));
+        yield return new WaitUntil(() => !bCoroutine);
+        StartCoroutine(TextNSpeech(Voice[16], Text[16]));
+        yield return new WaitUntil(() => !bCoroutine);
+        StartCoroutine(TextNSpeech(Voice[17], Text[17]));
+        yield return new WaitUntil(() => !bCoroutine);
+        StartCoroutine(TextNSpeech(Voice[18], Text[18]));
+        yield return new WaitUntil(() => !bCoroutine);
+        StartCoroutine(TextNSpeech(Voice[19], Text[19]));
+        yield return new WaitUntil(() => !bCoroutine);
+        bGuide = true;
+        Canvas.SetActive(false);
+        Canvas_Password.SetActive(true);
+    }
+    public IEnumerator PasswordDone()
+    {
+
+        SetAudio(clipEffect);
+        Canvas_Password.SetActive(false);
+        Canvas.SetActive(true);
+        Text[18].text = "이동합니다";
+        yield return new WaitForSeconds(1.5f);
+        bGuide = true;
+    }
 
     public IEnumerator AllFinished()
     {
@@ -136,6 +164,7 @@ public class Hud_Tutorial : MonoBehaviour
         ButtonBox.transform.DOMoveX(-0.754f, 3f);
         yield return new WaitForSeconds(3f);
         ButtonBox.SetActive(false);
+        StartCoroutine(TextFade(Text[11]));
         StartCoroutine(TextFade(Text[12]));
         yield return new WaitUntil(() => !bCoroutine);
         StartCoroutine(TextNSpeech(Voice[4], Text[4]));

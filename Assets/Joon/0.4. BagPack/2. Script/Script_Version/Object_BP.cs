@@ -126,7 +126,7 @@ public class Object_BP : MonoBehaviour
     float data_509 = 0; //SKIP
     float data_510 = 0; //UNNECESSARY GRAB COUNT
     float data_511 = 0;
-    public float[] arrFloat;
+    public object[] arrFloat; //public float[] arrFloat
     /*DATA NEEDED
      *  (501)
      *  (502)
@@ -260,7 +260,7 @@ public class Object_BP : MonoBehaviour
         data_508 = GazeTime.m_fTV;
         data_510 = Grabbed.m_fbpUnpC;
         data_511 = GazeTime.m_fWindow;
-        arrFloat = new float[] { data_501, data_502, data_503, data_504, data_505, data_506, data_507, data_508, data_509, data_510, data_511 };
+        arrFloat = new object[] { data_501, data_502, data_503, data_504, data_505, data_506, data_507, data_508, data_509, data_510, data_511 }; //new float
     }
     public IEnumerator GameDone()
     {

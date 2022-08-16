@@ -54,12 +54,13 @@ public class FactoryManager : MonoBehaviour
     public static int m_destroyCount;                                   // Number of Robots destroyed (Not Grabbed)
     static string m_json;                                               // json formatted string
     public Dictionary<int, string> collectibleData;
+    public object[] arrJson;
 
     [Header("Debugger")]
     [SerializeField] Debugger m_debugger;
-    [HideInInspector] public List<List<int>> m_stage1Score;
-    [HideInInspector] public List<List<int>> m_stage2Score;
-    [HideInInspector] public List<List<int>> m_stage3Score;
+    [HideInInspector] public List<List<int>> m_stage1Score; //data 807
+    [HideInInspector] public List<List<int>> m_stage2Score; //data 808
+    [HideInInspector] public List<List<int>> m_stage3Score; //data 809
 
     // Start is called before the first frame update
     void Start()
@@ -181,6 +182,7 @@ public class FactoryManager : MonoBehaviour
     // Save CollectibleData data as json
     public void SaveGameData()
     {
+        Debug.Log("GAME DATA SAVING");
         // Save Box Scores per Stage
         /*m_gameData.SetStage1Boxes(m_stage1Score);
         m_gameData.SetStage2Boxes(m_stage2Score);
@@ -214,7 +216,8 @@ public class FactoryManager : MonoBehaviour
         FormatJson();
 
         ExportAsJson();
-     //   DataSend.ConveyorDataSend(m_json);
+        DataInArr();
+        DataSend.GetSceneData();
         /*m_collectData.SaveBehaviorData();*/
 
         m_autoVoiceRecording.StopRecordingNBehavior();
@@ -229,6 +232,13 @@ public class FactoryManager : MonoBehaviour
     public void ExportAsJson() { File.WriteAllText(DataManager.GetInstance().FilePath_Folder + "Conveyor.json", m_json); }
 
     // Format Collectible to Json string
+    void DataInArr()
+    {
+        arrJson = new object[] {m_gameData.m_stage1Success, m_gameData.m_stage2Success, m_gameData.m_stage3Success,
+            m_gameData.m_stage1DestroyCnt, m_gameData.m_stage2DestroyCnt,m_gameData.m_stage3DestroyCnt,
+        m_stage1Score, m_stage2Score, m_stage3Score, m_gameData.m_escapeTime, m_gameData.m_escapeCount,
+            m_gameData.m_toysOnFloor, m_gameData.m_isSkipped};
+    }
     void FormatJson()
     {
         int sceneIndex = SceneManager.GetActiveScene().buildIndex;          // Current Scene index
@@ -281,13 +291,13 @@ public class FactoryManager : MonoBehaviour
 [Serializable]
 public class CollectibleData
 {
-    public int m_stage1Success;
-    public int m_stage2Success;
-    public int m_stage3Success;
+    public int m_stage1Success; //data 801
+    public int m_stage2Success; //data 802
+    public int m_stage3Success; //data 803
 
-    public int m_stage1DestroyCnt;
-    public int m_stage2DestroyCnt;
-    public int m_stage3DestroyCnt;
+    public int m_stage1DestroyCnt; //data 804
+    public int m_stage2DestroyCnt; //data 805
+    public int m_stage3DestroyCnt; //data 806
 
     public string m_stage1;
     public string m_stage2;
@@ -297,12 +307,12 @@ public class CollectibleData
     public List<List<int>> m_stage2Score;
     public List<List<int>> m_stage3Score;*/
 
-    public float m_escapeTime;
-    public int m_escapeCount;
+    public float m_escapeTime; //data 810
+    public int m_escapeCount; //data 811
 
-    public int m_toysOnFloor;
+    public int m_toysOnFloor; //data 812
 
-    public bool m_isSkipped = false;
+    public bool m_isSkipped = false; //data 813
 
     // Bool to Check if Data is Saved
     bool m_dataSaved;

@@ -7,7 +7,7 @@ using UserData;
 using BNG;
 public class SceneData_Send : MonoBehaviour
 {
-    public GameObject KeyInput;
+    public GameObject KEYINPUT;
     GUIDE_API APICONNECT;
     PlayerMovementData BehaviorDataCollection;
     JsonDataManager JsonDataCollection;
@@ -22,18 +22,20 @@ public class SceneData_Send : MonoBehaviour
         APICONNECT = FindObjectOfType<GUIDE_API>();
         if(buildindex != 9)
         {
-            BehaviorDataCollection = FindObjectOfType<PlayerMovementData>();
-            JsonDataCollection = FindObjectOfType<JsonDataManager>();
             VoiceRecording = FindObjectOfType<VoiceRecording>();
+            BehaviorDataCollection = FindObjectOfType<PlayerMovementData>();
+            if (buildindex != 11){
+                JsonDataCollection = FindObjectOfType<JsonDataManager>();}
+
         }
         if (!FindObjectOfType<KeyInput>())
         {
-            Instantiate(KeyInput);
+            Instantiate(KEYINPUT);
         }
     }
+
     public void GetSceneData()
     {
-        Debug.Log("SCENE DATA SEND");
         switch (buildindex)
         {
             case 9: scene_id = 1070; StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //오프닝
@@ -44,10 +46,12 @@ public class SceneData_Send : MonoBehaviour
             case 6: scene_id = 1006; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //페달
             case 3: scene_id = 1003; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //숫자맞추기
             case 4: scene_id = 1004; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //방청소
-            case 11: scene_id = 999; StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //엔딩   
+            case 7: scene_id = 1007; GetBehaviorData(); GetJsonData(); StartCoroutine(GetVoiceData()); StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; // 컨베이어
+            case 11: scene_id = 999; GetBehaviorData(); StartCoroutine(GetVoiceData());  StartCoroutine(APICONNECT.PUT_STATUS(scene_id)); break; //엔딩   
         }
 
     }
+    /*
     public void ConveyorDataSend(string json)
     {
         scene_id = 1007;
@@ -55,24 +59,41 @@ public class SceneData_Send : MonoBehaviour
         StartCoroutine(APICONNECT.POST_NQTT(2, scene_id, json));
         GetBehaviorData();
         StartCoroutine(GetVoiceData());
+        StartCoroutine(APICONNECT.PUT_STATUS(scene_id));
     }
+    */
     void GetBehaviorData()
     {
-        
-        string behavior = BehaviorDataCollection.GetBehaviorData();
+        List<List<object>> behavior = BehaviorDataCollection.GetBehaviorData();
         StartCoroutine(APICONNECT.POST_NQTT(1, scene_id, behavior));
-        
     }
-    void GetJsonData()
+    /*OLD VERSION
+     * void GetJsonData()
     {
         string JsonData = JsonDataCollection.SaveCurrentData();
         StartCoroutine( APICONNECT.POST_NQTT(0, scene_id, JsonData));
     }
-    IEnumerator GetVoiceData()
+        */
+    public void TutorialJson()
     {
+        Dictionary<string, PlayerJsonData> JsonData = JsonDataCollection.SaveCurrentData();
+        StartCoroutine(APICONNECT.POST_NQTT_JSON(0, scene_id, JsonData));
+    }
+
+    void GetJsonData()
+    {
+        int a;
+        Debug.Log("JSON DATA SENDING");
+        Dictionary<string, PlayerJsonData> JsonData = JsonDataCollection.SaveCurrentData();
+        StartCoroutine(APICONNECT.POST_NQTT_JSON(0, scene_id, JsonData));
+    }
+
+        IEnumerator GetVoiceData()
+    {
+        Debug.Log("VOICE" + VoiceRecording.gameObject.name);
         VoiceRecording.StopRecordingNBehavior();
         yield return new WaitUntil(() => VoiceRecording.fin == true);
         StartCoroutine(APICONNECT.POST_MP3(scene_id));
     }
-
+   
 }

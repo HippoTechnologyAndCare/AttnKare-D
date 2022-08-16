@@ -241,22 +241,42 @@ namespace Scheduler
                 }
 
                 scheduleManager.CheckMovingCnt();
-                scheduleManager.CheckAllScheduleOnSlot(); 
+                //scheduleManager.CheckAllScheduleOnSlot(); 
             }
             else
             {
                 if (activeSlot != null)
                 {
+                    Debug.Log("case: A");
+
+                    //MeshRendererOff(activeSlot);
+                    activeSlot.GetComponent<PlanSlotController2>().ResetPlanSlot();
+                    activeSlot = null;
+                    cube = null;
+                    cardState = CardState.Idle;
+                    transform.localPosition = startPos;
+                    
+
+                    /*
                     MeshRendererOff(activeSlot);
                     cardState = CardState.Done;
-                    transform.localPosition = activeSlot.transform.localPosition;
+                    transform.localPosition = activeSlot.transform.localPosition; 수정
+                    */
+                    scheduleManager.CheckMovingCnt();
+                    
                 }
                 else
                 {
+                    Debug.Log("case: B");
+                    activeSlot = null;
+                    cube = null;
+                    //////////////////////////////////////////
                     cardState = CardState.Idle;
                     transform.localPosition = startPos;
                 }
+
             }
+            scheduleManager.CheckAllScheduleOnSlot();
 
             nowClicked = false;
             intoSlot = null;
@@ -305,6 +325,7 @@ namespace Scheduler
                     prevActSlot = activeSlot;
                     Debug.Log("첫번째 act슬롯을 가졌으니 prevActSlot에 복사합니다");
                 }
+
             }
 
         }
@@ -386,6 +407,8 @@ namespace Scheduler
                 cardState = CardState.Idle;
                 activeSlot = null;
             }
+
+
             
             intoSlot = null;
             workingSlot = null;

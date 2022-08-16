@@ -18,7 +18,7 @@ public class CheckData_NumCheck : MonoBehaviour
     public float wrongColor = 0;
     public float time_Window = 0;
     public float time_Behind = 0;
-    public float time_Disctracted = 0; //µıµ¥ º» ½Ã°£
+    public float time_Disctracted = 0;
     public int hitCharacter = 0;
     public List<float> hitSpeed;
 
@@ -45,7 +45,7 @@ public class CheckData_NumCheck : MonoBehaviour
     int data_716; //hit character
     List<float> data_717; //hit per time
 
-    public float[] arrData;
+    public object[] arrData;
 
     Guide_NumCheck Guide; 
  
@@ -95,9 +95,9 @@ public class CheckData_NumCheck : MonoBehaviour
         data_714 = time_Behind;
         data_715 = time_Disctracted;
         data_716 = hitCharacter;
-      //  data_717 = hitSpeed;
+        data_717 = hitSpeed;
 
-        arrData = new float[] { data_701, data_702, data_703, data_704, data_705, data_706, data_707, data_708, data_709, data_710, data_711, data_712 , data_713, data_714, data_715, data_716  }; //data_717
+        arrData = new object[] { data_701, data_702, data_703, data_704, data_705, data_706, data_707, data_708, data_709, data_710, data_711, data_712 , data_713, data_714, data_715, data_716, data_717 };
         for (int i = 0; i < arrData.Length; i++)
         {
             Debug.Log(arrData[i]);

@@ -23,7 +23,7 @@ namespace BNG
         [SerializeField] [Tooltip("CenterEyeAnchor goes here")] Transform Camera;
         [SerializeField] [Tooltip("LeftControllerAnchor goes here")] Transform LHand;
         [SerializeField] [Tooltip("RightControllerAnchor goes here")] Transform RHand;
-        
+        private PlayerMovementData v2Version;
         private Stats database; // All data is stored in this object
         private InputBridge _inputBridge; // XR Rig Input Bridge (C# Script)
 
@@ -120,7 +120,7 @@ namespace BNG
         void Start()
         {
             database = new Stats();
-
+            
             FileName = SceneManager.GetActiveScene().buildIndex.ToString();
 #if UNITY_EDITOR
             FileName = EditorSceneManager.GetActiveScene().buildIndex.ToString();
@@ -343,8 +343,11 @@ namespace BNG
 
         public void AddTimeStamp(string delimiter)
         {
+            if (!v2Version) { v2Version = FindObjectOfType<PlayerMovementData>(); }
+                
             string _delimiter = delimiter;
             dataPerFrame.Add(_delimiter);
+            v2Version.AddTimeStamp(_delimiter);
         }
     }   
 }

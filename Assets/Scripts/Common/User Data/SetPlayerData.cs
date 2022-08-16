@@ -162,7 +162,6 @@ public class SetPlayerData : MonoBehaviour
             for(var j = 0; j < _sOd.userDataArr2.GetLength(1); j++)
             {
                 _sOd.userDataArr2[i, j] = key;
-                Debug.Log(_sOd.userDataArr2[i, j]);
                 if (key == _eachLastKey)
                 {
                     key -= j;
@@ -202,7 +201,7 @@ public class SetPlayerData : MonoBehaviour
             while (_key <= _eachLastKey)
             {
                 //Debug.Log(key);
-                DataManager.GetInstance().dataList.Add(_key, new PlayerData("data_" + _key, result));
+                DataManager.GetInstance().dataList.Add(_key, new PlayerData("data_" + _key, result.ToString()));
                 _key++;
             }
             _key += 100;
@@ -241,18 +240,19 @@ public class SetPlayerData : MonoBehaviour
 
             Debug.Log("data_" + arg0 + " = " + mapName[string.Format("data_" + arg0)]);
 
-            DataManager.GetInstance().dataList[arg0].Result = mapName["data_" + arg0].Value;            
+            DataManager.GetInstance().dataList[arg0].Result = mapName["data_" + arg0].Value.ToString();            
         }        
     }
 
     // C# Script로 값을 전달하는 Scene은 아래의 함수로 오버로드 되어 사용된다
-    public void SetSceneData(params float[] myVal)
+    public void SetSceneData(params object[] myVal) //params float[] myVal
     {
         CurrentScene = SceneManager.GetActiveScene().buildIndex;
         SetFirstKeyInScenes(CurrentScene);
         SetEachFirstKey(_sOd.userDataArr2);
 
         // value check test
+        //
         {
             Debug.Log("sceneIndex = " + CurrentScene.ToString());
             Debug.Log("sceneFirstKey = " + SceneFirstKey.ToString());
@@ -263,16 +263,16 @@ public class SetPlayerData : MonoBehaviour
         GetKeyLength(_eachLastKey);
         Debug.Log("keyLength = " + _keyLength);
 
-        var mapName = new Dictionary<string, float>();
+        var mapName = new Dictionary<string, string>();
 
         for (var i = 0; i < _keyLength; i++)
         {
             var arg0 = _sOd.userDataArr2[Row, i];
-            mapName.Add(key: $"data_{arg0}", value: myVal[i]);
+             mapName.Add(key: $"data_{arg0}", value: myVal[i].ToString());  //no (float) casting
 
             Debug.Log("data_" + arg0 + " = " + mapName[string.Format("data_" + arg0)]);
 
-            DataManager.GetInstance().dataList[arg0].Result = mapName["data_" + arg0];
+            DataManager.GetInstance().dataList[arg0].Result = mapName["data_" + arg0].ToString();
         }        
     }    
 }

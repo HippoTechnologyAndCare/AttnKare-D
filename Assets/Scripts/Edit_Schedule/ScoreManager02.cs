@@ -6,15 +6,16 @@ using HutongGames.PlayMaker.Actions;
 using Scheduler;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ScoreManager02 : MonoBehaviour
 {
     [SerializeField] private ScheduleManager2 scManager;
     //[SerializeField] private PlanCubeController2 planCubeCon;
 
-    [SerializeField] private int scoreI;
-    [SerializeField] private string scoreS;
-    [SerializeField] private Text scoreTxt;
+    [SerializeField] private int printScore;
+    [SerializeField] public int scoreI;
+    [SerializeField] public string scoreS;
 
     [SerializeField] private string[] mornCardArr;
     [SerializeField] private string[] optCardArr;
@@ -26,20 +27,29 @@ public class ScoreManager02 : MonoBehaviour
     
     private void Awake()
     {
-        scoreI = 100;
         mornCardArr = new[] {"A", "C", "E"};
         optCardArr = new[] {"B", "D"};
         sleepCardArr = new[] {"F"};
     }
 
-    public void ScorerCalculator()
+    public void ScoreCalculator()
     {
+        scoreS = "";
+        printScore = 0;
+        scoreI = 100;
+        
         MorningScoring();
         OptionalScoring();
         SleepScoring();
-        
-        scoreS = scoreI.ToString();
-        scoreTxt.text = scoreS;
+
+        printScore = scoreI;
+
+        // 0점 이하의 점수라면 0점으로 표시하기 위한 조건문
+        if (printScore < 0)
+        {
+            printScore = 0;
+        }
+        scoreS = printScore.ToString();
     }
 
     private void MorningScoring()
@@ -51,27 +61,43 @@ public class ScoreManager02 : MonoBehaviour
         {
             if (i < 3)
             {
+                // 1번 슬롯에 "일어나기"카드가 들어있지 않다면
+                if (seq.Key == 1 && seq.Value != "C")
+                {
+                    scoreI += -10;
+                    Debug.Log("슬롯1에 일어나기 카드가 없어서 -10점");
+                    
+                    // 1번 슬롯에 "잠자기" 카드가 들어 있다면
+                    if (seq.Value == "F")
+                    {
+                        scoreI += -10;
+                        Debug.Log("슬롯1에 잠자기카드가 있어서 -10점");
+                    }
+                }
+                // 2번 슬롯에 "밥먹기" 카드가 들어있지 않다면
+                if (seq.Key == 2 && seq.Value != "A")
+                {
+                    scoreI += -5;
+                    Debug.Log("슬롯2에 밥먹기 카드가 없어서 -5점");
+                }
+                // 3번 슬롯에 "학교가기" 카드가 들어있지 않다면
+                if (seq.Key == 3 && seq.Value != "E")
+                {
+                    scoreI += -10;
+                    Debug.Log("슬롯3에 학교가기 카드가 없어서 -10점");
+                }
+                // 모닝 슬롯(1~3)에 모닝카드(A,C,E)가 들어있지 않다면
                 if (!mornCardArr.Contains(seq.Value))
                 {
                     scoreI += -10;
-                    Debug.Log("모닝카드때문에 감점됨");
+                    Debug.Log("모닝슬롯 " + seq.Key + " 에 모닝카드가 없어서 -10점");
                 }
             }
             
             i++;
-
-            // if (tier3Arr.Any(tier3 => card.Key == tier3))
-            // {
-            //     tier3Ctn += card.Value;
-            // }
-            //
-            // if (tier4Arr.Any(tier4 => card.Key == tier4))
-            // {
-            //     tier3Ctn += card.Value;
-            // }
         }
     }
-
+    
     private void OptionalScoring()
     {
         var i = 0;
@@ -80,10 +106,31 @@ public class ScoreManager02 : MonoBehaviour
         {
             if (i >=3 && i <= 4)
             {
+                // 옵션 슬롯에->
+                switch (seq.Value)
+                {
+                    // -> 밥먹기 카드가 들어 있을때
+                    case "A" :
+                        scoreI += -10;
+                        Debug.Log("옵션슬롯" + seq.Key + "에 밥먹기 카드가 있어서 -10점");
+                        break;
+                    // -> 학교가기 카드가 들어 있을때
+                    case "E" :
+                        scoreI += -5;
+                        Debug.Log("옵션슬롯" + seq.Key + "에 학교가기 카드가 있어서 -5점");
+                        break;
+                    // -> 잠자기 카드가 들어 있을때
+                    case "F" :
+                        scoreI += -5;
+                        Debug.Log("옵션슬롯" + seq.Key + "에 잠자기 카드가 있어서 -5점");
+                        break;
+                }
+
+                // 옵션슬롯에 옵션카드가 없다면
                 if (!optCardArr.Contains(seq.Value))
                 {
-                    scoreI += -10;
-                    Debug.Log("옵션카드때문에 감점됨");
+                    scoreI += -5;
+                    Debug.Log("옵션슬롯 " + seq.Key + "에 옵션카드가 없어서 -5점");
                 }
             }
 
@@ -99,10 +146,19 @@ public class ScoreManager02 : MonoBehaviour
         {
             if (i == 5)
             {
-                if ((!sleepCardArr.Contains(seq.Value)))
+                // 슬립 슬롯에 ->
+                switch (seq.Value)
                 {
-                    scoreI += -10;
-                    Debug.Log("슬립카드때문에 감점됨");
+                    // -> 일어나기 카드가 있을때
+                    case "C" :
+                        scoreI += -10;
+                        Debug.Log("슬립슬롯에 일어나기 카드가 있어서 -10점");
+                        break;
+                    // -> 학교가기 카드가 있을때
+                    case "E" :
+                        scoreI += -10;
+                        Debug.Log("슬립슬롯에 학교가기 카드가 있어서 -10점");
+                        break;
                 }
             }
             

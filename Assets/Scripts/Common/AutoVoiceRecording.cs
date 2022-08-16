@@ -117,7 +117,7 @@ public class AutoVoiceRecording : MonoBehaviour
         /*string callingFuncName = new StackFrame(1).GetMethod().Name;
         UnityEngine.Debug.Log("called by: " + callingFuncName);*/
         NowRecording = false;
-        //transform.GetComponent<BNG.CollectData>().SaveBehaviorData(); 
+        transform.GetComponent<BNG.CollectData>().SaveBehaviorData(); 
         StartCoroutine(FinishAndMakeClip());
     }
 

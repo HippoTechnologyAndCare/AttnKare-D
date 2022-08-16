@@ -111,7 +111,7 @@ public class EasyTubeScoreboard : MonoBehaviour
     [SerializeField] Transform setData_PlayerData;
     [SerializeField] Transform saveData_GameDataMG;
     BNG.CollectData _collectData;
-    public float[] scene2arr;
+    public object[] scene2arr;
 
     // Temporary Timer Variables
     float delayTimer;
@@ -375,10 +375,10 @@ public class EasyTubeScoreboard : MonoBehaviour
         }
     }
 
-    IEnumerator GoToLobby(bool isSkipped)
+    public IEnumerator GoToLobby(bool isSkipped)
     {
-        yield return new WaitForSeconds(7);
-
+        yield return new WaitForSeconds(3);
+        SaveAndFinish(isSkipped);
         scoreText.GetComponent<Text>().enabled = false;
 
         sceneText.GetComponent<Text>().text = "이동합니다";
@@ -393,7 +393,7 @@ public class EasyTubeScoreboard : MonoBehaviour
         sceneText.GetComponent<Text>().text = "1";
         yield return new WaitForSeconds(1);
 
-        SaveAndFinish(isSkipped);
+
 
         yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + SceneManager.GetActiveScene().buildIndex.ToString() + ".mp3"));
 #if UNITY_EDITOR
@@ -522,15 +522,13 @@ public class EasyTubeScoreboard : MonoBehaviour
             m_nDropBallAtOneTimeTemp++;
             isDropping = false;
         }
-        if (m_fTimeForCount > 1f) {
+        if (m_fTimeForCount > 1f)
+        {
             m_fTimeForCount = 0;
-            if(m_nDropBallAtOneTime < m_nDropBallAtOneTimeTemp)
+            if (m_nDropBallAtOneTime < m_nDropBallAtOneTimeTemp)
                 m_nDropBallAtOneTime = m_nDropBallAtOneTimeTemp;
             m_nDropBallAtOneTimeTemp = 0;
         }
-        Debug.Log(m_nDropBallAtOneTime);
-
-
 
     }
     
@@ -541,8 +539,6 @@ public class EasyTubeScoreboard : MonoBehaviour
     bool m_isGrabbingScoop;
     void countThrowingScoopA()
     {
-        
-        Debug.Log("throw: "+ m_nThrowScoopCount);
         if (Mathf.Abs(ScoopARb.velocity.x) < 0.1 &&
             Mathf.Abs(ScoopARb.velocity.z) < 0.1 &&
             Mathf.Abs(ScoopARb.velocity.y) < 0.1 &&
@@ -1002,7 +998,7 @@ public class EasyTubeScoreboard : MonoBehaviour
 
         fsm.SendEvent("GameClear");
 
-        scene2arr = new float[] { time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, wrongExcess, gameresultFailed, isSkipped, m_nDropBallAtOneTime, m_nThrowScoopCount};
+        scene2arr = new object[] { time1, time2, time3, stage1Drops, stage2Drops, stage3Drops, wrongColor, excessBalls, wrongExcess, gameresultFailed, isSkipped, m_nDropBallAtOneTime, m_nThrowScoopCount};
         // Save Data to local 
         saveData_GameDataMG.GetComponent<GameDataManager>().SaveCurrentData();
         DataSend.GetSceneData();

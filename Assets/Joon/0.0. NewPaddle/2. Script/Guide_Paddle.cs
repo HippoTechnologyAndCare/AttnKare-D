@@ -61,7 +61,7 @@ public class Guide_Paddle : MonoBehaviour
     private string gradeLH;
     public int buildIndex = 3;
 
-    public float[] arrData;
+    public object[] arrData;
     void TimeCheck_Stage()
     {
         m_fTOTALTIME += Time.deltaTime;
@@ -302,7 +302,7 @@ public class Guide_Paddle : MonoBehaviour
         data_416 = GrabPaddle.fIdleCount;
         */
         Debug.Log("MID");
-        arrData = new float[] { data_401, data_402, data_403, data_404, data_405, 
+        arrData = new object[] { data_401, data_402, data_403, data_404, data_405, 
             data_406, data_407, data_408, data_409, data_410 , data_411 ,data_412 , 
             data_413, data_414, data_415, data_416,data_417, data_418, data_419, data_420 };
         for(int i = 0; i < arrData.Length; i++)

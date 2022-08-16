@@ -5,22 +5,23 @@ using BNG;
 
 public class GrabObj_BP : MonoBehaviour
 {
-    // Start is called before the first frame update
     public Object_BP.OBJ_BP eObj;
     public Object_BP.KIND_BP eKind;
-
+    Transform m_tParent;
     Vector3 m_v3Pos;
     Vector3 m_v3Rot;
     void Start()
     {
-        m_v3Pos = this.transform.localPosition;
+        m_tParent = transform.parent;
+        m_v3Pos = transform.localPosition;
         m_v3Rot = transform.localEulerAngles;
     }
 
     public void ResetPosition()
     {
-        transform.localPosition = m_v3Pos;
+        transform.SetParent(m_tParent);
         transform.localEulerAngles = m_v3Rot;
+        transform.localPosition = m_v3Pos;
         Debug.Log("RESET");
     }
 }
