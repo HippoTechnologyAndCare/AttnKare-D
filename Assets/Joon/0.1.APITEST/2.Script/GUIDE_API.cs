@@ -382,7 +382,7 @@ public class GUIDE_API : MonoBehaviour
         }
     }
 
-    public IEnumerator POST_NQTT(int datatype, int scene_id, string data)
+    public IEnumerator POST_NQTT(int datatype, int scene_id, List<List<object>> data)
     {
         Debug.Log("DATA SENDING");
         string UserJsonString = DATA.SendData(datatype, scene_id, data);
@@ -403,6 +403,30 @@ public class GUIDE_API : MonoBehaviour
             Debug.Log("Data Send COMPLETE");
         }
 
+
+    }
+    public IEnumerator POST_NQTT_JSON(int datatype, int scene_id, Dictionary<string, PlayerJsonData> data)
+    {
+        Debug.Log("DATA SENDING");
+        string UserJsonString = DATA.SendJson(datatype, scene_id, data);
+        Debug.Log("DATA AGAIN =" + UserJsonString);
+        yield return new WaitUntil(() => UserJsonString != null);
+        Debug.Log("DATA  =" + UserJsonString);
+        UnityWebRequest webRequest = UnityWebRequest.Post(DataSendURL, UserJsonString); ;
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(UserJsonString);
+        webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
+        webRequest.downloadHandler = new DownloadHandlerBuffer();
+        webRequest.SetRequestHeader("Content-Type", "application/json");
+        webRequest.SetRequestHeader("Authorization", Authorization);
+        yield return webRequest.SendWebRequest();
+        if (webRequest.isNetworkError || webRequest.isHttpError)
+        {
+            Debug.Log(webRequest.downloadHandler.text);
+        }
+        else
+        {
+            Debug.Log("Data Send COMPLETE");
+        }
 
     }
 

@@ -201,7 +201,7 @@ public class SetPlayerData : MonoBehaviour
             while (_key <= _eachLastKey)
             {
                 //Debug.Log(key);
-                DataManager.GetInstance().dataList.Add(_key, new PlayerData("data_" + _key, result.ToString()));
+                DataManager.GetInstance().dataList.Add(_key, new PlayerData("data_" + _key, result));
                 _key++;
             }
             _key += 100;
@@ -240,7 +240,7 @@ public class SetPlayerData : MonoBehaviour
 
             Debug.Log("data_" + arg0 + " = " + mapName[string.Format("data_" + arg0)]);
 
-            DataManager.GetInstance().dataList[arg0].Result = mapName["data_" + arg0].Value.ToString();            
+            DataManager.GetInstance().dataList[arg0].Result = mapName["data_" + arg0].Value;            
         }        
     }
 
@@ -272,7 +272,7 @@ public class SetPlayerData : MonoBehaviour
 
             Debug.Log("data_" + arg0 + " = " + mapName[string.Format("data_" + arg0)]);
 
-            DataManager.GetInstance().dataList[arg0].Result = mapName["data_" + arg0].ToString();
+            DataManager.GetInstance().dataList[arg0].Result = float.Parse(mapName["data_" + arg0]);
         }        
     }    
 }

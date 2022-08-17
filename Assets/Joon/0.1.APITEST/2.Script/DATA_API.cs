@@ -705,9 +705,9 @@ public class ServiceSignIn
         public int subscription_id;
         public string job_id;
         public int scene_id;
-        public string data; //행동 데이터
+        [SerializeField] public List<List<object>> data; //행동 데이터
     }
-    public string SendData(int data_type, int scene_id, string sentdata)
+    public string SendData(int data_type, int scene_id, List<List<object>> sentdata)
     {
         string m_stopic = "UP." + UserInfo_API.GetInstance().UserTotalInfo.user.uid + "|dtx|" + UserInfo_API.GetInstance().UserTotalInfo.user.id + "|2761";
         SceneDataInner JsonDataInner = new SceneDataInner
@@ -727,6 +727,44 @@ public class ServiceSignIn
         string UserJsonString = JsonUtility.ToJson(JsonData);
         return UserJsonString;
     }
+    public class JsonSceneData
+    {
+        public string topic;
+        public JsonData payload;
+    }
+    [Serializable]
+    public class JsonData
+    {
+        public int type;
+        public string job_id;
+        public int scene_id;
+        public int player_id;
+        public Dictionary<string, PlayerJsonData> data; //행동 데이터
+
+    }
+    public string SendJson(int data_type, int scene_id, Dictionary<string, PlayerJsonData> sentdata)
+    {
+        string m_stopic = "UP." + UserInfo_API.GetInstance().UserTotalInfo.user.uid + "|dtx|" + UserInfo_API.GetInstance().UserTotalInfo.user.id + "|2761";
+        JsonData JsonDataInner = new JsonData
+        {
+            type = data_type,
+            job_id = UserInfo_API.GetInstance().jobInfo.id,
+            scene_id = scene_id,
+            player_id = UserInfo_API.GetInstance().playerInfo.id,
+            data = sentdata
+        };
+        JsonSceneData JsonData = new JsonSceneData
+        {
+            topic = m_stopic,
+            payload = JsonDataInner
+
+        };
+        Debug.Log(JsonData.payload.player_id + JsonData.payload.scene_id);
+        string UserJsonString = ObjectToJson(JsonData);
+        Debug.Log("DATA FIND + " + UserJsonString);
+        return UserJsonString;
+    }
+    string ObjectToJson(object data) { return JsonConvert.SerializeObject(data); }
 
     [Serializable]
     public class JobExecution
