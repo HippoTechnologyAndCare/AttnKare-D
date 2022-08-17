@@ -709,7 +709,7 @@ public class ServiceSignIn
     }
     public string SendData(int data_type, int scene_id, List<List<object>> sentdata)
     {
-        string m_stopic = "UP." + UserInfo_API.GetInstance().UserTotalInfo.user.uid + "|dtx|" + UserInfo_API.GetInstance().UserTotalInfo.user.id + "|2761";
+        string m_stopic = "UP." + UserInfo_API.GetInstance().UserTotalInfo.user.uid + "|dtx|" + UserInfo_API.GetInstance().UserTotalInfo.id +"|"+ UserInfo_API.GetInstance().UserTotalInfo.service.service_type;
         SceneDataInner JsonDataInner = new SceneDataInner
         {
             type = data_type,
@@ -736,21 +736,21 @@ public class ServiceSignIn
     public class JsonData
     {
         public int type;
+        public int subscription_id;
         public string job_id;
         public int scene_id;
-        public int player_id;
         public Dictionary<string, PlayerJsonData> data; //행동 데이터
 
     }
     public string SendJson(int data_type, int scene_id, Dictionary<string, PlayerJsonData> sentdata)
     {
-        string m_stopic = "UP." + UserInfo_API.GetInstance().UserTotalInfo.user.uid + "|dtx|" + UserInfo_API.GetInstance().UserTotalInfo.user.id + "|2761";
+        string m_stopic = "UP." + UserInfo_API.GetInstance().UserTotalInfo.user.uid + "|dtx|" + UserInfo_API.GetInstance().UserTotalInfo.id + "|" + UserInfo_API.GetInstance().UserTotalInfo.service.service_type;
         JsonData JsonDataInner = new JsonData
         {
             type = data_type,
+            subscription_id = UserInfo_API.GetInstance().UserTotalInfo.user.id,
             job_id = UserInfo_API.GetInstance().jobInfo.id,
             scene_id = scene_id,
-            player_id = UserInfo_API.GetInstance().playerInfo.id,
             data = sentdata
         };
         JsonSceneData JsonData = new JsonSceneData
@@ -759,7 +759,6 @@ public class ServiceSignIn
             payload = JsonDataInner
 
         };
-        Debug.Log(JsonData.payload.player_id + JsonData.payload.scene_id);
         string UserJsonString = ObjectToJson(JsonData);
         Debug.Log("DATA FIND + " + UserJsonString);
         return UserJsonString;

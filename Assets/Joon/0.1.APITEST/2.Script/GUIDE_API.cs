@@ -462,7 +462,7 @@ public class GUIDE_API : MonoBehaviour
     public IEnumerator POST_MP3(int scene_id)
     {
         WWWForm formData = new WWWForm();
-        MP3URL = AddJobFinalURL + UserInfo_API.GetInstance().jobInfo.id + "/attn/audio-uploads";
+        MP3URL = AddJobFinalURL +"/"+ UserInfo_API.GetInstance().jobInfo.id + "/attn/audio-uploads";
         Debug.Log(MP3URL);
         formData.AddBinaryData("upload", File.ReadAllBytes(GUIDE_API.RecordingPath + ".mp3"), "VOICE.mp3", "audio/mpeg");
         Debug.Log(GUIDE_API.RecordingPath + ".mp3");
