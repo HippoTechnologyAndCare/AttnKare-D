@@ -724,7 +724,7 @@ public class ServiceSignIn
             payload = JsonDataInner
 
         };
-        string UserJsonString = JsonUtility.ToJson(JsonData);
+        string UserJsonString = ObjectToJson(JsonData);
         return UserJsonString;
     }
     public class JsonSceneData
