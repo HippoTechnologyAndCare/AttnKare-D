@@ -31,12 +31,12 @@ public class Player_API : MonoBehaviour
             
             case "GET_Joblist":     playerID = int.Parse(transform.name); break;
                                  //   StartCoroutine(APIMANAGER.GET_Joblist(int.Parse(transform.name), UI_HUD.nCrntPg_Job)); break;
-            case "GET_JobRefresh":  playerID = int.Parse(transform.name); break;
-                                    StartCoroutine(UI_HUD.PopUP("Joblist"));
+            case "GET_JobRefresh":  playerID = int.Parse(transform.name); StartCoroutine(UI_HUD.PopUP("Joblist")); break;
                                   //  StartCoroutine(APIMANAGER.GET_Joblist(int.Parse(transform.name), UI_HUD.nCrntPg_Job)); break;
             case "POST_AddJob":   StartCoroutine(APIMANAGER.POST_Addjob()); break;//, UI_HUD.nCrntPg_Job)); break;
             case "FIND_JOB":        APIDATA.FindPlayerJob(transform.name); break;
             case "POST_Login":      APIMANAGER.CoroutineStart(POST_case); break;
+            case "DEL_Login":       APIMANAGER.CoroutineStart(POST_case); break;
             case "POST_Signin": APIMANAGER.CoroutineStart(POST_case); break;
             case "DEL_UserInfo": APIMANAGER.CoroutineStart(POST_case); break;
             case "POST_AddPlayer":  APIMANAGER.CoroutineStart("POST_Signin"); break;

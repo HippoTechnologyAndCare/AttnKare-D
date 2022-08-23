@@ -31,7 +31,10 @@ public class UserInfo_API : MonoBehaviour
         return instance;
     }
 
-
+    public static void ResetInstance()
+    {
+        instance = null;
+    }
 
 
     // Start is called before the first frame update

@@ -173,6 +173,11 @@ public class DATA_API : MonoBehaviour
 
     }
 
+    public void LogOut()
+    {
+        UserInfo_API.ResetInstance();
+        UI_Hud.ShowLogin();
+    }
     public int userData_id;
 
     public class User
@@ -833,9 +838,9 @@ public class ServiceSignIn
         int id_pdf = Pdfs_id.data.uploads[0].id;
         return id_pdf;
     }
-    public void POPUP()
+    public void POPUP(string popup)
     {
-        StartCoroutine(UI_Hud.PopUP("PDF"));
+        StartCoroutine(UI_Hud.PopUP(popup));
     }
 
 

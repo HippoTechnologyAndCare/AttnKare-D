@@ -64,6 +64,8 @@ public class HUD_API : MonoBehaviour
     public struct JobPack
     {
         public Transform JobContent;
+        public GameObject AddJob_page;
+        public GameObject AddJob_list;
         public GameObject Joblist_Prefab;
         public Text JOB_CrntPg;
         public Text JOB_TtlPg;
@@ -79,7 +81,6 @@ public class HUD_API : MonoBehaviour
         public GameObject JOB_Refresh;
         public List<Sprite> JobStatus;
         public Toggle toggle_Testmode;
-
         public InputField job_Name;
         public InputField job_Place;
         public GameObject job_button;
@@ -171,7 +172,7 @@ public class HUD_API : MonoBehaviour
     }
     public void SignInComplete()
     {
-        PopUP("PlayerAdd");
+        StartCoroutine( PopUP("PlayerAdd"));
         ShowLogin();
 
 
@@ -321,6 +322,7 @@ public class HUD_API : MonoBehaviour
     }
     public void ShowLogin()
     {
+        inputID.text = inputPW.text = "";
         login_pack.Canvas_LOGIN.SetActive(true);
         login_pack.Canvas_Player.SetActive(false);
         login_pack.Canvas_NewPlayer.SetActive(false);
@@ -368,7 +370,17 @@ public class HUD_API : MonoBehaviour
         login_pack.Canvas_Joblist.SetActive(false);
         login_pack.Canvas_EditPlayer.SetActive(true);
     }
-
+    public void ShowAddJob()
+    {
+        job_pack.JOB_Name.text = job_pack.job_Place.text = "";
+        login_pack.Canvas_LOGIN.SetActive(false);
+        login_pack.Canvas_Player.SetActive(false);
+        login_pack.Canvas_NewPlayer.SetActive(false);
+        login_pack.Canvas_AddJob.SetActive(true);
+        login_pack.Canvas_Joblist.SetActive(false);
+        login_pack.Canvas_EditPlayer.SetActive(false);
+        login_pack.Canvas_DelPlayer.SetActive(false);
+    }
     public Dictionary<string, string> AddNewPlayer()
     {
         if (player_pack.player_Female != null || player_pack.player_Male != null)
@@ -459,6 +471,7 @@ public class HUD_API : MonoBehaviour
             case "Playerlist": m_sPopup = "아동 목록을 불러왔습니다."; break;
             case "Joblist": m_sPopup = "진단 내역을 불러왔습니다."; break;
             case "PlayerAdd": m_sPopup = "아동이 등록되었습니다"; break;
+            case "Invalid": m_sPopup = "아이디 또는 패스워드를 잘못 입력했습니다."; break;
         }
         go_PopUp.GetComponentInChildren<Text>().text = m_sPopup;
         go_PopUp.SetActive(true);
