@@ -89,12 +89,11 @@ public class DATA_API : MonoBehaviour
         public string access_token;
         public string renewal_token;
     }
-    public string GET_Token(string webResult)
+    public void GET_Token(string webResult)
     {
         AccessToken userData = JsonConvert.DeserializeObject<AccessToken>(webResult);
         Debug.Log(userData.data.access_token);
-        UserInfo_API.GetInstance().Authorization = userData.data.access_token;
-        return userData.data.access_token;
+        UserInfo_API.GetInstance().Token = userData.data;
     }
     public class LoginInfo
     {

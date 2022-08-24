@@ -14,7 +14,6 @@ public class GUIDE_API : MonoBehaviour
 {
     public static string RecordingPath;
     public static GUIDE_API Guide_instance;
-    private string Authorization;
     //    HUD_API UI_Hud;
     DATA_API DATA;
     UserInfo_API Userinfo;
@@ -80,7 +79,6 @@ public class GUIDE_API : MonoBehaviour
     {
 
         SetURL();
-        Authorization = "";
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -125,7 +123,7 @@ public class GUIDE_API : MonoBehaviour
         UnityWebRequest webRequest = UnityWebRequest.Post(RenewURL,"");
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.renewal_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -135,7 +133,7 @@ public class GUIDE_API : MonoBehaviour
         else
         {
             Debug.Log("RENEW " +webRequest.downloadHandler.text);
-            Authorization = DATA.GET_Token(webRequest.downloadHandler.text);
+            DATA.GET_Token(webRequest.downloadHandler.text);
         }
     }
     public IEnumerator POST_Signin()
@@ -158,7 +156,7 @@ public class GUIDE_API : MonoBehaviour
         {
             Debug.Log("POST_Signin COMPLETE");
             DATA.SignInComplete();
-            Authorization = DATA.GET_Token(webRequest.downloadHandler.text);
+            DATA.GET_Token(webRequest.downloadHandler.text);
         }
     }
     public IEnumerator POST_Login() //·Î±×ÀÎ
@@ -183,7 +181,7 @@ public class GUIDE_API : MonoBehaviour
         else
         {
             Debug.Log("POST_Login COMPLETE");
-            Authorization = DATA.GET_Token(webRequest.downloadHandler.text);
+            DATA.GET_Token(webRequest.downloadHandler.text);
             StartCoroutine(GET_UserInfo());
         }
 
@@ -194,7 +192,7 @@ public class GUIDE_API : MonoBehaviour
         UnityWebRequest webRequest = UnityWebRequest.Delete(LoginURL);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -212,8 +210,8 @@ public class GUIDE_API : MonoBehaviour
         UnityWebRequest webRequest = UnityWebRequest.Get(SigninURL);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
-        Debug.Log(Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
+        Debug.Log(UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -242,7 +240,7 @@ public class GUIDE_API : MonoBehaviour
         webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -260,7 +258,7 @@ public class GUIDE_API : MonoBehaviour
         UnityWebRequest webRequest = UnityWebRequest.Delete(SigninURL);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -280,8 +278,8 @@ public class GUIDE_API : MonoBehaviour
         UnityWebRequest webRequest = UnityWebRequest.Get(ServicesSubsURL);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
-        Debug.Log(Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
+        Debug.Log(UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -310,8 +308,8 @@ public class GUIDE_API : MonoBehaviour
         Debug.Log(ServicesURL);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
-        Debug.Log(Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
+        Debug.Log(UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -336,7 +334,7 @@ public class GUIDE_API : MonoBehaviour
         webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -360,8 +358,8 @@ public class GUIDE_API : MonoBehaviour
         UnityWebRequest webRequest = UnityWebRequest.Get(JOBFinalURL);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
-        Debug.Log(Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
+        Debug.Log(UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -405,7 +403,7 @@ public class GUIDE_API : MonoBehaviour
         webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -440,7 +438,7 @@ public class GUIDE_API : MonoBehaviour
         webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -465,7 +463,7 @@ public class GUIDE_API : MonoBehaviour
         webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -485,8 +483,8 @@ public class GUIDE_API : MonoBehaviour
         UnityWebRequest webRequest = UnityWebRequest.Delete(JOBDelURL);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
-        Debug.Log(Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
+        Debug.Log(UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -520,7 +518,7 @@ public class GUIDE_API : MonoBehaviour
         //   byte[] boundary = UnityWebRequest.GenerateBoundary();
         //  string contentType = String.Concat("multipart/form-data; boundary=", Encoding.UTF8.GetString(boundary));
         //   webRequest.SetRequestHeader("Content-Type", "multipart/form-data");
-        webRequest.SetRequestHeader("Authorization", Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
         webRequest.SetRequestHeader("Content-Type", "multipart/form-data");
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         yield return webRequest.SendWebRequest();
@@ -551,7 +549,7 @@ public class GUIDE_API : MonoBehaviour
         webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -580,7 +578,7 @@ public class GUIDE_API : MonoBehaviour
         webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -614,8 +612,8 @@ public class GUIDE_API : MonoBehaviour
         UnityWebRequest webRequest = UnityWebRequest.Get(PdfListURL_final);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
-        Debug.Log(Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
+        Debug.Log(UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -636,8 +634,8 @@ public class GUIDE_API : MonoBehaviour
         UnityWebRequest webRequest = UnityWebRequest.Get(PDFFileURL_final);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", Authorization);
-        Debug.Log(Authorization);
+        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
+        Debug.Log(UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UserInfo_API : MonoBehaviour
 {
-    public string Authorization;
+    public DATA_API.AccessTokenInner Token;
     public int UserID;
     public DATA_API.UserSubsInner UserTotalInfo;
     public DATA_API.LoginInner LoginInfo;

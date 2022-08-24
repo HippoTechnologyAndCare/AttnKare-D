@@ -275,7 +275,7 @@ public class HUD_API : MonoBehaviour
         job.name = JobInfo.id;
         job.transform.Find("PLACE").GetComponent<Text>().text = JobInfo.place;
         Debug.Log("PLACE");
-        job.transform.Find("DATE").GetComponent<Text>().text = JobInfo.updated_at;
+        job.transform.Find("DATE").GetComponent<Text>().text = MatchKTIME(JobInfo.inserted_at);
         Debug.Log("DATE");
         Image StatusImage = job.transform.Find("STATE").GetComponent<Image>();
         Text JobStatus = job.transform.Find("Text").GetComponent<Text>();
@@ -295,7 +295,6 @@ public class HUD_API : MonoBehaviour
                 StatusImage.rectTransform.sizeDelta = new Vector2(45, StatusImage.rectTransform.sizeDelta.y);
                 StatusImage.GetComponent<Button>().enabled = true;
                 break;
-            
         }
         Debug.Log("STATe");
         /*
@@ -308,6 +307,25 @@ public class HUD_API : MonoBehaviour
             case "FINISH": StateImg.sprite = StateSprite[1]; break;
         }
         */
+    }
+    string MatchKTIME(string date)
+    {
+        //aws 시스템상 시간이 한국보다 9시간 느림
+        //year/month/date/hh/mm 가져와서 빼기
+        //ex) 2022-04-28T06:00:37.864692Z  ==> 2022.04.28 15:00
+        string[] seperator = new string[] { "-", "T", ":" };
+        string[] current = date.Split(seperator, System.StringSplitOptions.None);
+        string KMin = current[4]; //시간은 변환할 필요가 없음
+        int KHour = int.Parse(current[3]) + 9;
+        int KDate = int.Parse(current[2]);
+        int KMonth = int.Parse(current[1]);
+        int KYear = int.Parse(current[0]);
+        if (KHour >= 24) { KDate = int.Parse(current[2]) + 1; KHour = KHour - 24; }
+        int endofMonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+        if (KDate > endofMonth) { KMonth += 1; KDate = 1; }
+        if (KMonth > 12) { KMonth = 1; KYear += 1; }
+        string KTime = KYear + "." + KMonth + "." + KDate + " " + KHour + ":" + KMin;
+        return KTime;
     }
     public void JobPage(int page) //DATA 
     {
@@ -341,7 +359,7 @@ public class HUD_API : MonoBehaviour
 
     }
     public void ShowAddPlayer()
-    {
+    {   ResetAddPlayer();
         login_pack.Canvas_LOGIN.SetActive(false);
         login_pack.Canvas_Player.SetActive(false);
         login_pack.Canvas_NewPlayer.SetActive(true);
@@ -400,6 +418,11 @@ public class HUD_API : MonoBehaviour
         return NewPlayer;
 
     }
+    private void ResetAddPlayer()
+    {
+        player_pack.player_name.text = player_pack.player_birth.text = player_pack.player_phone.text =
+            player_pack.player_uid.text = player_pack.player_PWD.text = player_pack.player_PWDConfirm.text ="";}
+
     public void EdtiPlayerOpen()
     {
         DATA_API.UserInner user = UserInfo_API.GetInstance().UserTotalInfo.user;
