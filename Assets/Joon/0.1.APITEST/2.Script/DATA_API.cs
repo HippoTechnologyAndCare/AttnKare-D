@@ -196,6 +196,7 @@ public class DATA_API : MonoBehaviour
         public int type;
         public string phonenum;
         public string birth;
+        public int grade;
         //  public int hospital_code;
         public int gender;
         public string inserted_at;

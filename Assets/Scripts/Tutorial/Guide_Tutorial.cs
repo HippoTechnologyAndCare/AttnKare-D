@@ -56,7 +56,7 @@ namespace Tutorial {
             StartCoroutine(StartTutorial());
             try
             {
-                int grade = UserInfo_API.GetInstance().playerInfo.grade;
+                int grade = UserInfo_API.GetInstance().UserTotalInfo.user.grade;
                 if (grade > 3) buildIndex = 5;// 고학년은 계획표로
                 if (grade < 4) buildIndex = 1; //저학년은 책가방으로 }
 
