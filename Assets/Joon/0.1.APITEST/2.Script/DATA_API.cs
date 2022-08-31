@@ -753,7 +753,7 @@ public class ServiceSignIn
         JsonData JsonDataInner = new JsonData
         {
             type = data_type,
-            subscription_id = UserInfo_API.GetInstance().UserTotalInfo.user.id,
+            subscription_id = UserInfo_API.GetInstance().UserTotalInfo.id,
             job_id = UserInfo_API.GetInstance().jobInfo.id,
             scene_id = scene_id,
             data = sentdata
@@ -790,7 +790,6 @@ public class ServiceSignIn
     {
         JobExecutionCmd JsonCmd = new JobExecutionCmd
         {
-            //  cmd = "echo $PATH"
             cmd = "ls -al"
            
         };

@@ -10784,7 +10784,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 2732.795, y: 1537.197}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &923729585
 MonoBehaviour:
@@ -25803,7 +25803,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b746ff8420aac234281f694e477e2ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Authorization: 
+  Token:
+    access_token: 
+    renewal_token: 
   UserID: 0
   UserTotalInfo:
     id: 0
@@ -25814,6 +25816,7 @@ MonoBehaviour:
       type: 0
       phonenum: 
       birth: 
+      grade: 0
       gender: 0
       inserted_at: 
       updated_at: 
