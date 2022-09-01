@@ -22,7 +22,7 @@ using BNG;
     public Transform TransitionOut;
     public GameObject Canvas_Recording;
     public NetworkManager NetworkManager;
-    public AutoVoiceRecording_Ending VoiceRecord;
+    public AutoVoiceRecording VoiceRecord;
     private VoiceRecording RecordVoice;
 
 
@@ -175,7 +175,7 @@ using BNG;
 
         StartCoroutine(Ghost.GetComponent<Actor>().ghostSpeak("<size=0.06>아쉽지만\n이제 헤어질 \n시간이 됐어", audioIndex = 0, 2.5f));
         yield return new WaitForSeconds(3.0f);
-        VoiceRecord.StartRecording();
+       // VoiceRecord.StartRecording();
         /*
         if(DataManager.GetInstance().userInfo.Grade!=null)
         {

@@ -139,14 +139,14 @@ public class AutoVoiceRecording : MonoBehaviour
         audioSource.clip = recording;
         
         
-        SavWav.Save(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV, recording);
+        SavWav.Save(GUIDE_API.RecordingPath +SceneManager.GetActiveScene().buildIndex+ fWAV , recording);
         //저장된 wav파일 mp3로 변환
-        WaveToMP3(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV,
-        UserData.DataManager.GetInstance().FilePath_Folder + FileName + fMP3);
+        WaveToMP3(GUIDE_API.RecordingPath + SceneManager.GetActiveScene().buildIndex + fWAV,
+        GUIDE_API.RecordingPath + SceneManager.GetActiveScene().buildIndex + fMP3);
         
 
-        yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fMP3));
-        File.Delete(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV);
+        yield return new WaitUntil(() => File.Exists(GUIDE_API.RecordingPath + SceneManager.GetActiveScene().buildIndex + fMP3));
+      //  File.Delete(UserData.DataManager.GetInstance().FilePath_Folder + FileName + fWAV);
                 
     }
 

@@ -84,13 +84,13 @@ public class VoiceRecording : MonoBehaviour
         recordingNew.SetData(data, 0);
         recording = recordingNew;
         audioSource.clip = recording;
-
         byte[] mp3 = WavToMp3.ConvertWavToMp3(recording, 128);
+
         //wav파일로 저장
         SavWavMp3.SaveWav(GUIDE_API.RecordingPath + fWAV, recording);
         byte[] byteWav = File.ReadAllBytes(GUIDE_API.RecordingPath + ".wav");
-        File.WriteAllBytes(GUIDE_API.RecordingPath + ".mp3", EncodeMP3.ConvertWavToMp3(byteWav, 128));
         File.WriteAllBytes(GUIDE_API.RecordingPath + "new.mp3", mp3);
+        File.WriteAllBytes(GUIDE_API.RecordingPath + ".mp3", EncodeMP3.ConvertWavToMp3(byteWav, 128));
         yield return new WaitUntil(() => File.Exists(GUIDE_API.RecordingPath + ".mp3"));
       // File.Delete(GUIDE_API.RecordingPath + ".wav");
         Debug.Log("SAVEWAV");
