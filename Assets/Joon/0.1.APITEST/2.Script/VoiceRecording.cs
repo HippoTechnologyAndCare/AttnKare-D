@@ -10,8 +10,8 @@ using NAudio.Wave.WZT;
 
 public class VoiceRecording : MonoBehaviour
 {
-  
-/*using System.Diagnostics;*/
+
+    /*using System.Diagnostics;*/
     string FileName;
     string fWAV = ".wav"; // wav 확장자
     string fMP3 = ".mp3"; // mp3 확장자
@@ -33,7 +33,7 @@ public class VoiceRecording : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         StartRecording();
 
-      //  NowRecording = true;
+        //  NowRecording = true;
     }
 
     void Update()
@@ -68,7 +68,7 @@ public class VoiceRecording : MonoBehaviour
     {
         /*string callingFuncName = new StackFrame(1).GetMethod().Name;
         UnityEngine.Debug.Log("called by: " + callingFuncName);*/
-    //    NowRecording = false;
+        //    NowRecording = false;
         StartCoroutine(FinishAndMakeClip());
 
     }

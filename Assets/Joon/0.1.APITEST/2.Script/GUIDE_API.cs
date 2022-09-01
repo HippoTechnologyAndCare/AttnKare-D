@@ -509,7 +509,7 @@ public class GUIDE_API : MonoBehaviour
     public IEnumerator POST_MP3(int scene_id)
     {
         WWWForm formData = new WWWForm();
-        MP3URL = AddJobURL + UserInfo_API.GetInstance().UserTotalInfo.id + AddJobBottomURL +"/"+ UserInfo_API.GetInstance().jobInfo.id + "/attn/audio-uploads";
+        MP3URL = JobURL + UserInfo_API.GetInstance().UserTotalInfo.id + "/jobs/" + UserInfo_API.GetInstance().jobInfo.id + "/attn/audio-uploads";
         Debug.Log(MP3URL);
         formData.AddBinaryData("upload", File.ReadAllBytes(GUIDE_API.RecordingPath + ".mp3"), "VOICE.mp3", "audio/mpeg");
         Debug.Log(GUIDE_API.RecordingPath + ".mp3");
@@ -520,7 +520,6 @@ public class GUIDE_API : MonoBehaviour
         //  string contentType = String.Concat("multipart/form-data; boundary=", Encoding.UTF8.GetString(boundary));
         //   webRequest.SetRequestHeader("Content-Type", "multipart/form-data");
         webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
-        webRequest.SetRequestHeader("Content-Type", "multipart/form-data");
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
