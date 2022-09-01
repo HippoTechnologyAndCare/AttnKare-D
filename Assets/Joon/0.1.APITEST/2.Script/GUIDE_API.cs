@@ -18,7 +18,7 @@ public class GUIDE_API : MonoBehaviour
     DATA_API DATA;
     UserInfo_API Userinfo;
     // string BASE_URL = "https://adhd.hippotnc.kr:444";
-    public static int service_type = 5944; 
+    public static int service_type = 2761; 
     /*
      * 旷柳 : 2761
      * 伙己 : 5944
@@ -323,6 +323,7 @@ public class GUIDE_API : MonoBehaviour
             Debug.Log(webRequest.downloadHandler.text);
             DATA.GET_Services(webRequest.downloadHandler.text);
             StartCoroutine(POST_ServicesSubs());
+ 
 
         }
     }
@@ -648,10 +649,11 @@ public class GUIDE_API : MonoBehaviour
         {
             Debug.Log("Get Joblist COMPLETE");
             Debug.Log("!!URL" + PDFFileURL_final);
+            SoftwareTest.CreateTXT("PDF积己", false);
             File.WriteAllBytes(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/" + id + ".pdf", webRequest.downloadHandler.data);
             yield return new WaitUntil(() => File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/" + UserInfo_API.GetInstance().UserTotalInfo.user.name + ".pdf"));
             DATA.POPUP("PDF");
-            SoftwareTest.CreateTXT("PDF积己", false);
+
         }
     }
    

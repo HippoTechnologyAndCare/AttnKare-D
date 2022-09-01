@@ -718,7 +718,7 @@ public class ServiceSignIn
         SceneDataInner JsonDataInner = new SceneDataInner
         {
             type = data_type,
-            subscription_id = UserInfo_API.GetInstance().UserTotalInfo.user.id,
+            subscription_id = UserInfo_API.GetInstance().UserTotalInfo.id,
             job_id = UserInfo_API.GetInstance().jobInfo.id,
             scene_id = scene_id,
             data = sentdata

@@ -210,10 +210,10 @@ namespace BNG{
                 + "A Button Pressed: " + database.AClicks.ToString() + "B Button Pressed: " + database.BClicks.ToString()
                 + "X Button Pressed: " + database.XClicks.ToString() + "Y Button Pressed: " + database.YClicks.ToString();
              */
-            database.controllerInput.Add(database.LTriggerClicks); database.controllerInput.Add(database.RTriggerClicks);
+          /*  database.controllerInput.Add(database.LTriggerClicks); database.controllerInput.Add(database.RTriggerClicks);
             database.controllerInput.Add(database.LGripClicks); database.controllerInput.Add(database.RGripClicks);
             database.controllerInput.Add(database.AClicks); database.controllerInput.Add(database.BClicks);
-            database.controllerInput.Add(database.XClicks); database.controllerInput.Add(database.YClicks);
+            database.controllerInput.Add(database.XClicks); database.controllerInput.Add(database.YClicks);*/ //임시로 삭제
            
             // Add Number of Clicks to Data List
             dataPerFrame.Add(database.controllerInput);
