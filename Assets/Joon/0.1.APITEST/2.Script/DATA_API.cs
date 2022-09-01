@@ -730,6 +730,7 @@ public class ServiceSignIn
 
         };
         string UserJsonString = ObjectToJson(JsonData);
+        Debug.Log("DATA FIND + " + UserJsonString);
         return UserJsonString;
     }
     public class JsonSceneData

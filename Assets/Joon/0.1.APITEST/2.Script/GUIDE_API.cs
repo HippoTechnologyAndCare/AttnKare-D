@@ -626,6 +626,7 @@ public class GUIDE_API : MonoBehaviour
         {
             Debug.Log(webRequest.downloadHandler.text);
             int pdf_id = DATA.GET_PDFList(webRequest.downloadHandler.text);
+            Debug.Log(pdf_id);
             StartCoroutine(GET_PDFFile(pdf_id));
         }
     }
