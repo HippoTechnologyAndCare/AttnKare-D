@@ -472,6 +472,7 @@ public class GUIDE_API : MonoBehaviour
         else
         {
             Debug.Log("Data Send COMPLETE");
+            SoftwareTest.CreateTXT("JSON 颇教", false);
         }
 
     }
@@ -607,6 +608,7 @@ public class GUIDE_API : MonoBehaviour
     }
     public IEnumerator GET_PDFList()
     {
+        SoftwareTest.CreateTXT("PDF积己", true);
         string PdfListURL_final = JobURL + UserInfo_API.GetInstance().UserTotalInfo.id +"/jobs/" +UserInfo_API.GetInstance().jobInfo.id + PdfListURL;
         Debug.Log(PdfListURL_final +"///"+ UserInfo_API.GetInstance().UserTotalInfo.id);
         UnityWebRequest webRequest = UnityWebRequest.Get(PdfListURL_final);
@@ -649,6 +651,7 @@ public class GUIDE_API : MonoBehaviour
             File.WriteAllBytes(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/" + id + ".pdf", webRequest.downloadHandler.data);
             yield return new WaitUntil(() => File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/" + UserInfo_API.GetInstance().UserTotalInfo.user.name + ".pdf"));
             DATA.POPUP("PDF");
+            SoftwareTest.CreateTXT("PDF积己", false);
         }
     }
    

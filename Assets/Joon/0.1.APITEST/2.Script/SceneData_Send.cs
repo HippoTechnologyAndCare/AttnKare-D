@@ -84,6 +84,7 @@ public class SceneData_Send : MonoBehaviour
     {
         int a;
         Debug.Log("JSON DATA SENDING");
+        SoftwareTest.CreateTXT("JSON ÆÄ½Ì", true);
         Dictionary<string, PlayerJsonData> JsonData = JsonDataCollection.SaveCurrentData();
         StartCoroutine(APICONNECT.POST_NQTT_JSON(0, scene_id, JsonData));
     }
