@@ -21,6 +21,7 @@ public class AutoButton : MonoBehaviour
     public float m_fBothering; //방해받은 시간
     public bool m_bSet;
     TextandSpeech narration;
+    bool set;
     void Start()
     {
         guide = GameObject.Find("Guide").GetComponent<Guide_NumCheck>();
@@ -35,8 +36,8 @@ public class AutoButton : MonoBehaviour
             m_rectAuto.transform.localPosition = Vector3.MoveTowards(m_rectAuto.transform.localPosition, m_target, step);
             if (RighthandPointer.GetComponent<LineRenderer>().enabled == true)
             {
-                if (XrRig.RightTrigger > 0.8f) { m_fBothering += Time.deltaTime; Bothering(); }
-                if (XrRig.RightTrigger < 0.2f) m_bSet = true;
+                if (XrRig.RightTrigger > 0.8f) { if (set) { m_fBothering += 1; set = false; } Bothering(); }
+                if (XrRig.RightTrigger < 0.2f) m_bSet = set =true;
             }
         }
     }

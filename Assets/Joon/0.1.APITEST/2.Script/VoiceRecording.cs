@@ -91,7 +91,7 @@ public class VoiceRecording : MonoBehaviour
         byte[] byteWav = File.ReadAllBytes(GUIDE_API.RecordingPath + ".wav");
         File.WriteAllBytes(GUIDE_API.RecordingPath + ".mp3", EncodeMP3.ConvertWavToMp3(byteWav, 128));
         yield return new WaitUntil(() => File.Exists(GUIDE_API.RecordingPath + ".mp3"));
-        File.Delete(GUIDE_API.RecordingPath + ".wav");
+      // File.Delete(GUIDE_API.RecordingPath + ".wav");
         Debug.Log("SAVEWAV");
         fin = true;
 
