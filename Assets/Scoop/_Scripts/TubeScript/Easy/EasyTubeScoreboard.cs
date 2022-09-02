@@ -394,12 +394,12 @@ public class EasyTubeScoreboard : MonoBehaviour
         yield return new WaitForSeconds(1);
 
 
-
+        /*
         yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + SceneManager.GetActiveScene().buildIndex.ToString() + ".mp3"));
 #if UNITY_EDITOR
         yield return new WaitUntil(() => File.Exists(UserData.DataManager.GetInstance().FilePath_Folder + EditorSceneManager.GetActiveScene().buildIndex.ToString() + ".mp3"));
 #endif
-
+        */
         SceneLoader.LoadScene(3);
     }
 
