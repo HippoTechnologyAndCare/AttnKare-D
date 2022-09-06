@@ -281,17 +281,17 @@ public class HUD_API : MonoBehaviour
         Text JobStatus = job.transform.Find("Text").GetComponent<Text>();
         switch (JobInfo.status)
         {
-            case 0: StatusImage.sprite = player_pack.PlayerStatus[0]; break;
-            case 1070: StatusImage.sprite = player_pack.PlayerStatus[1]; JobStatus.text = "1"; break;
-            case 1080: StatusImage.sprite = player_pack.PlayerStatus[1]; JobStatus.text = "2"; break;
-            case 1001: StatusImage.sprite = player_pack.PlayerStatus[1]; JobStatus.text = "3"; break;
-            case 1002: StatusImage.sprite = player_pack.PlayerStatus[1]; JobStatus.text = "4"; break;
-            case 1003: StatusImage.sprite = player_pack.PlayerStatus[1]; JobStatus.text = "5"; break;
-            case 1004: StatusImage.sprite = player_pack.PlayerStatus[1]; JobStatus.text = "6"; break;
-            case 999: StatusImage.sprite = player_pack.PlayerStatus[2]; break;
-            case 98: StatusImage.sprite = player_pack.PlayerStatus[3]; 
+            case 0: StatusImage.sprite = job_pack.JobStatus[0]; break;
+            case 1070: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "1"; break;
+            case 1080: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "2"; break;
+            case 1001: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "3"; break;
+            case 1002: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "4"; break;
+            case 1003: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "5"; break;
+            case 1004: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "6"; break;
+            case 999: StatusImage.sprite = job_pack.JobStatus[2]; break;
+            case 98: StatusImage.sprite = job_pack.JobStatus[3];
                 StatusImage.rectTransform.sizeDelta = new Vector2(45, StatusImage.rectTransform.sizeDelta.y);  break;
-            case 99: StatusImage.sprite = player_pack.PlayerStatus[4];
+            case 99: StatusImage.sprite = job_pack.JobStatus[4];
                 StatusImage.rectTransform.sizeDelta = new Vector2(45, StatusImage.rectTransform.sizeDelta.y);
                 StatusImage.GetComponent<Button>().enabled = true;
                 break;
