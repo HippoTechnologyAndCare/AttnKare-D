@@ -697,7 +697,10 @@ public class ServiceSignIn
         return UserJsonString;
     }
     ///// DATA POST
-    ///
+    /// <summary>
+    /// 
+    /// </summary>
+    /// 
     public class SceneData
     {
         public string topic;

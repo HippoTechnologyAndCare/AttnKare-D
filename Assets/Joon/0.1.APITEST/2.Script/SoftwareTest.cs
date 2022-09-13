@@ -19,5 +19,4 @@ public class SoftwareTest : MonoBehaviour
             test.Flush(); test.Close();
         }
     }
-
 }

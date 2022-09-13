@@ -454,28 +454,16 @@ public class GUIDE_API : MonoBehaviour
     }
     public IEnumerator POST_NQTT_JSON(int datatype, int scene_id, Dictionary<string, PlayerJsonData> data)
     {
-        Debug.Log("DATA SENDING");
         string UserJsonString = DATA.SendJson(datatype, scene_id, data);
-        Debug.Log("DATA AGAIN =" + UserJsonString);
         yield return new WaitUntil(() => UserJsonString != null);
-        Debug.Log("DATA  =" + UserJsonString);
         UnityWebRequest webRequest = UnityWebRequest.Post(DataSendURL, UserJsonString); ;
         byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(UserJsonString);
         webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
-        webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
+        webRequest.SetRequestHeader("Content-Type", "application/json");webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
-        if (webRequest.isNetworkError || webRequest.isHttpError)
-        {
-            Debug.Log(webRequest.downloadHandler.text);
-        }
-        else
-        {
-            Debug.Log("Data Send COMPLETE");
-            SoftwareTest.CreateTXT("JSON 颇教", false);
-        }
-
+        if (webRequest.isNetworkError || webRequest.isHttpError){Debug.Log(webRequest.downloadHandler.text);}
+        else SoftwareTest.CreateTXT("JSON 颇教", false);
     }
 
     public IEnumerator DEL_Joblist()
@@ -611,35 +599,23 @@ public class GUIDE_API : MonoBehaviour
     {
         SoftwareTest.CreateTXT("PDF积己", true);
         string PdfListURL_final = JobURL + UserInfo_API.GetInstance().UserTotalInfo.id +"/jobs/" +UserInfo_API.GetInstance().jobInfo.id + PdfListURL;
-        Debug.Log(PdfListURL_final +"///"+ UserInfo_API.GetInstance().UserTotalInfo.id);
         UnityWebRequest webRequest = UnityWebRequest.Get(PdfListURL_final);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
-        webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
-        Debug.Log(UserInfo_API.GetInstance().Token.access_token);
+        webRequest.SetRequestHeader("Content-Type", "application/json"); webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
             string m_sError = DATA.ERROR_CONTROLLER(webRequest.downloadHandler.text);
             if (m_sError == "not_found") DATA.GET_PDFList(webRequest.downloadHandler.text);
         }
-        else
-        {
-            Debug.Log(webRequest.downloadHandler.text);
-            int pdf_id = DATA.GET_PDFList(webRequest.downloadHandler.text);
-            Debug.Log(pdf_id);
-            StartCoroutine(GET_PDFFile(pdf_id));
-        }
+        else{ int pdf_id = DATA.GET_PDFList(webRequest.downloadHandler.text); StartCoroutine(GET_PDFFile(pdf_id));}
     }
     public IEnumerator GET_PDFFile(int id)
     {
         string PDFFileURL_final = JobURL + UserInfo_API.GetInstance().UserTotalInfo.id + "/jobs/" + UserInfo_API.GetInstance().jobInfo.id + "/attn/uploads/" +id;
-        Debug.Log(PDFFileURL_final);
         UnityWebRequest webRequest = UnityWebRequest.Get(PDFFileURL_final);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
-        webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
-        Debug.Log(UserInfo_API.GetInstance().Token.access_token);
+        webRequest.SetRequestHeader("Content-Type", "application/json"); webRequest.SetRequestHeader("Authorization", UserInfo_API.GetInstance().Token.access_token);
         yield return webRequest.SendWebRequest();
         if (webRequest.isNetworkError || webRequest.isHttpError)
         {
@@ -648,15 +624,9 @@ public class GUIDE_API : MonoBehaviour
         }
         else
         {
-            Debug.Log("Get Joblist COMPLETE");
-            Debug.Log("!!URL" + PDFFileURL_final);
             SoftwareTest.CreateTXT("PDF积己", false);
             File.WriteAllBytes(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/" + id + ".pdf", webRequest.downloadHandler.data);
-            yield return new WaitUntil(() => File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/" + UserInfo_API.GetInstance().UserTotalInfo.user.name + ".pdf"));
-            DATA.POPUP("PDF");
-
         }
     }
-   
 }
 
