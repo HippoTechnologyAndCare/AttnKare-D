@@ -135,6 +135,7 @@ public class HUD_API : MonoBehaviour
 
     public void PlayerError(string errors, List<string> list_errors)
     {
+
         string m_sError = "";
         float m_fPos = 0.0f;
         foreach (string error in list_errors) m_sError= error;
@@ -151,8 +152,19 @@ public class HUD_API : MonoBehaviour
         go_Error.GetComponent<Text>().text = m_sError;
 
     }
-    public void EditPlayerError(string errors, List<string> list_errors)
+    public void DeleteError()
     {
+        foreach (Transform child in editPlayer_pack.Errors_Parent.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        foreach (Transform child in player_pack.Errors_Parent.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+    }
+    public void EditPlayerError(string errors, List<string> list_errors)
+    { 
         string m_sError = "";
         float m_fPos = 0.0f;
         foreach (string error in list_errors) m_sError += error;
@@ -190,60 +202,6 @@ public class HUD_API : MonoBehaviour
         }
     }
     
-    
-    /*
-    void PageListCreate() //처음 시작하면 항상 1에서 시작
-    {
-        int m_nPage = m_nCurrentPage -1;
-        Debug.Log("현재 페이지" + m_nCurrentPage);
-        int m_firstPage = (m_nPageN * m_nCurrentPage) + 1;
-        for(int i =0; i< m_pageArr[m_nPage]; i++) //해당 리스트[i]에 있는 페이지 갯수
-        {
-            CreatePageList(m_nV3pagePos[i], m_firstPage);
-            m_firstPage++;
-        }
-        GetPage();
-    }
-    void GetPage()
-    {
-        bool prev;
-        bool next;
-        if(m_nCurrentPage == 1)prev = false;
-        else prev = true;
-        if ( m_nCurrentPage == m_nPageCnt) next = false; //m_nlastPage == 0 ||
-        else next = true;
-        PageSkipActive(prev, next);
-    }
-    void PageSkipActive(bool prev, bool next)
-    {
-        PageSkipPrev.SetActive(prev);
-        PageSkipNext.SetActive(next);
-    }
-
-    void CreatePageList(Vector3 v3Pos, int pageN)
-    {
-        GameObject m_goPage = Instantiate(PageList_Prefab, new Vector3(0, 0, 0), Quaternion.identity);
-        m_goPage.transform.SetParent(PlayerContent, false);
-        m_goPage.transform.GetComponent<RectTransform>().position = v3Pos;
-        m_goPage.name = pageN.ToString();
-        m_goPage.GetComponentInChildren<Text>().text = pageN.ToString();
-        m_goPageList.Add(m_goPage);
-
-
-    }
-    public void NextPage()
-    {
-        m_nCurrentPage += 1;
-        foreach (GameObject go in m_goPageList) Destroy(go);
-        PageListCreate();
-    }
-    public void PrevPage()
-    {
-        m_nCurrentPage -= 1;
-        foreach (GameObject go in m_goPageList) Destroy(go);
-        PageListCreate();
-    }
-    */
 
     public void GET_JOBLIST()//create detailed user info in job list screen
     {
@@ -254,16 +212,23 @@ public class HUD_API : MonoBehaviour
         job_pack.JOB_Phone.text = playerinfo.phonenum;
         job_pack.JOB_Email.text = playerinfo.uid;
         Debug.Log(playerinfo.gender);
-        job_pack.JOB_Gender.text = playerinfo.gender == 1 ? "M" : "F";
-        var birthYear = playerinfo.birth.Split("-"[0]);
-        Debug.Log(birthYear[0]);
-        string currentYear = System.DateTime.Now.ToString("yyyy");
-        int grade = int.Parse(currentYear)- int.Parse(birthYear[0]);
+        job_pack.JOB_Gender.text = playerinfo.gender == 1 ? "F" : "M";
+        job_pack.JOB_Birth.text = playerinfo.birth;
+        int grade = playerinfo.grade;
         string grade_s = "NO";
-        if (grade > 6 && grade < 10) grade_s = "L";
-        if (grade > 9 && grade < 13) grade_s = "H";
-        job_pack.JOB_Grade.text = grade_s;
-        job_pack.JOB_Refresh.name = playerinfo.id.ToString();
+        if (grade >0 && grade < 4) grade_s = "L";
+        if (grade > 3 && grade < 7) grade_s = "H";
+        job_pack.JOB_Grade.text = grade_s; 
+         /* var birthYear = playerinfo.birth.Split("-"[0]);
+          Debug.Log(birthYear[0]);
+          string currentYear = System.DateTime.Now.ToString("yyyy");
+          int grade = int.Parse(currentYear)- int.Parse(birthYear[0]);
+          string grade_s = "NO";
+          if (grade > 6 && grade < 10) grade_s = "L";
+          if (grade > 9 && grade < 13) grade_s = "H";
+          job_pack.JOB_Grade.text = grade_s;*/
+
+         job_pack.JOB_Refresh.name = playerinfo.id.ToString();
 
     }
     public void CreateJobList(DATA_API.JobData JobInfo)
@@ -282,12 +247,15 @@ public class HUD_API : MonoBehaviour
         switch (JobInfo.status)
         {
             case 0: StatusImage.sprite = job_pack.JobStatus[0]; break;
-            case 1070: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "1"; break;
-            case 1080: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "2"; break;
-            case 1001: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "3"; break;
-            case 1002: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "4"; break;
-            case 1003: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "5"; break;
-            case 1004: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "6"; break;
+            case 1070: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "O"; break;
+            case 1080: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "T"; break;
+            case 1001: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "1"; break;
+            case 1002: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "2"; break;
+            case 1003: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "3"; break;
+            case 1004: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "4"; break;
+            case 1005: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "5"; break;
+            case 1006: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "6"; break;
+            case 1007: StatusImage.sprite = job_pack.JobStatus[1]; JobStatus.text = "7"; break;
             case 999: StatusImage.sprite = job_pack.JobStatus[2]; break;
             case 98: StatusImage.sprite = job_pack.JobStatus[3];
                 StatusImage.rectTransform.sizeDelta = new Vector2(45, StatusImage.rectTransform.sizeDelta.y);  break;
@@ -403,7 +371,7 @@ public class HUD_API : MonoBehaviour
     {
         if (player_pack.player_Female != null || player_pack.player_Male != null)
         {
-            player_pack.player_Gender = player_pack.player_Female ? "1" : "0"; //남아면 1 여아면 2
+            player_pack.player_Gender = player_pack.player_Female ? "1" : "0"; //남아면 0 여아면 1
         }
         Dictionary<string, string> NewPlayer = new Dictionary<string, string>();
         NewPlayer.Add("player_name", player_pack.player_name.text);
@@ -442,7 +410,7 @@ public class HUD_API : MonoBehaviour
     {
         if (editPlayer_pack.player_Female != null || editPlayer_pack.player_Male != null)
         {
-            editPlayer_pack.player_Gender = editPlayer_pack.player_Female ? "1" : "0"; //남아면 1 여아면 2
+            editPlayer_pack.player_Gender = editPlayer_pack.player_Female ? "1" : "0"; //남아면 0 여아면 1
         }
         Dictionary<string, string> EditPlayer = new Dictionary<string, string>();
         EditPlayer.Add("player_name", editPlayer_pack.player_name.text);

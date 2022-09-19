@@ -664,6 +664,7 @@ public class ServiceSignIn
         Debug.Log(webResult);
       //  Dictionary<string, List<string>> errors = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(webResult);
         Dictionary<string, List<string>> errors = JsonConvert.DeserializeObject<ERROR>(webResult).errors;
+        UI_Hud.DeleteError();
         if (NewOrEdit){ foreach (KeyValuePair<string, List<string>> pair in errors)
             { UI_Hud.PlayerError(pair.Key, pair.Value);}}
         if (!NewOrEdit){ foreach (KeyValuePair<string, List<string>> pair in errors)
