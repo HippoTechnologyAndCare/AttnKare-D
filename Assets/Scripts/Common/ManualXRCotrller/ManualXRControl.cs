@@ -57,7 +57,7 @@ public class ManualXRControl : MonoBehaviour
         int sceneIndex;
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-        if (sceneIndex == 0)
+        if (sceneIndex == 1)
         {
             if (XRSettings.enabled)
             {
