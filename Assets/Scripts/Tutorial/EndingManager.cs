@@ -249,7 +249,7 @@ using BNG;
 
         yield return new WaitForSeconds(1.2f);
 
-        KetosGames.SceneTransition.SceneLoader.LoadScene(0);
+        KetosGames.SceneTransition.SceneLoader.LoadScene("LOGIN");
 
         //    Application.Quit();
 

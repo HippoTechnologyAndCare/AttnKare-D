@@ -11,7 +11,7 @@ public class KeyInput : MonoBehaviour
 
     private InputMoveScene inputMoveScene;
 
-    private int buildIndex;    
+    private string buildIndex;    
 
     public static KeyInput GetInstance()
     {
@@ -91,54 +91,54 @@ public class KeyInput : MonoBehaviour
 
     private void GoToScene_1(InputAction.CallbackContext obj)
     {
-        buildIndex = 1;
+        buildIndex = "BagPacking2X2_Young";
         SceneLoader.LoadScene(buildIndex);
     }
 
     private void GoToScene_2(InputAction.CallbackContext obj)
     {
-        buildIndex = 2;
+        buildIndex = "Scoop_tube_easy";
         SceneLoader.LoadScene(buildIndex);
     }
     private void GoToScene_3(InputAction.CallbackContext obj)
     {
-        buildIndex = 3;
+        buildIndex = "NumMatch";
         SceneLoader.LoadScene(buildIndex);
     }
     private void GoToScene_4(InputAction.CallbackContext obj)
     {
-        buildIndex = 4;
+        buildIndex = "CleanUp";
         SceneLoader.LoadScene(buildIndex);
     }
     private void GoToScene_5(InputAction.CallbackContext obj)
     {
-        buildIndex = 5;
+        buildIndex = "E_Schedule03";
         SceneLoader.LoadScene(buildIndex);
     }
     private void GoToScene_6(InputAction.CallbackContext obj)
     {
-        buildIndex = 6;
+        buildIndex = "NewPaddle";
         SceneLoader.LoadScene(buildIndex);
     }
 
     private void GoToScene_7(InputAction.CallbackContext obj)
     {
-        buildIndex = 7;
+        buildIndex = "Conveyor";
         SceneLoader.LoadScene(buildIndex);
     }
     private void GoToScene_8(InputAction.CallbackContext obj)
     {
-        buildIndex = 8;
+        buildIndex = "Tutorial";
         SceneLoader.LoadScene(buildIndex);
     }
     private void GoToScene_9(InputAction.CallbackContext obj)
     {
-        buildIndex = 9;
+        buildIndex = "OPENEND";
         SceneLoader.LoadScene(buildIndex);
     }
     private void GoToScene_10(InputAction.CallbackContext obj)
     {
-        buildIndex = 10;
+        buildIndex = "Loading";
         SceneLoader.LoadScene(buildIndex);
     }
     private void GoToScene_11(InputAction.CallbackContext obj)
@@ -146,12 +146,12 @@ public class KeyInput : MonoBehaviour
         UserData.DataManager.GetInstance().isPlayed = false;
         UserData.DataManager.GetInstance().FilePath_Root = null;
         UserData.DataManager.GetInstance().FilePath_Folder = null;
-        buildIndex = 0;
+        buildIndex = "LOGIN";
         SceneLoader.LoadScene(buildIndex);
     }
     private void GoToScene_14(InputAction.CallbackContext obj)
     {
-        buildIndex = 11;
+        buildIndex = "Ending";
         SceneLoader.LoadScene(buildIndex);
     }
 }

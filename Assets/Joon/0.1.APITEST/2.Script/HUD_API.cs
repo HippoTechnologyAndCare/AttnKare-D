@@ -111,6 +111,12 @@ public class HUD_API : MonoBehaviour
     private void Awake()
     {
         ManualXRControl.GetInstance().XR_AutoStarter();
+        // KeyInput 컴포넌트가 현재 Scene에 존재한다면 유저정보 입력시 Scene 이동이 될 수 있으므로 파괴한다
+        if (GameObject.Find("KeyInput"))
+        {
+            GameObject findObj = GameObject.Find("KeyInput");
+            Destroy(findObj);
+        }
     }
     private void Start()
     {

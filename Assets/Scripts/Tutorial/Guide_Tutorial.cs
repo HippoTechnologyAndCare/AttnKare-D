@@ -49,7 +49,7 @@ namespace Tutorial {
         public int trigInt;
 
         private string gradeLH;
-        public int buildIndex;
+        public string buildIndex;
         Coroutine runningcoroutine = null;
         void Start()
         {
@@ -57,8 +57,8 @@ namespace Tutorial {
             try
             {
                 int grade = UserInfo_API.GetInstance().UserTotalInfo.user.grade;
-                if (grade > 3) buildIndex = 5;// 고학년은 계획표로
-                if (grade < 4) buildIndex = 1; //저학년은 책가방으로 }
+                if (grade > 3) buildIndex = "E_Schedule03";// 고학년은 계획표로
+                if (grade < 4) buildIndex = "BagPacking2X2_Young"; //저학년은 책가방으로 }
 
             }
             catch (NullReferenceException ex)

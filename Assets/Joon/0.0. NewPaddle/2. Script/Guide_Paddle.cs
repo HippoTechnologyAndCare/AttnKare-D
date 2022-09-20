@@ -59,7 +59,7 @@ public class Guide_Paddle : MonoBehaviour
 
     DataManager m_dataManager;
     private string gradeLH;
-    public int buildIndex = 3;
+    public string buildIndex = "NumMatch";
 
     public object[] arrData;
     void TimeCheck_Stage()
@@ -260,7 +260,7 @@ public class Guide_Paddle : MonoBehaviour
         yield return new WaitUntil(() => Hud.bCoroutine == false);
         Debug.Log("FIN");
         yield return new WaitForSeconds(5);
-        KetosGames.SceneTransition.SceneLoader.LoadScene(3);
+        KetosGames.SceneTransition.SceneLoader.LoadScene(buildIndex);
     }
 
     void Datacollect()

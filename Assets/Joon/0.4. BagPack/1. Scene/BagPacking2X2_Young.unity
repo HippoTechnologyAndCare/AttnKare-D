@@ -14465,7 +14465,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -14481,7 +14481,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -23532,7 +23532,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -26182,7 +26182,6 @@ MonoBehaviour:
   BehaviorData: {fileID: 1761622482}
   m_fTotalTime: 0
   m_bStageChangeTime: 0
-  arrFloat: []
   listGrabbable:
   - {fileID: 643593953}
   - {fileID: 1232425093}
@@ -26214,7 +26213,7 @@ MonoBehaviour:
   - {fileID: 477871440}
   - {fileID: 1269879816}
   - {fileID: 395784153}
-  buildindex: 2
+  buildindex: 3
 --- !u!1 &1477200743
 GameObject:
   m_ObjectHideFlags: 0
@@ -98545,7 +98544,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5

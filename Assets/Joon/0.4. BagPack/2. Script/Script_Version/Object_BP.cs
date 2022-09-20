@@ -142,7 +142,7 @@ public class Object_BP : MonoBehaviour
 
 
     public List<Grabbable> listGrabbable; //list of all grabbable;
-    public int buildindex;
+    public string buildindex = "Scoop_tube_easy";
 
     void Start()
     {

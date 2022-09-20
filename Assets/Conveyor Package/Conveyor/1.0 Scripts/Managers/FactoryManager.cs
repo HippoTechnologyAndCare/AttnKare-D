@@ -55,7 +55,6 @@ public class FactoryManager : MonoBehaviour
     static string m_json;                                               // json formatted string
     public Dictionary<int, string> collectibleData;
     public object[] arrJson;
-
     [Header("Debugger")]
     [SerializeField] Debugger m_debugger;
     [HideInInspector] public List<List<int>> m_stage1Score; //data 807
@@ -96,7 +95,7 @@ public class FactoryManager : MonoBehaviour
     public static void LoadNextScene()
     {
         Debug.Log("Load Next Scene Function Called");
-        SceneManager.LoadScene(11);
+        SceneManager.LoadScene("Ending");
         // Load Scene by Scene Index
 
     }

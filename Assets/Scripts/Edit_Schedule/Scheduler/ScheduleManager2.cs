@@ -32,6 +32,7 @@ namespace Scheduler
         public DataChecker dataChecker;
         public BGMcontroller02 audioCon;
         public ScoreManager02 scoreManager;
+        private string buildScene = "NewPaddle";
         
         private const float TimeLimit = 150; //시간 제한 사용 방향 기획 필요
         private const float TimeLimitForFinish = 180; //강제종료시간
@@ -936,7 +937,7 @@ namespace Scheduler
 
             finishCntDwn.text = "1";
             yield return new WaitForSeconds(1);
-            SceneLoader.LoadScene(6);
+            SceneLoader.LoadScene(buildScene);
         }
 
         public void PlaySoundByTypes(ESoundType02 soundType)

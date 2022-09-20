@@ -16,7 +16,7 @@ public class SkipForSchedule1 : MonoBehaviour
     private string debugString;
     Transform Fin1;
     Transform Fin2;
-    public int buildIndex;
+    public string buildIndex = "NewPaddle";
 
     public ScheduleManager2 scheManager;
 

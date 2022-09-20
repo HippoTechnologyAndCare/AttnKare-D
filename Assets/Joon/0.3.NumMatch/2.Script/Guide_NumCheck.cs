@@ -45,7 +45,7 @@ public class Guide_NumCheck : MonoBehaviour
     int m_nPos = 0;
     public static int Index = 0;
     AutoButton auto;
-    int buildIndex;
+    string buildIndex;
     string gradeLH;
 
     public enum INDEX { ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN }
@@ -103,8 +103,8 @@ public class Guide_NumCheck : MonoBehaviour
     void Start()
     {
         int grade = UserInfo_API.GetInstance().playerInfo.grade;
-        if (grade > 3) buildIndex = 7; //고학년은 컨베이어로
-        if (grade < 4) buildIndex = 4; //저학년은 방청소로
+        if (grade > 3) buildIndex = "Conveyor"; //고학년은 컨베이어로
+        if (grade < 4) buildIndex = "CleanUp"; //저학년은 방청소로
         SetTrigger();
         auto = GetComponentInChildren<AutoButton>();
         StartCoroutine(GameStart());

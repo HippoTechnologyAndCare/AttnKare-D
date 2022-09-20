@@ -14,7 +14,6 @@ public class GUIDE_API : MonoBehaviour
 {
     public static string RecordingPath;
     public static GUIDE_API Guide_instance;
-    //    HUD_API UI_Hud;
     DATA_API DATA;
     UserInfo_API Userinfo;
     // string BASE_URL = "https://adhd.hippotnc.kr:444";
